@@ -46,6 +46,14 @@ class ProfileRepository {
   Future<bool> hasOnboarded() async =>
       await _db.profileDao.getSmokingProfile() != null;
 
+  /// Under-18 selection (report §39): user row only — no plan is created.
+  Future<void> saveUnder18Profile({String locale = 'en'}) {
+    return _db.profileDao.saveUserProfile(
+      locale: locale,
+      ageBand: AgeBand.under18,
+    );
+  }
+
   Future<void> updatePace(Pace pace) async {
     await _db.profileDao.saveSmokingProfile(
       SmokingProfileCompanion(pace: Value(pace)),

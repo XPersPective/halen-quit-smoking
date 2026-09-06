@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:halen/core/routes.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/presentation/screens/plan/plan_screen.dart';
+import 'package:halen/presentation/screens/sos/sos_screen.dart';
+import 'package:halen/presentation/screens/stats/stats_screen.dart';
+import 'package:halen/presentation/screens/today/today_screen.dart';
 
 /// The app shell: bottom navigation over the four daily-use screens
 /// (BUGÜN / Plan / Statistics / SOS) with Settings reachable from the app bar.
-/// All other screens are pushed on top.
 class ShellScreen extends StatefulWidget {
   const ShellScreen({super.key});
 
@@ -15,8 +18,6 @@ class ShellScreen extends StatefulWidget {
 
 class _ShellScreenState extends State<ShellScreen> {
   int _index = 0;
-
-  static const _tabCount = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,12 @@ class _ShellScreenState extends State<ShellScreen> {
     return Scaffold(
       body: IndexedStack(
         index: _index,
-        children: List.generate(_tabCount, _placeholderTab),
+        children: const [
+          TodayScreen(),
+          PlanScreen(),
+          StatsScreen(),
+          SosScreen(),
+        ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
@@ -42,33 +48,26 @@ class _ShellScreenState extends State<ShellScreen> {
               icon: Icon(d.$1),
               selectedIcon: Icon(d.$2),
               label: d.$3,
-              // 44pt+ touch targets come from NavigationBar defaults.
               tooltip: d.$3,
             ),
         ],
       ),
     );
   }
+}
 
-  Widget _placeholderTab(int index) {
+/// Settings entry used from each tab's app bar until phase 13 polishes the
+/// shared shell chrome.
+class ShellSettingsButton extends StatelessWidget {
+  const ShellSettingsButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(switch (index) {
-          0 => l10n.todayTitle,
-          1 => l10n.planTitle,
-          2 => l10n.statsTitle,
-          _ => l10n.sosTitle,
-        }),
-        actions: [
-          IconButton(
-            tooltip: l10n.settingsTitle,
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () => Navigator.pushNamed(context, Routes.settings),
-          ),
-        ],
-      ),
-      body: Center(child: Text(l10n.emptyGeneric)),
+    return IconButton(
+      tooltip: l10n.settingsTitle,
+      icon: const Icon(Icons.settings_outlined),
+      onPressed: () => Navigator.pushNamed(context, Routes.settings),
     );
   }
 }

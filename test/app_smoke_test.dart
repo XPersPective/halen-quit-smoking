@@ -1,19 +1,14 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:halen/app.dart';
+import 'helpers/pump_app.dart';
 
 void main() {
-  testWidgets('App boots and localizes the shell for English', (tester) async {
-    await tester.pumpWidget(
-      const ProviderScope(child: HalenApp()),
-    );
+  testWidgets('App boots, localizes the shell and lands on onboarding',
+      (tester) async {
+    await pumpHalenApp(tester);
     await tester.pumpAndSettle();
 
-    expect(find.text('Today'), findsWidgets);
-    expect(find.text('Plan'), findsWidgets);
-    expect(find.text('Statistics'), findsWidgets);
-    // The SOS tab label is "Craving SOS" in English.
-    expect(find.text('Craving SOS'), findsWidgets);
+    // Fresh install: the splash auto-routes into onboarding step 1.
+    expect(find.text('How old are you?'), findsOneWidget);
   });
 }

@@ -16,9 +16,14 @@ final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
   return ProfileRepository(ref.watch(databaseProvider));
 });
 
-/// True once onboarding is finished (a smoking profile exists).
+/// True once the user finished onboarding — either a full smoking profile
+/// or an under-18 user row exists.
 final hasOnboardedProvider = FutureProvider<bool>((ref) async {
   final db = ref.watch(databaseProvider);
   final profile = await db.profileDao.getSmokingProfile();
-  return profile != null;
+  if (profile != null) {
+    return true;
+  }
+  final user = await db.profileDao.getUserProfile();
+  return user != null;
 });

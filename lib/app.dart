@@ -6,7 +6,10 @@ import 'core/routes.dart';
 import 'core/theme.dart';
 import 'domain/entities.dart';
 import 'l10n/generated/app_localizations.dart';
+import 'presentation/screens/onboarding/onboarding_screen.dart';
 import 'presentation/screens/shell_screen.dart';
+import 'presentation/screens/splash_screen.dart';
+import 'presentation/screens/under18_screen.dart';
 
 class HalenApp extends ConsumerWidget {
   const HalenApp({super.key, this.databaseFailed = false});
@@ -29,7 +32,10 @@ class HalenApp extends ConsumerWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       initialRoute: Routes.splash,
       routes: {
-        Routes.splash: (_) => const ShellScreen(),
+        Routes.splash: (_) => const SplashScreen(),
+        Routes.onboarding: (_) => const OnboardingScreen(),
+        Routes.under18: (_) => const Under18Screen(),
+        Routes.today: (_) => const ShellScreen(),
       },
     );
   }
