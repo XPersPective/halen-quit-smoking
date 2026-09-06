@@ -9,7 +9,9 @@ import 'l10n/generated/app_localizations.dart';
 import 'presentation/screens/shell_screen.dart';
 
 class HalenApp extends ConsumerWidget {
-  const HalenApp({super.key});
+  const HalenApp({super.key, this.databaseFailed = false});
+
+  final bool databaseFailed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

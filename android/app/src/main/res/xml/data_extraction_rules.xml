@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Privacy requirement (report §23): smoking records are sensitive health data.
+  Nothing from this app may reach cloud backups or device-to-device transfers.
+  These rules exclude the encrypted database folder and the secure key storage
+  from every extraction surface. android:allowBackup="false" additionally
+  disables backup on all API levels.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="file" path="halen/" />
+        <exclude domain="sharedpref" path="FlutterSecureStorage.xml" />
+        <exclude domain="sharedpref" path="FlutterSecureStorage" />
+        <exclude domain="root" path="." />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="file" path="halen/" />
+        <exclude domain="sharedpref" path="FlutterSecureStorage.xml" />
+        <exclude domain="sharedpref" path="FlutterSecureStorage" />
+        <exclude domain="root" path="." />
+    </device-transfer>
+</data-extraction-rules>

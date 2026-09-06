@@ -21,3 +21,16 @@ extension DayX on DateTime {
 /// Returns the local day start for [n] days before [now]'s day start.
 DateTime dayStartMinusDays(DateTime now, int n) =>
     now.dayStart.subtract(Duration(days: n));
+
+/// Stable ISO key ("yyyy-MM-dd") for a local day, used in DB date columns.
+String dayKey(DateTime d) {
+  final m = d.month.toString().padLeft(2, '0');
+  final day = d.day.toString().padLeft(2, '0');
+  return '${d.year}-$m-$day';
+}
+
+/// Parses an ISO "yyyy-MM-dd" key back to a local day start.
+DateTime parseDayKey(String key) {
+  final parts = key.split('-').map(int.parse).toList();
+  return DateTime(parts[0], parts[1], parts[2]);
+}
