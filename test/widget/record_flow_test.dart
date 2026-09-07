@@ -18,6 +18,7 @@ void main() {
 
   testWidgets('one-tap log opens detail, saves optional trigger tag',
       (tester) async {
+    useLargeTestSurface(tester);
     await pumpHalenApp(tester, database: db);
     await tester.pumpAndSettle();
 
@@ -43,14 +44,15 @@ void main() {
     final events = await db.select(db.cigaretteEvent).get();
     expect(events.single.triggerLabel, TriggerLabel.coffee);
 
-    // Back on Today: the daily count reflects the record.
-    expect(find.text('Today 1 of 1'), findsOneWidget);
+    // Back on Today: the daily ring reflects the record (1 smoked of 12).
+    expect(find.text('1/12'), findsOneWidget);
 
     await disposeApp(tester);
   });
 
   testWidgets('resisted craving is recorded without navigating',
       (tester) async {
+    useLargeTestSurface(tester);
     await pumpHalenApp(tester, database: db);
     await tester.pumpAndSettle();
 

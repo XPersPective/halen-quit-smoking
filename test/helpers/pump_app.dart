@@ -20,6 +20,14 @@ Future<AppDatabase> pumpHalenApp(WidgetTester tester, {AppDatabase? database}) a
   return db;
 }
 
+/// Gives tests a tall logical surface so the whole BUGÜN column (ring, CTA,
+/// strips) is visible without scrolling.
+void useLargeTestSurface(WidgetTester tester) {
+  tester.view.physicalSize = const Size(800, 1800);
+  tester.view.devicePixelRatio = 1.0;
+  addTearDown(tester.view.reset);
+}
+
 /// Seeds a finished-onboarding adult profile so the splash routes straight to
 /// the Today shell.
 Future<AppDatabase> seedOnboardedProfile() async {

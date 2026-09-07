@@ -47,8 +47,31 @@ class HalenApp extends ConsumerWidget {
             builder: (_) => RecordDetailScreen(eventId: eventId),
           );
         }
+        // Transparency screen (screen: "how is this estimate calculated") —
+        // built out in the timeline phase.
+        if (settings.name == Routes.howCalculated) {
+          return MaterialPageRoute<void>(
+            settings: settings,
+            builder: (_) => const _HowCalculatedPlaceholder(),
+          );
+        }
         return null;
       },
+    );
+  }
+}
+
+/// Temporary stand-in for the transparency screen (phase 7 replaces it with
+/// the full model/assumption/limitation/source explanation).
+class _HowCalculatedPlaceholder extends StatelessWidget {
+  const _HowCalculatedPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.commonHowCalculated)),
+      body: Center(child: Text(l10n.commonModelTag)),
     );
   }
 }
