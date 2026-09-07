@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'application/providers.dart';
+import 'application/plan_controller.dart';
+import 'application/quick_log_controller.dart';
 import 'application/settings_controller.dart';
 import 'core/routes.dart';
 import 'core/theme.dart';
@@ -25,7 +28,9 @@ class HalenApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeOption = ref.watch(themeOptionProvider);
-    return MaterialApp(
+    return _LifecycleTracker(
+      databaseFailed: databaseFailed,
+      child: MaterialApp(
       title: 'Halen',
       theme: HalenTheme.light(),
       darkTheme: HalenTheme.dark(),
@@ -74,6 +79,51 @@ class HalenApp extends ConsumerWidget {
         }
         return null;
       },
+    ),
     );
   }
+}
+
+/// Watches app lifecycle: on every resume the quick-log queue (widget /
+/// QS tile / control widget / notification taps) is drained into the
+/// database and the widget surface is refreshed (report §13).
+class _LifecycleTracker extends ConsumerStatefulWidget {
+  const _LifecycleTracker({required this.child, this.databaseFailed = false});
+
+  final Widget child;
+  final bool databaseFailed;
+
+  @override
+  ConsumerState<_LifecycleTracker> createState() => _LifecycleTrackerState();
+}
+
+class _LifecycleTrackerState extends ConsumerState<_LifecycleTracker>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed || widget.databaseFailed) {
+      return;
+    }
+    final db = ref.read(databaseProvider);
+    QuickLogController(db).drain().then((count) {
+      if (count > 0) {
+        ref.invalidate(todayStateProvider);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }

@@ -5,6 +5,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../domain/entities.dart';
 import '../domain/notification_plan.dart';
+import 'widget_service.dart' show notificationBackgroundHandler;
 
 /// Localized strings bundle resolved by the caller (UI has BuildContext;
 /// the service stays presentation-free).
@@ -69,6 +70,8 @@ class NotificationService {
     );
     await _plugin.initialize(
       settings: const InitializationSettings(android: android, iOS: ios),
+      onDidReceiveBackgroundNotificationResponse:
+          notificationBackgroundHandler,
     );
     _initialized = true;
   }
@@ -203,6 +206,11 @@ class NotificationService {
           importance: Importance.defaultImportance,
           priority: Priority.defaultPriority,
           styleInformation: const BigTextStyleInformation(''),
+          // Quick-log action button (report §13: notification as a record
+          // surface). The tap runs notificationBackgroundHandler.
+          actions: const [
+            AndroidNotificationAction('halen_log', '✓'),
+          ],
         ),
         iOS: const DarwinNotificationDetails(
           interruptionLevel: InterruptionLevel.active,
