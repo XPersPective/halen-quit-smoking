@@ -629,6 +629,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get sosIntensity3 => 'Stark';
 
   @override
+  String get sosAfterResisted =>
+      'Eingetragen — jede überstandene Attacke zählt.';
+
+  @override
   String get sosNrtLine =>
       'Optionen wie Nikotinersatztherapie kannst du mit einer Fachkraft besprechen.';
 

@@ -626,6 +626,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sosIntensity3 => 'Güçlü';
 
   @override
+  String get sosAfterResisted => 'Kaydedildi — atlatılan her istek sayıyor.';
+
+  @override
   String get sosNrtLine =>
       'NRT gibi seçenekleri bir sağlık profesyoneliyle konuşabilirsin.';
 

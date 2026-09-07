@@ -8,6 +8,7 @@ import 'domain/entities.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'presentation/screens/onboarding/onboarding_screen.dart';
 import 'presentation/screens/shell_screen.dart';
+import 'presentation/screens/sos/breathing_screen.dart';
 import 'presentation/screens/splash_screen.dart';
 import 'presentation/screens/timeline/health_timeline_screen.dart';
 import 'presentation/screens/today/record_detail_screen.dart';
@@ -59,6 +60,12 @@ class HalenApp extends ConsumerWidget {
           return MaterialPageRoute<void>(
             settings: settings,
             builder: (_) => const HealthTimelineScreen(),
+          );
+        }
+        if (settings.name == Routes.breathing) {
+          return MaterialPageRoute<void>(
+            settings: settings,
+            builder: (_) => const BreathingScreen(),
           );
         }
         return null;

@@ -1174,6 +1174,12 @@ abstract class AppLocalizations {
   /// **'Strong'**
   String get sosIntensity3;
 
+  /// No description provided for @sosAfterResisted.
+  ///
+  /// In en, this message translates to:
+  /// **'After the log: well done — every resisted craving counts.'**
+  String get sosAfterResisted;
+
   /// No description provided for @sosNrtLine.
   ///
   /// In en, this message translates to:

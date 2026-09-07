@@ -627,6 +627,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sosIntensity3 => 'Strong';
 
   @override
+  String get sosAfterResisted =>
+      'After the log: well done — every resisted craving counts.';
+
+  @override
   String get sosNrtLine =>
       'You can talk to a health professional about options such as NRT.';
 

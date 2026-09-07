@@ -187,6 +187,7 @@
   "sosIntensity1": "Hafif",
   "sosIntensity2": "Orta",
   "sosIntensity3": "Güçlü",
+  "sosAfterResisted": "Kaydedildi — atlatılan her istek sayıyor.",
   "sosNrtLine": "NRT gibi seçenekleri bir sağlık profesyoneliyle konuşabilirsin.",
   "sosLocked": "Tam SOS araç seti (nefes animasyonu, izle ve bekle) Premium'da — deneme süresince ücretsiz.",
 

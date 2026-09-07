@@ -15,4 +15,5 @@ abstract final class Routes {
   static const healthTimeline = '/health-timeline';
   static const howCalculated = '/how-calculated';
   static const under18 = '/under-18';
+  static const breathing = '/breathing';
 }
