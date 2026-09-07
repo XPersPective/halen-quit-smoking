@@ -956,7 +956,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get howWeeksBody =>
-      'Son 7 günün ortalamasını haftalık azaltma oranınla karşılaştırır ve günlük bütçenin son-hafta seviyesine indiği noktayı hesaplarız. Sonuç her zaman bir aralıktır ve her hafta güncellenir — garantili tarih yoktur.';
+      'Son 7 günün ortalamasını haftalık azaltma oranınla karşılaştırır ve günlük bütçenin son-hafta seviyesine indiği noktayı hesaplarız. Sonuç her zaman bir aralıktır ve her hafta güncellenir — kesin bir tarih değildir.';
 
   @override
   String get howSavingsTitle => 'Tasarruf nasıl hesaplanıyor?';

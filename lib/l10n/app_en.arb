@@ -316,7 +316,7 @@
   "howNicotineLimits": "Limits: this is a behavioural model, not a measurement. Absorption varies with how you smoke, the product and your metabolism. Nothing in this app is measured from your body.",
   "howNicotineSources": "Sources: Benowitz, NEJM 2010 (nicotine absorption 1–1.5 mg/cigarette); Hukkanen et al., Pharmacol Rev 2005 (plasma half-life ~2 h).",
   "howWeeksTitle": "How the weeks estimate is calculated",
-  "howWeeksBody": "We compare the average of your last 7 days with your weekly reduction rate and solve for when your daily budget reaches the final-week level. The result is always a range, updated weekly — never a guaranteed date.",
+  "howWeeksBody": "We compare the average of your last 7 days with your weekly reduction rate and solve for when your daily budget reaches the final-week level. The result is always a range, updated weekly — never a fixed date.",
   "howSavingsTitle": "How savings are calculated",
   "howSavingsBody": "Your pack price divided by cigarettes per pack gives a per-cigarette cost. Cigarettes you avoid relative to your baseline multiply that cost. Prices you enter stay on your device.",
   "howTitle": "How this estimate is calculated",

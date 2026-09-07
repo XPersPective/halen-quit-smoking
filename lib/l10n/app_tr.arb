@@ -291,7 +291,7 @@
   "howNicotineLimits": "Sınırlar: bu bir davranışsal modeldir, ölçüm değildir. Emilim; nasıl içtiğine, ürüne ve metabolizmana göre değişir. Bu uygulamada hiçbir şey bedeninden ölçülmez.",
   "howNicotineSources": "Kaynaklar: Benowitz, NEJM 2010 (sigara başına 1–1,5 mg emilim); Hukkanen ve ark., Pharmacol Rev 2005 (plazma yarı ömrü ~2 sa).",
   "howWeeksTitle": "Hafta tahmini nasıl hesaplanıyor?",
-  "howWeeksBody": "Son 7 günün ortalamasını haftalık azaltma oranınla karşılaştırır ve günlük bütçenin son-hafta seviyesine indiği noktayı hesaplarız. Sonuç her zaman bir aralıktır ve her hafta güncellenir — garantili tarih yoktur.",
+  "howWeeksBody": "Son 7 günün ortalamasını haftalık azaltma oranınla karşılaştırır ve günlük bütçenin son-hafta seviyesine indiği noktayı hesaplarız. Sonuç her zaman bir aralıktır ve her hafta güncellenir — kesin bir tarih değildir.",
   "howSavingsTitle": "Tasarruf nasıl hesaplanıyor?",
   "howSavingsBody": "Paket fiyatının paketteki sigara sayısına bölümü tek sigara maliyetini verir. Taban çizgine göre atladığın sigaralar bu maliyetle çarpılır. Girdiğin fiyatlar cihazında kalır.",
   "howTitle": "Bu tahmin nasıl hesaplandı?",

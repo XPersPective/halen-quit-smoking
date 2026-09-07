@@ -960,7 +960,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get howWeeksBody =>
-      'We compare the average of your last 7 days with your weekly reduction rate and solve for when your daily budget reaches the final-week level. The result is always a range, updated weekly — never a guaranteed date.';
+      'We compare the average of your last 7 days with your weekly reduction rate and solve for when your daily budget reaches the final-week level. The result is always a range, updated weekly — never a fixed date.';
 
   @override
   String get howSavingsTitle => 'How savings are calculated';

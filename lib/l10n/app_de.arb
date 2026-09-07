@@ -288,10 +288,10 @@
 
   "howNicotineTitle": "Wie die Nikotin-Schätzung berechnet wird",
   "howNicotineBody": "Pro Zigarette wird von etwa 1,2 mg aufgenommener Nikotin ausgegangen (publizierter Bereich rund 1–1,5 mg). Die geschätzte Expositionskurve summiert jede geloggte Zigarette und halbiert die Summe alle 2 Stunden — die typische Plasmahalbwertszeit. Angezeigt wird eine 0–100 normalisierte Kurve, nie ein absoluter Blutwert.",
-  "howNicotineLimits": "Grenzen: Das ist ein Verhaltensmodell, keine Messung. Die Aufnahme variiert mit der Rauchart, dem Produkt und deinem Stoffwechsel. Nichts in dieser App wird an deinem Körper gemessen.",
+  "howNicotineLimits": "Grenzen: Das ist ein Verhaltensmodell, keine Messung. Die Aufnahme variiert mit der Rauchart, dem Produkt und deinem Stoffwechsel. Nichts in dieser App misst deinen Körper.",
   "howNicotineSources": "Quellen: Benowitz, NEJM 2010 (Aufnahme 1–1,5 mg/Zigarette); Hukkanen et al., Pharmacol Rev 2005 (Plasmahalbwertszeit ~2 h).",
   "howWeeksTitle": "Wie die Wochen-Schätzung berechnet wird",
-  "howWeeksBody": "Wir vergleichen den Schnitt deiner letzten 7 Tage mit deiner wöchentlichen Reduktionsrate und lösen, wann dein Tagesbudget das Niveau der letzten Woche erreicht. Das Ergebnis ist immer eine Spanne, wöchentlich aktualisiert — nie ein garantiertes Datum.",
+  "howWeeksBody": "Wir vergleichen den Schnitt deiner letzten 7 Tage mit deiner wöchentlichen Reduktionsrate und lösen, wann dein Tagesbudget das Niveau der letzten Woche erreicht. Das Ergebnis ist immer eine Spanne, wöchentlich aktualisiert — nie ein festes Datum.",
   "howSavingsTitle": "Wie die Ersparnis berechnet wird",
   "howSavingsBody": "Schachtelpreis geteilt durch Zigaretten pro Schachtel ergibt den Preis je Zigarette. Vermiedene Zigaretten gegenüber deinem Ausgangswert multiplizieren diesen Preis. Deine Preiseingaben bleiben auf dem Gerät.",
   "howTitle": "Wie wird diese Schätzung berechnet?",

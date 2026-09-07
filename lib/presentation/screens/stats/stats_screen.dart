@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:halen/application/stats_providers.dart';
+import 'package:halen/domain/motivation.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 import 'package:halen/presentation/widgets/stats_charts.dart';
@@ -120,6 +121,33 @@ class StatsScreen extends ConsumerWidget {
                   ),
                 ),
               ),
+            ),
+            const SizedBox(height: 8),
+            // Motivation strip (report §16): on-plan streaks — a broken
+            // streak is never shown as zero; the longest run stands.
+            daily.maybeWhen(
+              data: (stats) {
+                final streaks = computeStreaks([
+                  for (final s in stats) DayAdherence(count: s.count, planTarget: s.planTarget),
+                ]);
+                return Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.local_fire_department_outlined),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(streaks.isBroken
+                              ? l10n.motivationStreakRestart
+                              : l10n.motivationStreakBest(streaks.displayDays)),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+              orElse: () => const SizedBox.shrink(),
             ),
             const SizedBox(height: 24),
           ],

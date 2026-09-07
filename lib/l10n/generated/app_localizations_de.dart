@@ -953,7 +953,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get howNicotineLimits =>
-      'Grenzen: Das ist ein Verhaltensmodell, keine Messung. Die Aufnahme variiert mit der Rauchart, dem Produkt und deinem Stoffwechsel. Nichts in dieser App wird an deinem Körper gemessen.';
+      'Grenzen: Das ist ein Verhaltensmodell, keine Messung. Die Aufnahme variiert mit der Rauchart, dem Produkt und deinem Stoffwechsel. Nichts in dieser App misst deinen Körper.';
 
   @override
   String get howNicotineSources =>
@@ -964,7 +964,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get howWeeksBody =>
-      'Wir vergleichen den Schnitt deiner letzten 7 Tage mit deiner wöchentlichen Reduktionsrate und lösen, wann dein Tagesbudget das Niveau der letzten Woche erreicht. Das Ergebnis ist immer eine Spanne, wöchentlich aktualisiert — nie ein garantiertes Datum.';
+      'Wir vergleichen den Schnitt deiner letzten 7 Tage mit deiner wöchentlichen Reduktionsrate und lösen, wann dein Tagesbudget das Niveau der letzten Woche erreicht. Das Ergebnis ist immer eine Spanne, wöchentlich aktualisiert — nie ein festes Datum.';
 
   @override
   String get howSavingsTitle => 'Wie die Ersparnis berechnet wird';

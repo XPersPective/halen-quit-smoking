@@ -1759,7 +1759,7 @@ abstract class AppLocalizations {
   /// No description provided for @howWeeksBody.
   ///
   /// In en, this message translates to:
-  /// **'We compare the average of your last 7 days with your weekly reduction rate and solve for when your daily budget reaches the final-week level. The result is always a range, updated weekly — never a guaranteed date.'**
+  /// **'We compare the average of your last 7 days with your weekly reduction rate and solve for when your daily budget reaches the final-week level. The result is always a range, updated weekly — never a fixed date.'**
   String get howWeeksBody;
 
   /// No description provided for @howSavingsTitle.

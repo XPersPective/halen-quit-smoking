@@ -1,5 +1,6 @@
 package com.halenquitsmoking.app.widget
 
+import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.service.quicksettings.TileService

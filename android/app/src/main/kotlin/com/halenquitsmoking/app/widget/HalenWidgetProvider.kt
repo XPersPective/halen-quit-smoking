@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
+import com.halenquitsmoking.app.R
 import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 
 /**
