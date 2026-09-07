@@ -759,6 +759,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsImport => 'Verileri içe aktar (JSON)';
 
   @override
+  String settingsExportDone(String path) {
+    return 'Yedek kaydedildi: $path';
+  }
+
+  @override
+  String settingsImportDone(int n) {
+    return 'İçe aktarıldı — $n kayıt geri geldi.';
+  }
+
+  @override
   String get settingsDeleteAll => 'Tüm verileri sil';
 
   @override

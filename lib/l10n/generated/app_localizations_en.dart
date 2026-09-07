@@ -762,6 +762,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsImport => 'Import data (JSON)';
 
   @override
+  String settingsExportDone(String path) {
+    return 'Backup saved: $path';
+  }
+
+  @override
+  String settingsImportDone(int n) {
+    return 'Imported — $n records restored.';
+  }
+
+  @override
   String get settingsDeleteAll => 'Delete all data';
 
   @override

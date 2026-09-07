@@ -1,14 +1,33 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart' hide Column;
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:halen/application/notification_texts.dart';
+import 'package:halen/application/plan_controller.dart';
+import 'package:halen/application/providers.dart';
 import 'package:halen/application/settings_controller.dart';
 import 'package:halen/application/settings_screen_controller.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/data/db/app_database.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+
+/// Reads a JSON backup chosen by the user (file picker stays local-only).
+Future<Map<String, dynamic>> _pickAndReadJson() async {
+  const typeGroup = XTypeGroup(label: 'JSON', extensions: ['json']);
+  final file = await openFile(acceptedTypeGroups: [typeGroup]);
+  if (file == null) {
+    throw const FormatException('No file selected');
+  }
+  final decoded = jsonDecode(await file.readAsString());
+  if (decoded is! Map<String, dynamic>) {
+    throw const FormatException('Invalid backup');
+  }
+  return decoded;
+}
 
 /// Screen 14: Settings — notifications (density + types + exact opt-in),
 /// appearance, data (phase 12), purchase (phase 10) and the mandatory
@@ -124,12 +143,85 @@ class SettingsScreen extends ConsumerWidget {
               ListTile(
                 leading: const Icon(Icons.file_download_outlined),
                 title: Text(l10n.settingsExport),
-                onTap: () {}, // Wired in the export phase.
+                onTap: () async {
+                  final messenger = ScaffoldMessenger.of(context);
+                  final path = await ref
+                      .read(backupRepositoryProvider)
+                      .exportToFile();
+                  // No upload — the file simply lands in the user-visible
+                  // documents folder (report §26).
+                  messenger.showSnackBar(
+                    SnackBar(content: Text(l10n.settingsExportDone(path))),
+                  );
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.file_upload_outlined),
                 title: Text(l10n.settingsImport),
-                onTap: () {}, // Wired in the export phase.
+                onTap: () async {
+                  final messenger = ScaffoldMessenger.of(context);
+                  final confirmed = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(l10n.settingsImport),
+                      content: Text(l10n.deleteAllConfirm),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: Text(l10n.commonCancel),
+                        ),
+                        FilledButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          child: Text(l10n.commonOk),
+                        ),
+                      ],
+                    ),
+                  );
+                  if (confirmed != true) {
+                    return;
+                  }
+                  try {
+                    final content = await _pickAndReadJson();
+                    final events = await ref
+                        .read(backupRepositoryProvider)
+                        .importFromJson(content);
+                    ref.invalidate(todayStateProvider);
+                    messenger.showSnackBar(
+                      SnackBar(content: Text(l10n.settingsImportDone(events))),
+                    );
+                  } catch (_) {
+                    messenger.showSnackBar(
+                      SnackBar(content: Text(l10n.commonErrorTitle)),
+                    );
+                  }
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.delete_outline),
+                title: Text(l10n.settingsDeleteAll),
+                onTap: () async {
+                  final confirmed = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(l10n.settingsDeleteAll),
+                      content: Text(l10n.deleteAllConfirm),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: Text(l10n.commonCancel),
+                        ),
+                        FilledButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          child: Text(l10n.commonOk),
+                        ),
+                      ],
+                    ),
+                  );
+                  if (confirmed == true) {
+                    await ref.read(backupRepositoryProvider).wipeAllUserData();
+                    ref.invalidate(todayStateProvider);
+                  }
+                },
               ),
               const SizedBox(height: 16),
               Text(l10n.settingsAbout, style: theme.textTheme.titleMedium),

@@ -1426,6 +1426,18 @@ abstract class AppLocalizations {
   /// **'Import data (JSON)'**
   String get settingsImport;
 
+  /// No description provided for @settingsExportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved: {path}'**
+  String settingsExportDone(String path);
+
+  /// No description provided for @settingsImportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported — {n} records restored.'**
+  String settingsImportDone(int n);
+
   /// No description provided for @settingsDeleteAll.
   ///
   /// In en, this message translates to:

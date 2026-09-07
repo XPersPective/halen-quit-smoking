@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../data/backup_repository.dart';
 import '../data/db/app_database.dart';
 import '../data/repositories/profile_repository.dart';
 
@@ -33,4 +34,9 @@ final hasOnboardedProvider = FutureProvider<bool>((ref) async {
 final timelineStateProvider = StreamProvider<DateTime?>((ref) {
   final db = ref.watch(databaseProvider);
   return db.timelineDao.watchState().map((state) => state?.quitTs);
+});
+
+/// JSON export/import of all user data (report §26).
+final backupRepositoryProvider = Provider<BackupRepository>((ref) {
+  return BackupRepository(ref.watch(databaseProvider));
 });

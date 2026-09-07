@@ -765,6 +765,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsImport => 'Daten importieren (JSON)';
 
   @override
+  String settingsExportDone(String path) {
+    return 'Backup gespeichert: $path';
+  }
+
+  @override
+  String settingsImportDone(int n) {
+    return 'Importiert — $n Einträge wiederhergestellt.';
+  }
+
+  @override
   String get settingsDeleteAll => 'Alle Daten löschen';
 
   @override
