@@ -27,3 +27,10 @@ final hasOnboardedProvider = FutureProvider<bool>((ref) async {
   final user = await db.profileDao.getUserProfile();
   return user != null;
 });
+
+/// The user's quit timestamp (null until the quit day is confirmed).
+/// Stream-backed so setting a quit day unlocks the timeline live.
+final timelineStateProvider = StreamProvider<DateTime?>((ref) {
+  final db = ref.watch(databaseProvider);
+  return db.timelineDao.watchState().map((state) => state?.quitTs);
+});

@@ -243,18 +243,24 @@ class _TodayBody extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  const Icon(Icons.favorite_outline),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      l10n.healthStrip(l10n.daysSinceStart(state.daysSinceStart)),
+            child: InkWell(
+              onTap: () =>
+                  Navigator.pushNamed(context, Routes.healthTimeline),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    const Icon(Icons.favorite_outline),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        l10n.healthStrip(
+                            l10n.daysSinceStart(state.daysSinceStart)),
+                      ),
                     ),
-                  ),
-                ],
+                    const Icon(Icons.chevron_right),
+                  ],
+                ),
               ),
             ),
           ),

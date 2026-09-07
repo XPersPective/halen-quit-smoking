@@ -43,6 +43,14 @@ class PlanDao extends DatabaseAccessor<AppDatabase> {
         .watch();
   }
 
+  /// Adjustment feed since a day key (newest first), for the plan screen.
+  Stream<List<PlanAdjustmentRow>> watchAdjustmentsSince(String sinceKey) {
+    return (select(attachedDatabase.planAdjustment)
+          ..where((a) => a.date.isBiggerOrEqualValue(sinceKey))
+          ..orderBy([(a) => OrderingTerm.desc(a.id)]))
+        .watch();
+  }
+
   Future<List<PlanAdjustmentRow>> getAdjustmentsForDay(String date) {
     return (select(attachedDatabase.planAdjustment)
           ..where((a) => a.date.equals(date)))
