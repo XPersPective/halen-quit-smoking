@@ -6,14 +6,25 @@ import 'package:halen/data/db/app_database.dart';
 import 'package:halen/data/db/connection.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/application/providers.dart';
+import 'package:riverpod/misc.dart' show Override;
 
 /// Boots the real app with an in-memory database override and returns the
-/// database handle so tests can assert on persisted rows.
-Future<AppDatabase> pumpHalenApp(WidgetTester tester, {AppDatabase? database}) async {
+/// database handle so tests can assert on persisted rows. [extraOverrides]
+/// land in the SAME scope as the database override — required when the
+/// overridden provider is a dependency of another provider (riverpod 3
+/// instantiates such providers in the scope where their dependencies live).
+Future<AppDatabase> pumpHalenApp(
+  WidgetTester tester, {
+  AppDatabase? database,
+  List<Override> extraOverrides = const [],
+}) async {
   final db = database ?? AppDatabase(inMemoryExecutor());
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [databaseProvider.overrideWithValue(db)],
+      overrides: [
+        databaseProvider.overrideWithValue(db),
+        ...extraOverrides,
+      ],
       child: const HalenApp(),
     ),
   );

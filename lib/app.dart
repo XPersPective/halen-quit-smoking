@@ -7,6 +7,7 @@ import 'core/theme.dart';
 import 'domain/entities.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'presentation/screens/onboarding/onboarding_screen.dart';
+import 'presentation/screens/paywall/paywall_screen.dart';
 import 'presentation/screens/settings/settings_screen.dart';
 import 'presentation/screens/shell_screen.dart';
 import 'presentation/screens/sos/breathing_screen.dart';
@@ -42,6 +43,7 @@ class HalenApp extends ConsumerWidget {
         Routes.under18: (_) => const Under18Screen(),
         Routes.today: (_) => const ShellScreen(),
         Routes.settings: (_) => const SettingsScreen(),
+        Routes.paywall: (_) => const PaywallScreen(),
       },
       onGenerateRoute: (settings) {
         // Record detail takes the just-logged event id as an argument.

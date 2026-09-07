@@ -37,4 +37,18 @@ class PurchaseDao extends DatabaseAccessor<AppDatabase> {
     final row = await query.getSingleOrNull();
     return row != null;
   }
+
+  /// Most recent entitlement row (any state) for refresh decisions.
+  Future<PurchaseEntitlementRow?> latest() {
+    return (select(attachedDatabase.purchaseEntitlement)
+          ..orderBy([(e) => OrderingTerm.desc(e.lastVerifiedAt)]))
+        .getSingleOrNull();
+  }
+
+  Future<void> upsertEntitlement(PurchaseEntitlementCompanion row) {
+    return into(attachedDatabase.purchaseEntitlement).insert(
+      row,
+      mode: InsertMode.insertOrReplace,
+    );
+  }
 }

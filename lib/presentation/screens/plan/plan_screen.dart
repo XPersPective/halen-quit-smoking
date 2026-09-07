@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:halen/application/entitlement_providers.dart';
 import 'package:halen/application/plan_screen_providers.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 
-/// Screen 11: Plan — the adaptive taper plan (report §14).
-///
-/// Shows the daily budget and phase, the two-sided "weeks to quit" estimate
-/// (S3, linked to its explanation), the "Yeniden hesapladık" feed and the
-/// quit-day confirmation once the budget reaches the final-week level.
+/// Screen 11: Plan — the adaptive taper plan (report §14). Premium feature:
+/// the free tier sees a locked card (records/savings stay free forever,
+/// report §28), the trial and lifetime see the full engine.
 class PlanScreen extends ConsumerWidget {
   const PlanScreen({super.key});
 
@@ -19,6 +18,7 @@ class PlanScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final premium = ref.watch(isPremiumProvider);
     final planAsync = ref.watch(todayPlanProvider);
     final estimateAsync = ref.watch(quitEstimateProvider);
     final adjustmentsAsync = ref.watch(recentAdjustmentsProvider);
@@ -29,7 +29,29 @@ class PlanScreen extends ConsumerWidget {
         actions: const [ShellSettingsButton()],
       ),
       body: SafeArea(
-        child: ListView(
+        child: !premium
+            ? ListView(
+                padding: const EdgeInsets.all(24),
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          Text(l10n.todayPlanLockedFree),
+                          const SizedBox(height: 12),
+                          FilledButton(
+                            onPressed: () =>
+                                Navigator.pushNamed(context, Routes.paywall),
+                            child: Text(l10n.commonUnlockPremium),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : ListView(
           padding: const EdgeInsets.all(24),
           children: [
             planAsync.when(
