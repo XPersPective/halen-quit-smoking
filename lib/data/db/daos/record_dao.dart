@@ -19,6 +19,15 @@ class RecordDao extends DatabaseAccessor<AppDatabase> {
         .watch();
   }
 
+  /// Reactive feed of every event, ordered by time. Data volumes (thousands
+  /// of rows per year) keep a full-table watch cheap and every day view
+  /// correct across midnight without rescheduling streams.
+  Stream<List<CigaretteEventRow>> watchAll() {
+    return (select(attachedDatabase.cigaretteEvent)
+          ..orderBy([(e) => OrderingTerm.asc(e.ts)]))
+        .watch();
+  }
+
   Future<List<CigaretteEventRow>> getEventsBetween(
     DateTime startInclusive,
     DateTime endExclusive,

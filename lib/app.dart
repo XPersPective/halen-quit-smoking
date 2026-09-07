@@ -10,6 +10,7 @@ import 'presentation/screens/onboarding/onboarding_screen.dart';
 import 'presentation/screens/shell_screen.dart';
 import 'presentation/screens/splash_screen.dart';
 import 'presentation/screens/under18_screen.dart';
+import 'presentation/screens/today/record_detail_screen.dart';
 
 class HalenApp extends ConsumerWidget {
   const HalenApp({super.key, this.databaseFailed = false});
@@ -36,6 +37,17 @@ class HalenApp extends ConsumerWidget {
         Routes.onboarding: (_) => const OnboardingScreen(),
         Routes.under18: (_) => const Under18Screen(),
         Routes.today: (_) => const ShellScreen(),
+      },
+      onGenerateRoute: (settings) {
+        // Record detail takes the just-logged event id as an argument.
+        if (settings.name == Routes.recordDetail) {
+          final eventId = settings.arguments! as int;
+          return MaterialPageRoute<void>(
+            settings: settings,
+            builder: (_) => RecordDetailScreen(eventId: eventId),
+          );
+        }
+        return null;
       },
     );
   }

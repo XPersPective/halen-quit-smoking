@@ -23,6 +23,13 @@ class CravingDao extends DatabaseAccessor<AppDatabase> {
         .watch();
   }
 
+  /// Reactive feed of every craving event (see RecordDao.watchAll).
+  Stream<List<CravingEventRow>> watchAll() {
+    return (select(attachedDatabase.cravingEvent)
+          ..orderBy([(c) => OrderingTerm.desc(c.ts)]))
+        .watch();
+  }
+
   Future<List<CravingEventRow>> getCravingsBetween(
     DateTime startInclusive,
     DateTime endExclusive,

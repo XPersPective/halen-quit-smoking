@@ -30,7 +30,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _next() async {
     final controller = ref.read(onboardingControllerProvider.notifier);
     final answers = ref.read(onboardingControllerProvider);
-    final l10n = AppLocalizations.of(context)!;
 
     if (_step == 0 && answers.ageBand == AgeBand.under18) {
       // Report §39: no plan for under-18; youth resources instead.
@@ -55,9 +54,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     if (!mounted) {
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.recordLoggedToast)),
-    );
     Navigator.pushReplacementNamed(context, Routes.today);
   }
 

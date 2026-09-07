@@ -70,6 +70,8 @@ void main() {
 
     final triggers = await db.select(db.trigger).get();
     expect(triggers.map((t) => t.labelKey), contains(TriggerLabel.coffee));
+
+    await disposeApp(tester);
   });
 
   testWidgets('under-18 path creates no smoking profile', (tester) async {
@@ -87,6 +89,8 @@ void main() {
     expect(profile, isNull);
     final user = await db.profileDao.getUserProfile();
     expect(user!.ageBand, AgeBand.under18);
+
+    await disposeApp(tester);
   });
 }
 
