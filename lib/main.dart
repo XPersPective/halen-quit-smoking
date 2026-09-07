@@ -8,6 +8,7 @@ import 'data/db/app_database.dart';
 import 'data/db_opener.dart';
 import 'application/entitlement_providers.dart';
 import 'application/providers.dart';
+import 'application/quick_log_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +34,16 @@ Future<void> main() async {
             (_) {},
             onError: (Object _) {},
           ),
+    );
+    // Register the iOS interactive-widget callback (no-op elsewhere).
+    unawaited(
+      container.read(widgetServiceProvider).init().catchError((Object _) {}),
+    );
+    // Drain quick logs queued by widget/tile/notification while closed.
+    unawaited(
+      QuickLogController(database)
+          .drain()
+          .then<void>((_) {}, onError: (Object _) {}),
     );
   }
 

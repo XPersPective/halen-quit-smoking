@@ -34,12 +34,16 @@ class PurchaseService {
   bool _started = false;
 
   /// Wires the purchase stream and refreshes the entitlement from the
-  /// store. Must be awaited on every cold start (report §29).
+  /// store. Must be awaited on every cold start (report §29). Mobile only —
+  /// the dev/preview Windows build has no store.
   Future<void> start() async {
     if (_started) {
       return;
     }
     _started = true;
+    if (!Platform.isAndroid && !Platform.isIOS) {
+      return;
+    }
     final available = await _iap.isAvailable();
     if (!available) {
       return;

@@ -9,6 +9,11 @@ import 'package:sqlcipher_flutter_libs/sqlcipher_flutter_libs.dart';
 /// The key is a random 256-bit value from [SecureKeyStore]; the database is
 /// unusable without it. Wrong/missing key surfaces as a SQLite error on the
 /// first statement, which the app maps to the database-error screen.
+///
+/// Platform note: SQLCipher ships via sqlcipher_flutter_libs on Android/iOS.
+/// On the dev/preview Windows build the bundled (non-SQLCipher) sqlite3 is
+/// used — the PRAGMAs below are ignored there, so the local file is NOT
+/// encrypted on Windows. Production targets are the mobile stores.
 QueryExecutor openEncryptedDatabase(File file, String key) {
   return NativeDatabase.createInBackground(
     file,

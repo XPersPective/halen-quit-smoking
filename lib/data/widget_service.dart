@@ -1,8 +1,15 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:home_widget/home_widget.dart';
 
 import 'db/app_database.dart';
 import 'quick_log_queue.dart';
+
+/// True on platforms with home_widget / notification / purchase support.
+/// The dev/preview Windows build runs without these channels.
+bool get mobilePlatform => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
 /// Home-screen quick logging (report §11/§13/§27).
 ///
@@ -26,7 +33,7 @@ class WidgetService {
   static const _appGroup = 'group.com.halenquitsmoking.shared';
 
   Future<void> init() async {
-    if (_initialized) {
+    if (_initialized || !mobilePlatform) {
       return;
     }
     _initialized = true;

@@ -1,3 +1,4 @@
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
@@ -5,7 +6,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../domain/entities.dart';
 import '../domain/notification_plan.dart';
-import 'widget_service.dart' show notificationBackgroundHandler;
+import 'widget_service.dart' show mobilePlatform, notificationBackgroundHandler;
 
 /// Localized strings bundle resolved by the caller (UI has BuildContext;
 /// the service stays presentation-free).
@@ -59,7 +60,7 @@ class NotificationService {
   static const _supportChannel = 'halen_support';
 
   Future<void> init() async {
-    if (_initialized) {
+    if (_initialized || !mobilePlatform) {
       return;
     }
     tzdata.initializeTimeZones();
