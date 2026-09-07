@@ -662,6 +662,57 @@ class AppLocalizationsDe extends AppLocalizations {
   String get notifDensityOff => 'Aus';
 
   @override
+  String get notifSummaryTitle => 'Dein Tag mit Halen';
+
+  @override
+  String notifSummaryBody(int count, int target) {
+    return 'Heute: $count/$target. Jede Eintragung hält den Plan ehrlich.';
+  }
+
+  @override
+  String get notifMorningTitle => 'Dein heutiges Budget wartet in Halen';
+
+  @override
+  String get notifMorningBody =>
+      'Kleine Schritte zählen. Du bestimmst das Tempo.';
+
+  @override
+  String get notifPlanTitle => 'Geplante Zeit nähert sich';
+
+  @override
+  String get notifPlanBody => 'Dein nächstes geplantes Fenster beginnt bald.';
+
+  @override
+  String get notifReturnTitle => 'Noch da?';
+
+  @override
+  String get notifReturnBody =>
+      'Seit ein paar Tagen keine Einträge — mach genau da weiter.';
+
+  @override
+  String get notifQuitTitle => 'Die ersten Stunden zählen am meisten';
+
+  @override
+  String get notifQuitBody =>
+      'Die Welle steigt, kippt und fällt. Halte durch — diese App ist bei dir.';
+
+  @override
+  String get notifMilestoneTitle => 'Neue Meilenstein';
+
+  @override
+  String get notifMilestoneBody =>
+      'Ein neuer Gesundheits-Schwellenwert ist erreicht.';
+
+  @override
+  String get notifChannelReminders => 'Erinnerungen';
+
+  @override
+  String get notifChannelSupport => 'Unterstützung';
+
+  @override
+  String get notifSummaryGeneric => 'Jede Eintragung hält den Plan ehrlich.';
+
+  @override
   String get notifDailySummary => 'Tageszusammenfassung (abends)';
 
   @override

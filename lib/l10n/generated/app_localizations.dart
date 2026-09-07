@@ -1234,6 +1234,96 @@ abstract class AppLocalizations {
   /// **'Off'**
   String get notifDensityOff;
 
+  /// No description provided for @notifSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your day with Halen'**
+  String get notifSummaryTitle;
+
+  /// No description provided for @notifSummaryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Today: {count} of {target}. Every record keeps the plan honest.'**
+  String notifSummaryBody(int count, int target);
+
+  /// No description provided for @notifMorningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today’s budget is waiting in Halen'**
+  String get notifMorningTitle;
+
+  /// No description provided for @notifMorningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Small steps count. You set the pace.'**
+  String get notifMorningBody;
+
+  /// No description provided for @notifPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned time is approaching'**
+  String get notifPlanTitle;
+
+  /// No description provided for @notifPlanBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your next planned window starts soon.'**
+  String get notifPlanBody;
+
+  /// No description provided for @notifReturnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Still there?'**
+  String get notifReturnTitle;
+
+  /// No description provided for @notifReturnBody.
+  ///
+  /// In en, this message translates to:
+  /// **'No records for a few days — pick up right where you left off.'**
+  String get notifReturnBody;
+
+  /// No description provided for @notifQuitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First hours matter most'**
+  String get notifQuitTitle;
+
+  /// No description provided for @notifQuitBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The wave rises, peaks and falls. Hold on — this app is with you.'**
+  String get notifQuitBody;
+
+  /// No description provided for @notifMilestoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestone reached'**
+  String get notifMilestoneTitle;
+
+  /// No description provided for @notifMilestoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A new health milestone is in. Check your timeline.'**
+  String get notifMilestoneBody;
+
+  /// No description provided for @notifChannelReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get notifChannelReminders;
+
+  /// No description provided for @notifChannelSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get notifChannelSupport;
+
+  /// No description provided for @notifSummaryGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Every record keeps the plan honest.'**
+  String get notifSummaryGeneric;
+
   /// No description provided for @notifDailySummary.
   ///
   /// In en, this message translates to:

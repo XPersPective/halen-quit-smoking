@@ -658,6 +658,55 @@ class AppLocalizationsTr extends AppLocalizations {
   String get notifDensityOff => 'Kapalı';
 
   @override
+  String get notifSummaryTitle => 'Halen ile günün';
+
+  @override
+  String notifSummaryBody(int count, int target) {
+    return 'Bugün: $count/$target. Her kayıt planı düzgün tutar.';
+  }
+
+  @override
+  String get notifMorningTitle => 'Bugünün bütçesi Halen’de';
+
+  @override
+  String get notifMorningBody => 'Küçük adımlar önemli. Tempo senin.';
+
+  @override
+  String get notifPlanTitle => 'Planlanan zaman yaklaşıyor';
+
+  @override
+  String get notifPlanBody => 'Sonraki planlı aralığın yakında başlıyor.';
+
+  @override
+  String get notifReturnTitle => 'Orada mısın?';
+
+  @override
+  String get notifReturnBody =>
+      'Bir kaç gündür kayıt yok — kaldığın yerden devam edebilirsin.';
+
+  @override
+  String get notifQuitTitle => 'İlk saatler en önemlisi';
+
+  @override
+  String get notifQuitBody =>
+      'Dalga yükselir, zirve yapar, düşer. Dayan — bu uygulama seninle.';
+
+  @override
+  String get notifMilestoneTitle => 'Yeni dönüm noktası';
+
+  @override
+  String get notifMilestoneBody => 'Sağlık çizelgende yeni bir eşik açıldı.';
+
+  @override
+  String get notifChannelReminders => 'Hatırlatmalar';
+
+  @override
+  String get notifChannelSupport => 'Destek';
+
+  @override
+  String get notifSummaryGeneric => 'Her kayıt planı düzgün tutar.';
+
+  @override
   String get notifDailySummary => 'Günlük özet (akşam)';
 
   @override

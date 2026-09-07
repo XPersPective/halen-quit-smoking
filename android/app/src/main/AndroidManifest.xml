@@ -1,4 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Notifications (report §20): runtime POST_NOTIFICATIONS on 13+;
+         exact alarms only behind a user opt-in (SCHEDULE_EXACT_ALARM, not
+         USE_EXACT_ALARM — Play restricts that to alarm/clock apps);
+         boot receiver lets flutter_local_notifications reschedule. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application
         android:label="Halen"
         android:allowBackup="false"

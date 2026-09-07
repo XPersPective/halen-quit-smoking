@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:halen/application/providers.dart';
+import 'package:halen/application/settings_screen_controller.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/choice_card.dart';
@@ -102,8 +103,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   style: theme.textTheme.bodySmall,
                 ),
                 const SizedBox(height: 24),
-                // Notification rationale + allow button (request wired in the
-                // notifications phase; the explanation is always shown first).
+                // Notification rationale + allow button (report §20: the
+                // explanation is always shown before the runtime request).
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -114,7 +115,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         ChoiceCard(
                           title: l10n.splashEnableNotifications,
                           selected: false,
-                          onTap: () {}, // FAZ 9 wires the runtime request.
+                          onTap: () {
+                            final container = ProviderScope.containerOf(
+                              context,
+                              listen: false,
+                            );
+                            container
+                                .read(notificationServiceProvider)
+                                .requestPermission();
+                          },
                         ),
                       ],
                     ),

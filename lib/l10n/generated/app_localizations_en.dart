@@ -660,6 +660,56 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifDensityOff => 'Off';
 
   @override
+  String get notifSummaryTitle => 'Your day with Halen';
+
+  @override
+  String notifSummaryBody(int count, int target) {
+    return 'Today: $count of $target. Every record keeps the plan honest.';
+  }
+
+  @override
+  String get notifMorningTitle => 'Today’s budget is waiting in Halen';
+
+  @override
+  String get notifMorningBody => 'Small steps count. You set the pace.';
+
+  @override
+  String get notifPlanTitle => 'Planned time is approaching';
+
+  @override
+  String get notifPlanBody => 'Your next planned window starts soon.';
+
+  @override
+  String get notifReturnTitle => 'Still there?';
+
+  @override
+  String get notifReturnBody =>
+      'No records for a few days — pick up right where you left off.';
+
+  @override
+  String get notifQuitTitle => 'First hours matter most';
+
+  @override
+  String get notifQuitBody =>
+      'The wave rises, peaks and falls. Hold on — this app is with you.';
+
+  @override
+  String get notifMilestoneTitle => 'Milestone reached';
+
+  @override
+  String get notifMilestoneBody =>
+      'A new health milestone is in. Check your timeline.';
+
+  @override
+  String get notifChannelReminders => 'Reminders';
+
+  @override
+  String get notifChannelSupport => 'Support';
+
+  @override
+  String get notifSummaryGeneric => 'Every record keeps the plan honest.';
+
+  @override
   String get notifDailySummary => 'Daily summary (evening)';
 
   @override
