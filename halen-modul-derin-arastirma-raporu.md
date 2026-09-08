@@ -857,7 +857,7 @@ Bu raporun **14 modülünün tamamı** uygulandı ve `master`'a girdi. Kodda kar
 
 **İçerik motoru (§11) yapısal kuralı koda gömüldü:** `DailyCard` yapıcısı, `family == reality` olan bir kartın **eylem satırı olmadan oluşturulmasını assert ile reddeder** — korku ancak öz-yeterlikle işe yaradığı için bu bir editoryal alışkanlık değil, derleme/çalışma zamanı kuralıdır. Kart seçimi faz duyarlıdır: ilk 3 gün (yoksunluk tepesi) yalnızca *Bilgi* ve *Kazanç* aileleri gösterilir.
 
-**Testler:** 192 test. Bunların içinde davranışsal değil **yapısal** kurallar da var: etik lint (S5 iddia kalıpları), `library_repository_test.dart` (her organ kartının iyileşme metni, her tekniğin kanıt notu, bitki kartının "kanıt yok" ifadesi zorunlu) ve indeks/taper altın-değer testleri.
+**Testler:** 196 test. Bunların içinde davranışsal değil **yapısal** kurallar da var: etik lint (S5 iddia kalıpları), `library_repository_test.dart` (her organ kartının iyileşme metni, her tekniğin kanıt notu, bitki kartının "kanıt yok" ifadesi zorunlu) ve indeks/taper altın-değer testleri.
 
 **Kasıtlı davranış değişiklikleri:** (a) sigara kaydından sonra artık önce geri bildirim yaprağı açılıyor (kayıt zaten alınmış durumda, geri alınabilir); (b) SOS ekranındaki 4D kartlar tek bir kanıt dereceli araç setiyle değiştirildi ve bu sete kulak akupresürü ⚪ etiketiyle eklendi — ana raporun "akupresür yok" kuralı bu raporun §5.① kanıt değerlendirmesiyle güncellenmiştir.
 
