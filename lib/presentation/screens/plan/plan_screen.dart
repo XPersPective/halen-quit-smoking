@@ -6,6 +6,8 @@ import 'package:halen/application/plan_screen_providers.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/domain/entities.dart';
+import 'package:halen/application/module_providers.dart';
+import 'package:halen/domain/plan_kinds.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 
@@ -65,6 +67,11 @@ class PlanScreen extends ConsumerWidget {
             : ListView(
                 padding: const EdgeInsets.all(24),
                 children: [
+                  // Module report §13 — the plan strip: the user should never
+                  // have to ask which plan they are on, and switching is
+                  // always reachable (deliberate, not locked).
+                  const _PlanStrip(),
+                  const SizedBox(height: 16),
                   planAsync.when(
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),
@@ -264,6 +271,45 @@ class PlanScreen extends ConsumerWidget {
                 ],
               ),
       ),
+    );
+  }
+}
+
+
+/// Which plan is running, and the way into changing it (module report §13).
+class _PlanStrip extends ConsumerWidget {
+  const _PlanStrip();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final state = ref.watch(planStateProvider).value;
+    final kind = state?.kind ?? PlanKind.gradualTaper;
+    final week = state == null
+        ? 1
+        : DateTime.now().difference(state.startedAt).inDays ~/ 7 + 1;
+    final name = switch (kind) {
+      PlanKind.gradualTaper => l10n.planKindGradual,
+      PlanKind.dailyQuota => l10n.planKindQuota,
+      PlanKind.quitDay => l10n.planKindQuitDay,
+      PlanKind.trackOnly => l10n.planKindTrackOnly,
+    };
+
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            l10n.planStripLabel(name, week),
+            style: theme.textTheme.labelLarge,
+          ),
+        ),
+        TextButton.icon(
+          onPressed: () => Navigator.pushNamed(context, Routes.planSwitch),
+          icon: const Icon(Icons.swap_horiz_rounded, size: 18),
+          label: Text(l10n.planSwitchTitle),
+        ),
+      ],
     );
   }
 }

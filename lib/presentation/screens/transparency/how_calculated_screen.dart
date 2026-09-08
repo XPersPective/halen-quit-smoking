@@ -39,6 +39,50 @@ class HowCalculatedScreen extends StatelessWidget {
               body: l10n.howSavingsBody,
               theme: theme,
             ),
+            const SizedBox(height: 16),
+            // Module report §0.2 — publishing every formula is the product's
+            // main differentiator, not a legal footnote. Each section below
+            // states the exact weights the code uses.
+            _Section(
+              title: l10n.howBodyLoadTitle,
+              body: l10n.howBodyLoadBody,
+              limits: l10n.howBodyLoadLimits,
+              theme: theme,
+            ),
+            const SizedBox(height: 16),
+            _Section(
+              title: l10n.howCravingTitle,
+              body: l10n.howCravingBody,
+              theme: theme,
+            ),
+            const SizedBox(height: 16),
+            _Section(
+              title: l10n.howMindTitle,
+              body: l10n.howMindBody,
+              limits: l10n.mindOnlyYouKnow,
+              theme: theme,
+            ),
+            const SizedBox(height: 16),
+            _Section(
+              title: l10n.howLungTitle,
+              body: l10n.howLungBody,
+              limits: l10n.lungsNotAScan,
+              theme: theme,
+            ),
+            const SizedBox(height: 16),
+            _Section(
+              title: l10n.howProgressTitle,
+              body: l10n.howProgressBody,
+              limits: l10n.progressBehaviourNote,
+              theme: theme,
+            ),
+            const SizedBox(height: 16),
+            _Section(
+              title: l10n.howHarmTitle,
+              body: l10n.howHarmBody,
+              limits: l10n.harmNotRisk,
+              theme: theme,
+            ),
             const SizedBox(height: 24),
             Text(
               l10n.commonModelTag,

@@ -10,9 +10,12 @@ import 'package:halen/core/theme.dart';
 import 'package:halen/domain/motivation.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
+import 'package:halen/presentation/widgets/body_load_card.dart';
 import 'package:halen/presentation/widgets/charts/hourly_distribution_chart.dart';
 import 'package:halen/presentation/widgets/charts/interval_chart.dart';
 import 'package:halen/presentation/widgets/charts/trigger_breakdown_chart.dart';
+import 'package:halen/presentation/widgets/craving_window_card.dart';
+import 'package:halen/presentation/widgets/indices_card.dart';
 import 'package:halen/presentation/widgets/stats_charts.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {
@@ -53,6 +56,39 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: colors.onSurfaceVariant,
               ),
+            ),
+            const SizedBox(height: 24),
+
+            // Module report §14 — the twin indices lead, because "am I
+            // getting better?" is the question people open stats to answer.
+            const IndicesCard(),
+            const SizedBox(height: 16),
+            // §1 — the body-load sawtooth, built from the user's own times.
+            const BodyLoadCard(),
+            const SizedBox(height: 16),
+            // §4 — craving arrives while nicotine falls, shown in their data.
+            const CravingWindowCard(),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(Routes.body),
+                    icon: const Icon(Icons.monitor_heart_outlined, size: 18),
+                    label: Text(l10n.organMapTitle),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(Routes.economy),
+                    icon: const Icon(Icons.savings_outlined, size: 18),
+                    label: Text(l10n.economyTitle),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 24),
             savings.when(

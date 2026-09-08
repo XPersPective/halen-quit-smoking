@@ -2,7 +2,6 @@
   "@@locale": "en",
   "appName": "Halen",
   "tagline": "Reduce at your pace. Quit for good.",
-
   "commonCancel": "Cancel",
   "commonSave": "Save",
   "commonNext": "Next",
@@ -17,7 +16,6 @@
   "commonLoading": "Loading…",
   "commonPremiumLocked": "This is part of Halen Premium. Your 7-day trial covers everything for free.",
   "commonUnlockPremium": "See lifetime offer",
-
   "splashWelcomeTitle": "Welcome to Halen",
   "splashTagline": "Reduce at your pace. Quit for good.",
   "splashPrivacyLine": "No account. No servers. Your data stays on this device.",
@@ -26,9 +24,14 @@
   "splashNotificationRationale": "Notifications remind you of your plan — never spam. You can also enable them later.",
   "splashEnableNotifications": "Allow notifications",
   "splashStart": "Start",
-
   "obStepOf": "Step {n} of 7",
-  "@obStepOf": { "placeholders": { "n": { "type": "int" } } },
+  "@obStepOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "obAgeTitle": "How old are you?",
   "obAgeUnder18": "Under 18",
   "obAge18to24": "18–24",
@@ -72,30 +75,89 @@
   "obFinalDisclaimer": "This app is not medical advice; for the treatment of nicotine dependence consult a health professional. If you are pregnant, or have a heart condition or a psychiatric condition, seek expert advice first.",
   "obDataNote": "These answers only shape your plan and never leave your device.",
   "obFinish": "Set up my plan",
-
   "todayTitle": "Today",
   "todayRingLabel": "Today {smoked} of {target}",
-  "@todayRingLabel": { "placeholders": { "smoked": { "type": "int" }, "target": { "type": "int" } } },
+  "@todayRingLabel": {
+    "placeholders": {
+      "smoked": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
   "lastCigaretteMinutes": "Last cigarette: {n} min ago",
-  "@lastCigaretteMinutes": { "placeholders": { "n": { "type": "int" } } },
+  "@lastCigaretteMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "lastCigaretteHours": "Last cigarette: {h} h {m} min ago",
-  "@lastCigaretteHours": { "placeholders": { "h": { "type": "int" }, "m": { "type": "int" } } },
+  "@lastCigaretteHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
   "lastCigaretteNone": "No cigarette recorded yet today",
   "nextTargetIn": "Next target: at least {n} min from now",
-  "@nextTargetIn": { "placeholders": { "n": { "type": "int" } } },
+  "@nextTargetIn": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "nextTargetHoursIn": "Next target: at least {h} h {m} min from now",
-  "@nextTargetHoursIn": { "placeholders": { "h": { "type": "int" }, "m": { "type": "int" } } },
+  "@nextTargetHoursIn": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
   "nextTargetReady": "Next target: you are inside your planned window",
   "nextTargetDayDone": "Daily plan completed — well done",
   "nicotineMiniLabel": "Estimated nicotine exposure (model)",
   "ctaSmoked": "I SMOKED",
   "ctaResisted": "I resisted a craving",
   "resistedTodayCount": "{n} today",
-  "@resistedTodayCount": { "placeholders": { "n": { "type": "int" } } },
+  "@resistedTodayCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "savingsStrip": "You saved {amount} · {n} cigarettes avoided",
-  "@savingsStrip": { "placeholders": { "amount": { "type": "String" }, "n": { "type": "int" } } },
+  "@savingsStrip": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "healthStrip": "Coming up: {text}",
-  "@healthStrip": { "placeholders": { "text": { "type": "String" } } },
+  "@healthStrip": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
   "recalcTitle": "We recalculated.",
   "recalcDistributed": "Your remaining budget for today is spread over the rest of the day.",
   "recalcBunched": "Today's smoking is bunched tighter than planned; try to hold the next one closer to the planned time.",
@@ -103,8 +165,13 @@
   "todayEmptyFirstDay": "This is your first day — the plan takes shape from your records and your answers.",
   "todayPlanLockedFree": "Your adaptive plan lives in Premium. Records, savings and the day counter are free forever.",
   "daysSinceStart": "Day {n} with Halen",
-  "@daysSinceStart": { "placeholders": { "n": { "type": "int" } } },
-
+  "@daysSinceStart": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "recordDetailTitle": "Log details",
   "recordDetailHint": "Optional — add a tag in one tap.",
   "recordDetailSaved": "Logged.",
@@ -114,24 +181,65 @@
   "sourceTile": "From quick tile",
   "sourceControl": "From control",
   "sourceNotif": "From notification",
-
   "planTitle": "Plan",
   "planTodayBudget": "Today's budget: {n}",
-  "@planTodayBudget": { "placeholders": { "n": { "type": "int" } } },
+  "@planTodayBudget": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "planWindowsTitle": "Planned windows",
   "planMinGapRule": "Keep at least {n} minutes between cigarettes.",
-  "@planMinGapRule": { "placeholders": { "n": { "type": "int" } } },
+  "@planMinGapRule": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "planAdherence7": "7-day plan adherence: {n}%",
-  "@planAdherence7": { "placeholders": { "n": { "type": "int" } } },
+  "@planAdherence7": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "planAdherence14": "14-day plan adherence: {n}%",
-  "@planAdherence14": { "placeholders": { "n": { "type": "int" } } },
+  "@planAdherence14": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "planWeeksEstimate": "If the progress of the last 7 days continues at this rate, you could reach your goal in roughly {x}–{y} weeks.",
-  "@planWeeksEstimate": { "placeholders": { "x": { "type": "int" }, "y": { "type": "int" } } },
+  "@planWeeksEstimate": {
+    "placeholders": {
+      "x": {
+        "type": "int"
+      },
+      "y": {
+        "type": "int"
+      }
+    }
+  },
   "planPhaseReduction": "Reduction",
   "planPhaseFinal": "Final week",
   "planPhaseQuit": "Quit programme",
   "phaseWeekOf": "Week {n} of {total}",
-  "@phaseWeekOf": { "placeholders": { "n": { "type": "int" }, "total": { "type": "int" } } },
+  "@phaseWeekOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "paceCalm": "Calm — 8 weeks, about 8–10% less per week",
   "paceStandard": "Standard — 6 weeks, about 12–15% less per week",
   "paceFast": "Fast — 4 weeks, about 18–22% less per week",
@@ -144,7 +252,13 @@
   "finalWeekBody": "Your daily budget is at 3 or fewer. Pick your quit day — a plan, not a promise.",
   "quitDayConfirmTitle": "Confirm your quit day",
   "quitDaySet": "Quit day set: {date}",
-  "@quitDaySet": { "placeholders": { "date": { "type": "String" } } },
+  "@quitDaySet": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "quitDayChoose": "Choose a day",
   "quitProgramTitle": "Quit programme",
   "quitPrepTitle": "Preparation week",
@@ -159,7 +273,6 @@
   "quitWeek2to4Body": "Habits take time — median habit change is around 66 days and varies a lot between people.",
   "planLockedFree": "The adaptive plan engine is part of Premium. Logging, savings and your day counter stay free forever.",
   "quitSupportLine": "A health professional can discuss quitting methods with you, including nicotine replacement therapy.",
-
   "statsTitle": "Statistics",
   "chartDaily": "Daily count",
   "chartPlanVsActual": "Plan vs actual",
@@ -173,17 +286,46 @@
   "triggerAnalysisTitle": "Trigger patterns",
   "triggerAnalysisEmpty": "Trigger patterns need at least 10 tagged records. Keep tagging — this appears on its own.",
   "triggerRiskWindow": "The first 15 minutes after {trigger} look like a risky window for you.",
-  "@triggerRiskWindow": { "placeholders": { "trigger": { "type": "String" } } },
+  "@triggerRiskWindow": {
+    "placeholders": {
+      "trigger": {
+        "type": "String"
+      }
+    }
+  },
   "triggerSampleNote": "Based on {n} tagged records.",
-  "@triggerSampleNote": { "placeholders": { "n": { "type": "int" } } },
+  "@triggerSampleNote": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "a11yDailyChartSummary": "Yesterday {count}, target {target}, plan adherence {adherence} percent.",
-  "@a11yDailyChartSummary": { "placeholders": { "count": { "type": "int" }, "target": { "type": "int" }, "adherence": { "type": "int" } } },
-
+  "@a11yDailyChartSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      },
+      "adherence": {
+        "type": "int"
+      }
+    }
+  },
   "sosTitle": "Craving SOS",
   "sosIntro": "Cravings usually pass within a few minutes. Wait it out with one of these.",
   "sosTimerTitle": "2-minute timer",
   "sosTimerRunning": "Hold on — {s} s left",
-  "@sosTimerRunning": { "placeholders": { "s": { "type": "int" } } },
+  "@sosTimerRunning": {
+    "placeholders": {
+      "s": {
+        "type": "int"
+      }
+    }
+  },
   "sosTimerDone": "Two minutes done. The wave passed.",
   "sos4dDelay": "Delay",
   "sos4dDelayBody": "Give it two minutes before you decide.",
@@ -203,7 +345,13 @@
   "sosResisted": "I resisted",
   "sosSmoked": "I smoked",
   "sosResistedCount": "You have resisted {n} cravings so far.",
-  "@sosResistedCount": { "placeholders": { "n": { "type": "int" } } },
+  "@sosResistedCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "sosAfterSmoked": "Logged. We recalculated your plan — it just keeps adapting.",
   "sosIntensityTitle": "How strong was it?",
   "sosIntensity1": "Mild",
@@ -212,7 +360,6 @@
   "sosAfterResisted": "After the log: well done — every resisted craving counts.",
   "sosNrtLine": "You can talk to a health professional about options such as NRT.",
   "sosLocked": "The full SOS toolkit (breathing animation, watch-and-wait) is in Premium — free during your trial.",
-
   "settingsTitle": "Settings",
   "settingsNotifications": "Notifications",
   "notifDensity": "Density",
@@ -222,7 +369,16 @@
   "notifDensityOff": "Off",
   "notifSummaryTitle": "Your day with Halen",
   "notifSummaryBody": "Today: {count} of {target}. Every record keeps the plan honest.",
-  "@notifSummaryBody": { "placeholders": { "count": { "type": "int" }, "target": { "type": "int" } } },
+  "@notifSummaryBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
   "notifMorningTitle": "Today’s budget is waiting in Halen",
   "notifMorningBody": "Small steps count. You set the pace.",
   "notifPlanTitle": "Planned time is approaching",
@@ -254,9 +410,21 @@
   "settingsExport": "Export data (JSON)",
   "settingsImport": "Import data (JSON)",
   "settingsExportDone": "Backup saved: {path}",
-  "@settingsExportDone": { "placeholders": { "path": { "type": "String" } } },
+  "@settingsExportDone": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
   "settingsImportDone": "Imported — {n} records restored.",
-  "@settingsImportDone": { "placeholders": { "n": { "type": "int" } } },
+  "@settingsImportDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "settingsDeleteAll": "Delete all data",
   "deleteAllConfirm": "Delete everything? This cannot be undone.",
   "settingsPurchase": "Halen Lifetime",
@@ -266,7 +434,13 @@
   "purchaseOwned": "You own Halen Lifetime.",
   "purchasePending": "Your purchase is pending — access unlocks when it completes.",
   "trialDaysLeft": "Trial: {n} days left",
-  "@trialDaysLeft": { "placeholders": { "n": { "type": "int" } } },
+  "@trialDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "trialExpiredFree": "Trial ended — the free tier (logging, savings, day counter, 7-day chart, export) stays yours forever.",
   "settingsAbout": "About",
   "settingsDisclaimerTitle": "Health notice",
@@ -275,11 +449,22 @@
   "settingsPrivacy": "Privacy: no account, no servers, no analytics. Your records stay on this device.",
   "settingsPrivacyPolicy": "Privacy policy",
   "settingsVersion": "Version {v}",
-  "@settingsVersion": { "placeholders": { "v": { "type": "String" } } },
-
+  "@settingsVersion": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
   "paywallTitle": "Keep going with Halen Premium",
   "paywallValueLine": "This week you kept to your plan {n}% of the time.",
-  "@paywallValueLine": { "placeholders": { "n": { "type": "int" } } },
+  "@paywallValueLine": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "paywallFeaturePlan": "The adaptive reduction plan that recalculates itself",
   "paywallFeatureCharts": "Full charts: plan vs actual, gaps, hourly pattern",
   "paywallFeatureTriggers": "Trigger patterns",
@@ -287,7 +472,6 @@
   "paywallFeatureSos": "The complete SOS toolkit",
   "paywallFeatureWidget": "Widget customisation",
   "paywallTrialNote": "Your 7-day free trial starts on first launch — no card needed.",
-
   "timelineTitle": "Health timeline",
   "timelinePreviewLocked": "In reduce mode the countdown starts on your quit day. Until then this is a preview.",
   "timelineSourceWho": "Source: WHO",
@@ -310,7 +494,6 @@
   "timelineBody10y": "In general, among people who quit smoking, the risk of lung cancer falls to about half that of a smoker's.",
   "timelineMilestone15y": "15 years",
   "timelineBody15y": "In general, among people who quit smoking, the risk of coronary heart disease becomes similar to that of someone who has never smoked.",
-
   "howNicotineTitle": "How the nicotine estimate is calculated",
   "howNicotineBody": "Each cigarette is assumed to deliver about 1.2 mg of absorbed nicotine (a published range of roughly 1–1.5 mg). Your estimated exposure curve sums every cigarette you log and halves that total every 2 hours — nicotine's typical plasma half-life. The screen shows a 0–100 normalised curve, never an absolute blood level.",
   "howNicotineLimits": "Limits: this is a behavioural model, not a measurement. Absorption varies with how you smoke, the product and your metabolism. Nothing in this app is measured from your body.",
@@ -320,54 +503,97 @@
   "howSavingsTitle": "How savings are calculated",
   "howSavingsBody": "Your pack price divided by cigarettes per pack gives a per-cigarette cost. Cigarettes you avoid relative to your baseline multiply that cost. Prices you enter stay on your device.",
   "howTitle": "How this estimate is calculated",
-
   "motivationStreakBest": "Longest on-plan streak: {n} days",
-  "@motivationStreakBest": { "placeholders": { "n": { "type": "int" } } },
+  "@motivationStreakBest": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "motivationStreakRestart": "Starting again is normal.",
   "motivationAvoidedTotal": "{n} cigarettes avoided so far",
-  "@motivationAvoidedTotal": { "placeholders": { "n": { "type": "int" } } },
+  "@motivationAvoidedTotal": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "motivationWhoNext": "Next milestone: {text}",
-  "@motivationWhoNext": { "placeholders": { "text": { "type": "String" } } },
-
+  "@motivationWhoNext": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
   "notificationDailySummaryTitle": "Today's summary",
   "notificationDailySummaryBody": "{smoked} of {target} today. {extra}",
-  "@notificationDailySummaryBody": { "placeholders": { "smoked": { "type": "int" }, "target": { "type": "int" }, "extra": { "type": "String" } } },
+  "@notificationDailySummaryBody": {
+    "placeholders": {
+      "smoked": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      },
+      "extra": {
+        "type": "String"
+      }
+    }
+  },
   "notificationMorningTitle": "Today's target: {n}",
-  "@notificationMorningTitle": { "placeholders": { "n": { "type": "int" } } },
+  "@notificationMorningTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "notificationMorningBody": "One tap is enough — Halen keeps the count.",
   "notificationPlanReminderTitle": "Planned window",
   "notificationPlanReminderBody": "Your next planned window is around now.",
   "notificationQuitSupportTitle": "You are doing it",
   "notificationQuitSupportBody": "Cravings peak early and fade. Open SOS if one hits.",
   "notificationMilestoneTitle": "Milestone: {name}",
-  "@notificationMilestoneTitle": { "placeholders": { "name": { "type": "String" } } },
+  "@notificationMilestoneTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "notificationGentleReturnTitle": "Pick up where you left off",
   "notificationGentleReturnBody": "No records for a few days — your plan is waiting, unchanged. One tap resumes everything.",
-
   "under18YouthTitle": "Support for young people",
   "under18YouthBody": "Halen is built for adults and will not create a plan for you. Free, youth-appropriate support exists — talking to a doctor, school counsellor or a quitline is a strong first step.",
-
   "errorDatabaseTitle": "Database could not be opened",
   "errorDatabaseBody": "Your encrypted database could not be unlocked on this device. Nothing was sent anywhere.",
   "emptyGeneric": "Nothing here yet.",
   "emptyNoRecords": "No records yet — your first tap starts the count.",
-
   "a11yRing": "Today's ring: {smoked} of {target} cigarettes",
-  "@a11yRing": { "placeholders": { "smoked": { "type": "int" }, "target": { "type": "int" } } },
+  "@a11yRing": {
+    "placeholders": {
+      "smoked": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
   "a11yNicotineChart": "Estimated nicotine exposure chart. It rises with each logged cigarette and falls by half every two hours.",
   "a11ySavingsChart": "Savings chart, cumulative over the selected range.",
-
   "navToday": "Today",
   "navStats": "Analytics",
   "navPlan": "Plan",
   "navArticles": "Guides",
   "navSos": "Craving SOS",
-
   "statsTabDaily": "Daily Trends",
   "statsTabHourly": "24h Hourly",
   "statsTabIntervals": "Intervals",
   "statsTabTriggers": "Triggers",
-
   "intervalTitle": "Inter-Cigarette Intervals",
   "intervalSubtitle": "Distribution of time elapsed between each cigarette",
   "intervalAverage": "Average interval",
@@ -375,30 +601,59 @@
   "intervalShortest": "Shortest gap",
   "intervalCurrent": "Current smoke-free time",
   "intervalMinutes": "{m} min",
-  "@intervalMinutes": { "placeholders": { "m": { "type": "int" } } },
+  "@intervalMinutes": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  },
   "intervalHoursMinutes": "{h}h {m}m",
-  "@intervalHoursMinutes": { "placeholders": { "h": { "type": "int" }, "m": { "type": "int" } } },
-
+  "@intervalHoursMinutes": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
   "hourlyTitle": "24-Hour Distribution",
   "hourlySubtitle": "When you smoke during the day",
   "hourlyPeak": "Peak hour: {hour}:00 ({count} cigarettes)",
-  "@hourlyPeak": { "placeholders": { "hour": { "type": "int" }, "count": { "type": "int" } } },
+  "@hourlyPeak": {
+    "placeholders": {
+      "hour": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "timeMorning": "Morning (06–12)",
   "timeAfternoon": "Afternoon (12–18)",
   "timeEvening": "Evening (18–24)",
   "timeNight": "Night (00–06)",
-
   "triggerTitle": "Trigger Analysis",
   "triggerSubtitle": "What sparks the urge",
   "triggerOccurrences": "{count} times ({percent}%)",
-  "@triggerOccurrences": { "placeholders": { "count": { "type": "int" }, "percent": { "type": "int" } } },
-
+  "@triggerOccurrences": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "todayLogTitle": "Today's Cigarette Log",
   "todayLogSubtitle": "Detailed breakdown of today's smokes",
   "todayLogEmpty": "No cigarettes logged yet today",
   "deleteCigaretteConfirm": "Delete this cigarette record?",
   "deletedCigaretteSuccess": "Record deleted",
-
   "articlesTitle": "Guides & Articles",
   "articlesSubtitle": "Evidence-based smoking cessation science",
   "articleCategoryAll": "All",
@@ -408,11 +663,22 @@
   "articleCategoryHealth": "Health",
   "articleCategoryPsychology": "Behavior",
   "articleReadTime": "{min} min read",
-  "@articleReadTime": { "placeholders": { "min": { "type": "int" } } },
+  "@articleReadTime": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
   "articleSourceLabel": "Scientific source: {source}",
-  "@articleSourceLabel": { "placeholders": { "source": { "type": "String" } } },
+  "@articleSourceLabel": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
   "articleKeyTakeaways": "Key Takeaways",
-
   "todayFocusTitle": "More space.\nMore you.",
   "todayFocusNote": "Every pause is a step forward.",
   "dailyBudgetCaption": "Logged / daily target",
@@ -428,5 +694,338 @@
   "chartIntervalAxis": "Time between entries · minutes",
   "chartIntervalEmpty": "Two entries are enough to see your first interval.",
   "chartTriggerEmpty": "Add a tag when logging to discover your patterns.",
-  "statsSavingsNote": "Estimated from your entries"
+  "statsSavingsNote": "Estimated from your entries",
+  "moduleModelTag": "Modelled from your records — not a measurement.",
+  "moduleNeedMoreData": "A few more entries and this appears.",
+  "moduleSourceLabel": "Source",
+  "bodyLoadTitle": "Body Load",
+  "bodyLoadSinceLast": "{time} since your last cigarette",
+  "@bodyLoadSinceLast": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyLoadNicotineNow": "Estimated nicotine load is at {percent}% of its peak.",
+  "@bodyLoadNicotineNow": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "bodyLoadCoDrop": "Oxygen debt down {percent}%.",
+  "@bodyLoadCoDrop": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "loadNicotineAcute": "Nicotine now",
+  "loadNicotineBaseline": "All-day baseline",
+  "loadCarbonMonoxide": "Oxygen debt",
+  "loadTar": "Particle load",
+  "loadBandLow": "Low",
+  "loadBandMedium": "Medium",
+  "loadBandHigh": "High",
+  "bodyLoadTarNote": "Tar cannot be measured in a body. This compares your exposure with your own baseline.",
+  "bodyLoadCoNote": "Carbon monoxide clears fastest — it is the first thing that changes when you stop.",
+  "bodyLoadEmpty": "Log a few cigarettes and your own rhythm appears here.",
+  "ghostPeakLabel": "A peak that never happened",
+  "metabolismTitle": "Clearance pace",
+  "metabolismNote": "Nicotine clears at different speeds in different people. Pick what matches how you feel — this only calibrates the curve, it measures nothing.",
+  "metabolismSlow": "Slow",
+  "metabolismNormal": "Normal",
+  "metabolismFast": "Fast",
+  "cravingWindowTitle": "Craving window",
+  "cravingRiskCalm": "Calm",
+  "cravingRiskWatch": "Watch",
+  "cravingRiskHigh": "High",
+  "cravingFallingNote": "Craving usually arrives when nicotine is falling, not when it rises.",
+  "cravingLowestThird": "{percent}% of your cravings arrived while your load was in its lowest third.",
+  "@cravingLowestThird": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "cravingRiskyHours": "Your risky hours",
+  "cravingWindowRange": "{start}:00–{end}:00",
+  "@cravingWindowRange": {
+    "placeholders": {
+      "start": {
+        "type": "int"
+      },
+      "end": {
+        "type": "int"
+      }
+    }
+  },
+  "cravingHeatmapTitle": "Your week, hour by hour",
+  "economyTitle": "Money and time",
+  "economySaved": "Money saved",
+  "economySpent": "Still spent",
+  "economyExactNote": "Nothing here is an estimate — it is your own numbers.",
+  "economyProjectionTitle": "If you keep this pace vs. if you finish your plan",
+  "economyShadedArea": "This shaded area is your decision.",
+  "economyKeepPace": "This pace",
+  "economyFinishPlan": "Plan finished",
+  "economyTimeLedger": "Time ledger",
+  "economyTimeRegained": "Time regained",
+  "economyTimeLost": "Time spent",
+  "economyLifeAverageNote": "Population average of about 20 minutes per cigarette — an average, never a promise about you.",
+  "economyGoalTitle": "Your goal",
+  "economyGoalHint": "What are you saving for?",
+  "economyGoalLabel": "Goal name",
+  "economyGoalAmount": "Amount",
+  "economyGoalRemaining": "{days} days to go at this pace",
+  "@economyGoalRemaining": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "mindTitle": "Mind state",
+  "mindPressureLabel": "Likely withdrawal pressure",
+  "mindBandCalm": "Calm",
+  "mindBandUnderPressure": "Under pressure",
+  "mindBandTough": "Tough",
+  "mindOnlyYouKnow": "This is a guess. Only you know how you feel.",
+  "mindHowDoYouFeel": "How do you feel right now?",
+  "mindAccuracy": "My guess matched how you felt {percent}% of the time.",
+  "@mindAccuracy": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "mindQuitLowersAnxiety": "Quitting lowers anxiety and depression on average — it does not raise them.",
+  "mindTypicalCurve": "Typical course",
+  "mindPeakNote": "Withdrawal peaks on days 1–3 and eases over 3–4 weeks.",
+  "mindWeightTitle": "About weight",
+  "mindWeightBody": "Appetite rises after quitting and most weight change happens in the first three months — on average around 4–5 kg in a year. That risk is small next to smoking, and regular meals blunt it.",
+  "lungsTitle": "Your lungs today",
+  "lungsNotAScan": "This is not a scan of your lungs.",
+  "lungsSlowsLine": "Quitting is the only thing that slows this line.",
+  "lungsScenarioNever": "Never smoked",
+  "lungsScenarioKeep": "This pace",
+  "lungsScenarioQuit": "Quit today",
+  "lungsTypicalLabel": "Typical for your age group",
+  "lungsAxisAge": "Age",
+  "lungsMistLabel": "Relative particle load",
+  "organMapTitle": "Body map",
+  "organHarmTitle": "What smoking does",
+  "organRecoveryTitle": "What happens when you stop",
+  "organPopulationNote": "Population-level findings. Not a personal risk estimate.",
+  "toxicantsTitle": "What's in the smoke",
+  "toxicantsSubtitle": "{chemicals} chemicals, more than {carcinogens} of them known carcinogens",
+  "@toxicantsSubtitle": {
+    "placeholders": {
+      "chemicals": {
+        "type": "int"
+      },
+      "carcinogens": {
+        "type": "int"
+      }
+    }
+  },
+  "toxicantAnalogyLabel": "Also found in",
+  "toxicantMechanismLabel": "In the body",
+  "toxicantNoDose": "A recognition aid, not a dose comparison.",
+  "toxicantIarcLabel": "IARC group {group}",
+  "@toxicantIarcLabel": {
+    "placeholders": {
+      "group": {
+        "type": "String"
+      }
+    }
+  },
+  "evidenceStrong": "Strong evidence",
+  "evidencePromising": "Promising",
+  "evidenceTraditional": "Traditional",
+  "evidenceLabel": "Evidence",
+  "sosWhatWorked": "What worked for you before",
+  "sosTechniquesTitle": "Something to do right now",
+  "sosEarPointsTitle": "Five points, twelve seconds each",
+  "sosEarPointShenMen": "Shen Men",
+  "sosEarPointAutonomic": "Autonomic",
+  "sosEarPointKidney": "Kidney",
+  "sosEarPointLiver": "Liver",
+  "sosEarPointLung": "Lung",
+  "sosNoNeedles": "Fingers only — never needles.",
+  "progressScoreTitle": "Progress Score",
+  "progressWindowLabel": "last 14 days",
+  "progressBandStarting": "Starting",
+  "progressBandOnTrack": "On track",
+  "progressBandStrong": "Strong",
+  "progressBandVeryStrong": "Very strong",
+  "progressBehaviourNote": "This measures your behaviour, not your health.",
+  "progressDeltaUp": "up {points} points in 7 days",
+  "@progressDeltaUp": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "progressDeltaDown": "down {points} points in 7 days",
+  "@progressDeltaDown": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "progressDeltaFlat": "steady this week",
+  "harmLoadTitle": "Harm Load",
+  "harmBandLight": "Light",
+  "harmBandModerate": "Moderate",
+  "harmBandHeavy": "Heavy",
+  "harmBandVeryHeavy": "Very heavy",
+  "harmNotRisk": "This is not a disease risk estimate.",
+  "harmPackYears": "{value} pack-years",
+  "@harmPackYears": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "harmMovingPartNote": "Almost half of this falls as you cut down. The rest is history — quitting slows it and, over years, eases it.",
+  "indicesScissorTitle": "Progress and load",
+  "indicesScissorNote": "The wider the gap, the better you are doing.",
+  "indicesBreakdownTitle": "What makes up this number",
+  "componentAdherence": "Plan adherence",
+  "componentConsumptionTrend": "Consumption trend",
+  "componentCravingCoping": "Craving coping",
+  "componentLoggingConsistency": "Logging consistency",
+  "componentNicotineBaselineFall": "Nicotine baseline fall",
+  "componentCumulativeExposure": "Cumulative exposure",
+  "componentCurrentIntensity": "Current intensity",
+  "componentDependenceDepth": "Dependence depth",
+  "componentAgeAndDuration": "Age and duration",
+  "componentBodySize": "Body size (optional)",
+  "componentWeightLabel": "{points} of {weight} points",
+  "@componentWeightLabel": {
+    "placeholders": {
+      "points": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "int"
+      }
+    }
+  },
+  "planKindGradual": "Gradual taper",
+  "planKindGradualNote": "Widen the gap between cigarettes, step by step.",
+  "planKindQuota": "Daily quota",
+  "planKindQuotaNote": "A daily ceiling, no clock rules — for irregular days.",
+  "planKindQuitDay": "Quit day",
+  "planKindQuitDayNote": "Pick a date and get withdrawal support around it.",
+  "planKindTrackOnly": "Track only",
+  "planKindTrackOnlyNote": "No target, no judgement. Just your records.",
+  "planSwitchTitle": "Change plan",
+  "planTooSoon": "Give this plan {days} more days — every plan needs a little time.",
+  "@planTooSoon": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "planReportCardTitle": "How this plan is going",
+  "planReportDays": "Days in this plan",
+  "planReportAdherence": "Adherence",
+  "planReportHardestHour": "Hardest hour",
+  "planReportResisted": "Cravings ridden out",
+  "planSuggestionLabel": "Suggested for you",
+  "planFrequentSwitchNote": "Changing plans is not failure — but every plan needs a few weeks to show itself.",
+  "planHistoryKept": "Your history stays. Only the plan changes.",
+  "planStripLabel": "{plan} · week {week}",
+  "@planStripLabel": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      },
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "taperHoldStep": "Holding this step one more day.",
+  "taperAdvance": "New target gap: {minutes} minutes.",
+  "@taperAdvance": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "taperSoftLanding": "Your plan was re-tuned to you. Nothing is lost.",
+  "logSmokedNeutral": "Today: {count}. Your average: {average}.",
+  "@logSmokedNeutral": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "average": {
+        "type": "String"
+      }
+    }
+  },
+  "logNotAFailure": "Not a failure. A data point.",
+  "logSkippedTitle": "A peak that never happened",
+  "logSkippedCount": "{count} rides out this month",
+  "@logSkippedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "logNextTarget": "Next target time {time}",
+  "@logNextTarget": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "logUndo": "Undo",
+  "logPauseTitle": "Twenty seconds first",
+  "logPauseNote": "Your entry is already saved. Take a breath — you can undo it if you change your mind.",
+  "logPauseSettingTitle": "Pause before logging",
+  "supportTitle": "Today's support",
+  "supportChannelMovement": "Movement",
+  "supportChannelNutrition": "Food",
+  "supportChannelRitual": "Ritual",
+  "supportMarkDone": "I did it",
+  "supportNotATest": "This is not a test. Skipping costs nothing.",
+  "supportWeekTitle": "This week",
+  "supportMinutes": "{minutes} min",
+  "@supportMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "howBodyLoadTitle": "Body load curves",
+  "howBodyLoadBody": "Each curve is C(t) = sum of dose x 2^(-elapsed / half-life), fed only by the times you logged. Half-lives: nicotine 2 h, all-day baseline 16 h (cotinine proxy), carbon monoxide 4.5 h, particle load 30 days (representative).",
+  "howBodyLoadLimits": "No phone can measure nicotine, tar or carbon monoxide in a body. Values are shown normalized to 0–100 against your own peak, never in ng/mL or milligrams, and clearance speed varies between people.",
+  "howCravingTitle": "Craving window",
+  "howCravingBody": "Risk = 0.45 x how deep your nicotine trough is, + 0.35 x how busy this hour is in your own history, + 0.20 x how often records in this hour carry a trigger. Hour-based signals stay switched off until you have about 21 entries.",
+  "howProgressTitle": "Progress Score",
+  "howProgressBody": "Out of 100: plan adherence 35, consumption trend 30, craving coping 20, logging consistency 10, nicotine baseline fall 5. It looks at 14 days, moves at most 4 points a day, and never resets.",
+  "howHarmTitle": "Harm Load",
+  "howHarmBody": "Out of 100: cumulative exposure 40 (pack-years, log scale), current intensity 30, dependence 15, age and duration 10, body size 5. Validated risk models told us which variables matter; the number is a load index, not a disease risk. Body data is optional and the weights renormalize without it.",
+  "howMindTitle": "Withdrawal pressure",
+  "howMindBody": "A published symptom curve that peaks on days 1–3 and eases over 3–4 weeks, scaled by how deep your current nicotine trough is, then corrected by the difference between our guesses and what you actually reported. The output is a band, never a percentage.",
+  "howLungTitle": "Lung scenarios",
+  "howLungBody": "Published annual FEV1 decline rates drawn as three typical curves: never-smoker about 30 mL/year, sustained quitter about 33, current smoker 40 up to 70 at heavier intake. These are population averages for your age group, not a measurement of your lungs."
 }

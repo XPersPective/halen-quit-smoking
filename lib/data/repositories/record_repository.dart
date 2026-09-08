@@ -54,6 +54,7 @@ class RecordRepository {
     CravingIntensity intensity = CravingIntensity.medium,
     TriggerLabel? triggerLabel,
     DateTime? at,
+    String? techniqueKey,
   }) {
     final ts = at ?? DateTime.now();
     return _db.transaction(() async {
@@ -63,6 +64,9 @@ class RecordRepository {
           intensity: intensity,
           triggerLabel: Value(triggerLabel),
           outcome: outcome,
+          // Which SOS technique was in play, so the toolkit can learn what
+          // works for this user (module report §5.⑤).
+          techniqueKey: Value(techniqueKey),
         ),
       );
       await recomputeDailySummary(ts);

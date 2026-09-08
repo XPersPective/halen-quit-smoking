@@ -9,7 +9,9 @@ import 'package:halen/application/providers.dart';
 import 'package:halen/application/record_providers.dart';
 import 'package:halen/core/dates.dart';
 import 'package:halen/domain/entities.dart';
+import 'package:halen/core/routes.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/presentation/widgets/sos_techniques_list.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 
 /// Screen 13: Craving SOS (report §15).
@@ -30,6 +32,9 @@ class _SosScreenState extends ConsumerState<SosScreen> {
   int _secondsLeft = _timerSeconds;
   bool _timerRunning = false;
   CravingIntensity _intensity = CravingIntensity.medium;
+
+  /// The technique the user picked for this craving, if any.
+  String? _technique;
   Timer? _ticker;
 
   @override
@@ -61,7 +66,11 @@ class _SosScreenState extends ConsumerState<SosScreen> {
     final now = DateTime.now();
     await ref
         .read(recordRepositoryProvider)
-        .logCraving(outcome: outcome, intensity: _intensity);
+        .logCraving(
+          outcome: outcome,
+          intensity: _intensity,
+          techniqueKey: _technique,
+        );
     if (outcome == CravingOutcome.smoked) {
       // "İçtim" logs the cigarette and the plan recalculates (report §15:
       // record + recalculate, no shame language).
@@ -195,35 +204,22 @@ class _SosScreenState extends ConsumerState<SosScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            // 4D cards (report §15).
-            _SosCard(
-              title: l10n.sos4dDelay,
-              body: l10n.sos4dDelayBody,
-              icon: Icons.hourglass_top,
-              onTap: _startTimer,
-            ),
-            _SosCard(
-              title: l10n.sos4dBreathe,
-              body: l10n.sos4dBreatheBody,
-              icon: Icons.air,
-              onTap: () => Navigator.pushNamed(context, '/breathing'),
-            ),
-            _SosCard(
-              title: l10n.sos4dWater,
-              body: l10n.sos4dWaterBody,
-              icon: Icons.local_drink,
-            ),
-            _SosCard(
-              title: l10n.sos4dElse,
-              body: l10n.sos4dElseBody,
-              icon: Icons.directions_walk,
-              onTap: _startTimer,
-            ),
-            _SosCard(
-              title: l10n.sosUrgeSurf,
-              body: l10n.sosUrgeSurfBody,
-              icon: Icons.waves,
-              onTap: _startTimer,
+            // The 4D set now lives inside the evidence-graded toolkit
+            // below, so there is exactly one list of things to do and every
+            // entry carries what the evidence actually says about it.
+            // Module report §5 — evidence-graded techniques, ordered by what
+            // has actually worked for this user. Picking one tags the next
+            // craving record with it, which is what teaches that order.
+            SosTechniquesList(
+              onSelected: (key) {
+                setState(() => _technique = key);
+                switch (key) {
+                  case 'breathe':
+                    Navigator.pushNamed(context, Routes.breathing);
+                  case 'delay' || 'walk5':
+                    _startTimer();
+                }
+              },
             ),
             const SizedBox(height: 16),
             // Outcome recording (report §15: positive resisted, shameless smoked).
@@ -350,47 +346,3 @@ class _CountdownRingPainter extends CustomPainter {
       old.fraction != fraction || old.color != color || old.track != track;
 }
 
-class _SosCard extends StatelessWidget {
-  const _SosCard({
-    required this.title,
-    required this.body,
-    required this.icon,
-    this.onTap,
-  });
-
-  final String title;
-  final String body;
-  final IconData icon;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Card(
-      margin: const EdgeInsets.only(bottom: 10),
-      child: ListTile(
-        leading: Container(
-          padding: const EdgeInsets.all(9),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.secondaryContainer,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(
-            icon,
-            color: theme.colorScheme.primary,
-            size: 20,
-          ),
-        ),
-        trailing: onTap == null
-            ? null
-            : const Icon(Icons.arrow_forward_rounded, size: 18),
-        title: Text(
-          title,
-          style: theme.textTheme.titleSmall,
-        ),
-        subtitle: Text(body),
-        onTap: onTap,
-      ),
-    );
-  }
-}

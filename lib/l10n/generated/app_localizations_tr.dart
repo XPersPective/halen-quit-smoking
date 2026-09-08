@@ -1254,4 +1254,607 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get statsSavingsNote => 'Kayıtlarına göre tahmini tasarruf';
+
+  @override
+  String get moduleModelTag => 'Kayıtlarından hesaplandı — ölçüm değil.';
+
+  @override
+  String get moduleNeedMoreData => 'Birkaç kayıt daha, sonra burada görünecek.';
+
+  @override
+  String get moduleSourceLabel => 'Kaynak';
+
+  @override
+  String get bodyLoadTitle => 'Vücut Yükü';
+
+  @override
+  String bodyLoadSinceLast(String time) {
+    return 'Son sigaranın üzerinden $time';
+  }
+
+  @override
+  String bodyLoadNicotineNow(int percent) {
+    return 'Tahmini nikotin yükün tepe değerinin %$percent kadarı.';
+  }
+
+  @override
+  String bodyLoadCoDrop(int percent) {
+    return 'Oksijen borcun %$percent azaldı.';
+  }
+
+  @override
+  String get loadNicotineAcute => 'Nikotin şimdi';
+
+  @override
+  String get loadNicotineBaseline => 'Gün boyu zemin';
+
+  @override
+  String get loadCarbonMonoxide => 'Oksijen borcu';
+
+  @override
+  String get loadTar => 'Partikül yükü';
+
+  @override
+  String get loadBandLow => 'Düşük';
+
+  @override
+  String get loadBandMedium => 'Orta';
+
+  @override
+  String get loadBandHigh => 'Yüksek';
+
+  @override
+  String get bodyLoadTarNote =>
+      'Katran vücutta ölçülemez. Bu, maruziyetini kendi taban çizgine göre karşılaştırır.';
+
+  @override
+  String get bodyLoadCoNote =>
+      'En hızlı temizlenen karbonmonoksittir — bırakınca ilk değişen şey odur.';
+
+  @override
+  String get bodyLoadEmpty =>
+      'Birkaç sigara kaydet, kendi ritmin burada belirsin.';
+
+  @override
+  String get ghostPeakLabel => 'Oluşmayan tepe';
+
+  @override
+  String get metabolismTitle => 'Temizlenme temposu';
+
+  @override
+  String get metabolismNote =>
+      'Nikotin herkeste aynı hızda temizlenmez. Kendi hissine uyanı seç — bu yalnızca eğriyi ayarlar, hiçbir şey ölçmez.';
+
+  @override
+  String get metabolismSlow => 'Yavaş';
+
+  @override
+  String get metabolismNormal => 'Normal';
+
+  @override
+  String get metabolismFast => 'Hızlı';
+
+  @override
+  String get cravingWindowTitle => 'Kriz penceresi';
+
+  @override
+  String get cravingRiskCalm => 'Sakin';
+
+  @override
+  String get cravingRiskWatch => 'Dikkat';
+
+  @override
+  String get cravingRiskHigh => 'Yüksek';
+
+  @override
+  String get cravingFallingNote =>
+      'İstek genellikle nikotin yükselirken değil, düşerken gelir.';
+
+  @override
+  String cravingLowestThird(int percent) {
+    return 'İsteklerinin %$percent kadarı, yükün en düşük üçte birindeyken geldi.';
+  }
+
+  @override
+  String get cravingRiskyHours => 'Riskli saatlerin';
+
+  @override
+  String cravingWindowRange(int start, int end) {
+    return '$start:00–$end:00';
+  }
+
+  @override
+  String get cravingHeatmapTitle => 'Haftan, saat saat';
+
+  @override
+  String get economyTitle => 'Para ve zaman';
+
+  @override
+  String get economySaved => 'Kazanılan';
+
+  @override
+  String get economySpent => 'Hâlâ harcanan';
+
+  @override
+  String get economyExactNote =>
+      'Buradaki hiçbir şey tahmin değil — kendi verin.';
+
+  @override
+  String get economyProjectionTitle =>
+      'Bu hızla devam edersen vs. planı tamamlarsan';
+
+  @override
+  String get economyShadedArea => 'Bu taralı alan senin kararın.';
+
+  @override
+  String get economyKeepPace => 'Bu hız';
+
+  @override
+  String get economyFinishPlan => 'Plan tamamlanmış';
+
+  @override
+  String get economyTimeLedger => 'Zaman defteri';
+
+  @override
+  String get economyTimeRegained => 'Kazanılan zaman';
+
+  @override
+  String get economyTimeLost => 'Harcanan zaman';
+
+  @override
+  String get economyLifeAverageNote =>
+      'Sigara başına ortalama 20 dakika — bu bir popülasyon ortalaması, sana dair bir vaat değil.';
+
+  @override
+  String get economyGoalTitle => 'Senin hedefin';
+
+  @override
+  String get economyGoalHint => 'Ne için biriktiriyorsun?';
+
+  @override
+  String get economyGoalLabel => 'Hedefin adı';
+
+  @override
+  String get economyGoalAmount => 'Tutar';
+
+  @override
+  String economyGoalRemaining(int days) {
+    return 'Bu hızla $days gün kaldı';
+  }
+
+  @override
+  String get mindTitle => 'Psikolojik durum';
+
+  @override
+  String get mindPressureLabel => 'Muhtemel yoksunluk basıncı';
+
+  @override
+  String get mindBandCalm => 'Sakin';
+
+  @override
+  String get mindBandUnderPressure => 'Basınç altında';
+
+  @override
+  String get mindBandTough => 'Zorlu';
+
+  @override
+  String get mindOnlyYouKnow =>
+      'Bu bir tahmin. Nasıl hissettiğini yalnızca sen bilirsin.';
+
+  @override
+  String get mindHowDoYouFeel => 'Şu an nasıl hissediyorsun?';
+
+  @override
+  String mindAccuracy(int percent) {
+    return 'Tahminim, hislerinle %$percent oranında örtüştü.';
+  }
+
+  @override
+  String get mindQuitLowersAnxiety =>
+      'Bırakmak ortalamada kaygıyı ve depresyonu düşürür, yükseltmez.';
+
+  @override
+  String get mindTypicalCurve => 'Tipik seyir';
+
+  @override
+  String get mindPeakNote =>
+      'Yoksunluk 1.–3. günlerde tepe yapar, 3–4 haftada hafifler.';
+
+  @override
+  String get mindWeightTitle => 'Kilo hakkında';
+
+  @override
+  String get mindWeightBody =>
+      'Bırakınca iştah artar ve kilo değişiminin çoğu ilk üç ayda olur — yılda ortalama 4–5 kg. Bu risk, sigaranın yanında küçüktür; düzenli öğünler dalgayı yumuşatır.';
+
+  @override
+  String get lungsTitle => 'Bugün akciğerlerin';
+
+  @override
+  String get lungsNotAScan => 'Bu, akciğerinin görüntüsü değildir.';
+
+  @override
+  String get lungsSlowsLine => 'Bu çizgiyi yavaşlatan tek şey bırakmaktır.';
+
+  @override
+  String get lungsScenarioNever => 'Hiç içmemiş';
+
+  @override
+  String get lungsScenarioKeep => 'Bu hız';
+
+  @override
+  String get lungsScenarioQuit => 'Bugün bırakırsan';
+
+  @override
+  String get lungsTypicalLabel => 'Yaş grubun için tipik';
+
+  @override
+  String get lungsAxisAge => 'Yaş';
+
+  @override
+  String get lungsMistLabel => 'Göreli partikül yükü';
+
+  @override
+  String get organMapTitle => 'Organ haritası';
+
+  @override
+  String get organHarmTitle => 'Sigara ne yapıyor';
+
+  @override
+  String get organRecoveryTitle => 'Bırakınca ne oluyor';
+
+  @override
+  String get organPopulationNote =>
+      'Popülasyon düzeyinde bulgular. Kişisel risk tahmini değildir.';
+
+  @override
+  String get toxicantsTitle => 'Dumanın içinde ne var';
+
+  @override
+  String toxicantsSubtitle(int chemicals, int carcinogens) {
+    return '$chemicals kimyasal, bunların $carcinogens kadarı bilinen kanserojen';
+  }
+
+  @override
+  String get toxicantAnalogyLabel => 'Başka nerede bulunur';
+
+  @override
+  String get toxicantMechanismLabel => 'Vücutta';
+
+  @override
+  String get toxicantNoDose =>
+      'Tanımayı kolaylaştırır; doz karşılaştırması değildir.';
+
+  @override
+  String toxicantIarcLabel(String group) {
+    return 'IARC grubu $group';
+  }
+
+  @override
+  String get evidenceStrong => 'Güçlü kanıt';
+
+  @override
+  String get evidencePromising => 'Umut verici';
+
+  @override
+  String get evidenceTraditional => 'Geleneksel';
+
+  @override
+  String get evidenceLabel => 'Kanıt';
+
+  @override
+  String get sosWhatWorked => 'Sende daha önce işe yarayan';
+
+  @override
+  String get sosTechniquesTitle => 'Şu an yapabileceğin bir şey';
+
+  @override
+  String get sosEarPointsTitle => 'Beş nokta, her biri on iki saniye';
+
+  @override
+  String get sosEarPointShenMen => 'Shen Men';
+
+  @override
+  String get sosEarPointAutonomic => 'Otonom';
+
+  @override
+  String get sosEarPointKidney => 'Böbrek';
+
+  @override
+  String get sosEarPointLiver => 'Karaciğer';
+
+  @override
+  String get sosEarPointLung => 'Akciğer';
+
+  @override
+  String get sosNoNeedles => 'Sadece parmakla — asla iğne değil.';
+
+  @override
+  String get progressScoreTitle => 'İlerleme Puanı';
+
+  @override
+  String get progressWindowLabel => 'son 14 gün';
+
+  @override
+  String get progressBandStarting => 'Başlangıç';
+
+  @override
+  String get progressBandOnTrack => 'Yolda';
+
+  @override
+  String get progressBandStrong => 'Güçlü';
+
+  @override
+  String get progressBandVeryStrong => 'Çok güçlü';
+
+  @override
+  String get progressBehaviourNote => 'Bu, sağlığını değil davranışını ölçer.';
+
+  @override
+  String progressDeltaUp(int points) {
+    return '7 günde $points puan arttı';
+  }
+
+  @override
+  String progressDeltaDown(int points) {
+    return '7 günde $points puan azaldı';
+  }
+
+  @override
+  String get progressDeltaFlat => 'bu hafta sabit';
+
+  @override
+  String get harmLoadTitle => 'Zarar Yükü';
+
+  @override
+  String get harmBandLight => 'Hafif';
+
+  @override
+  String get harmBandModerate => 'Orta';
+
+  @override
+  String get harmBandHeavy => 'Ağır';
+
+  @override
+  String get harmBandVeryHeavy => 'Çok ağır';
+
+  @override
+  String get harmNotRisk => 'Bu, hastalık riski tahmini değildir.';
+
+  @override
+  String harmPackYears(String value) {
+    return '$value paket-yılı';
+  }
+
+  @override
+  String get harmMovingPartNote =>
+      'Bunun neredeyse yarısı azalttıkça düşer. Kalanı geçmişin — bırakmak onu yavaşlatır ve yıllar içinde hafifletir.';
+
+  @override
+  String get indicesScissorTitle => 'İlerleme ve yük';
+
+  @override
+  String get indicesScissorNote => 'Makas açıldıkça iyiye gidiyorsun.';
+
+  @override
+  String get indicesBreakdownTitle => 'Bu sayıyı ne oluşturuyor';
+
+  @override
+  String get componentAdherence => 'Plan uyumu';
+
+  @override
+  String get componentConsumptionTrend => 'Tüketim eğilimi';
+
+  @override
+  String get componentCravingCoping => 'Kriz başa çıkma';
+
+  @override
+  String get componentLoggingConsistency => 'Kayıt tutarlılığı';
+
+  @override
+  String get componentNicotineBaselineFall => 'Nikotin zemininin düşüşü';
+
+  @override
+  String get componentCumulativeExposure => 'Kümülatif maruziyet';
+
+  @override
+  String get componentCurrentIntensity => 'Güncel yoğunluk';
+
+  @override
+  String get componentDependenceDepth => 'Bağımlılık derinliği';
+
+  @override
+  String get componentAgeAndDuration => 'Yaş ve süre';
+
+  @override
+  String get componentBodySize => 'Vücut ölçüsü (isteğe bağlı)';
+
+  @override
+  String componentWeightLabel(String points, int weight) {
+    return '$weight puanın $points puanı';
+  }
+
+  @override
+  String get planKindGradual => 'Kademeli azaltma';
+
+  @override
+  String get planKindGradualNote => 'Sigaralar arasını adım adım aç.';
+
+  @override
+  String get planKindQuota => 'Günlük kota';
+
+  @override
+  String get planKindQuotaNote =>
+      'Günlük bir tavan, saat kuralı yok — düzensiz günler için.';
+
+  @override
+  String get planKindQuitDay => 'Bırakma günü';
+
+  @override
+  String get planKindQuitDayNote =>
+      'Bir tarih seç, çevresinde yoksunluk desteği al.';
+
+  @override
+  String get planKindTrackOnly => 'Yalnızca takip';
+
+  @override
+  String get planKindTrackOnlyNote =>
+      'Hedef yok, yargı yok. Sadece kayıtların.';
+
+  @override
+  String get planSwitchTitle => 'Planı değiştir';
+
+  @override
+  String planTooSoon(int days) {
+    return 'Bu plana $days gün daha ver — her planın biraz zamana ihtiyacı var.';
+  }
+
+  @override
+  String get planReportCardTitle => 'Bu plan nasıl gidiyor';
+
+  @override
+  String get planReportDays => 'Bu planda geçen gün';
+
+  @override
+  String get planReportAdherence => 'Uyum';
+
+  @override
+  String get planReportHardestHour => 'En zorlandığın saat';
+
+  @override
+  String get planReportResisted => 'Atlatılan kriz';
+
+  @override
+  String get planSuggestionLabel => 'Sana önerilen';
+
+  @override
+  String get planFrequentSwitchNote =>
+      'Plan değiştirmek başarısızlık değil — ama her plan kendini göstermek için birkaç haftaya ihtiyaç duyar.';
+
+  @override
+  String get planHistoryKept => 'Geçmişin kalır. Değişen sadece plan.';
+
+  @override
+  String planStripLabel(String plan, int week) {
+    return '$plan · $week. hafta';
+  }
+
+  @override
+  String get taperHoldStep => 'Bu adımda bir gün daha kalıyoruz.';
+
+  @override
+  String taperAdvance(int minutes) {
+    return 'Yeni hedef aralık: $minutes dakika.';
+  }
+
+  @override
+  String get taperSoftLanding =>
+      'Plan sana göre yeniden ayarlandı. Kaybettiğin hiçbir şey yok.';
+
+  @override
+  String logSmokedNeutral(int count, String average) {
+    return 'Bugün: $count. Ortalaman: $average.';
+  }
+
+  @override
+  String get logNotAFailure => 'Başarısızlık değil. Bir veri.';
+
+  @override
+  String get logSkippedTitle => 'Oluşmayan tepe';
+
+  @override
+  String logSkippedCount(int count) {
+    return 'Bu ay $count. atlatışın';
+  }
+
+  @override
+  String logNextTarget(String time) {
+    return 'Sonraki hedef saat $time';
+  }
+
+  @override
+  String get logUndo => 'Geri al';
+
+  @override
+  String get logPauseTitle => 'Önce yirmi saniye';
+
+  @override
+  String get logPauseNote =>
+      'Kaydın çoktan alındı. Bir nefes al — fikrini değiştirirsen geri alabilirsin.';
+
+  @override
+  String get logPauseSettingTitle => 'Kayıttan önce duraklat';
+
+  @override
+  String get supportTitle => 'Bugünün desteği';
+
+  @override
+  String get supportChannelMovement => 'Hareket';
+
+  @override
+  String get supportChannelNutrition => 'Beslenme';
+
+  @override
+  String get supportChannelRitual => 'Ritüel';
+
+  @override
+  String get supportMarkDone => 'Yaptım';
+
+  @override
+  String get supportNotATest =>
+      'Bu bir sınav değil. Atlamanın hiçbir bedeli yok.';
+
+  @override
+  String get supportWeekTitle => 'Bu hafta';
+
+  @override
+  String supportMinutes(int minutes) {
+    return '$minutes dk';
+  }
+
+  @override
+  String get howBodyLoadTitle => 'Vücut yükü eğrileri';
+
+  @override
+  String get howBodyLoadBody =>
+      'Her eğri C(t) = Σ doz × 2^(−geçen süre / yarı ömür) formülüdür ve yalnızca senin kaydettiğin saatlerden beslenir. Yarı ömürler: nikotin 2 sa, gün boyu zemin 16 sa (kotinin karşılığı), karbonmonoksit 4,5 sa, partikül yükü 30 gün (temsilî).';
+
+  @override
+  String get howBodyLoadLimits =>
+      'Hiçbir telefon vücuttaki nikotini, katranı veya karbonmonoksiti ölçemez. Değerler kendi tepe değerine göre 0–100 arasında normalize gösterilir; ng/mL veya miligram olarak asla verilmez. Temizlenme hızı kişiden kişiye değişir.';
+
+  @override
+  String get howCravingTitle => 'Kriz penceresi';
+
+  @override
+  String get howCravingBody =>
+      'Risk = 0,45 × nikotin çukurunun derinliği + 0,35 × bu saatin kendi geçmişindeki yoğunluğu + 0,20 × bu saatteki kayıtların tetikleyici taşıma oranı. Saate dayalı sinyaller, yaklaşık 21 kayda kadar kapalı kalır.';
+
+  @override
+  String get howProgressTitle => 'İlerleme Puanı';
+
+  @override
+  String get howProgressBody =>
+      '100 üzerinden: plan uyumu 35, tüketim eğilimi 30, kriz başa çıkma 20, kayıt tutarlılığı 10, nikotin zemininin düşüşü 5. 14 güne bakar, günde en fazla 4 puan oynar ve asla sıfırlanmaz.';
+
+  @override
+  String get howHarmTitle => 'Zarar Yükü';
+
+  @override
+  String get howHarmBody =>
+      '100 üzerinden: kümülatif maruziyet 40 (paket-yılı, logaritmik), güncel yoğunluk 30, bağımlılık 15, yaş ve süre 10, vücut ölçüsü 5. Hangi değişkenlerin önemli olduğunu doğrulanmış risk modellerinden aldık; sayı bir yük indeksidir, hastalık riski değildir. Vücut verisi isteğe bağlıdır; girilmezse ağırlıklar yeniden dağıtılır.';
+
+  @override
+  String get howMindTitle => 'Yoksunluk basıncı';
+
+  @override
+  String get howMindBody =>
+      'Yayımlanmış belirti eğrisi 1.–3. günlerde tepe yapar ve 3–4 haftada hafifler; bu eğri mevcut nikotin çukurunun derinliğiyle ölçeklenir, sonra tahminlerimizle senin bildirdiklerin arasındaki farkla düzeltilir. Çıktı bir banttır, asla yüzde değildir.';
+
+  @override
+  String get howLungTitle => 'Akciğer senaryoları';
+
+  @override
+  String get howLungBody =>
+      'Yayımlanmış yıllık FEV1 düşüş hızları üç tipik eğri olarak çizilir: hiç içmemiş ~30 mL/yıl, sürdürülen bırakıcı ~33, hâlen içen 40 ve ağır içimde 70’e kadar. Bunlar yaş grubun için popülasyon ortalamalarıdır, senin akciğerinin ölçümü değil.';
 }

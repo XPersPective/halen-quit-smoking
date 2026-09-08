@@ -25,9 +25,15 @@ void main() {
     // Splash auto-routes to Today for an onboarded profile.
     expect(find.text('I SMOKED'), findsOneWidget);
 
-    // One tap logs the cigarette and pushes the optional detail screen.
+    // One tap logs the cigarette. The feedback sheet (module report §12)
+    // comes first — a quietening, never a gate: the record is already saved
+    // behind it and it is dismissed with a single tap.
     await tester.tap(find.text('I SMOKED'));
     await tester.pumpAndSettle();
+    expect(find.text('Not a failure. A data point.'), findsOneWidget);
+    await tester.tap(find.widgetWithText(FilledButton, 'Done'));
+    await tester.pumpAndSettle();
+
     expect(find.text('Log details'), findsOneWidget);
 
     final eventsBefore = await db.select(db.cigaretteEvent).get();
@@ -57,6 +63,11 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.tap(find.textContaining('I resisted a craving'));
+    await tester.pumpAndSettle();
+
+    // The ride-out feedback opens; dismissing it returns to Today.
+    expect(find.text('A peak that never happened'), findsOneWidget);
+    await tester.tap(find.widgetWithText(FilledButton, 'Done'));
     await tester.pumpAndSettle();
 
     final cravings = await db.select(db.cravingEvent).get();

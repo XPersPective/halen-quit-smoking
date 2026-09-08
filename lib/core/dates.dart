@@ -34,3 +34,18 @@ DateTime parseDayKey(String key) {
   final parts = key.split('-').map(int.parse).toList();
   return DateTime(parts[0], parts[1], parts[2]);
 }
+
+/// Short, locale-aware duration label ("6h 20m" / "6 sa 20 dk").
+/// Used wherever the app says how long it has been since something.
+String formatShortDuration(Duration d, String localeCode) {
+  final tr = localeCode.toLowerCase().startsWith('tr');
+  final de = localeCode.toLowerCase().startsWith('de');
+  final hourUnit = tr ? 'sa' : (de ? 'Std' : 'h');
+  final minuteUnit = tr ? 'dk' : (de ? 'Min' : 'm');
+  final hours = d.inHours;
+  final minutes = d.inMinutes.remainder(60);
+  if (hours <= 0) {
+    return '$minutes $minuteUnit';
+  }
+  return '$hours $hourUnit $minutes $minuteUnit';
+}

@@ -6,9 +6,13 @@ import 'package:halen/application/providers.dart';
 import 'package:halen/application/record_providers.dart';
 import 'package:halen/core/dates.dart';
 import 'package:halen/core/routes.dart';
+import 'package:halen/application/module_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/presentation/widgets/mind_state_card.dart';
+import 'package:halen/presentation/widgets/support_card_tile.dart';
+import 'package:halen/presentation/widgets/today/log_feedback.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 import 'package:halen/presentation/widgets/today/today_log_sheet.dart';
 import 'package:halen/presentation/widgets/today_widgets.dart';
@@ -82,14 +86,60 @@ class _TodayBody extends ConsumerWidget {
         ),
       );
     }
+    // The record is already saved; this is feedback, never a gate
+    // (module report §12: "I smoked" is a quietening, not a punishment).
+    final baseline = await ref.read(measuredBaselineProvider.future);
+    if (!context.mounted) {
+      return;
+    }
+    await showLogFeedback(
+      context,
+      kind: LogFeedbackKind.smoked,
+      headline: l10n.logSmokedNeutral(
+        events.length,
+        baseline.toStringAsFixed(baseline % 1 == 0 ? 0 : 1),
+      ),
+      detail: l10n.logNotAFailure,
+      footnote: state.nextSuggestion == null
+          ? null
+          : l10n.logNextTarget(
+              TimeOfDay.fromDateTime(state.nextSuggestion!).format(context),
+            ),
+      onUndo: () async {
+        await db.recordDao.deleteEvent(id);
+        await ref.read(recordRepositoryProvider).recomputeDailySummary(now);
+        ref.invalidate(todayStateProvider);
+      },
+    );
+    if (!context.mounted) {
+      return;
+    }
     await Navigator.of(context).pushNamed(Routes.recordDetail, arguments: id);
   }
 
-  Future<void> _logResisted(WidgetRef ref) async {
+  Future<void> _logResisted(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context)!;
     await ref
         .read(recordRepositoryProvider)
         .logCraving(outcome: CravingOutcome.resisted);
     ref.invalidate(todayStateProvider);
+
+    // The reward is real data, not confetti: the peak that never happened.
+    final monthStart = DateTime(DateTime.now().year, DateTime.now().month);
+    final resisted = await ref
+        .read(databaseProvider)
+        .cravingDao
+        .countResistedBetween(monthStart, DateTime.now());
+    if (!context.mounted) {
+      return;
+    }
+    await showLogFeedback(
+      context,
+      kind: LogFeedbackKind.skipped,
+      headline: l10n.logSkippedTitle,
+      detail: l10n.logSkippedCount(resisted),
+      celebrate: resisted % 10 == 0,
+    );
   }
 
   String _lastCigaretteText(AppLocalizations l10n, DateTime? last) {
@@ -297,7 +347,7 @@ class _TodayBody extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           OutlinedButton.icon(
-            onPressed: () => _logResisted(ref),
+            onPressed: () => _logResisted(context, ref),
             style: OutlinedButton.styleFrom(
               foregroundColor: theme.colorScheme.onSurface,
               minimumSize: const Size.fromHeight(52),
@@ -318,6 +368,13 @@ class _TodayBody extends ConsumerWidget {
           const SizedBox(height: 28),
 
           // ——— Overview ———
+          // Module report §8 and §10 — the daily pair: an honest guess at how
+          // today is likely to feel, and one small thing to do about it.
+          const MindStateCard(),
+          const SizedBox(height: 16),
+          const SupportCardTile(),
+          const SizedBox(height: 28),
+
           Text(l10n.todayOverview, style: theme.textTheme.titleMedium),
           const SizedBox(height: 12),
           Card(

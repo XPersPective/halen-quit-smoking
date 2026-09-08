@@ -2277,6 +2277,1074 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Estimated from your entries'**
   String get statsSavingsNote;
+
+  /// No description provided for @moduleModelTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Modelled from your records — not a measurement.'**
+  String get moduleModelTag;
+
+  /// No description provided for @moduleNeedMoreData.
+  ///
+  /// In en, this message translates to:
+  /// **'A few more entries and this appears.'**
+  String get moduleNeedMoreData;
+
+  /// No description provided for @moduleSourceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get moduleSourceLabel;
+
+  /// No description provided for @bodyLoadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Body Load'**
+  String get bodyLoadTitle;
+
+  /// No description provided for @bodyLoadSinceLast.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} since your last cigarette'**
+  String bodyLoadSinceLast(String time);
+
+  /// No description provided for @bodyLoadNicotineNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated nicotine load is at {percent}% of its peak.'**
+  String bodyLoadNicotineNow(int percent);
+
+  /// No description provided for @bodyLoadCoDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Oxygen debt down {percent}%.'**
+  String bodyLoadCoDrop(int percent);
+
+  /// No description provided for @loadNicotineAcute.
+  ///
+  /// In en, this message translates to:
+  /// **'Nicotine now'**
+  String get loadNicotineAcute;
+
+  /// No description provided for @loadNicotineBaseline.
+  ///
+  /// In en, this message translates to:
+  /// **'All-day baseline'**
+  String get loadNicotineBaseline;
+
+  /// No description provided for @loadCarbonMonoxide.
+  ///
+  /// In en, this message translates to:
+  /// **'Oxygen debt'**
+  String get loadCarbonMonoxide;
+
+  /// No description provided for @loadTar.
+  ///
+  /// In en, this message translates to:
+  /// **'Particle load'**
+  String get loadTar;
+
+  /// No description provided for @loadBandLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get loadBandLow;
+
+  /// No description provided for @loadBandMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get loadBandMedium;
+
+  /// No description provided for @loadBandHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get loadBandHigh;
+
+  /// No description provided for @bodyLoadTarNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Tar cannot be measured in a body. This compares your exposure with your own baseline.'**
+  String get bodyLoadTarNote;
+
+  /// No description provided for @bodyLoadCoNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbon monoxide clears fastest — it is the first thing that changes when you stop.'**
+  String get bodyLoadCoNote;
+
+  /// No description provided for @bodyLoadEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a few cigarettes and your own rhythm appears here.'**
+  String get bodyLoadEmpty;
+
+  /// No description provided for @ghostPeakLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'A peak that never happened'**
+  String get ghostPeakLabel;
+
+  /// No description provided for @metabolismTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearance pace'**
+  String get metabolismTitle;
+
+  /// No description provided for @metabolismNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Nicotine clears at different speeds in different people. Pick what matches how you feel — this only calibrates the curve, it measures nothing.'**
+  String get metabolismNote;
+
+  /// No description provided for @metabolismSlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow'**
+  String get metabolismSlow;
+
+  /// No description provided for @metabolismNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get metabolismNormal;
+
+  /// No description provided for @metabolismFast.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast'**
+  String get metabolismFast;
+
+  /// No description provided for @cravingWindowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving window'**
+  String get cravingWindowTitle;
+
+  /// No description provided for @cravingRiskCalm.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm'**
+  String get cravingRiskCalm;
+
+  /// No description provided for @cravingRiskWatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch'**
+  String get cravingRiskWatch;
+
+  /// No description provided for @cravingRiskHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get cravingRiskHigh;
+
+  /// No description provided for @cravingFallingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving usually arrives when nicotine is falling, not when it rises.'**
+  String get cravingFallingNote;
+
+  /// No description provided for @cravingLowestThird.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of your cravings arrived while your load was in its lowest third.'**
+  String cravingLowestThird(int percent);
+
+  /// No description provided for @cravingRiskyHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Your risky hours'**
+  String get cravingRiskyHours;
+
+  /// No description provided for @cravingWindowRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{start}:00–{end}:00'**
+  String cravingWindowRange(int start, int end);
+
+  /// No description provided for @cravingHeatmapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week, hour by hour'**
+  String get cravingHeatmapTitle;
+
+  /// No description provided for @economyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Money and time'**
+  String get economyTitle;
+
+  /// No description provided for @economySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Money saved'**
+  String get economySaved;
+
+  /// No description provided for @economySpent.
+  ///
+  /// In en, this message translates to:
+  /// **'Still spent'**
+  String get economySpent;
+
+  /// No description provided for @economyExactNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here is an estimate — it is your own numbers.'**
+  String get economyExactNote;
+
+  /// No description provided for @economyProjectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'If you keep this pace vs. if you finish your plan'**
+  String get economyProjectionTitle;
+
+  /// No description provided for @economyShadedArea.
+  ///
+  /// In en, this message translates to:
+  /// **'This shaded area is your decision.'**
+  String get economyShadedArea;
+
+  /// No description provided for @economyKeepPace.
+  ///
+  /// In en, this message translates to:
+  /// **'This pace'**
+  String get economyKeepPace;
+
+  /// No description provided for @economyFinishPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan finished'**
+  String get economyFinishPlan;
+
+  /// No description provided for @economyTimeLedger.
+  ///
+  /// In en, this message translates to:
+  /// **'Time ledger'**
+  String get economyTimeLedger;
+
+  /// No description provided for @economyTimeRegained.
+  ///
+  /// In en, this message translates to:
+  /// **'Time regained'**
+  String get economyTimeRegained;
+
+  /// No description provided for @economyTimeLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Time spent'**
+  String get economyTimeLost;
+
+  /// No description provided for @economyLifeAverageNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Population average of about 20 minutes per cigarette — an average, never a promise about you.'**
+  String get economyLifeAverageNote;
+
+  /// No description provided for @economyGoalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your goal'**
+  String get economyGoalTitle;
+
+  /// No description provided for @economyGoalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What are you saving for?'**
+  String get economyGoalHint;
+
+  /// No description provided for @economyGoalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal name'**
+  String get economyGoalLabel;
+
+  /// No description provided for @economyGoalAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get economyGoalAmount;
+
+  /// No description provided for @economyGoalRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days to go at this pace'**
+  String economyGoalRemaining(int days);
+
+  /// No description provided for @mindTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mind state'**
+  String get mindTitle;
+
+  /// No description provided for @mindPressureLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Likely withdrawal pressure'**
+  String get mindPressureLabel;
+
+  /// No description provided for @mindBandCalm.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm'**
+  String get mindBandCalm;
+
+  /// No description provided for @mindBandUnderPressure.
+  ///
+  /// In en, this message translates to:
+  /// **'Under pressure'**
+  String get mindBandUnderPressure;
+
+  /// No description provided for @mindBandTough.
+  ///
+  /// In en, this message translates to:
+  /// **'Tough'**
+  String get mindBandTough;
+
+  /// No description provided for @mindOnlyYouKnow.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a guess. Only you know how you feel.'**
+  String get mindOnlyYouKnow;
+
+  /// No description provided for @mindHowDoYouFeel.
+  ///
+  /// In en, this message translates to:
+  /// **'How do you feel right now?'**
+  String get mindHowDoYouFeel;
+
+  /// No description provided for @mindAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'My guess matched how you felt {percent}% of the time.'**
+  String mindAccuracy(int percent);
+
+  /// No description provided for @mindQuitLowersAnxiety.
+  ///
+  /// In en, this message translates to:
+  /// **'Quitting lowers anxiety and depression on average — it does not raise them.'**
+  String get mindQuitLowersAnxiety;
+
+  /// No description provided for @mindTypicalCurve.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical course'**
+  String get mindTypicalCurve;
+
+  /// No description provided for @mindPeakNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawal peaks on days 1–3 and eases over 3–4 weeks.'**
+  String get mindPeakNote;
+
+  /// No description provided for @mindWeightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About weight'**
+  String get mindWeightTitle;
+
+  /// No description provided for @mindWeightBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Appetite rises after quitting and most weight change happens in the first three months — on average around 4–5 kg in a year. That risk is small next to smoking, and regular meals blunt it.'**
+  String get mindWeightBody;
+
+  /// No description provided for @lungsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your lungs today'**
+  String get lungsTitle;
+
+  /// No description provided for @lungsNotAScan.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not a scan of your lungs.'**
+  String get lungsNotAScan;
+
+  /// No description provided for @lungsSlowsLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Quitting is the only thing that slows this line.'**
+  String get lungsSlowsLine;
+
+  /// No description provided for @lungsScenarioNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never smoked'**
+  String get lungsScenarioNever;
+
+  /// No description provided for @lungsScenarioKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'This pace'**
+  String get lungsScenarioKeep;
+
+  /// No description provided for @lungsScenarioQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit today'**
+  String get lungsScenarioQuit;
+
+  /// No description provided for @lungsTypicalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical for your age group'**
+  String get lungsTypicalLabel;
+
+  /// No description provided for @lungsAxisAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get lungsAxisAge;
+
+  /// No description provided for @lungsMistLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Relative particle load'**
+  String get lungsMistLabel;
+
+  /// No description provided for @organMapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Body map'**
+  String get organMapTitle;
+
+  /// No description provided for @organHarmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What smoking does'**
+  String get organHarmTitle;
+
+  /// No description provided for @organRecoveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What happens when you stop'**
+  String get organRecoveryTitle;
+
+  /// No description provided for @organPopulationNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Population-level findings. Not a personal risk estimate.'**
+  String get organPopulationNote;
+
+  /// No description provided for @toxicantsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s in the smoke'**
+  String get toxicantsTitle;
+
+  /// No description provided for @toxicantsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{chemicals} chemicals, more than {carcinogens} of them known carcinogens'**
+  String toxicantsSubtitle(int chemicals, int carcinogens);
+
+  /// No description provided for @toxicantAnalogyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Also found in'**
+  String get toxicantAnalogyLabel;
+
+  /// No description provided for @toxicantMechanismLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'In the body'**
+  String get toxicantMechanismLabel;
+
+  /// No description provided for @toxicantNoDose.
+  ///
+  /// In en, this message translates to:
+  /// **'A recognition aid, not a dose comparison.'**
+  String get toxicantNoDose;
+
+  /// No description provided for @toxicantIarcLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'IARC group {group}'**
+  String toxicantIarcLabel(String group);
+
+  /// No description provided for @evidenceStrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong evidence'**
+  String get evidenceStrong;
+
+  /// No description provided for @evidencePromising.
+  ///
+  /// In en, this message translates to:
+  /// **'Promising'**
+  String get evidencePromising;
+
+  /// No description provided for @evidenceTraditional.
+  ///
+  /// In en, this message translates to:
+  /// **'Traditional'**
+  String get evidenceTraditional;
+
+  /// No description provided for @evidenceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Evidence'**
+  String get evidenceLabel;
+
+  /// No description provided for @sosWhatWorked.
+  ///
+  /// In en, this message translates to:
+  /// **'What worked for you before'**
+  String get sosWhatWorked;
+
+  /// No description provided for @sosTechniquesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Something to do right now'**
+  String get sosTechniquesTitle;
+
+  /// No description provided for @sosEarPointsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Five points, twelve seconds each'**
+  String get sosEarPointsTitle;
+
+  /// No description provided for @sosEarPointShenMen.
+  ///
+  /// In en, this message translates to:
+  /// **'Shen Men'**
+  String get sosEarPointShenMen;
+
+  /// No description provided for @sosEarPointAutonomic.
+  ///
+  /// In en, this message translates to:
+  /// **'Autonomic'**
+  String get sosEarPointAutonomic;
+
+  /// No description provided for @sosEarPointKidney.
+  ///
+  /// In en, this message translates to:
+  /// **'Kidney'**
+  String get sosEarPointKidney;
+
+  /// No description provided for @sosEarPointLiver.
+  ///
+  /// In en, this message translates to:
+  /// **'Liver'**
+  String get sosEarPointLiver;
+
+  /// No description provided for @sosEarPointLung.
+  ///
+  /// In en, this message translates to:
+  /// **'Lung'**
+  String get sosEarPointLung;
+
+  /// No description provided for @sosNoNeedles.
+  ///
+  /// In en, this message translates to:
+  /// **'Fingers only — never needles.'**
+  String get sosNoNeedles;
+
+  /// No description provided for @progressScoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress Score'**
+  String get progressScoreTitle;
+
+  /// No description provided for @progressWindowLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'last 14 days'**
+  String get progressWindowLabel;
+
+  /// No description provided for @progressBandStarting.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting'**
+  String get progressBandStarting;
+
+  /// No description provided for @progressBandOnTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'On track'**
+  String get progressBandOnTrack;
+
+  /// No description provided for @progressBandStrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get progressBandStrong;
+
+  /// No description provided for @progressBandVeryStrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Very strong'**
+  String get progressBandVeryStrong;
+
+  /// No description provided for @progressBehaviourNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This measures your behaviour, not your health.'**
+  String get progressBehaviourNote;
+
+  /// No description provided for @progressDeltaUp.
+  ///
+  /// In en, this message translates to:
+  /// **'up {points} points in 7 days'**
+  String progressDeltaUp(int points);
+
+  /// No description provided for @progressDeltaDown.
+  ///
+  /// In en, this message translates to:
+  /// **'down {points} points in 7 days'**
+  String progressDeltaDown(int points);
+
+  /// No description provided for @progressDeltaFlat.
+  ///
+  /// In en, this message translates to:
+  /// **'steady this week'**
+  String get progressDeltaFlat;
+
+  /// No description provided for @harmLoadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Harm Load'**
+  String get harmLoadTitle;
+
+  /// No description provided for @harmBandLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get harmBandLight;
+
+  /// No description provided for @harmBandModerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get harmBandModerate;
+
+  /// No description provided for @harmBandHeavy.
+  ///
+  /// In en, this message translates to:
+  /// **'Heavy'**
+  String get harmBandHeavy;
+
+  /// No description provided for @harmBandVeryHeavy.
+  ///
+  /// In en, this message translates to:
+  /// **'Very heavy'**
+  String get harmBandVeryHeavy;
+
+  /// No description provided for @harmNotRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not a disease risk estimate.'**
+  String get harmNotRisk;
+
+  /// No description provided for @harmPackYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} pack-years'**
+  String harmPackYears(String value);
+
+  /// No description provided for @harmMovingPartNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Almost half of this falls as you cut down. The rest is history — quitting slows it and, over years, eases it.'**
+  String get harmMovingPartNote;
+
+  /// No description provided for @indicesScissorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress and load'**
+  String get indicesScissorTitle;
+
+  /// No description provided for @indicesScissorNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The wider the gap, the better you are doing.'**
+  String get indicesScissorNote;
+
+  /// No description provided for @indicesBreakdownTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What makes up this number'**
+  String get indicesBreakdownTitle;
+
+  /// No description provided for @componentAdherence.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan adherence'**
+  String get componentAdherence;
+
+  /// No description provided for @componentConsumptionTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption trend'**
+  String get componentConsumptionTrend;
+
+  /// No description provided for @componentCravingCoping.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving coping'**
+  String get componentCravingCoping;
+
+  /// No description provided for @componentLoggingConsistency.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging consistency'**
+  String get componentLoggingConsistency;
+
+  /// No description provided for @componentNicotineBaselineFall.
+  ///
+  /// In en, this message translates to:
+  /// **'Nicotine baseline fall'**
+  String get componentNicotineBaselineFall;
+
+  /// No description provided for @componentCumulativeExposure.
+  ///
+  /// In en, this message translates to:
+  /// **'Cumulative exposure'**
+  String get componentCumulativeExposure;
+
+  /// No description provided for @componentCurrentIntensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Current intensity'**
+  String get componentCurrentIntensity;
+
+  /// No description provided for @componentDependenceDepth.
+  ///
+  /// In en, this message translates to:
+  /// **'Dependence depth'**
+  String get componentDependenceDepth;
+
+  /// No description provided for @componentAgeAndDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Age and duration'**
+  String get componentAgeAndDuration;
+
+  /// No description provided for @componentBodySize.
+  ///
+  /// In en, this message translates to:
+  /// **'Body size (optional)'**
+  String get componentBodySize;
+
+  /// No description provided for @componentWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{points} of {weight} points'**
+  String componentWeightLabel(String points, int weight);
+
+  /// No description provided for @planKindGradual.
+  ///
+  /// In en, this message translates to:
+  /// **'Gradual taper'**
+  String get planKindGradual;
+
+  /// No description provided for @planKindGradualNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Widen the gap between cigarettes, step by step.'**
+  String get planKindGradualNote;
+
+  /// No description provided for @planKindQuota.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily quota'**
+  String get planKindQuota;
+
+  /// No description provided for @planKindQuotaNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A daily ceiling, no clock rules — for irregular days.'**
+  String get planKindQuotaNote;
+
+  /// No description provided for @planKindQuitDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit day'**
+  String get planKindQuitDay;
+
+  /// No description provided for @planKindQuitDayNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date and get withdrawal support around it.'**
+  String get planKindQuitDayNote;
+
+  /// No description provided for @planKindTrackOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Track only'**
+  String get planKindTrackOnly;
+
+  /// No description provided for @planKindTrackOnlyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'No target, no judgement. Just your records.'**
+  String get planKindTrackOnlyNote;
+
+  /// No description provided for @planSwitchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change plan'**
+  String get planSwitchTitle;
+
+  /// No description provided for @planTooSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Give this plan {days} more days — every plan needs a little time.'**
+  String planTooSoon(int days);
+
+  /// No description provided for @planReportCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How this plan is going'**
+  String get planReportCardTitle;
+
+  /// No description provided for @planReportDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Days in this plan'**
+  String get planReportDays;
+
+  /// No description provided for @planReportAdherence.
+  ///
+  /// In en, this message translates to:
+  /// **'Adherence'**
+  String get planReportAdherence;
+
+  /// No description provided for @planReportHardestHour.
+  ///
+  /// In en, this message translates to:
+  /// **'Hardest hour'**
+  String get planReportHardestHour;
+
+  /// No description provided for @planReportResisted.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings ridden out'**
+  String get planReportResisted;
+
+  /// No description provided for @planSuggestionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested for you'**
+  String get planSuggestionLabel;
+
+  /// No description provided for @planFrequentSwitchNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Changing plans is not failure — but every plan needs a few weeks to show itself.'**
+  String get planFrequentSwitchNote;
+
+  /// No description provided for @planHistoryKept.
+  ///
+  /// In en, this message translates to:
+  /// **'Your history stays. Only the plan changes.'**
+  String get planHistoryKept;
+
+  /// No description provided for @planStripLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{plan} · week {week}'**
+  String planStripLabel(String plan, int week);
+
+  /// No description provided for @taperHoldStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Holding this step one more day.'**
+  String get taperHoldStep;
+
+  /// No description provided for @taperAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'New target gap: {minutes} minutes.'**
+  String taperAdvance(int minutes);
+
+  /// No description provided for @taperSoftLanding.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan was re-tuned to you. Nothing is lost.'**
+  String get taperSoftLanding;
+
+  /// No description provided for @logSmokedNeutral.
+  ///
+  /// In en, this message translates to:
+  /// **'Today: {count}. Your average: {average}.'**
+  String logSmokedNeutral(int count, String average);
+
+  /// No description provided for @logNotAFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a failure. A data point.'**
+  String get logNotAFailure;
+
+  /// No description provided for @logSkippedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A peak that never happened'**
+  String get logSkippedTitle;
+
+  /// No description provided for @logSkippedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} rides out this month'**
+  String logSkippedCount(int count);
+
+  /// No description provided for @logNextTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Next target time {time}'**
+  String logNextTarget(String time);
+
+  /// No description provided for @logUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get logUndo;
+
+  /// No description provided for @logPauseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Twenty seconds first'**
+  String get logPauseTitle;
+
+  /// No description provided for @logPauseNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your entry is already saved. Take a breath — you can undo it if you change your mind.'**
+  String get logPauseNote;
+
+  /// No description provided for @logPauseSettingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause before logging'**
+  String get logPauseSettingTitle;
+
+  /// No description provided for @supportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s support'**
+  String get supportTitle;
+
+  /// No description provided for @supportChannelMovement.
+  ///
+  /// In en, this message translates to:
+  /// **'Movement'**
+  String get supportChannelMovement;
+
+  /// No description provided for @supportChannelNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get supportChannelNutrition;
+
+  /// No description provided for @supportChannelRitual.
+  ///
+  /// In en, this message translates to:
+  /// **'Ritual'**
+  String get supportChannelRitual;
+
+  /// No description provided for @supportMarkDone.
+  ///
+  /// In en, this message translates to:
+  /// **'I did it'**
+  String get supportMarkDone;
+
+  /// No description provided for @supportNotATest.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not a test. Skipping costs nothing.'**
+  String get supportNotATest;
+
+  /// No description provided for @supportWeekTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get supportWeekTitle;
+
+  /// No description provided for @supportMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String supportMinutes(int minutes);
+
+  /// No description provided for @howBodyLoadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Body load curves'**
+  String get howBodyLoadTitle;
+
+  /// No description provided for @howBodyLoadBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Each curve is C(t) = sum of dose x 2^(-elapsed / half-life), fed only by the times you logged. Half-lives: nicotine 2 h, all-day baseline 16 h (cotinine proxy), carbon monoxide 4.5 h, particle load 30 days (representative).'**
+  String get howBodyLoadBody;
+
+  /// No description provided for @howBodyLoadLimits.
+  ///
+  /// In en, this message translates to:
+  /// **'No phone can measure nicotine, tar or carbon monoxide in a body. Values are shown normalized to 0–100 against your own peak, never in ng/mL or milligrams, and clearance speed varies between people.'**
+  String get howBodyLoadLimits;
+
+  /// No description provided for @howCravingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving window'**
+  String get howCravingTitle;
+
+  /// No description provided for @howCravingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk = 0.45 x how deep your nicotine trough is, + 0.35 x how busy this hour is in your own history, + 0.20 x how often records in this hour carry a trigger. Hour-based signals stay switched off until you have about 21 entries.'**
+  String get howCravingBody;
+
+  /// No description provided for @howProgressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress Score'**
+  String get howProgressTitle;
+
+  /// No description provided for @howProgressBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of 100: plan adherence 35, consumption trend 30, craving coping 20, logging consistency 10, nicotine baseline fall 5. It looks at 14 days, moves at most 4 points a day, and never resets.'**
+  String get howProgressBody;
+
+  /// No description provided for @howHarmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Harm Load'**
+  String get howHarmTitle;
+
+  /// No description provided for @howHarmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of 100: cumulative exposure 40 (pack-years, log scale), current intensity 30, dependence 15, age and duration 10, body size 5. Validated risk models told us which variables matter; the number is a load index, not a disease risk. Body data is optional and the weights renormalize without it.'**
+  String get howHarmBody;
+
+  /// No description provided for @howMindTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawal pressure'**
+  String get howMindTitle;
+
+  /// No description provided for @howMindBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A published symptom curve that peaks on days 1–3 and eases over 3–4 weeks, scaled by how deep your current nicotine trough is, then corrected by the difference between our guesses and what you actually reported. The output is a band, never a percentage.'**
+  String get howMindBody;
+
+  /// No description provided for @howLungTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lung scenarios'**
+  String get howLungTitle;
+
+  /// No description provided for @howLungBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Published annual FEV1 decline rates drawn as three typical curves: never-smoker about 30 mL/year, sustained quitter about 33, current smoker 40 up to 70 at heavier intake. These are population averages for your age group, not a measurement of your lungs.'**
+  String get howLungBody;
 }
 
 class _AppLocalizationsDelegate

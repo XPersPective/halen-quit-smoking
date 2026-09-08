@@ -24,20 +24,40 @@ void main() {
     await tester.pumpAndSettle();
   }
 
+  /// The SOS page is a lazy list; the toolkit made it taller than the test
+  /// viewport, so tests drag the list until the target is built.
+  Future<void> scrollTo(WidgetTester tester, Finder finder) async {
+    await tester.dragUntilVisible(
+      finder,
+      find.byType(ListView),
+      const Offset(0, -300),
+    );
+    await tester.pumpAndSettle();
+  }
+
   testWidgets('SOS shows 2-minute timer, 4D cards and NRT line',
       (tester) async {
     await openSos(tester);
 
     expect(find.text('2-minute timer'), findsWidgets);
-    expect(find.text('Delay'), findsOneWidget);
-    expect(find.text('Deep breathing'), findsOneWidget);
-    expect(find.text('Drink water'), findsOneWidget);
-    expect(find.text('Do something else'), findsOneWidget);
-    expect(find.text('Watch and wait'), findsOneWidget);
-    // Fixed NRT line (report §15).
+
+    // Module report §5: one toolkit, every entry graded. The five-minute
+    // walk leads because it is the best-supported acute intervention.
+    expect(find.text('Walk it off (5 min)'), findsOneWidget);
+    expect(find.text('Breathe with me'), findsOneWidget);
+    expect(find.text('Delay 3 minutes'), findsOneWidget);
+    expect(find.text('A glass of water'), findsOneWidget);
+    expect(find.text('Strong evidence'), findsWidgets);
+
+    // Ear acupressure ships, but honestly labelled and needle-free — the
+    // grade is the point, and it is never presented as proven.
+    expect(find.text('Ear acupressure (60 s)'), findsOneWidget);
+    expect(find.text('Traditional'), findsWidgets);
+    expect(find.text('Fingers only — never needles.'), findsOneWidget);
+
+    // Fixed NRT line (report §15) — still last, still unchanged.
+    await scrollTo(tester, find.textContaining('NRT'));
     expect(find.textContaining('NRT'), findsOneWidget);
-    // No acupressure anywhere.
-    expect(find.textContaining('pressure'), findsNothing);
 
     await disposeApp(tester);
   });
@@ -46,6 +66,8 @@ void main() {
       (tester) async {
     await openSos(tester);
 
+    // The outcome card sits below the toolkit now — bring it into view.
+    await scrollTo(tester, find.widgetWithText(FilledButton, 'I resisted'));
     await tester.tap(find.text('Mild'));
     await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(FilledButton, 'I resisted'));
@@ -64,6 +86,7 @@ void main() {
       'shame', (tester) async {
     await openSos(tester);
 
+    await scrollTo(tester, find.widgetWithText(OutlinedButton, 'I smoked'));
     await tester.tap(find.widgetWithText(OutlinedButton, 'I smoked'));
     await tester.pumpAndSettle();
 
@@ -84,11 +107,11 @@ void main() {
 
     // The breathing screen animates forever (repeat) — pump fixed frames
     // instead of pumpAndSettle, which would wait for the animation to end.
-    await tester.tap(find.text('Deep breathing'));
+    await tester.tap(find.text('Breathe with me'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
     expect(find.text('60 s'), findsOneWidget);
-    expect(find.textContaining('Breathe'), findsOneWidget);
+    expect(find.textContaining('Breathe in'), findsWidgets);
 
     // Pump 60 seconds of ticks.
     await tester.pump(const Duration(seconds: 61));

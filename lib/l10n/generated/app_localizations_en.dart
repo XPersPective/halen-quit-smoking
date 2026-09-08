@@ -1259,4 +1259,609 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsSavingsNote => 'Estimated from your entries';
+
+  @override
+  String get moduleModelTag =>
+      'Modelled from your records — not a measurement.';
+
+  @override
+  String get moduleNeedMoreData => 'A few more entries and this appears.';
+
+  @override
+  String get moduleSourceLabel => 'Source';
+
+  @override
+  String get bodyLoadTitle => 'Body Load';
+
+  @override
+  String bodyLoadSinceLast(String time) {
+    return '$time since your last cigarette';
+  }
+
+  @override
+  String bodyLoadNicotineNow(int percent) {
+    return 'Estimated nicotine load is at $percent% of its peak.';
+  }
+
+  @override
+  String bodyLoadCoDrop(int percent) {
+    return 'Oxygen debt down $percent%.';
+  }
+
+  @override
+  String get loadNicotineAcute => 'Nicotine now';
+
+  @override
+  String get loadNicotineBaseline => 'All-day baseline';
+
+  @override
+  String get loadCarbonMonoxide => 'Oxygen debt';
+
+  @override
+  String get loadTar => 'Particle load';
+
+  @override
+  String get loadBandLow => 'Low';
+
+  @override
+  String get loadBandMedium => 'Medium';
+
+  @override
+  String get loadBandHigh => 'High';
+
+  @override
+  String get bodyLoadTarNote =>
+      'Tar cannot be measured in a body. This compares your exposure with your own baseline.';
+
+  @override
+  String get bodyLoadCoNote =>
+      'Carbon monoxide clears fastest — it is the first thing that changes when you stop.';
+
+  @override
+  String get bodyLoadEmpty =>
+      'Log a few cigarettes and your own rhythm appears here.';
+
+  @override
+  String get ghostPeakLabel => 'A peak that never happened';
+
+  @override
+  String get metabolismTitle => 'Clearance pace';
+
+  @override
+  String get metabolismNote =>
+      'Nicotine clears at different speeds in different people. Pick what matches how you feel — this only calibrates the curve, it measures nothing.';
+
+  @override
+  String get metabolismSlow => 'Slow';
+
+  @override
+  String get metabolismNormal => 'Normal';
+
+  @override
+  String get metabolismFast => 'Fast';
+
+  @override
+  String get cravingWindowTitle => 'Craving window';
+
+  @override
+  String get cravingRiskCalm => 'Calm';
+
+  @override
+  String get cravingRiskWatch => 'Watch';
+
+  @override
+  String get cravingRiskHigh => 'High';
+
+  @override
+  String get cravingFallingNote =>
+      'Craving usually arrives when nicotine is falling, not when it rises.';
+
+  @override
+  String cravingLowestThird(int percent) {
+    return '$percent% of your cravings arrived while your load was in its lowest third.';
+  }
+
+  @override
+  String get cravingRiskyHours => 'Your risky hours';
+
+  @override
+  String cravingWindowRange(int start, int end) {
+    return '$start:00–$end:00';
+  }
+
+  @override
+  String get cravingHeatmapTitle => 'Your week, hour by hour';
+
+  @override
+  String get economyTitle => 'Money and time';
+
+  @override
+  String get economySaved => 'Money saved';
+
+  @override
+  String get economySpent => 'Still spent';
+
+  @override
+  String get economyExactNote =>
+      'Nothing here is an estimate — it is your own numbers.';
+
+  @override
+  String get economyProjectionTitle =>
+      'If you keep this pace vs. if you finish your plan';
+
+  @override
+  String get economyShadedArea => 'This shaded area is your decision.';
+
+  @override
+  String get economyKeepPace => 'This pace';
+
+  @override
+  String get economyFinishPlan => 'Plan finished';
+
+  @override
+  String get economyTimeLedger => 'Time ledger';
+
+  @override
+  String get economyTimeRegained => 'Time regained';
+
+  @override
+  String get economyTimeLost => 'Time spent';
+
+  @override
+  String get economyLifeAverageNote =>
+      'Population average of about 20 minutes per cigarette — an average, never a promise about you.';
+
+  @override
+  String get economyGoalTitle => 'Your goal';
+
+  @override
+  String get economyGoalHint => 'What are you saving for?';
+
+  @override
+  String get economyGoalLabel => 'Goal name';
+
+  @override
+  String get economyGoalAmount => 'Amount';
+
+  @override
+  String economyGoalRemaining(int days) {
+    return '$days days to go at this pace';
+  }
+
+  @override
+  String get mindTitle => 'Mind state';
+
+  @override
+  String get mindPressureLabel => 'Likely withdrawal pressure';
+
+  @override
+  String get mindBandCalm => 'Calm';
+
+  @override
+  String get mindBandUnderPressure => 'Under pressure';
+
+  @override
+  String get mindBandTough => 'Tough';
+
+  @override
+  String get mindOnlyYouKnow => 'This is a guess. Only you know how you feel.';
+
+  @override
+  String get mindHowDoYouFeel => 'How do you feel right now?';
+
+  @override
+  String mindAccuracy(int percent) {
+    return 'My guess matched how you felt $percent% of the time.';
+  }
+
+  @override
+  String get mindQuitLowersAnxiety =>
+      'Quitting lowers anxiety and depression on average — it does not raise them.';
+
+  @override
+  String get mindTypicalCurve => 'Typical course';
+
+  @override
+  String get mindPeakNote =>
+      'Withdrawal peaks on days 1–3 and eases over 3–4 weeks.';
+
+  @override
+  String get mindWeightTitle => 'About weight';
+
+  @override
+  String get mindWeightBody =>
+      'Appetite rises after quitting and most weight change happens in the first three months — on average around 4–5 kg in a year. That risk is small next to smoking, and regular meals blunt it.';
+
+  @override
+  String get lungsTitle => 'Your lungs today';
+
+  @override
+  String get lungsNotAScan => 'This is not a scan of your lungs.';
+
+  @override
+  String get lungsSlowsLine =>
+      'Quitting is the only thing that slows this line.';
+
+  @override
+  String get lungsScenarioNever => 'Never smoked';
+
+  @override
+  String get lungsScenarioKeep => 'This pace';
+
+  @override
+  String get lungsScenarioQuit => 'Quit today';
+
+  @override
+  String get lungsTypicalLabel => 'Typical for your age group';
+
+  @override
+  String get lungsAxisAge => 'Age';
+
+  @override
+  String get lungsMistLabel => 'Relative particle load';
+
+  @override
+  String get organMapTitle => 'Body map';
+
+  @override
+  String get organHarmTitle => 'What smoking does';
+
+  @override
+  String get organRecoveryTitle => 'What happens when you stop';
+
+  @override
+  String get organPopulationNote =>
+      'Population-level findings. Not a personal risk estimate.';
+
+  @override
+  String get toxicantsTitle => 'What\'s in the smoke';
+
+  @override
+  String toxicantsSubtitle(int chemicals, int carcinogens) {
+    return '$chemicals chemicals, more than $carcinogens of them known carcinogens';
+  }
+
+  @override
+  String get toxicantAnalogyLabel => 'Also found in';
+
+  @override
+  String get toxicantMechanismLabel => 'In the body';
+
+  @override
+  String get toxicantNoDose => 'A recognition aid, not a dose comparison.';
+
+  @override
+  String toxicantIarcLabel(String group) {
+    return 'IARC group $group';
+  }
+
+  @override
+  String get evidenceStrong => 'Strong evidence';
+
+  @override
+  String get evidencePromising => 'Promising';
+
+  @override
+  String get evidenceTraditional => 'Traditional';
+
+  @override
+  String get evidenceLabel => 'Evidence';
+
+  @override
+  String get sosWhatWorked => 'What worked for you before';
+
+  @override
+  String get sosTechniquesTitle => 'Something to do right now';
+
+  @override
+  String get sosEarPointsTitle => 'Five points, twelve seconds each';
+
+  @override
+  String get sosEarPointShenMen => 'Shen Men';
+
+  @override
+  String get sosEarPointAutonomic => 'Autonomic';
+
+  @override
+  String get sosEarPointKidney => 'Kidney';
+
+  @override
+  String get sosEarPointLiver => 'Liver';
+
+  @override
+  String get sosEarPointLung => 'Lung';
+
+  @override
+  String get sosNoNeedles => 'Fingers only — never needles.';
+
+  @override
+  String get progressScoreTitle => 'Progress Score';
+
+  @override
+  String get progressWindowLabel => 'last 14 days';
+
+  @override
+  String get progressBandStarting => 'Starting';
+
+  @override
+  String get progressBandOnTrack => 'On track';
+
+  @override
+  String get progressBandStrong => 'Strong';
+
+  @override
+  String get progressBandVeryStrong => 'Very strong';
+
+  @override
+  String get progressBehaviourNote =>
+      'This measures your behaviour, not your health.';
+
+  @override
+  String progressDeltaUp(int points) {
+    return 'up $points points in 7 days';
+  }
+
+  @override
+  String progressDeltaDown(int points) {
+    return 'down $points points in 7 days';
+  }
+
+  @override
+  String get progressDeltaFlat => 'steady this week';
+
+  @override
+  String get harmLoadTitle => 'Harm Load';
+
+  @override
+  String get harmBandLight => 'Light';
+
+  @override
+  String get harmBandModerate => 'Moderate';
+
+  @override
+  String get harmBandHeavy => 'Heavy';
+
+  @override
+  String get harmBandVeryHeavy => 'Very heavy';
+
+  @override
+  String get harmNotRisk => 'This is not a disease risk estimate.';
+
+  @override
+  String harmPackYears(String value) {
+    return '$value pack-years';
+  }
+
+  @override
+  String get harmMovingPartNote =>
+      'Almost half of this falls as you cut down. The rest is history — quitting slows it and, over years, eases it.';
+
+  @override
+  String get indicesScissorTitle => 'Progress and load';
+
+  @override
+  String get indicesScissorNote =>
+      'The wider the gap, the better you are doing.';
+
+  @override
+  String get indicesBreakdownTitle => 'What makes up this number';
+
+  @override
+  String get componentAdherence => 'Plan adherence';
+
+  @override
+  String get componentConsumptionTrend => 'Consumption trend';
+
+  @override
+  String get componentCravingCoping => 'Craving coping';
+
+  @override
+  String get componentLoggingConsistency => 'Logging consistency';
+
+  @override
+  String get componentNicotineBaselineFall => 'Nicotine baseline fall';
+
+  @override
+  String get componentCumulativeExposure => 'Cumulative exposure';
+
+  @override
+  String get componentCurrentIntensity => 'Current intensity';
+
+  @override
+  String get componentDependenceDepth => 'Dependence depth';
+
+  @override
+  String get componentAgeAndDuration => 'Age and duration';
+
+  @override
+  String get componentBodySize => 'Body size (optional)';
+
+  @override
+  String componentWeightLabel(String points, int weight) {
+    return '$points of $weight points';
+  }
+
+  @override
+  String get planKindGradual => 'Gradual taper';
+
+  @override
+  String get planKindGradualNote =>
+      'Widen the gap between cigarettes, step by step.';
+
+  @override
+  String get planKindQuota => 'Daily quota';
+
+  @override
+  String get planKindQuotaNote =>
+      'A daily ceiling, no clock rules — for irregular days.';
+
+  @override
+  String get planKindQuitDay => 'Quit day';
+
+  @override
+  String get planKindQuitDayNote =>
+      'Pick a date and get withdrawal support around it.';
+
+  @override
+  String get planKindTrackOnly => 'Track only';
+
+  @override
+  String get planKindTrackOnlyNote =>
+      'No target, no judgement. Just your records.';
+
+  @override
+  String get planSwitchTitle => 'Change plan';
+
+  @override
+  String planTooSoon(int days) {
+    return 'Give this plan $days more days — every plan needs a little time.';
+  }
+
+  @override
+  String get planReportCardTitle => 'How this plan is going';
+
+  @override
+  String get planReportDays => 'Days in this plan';
+
+  @override
+  String get planReportAdherence => 'Adherence';
+
+  @override
+  String get planReportHardestHour => 'Hardest hour';
+
+  @override
+  String get planReportResisted => 'Cravings ridden out';
+
+  @override
+  String get planSuggestionLabel => 'Suggested for you';
+
+  @override
+  String get planFrequentSwitchNote =>
+      'Changing plans is not failure — but every plan needs a few weeks to show itself.';
+
+  @override
+  String get planHistoryKept => 'Your history stays. Only the plan changes.';
+
+  @override
+  String planStripLabel(String plan, int week) {
+    return '$plan · week $week';
+  }
+
+  @override
+  String get taperHoldStep => 'Holding this step one more day.';
+
+  @override
+  String taperAdvance(int minutes) {
+    return 'New target gap: $minutes minutes.';
+  }
+
+  @override
+  String get taperSoftLanding =>
+      'Your plan was re-tuned to you. Nothing is lost.';
+
+  @override
+  String logSmokedNeutral(int count, String average) {
+    return 'Today: $count. Your average: $average.';
+  }
+
+  @override
+  String get logNotAFailure => 'Not a failure. A data point.';
+
+  @override
+  String get logSkippedTitle => 'A peak that never happened';
+
+  @override
+  String logSkippedCount(int count) {
+    return '$count rides out this month';
+  }
+
+  @override
+  String logNextTarget(String time) {
+    return 'Next target time $time';
+  }
+
+  @override
+  String get logUndo => 'Undo';
+
+  @override
+  String get logPauseTitle => 'Twenty seconds first';
+
+  @override
+  String get logPauseNote =>
+      'Your entry is already saved. Take a breath — you can undo it if you change your mind.';
+
+  @override
+  String get logPauseSettingTitle => 'Pause before logging';
+
+  @override
+  String get supportTitle => 'Today\'s support';
+
+  @override
+  String get supportChannelMovement => 'Movement';
+
+  @override
+  String get supportChannelNutrition => 'Food';
+
+  @override
+  String get supportChannelRitual => 'Ritual';
+
+  @override
+  String get supportMarkDone => 'I did it';
+
+  @override
+  String get supportNotATest => 'This is not a test. Skipping costs nothing.';
+
+  @override
+  String get supportWeekTitle => 'This week';
+
+  @override
+  String supportMinutes(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String get howBodyLoadTitle => 'Body load curves';
+
+  @override
+  String get howBodyLoadBody =>
+      'Each curve is C(t) = sum of dose x 2^(-elapsed / half-life), fed only by the times you logged. Half-lives: nicotine 2 h, all-day baseline 16 h (cotinine proxy), carbon monoxide 4.5 h, particle load 30 days (representative).';
+
+  @override
+  String get howBodyLoadLimits =>
+      'No phone can measure nicotine, tar or carbon monoxide in a body. Values are shown normalized to 0–100 against your own peak, never in ng/mL or milligrams, and clearance speed varies between people.';
+
+  @override
+  String get howCravingTitle => 'Craving window';
+
+  @override
+  String get howCravingBody =>
+      'Risk = 0.45 x how deep your nicotine trough is, + 0.35 x how busy this hour is in your own history, + 0.20 x how often records in this hour carry a trigger. Hour-based signals stay switched off until you have about 21 entries.';
+
+  @override
+  String get howProgressTitle => 'Progress Score';
+
+  @override
+  String get howProgressBody =>
+      'Out of 100: plan adherence 35, consumption trend 30, craving coping 20, logging consistency 10, nicotine baseline fall 5. It looks at 14 days, moves at most 4 points a day, and never resets.';
+
+  @override
+  String get howHarmTitle => 'Harm Load';
+
+  @override
+  String get howHarmBody =>
+      'Out of 100: cumulative exposure 40 (pack-years, log scale), current intensity 30, dependence 15, age and duration 10, body size 5. Validated risk models told us which variables matter; the number is a load index, not a disease risk. Body data is optional and the weights renormalize without it.';
+
+  @override
+  String get howMindTitle => 'Withdrawal pressure';
+
+  @override
+  String get howMindBody =>
+      'A published symptom curve that peaks on days 1–3 and eases over 3–4 weeks, scaled by how deep your current nicotine trough is, then corrected by the difference between our guesses and what you actually reported. The output is a band, never a percentage.';
+
+  @override
+  String get howLungTitle => 'Lung scenarios';
+
+  @override
+  String get howLungBody =>
+      'Published annual FEV1 decline rates drawn as three typical curves: never-smoker about 30 mL/year, sustained quitter about 33, current smoker 40 up to 70 at heavier intake. These are population averages for your age group, not a measurement of your lungs.';
 }

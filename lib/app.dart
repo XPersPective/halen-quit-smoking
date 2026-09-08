@@ -11,8 +11,11 @@ import 'domain/entities.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'presentation/screens/articles/article_reader_screen.dart';
 import 'presentation/screens/articles/articles_screen.dart';
+import 'presentation/screens/body/body_screen.dart';
+import 'presentation/screens/economy/economy_screen.dart';
 import 'presentation/screens/onboarding/onboarding_screen.dart';
 import 'presentation/screens/paywall/paywall_screen.dart';
+import 'presentation/screens/plan/plan_switch_screen.dart';
 import 'presentation/screens/settings/settings_screen.dart';
 import 'presentation/screens/shell_screen.dart';
 import 'presentation/screens/sos/breathing_screen.dart';
@@ -53,6 +56,9 @@ class HalenApp extends ConsumerWidget {
         Routes.settings: (_) => const SettingsScreen(),
         Routes.paywall: (_) => const PaywallScreen(),
         Routes.articles: (_) => const ArticlesScreen(),
+        Routes.body: (_) => const BodyScreen(),
+        Routes.economy: (_) => const EconomyScreen(),
+        Routes.planSwitch: (_) => const PlanSwitchScreen(),
       },
       onGenerateRoute: (settings) {
         // Record detail takes the just-logged event id as an argument.

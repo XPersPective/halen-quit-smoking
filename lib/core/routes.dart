@@ -17,4 +17,7 @@ abstract final class Routes {
   static const breathing = '/breathing';
   static const articles = '/articles';
   static const articleReader = '/article-reader';
+  static const body = '/body';
+  static const economy = '/economy';
+  static const planSwitch = '/plan-switch';
 }

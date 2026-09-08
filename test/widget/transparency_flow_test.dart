@@ -63,7 +63,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('1.2 mg'), findsOneWidget);
-    expect(find.textContaining('not a measurement'), findsOneWidget);
+    // Every module now publishes its own formula here, so the honesty line
+    // appears in several sections (module report §0.2).
+    expect(find.textContaining('not a measurement'), findsWidgets);
     expect(find.textContaining('Benowitz'), findsOneWidget);
 
     await disposeApp(tester);
