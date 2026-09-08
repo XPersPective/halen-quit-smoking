@@ -1,8 +1,13 @@
 import 'package:drift/drift.dart' hide Trigger;
 
+import '../../domain/body_load_model.dart';
+import '../../domain/economy.dart';
 import '../../domain/entities.dart';
+import '../../domain/plan_kinds.dart';
+import '../../domain/soft_taper.dart';
 import 'daos/content_dao.dart';
 import 'daos/craving_dao.dart';
+import 'daos/module_dao.dart';
 import 'daos/plan_dao.dart';
 import 'daos/profile_dao.dart';
 import 'daos/purchase_dao.dart';
@@ -29,6 +34,11 @@ part 'app_database.g.dart';
     MotivationContent,
     PurchaseEntitlement,
     Settings,
+    MoodLog,
+    SupportLog,
+    IndexSnapshot,
+    PlanState,
+    SavingsGoalTable,
   ],
   daos: [
     ProfileDao,
@@ -40,6 +50,7 @@ part 'app_database.g.dart';
     PurchaseDao,
     SettingsDao,
     TimelineDao,
+    ModuleDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -48,7 +59,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -62,6 +73,26 @@ class AppDatabase extends _$AppDatabase {
             HealthTimelineStateCompanion.insert(),
             mode: InsertMode.insertOrIgnore,
           );
+        },
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            // v2 — module report tables and their optional profile inputs.
+            // Every added column is nullable or defaulted, so existing rows
+            // stay valid and no user data is touched.
+            await m.addColumn(smokingProfile, smokingProfile.heightCm);
+            await m.addColumn(smokingProfile, smokingProfile.weightKg);
+            await m.addColumn(smokingProfile, smokingProfile.sex);
+            await m.addColumn(smokingProfile, smokingProfile.smokingYears);
+            await m.addColumn(smokingProfile, smokingProfile.hsi);
+            await m.addColumn(smokingProfile, smokingProfile.metabolism);
+            await m.addColumn(cravingEvent, cravingEvent.techniqueKey);
+            await m.addColumn(settings, settings.preLogPauseSeconds);
+            await m.createTable(moodLog);
+            await m.createTable(supportLog);
+            await m.createTable(indexSnapshot);
+            await m.createTable(planState);
+            await m.createTable(savingsGoalTable);
+          }
         },
       );
 }

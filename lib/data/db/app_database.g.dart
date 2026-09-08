@@ -423,6 +423,67 @@ class $SmokingProfileTable extends SmokingProfile
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _heightCmMeta = const VerificationMeta(
+    'heightCm',
+  );
+  @override
+  late final GeneratedColumn<double> heightCm = GeneratedColumn<double>(
+    'height_cm',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _weightKgMeta = const VerificationMeta(
+    'weightKg',
+  );
+  @override
+  late final GeneratedColumn<double> weightKg = GeneratedColumn<double>(
+    'weight_kg',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<SexOption?, String> sex =
+      GeneratedColumn<String>(
+        'sex',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      ).withConverter<SexOption?>($SmokingProfileTable.$convertersexn);
+  static const VerificationMeta _smokingYearsMeta = const VerificationMeta(
+    'smokingYears',
+  );
+  @override
+  late final GeneratedColumn<double> smokingYears = GeneratedColumn<double>(
+    'smoking_years',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _hsiMeta = const VerificationMeta('hsi');
+  @override
+  late final GeneratedColumn<int> hsi = GeneratedColumn<int>(
+    'hsi',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<MetabolismSpeed, String>
+  metabolism = GeneratedColumn<String>(
+    'metabolism',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('normal'),
+  ).withConverter<MetabolismSpeed>($SmokingProfileTable.$convertermetabolism);
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -435,6 +496,12 @@ class $SmokingProfileTable extends SmokingProfile
     targetMode,
     pace,
     startedAt,
+    heightCm,
+    weightKg,
+    sex,
+    smokingYears,
+    hsi,
+    metabolism,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -499,6 +566,33 @@ class $SmokingProfileTable extends SmokingProfile
     } else if (isInserting) {
       context.missing(_startedAtMeta);
     }
+    if (data.containsKey('height_cm')) {
+      context.handle(
+        _heightCmMeta,
+        heightCm.isAcceptableOrUnknown(data['height_cm']!, _heightCmMeta),
+      );
+    }
+    if (data.containsKey('weight_kg')) {
+      context.handle(
+        _weightKgMeta,
+        weightKg.isAcceptableOrUnknown(data['weight_kg']!, _weightKgMeta),
+      );
+    }
+    if (data.containsKey('smoking_years')) {
+      context.handle(
+        _smokingYearsMeta,
+        smokingYears.isAcceptableOrUnknown(
+          data['smoking_years']!,
+          _smokingYearsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('hsi')) {
+      context.handle(
+        _hsiMeta,
+        hsi.isAcceptableOrUnknown(data['hsi']!, _hsiMeta),
+      );
+    }
     return context;
   }
 
@@ -554,6 +648,34 @@ class $SmokingProfileTable extends SmokingProfile
         DriftSqlType.dateTime,
         data['${effectivePrefix}started_at'],
       )!,
+      heightCm: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}height_cm'],
+      ),
+      weightKg: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}weight_kg'],
+      ),
+      sex: $SmokingProfileTable.$convertersexn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}sex'],
+        ),
+      ),
+      smokingYears: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}smoking_years'],
+      ),
+      hsi: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}hsi'],
+      ),
+      metabolism: $SmokingProfileTable.$convertermetabolism.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}metabolism'],
+        )!,
+      ),
     );
   }
 
@@ -568,6 +690,14 @@ class $SmokingProfileTable extends SmokingProfile
       const EnumNameConverter<TargetMode>(TargetMode.values);
   static JsonTypeConverter2<Pace, String, String> $converterpace =
       const EnumNameConverter<Pace>(Pace.values);
+  static JsonTypeConverter2<SexOption, String, String> $convertersex =
+      const EnumNameConverter<SexOption>(SexOption.values);
+  static JsonTypeConverter2<SexOption?, String?, String?> $convertersexn =
+      JsonTypeConverter2.asNullable($convertersex);
+  static JsonTypeConverter2<MetabolismSpeed, String, String>
+  $convertermetabolism = const EnumNameConverter<MetabolismSpeed>(
+    MetabolismSpeed.values,
+  );
 }
 
 class SmokingProfileRow extends DataClass
@@ -582,6 +712,12 @@ class SmokingProfileRow extends DataClass
   final TargetMode targetMode;
   final Pace pace;
   final DateTime startedAt;
+  final double? heightCm;
+  final double? weightKg;
+  final SexOption? sex;
+  final double? smokingYears;
+  final int? hsi;
+  final MetabolismSpeed metabolism;
   const SmokingProfileRow({
     required this.id,
     required this.baselineCpd,
@@ -593,6 +729,12 @@ class SmokingProfileRow extends DataClass
     required this.targetMode,
     required this.pace,
     required this.startedAt,
+    this.heightCm,
+    this.weightKg,
+    this.sex,
+    this.smokingYears,
+    this.hsi,
+    required this.metabolism,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -623,6 +765,28 @@ class SmokingProfileRow extends DataClass
       );
     }
     map['started_at'] = Variable<DateTime>(startedAt);
+    if (!nullToAbsent || heightCm != null) {
+      map['height_cm'] = Variable<double>(heightCm);
+    }
+    if (!nullToAbsent || weightKg != null) {
+      map['weight_kg'] = Variable<double>(weightKg);
+    }
+    if (!nullToAbsent || sex != null) {
+      map['sex'] = Variable<String>(
+        $SmokingProfileTable.$convertersexn.toSql(sex),
+      );
+    }
+    if (!nullToAbsent || smokingYears != null) {
+      map['smoking_years'] = Variable<double>(smokingYears);
+    }
+    if (!nullToAbsent || hsi != null) {
+      map['hsi'] = Variable<int>(hsi);
+    }
+    {
+      map['metabolism'] = Variable<String>(
+        $SmokingProfileTable.$convertermetabolism.toSql(metabolism),
+      );
+    }
     return map;
   }
 
@@ -642,6 +806,18 @@ class SmokingProfileRow extends DataClass
       targetMode: Value(targetMode),
       pace: Value(pace),
       startedAt: Value(startedAt),
+      heightCm: heightCm == null && nullToAbsent
+          ? const Value.absent()
+          : Value(heightCm),
+      weightKg: weightKg == null && nullToAbsent
+          ? const Value.absent()
+          : Value(weightKg),
+      sex: sex == null && nullToAbsent ? const Value.absent() : Value(sex),
+      smokingYears: smokingYears == null && nullToAbsent
+          ? const Value.absent()
+          : Value(smokingYears),
+      hsi: hsi == null && nullToAbsent ? const Value.absent() : Value(hsi),
+      metabolism: Value(metabolism),
     );
   }
 
@@ -667,6 +843,16 @@ class SmokingProfileRow extends DataClass
         serializer.fromJson<String>(json['pace']),
       ),
       startedAt: serializer.fromJson<DateTime>(json['startedAt']),
+      heightCm: serializer.fromJson<double?>(json['heightCm']),
+      weightKg: serializer.fromJson<double?>(json['weightKg']),
+      sex: $SmokingProfileTable.$convertersexn.fromJson(
+        serializer.fromJson<String?>(json['sex']),
+      ),
+      smokingYears: serializer.fromJson<double?>(json['smokingYears']),
+      hsi: serializer.fromJson<int?>(json['hsi']),
+      metabolism: $SmokingProfileTable.$convertermetabolism.fromJson(
+        serializer.fromJson<String>(json['metabolism']),
+      ),
     );
   }
   @override
@@ -689,6 +875,16 @@ class SmokingProfileRow extends DataClass
         $SmokingProfileTable.$converterpace.toJson(pace),
       ),
       'startedAt': serializer.toJson<DateTime>(startedAt),
+      'heightCm': serializer.toJson<double?>(heightCm),
+      'weightKg': serializer.toJson<double?>(weightKg),
+      'sex': serializer.toJson<String?>(
+        $SmokingProfileTable.$convertersexn.toJson(sex),
+      ),
+      'smokingYears': serializer.toJson<double?>(smokingYears),
+      'hsi': serializer.toJson<int?>(hsi),
+      'metabolism': serializer.toJson<String>(
+        $SmokingProfileTable.$convertermetabolism.toJson(metabolism),
+      ),
     };
   }
 
@@ -703,6 +899,12 @@ class SmokingProfileRow extends DataClass
     TargetMode? targetMode,
     Pace? pace,
     DateTime? startedAt,
+    Value<double?> heightCm = const Value.absent(),
+    Value<double?> weightKg = const Value.absent(),
+    Value<SexOption?> sex = const Value.absent(),
+    Value<double?> smokingYears = const Value.absent(),
+    Value<int?> hsi = const Value.absent(),
+    MetabolismSpeed? metabolism,
   }) => SmokingProfileRow(
     id: id ?? this.id,
     baselineCpd: baselineCpd ?? this.baselineCpd,
@@ -714,6 +916,12 @@ class SmokingProfileRow extends DataClass
     targetMode: targetMode ?? this.targetMode,
     pace: pace ?? this.pace,
     startedAt: startedAt ?? this.startedAt,
+    heightCm: heightCm.present ? heightCm.value : this.heightCm,
+    weightKg: weightKg.present ? weightKg.value : this.weightKg,
+    sex: sex.present ? sex.value : this.sex,
+    smokingYears: smokingYears.present ? smokingYears.value : this.smokingYears,
+    hsi: hsi.present ? hsi.value : this.hsi,
+    metabolism: metabolism ?? this.metabolism,
   );
   SmokingProfileRow copyWithCompanion(SmokingProfileCompanion data) {
     return SmokingProfileRow(
@@ -733,6 +941,16 @@ class SmokingProfileRow extends DataClass
           : this.targetMode,
       pace: data.pace.present ? data.pace.value : this.pace,
       startedAt: data.startedAt.present ? data.startedAt.value : this.startedAt,
+      heightCm: data.heightCm.present ? data.heightCm.value : this.heightCm,
+      weightKg: data.weightKg.present ? data.weightKg.value : this.weightKg,
+      sex: data.sex.present ? data.sex.value : this.sex,
+      smokingYears: data.smokingYears.present
+          ? data.smokingYears.value
+          : this.smokingYears,
+      hsi: data.hsi.present ? data.hsi.value : this.hsi,
+      metabolism: data.metabolism.present
+          ? data.metabolism.value
+          : this.metabolism,
     );
   }
 
@@ -748,7 +966,13 @@ class SmokingProfileRow extends DataClass
           ..write('brandName: $brandName, ')
           ..write('targetMode: $targetMode, ')
           ..write('pace: $pace, ')
-          ..write('startedAt: $startedAt')
+          ..write('startedAt: $startedAt, ')
+          ..write('heightCm: $heightCm, ')
+          ..write('weightKg: $weightKg, ')
+          ..write('sex: $sex, ')
+          ..write('smokingYears: $smokingYears, ')
+          ..write('hsi: $hsi, ')
+          ..write('metabolism: $metabolism')
           ..write(')'))
         .toString();
   }
@@ -765,6 +989,12 @@ class SmokingProfileRow extends DataClass
     targetMode,
     pace,
     startedAt,
+    heightCm,
+    weightKg,
+    sex,
+    smokingYears,
+    hsi,
+    metabolism,
   );
   @override
   bool operator ==(Object other) =>
@@ -779,7 +1009,13 @@ class SmokingProfileRow extends DataClass
           other.brandName == this.brandName &&
           other.targetMode == this.targetMode &&
           other.pace == this.pace &&
-          other.startedAt == this.startedAt);
+          other.startedAt == this.startedAt &&
+          other.heightCm == this.heightCm &&
+          other.weightKg == this.weightKg &&
+          other.sex == this.sex &&
+          other.smokingYears == this.smokingYears &&
+          other.hsi == this.hsi &&
+          other.metabolism == this.metabolism);
 }
 
 class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
@@ -793,6 +1029,12 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
   final Value<TargetMode> targetMode;
   final Value<Pace> pace;
   final Value<DateTime> startedAt;
+  final Value<double?> heightCm;
+  final Value<double?> weightKg;
+  final Value<SexOption?> sex;
+  final Value<double?> smokingYears;
+  final Value<int?> hsi;
+  final Value<MetabolismSpeed> metabolism;
   const SmokingProfileCompanion({
     this.id = const Value.absent(),
     this.baselineCpd = const Value.absent(),
@@ -804,6 +1046,12 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     this.targetMode = const Value.absent(),
     this.pace = const Value.absent(),
     this.startedAt = const Value.absent(),
+    this.heightCm = const Value.absent(),
+    this.weightKg = const Value.absent(),
+    this.sex = const Value.absent(),
+    this.smokingYears = const Value.absent(),
+    this.hsi = const Value.absent(),
+    this.metabolism = const Value.absent(),
   });
   SmokingProfileCompanion.insert({
     this.id = const Value.absent(),
@@ -816,6 +1064,12 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     required TargetMode targetMode,
     required Pace pace,
     required DateTime startedAt,
+    this.heightCm = const Value.absent(),
+    this.weightKg = const Value.absent(),
+    this.sex = const Value.absent(),
+    this.smokingYears = const Value.absent(),
+    this.hsi = const Value.absent(),
+    this.metabolism = const Value.absent(),
   }) : baselineCpd = Value(baselineCpd),
        ttfcBand = Value(ttfcBand),
        pricePerPack = Value(pricePerPack),
@@ -833,6 +1087,12 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     Expression<String>? targetMode,
     Expression<String>? pace,
     Expression<DateTime>? startedAt,
+    Expression<double>? heightCm,
+    Expression<double>? weightKg,
+    Expression<String>? sex,
+    Expression<double>? smokingYears,
+    Expression<int>? hsi,
+    Expression<String>? metabolism,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -845,6 +1105,12 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
       if (targetMode != null) 'target_mode': targetMode,
       if (pace != null) 'pace': pace,
       if (startedAt != null) 'started_at': startedAt,
+      if (heightCm != null) 'height_cm': heightCm,
+      if (weightKg != null) 'weight_kg': weightKg,
+      if (sex != null) 'sex': sex,
+      if (smokingYears != null) 'smoking_years': smokingYears,
+      if (hsi != null) 'hsi': hsi,
+      if (metabolism != null) 'metabolism': metabolism,
     });
   }
 
@@ -859,6 +1125,12 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     Value<TargetMode>? targetMode,
     Value<Pace>? pace,
     Value<DateTime>? startedAt,
+    Value<double?>? heightCm,
+    Value<double?>? weightKg,
+    Value<SexOption?>? sex,
+    Value<double?>? smokingYears,
+    Value<int?>? hsi,
+    Value<MetabolismSpeed>? metabolism,
   }) {
     return SmokingProfileCompanion(
       id: id ?? this.id,
@@ -871,6 +1143,12 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
       targetMode: targetMode ?? this.targetMode,
       pace: pace ?? this.pace,
       startedAt: startedAt ?? this.startedAt,
+      heightCm: heightCm ?? this.heightCm,
+      weightKg: weightKg ?? this.weightKg,
+      sex: sex ?? this.sex,
+      smokingYears: smokingYears ?? this.smokingYears,
+      hsi: hsi ?? this.hsi,
+      metabolism: metabolism ?? this.metabolism,
     );
   }
 
@@ -913,6 +1191,28 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     if (startedAt.present) {
       map['started_at'] = Variable<DateTime>(startedAt.value);
     }
+    if (heightCm.present) {
+      map['height_cm'] = Variable<double>(heightCm.value);
+    }
+    if (weightKg.present) {
+      map['weight_kg'] = Variable<double>(weightKg.value);
+    }
+    if (sex.present) {
+      map['sex'] = Variable<String>(
+        $SmokingProfileTable.$convertersexn.toSql(sex.value),
+      );
+    }
+    if (smokingYears.present) {
+      map['smoking_years'] = Variable<double>(smokingYears.value);
+    }
+    if (hsi.present) {
+      map['hsi'] = Variable<int>(hsi.value);
+    }
+    if (metabolism.present) {
+      map['metabolism'] = Variable<String>(
+        $SmokingProfileTable.$convertermetabolism.toSql(metabolism.value),
+      );
+    }
     return map;
   }
 
@@ -928,7 +1228,13 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
           ..write('brandName: $brandName, ')
           ..write('targetMode: $targetMode, ')
           ..write('pace: $pace, ')
-          ..write('startedAt: $startedAt')
+          ..write('startedAt: $startedAt, ')
+          ..write('heightCm: $heightCm, ')
+          ..write('weightKg: $weightKg, ')
+          ..write('sex: $sex, ')
+          ..write('smokingYears: $smokingYears, ')
+          ..write('hsi: $hsi, ')
+          ..write('metabolism: $metabolism')
           ..write(')'))
         .toString();
   }
@@ -3010,6 +3316,17 @@ class $CravingEventTable extends CravingEvent
         type: DriftSqlType.string,
         requiredDuringInsert: true,
       ).withConverter<CravingOutcome>($CravingEventTable.$converteroutcome);
+  static const VerificationMeta _techniqueKeyMeta = const VerificationMeta(
+    'techniqueKey',
+  );
+  @override
+  late final GeneratedColumn<String> techniqueKey = GeneratedColumn<String>(
+    'technique_key',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3017,6 +3334,7 @@ class $CravingEventTable extends CravingEvent
     intensity,
     triggerLabel,
     outcome,
+    techniqueKey,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3037,6 +3355,15 @@ class $CravingEventTable extends CravingEvent
       context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
     } else if (isInserting) {
       context.missing(_tsMeta);
+    }
+    if (data.containsKey('technique_key')) {
+      context.handle(
+        _techniqueKeyMeta,
+        techniqueKey.isAcceptableOrUnknown(
+          data['technique_key']!,
+          _techniqueKeyMeta,
+        ),
+      );
     }
     return context;
   }
@@ -3073,6 +3400,10 @@ class $CravingEventTable extends CravingEvent
           data['${effectivePrefix}outcome'],
         )!,
       ),
+      techniqueKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}technique_key'],
+      ),
     );
   }
 
@@ -3101,12 +3432,17 @@ class CravingEventRow extends DataClass implements Insertable<CravingEventRow> {
   final CravingIntensity intensity;
   final TriggerLabel? triggerLabel;
   final CravingOutcome outcome;
+
+  /// Which SOS technique the user reached for (module report §5.⑤) — powers
+  /// the "what worked for you before" ordering. Null for older records.
+  final String? techniqueKey;
   const CravingEventRow({
     required this.id,
     required this.ts,
     required this.intensity,
     this.triggerLabel,
     required this.outcome,
+    this.techniqueKey,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3128,6 +3464,9 @@ class CravingEventRow extends DataClass implements Insertable<CravingEventRow> {
         $CravingEventTable.$converteroutcome.toSql(outcome),
       );
     }
+    if (!nullToAbsent || techniqueKey != null) {
+      map['technique_key'] = Variable<String>(techniqueKey);
+    }
     return map;
   }
 
@@ -3140,6 +3479,9 @@ class CravingEventRow extends DataClass implements Insertable<CravingEventRow> {
           ? const Value.absent()
           : Value(triggerLabel),
       outcome: Value(outcome),
+      techniqueKey: techniqueKey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(techniqueKey),
     );
   }
 
@@ -3160,6 +3502,7 @@ class CravingEventRow extends DataClass implements Insertable<CravingEventRow> {
       outcome: $CravingEventTable.$converteroutcome.fromJson(
         serializer.fromJson<String>(json['outcome']),
       ),
+      techniqueKey: serializer.fromJson<String?>(json['techniqueKey']),
     );
   }
   @override
@@ -3177,6 +3520,7 @@ class CravingEventRow extends DataClass implements Insertable<CravingEventRow> {
       'outcome': serializer.toJson<String>(
         $CravingEventTable.$converteroutcome.toJson(outcome),
       ),
+      'techniqueKey': serializer.toJson<String?>(techniqueKey),
     };
   }
 
@@ -3186,12 +3530,14 @@ class CravingEventRow extends DataClass implements Insertable<CravingEventRow> {
     CravingIntensity? intensity,
     Value<TriggerLabel?> triggerLabel = const Value.absent(),
     CravingOutcome? outcome,
+    Value<String?> techniqueKey = const Value.absent(),
   }) => CravingEventRow(
     id: id ?? this.id,
     ts: ts ?? this.ts,
     intensity: intensity ?? this.intensity,
     triggerLabel: triggerLabel.present ? triggerLabel.value : this.triggerLabel,
     outcome: outcome ?? this.outcome,
+    techniqueKey: techniqueKey.present ? techniqueKey.value : this.techniqueKey,
   );
   CravingEventRow copyWithCompanion(CravingEventCompanion data) {
     return CravingEventRow(
@@ -3202,6 +3548,9 @@ class CravingEventRow extends DataClass implements Insertable<CravingEventRow> {
           ? data.triggerLabel.value
           : this.triggerLabel,
       outcome: data.outcome.present ? data.outcome.value : this.outcome,
+      techniqueKey: data.techniqueKey.present
+          ? data.techniqueKey.value
+          : this.techniqueKey,
     );
   }
 
@@ -3212,13 +3561,15 @@ class CravingEventRow extends DataClass implements Insertable<CravingEventRow> {
           ..write('ts: $ts, ')
           ..write('intensity: $intensity, ')
           ..write('triggerLabel: $triggerLabel, ')
-          ..write('outcome: $outcome')
+          ..write('outcome: $outcome, ')
+          ..write('techniqueKey: $techniqueKey')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, ts, intensity, triggerLabel, outcome);
+  int get hashCode =>
+      Object.hash(id, ts, intensity, triggerLabel, outcome, techniqueKey);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3227,7 +3578,8 @@ class CravingEventRow extends DataClass implements Insertable<CravingEventRow> {
           other.ts == this.ts &&
           other.intensity == this.intensity &&
           other.triggerLabel == this.triggerLabel &&
-          other.outcome == this.outcome);
+          other.outcome == this.outcome &&
+          other.techniqueKey == this.techniqueKey);
 }
 
 class CravingEventCompanion extends UpdateCompanion<CravingEventRow> {
@@ -3236,12 +3588,14 @@ class CravingEventCompanion extends UpdateCompanion<CravingEventRow> {
   final Value<CravingIntensity> intensity;
   final Value<TriggerLabel?> triggerLabel;
   final Value<CravingOutcome> outcome;
+  final Value<String?> techniqueKey;
   const CravingEventCompanion({
     this.id = const Value.absent(),
     this.ts = const Value.absent(),
     this.intensity = const Value.absent(),
     this.triggerLabel = const Value.absent(),
     this.outcome = const Value.absent(),
+    this.techniqueKey = const Value.absent(),
   });
   CravingEventCompanion.insert({
     this.id = const Value.absent(),
@@ -3249,6 +3603,7 @@ class CravingEventCompanion extends UpdateCompanion<CravingEventRow> {
     required CravingIntensity intensity,
     this.triggerLabel = const Value.absent(),
     required CravingOutcome outcome,
+    this.techniqueKey = const Value.absent(),
   }) : ts = Value(ts),
        intensity = Value(intensity),
        outcome = Value(outcome);
@@ -3258,6 +3613,7 @@ class CravingEventCompanion extends UpdateCompanion<CravingEventRow> {
     Expression<int>? intensity,
     Expression<String>? triggerLabel,
     Expression<String>? outcome,
+    Expression<String>? techniqueKey,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3265,6 +3621,7 @@ class CravingEventCompanion extends UpdateCompanion<CravingEventRow> {
       if (intensity != null) 'intensity': intensity,
       if (triggerLabel != null) 'trigger_label': triggerLabel,
       if (outcome != null) 'outcome': outcome,
+      if (techniqueKey != null) 'technique_key': techniqueKey,
     });
   }
 
@@ -3274,6 +3631,7 @@ class CravingEventCompanion extends UpdateCompanion<CravingEventRow> {
     Value<CravingIntensity>? intensity,
     Value<TriggerLabel?>? triggerLabel,
     Value<CravingOutcome>? outcome,
+    Value<String?>? techniqueKey,
   }) {
     return CravingEventCompanion(
       id: id ?? this.id,
@@ -3281,6 +3639,7 @@ class CravingEventCompanion extends UpdateCompanion<CravingEventRow> {
       intensity: intensity ?? this.intensity,
       triggerLabel: triggerLabel ?? this.triggerLabel,
       outcome: outcome ?? this.outcome,
+      techniqueKey: techniqueKey ?? this.techniqueKey,
     );
   }
 
@@ -3308,6 +3667,9 @@ class CravingEventCompanion extends UpdateCompanion<CravingEventRow> {
         $CravingEventTable.$converteroutcome.toSql(outcome.value),
       );
     }
+    if (techniqueKey.present) {
+      map['technique_key'] = Variable<String>(techniqueKey.value);
+    }
     return map;
   }
 
@@ -3318,7 +3680,8 @@ class CravingEventCompanion extends UpdateCompanion<CravingEventRow> {
           ..write('ts: $ts, ')
           ..write('intensity: $intensity, ')
           ..write('triggerLabel: $triggerLabel, ')
-          ..write('outcome: $outcome')
+          ..write('outcome: $outcome, ')
+          ..write('techniqueKey: $techniqueKey')
           ..write(')'))
         .toString();
   }
@@ -5178,6 +5541,17 @@ class $SettingsTable extends Settings
         type: DriftSqlType.dateTime,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _preLogPauseSecondsMeta =
+      const VerificationMeta('preLogPauseSeconds');
+  @override
+  late final GeneratedColumn<int> preLogPauseSeconds = GeneratedColumn<int>(
+    'pre_log_pause_seconds',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -5186,6 +5560,7 @@ class $SettingsTable extends Settings
     reduceMotion,
     haptics,
     trialStartedAt,
+    preLogPauseSeconds,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5226,6 +5601,15 @@ class $SettingsTable extends Settings
         ),
       );
     }
+    if (data.containsKey('pre_log_pause_seconds')) {
+      context.handle(
+        _preLogPauseSecondsMeta,
+        preLogPauseSeconds.isAcceptableOrUnknown(
+          data['pre_log_pause_seconds']!,
+          _preLogPauseSecondsMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -5263,6 +5647,10 @@ class $SettingsTable extends Settings
         DriftSqlType.dateTime,
         data['${effectivePrefix}trial_started_at'],
       ),
+      preLogPauseSeconds: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}pre_log_pause_seconds'],
+      )!,
     );
   }
 
@@ -5286,6 +5674,11 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
   final bool reduceMotion;
   final bool haptics;
   final DateTime? trialStartedAt;
+
+  /// Opt-in pre-log pause in seconds (module report §12.③). The record is
+  /// still written immediately; the pause only offers a window to undo it.
+  /// 0 = off, the default.
+  final int preLogPauseSeconds;
   const SettingsRow({
     required this.id,
     required this.notifLevel,
@@ -5293,6 +5686,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     required this.reduceMotion,
     required this.haptics,
     this.trialStartedAt,
+    required this.preLogPauseSeconds,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5313,6 +5707,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     if (!nullToAbsent || trialStartedAt != null) {
       map['trial_started_at'] = Variable<DateTime>(trialStartedAt);
     }
+    map['pre_log_pause_seconds'] = Variable<int>(preLogPauseSeconds);
     return map;
   }
 
@@ -5326,6 +5721,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       trialStartedAt: trialStartedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(trialStartedAt),
+      preLogPauseSeconds: Value(preLogPauseSeconds),
     );
   }
 
@@ -5345,6 +5741,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       reduceMotion: serializer.fromJson<bool>(json['reduceMotion']),
       haptics: serializer.fromJson<bool>(json['haptics']),
       trialStartedAt: serializer.fromJson<DateTime?>(json['trialStartedAt']),
+      preLogPauseSeconds: serializer.fromJson<int>(json['preLogPauseSeconds']),
     );
   }
   @override
@@ -5361,6 +5758,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       'reduceMotion': serializer.toJson<bool>(reduceMotion),
       'haptics': serializer.toJson<bool>(haptics),
       'trialStartedAt': serializer.toJson<DateTime?>(trialStartedAt),
+      'preLogPauseSeconds': serializer.toJson<int>(preLogPauseSeconds),
     };
   }
 
@@ -5371,6 +5769,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     bool? reduceMotion,
     bool? haptics,
     Value<DateTime?> trialStartedAt = const Value.absent(),
+    int? preLogPauseSeconds,
   }) => SettingsRow(
     id: id ?? this.id,
     notifLevel: notifLevel ?? this.notifLevel,
@@ -5380,6 +5779,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     trialStartedAt: trialStartedAt.present
         ? trialStartedAt.value
         : this.trialStartedAt,
+    preLogPauseSeconds: preLogPauseSeconds ?? this.preLogPauseSeconds,
   );
   SettingsRow copyWithCompanion(SettingsCompanion data) {
     return SettingsRow(
@@ -5395,6 +5795,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       trialStartedAt: data.trialStartedAt.present
           ? data.trialStartedAt.value
           : this.trialStartedAt,
+      preLogPauseSeconds: data.preLogPauseSeconds.present
+          ? data.preLogPauseSeconds.value
+          : this.preLogPauseSeconds,
     );
   }
 
@@ -5406,14 +5809,22 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ..write('theme: $theme, ')
           ..write('reduceMotion: $reduceMotion, ')
           ..write('haptics: $haptics, ')
-          ..write('trialStartedAt: $trialStartedAt')
+          ..write('trialStartedAt: $trialStartedAt, ')
+          ..write('preLogPauseSeconds: $preLogPauseSeconds')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, notifLevel, theme, reduceMotion, haptics, trialStartedAt);
+  int get hashCode => Object.hash(
+    id,
+    notifLevel,
+    theme,
+    reduceMotion,
+    haptics,
+    trialStartedAt,
+    preLogPauseSeconds,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -5423,7 +5834,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           other.theme == this.theme &&
           other.reduceMotion == this.reduceMotion &&
           other.haptics == this.haptics &&
-          other.trialStartedAt == this.trialStartedAt);
+          other.trialStartedAt == this.trialStartedAt &&
+          other.preLogPauseSeconds == this.preLogPauseSeconds);
 }
 
 class SettingsCompanion extends UpdateCompanion<SettingsRow> {
@@ -5433,6 +5845,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
   final Value<bool> reduceMotion;
   final Value<bool> haptics;
   final Value<DateTime?> trialStartedAt;
+  final Value<int> preLogPauseSeconds;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.notifLevel = const Value.absent(),
@@ -5440,6 +5853,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.reduceMotion = const Value.absent(),
     this.haptics = const Value.absent(),
     this.trialStartedAt = const Value.absent(),
+    this.preLogPauseSeconds = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -5448,6 +5862,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.reduceMotion = const Value.absent(),
     this.haptics = const Value.absent(),
     this.trialStartedAt = const Value.absent(),
+    this.preLogPauseSeconds = const Value.absent(),
   });
   static Insertable<SettingsRow> custom({
     Expression<int>? id,
@@ -5456,6 +5871,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Expression<bool>? reduceMotion,
     Expression<bool>? haptics,
     Expression<DateTime>? trialStartedAt,
+    Expression<int>? preLogPauseSeconds,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -5464,6 +5880,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       if (reduceMotion != null) 'reduce_motion': reduceMotion,
       if (haptics != null) 'haptics': haptics,
       if (trialStartedAt != null) 'trial_started_at': trialStartedAt,
+      if (preLogPauseSeconds != null)
+        'pre_log_pause_seconds': preLogPauseSeconds,
     });
   }
 
@@ -5474,6 +5892,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Value<bool>? reduceMotion,
     Value<bool>? haptics,
     Value<DateTime?>? trialStartedAt,
+    Value<int>? preLogPauseSeconds,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -5482,6 +5901,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       reduceMotion: reduceMotion ?? this.reduceMotion,
       haptics: haptics ?? this.haptics,
       trialStartedAt: trialStartedAt ?? this.trialStartedAt,
+      preLogPauseSeconds: preLogPauseSeconds ?? this.preLogPauseSeconds,
     );
   }
 
@@ -5510,6 +5930,9 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     if (trialStartedAt.present) {
       map['trial_started_at'] = Variable<DateTime>(trialStartedAt.value);
     }
+    if (preLogPauseSeconds.present) {
+      map['pre_log_pause_seconds'] = Variable<int>(preLogPauseSeconds.value);
+    }
     return map;
   }
 
@@ -5521,7 +5944,1689 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
           ..write('theme: $theme, ')
           ..write('reduceMotion: $reduceMotion, ')
           ..write('haptics: $haptics, ')
-          ..write('trialStartedAt: $trialStartedAt')
+          ..write('trialStartedAt: $trialStartedAt, ')
+          ..write('preLogPauseSeconds: $preLogPauseSeconds')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MoodLogTable extends MoodLog with TableInfo<$MoodLogTable, MoodLogRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MoodLogTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _tsMeta = const VerificationMeta('ts');
+  @override
+  late final GeneratedColumn<DateTime> ts = GeneratedColumn<DateTime>(
+    'ts',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _reportedBandMeta = const VerificationMeta(
+    'reportedBand',
+  );
+  @override
+  late final GeneratedColumn<int> reportedBand = GeneratedColumn<int>(
+    'reported_band',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _estimatedMeta = const VerificationMeta(
+    'estimated',
+  );
+  @override
+  late final GeneratedColumn<double> estimated = GeneratedColumn<double>(
+    'estimated',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _promptedMeta = const VerificationMeta(
+    'prompted',
+  );
+  @override
+  late final GeneratedColumn<bool> prompted = GeneratedColumn<bool>(
+    'prompted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("prompted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    ts,
+    reportedBand,
+    estimated,
+    prompted,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mood_log';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MoodLogRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('ts')) {
+      context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
+    } else if (isInserting) {
+      context.missing(_tsMeta);
+    }
+    if (data.containsKey('reported_band')) {
+      context.handle(
+        _reportedBandMeta,
+        reportedBand.isAcceptableOrUnknown(
+          data['reported_band']!,
+          _reportedBandMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_reportedBandMeta);
+    }
+    if (data.containsKey('estimated')) {
+      context.handle(
+        _estimatedMeta,
+        estimated.isAcceptableOrUnknown(data['estimated']!, _estimatedMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_estimatedMeta);
+    }
+    if (data.containsKey('prompted')) {
+      context.handle(
+        _promptedMeta,
+        prompted.isAcceptableOrUnknown(data['prompted']!, _promptedMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MoodLogRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MoodLogRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      ts: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}ts'],
+      )!,
+      reportedBand: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}reported_band'],
+      )!,
+      estimated: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}estimated'],
+      )!,
+      prompted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}prompted'],
+      )!,
+    );
+  }
+
+  @override
+  $MoodLogTable createAlias(String alias) {
+    return $MoodLogTable(attachedDatabase, alias);
+  }
+}
+
+class MoodLogRow extends DataClass implements Insertable<MoodLogRow> {
+  final int id;
+  final DateTime ts;
+
+  /// The user's own report, 0 = calm, 1 = under pressure, 2 = tough.
+  final int reportedBand;
+
+  /// What the model estimated at that moment, 0..1 — kept so accuracy can be
+  /// computed later without re-deriving history.
+  final double estimated;
+
+  /// True when the app asked, false when the user opened it themselves.
+  final bool prompted;
+  const MoodLogRow({
+    required this.id,
+    required this.ts,
+    required this.reportedBand,
+    required this.estimated,
+    required this.prompted,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['ts'] = Variable<DateTime>(ts);
+    map['reported_band'] = Variable<int>(reportedBand);
+    map['estimated'] = Variable<double>(estimated);
+    map['prompted'] = Variable<bool>(prompted);
+    return map;
+  }
+
+  MoodLogCompanion toCompanion(bool nullToAbsent) {
+    return MoodLogCompanion(
+      id: Value(id),
+      ts: Value(ts),
+      reportedBand: Value(reportedBand),
+      estimated: Value(estimated),
+      prompted: Value(prompted),
+    );
+  }
+
+  factory MoodLogRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MoodLogRow(
+      id: serializer.fromJson<int>(json['id']),
+      ts: serializer.fromJson<DateTime>(json['ts']),
+      reportedBand: serializer.fromJson<int>(json['reportedBand']),
+      estimated: serializer.fromJson<double>(json['estimated']),
+      prompted: serializer.fromJson<bool>(json['prompted']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'ts': serializer.toJson<DateTime>(ts),
+      'reportedBand': serializer.toJson<int>(reportedBand),
+      'estimated': serializer.toJson<double>(estimated),
+      'prompted': serializer.toJson<bool>(prompted),
+    };
+  }
+
+  MoodLogRow copyWith({
+    int? id,
+    DateTime? ts,
+    int? reportedBand,
+    double? estimated,
+    bool? prompted,
+  }) => MoodLogRow(
+    id: id ?? this.id,
+    ts: ts ?? this.ts,
+    reportedBand: reportedBand ?? this.reportedBand,
+    estimated: estimated ?? this.estimated,
+    prompted: prompted ?? this.prompted,
+  );
+  MoodLogRow copyWithCompanion(MoodLogCompanion data) {
+    return MoodLogRow(
+      id: data.id.present ? data.id.value : this.id,
+      ts: data.ts.present ? data.ts.value : this.ts,
+      reportedBand: data.reportedBand.present
+          ? data.reportedBand.value
+          : this.reportedBand,
+      estimated: data.estimated.present ? data.estimated.value : this.estimated,
+      prompted: data.prompted.present ? data.prompted.value : this.prompted,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MoodLogRow(')
+          ..write('id: $id, ')
+          ..write('ts: $ts, ')
+          ..write('reportedBand: $reportedBand, ')
+          ..write('estimated: $estimated, ')
+          ..write('prompted: $prompted')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, ts, reportedBand, estimated, prompted);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MoodLogRow &&
+          other.id == this.id &&
+          other.ts == this.ts &&
+          other.reportedBand == this.reportedBand &&
+          other.estimated == this.estimated &&
+          other.prompted == this.prompted);
+}
+
+class MoodLogCompanion extends UpdateCompanion<MoodLogRow> {
+  final Value<int> id;
+  final Value<DateTime> ts;
+  final Value<int> reportedBand;
+  final Value<double> estimated;
+  final Value<bool> prompted;
+  const MoodLogCompanion({
+    this.id = const Value.absent(),
+    this.ts = const Value.absent(),
+    this.reportedBand = const Value.absent(),
+    this.estimated = const Value.absent(),
+    this.prompted = const Value.absent(),
+  });
+  MoodLogCompanion.insert({
+    this.id = const Value.absent(),
+    required DateTime ts,
+    required int reportedBand,
+    required double estimated,
+    this.prompted = const Value.absent(),
+  }) : ts = Value(ts),
+       reportedBand = Value(reportedBand),
+       estimated = Value(estimated);
+  static Insertable<MoodLogRow> custom({
+    Expression<int>? id,
+    Expression<DateTime>? ts,
+    Expression<int>? reportedBand,
+    Expression<double>? estimated,
+    Expression<bool>? prompted,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (ts != null) 'ts': ts,
+      if (reportedBand != null) 'reported_band': reportedBand,
+      if (estimated != null) 'estimated': estimated,
+      if (prompted != null) 'prompted': prompted,
+    });
+  }
+
+  MoodLogCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? ts,
+    Value<int>? reportedBand,
+    Value<double>? estimated,
+    Value<bool>? prompted,
+  }) {
+    return MoodLogCompanion(
+      id: id ?? this.id,
+      ts: ts ?? this.ts,
+      reportedBand: reportedBand ?? this.reportedBand,
+      estimated: estimated ?? this.estimated,
+      prompted: prompted ?? this.prompted,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (ts.present) {
+      map['ts'] = Variable<DateTime>(ts.value);
+    }
+    if (reportedBand.present) {
+      map['reported_band'] = Variable<int>(reportedBand.value);
+    }
+    if (estimated.present) {
+      map['estimated'] = Variable<double>(estimated.value);
+    }
+    if (prompted.present) {
+      map['prompted'] = Variable<bool>(prompted.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MoodLogCompanion(')
+          ..write('id: $id, ')
+          ..write('ts: $ts, ')
+          ..write('reportedBand: $reportedBand, ')
+          ..write('estimated: $estimated, ')
+          ..write('prompted: $prompted')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SupportLogTable extends SupportLog
+    with TableInfo<$SupportLogTable, SupportLogRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SupportLogTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<String> date = GeneratedColumn<String>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cardKeyMeta = const VerificationMeta(
+    'cardKey',
+  );
+  @override
+  late final GeneratedColumn<String> cardKey = GeneratedColumn<String>(
+    'card_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _doneMeta = const VerificationMeta('done');
+  @override
+  late final GeneratedColumn<bool> done = GeneratedColumn<bool>(
+    'done',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("done" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [date, cardKey, done];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'support_log';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SupportLogRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('date')) {
+      context.handle(
+        _dateMeta,
+        date.isAcceptableOrUnknown(data['date']!, _dateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('card_key')) {
+      context.handle(
+        _cardKeyMeta,
+        cardKey.isAcceptableOrUnknown(data['card_key']!, _cardKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cardKeyMeta);
+    }
+    if (data.containsKey('done')) {
+      context.handle(
+        _doneMeta,
+        done.isAcceptableOrUnknown(data['done']!, _doneMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {date, cardKey};
+  @override
+  SupportLogRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SupportLogRow(
+      date: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}date'],
+      )!,
+      cardKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}card_key'],
+      )!,
+      done: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}done'],
+      )!,
+    );
+  }
+
+  @override
+  $SupportLogTable createAlias(String alias) {
+    return $SupportLogTable(attachedDatabase, alias);
+  }
+}
+
+class SupportLogRow extends DataClass implements Insertable<SupportLogRow> {
+  final String date;
+  final String cardKey;
+  final bool done;
+  const SupportLogRow({
+    required this.date,
+    required this.cardKey,
+    required this.done,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['date'] = Variable<String>(date);
+    map['card_key'] = Variable<String>(cardKey);
+    map['done'] = Variable<bool>(done);
+    return map;
+  }
+
+  SupportLogCompanion toCompanion(bool nullToAbsent) {
+    return SupportLogCompanion(
+      date: Value(date),
+      cardKey: Value(cardKey),
+      done: Value(done),
+    );
+  }
+
+  factory SupportLogRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SupportLogRow(
+      date: serializer.fromJson<String>(json['date']),
+      cardKey: serializer.fromJson<String>(json['cardKey']),
+      done: serializer.fromJson<bool>(json['done']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'date': serializer.toJson<String>(date),
+      'cardKey': serializer.toJson<String>(cardKey),
+      'done': serializer.toJson<bool>(done),
+    };
+  }
+
+  SupportLogRow copyWith({String? date, String? cardKey, bool? done}) =>
+      SupportLogRow(
+        date: date ?? this.date,
+        cardKey: cardKey ?? this.cardKey,
+        done: done ?? this.done,
+      );
+  SupportLogRow copyWithCompanion(SupportLogCompanion data) {
+    return SupportLogRow(
+      date: data.date.present ? data.date.value : this.date,
+      cardKey: data.cardKey.present ? data.cardKey.value : this.cardKey,
+      done: data.done.present ? data.done.value : this.done,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SupportLogRow(')
+          ..write('date: $date, ')
+          ..write('cardKey: $cardKey, ')
+          ..write('done: $done')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(date, cardKey, done);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SupportLogRow &&
+          other.date == this.date &&
+          other.cardKey == this.cardKey &&
+          other.done == this.done);
+}
+
+class SupportLogCompanion extends UpdateCompanion<SupportLogRow> {
+  final Value<String> date;
+  final Value<String> cardKey;
+  final Value<bool> done;
+  final Value<int> rowid;
+  const SupportLogCompanion({
+    this.date = const Value.absent(),
+    this.cardKey = const Value.absent(),
+    this.done = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SupportLogCompanion.insert({
+    required String date,
+    required String cardKey,
+    this.done = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : date = Value(date),
+       cardKey = Value(cardKey);
+  static Insertable<SupportLogRow> custom({
+    Expression<String>? date,
+    Expression<String>? cardKey,
+    Expression<bool>? done,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (date != null) 'date': date,
+      if (cardKey != null) 'card_key': cardKey,
+      if (done != null) 'done': done,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SupportLogCompanion copyWith({
+    Value<String>? date,
+    Value<String>? cardKey,
+    Value<bool>? done,
+    Value<int>? rowid,
+  }) {
+    return SupportLogCompanion(
+      date: date ?? this.date,
+      cardKey: cardKey ?? this.cardKey,
+      done: done ?? this.done,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (date.present) {
+      map['date'] = Variable<String>(date.value);
+    }
+    if (cardKey.present) {
+      map['card_key'] = Variable<String>(cardKey.value);
+    }
+    if (done.present) {
+      map['done'] = Variable<bool>(done.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SupportLogCompanion(')
+          ..write('date: $date, ')
+          ..write('cardKey: $cardKey, ')
+          ..write('done: $done, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $IndexSnapshotTable extends IndexSnapshot
+    with TableInfo<$IndexSnapshotTable, IndexSnapshotRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $IndexSnapshotTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<String> date = GeneratedColumn<String>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _progressScoreMeta = const VerificationMeta(
+    'progressScore',
+  );
+  @override
+  late final GeneratedColumn<int> progressScore = GeneratedColumn<int>(
+    'progress_score',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _harmLoadMeta = const VerificationMeta(
+    'harmLoad',
+  );
+  @override
+  late final GeneratedColumn<int> harmLoad = GeneratedColumn<int>(
+    'harm_load',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [date, progressScore, harmLoad];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'index_snapshot';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<IndexSnapshotRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('date')) {
+      context.handle(
+        _dateMeta,
+        date.isAcceptableOrUnknown(data['date']!, _dateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('progress_score')) {
+      context.handle(
+        _progressScoreMeta,
+        progressScore.isAcceptableOrUnknown(
+          data['progress_score']!,
+          _progressScoreMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_progressScoreMeta);
+    }
+    if (data.containsKey('harm_load')) {
+      context.handle(
+        _harmLoadMeta,
+        harmLoad.isAcceptableOrUnknown(data['harm_load']!, _harmLoadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_harmLoadMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {date};
+  @override
+  IndexSnapshotRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return IndexSnapshotRow(
+      date: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}date'],
+      )!,
+      progressScore: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}progress_score'],
+      )!,
+      harmLoad: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}harm_load'],
+      )!,
+    );
+  }
+
+  @override
+  $IndexSnapshotTable createAlias(String alias) {
+    return $IndexSnapshotTable(attachedDatabase, alias);
+  }
+}
+
+class IndexSnapshotRow extends DataClass
+    implements Insertable<IndexSnapshotRow> {
+  final String date;
+  final int progressScore;
+  final int harmLoad;
+  const IndexSnapshotRow({
+    required this.date,
+    required this.progressScore,
+    required this.harmLoad,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['date'] = Variable<String>(date);
+    map['progress_score'] = Variable<int>(progressScore);
+    map['harm_load'] = Variable<int>(harmLoad);
+    return map;
+  }
+
+  IndexSnapshotCompanion toCompanion(bool nullToAbsent) {
+    return IndexSnapshotCompanion(
+      date: Value(date),
+      progressScore: Value(progressScore),
+      harmLoad: Value(harmLoad),
+    );
+  }
+
+  factory IndexSnapshotRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return IndexSnapshotRow(
+      date: serializer.fromJson<String>(json['date']),
+      progressScore: serializer.fromJson<int>(json['progressScore']),
+      harmLoad: serializer.fromJson<int>(json['harmLoad']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'date': serializer.toJson<String>(date),
+      'progressScore': serializer.toJson<int>(progressScore),
+      'harmLoad': serializer.toJson<int>(harmLoad),
+    };
+  }
+
+  IndexSnapshotRow copyWith({
+    String? date,
+    int? progressScore,
+    int? harmLoad,
+  }) => IndexSnapshotRow(
+    date: date ?? this.date,
+    progressScore: progressScore ?? this.progressScore,
+    harmLoad: harmLoad ?? this.harmLoad,
+  );
+  IndexSnapshotRow copyWithCompanion(IndexSnapshotCompanion data) {
+    return IndexSnapshotRow(
+      date: data.date.present ? data.date.value : this.date,
+      progressScore: data.progressScore.present
+          ? data.progressScore.value
+          : this.progressScore,
+      harmLoad: data.harmLoad.present ? data.harmLoad.value : this.harmLoad,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IndexSnapshotRow(')
+          ..write('date: $date, ')
+          ..write('progressScore: $progressScore, ')
+          ..write('harmLoad: $harmLoad')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(date, progressScore, harmLoad);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is IndexSnapshotRow &&
+          other.date == this.date &&
+          other.progressScore == this.progressScore &&
+          other.harmLoad == this.harmLoad);
+}
+
+class IndexSnapshotCompanion extends UpdateCompanion<IndexSnapshotRow> {
+  final Value<String> date;
+  final Value<int> progressScore;
+  final Value<int> harmLoad;
+  final Value<int> rowid;
+  const IndexSnapshotCompanion({
+    this.date = const Value.absent(),
+    this.progressScore = const Value.absent(),
+    this.harmLoad = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  IndexSnapshotCompanion.insert({
+    required String date,
+    required int progressScore,
+    required int harmLoad,
+    this.rowid = const Value.absent(),
+  }) : date = Value(date),
+       progressScore = Value(progressScore),
+       harmLoad = Value(harmLoad);
+  static Insertable<IndexSnapshotRow> custom({
+    Expression<String>? date,
+    Expression<int>? progressScore,
+    Expression<int>? harmLoad,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (date != null) 'date': date,
+      if (progressScore != null) 'progress_score': progressScore,
+      if (harmLoad != null) 'harm_load': harmLoad,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  IndexSnapshotCompanion copyWith({
+    Value<String>? date,
+    Value<int>? progressScore,
+    Value<int>? harmLoad,
+    Value<int>? rowid,
+  }) {
+    return IndexSnapshotCompanion(
+      date: date ?? this.date,
+      progressScore: progressScore ?? this.progressScore,
+      harmLoad: harmLoad ?? this.harmLoad,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (date.present) {
+      map['date'] = Variable<String>(date.value);
+    }
+    if (progressScore.present) {
+      map['progress_score'] = Variable<int>(progressScore.value);
+    }
+    if (harmLoad.present) {
+      map['harm_load'] = Variable<int>(harmLoad.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IndexSnapshotCompanion(')
+          ..write('date: $date, ')
+          ..write('progressScore: $progressScore, ')
+          ..write('harmLoad: $harmLoad, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PlanStateTable extends PlanState
+    with TableInfo<$PlanStateTable, PlanStateRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PlanStateTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<PlanKind, String> kind =
+      GeneratedColumn<String>(
+        'kind',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('gradualTaper'),
+      ).withConverter<PlanKind>($PlanStateTable.$converterkind);
+  static const VerificationMeta _startedAtMeta = const VerificationMeta(
+    'startedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startedAt = GeneratedColumn<DateTime>(
+    'started_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _intervalMinutesMeta = const VerificationMeta(
+    'intervalMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> intervalMinutes = GeneratedColumn<int>(
+    'interval_minutes',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _targetIntervalMinutesMeta =
+      const VerificationMeta('targetIntervalMinutes');
+  @override
+  late final GeneratedColumn<int> targetIntervalMinutes = GeneratedColumn<int>(
+    'target_interval_minutes',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _daysAtStepMeta = const VerificationMeta(
+    'daysAtStep',
+  );
+  @override
+  late final GeneratedColumn<int> daysAtStep = GeneratedColumn<int>(
+    'days_at_step',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<TaperMode, String> taperMode =
+      GeneratedColumn<String>(
+        'taper_mode',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('gentle'),
+      ).withConverter<TaperMode>($PlanStateTable.$convertertaperMode);
+  static const VerificationMeta _switchHistoryJsonMeta = const VerificationMeta(
+    'switchHistoryJson',
+  );
+  @override
+  late final GeneratedColumn<String> switchHistoryJson =
+      GeneratedColumn<String>(
+        'switch_history_json',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('[]'),
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    kind,
+    startedAt,
+    intervalMinutes,
+    targetIntervalMinutes,
+    daysAtStep,
+    taperMode,
+    switchHistoryJson,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'plan_state';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PlanStateRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('started_at')) {
+      context.handle(
+        _startedAtMeta,
+        startedAt.isAcceptableOrUnknown(data['started_at']!, _startedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startedAtMeta);
+    }
+    if (data.containsKey('interval_minutes')) {
+      context.handle(
+        _intervalMinutesMeta,
+        intervalMinutes.isAcceptableOrUnknown(
+          data['interval_minutes']!,
+          _intervalMinutesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('target_interval_minutes')) {
+      context.handle(
+        _targetIntervalMinutesMeta,
+        targetIntervalMinutes.isAcceptableOrUnknown(
+          data['target_interval_minutes']!,
+          _targetIntervalMinutesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('days_at_step')) {
+      context.handle(
+        _daysAtStepMeta,
+        daysAtStep.isAcceptableOrUnknown(
+          data['days_at_step']!,
+          _daysAtStepMeta,
+        ),
+      );
+    }
+    if (data.containsKey('switch_history_json')) {
+      context.handle(
+        _switchHistoryJsonMeta,
+        switchHistoryJson.isAcceptableOrUnknown(
+          data['switch_history_json']!,
+          _switchHistoryJsonMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PlanStateRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PlanStateRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      kind: $PlanStateTable.$converterkind.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}kind'],
+        )!,
+      ),
+      startedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}started_at'],
+      )!,
+      intervalMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}interval_minutes'],
+      ),
+      targetIntervalMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}target_interval_minutes'],
+      ),
+      daysAtStep: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}days_at_step'],
+      )!,
+      taperMode: $PlanStateTable.$convertertaperMode.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}taper_mode'],
+        )!,
+      ),
+      switchHistoryJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}switch_history_json'],
+      )!,
+    );
+  }
+
+  @override
+  $PlanStateTable createAlias(String alias) {
+    return $PlanStateTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<PlanKind, String, String> $converterkind =
+      const EnumNameConverter<PlanKind>(PlanKind.values);
+  static JsonTypeConverter2<TaperMode, String, String> $convertertaperMode =
+      const EnumNameConverter<TaperMode>(TaperMode.values);
+}
+
+class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
+  final int id;
+  final PlanKind kind;
+  final DateTime startedAt;
+
+  /// Current and final target interval for the taper engine, in minutes.
+  final int? intervalMinutes;
+  final int? targetIntervalMinutes;
+
+  /// Days spent at the current taper step — the stabilization counter.
+  final int daysAtStep;
+  final TaperMode taperMode;
+
+  /// ISO dates of recent plan switches, JSON array.
+  final String switchHistoryJson;
+  const PlanStateRow({
+    required this.id,
+    required this.kind,
+    required this.startedAt,
+    this.intervalMinutes,
+    this.targetIntervalMinutes,
+    required this.daysAtStep,
+    required this.taperMode,
+    required this.switchHistoryJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    {
+      map['kind'] = Variable<String>(
+        $PlanStateTable.$converterkind.toSql(kind),
+      );
+    }
+    map['started_at'] = Variable<DateTime>(startedAt);
+    if (!nullToAbsent || intervalMinutes != null) {
+      map['interval_minutes'] = Variable<int>(intervalMinutes);
+    }
+    if (!nullToAbsent || targetIntervalMinutes != null) {
+      map['target_interval_minutes'] = Variable<int>(targetIntervalMinutes);
+    }
+    map['days_at_step'] = Variable<int>(daysAtStep);
+    {
+      map['taper_mode'] = Variable<String>(
+        $PlanStateTable.$convertertaperMode.toSql(taperMode),
+      );
+    }
+    map['switch_history_json'] = Variable<String>(switchHistoryJson);
+    return map;
+  }
+
+  PlanStateCompanion toCompanion(bool nullToAbsent) {
+    return PlanStateCompanion(
+      id: Value(id),
+      kind: Value(kind),
+      startedAt: Value(startedAt),
+      intervalMinutes: intervalMinutes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(intervalMinutes),
+      targetIntervalMinutes: targetIntervalMinutes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetIntervalMinutes),
+      daysAtStep: Value(daysAtStep),
+      taperMode: Value(taperMode),
+      switchHistoryJson: Value(switchHistoryJson),
+    );
+  }
+
+  factory PlanStateRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PlanStateRow(
+      id: serializer.fromJson<int>(json['id']),
+      kind: $PlanStateTable.$converterkind.fromJson(
+        serializer.fromJson<String>(json['kind']),
+      ),
+      startedAt: serializer.fromJson<DateTime>(json['startedAt']),
+      intervalMinutes: serializer.fromJson<int?>(json['intervalMinutes']),
+      targetIntervalMinutes: serializer.fromJson<int?>(
+        json['targetIntervalMinutes'],
+      ),
+      daysAtStep: serializer.fromJson<int>(json['daysAtStep']),
+      taperMode: $PlanStateTable.$convertertaperMode.fromJson(
+        serializer.fromJson<String>(json['taperMode']),
+      ),
+      switchHistoryJson: serializer.fromJson<String>(json['switchHistoryJson']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'kind': serializer.toJson<String>(
+        $PlanStateTable.$converterkind.toJson(kind),
+      ),
+      'startedAt': serializer.toJson<DateTime>(startedAt),
+      'intervalMinutes': serializer.toJson<int?>(intervalMinutes),
+      'targetIntervalMinutes': serializer.toJson<int?>(targetIntervalMinutes),
+      'daysAtStep': serializer.toJson<int>(daysAtStep),
+      'taperMode': serializer.toJson<String>(
+        $PlanStateTable.$convertertaperMode.toJson(taperMode),
+      ),
+      'switchHistoryJson': serializer.toJson<String>(switchHistoryJson),
+    };
+  }
+
+  PlanStateRow copyWith({
+    int? id,
+    PlanKind? kind,
+    DateTime? startedAt,
+    Value<int?> intervalMinutes = const Value.absent(),
+    Value<int?> targetIntervalMinutes = const Value.absent(),
+    int? daysAtStep,
+    TaperMode? taperMode,
+    String? switchHistoryJson,
+  }) => PlanStateRow(
+    id: id ?? this.id,
+    kind: kind ?? this.kind,
+    startedAt: startedAt ?? this.startedAt,
+    intervalMinutes: intervalMinutes.present
+        ? intervalMinutes.value
+        : this.intervalMinutes,
+    targetIntervalMinutes: targetIntervalMinutes.present
+        ? targetIntervalMinutes.value
+        : this.targetIntervalMinutes,
+    daysAtStep: daysAtStep ?? this.daysAtStep,
+    taperMode: taperMode ?? this.taperMode,
+    switchHistoryJson: switchHistoryJson ?? this.switchHistoryJson,
+  );
+  PlanStateRow copyWithCompanion(PlanStateCompanion data) {
+    return PlanStateRow(
+      id: data.id.present ? data.id.value : this.id,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      startedAt: data.startedAt.present ? data.startedAt.value : this.startedAt,
+      intervalMinutes: data.intervalMinutes.present
+          ? data.intervalMinutes.value
+          : this.intervalMinutes,
+      targetIntervalMinutes: data.targetIntervalMinutes.present
+          ? data.targetIntervalMinutes.value
+          : this.targetIntervalMinutes,
+      daysAtStep: data.daysAtStep.present
+          ? data.daysAtStep.value
+          : this.daysAtStep,
+      taperMode: data.taperMode.present ? data.taperMode.value : this.taperMode,
+      switchHistoryJson: data.switchHistoryJson.present
+          ? data.switchHistoryJson.value
+          : this.switchHistoryJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PlanStateRow(')
+          ..write('id: $id, ')
+          ..write('kind: $kind, ')
+          ..write('startedAt: $startedAt, ')
+          ..write('intervalMinutes: $intervalMinutes, ')
+          ..write('targetIntervalMinutes: $targetIntervalMinutes, ')
+          ..write('daysAtStep: $daysAtStep, ')
+          ..write('taperMode: $taperMode, ')
+          ..write('switchHistoryJson: $switchHistoryJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    kind,
+    startedAt,
+    intervalMinutes,
+    targetIntervalMinutes,
+    daysAtStep,
+    taperMode,
+    switchHistoryJson,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PlanStateRow &&
+          other.id == this.id &&
+          other.kind == this.kind &&
+          other.startedAt == this.startedAt &&
+          other.intervalMinutes == this.intervalMinutes &&
+          other.targetIntervalMinutes == this.targetIntervalMinutes &&
+          other.daysAtStep == this.daysAtStep &&
+          other.taperMode == this.taperMode &&
+          other.switchHistoryJson == this.switchHistoryJson);
+}
+
+class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
+  final Value<int> id;
+  final Value<PlanKind> kind;
+  final Value<DateTime> startedAt;
+  final Value<int?> intervalMinutes;
+  final Value<int?> targetIntervalMinutes;
+  final Value<int> daysAtStep;
+  final Value<TaperMode> taperMode;
+  final Value<String> switchHistoryJson;
+  const PlanStateCompanion({
+    this.id = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.startedAt = const Value.absent(),
+    this.intervalMinutes = const Value.absent(),
+    this.targetIntervalMinutes = const Value.absent(),
+    this.daysAtStep = const Value.absent(),
+    this.taperMode = const Value.absent(),
+    this.switchHistoryJson = const Value.absent(),
+  });
+  PlanStateCompanion.insert({
+    this.id = const Value.absent(),
+    this.kind = const Value.absent(),
+    required DateTime startedAt,
+    this.intervalMinutes = const Value.absent(),
+    this.targetIntervalMinutes = const Value.absent(),
+    this.daysAtStep = const Value.absent(),
+    this.taperMode = const Value.absent(),
+    this.switchHistoryJson = const Value.absent(),
+  }) : startedAt = Value(startedAt);
+  static Insertable<PlanStateRow> custom({
+    Expression<int>? id,
+    Expression<String>? kind,
+    Expression<DateTime>? startedAt,
+    Expression<int>? intervalMinutes,
+    Expression<int>? targetIntervalMinutes,
+    Expression<int>? daysAtStep,
+    Expression<String>? taperMode,
+    Expression<String>? switchHistoryJson,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (kind != null) 'kind': kind,
+      if (startedAt != null) 'started_at': startedAt,
+      if (intervalMinutes != null) 'interval_minutes': intervalMinutes,
+      if (targetIntervalMinutes != null)
+        'target_interval_minutes': targetIntervalMinutes,
+      if (daysAtStep != null) 'days_at_step': daysAtStep,
+      if (taperMode != null) 'taper_mode': taperMode,
+      if (switchHistoryJson != null) 'switch_history_json': switchHistoryJson,
+    });
+  }
+
+  PlanStateCompanion copyWith({
+    Value<int>? id,
+    Value<PlanKind>? kind,
+    Value<DateTime>? startedAt,
+    Value<int?>? intervalMinutes,
+    Value<int?>? targetIntervalMinutes,
+    Value<int>? daysAtStep,
+    Value<TaperMode>? taperMode,
+    Value<String>? switchHistoryJson,
+  }) {
+    return PlanStateCompanion(
+      id: id ?? this.id,
+      kind: kind ?? this.kind,
+      startedAt: startedAt ?? this.startedAt,
+      intervalMinutes: intervalMinutes ?? this.intervalMinutes,
+      targetIntervalMinutes:
+          targetIntervalMinutes ?? this.targetIntervalMinutes,
+      daysAtStep: daysAtStep ?? this.daysAtStep,
+      taperMode: taperMode ?? this.taperMode,
+      switchHistoryJson: switchHistoryJson ?? this.switchHistoryJson,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(
+        $PlanStateTable.$converterkind.toSql(kind.value),
+      );
+    }
+    if (startedAt.present) {
+      map['started_at'] = Variable<DateTime>(startedAt.value);
+    }
+    if (intervalMinutes.present) {
+      map['interval_minutes'] = Variable<int>(intervalMinutes.value);
+    }
+    if (targetIntervalMinutes.present) {
+      map['target_interval_minutes'] = Variable<int>(
+        targetIntervalMinutes.value,
+      );
+    }
+    if (daysAtStep.present) {
+      map['days_at_step'] = Variable<int>(daysAtStep.value);
+    }
+    if (taperMode.present) {
+      map['taper_mode'] = Variable<String>(
+        $PlanStateTable.$convertertaperMode.toSql(taperMode.value),
+      );
+    }
+    if (switchHistoryJson.present) {
+      map['switch_history_json'] = Variable<String>(switchHistoryJson.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PlanStateCompanion(')
+          ..write('id: $id, ')
+          ..write('kind: $kind, ')
+          ..write('startedAt: $startedAt, ')
+          ..write('intervalMinutes: $intervalMinutes, ')
+          ..write('targetIntervalMinutes: $targetIntervalMinutes, ')
+          ..write('daysAtStep: $daysAtStep, ')
+          ..write('taperMode: $taperMode, ')
+          ..write('switchHistoryJson: $switchHistoryJson')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SavingsGoalTableTable extends SavingsGoalTable
+    with TableInfo<$SavingsGoalTableTable, SavingsGoalRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SavingsGoalTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _labelMeta = const VerificationMeta('label');
+  @override
+  late final GeneratedColumn<String> label = GeneratedColumn<String>(
+    'label',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
+  @override
+  late final GeneratedColumn<double> amount = GeneratedColumn<double>(
+    'amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, label, amount];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'savings_goal_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SavingsGoalRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('label')) {
+      context.handle(
+        _labelMeta,
+        label.isAcceptableOrUnknown(data['label']!, _labelMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_labelMeta);
+    }
+    if (data.containsKey('amount')) {
+      context.handle(
+        _amountMeta,
+        amount.isAcceptableOrUnknown(data['amount']!, _amountMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_amountMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SavingsGoalRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SavingsGoalRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      label: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}label'],
+      )!,
+      amount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}amount'],
+      )!,
+    );
+  }
+
+  @override
+  $SavingsGoalTableTable createAlias(String alias) {
+    return $SavingsGoalTableTable(attachedDatabase, alias);
+  }
+}
+
+class SavingsGoalRow extends DataClass implements Insertable<SavingsGoalRow> {
+  final int id;
+  final String label;
+  final double amount;
+  const SavingsGoalRow({
+    required this.id,
+    required this.label,
+    required this.amount,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['label'] = Variable<String>(label);
+    map['amount'] = Variable<double>(amount);
+    return map;
+  }
+
+  SavingsGoalTableCompanion toCompanion(bool nullToAbsent) {
+    return SavingsGoalTableCompanion(
+      id: Value(id),
+      label: Value(label),
+      amount: Value(amount),
+    );
+  }
+
+  factory SavingsGoalRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SavingsGoalRow(
+      id: serializer.fromJson<int>(json['id']),
+      label: serializer.fromJson<String>(json['label']),
+      amount: serializer.fromJson<double>(json['amount']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'label': serializer.toJson<String>(label),
+      'amount': serializer.toJson<double>(amount),
+    };
+  }
+
+  SavingsGoalRow copyWith({int? id, String? label, double? amount}) =>
+      SavingsGoalRow(
+        id: id ?? this.id,
+        label: label ?? this.label,
+        amount: amount ?? this.amount,
+      );
+  SavingsGoalRow copyWithCompanion(SavingsGoalTableCompanion data) {
+    return SavingsGoalRow(
+      id: data.id.present ? data.id.value : this.id,
+      label: data.label.present ? data.label.value : this.label,
+      amount: data.amount.present ? data.amount.value : this.amount,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SavingsGoalRow(')
+          ..write('id: $id, ')
+          ..write('label: $label, ')
+          ..write('amount: $amount')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, label, amount);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SavingsGoalRow &&
+          other.id == this.id &&
+          other.label == this.label &&
+          other.amount == this.amount);
+}
+
+class SavingsGoalTableCompanion extends UpdateCompanion<SavingsGoalRow> {
+  final Value<int> id;
+  final Value<String> label;
+  final Value<double> amount;
+  const SavingsGoalTableCompanion({
+    this.id = const Value.absent(),
+    this.label = const Value.absent(),
+    this.amount = const Value.absent(),
+  });
+  SavingsGoalTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String label,
+    required double amount,
+  }) : label = Value(label),
+       amount = Value(amount);
+  static Insertable<SavingsGoalRow> custom({
+    Expression<int>? id,
+    Expression<String>? label,
+    Expression<double>? amount,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (label != null) 'label': label,
+      if (amount != null) 'amount': amount,
+    });
+  }
+
+  SavingsGoalTableCompanion copyWith({
+    Value<int>? id,
+    Value<String>? label,
+    Value<double>? amount,
+  }) {
+    return SavingsGoalTableCompanion(
+      id: id ?? this.id,
+      label: label ?? this.label,
+      amount: amount ?? this.amount,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (label.present) {
+      map['label'] = Variable<String>(label.value);
+    }
+    if (amount.present) {
+      map['amount'] = Variable<double>(amount.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SavingsGoalTableCompanion(')
+          ..write('id: $id, ')
+          ..write('label: $label, ')
+          ..write('amount: $amount')
           ..write(')'))
         .toString();
   }
@@ -5548,6 +7653,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $PurchaseEntitlementTable purchaseEntitlement =
       $PurchaseEntitlementTable(this);
   late final $SettingsTable settings = $SettingsTable(this);
+  late final $MoodLogTable moodLog = $MoodLogTable(this);
+  late final $SupportLogTable supportLog = $SupportLogTable(this);
+  late final $IndexSnapshotTable indexSnapshot = $IndexSnapshotTable(this);
+  late final $PlanStateTable planState = $PlanStateTable(this);
+  late final $SavingsGoalTableTable savingsGoalTable = $SavingsGoalTableTable(
+    this,
+  );
   late final ProfileDao profileDao = ProfileDao(this as AppDatabase);
   late final RecordDao recordDao = RecordDao(this as AppDatabase);
   late final PlanDao planDao = PlanDao(this as AppDatabase);
@@ -5557,6 +7669,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final PurchaseDao purchaseDao = PurchaseDao(this as AppDatabase);
   late final SettingsDao settingsDao = SettingsDao(this as AppDatabase);
   late final TimelineDao timelineDao = TimelineDao(this as AppDatabase);
+  late final ModuleDao moduleDao = ModuleDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -5575,6 +7688,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     motivationContent,
     purchaseEntitlement,
     settings,
+    moodLog,
+    supportLog,
+    indexSnapshot,
+    planState,
+    savingsGoalTable,
   ];
 }
 
@@ -5775,6 +7893,12 @@ typedef $$SmokingProfileTableCreateCompanionBuilder =
       required TargetMode targetMode,
       required Pace pace,
       required DateTime startedAt,
+      Value<double?> heightCm,
+      Value<double?> weightKg,
+      Value<SexOption?> sex,
+      Value<double?> smokingYears,
+      Value<int?> hsi,
+      Value<MetabolismSpeed> metabolism,
     });
 typedef $$SmokingProfileTableUpdateCompanionBuilder =
     SmokingProfileCompanion Function({
@@ -5788,6 +7912,12 @@ typedef $$SmokingProfileTableUpdateCompanionBuilder =
       Value<TargetMode> targetMode,
       Value<Pace> pace,
       Value<DateTime> startedAt,
+      Value<double?> heightCm,
+      Value<double?> weightKg,
+      Value<SexOption?> sex,
+      Value<double?> smokingYears,
+      Value<int?> hsi,
+      Value<MetabolismSpeed> metabolism,
     });
 
 class $$SmokingProfileTableFilterComposer
@@ -5851,6 +7981,38 @@ class $$SmokingProfileTableFilterComposer
     column: $table.startedAt,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<double> get heightCm => $composableBuilder(
+    column: $table.heightCm,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get weightKg => $composableBuilder(
+    column: $table.weightKg,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<SexOption?, SexOption, String> get sex =>
+      $composableBuilder(
+        column: $table.sex,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnFilters<double> get smokingYears => $composableBuilder(
+    column: $table.smokingYears,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get hsi => $composableBuilder(
+    column: $table.hsi,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<MetabolismSpeed, MetabolismSpeed, String>
+  get metabolism => $composableBuilder(
+    column: $table.metabolism,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
 }
 
 class $$SmokingProfileTableOrderingComposer
@@ -5911,6 +8073,36 @@ class $$SmokingProfileTableOrderingComposer
     column: $table.startedAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<double> get heightCm => $composableBuilder(
+    column: $table.heightCm,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get weightKg => $composableBuilder(
+    column: $table.weightKg,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sex => $composableBuilder(
+    column: $table.sex,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get smokingYears => $composableBuilder(
+    column: $table.smokingYears,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get hsi => $composableBuilder(
+    column: $table.hsi,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get metabolism => $composableBuilder(
+    column: $table.metabolism,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SmokingProfileTableAnnotationComposer
@@ -5958,6 +8150,29 @@ class $$SmokingProfileTableAnnotationComposer
 
   GeneratedColumn<DateTime> get startedAt =>
       $composableBuilder(column: $table.startedAt, builder: (column) => column);
+
+  GeneratedColumn<double> get heightCm =>
+      $composableBuilder(column: $table.heightCm, builder: (column) => column);
+
+  GeneratedColumn<double> get weightKg =>
+      $composableBuilder(column: $table.weightKg, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<SexOption?, String> get sex =>
+      $composableBuilder(column: $table.sex, builder: (column) => column);
+
+  GeneratedColumn<double> get smokingYears => $composableBuilder(
+    column: $table.smokingYears,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get hsi =>
+      $composableBuilder(column: $table.hsi, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<MetabolismSpeed, String> get metabolism =>
+      $composableBuilder(
+        column: $table.metabolism,
+        builder: (column) => column,
+      );
 }
 
 class $$SmokingProfileTableTableManager
@@ -6007,6 +8222,12 @@ class $$SmokingProfileTableTableManager
                 Value<TargetMode> targetMode = const Value.absent(),
                 Value<Pace> pace = const Value.absent(),
                 Value<DateTime> startedAt = const Value.absent(),
+                Value<double?> heightCm = const Value.absent(),
+                Value<double?> weightKg = const Value.absent(),
+                Value<SexOption?> sex = const Value.absent(),
+                Value<double?> smokingYears = const Value.absent(),
+                Value<int?> hsi = const Value.absent(),
+                Value<MetabolismSpeed> metabolism = const Value.absent(),
               }) => SmokingProfileCompanion(
                 id: id,
                 baselineCpd: baselineCpd,
@@ -6018,6 +8239,12 @@ class $$SmokingProfileTableTableManager
                 targetMode: targetMode,
                 pace: pace,
                 startedAt: startedAt,
+                heightCm: heightCm,
+                weightKg: weightKg,
+                sex: sex,
+                smokingYears: smokingYears,
+                hsi: hsi,
+                metabolism: metabolism,
               ),
           createCompanionCallback:
               ({
@@ -6031,6 +8258,12 @@ class $$SmokingProfileTableTableManager
                 required TargetMode targetMode,
                 required Pace pace,
                 required DateTime startedAt,
+                Value<double?> heightCm = const Value.absent(),
+                Value<double?> weightKg = const Value.absent(),
+                Value<SexOption?> sex = const Value.absent(),
+                Value<double?> smokingYears = const Value.absent(),
+                Value<int?> hsi = const Value.absent(),
+                Value<MetabolismSpeed> metabolism = const Value.absent(),
               }) => SmokingProfileCompanion.insert(
                 id: id,
                 baselineCpd: baselineCpd,
@@ -6042,6 +8275,12 @@ class $$SmokingProfileTableTableManager
                 targetMode: targetMode,
                 pace: pace,
                 startedAt: startedAt,
+                heightCm: heightCm,
+                weightKg: weightKg,
+                sex: sex,
+                smokingYears: smokingYears,
+                hsi: hsi,
+                metabolism: metabolism,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -7216,6 +9455,7 @@ typedef $$CravingEventTableCreateCompanionBuilder =
       required CravingIntensity intensity,
       Value<TriggerLabel?> triggerLabel,
       required CravingOutcome outcome,
+      Value<String?> techniqueKey,
     });
 typedef $$CravingEventTableUpdateCompanionBuilder =
     CravingEventCompanion Function({
@@ -7224,6 +9464,7 @@ typedef $$CravingEventTableUpdateCompanionBuilder =
       Value<CravingIntensity> intensity,
       Value<TriggerLabel?> triggerLabel,
       Value<CravingOutcome> outcome,
+      Value<String?> techniqueKey,
     });
 
 class $$CravingEventTableFilterComposer
@@ -7262,6 +9503,11 @@ class $$CravingEventTableFilterComposer
     column: $table.outcome,
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
+
+  ColumnFilters<String> get techniqueKey => $composableBuilder(
+    column: $table.techniqueKey,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$CravingEventTableOrderingComposer
@@ -7297,6 +9543,11 @@ class $$CravingEventTableOrderingComposer
     column: $table.outcome,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get techniqueKey => $composableBuilder(
+    column: $table.techniqueKey,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CravingEventTableAnnotationComposer
@@ -7325,6 +9576,11 @@ class $$CravingEventTableAnnotationComposer
 
   GeneratedColumnWithTypeConverter<CravingOutcome, String> get outcome =>
       $composableBuilder(column: $table.outcome, builder: (column) => column);
+
+  GeneratedColumn<String> get techniqueKey => $composableBuilder(
+    column: $table.techniqueKey,
+    builder: (column) => column,
+  );
 }
 
 class $$CravingEventTableTableManager
@@ -7363,12 +9619,14 @@ class $$CravingEventTableTableManager
                 Value<CravingIntensity> intensity = const Value.absent(),
                 Value<TriggerLabel?> triggerLabel = const Value.absent(),
                 Value<CravingOutcome> outcome = const Value.absent(),
+                Value<String?> techniqueKey = const Value.absent(),
               }) => CravingEventCompanion(
                 id: id,
                 ts: ts,
                 intensity: intensity,
                 triggerLabel: triggerLabel,
                 outcome: outcome,
+                techniqueKey: techniqueKey,
               ),
           createCompanionCallback:
               ({
@@ -7377,12 +9635,14 @@ class $$CravingEventTableTableManager
                 required CravingIntensity intensity,
                 Value<TriggerLabel?> triggerLabel = const Value.absent(),
                 required CravingOutcome outcome,
+                Value<String?> techniqueKey = const Value.absent(),
               }) => CravingEventCompanion.insert(
                 id: id,
                 ts: ts,
                 intensity: intensity,
                 triggerLabel: triggerLabel,
                 outcome: outcome,
+                techniqueKey: techniqueKey,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -8433,6 +10693,7 @@ typedef $$SettingsTableCreateCompanionBuilder = SettingsCompanion Function({
   Value<bool> reduceMotion,
   Value<bool> haptics,
   Value<DateTime?> trialStartedAt,
+  Value<int> preLogPauseSeconds,
 });
 typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<int> id,
@@ -8441,6 +10702,7 @@ typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<bool> reduceMotion,
   Value<bool> haptics,
   Value<DateTime?> trialStartedAt,
+  Value<int> preLogPauseSeconds,
 });
 
 class $$SettingsTableFilterComposer
@@ -8487,6 +10749,11 @@ class $$SettingsTableFilterComposer
     column: $table.trialStartedAt,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<int> get preLogPauseSeconds => $composableBuilder(
+    column: $table.preLogPauseSeconds,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SettingsTableOrderingComposer
@@ -8527,6 +10794,11 @@ class $$SettingsTableOrderingComposer
     column: $table.trialStartedAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get preLogPauseSeconds => $composableBuilder(
+    column: $table.preLogPauseSeconds,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -8560,6 +10832,11 @@ class $$SettingsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get trialStartedAt => $composableBuilder(
     column: $table.trialStartedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get preLogPauseSeconds => $composableBuilder(
+    column: $table.preLogPauseSeconds,
     builder: (column) => column,
   );
 }
@@ -8601,6 +10878,7 @@ class $$SettingsTableTableManager
                 Value<bool> reduceMotion = const Value.absent(),
                 Value<bool> haptics = const Value.absent(),
                 Value<DateTime?> trialStartedAt = const Value.absent(),
+                Value<int> preLogPauseSeconds = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 notifLevel: notifLevel,
@@ -8608,6 +10886,7 @@ class $$SettingsTableTableManager
                 reduceMotion: reduceMotion,
                 haptics: haptics,
                 trialStartedAt: trialStartedAt,
+                preLogPauseSeconds: preLogPauseSeconds,
               ),
           createCompanionCallback:
               ({
@@ -8617,6 +10896,7 @@ class $$SettingsTableTableManager
                 Value<bool> reduceMotion = const Value.absent(),
                 Value<bool> haptics = const Value.absent(),
                 Value<DateTime?> trialStartedAt = const Value.absent(),
+                Value<int> preLogPauseSeconds = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 notifLevel: notifLevel,
@@ -8624,6 +10904,7 @@ class $$SettingsTableTableManager
                 reduceMotion: reduceMotion,
                 haptics: haptics,
                 trialStartedAt: trialStartedAt,
+                preLogPauseSeconds: preLogPauseSeconds,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -8656,6 +10937,986 @@ typedef $$SettingsTableProcessedTableManager =
       SettingsRow,
       PrefetchHooks Function()
     >;
+typedef $$MoodLogTableCreateCompanionBuilder = MoodLogCompanion Function({
+  Value<int> id,
+  required DateTime ts,
+  required int reportedBand,
+  required double estimated,
+  Value<bool> prompted,
+});
+typedef $$MoodLogTableUpdateCompanionBuilder = MoodLogCompanion Function({
+  Value<int> id,
+  Value<DateTime> ts,
+  Value<int> reportedBand,
+  Value<double> estimated,
+  Value<bool> prompted,
+});
+
+class $$MoodLogTableFilterComposer
+    extends Composer<_$AppDatabase, $MoodLogTable> {
+  $$MoodLogTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get ts => $composableBuilder(
+    column: $table.ts,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get reportedBand => $composableBuilder(
+    column: $table.reportedBand,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get estimated => $composableBuilder(
+    column: $table.estimated,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get prompted => $composableBuilder(
+    column: $table.prompted,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MoodLogTableOrderingComposer
+    extends Composer<_$AppDatabase, $MoodLogTable> {
+  $$MoodLogTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get ts => $composableBuilder(
+    column: $table.ts,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get reportedBand => $composableBuilder(
+    column: $table.reportedBand,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get estimated => $composableBuilder(
+    column: $table.estimated,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get prompted => $composableBuilder(
+    column: $table.prompted,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MoodLogTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MoodLogTable> {
+  $$MoodLogTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get ts =>
+      $composableBuilder(column: $table.ts, builder: (column) => column);
+
+  GeneratedColumn<int> get reportedBand => $composableBuilder(
+    column: $table.reportedBand,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get estimated =>
+      $composableBuilder(column: $table.estimated, builder: (column) => column);
+
+  GeneratedColumn<bool> get prompted =>
+      $composableBuilder(column: $table.prompted, builder: (column) => column);
+}
+
+class $$MoodLogTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MoodLogTable,
+          MoodLogRow,
+          $$MoodLogTableFilterComposer,
+          $$MoodLogTableOrderingComposer,
+          $$MoodLogTableAnnotationComposer,
+          $$MoodLogTableCreateCompanionBuilder,
+          $$MoodLogTableUpdateCompanionBuilder,
+          (
+            MoodLogRow,
+            BaseReferences<_$AppDatabase, $MoodLogTable, MoodLogRow>,
+          ),
+          MoodLogRow,
+          PrefetchHooks Function()
+        > {
+  $$MoodLogTableTableManager(_$AppDatabase db, $MoodLogTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MoodLogTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MoodLogTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MoodLogTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> ts = const Value.absent(),
+                Value<int> reportedBand = const Value.absent(),
+                Value<double> estimated = const Value.absent(),
+                Value<bool> prompted = const Value.absent(),
+              }) => MoodLogCompanion(
+                id: id,
+                ts: ts,
+                reportedBand: reportedBand,
+                estimated: estimated,
+                prompted: prompted,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required DateTime ts,
+                required int reportedBand,
+                required double estimated,
+                Value<bool> prompted = const Value.absent(),
+              }) => MoodLogCompanion.insert(
+                id: id,
+                ts: ts,
+                reportedBand: reportedBand,
+                estimated: estimated,
+                prompted: prompted,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MoodLogTable, MoodLogRow>(table),
+                  BaseReferences<_$AppDatabase, $MoodLogTable, MoodLogRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MoodLogTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MoodLogTable,
+      MoodLogRow,
+      $$MoodLogTableFilterComposer,
+      $$MoodLogTableOrderingComposer,
+      $$MoodLogTableAnnotationComposer,
+      $$MoodLogTableCreateCompanionBuilder,
+      $$MoodLogTableUpdateCompanionBuilder,
+      (MoodLogRow, BaseReferences<_$AppDatabase, $MoodLogTable, MoodLogRow>),
+      MoodLogRow,
+      PrefetchHooks Function()
+    >;
+typedef $$SupportLogTableCreateCompanionBuilder = SupportLogCompanion Function({
+  required String date,
+  required String cardKey,
+  Value<bool> done,
+  Value<int> rowid,
+});
+typedef $$SupportLogTableUpdateCompanionBuilder = SupportLogCompanion Function({
+  Value<String> date,
+  Value<String> cardKey,
+  Value<bool> done,
+  Value<int> rowid,
+});
+
+class $$SupportLogTableFilterComposer
+    extends Composer<_$AppDatabase, $SupportLogTable> {
+  $$SupportLogTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get cardKey => $composableBuilder(
+    column: $table.cardKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get done => $composableBuilder(
+    column: $table.done,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$SupportLogTableOrderingComposer
+    extends Composer<_$AppDatabase, $SupportLogTable> {
+  $$SupportLogTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get cardKey => $composableBuilder(
+    column: $table.cardKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get done => $composableBuilder(
+    column: $table.done,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$SupportLogTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SupportLogTable> {
+  $$SupportLogTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<String> get cardKey =>
+      $composableBuilder(column: $table.cardKey, builder: (column) => column);
+
+  GeneratedColumn<bool> get done =>
+      $composableBuilder(column: $table.done, builder: (column) => column);
+}
+
+class $$SupportLogTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SupportLogTable,
+          SupportLogRow,
+          $$SupportLogTableFilterComposer,
+          $$SupportLogTableOrderingComposer,
+          $$SupportLogTableAnnotationComposer,
+          $$SupportLogTableCreateCompanionBuilder,
+          $$SupportLogTableUpdateCompanionBuilder,
+          (
+            SupportLogRow,
+            BaseReferences<_$AppDatabase, $SupportLogTable, SupportLogRow>,
+          ),
+          SupportLogRow,
+          PrefetchHooks Function()
+        > {
+  $$SupportLogTableTableManager(_$AppDatabase db, $SupportLogTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SupportLogTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SupportLogTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SupportLogTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> date = const Value.absent(),
+                Value<String> cardKey = const Value.absent(),
+                Value<bool> done = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SupportLogCompanion(
+                date: date,
+                cardKey: cardKey,
+                done: done,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String date,
+                required String cardKey,
+                Value<bool> done = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SupportLogCompanion.insert(
+                date: date,
+                cardKey: cardKey,
+                done: done,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$SupportLogTable, SupportLogRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $SupportLogTable,
+                    SupportLogRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$SupportLogTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SupportLogTable,
+      SupportLogRow,
+      $$SupportLogTableFilterComposer,
+      $$SupportLogTableOrderingComposer,
+      $$SupportLogTableAnnotationComposer,
+      $$SupportLogTableCreateCompanionBuilder,
+      $$SupportLogTableUpdateCompanionBuilder,
+      (
+        SupportLogRow,
+        BaseReferences<_$AppDatabase, $SupportLogTable, SupportLogRow>,
+      ),
+      SupportLogRow,
+      PrefetchHooks Function()
+    >;
+typedef $$IndexSnapshotTableCreateCompanionBuilder =
+    IndexSnapshotCompanion Function({
+      required String date,
+      required int progressScore,
+      required int harmLoad,
+      Value<int> rowid,
+    });
+typedef $$IndexSnapshotTableUpdateCompanionBuilder =
+    IndexSnapshotCompanion Function({
+      Value<String> date,
+      Value<int> progressScore,
+      Value<int> harmLoad,
+      Value<int> rowid,
+    });
+
+class $$IndexSnapshotTableFilterComposer
+    extends Composer<_$AppDatabase, $IndexSnapshotTable> {
+  $$IndexSnapshotTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get progressScore => $composableBuilder(
+    column: $table.progressScore,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get harmLoad => $composableBuilder(
+    column: $table.harmLoad,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$IndexSnapshotTableOrderingComposer
+    extends Composer<_$AppDatabase, $IndexSnapshotTable> {
+  $$IndexSnapshotTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get progressScore => $composableBuilder(
+    column: $table.progressScore,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get harmLoad => $composableBuilder(
+    column: $table.harmLoad,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$IndexSnapshotTableAnnotationComposer
+    extends Composer<_$AppDatabase, $IndexSnapshotTable> {
+  $$IndexSnapshotTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<int> get progressScore => $composableBuilder(
+    column: $table.progressScore,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get harmLoad =>
+      $composableBuilder(column: $table.harmLoad, builder: (column) => column);
+}
+
+class $$IndexSnapshotTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $IndexSnapshotTable,
+          IndexSnapshotRow,
+          $$IndexSnapshotTableFilterComposer,
+          $$IndexSnapshotTableOrderingComposer,
+          $$IndexSnapshotTableAnnotationComposer,
+          $$IndexSnapshotTableCreateCompanionBuilder,
+          $$IndexSnapshotTableUpdateCompanionBuilder,
+          (
+            IndexSnapshotRow,
+            BaseReferences<
+              _$AppDatabase,
+              $IndexSnapshotTable,
+              IndexSnapshotRow
+            >,
+          ),
+          IndexSnapshotRow,
+          PrefetchHooks Function()
+        > {
+  $$IndexSnapshotTableTableManager(_$AppDatabase db, $IndexSnapshotTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$IndexSnapshotTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$IndexSnapshotTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$IndexSnapshotTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> date = const Value.absent(),
+                Value<int> progressScore = const Value.absent(),
+                Value<int> harmLoad = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => IndexSnapshotCompanion(
+                date: date,
+                progressScore: progressScore,
+                harmLoad: harmLoad,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String date,
+                required int progressScore,
+                required int harmLoad,
+                Value<int> rowid = const Value.absent(),
+              }) => IndexSnapshotCompanion.insert(
+                date: date,
+                progressScore: progressScore,
+                harmLoad: harmLoad,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$IndexSnapshotTable, IndexSnapshotRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $IndexSnapshotTable,
+                    IndexSnapshotRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$IndexSnapshotTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $IndexSnapshotTable,
+      IndexSnapshotRow,
+      $$IndexSnapshotTableFilterComposer,
+      $$IndexSnapshotTableOrderingComposer,
+      $$IndexSnapshotTableAnnotationComposer,
+      $$IndexSnapshotTableCreateCompanionBuilder,
+      $$IndexSnapshotTableUpdateCompanionBuilder,
+      (
+        IndexSnapshotRow,
+        BaseReferences<_$AppDatabase, $IndexSnapshotTable, IndexSnapshotRow>,
+      ),
+      IndexSnapshotRow,
+      PrefetchHooks Function()
+    >;
+typedef $$PlanStateTableCreateCompanionBuilder = PlanStateCompanion Function({
+  Value<int> id,
+  Value<PlanKind> kind,
+  required DateTime startedAt,
+  Value<int?> intervalMinutes,
+  Value<int?> targetIntervalMinutes,
+  Value<int> daysAtStep,
+  Value<TaperMode> taperMode,
+  Value<String> switchHistoryJson,
+});
+typedef $$PlanStateTableUpdateCompanionBuilder = PlanStateCompanion Function({
+  Value<int> id,
+  Value<PlanKind> kind,
+  Value<DateTime> startedAt,
+  Value<int?> intervalMinutes,
+  Value<int?> targetIntervalMinutes,
+  Value<int> daysAtStep,
+  Value<TaperMode> taperMode,
+  Value<String> switchHistoryJson,
+});
+
+class $$PlanStateTableFilterComposer
+    extends Composer<_$AppDatabase, $PlanStateTable> {
+  $$PlanStateTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<PlanKind, PlanKind, String> get kind =>
+      $composableBuilder(
+        column: $table.kind,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnFilters<DateTime> get startedAt => $composableBuilder(
+    column: $table.startedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get intervalMinutes => $composableBuilder(
+    column: $table.intervalMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get targetIntervalMinutes => $composableBuilder(
+    column: $table.targetIntervalMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get daysAtStep => $composableBuilder(
+    column: $table.daysAtStep,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<TaperMode, TaperMode, String> get taperMode =>
+      $composableBuilder(
+        column: $table.taperMode,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnFilters<String> get switchHistoryJson => $composableBuilder(
+    column: $table.switchHistoryJson,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PlanStateTableOrderingComposer
+    extends Composer<_$AppDatabase, $PlanStateTable> {
+  $$PlanStateTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startedAt => $composableBuilder(
+    column: $table.startedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get intervalMinutes => $composableBuilder(
+    column: $table.intervalMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get targetIntervalMinutes => $composableBuilder(
+    column: $table.targetIntervalMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get daysAtStep => $composableBuilder(
+    column: $table.daysAtStep,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get taperMode => $composableBuilder(
+    column: $table.taperMode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get switchHistoryJson => $composableBuilder(
+    column: $table.switchHistoryJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PlanStateTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PlanStateTable> {
+  $$PlanStateTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<PlanKind, String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startedAt =>
+      $composableBuilder(column: $table.startedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get intervalMinutes => $composableBuilder(
+    column: $table.intervalMinutes,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get targetIntervalMinutes => $composableBuilder(
+    column: $table.targetIntervalMinutes,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get daysAtStep => $composableBuilder(
+    column: $table.daysAtStep,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<TaperMode, String> get taperMode =>
+      $composableBuilder(column: $table.taperMode, builder: (column) => column);
+
+  GeneratedColumn<String> get switchHistoryJson => $composableBuilder(
+    column: $table.switchHistoryJson,
+    builder: (column) => column,
+  );
+}
+
+class $$PlanStateTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PlanStateTable,
+          PlanStateRow,
+          $$PlanStateTableFilterComposer,
+          $$PlanStateTableOrderingComposer,
+          $$PlanStateTableAnnotationComposer,
+          $$PlanStateTableCreateCompanionBuilder,
+          $$PlanStateTableUpdateCompanionBuilder,
+          (
+            PlanStateRow,
+            BaseReferences<_$AppDatabase, $PlanStateTable, PlanStateRow>,
+          ),
+          PlanStateRow,
+          PrefetchHooks Function()
+        > {
+  $$PlanStateTableTableManager(_$AppDatabase db, $PlanStateTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PlanStateTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PlanStateTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PlanStateTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<PlanKind> kind = const Value.absent(),
+                Value<DateTime> startedAt = const Value.absent(),
+                Value<int?> intervalMinutes = const Value.absent(),
+                Value<int?> targetIntervalMinutes = const Value.absent(),
+                Value<int> daysAtStep = const Value.absent(),
+                Value<TaperMode> taperMode = const Value.absent(),
+                Value<String> switchHistoryJson = const Value.absent(),
+              }) => PlanStateCompanion(
+                id: id,
+                kind: kind,
+                startedAt: startedAt,
+                intervalMinutes: intervalMinutes,
+                targetIntervalMinutes: targetIntervalMinutes,
+                daysAtStep: daysAtStep,
+                taperMode: taperMode,
+                switchHistoryJson: switchHistoryJson,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<PlanKind> kind = const Value.absent(),
+                required DateTime startedAt,
+                Value<int?> intervalMinutes = const Value.absent(),
+                Value<int?> targetIntervalMinutes = const Value.absent(),
+                Value<int> daysAtStep = const Value.absent(),
+                Value<TaperMode> taperMode = const Value.absent(),
+                Value<String> switchHistoryJson = const Value.absent(),
+              }) => PlanStateCompanion.insert(
+                id: id,
+                kind: kind,
+                startedAt: startedAt,
+                intervalMinutes: intervalMinutes,
+                targetIntervalMinutes: targetIntervalMinutes,
+                daysAtStep: daysAtStep,
+                taperMode: taperMode,
+                switchHistoryJson: switchHistoryJson,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$PlanStateTable, PlanStateRow>(table),
+                  BaseReferences<_$AppDatabase, $PlanStateTable, PlanStateRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PlanStateTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PlanStateTable,
+      PlanStateRow,
+      $$PlanStateTableFilterComposer,
+      $$PlanStateTableOrderingComposer,
+      $$PlanStateTableAnnotationComposer,
+      $$PlanStateTableCreateCompanionBuilder,
+      $$PlanStateTableUpdateCompanionBuilder,
+      (
+        PlanStateRow,
+        BaseReferences<_$AppDatabase, $PlanStateTable, PlanStateRow>,
+      ),
+      PlanStateRow,
+      PrefetchHooks Function()
+    >;
+typedef $$SavingsGoalTableTableCreateCompanionBuilder =
+    SavingsGoalTableCompanion Function({
+      Value<int> id,
+      required String label,
+      required double amount,
+    });
+typedef $$SavingsGoalTableTableUpdateCompanionBuilder =
+    SavingsGoalTableCompanion Function({
+      Value<int> id,
+      Value<String> label,
+      Value<double> amount,
+    });
+
+class $$SavingsGoalTableTableFilterComposer
+    extends Composer<_$AppDatabase, $SavingsGoalTableTable> {
+  $$SavingsGoalTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$SavingsGoalTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $SavingsGoalTableTable> {
+  $$SavingsGoalTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$SavingsGoalTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SavingsGoalTableTable> {
+  $$SavingsGoalTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get label =>
+      $composableBuilder(column: $table.label, builder: (column) => column);
+
+  GeneratedColumn<double> get amount =>
+      $composableBuilder(column: $table.amount, builder: (column) => column);
+}
+
+class $$SavingsGoalTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SavingsGoalTableTable,
+          SavingsGoalRow,
+          $$SavingsGoalTableTableFilterComposer,
+          $$SavingsGoalTableTableOrderingComposer,
+          $$SavingsGoalTableTableAnnotationComposer,
+          $$SavingsGoalTableTableCreateCompanionBuilder,
+          $$SavingsGoalTableTableUpdateCompanionBuilder,
+          (
+            SavingsGoalRow,
+            BaseReferences<
+              _$AppDatabase,
+              $SavingsGoalTableTable,
+              SavingsGoalRow
+            >,
+          ),
+          SavingsGoalRow,
+          PrefetchHooks Function()
+        > {
+  $$SavingsGoalTableTableTableManager(
+    _$AppDatabase db,
+    $SavingsGoalTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SavingsGoalTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SavingsGoalTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SavingsGoalTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> label = const Value.absent(),
+            Value<double> amount = const Value.absent(),
+          }) => SavingsGoalTableCompanion(id: id, label: label, amount: amount),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String label,
+                required double amount,
+              }) => SavingsGoalTableCompanion.insert(
+                id: id,
+                label: label,
+                amount: amount,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$SavingsGoalTableTable, SavingsGoalRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $SavingsGoalTableTable,
+                    SavingsGoalRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$SavingsGoalTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SavingsGoalTableTable,
+      SavingsGoalRow,
+      $$SavingsGoalTableTableFilterComposer,
+      $$SavingsGoalTableTableOrderingComposer,
+      $$SavingsGoalTableTableAnnotationComposer,
+      $$SavingsGoalTableTableCreateCompanionBuilder,
+      $$SavingsGoalTableTableUpdateCompanionBuilder,
+      (
+        SavingsGoalRow,
+        BaseReferences<_$AppDatabase, $SavingsGoalTableTable, SavingsGoalRow>,
+      ),
+      SavingsGoalRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -8686,4 +11947,14 @@ class $AppDatabaseManager {
       $$PurchaseEntitlementTableTableManager(_db, _db.purchaseEntitlement);
   $$SettingsTableTableManager get settings =>
       $$SettingsTableTableManager(_db, _db.settings);
+  $$MoodLogTableTableManager get moodLog =>
+      $$MoodLogTableTableManager(_db, _db.moodLog);
+  $$SupportLogTableTableManager get supportLog =>
+      $$SupportLogTableTableManager(_db, _db.supportLog);
+  $$IndexSnapshotTableTableManager get indexSnapshot =>
+      $$IndexSnapshotTableTableManager(_db, _db.indexSnapshot);
+  $$PlanStateTableTableManager get planState =>
+      $$PlanStateTableTableManager(_db, _db.planState);
+  $$SavingsGoalTableTableTableManager get savingsGoalTable =>
+      $$SavingsGoalTableTableTableManager(_db, _db.savingsGoalTable);
 }
