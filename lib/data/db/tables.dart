@@ -247,6 +247,13 @@ class PlanState extends Table {
   TextColumn get switchHistoryJson => text()
       .withDefault(const Constant('[]'))();
 
+  /// The local day the taper engine last ran, and what it decided. The
+  /// engine acts at most once per calendar day, and reading a stored
+  /// decision keeps the daily provider free of any write — a provider that
+  /// both watches and writes this table would loop forever.
+  TextColumn get lastStepDate => text().nullable()();
+  TextColumn get lastStepDecision => textEnum<TaperDecision>().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

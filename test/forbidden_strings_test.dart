@@ -13,6 +13,13 @@ void main() {
     'detoks',
     'kanındaki gerçek',
     'ölçüldü',
+    // Module report §0.1 — S5 claims: a phone cannot measure any of these,
+    // so the app may model them but never assert them about a body.
+    'kanındaki nikotin',
+    'kanındaki katran',
+    'akciğerinin %',
+    'ciğerinin %',
+    'in deinem blut',
   ];
 
   /// Word-boundary bans for English/German equivalents — avoids false hits

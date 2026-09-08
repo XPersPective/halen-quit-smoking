@@ -564,5 +564,16 @@
   "howMindTitle": "Entzugsdruck",
   "howMindBody": "Eine veröffentlichte Symptomkurve mit Gipfel an Tag 1–3, skaliert mit der Tiefe deines Nikotintals und korrigiert um die Differenz zu deinen eigenen Angaben. Ausgabe ist ein Band, nie ein Prozentwert.",
   "howLungTitle": "Lungen-Szenarien",
-  "howLungBody": "Veröffentlichte jährliche FEV1-Abfallraten als drei typische Kurven: Nieraucher ca. 30 mL/Jahr, dauerhafter Aussteiger ca. 33, Raucher 40 bis 70. Bevölkerungsdurchschnitte, keine Messung."
+  "howLungBody": "Veröffentlichte jährliche FEV1-Abfallraten als drei typische Kurven: Nieraucher ca. 30 mL/Jahr, dauerhafter Aussteiger ca. 33, Raucher 40 bis 70. Bevölkerungsdurchschnitte, keine Messung.",
+  "settingsBodyDataTitle": "Körperdaten (optional)",
+  "settingsBodyDataNote": "Dient nur der Schärfung der Schadenslast. Lässt du es leer, wird nichts gesperrt.",
+  "settingsHeight": "Größe (cm)",
+  "settingsWeight": "Gewicht (kg)",
+  "settingsSmokingYears": "Rauchjahre",
+  "settingsSex": "Geschlecht (für das Zeitkonto)",
+  "sexUnspecified": "Keine Angabe",
+  "sexMale": "Männlich",
+  "sexFemale": "Weiblich",
+  "settingsModelTitle": "Modell-Einstellungen",
+  "settingsPrelogPauseNote": "Dein Eintrag wird ohnehin gespeichert; die Pause gibt dir nur einen Moment und ein Rückgängig."
 }

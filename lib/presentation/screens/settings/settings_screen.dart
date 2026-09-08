@@ -14,6 +14,7 @@ import 'package:halen/core/routes.dart';
 import 'package:halen/data/db/app_database.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/presentation/widgets/model_settings_section.dart';
 
 /// Reads a JSON backup chosen by the user (file picker stays local-only).
 Future<Map<String, dynamic>> _pickAndReadJson() async {
@@ -137,6 +138,12 @@ class SettingsScreen extends ConsumerWidget {
                   SettingsCompanion(haptics: Value(v)),
                 ),
                 title: Text(l10n.settingsHaptics),
+              ),
+              const SizedBox(height: 16),
+              // Module report §1/§12/§14 — the dials the models expose to the
+              // user, each optional and each explained.
+              ModelSettingsSection(
+                preLogPauseSeconds: settings.preLogPauseSeconds,
               ),
               const SizedBox(height: 16),
               Text(l10n.settingsData, style: theme.textTheme.titleMedium),

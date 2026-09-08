@@ -1857,4 +1857,39 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get howLungBody =>
       'Yayımlanmış yıllık FEV1 düşüş hızları üç tipik eğri olarak çizilir: hiç içmemiş ~30 mL/yıl, sürdürülen bırakıcı ~33, hâlen içen 40 ve ağır içimde 70’e kadar. Bunlar yaş grubun için popülasyon ortalamalarıdır, senin akciğerinin ölçümü değil.';
+
+  @override
+  String get settingsBodyDataTitle => 'Vücut verisi (isteğe bağlı)';
+
+  @override
+  String get settingsBodyDataNote =>
+      'Yalnızca Zarar Yükünü keskinleştirmek için kullanılır. Boş bırakırsan hiçbir şey kilitlenmez — indeks elindekini yeniden ağırlıklandırır.';
+
+  @override
+  String get settingsHeight => 'Boy (cm)';
+
+  @override
+  String get settingsWeight => 'Kilo (kg)';
+
+  @override
+  String get settingsSmokingYears => 'Kaç yıldır içiyorsun';
+
+  @override
+  String get settingsSex => 'Cinsiyet (zaman defteri için)';
+
+  @override
+  String get sexUnspecified => 'Belirtmek istemiyorum';
+
+  @override
+  String get sexMale => 'Erkek';
+
+  @override
+  String get sexFemale => 'Kadın';
+
+  @override
+  String get settingsModelTitle => 'Model ayarları';
+
+  @override
+  String get settingsPrelogPauseNote =>
+      'Kaydın her hâlükârda alınır; duraklama yalnızca sana bir an ve geri alma imkânı verir.';
 }

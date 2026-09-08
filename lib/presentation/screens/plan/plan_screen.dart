@@ -7,6 +7,8 @@ import 'package:halen/core/routes.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/application/module_providers.dart';
+import 'package:halen/application/taper_controller.dart';
+import 'package:halen/domain/soft_taper.dart';
 import 'package:halen/domain/plan_kinds.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
@@ -71,6 +73,11 @@ class PlanScreen extends ConsumerWidget {
                   // have to ask which plan they are on, and switching is
                   // always reachable (deliberate, not locked).
                   const _PlanStrip(),
+                  const SizedBox(height: 8),
+                  // Module report §9 — what the taper engine decided today,
+                  // in the user's own words. Holding a step is stated as a
+                  // choice, never as a failure.
+                  const _TaperNote(),
                   const SizedBox(height: 16),
                   planAsync.when(
                     loading: () =>
@@ -309,6 +316,36 @@ class _PlanStrip extends ConsumerWidget {
           icon: const Icon(Icons.swap_horiz_rounded, size: 18),
           label: Text(l10n.planSwitchTitle),
         ),
+      ],
+    );
+  }
+}
+
+
+/// Today's soft-taper decision (module report §9).
+class _TaperNote extends ConsumerWidget {
+  const _TaperNote();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final step = ref.watch(dailyTaperStepProvider).value;
+    if (step == null) {
+      return const SizedBox.shrink();
+    }
+    final text = switch (step.decision) {
+      TaperDecision.advance => l10n.taperAdvance(step.intervalMinutes),
+      TaperDecision.holdShortStep ||
+      TaperDecision.holdLowAdherence =>
+        l10n.taperHoldStep,
+      TaperDecision.atTarget => l10n.taperAdvance(step.intervalMinutes),
+    };
+    return Row(
+      children: [
+        const Icon(Icons.timelapse_rounded, size: 18),
+        const SizedBox(width: 8),
+        Expanded(child: Text(text, style: theme.textTheme.bodyMedium)),
       ],
     );
   }

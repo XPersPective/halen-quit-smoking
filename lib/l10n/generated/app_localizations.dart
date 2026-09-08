@@ -3345,6 +3345,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Published annual FEV1 decline rates drawn as three typical curves: never-smoker about 30 mL/year, sustained quitter about 33, current smoker 40 up to 70 at heavier intake. These are population averages for your age group, not a measurement of your lungs.'**
   String get howLungBody;
+
+  /// No description provided for @settingsBodyDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Body data (optional)'**
+  String get settingsBodyDataTitle;
+
+  /// No description provided for @settingsBodyDataNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Only used to sharpen the Harm Load. Leave it empty and nothing is locked — the index simply reweighs what it has.'**
+  String get settingsBodyDataNote;
+
+  /// No description provided for @settingsHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Height (cm)'**
+  String get settingsHeight;
+
+  /// No description provided for @settingsWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight (kg)'**
+  String get settingsWeight;
+
+  /// No description provided for @settingsSmokingYears.
+  ///
+  /// In en, this message translates to:
+  /// **'Years smoking'**
+  String get settingsSmokingYears;
+
+  /// No description provided for @settingsSex.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex (for the time ledger)'**
+  String get settingsSex;
+
+  /// No description provided for @sexUnspecified.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer not to say'**
+  String get sexUnspecified;
+
+  /// No description provided for @sexMale.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get sexMale;
+
+  /// No description provided for @sexFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get sexFemale;
+
+  /// No description provided for @settingsModelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Model settings'**
+  String get settingsModelTitle;
+
+  /// No description provided for @settingsPrelogPauseNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your entry is saved either way; the pause only gives you a moment and an undo.'**
+  String get settingsPrelogPauseNote;
 }
 
 class _AppLocalizationsDelegate

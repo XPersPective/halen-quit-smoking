@@ -1864,4 +1864,39 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get howLungBody =>
       'Published annual FEV1 decline rates drawn as three typical curves: never-smoker about 30 mL/year, sustained quitter about 33, current smoker 40 up to 70 at heavier intake. These are population averages for your age group, not a measurement of your lungs.';
+
+  @override
+  String get settingsBodyDataTitle => 'Body data (optional)';
+
+  @override
+  String get settingsBodyDataNote =>
+      'Only used to sharpen the Harm Load. Leave it empty and nothing is locked — the index simply reweighs what it has.';
+
+  @override
+  String get settingsHeight => 'Height (cm)';
+
+  @override
+  String get settingsWeight => 'Weight (kg)';
+
+  @override
+  String get settingsSmokingYears => 'Years smoking';
+
+  @override
+  String get settingsSex => 'Sex (for the time ledger)';
+
+  @override
+  String get sexUnspecified => 'Prefer not to say';
+
+  @override
+  String get sexMale => 'Male';
+
+  @override
+  String get sexFemale => 'Female';
+
+  @override
+  String get settingsModelTitle => 'Model settings';
+
+  @override
+  String get settingsPrelogPauseNote =>
+      'Your entry is saved either way; the pause only gives you a moment and an undo.';
 }

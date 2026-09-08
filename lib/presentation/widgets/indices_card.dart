@@ -30,9 +30,18 @@ class IndicesCard extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: state.when(
-          loading: () => const Padding(
-            padding: EdgeInsets.symmetric(vertical: 32),
-            child: Center(child: CircularProgressIndicator()),
+          // A quiet placeholder rather than a spinner: the card appears at
+          // the same size it will settle at, and nothing on screen animates
+          // forever while the local query runs.
+          loading: () => SizedBox(
+            height: 132,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                l10n.commonLoading,
+                style: theme.textTheme.bodyMedium,
+              ),
+            ),
           ),
           error: (_, _) => Text(
             l10n.commonErrorTitle,

@@ -15,6 +15,7 @@ import '../domain/progress_index.dart';
 import '../domain/withdrawal_model.dart';
 import 'providers.dart';
 import 'record_providers.dart';
+import 'taper_controller.dart';
 
 /// Wiring for the module-report features. Every provider here reads only
 /// local data and runs a published formula — nothing is fetched, nothing is
@@ -506,6 +507,9 @@ class PlanKindController {
         .moduleDao
         .switchPlan(kind: kind, now: DateTime.now());
     _ref.invalidate(planStateProvider);
+    // The taper note is derived from a write, so it is refreshed explicitly
+    // rather than by watching the table (see dailyTaperStepProvider).
+    _ref.invalidate(dailyTaperStepProvider);
     return true;
   }
 }

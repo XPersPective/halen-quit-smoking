@@ -1,6 +1,6 @@
 # Halen — Modül Derin Araştırma Raporu (Vücut Yükü, Ekonomi, Görselleştirme, Psikoloji, Program ve İndeksler)
 
-**Tarih:** 8 Eylül 2026 · **Statü:** Araştırma + tasarım şartnamesi (uygulanmayı bekleyen) · **Dil:** TR (terim sözlüğü EN/TR)
+**Tarih:** 8 Eylül 2026 · **Uygulama:** 9 Eylül 2026 · **Statü:** Araştırma + tasarım şartnamesi — **14 modülün tamamı kodlandı** (bkz. §16b) · **Dil:** TR (terim sözlüğü EN/TR)
 **İlişkili belge:** [`sigara-birakma-app-on-arastirma-ve-urun-raporu.md`](sigara-birakma-app-on-arastirma-ve-urun-raporu.md) — pazar, rakip, monetizasyon, mimari. Bu rapor onun **§15, §16, §17, §18, §21** bölümlerini modül düzeyinde derinleştirir ve **14 modülün** bilimsel temelini, pazar emsallerini, grafik/animasyon şartnamesini ve algoritmasını verir.
 
 **Bu raporun kapsamı ve yöntemi:** Talep edilen 14 başlığın her biri ayrı modül olarak ele alınmıştır. Her modül şu 6 bölümle yazılmıştır:
@@ -829,6 +829,35 @@ Kullanıcı talebi gereği isimler **en basit kullanıcının anlayacağı** dü
 | Nasıl hesaplanıyor? | How is this calculated? | Nasıl hesaplanıyor? | `howCalculated` |
 
 **Çeviri ilkesi:** TR metin İngilizceden çeviri değil, **TR'de doğal** yazılır; iki dilde ayrı yazılıp anlam eşitliği kontrol edilir. "Craving" için TR'de *istek* (klinik "aşerme" değil) tercih edilir; "relapse" için *nüks* yerine **"tekrar başlama"**.
+
+---
+
+## 16b. Uygulama Durumu (9 Eylül 2026 — kodlandı)
+
+Bu raporun **14 modülünün tamamı** uygulandı ve `master`'a girdi. Kodda karşılıkları:
+
+| Modül | Domain | Uygulama/veri | Sunum |
+|---|---|---|---|
+| §1 Vücut Yükü | `domain/body_load_model.dart` | `module_providers.dart` (`bodyLoadSnapshotProvider`, `loadCurveProvider`, `tarLoadProvider`) | `widgets/body_load_card.dart`, `widgets/charts/load_curve_chart.dart` |
+| §2 Zararlı Madde | — | `data/repositories/library_repository.dart` (12 madde) | `screens/body/body_screen.dart` (nokta matrisi) |
+| §3 Ekonomi | `domain/economy.dart` | `economyProvider`, `savingsGoalProvider` | `screens/economy/economy_screen.dart`, `charts/two_line_area_chart.dart` |
+| §4 İstek–Nikotin | `domain/craving_risk.dart` | `cravingRiskModelProvider`, `riskWindowsProvider` | `widgets/craving_window_card.dart`, `charts/week_heatmap.dart` |
+| §5 Kriz Seti | `domain/evidence.dart` | `library_repository.dart` (6 teknik, kanıt rozetli) | `widgets/sos_techniques_list.dart` (SOS ekranındaki 4D kartların yerine) |
+| §6 Akciğer | `domain/lung_model.dart` | `lungScenariosProvider` | `widgets/lung_view.dart`, `screens/body/body_screen.dart` |
+| §7 Organ Haritası | — | `library_repository.dart` (12 organ, her biri iyileşme kartıyla) | `screens/body/body_screen.dart` |
+| §8 Psikolojik Durum | `domain/withdrawal_model.dart` | `mindStateProvider`, `moodReportProvider`, `mood_log` tablosu | `widgets/mind_state_card.dart` |
+| §9 Yumuşak Geçiş | `domain/soft_taper.dart` | `application/taper_controller.dart`, `plan_state` tablosu | `screens/plan/plan_screen.dart` (taper notu) |
+| §10 Destek | — | `library_repository.dart` (7 kart), `support_log` tablosu | `widgets/support_card_tile.dart` |
+| §11 İçerik | `domain/evidence.dart` (`ContentFamily`) | mevcut `article_repository.dart` + kanıt rozetleri | makale ekranları |
+| §12 Kayıt Etkileşimi | — | `settings.preLogPauseSeconds` | `widgets/today/log_feedback.dart` |
+| §13 Program Sistemi | `domain/plan_kinds.dart` | `PlanKindController`, `plan_state` | `screens/plan/plan_switch_screen.dart` |
+| §14 İki İndeks | `domain/progress_index.dart`, `domain/harm_load.dart` | `indicesProvider`, `index_snapshot` tablosu | `widgets/indices_card.dart` |
+
+**Şeffaflık:** `screens/transparency/how_calculated_screen.dart` artık altı yeni bölümle her formülü, ağırlığı ve sınırı yayımlıyor (§0.2).
+
+**Testler:** 188 test. Bunların içinde davranışsal değil **yapısal** kurallar da var: etik lint (S5 iddia kalıpları), `library_repository_test.dart` (her organ kartının iyileşme metni, her tekniğin kanıt notu, bitki kartının "kanıt yok" ifadesi zorunlu) ve indeks/taper altın-değer testleri.
+
+**Kasıtlı davranış değişiklikleri:** (a) sigara kaydından sonra artık önce geri bildirim yaprağı açılıyor (kayıt zaten alınmış durumda, geri alınabilir); (b) SOS ekranındaki 4D kartlar tek bir kanıt dereceli araç setiyle değiştirildi ve bu sete kulak akupresürü ⚪ etiketiyle eklendi — ana raporun "akupresür yok" kuralı bu raporun §5.① kanıt değerlendirmesiyle güncellenmiştir.
 
 ---
 

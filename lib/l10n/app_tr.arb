@@ -564,5 +564,16 @@
   "howMindTitle": "Yoksunluk basıncı",
   "howMindBody": "Yayımlanmış belirti eğrisi 1.–3. günlerde tepe yapar ve 3–4 haftada hafifler; bu eğri mevcut nikotin çukurunun derinliğiyle ölçeklenir, sonra tahminlerimizle senin bildirdiklerin arasındaki farkla düzeltilir. Çıktı bir banttır, asla yüzde değildir.",
   "howLungTitle": "Akciğer senaryoları",
-  "howLungBody": "Yayımlanmış yıllık FEV1 düşüş hızları üç tipik eğri olarak çizilir: hiç içmemiş ~30 mL/yıl, sürdürülen bırakıcı ~33, hâlen içen 40 ve ağır içimde 70’e kadar. Bunlar yaş grubun için popülasyon ortalamalarıdır, senin akciğerinin ölçümü değil."
+  "howLungBody": "Yayımlanmış yıllık FEV1 düşüş hızları üç tipik eğri olarak çizilir: hiç içmemiş ~30 mL/yıl, sürdürülen bırakıcı ~33, hâlen içen 40 ve ağır içimde 70’e kadar. Bunlar yaş grubun için popülasyon ortalamalarıdır, senin akciğerinin ölçümü değil.",
+  "settingsBodyDataTitle": "Vücut verisi (isteğe bağlı)",
+  "settingsBodyDataNote": "Yalnızca Zarar Yükünü keskinleştirmek için kullanılır. Boş bırakırsan hiçbir şey kilitlenmez — indeks elindekini yeniden ağırlıklandırır.",
+  "settingsHeight": "Boy (cm)",
+  "settingsWeight": "Kilo (kg)",
+  "settingsSmokingYears": "Kaç yıldır içiyorsun",
+  "settingsSex": "Cinsiyet (zaman defteri için)",
+  "sexUnspecified": "Belirtmek istemiyorum",
+  "sexMale": "Erkek",
+  "sexFemale": "Kadın",
+  "settingsModelTitle": "Model ayarları",
+  "settingsPrelogPauseNote": "Kaydın her hâlükârda alınır; duraklama yalnızca sana bir an ve geri alma imkânı verir."
 }

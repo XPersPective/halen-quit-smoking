@@ -6939,6 +6939,26 @@ class $PlanStateTable extends PlanState
         requiredDuringInsert: false,
         defaultValue: const Constant('[]'),
       );
+  static const VerificationMeta _lastStepDateMeta = const VerificationMeta(
+    'lastStepDate',
+  );
+  @override
+  late final GeneratedColumn<String> lastStepDate = GeneratedColumn<String>(
+    'last_step_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<TaperDecision?, String>
+  lastStepDecision = GeneratedColumn<String>(
+    'last_step_decision',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  ).withConverter<TaperDecision?>($PlanStateTable.$converterlastStepDecisionn);
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -6949,6 +6969,8 @@ class $PlanStateTable extends PlanState
     daysAtStep,
     taperMode,
     switchHistoryJson,
+    lastStepDate,
+    lastStepDecision,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -7009,6 +7031,15 @@ class $PlanStateTable extends PlanState
         ),
       );
     }
+    if (data.containsKey('last_step_date')) {
+      context.handle(
+        _lastStepDateMeta,
+        lastStepDate.isAcceptableOrUnknown(
+          data['last_step_date']!,
+          _lastStepDateMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -7054,6 +7085,16 @@ class $PlanStateTable extends PlanState
         DriftSqlType.string,
         data['${effectivePrefix}switch_history_json'],
       )!,
+      lastStepDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_step_date'],
+      ),
+      lastStepDecision: $PlanStateTable.$converterlastStepDecisionn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}last_step_decision'],
+        ),
+      ),
     );
   }
 
@@ -7066,6 +7107,14 @@ class $PlanStateTable extends PlanState
       const EnumNameConverter<PlanKind>(PlanKind.values);
   static JsonTypeConverter2<TaperMode, String, String> $convertertaperMode =
       const EnumNameConverter<TaperMode>(TaperMode.values);
+  static JsonTypeConverter2<TaperDecision, String, String>
+  $converterlastStepDecision = const EnumNameConverter<TaperDecision>(
+    TaperDecision.values,
+  );
+  static JsonTypeConverter2<TaperDecision?, String?, String?>
+  $converterlastStepDecisionn = JsonTypeConverter2.asNullable(
+    $converterlastStepDecision,
+  );
 }
 
 class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
@@ -7083,6 +7132,13 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
 
   /// ISO dates of recent plan switches, JSON array.
   final String switchHistoryJson;
+
+  /// The local day the taper engine last ran, and what it decided. The
+  /// engine acts at most once per calendar day, and reading a stored
+  /// decision keeps the daily provider free of any write — a provider that
+  /// both watches and writes this table would loop forever.
+  final String? lastStepDate;
+  final TaperDecision? lastStepDecision;
   const PlanStateRow({
     required this.id,
     required this.kind,
@@ -7092,6 +7148,8 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
     required this.daysAtStep,
     required this.taperMode,
     required this.switchHistoryJson,
+    this.lastStepDate,
+    this.lastStepDecision,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -7116,6 +7174,14 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
       );
     }
     map['switch_history_json'] = Variable<String>(switchHistoryJson);
+    if (!nullToAbsent || lastStepDate != null) {
+      map['last_step_date'] = Variable<String>(lastStepDate);
+    }
+    if (!nullToAbsent || lastStepDecision != null) {
+      map['last_step_decision'] = Variable<String>(
+        $PlanStateTable.$converterlastStepDecisionn.toSql(lastStepDecision),
+      );
+    }
     return map;
   }
 
@@ -7133,6 +7199,12 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
       daysAtStep: Value(daysAtStep),
       taperMode: Value(taperMode),
       switchHistoryJson: Value(switchHistoryJson),
+      lastStepDate: lastStepDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastStepDate),
+      lastStepDecision: lastStepDecision == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastStepDecision),
     );
   }
 
@@ -7156,6 +7228,10 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
         serializer.fromJson<String>(json['taperMode']),
       ),
       switchHistoryJson: serializer.fromJson<String>(json['switchHistoryJson']),
+      lastStepDate: serializer.fromJson<String?>(json['lastStepDate']),
+      lastStepDecision: $PlanStateTable.$converterlastStepDecisionn.fromJson(
+        serializer.fromJson<String?>(json['lastStepDecision']),
+      ),
     );
   }
   @override
@@ -7174,6 +7250,10 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
         $PlanStateTable.$convertertaperMode.toJson(taperMode),
       ),
       'switchHistoryJson': serializer.toJson<String>(switchHistoryJson),
+      'lastStepDate': serializer.toJson<String?>(lastStepDate),
+      'lastStepDecision': serializer.toJson<String?>(
+        $PlanStateTable.$converterlastStepDecisionn.toJson(lastStepDecision),
+      ),
     };
   }
 
@@ -7186,6 +7266,8 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
     int? daysAtStep,
     TaperMode? taperMode,
     String? switchHistoryJson,
+    Value<String?> lastStepDate = const Value.absent(),
+    Value<TaperDecision?> lastStepDecision = const Value.absent(),
   }) => PlanStateRow(
     id: id ?? this.id,
     kind: kind ?? this.kind,
@@ -7199,6 +7281,10 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
     daysAtStep: daysAtStep ?? this.daysAtStep,
     taperMode: taperMode ?? this.taperMode,
     switchHistoryJson: switchHistoryJson ?? this.switchHistoryJson,
+    lastStepDate: lastStepDate.present ? lastStepDate.value : this.lastStepDate,
+    lastStepDecision: lastStepDecision.present
+        ? lastStepDecision.value
+        : this.lastStepDecision,
   );
   PlanStateRow copyWithCompanion(PlanStateCompanion data) {
     return PlanStateRow(
@@ -7218,6 +7304,12 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
       switchHistoryJson: data.switchHistoryJson.present
           ? data.switchHistoryJson.value
           : this.switchHistoryJson,
+      lastStepDate: data.lastStepDate.present
+          ? data.lastStepDate.value
+          : this.lastStepDate,
+      lastStepDecision: data.lastStepDecision.present
+          ? data.lastStepDecision.value
+          : this.lastStepDecision,
     );
   }
 
@@ -7231,7 +7323,9 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
           ..write('targetIntervalMinutes: $targetIntervalMinutes, ')
           ..write('daysAtStep: $daysAtStep, ')
           ..write('taperMode: $taperMode, ')
-          ..write('switchHistoryJson: $switchHistoryJson')
+          ..write('switchHistoryJson: $switchHistoryJson, ')
+          ..write('lastStepDate: $lastStepDate, ')
+          ..write('lastStepDecision: $lastStepDecision')
           ..write(')'))
         .toString();
   }
@@ -7246,6 +7340,8 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
     daysAtStep,
     taperMode,
     switchHistoryJson,
+    lastStepDate,
+    lastStepDecision,
   );
   @override
   bool operator ==(Object other) =>
@@ -7258,7 +7354,9 @@ class PlanStateRow extends DataClass implements Insertable<PlanStateRow> {
           other.targetIntervalMinutes == this.targetIntervalMinutes &&
           other.daysAtStep == this.daysAtStep &&
           other.taperMode == this.taperMode &&
-          other.switchHistoryJson == this.switchHistoryJson);
+          other.switchHistoryJson == this.switchHistoryJson &&
+          other.lastStepDate == this.lastStepDate &&
+          other.lastStepDecision == this.lastStepDecision);
 }
 
 class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
@@ -7270,6 +7368,8 @@ class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
   final Value<int> daysAtStep;
   final Value<TaperMode> taperMode;
   final Value<String> switchHistoryJson;
+  final Value<String?> lastStepDate;
+  final Value<TaperDecision?> lastStepDecision;
   const PlanStateCompanion({
     this.id = const Value.absent(),
     this.kind = const Value.absent(),
@@ -7279,6 +7379,8 @@ class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
     this.daysAtStep = const Value.absent(),
     this.taperMode = const Value.absent(),
     this.switchHistoryJson = const Value.absent(),
+    this.lastStepDate = const Value.absent(),
+    this.lastStepDecision = const Value.absent(),
   });
   PlanStateCompanion.insert({
     this.id = const Value.absent(),
@@ -7289,6 +7391,8 @@ class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
     this.daysAtStep = const Value.absent(),
     this.taperMode = const Value.absent(),
     this.switchHistoryJson = const Value.absent(),
+    this.lastStepDate = const Value.absent(),
+    this.lastStepDecision = const Value.absent(),
   }) : startedAt = Value(startedAt);
   static Insertable<PlanStateRow> custom({
     Expression<int>? id,
@@ -7299,6 +7403,8 @@ class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
     Expression<int>? daysAtStep,
     Expression<String>? taperMode,
     Expression<String>? switchHistoryJson,
+    Expression<String>? lastStepDate,
+    Expression<String>? lastStepDecision,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -7310,6 +7416,8 @@ class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
       if (daysAtStep != null) 'days_at_step': daysAtStep,
       if (taperMode != null) 'taper_mode': taperMode,
       if (switchHistoryJson != null) 'switch_history_json': switchHistoryJson,
+      if (lastStepDate != null) 'last_step_date': lastStepDate,
+      if (lastStepDecision != null) 'last_step_decision': lastStepDecision,
     });
   }
 
@@ -7322,6 +7430,8 @@ class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
     Value<int>? daysAtStep,
     Value<TaperMode>? taperMode,
     Value<String>? switchHistoryJson,
+    Value<String?>? lastStepDate,
+    Value<TaperDecision?>? lastStepDecision,
   }) {
     return PlanStateCompanion(
       id: id ?? this.id,
@@ -7333,6 +7443,8 @@ class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
       daysAtStep: daysAtStep ?? this.daysAtStep,
       taperMode: taperMode ?? this.taperMode,
       switchHistoryJson: switchHistoryJson ?? this.switchHistoryJson,
+      lastStepDate: lastStepDate ?? this.lastStepDate,
+      lastStepDecision: lastStepDecision ?? this.lastStepDecision,
     );
   }
 
@@ -7369,6 +7481,16 @@ class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
     if (switchHistoryJson.present) {
       map['switch_history_json'] = Variable<String>(switchHistoryJson.value);
     }
+    if (lastStepDate.present) {
+      map['last_step_date'] = Variable<String>(lastStepDate.value);
+    }
+    if (lastStepDecision.present) {
+      map['last_step_decision'] = Variable<String>(
+        $PlanStateTable.$converterlastStepDecisionn.toSql(
+          lastStepDecision.value,
+        ),
+      );
+    }
     return map;
   }
 
@@ -7382,7 +7504,9 @@ class PlanStateCompanion extends UpdateCompanion<PlanStateRow> {
           ..write('targetIntervalMinutes: $targetIntervalMinutes, ')
           ..write('daysAtStep: $daysAtStep, ')
           ..write('taperMode: $taperMode, ')
-          ..write('switchHistoryJson: $switchHistoryJson')
+          ..write('switchHistoryJson: $switchHistoryJson, ')
+          ..write('lastStepDate: $lastStepDate, ')
+          ..write('lastStepDecision: $lastStepDecision')
           ..write(')'))
         .toString();
   }
@@ -11492,6 +11616,8 @@ typedef $$PlanStateTableCreateCompanionBuilder = PlanStateCompanion Function({
   Value<int> daysAtStep,
   Value<TaperMode> taperMode,
   Value<String> switchHistoryJson,
+  Value<String?> lastStepDate,
+  Value<TaperDecision?> lastStepDecision,
 });
 typedef $$PlanStateTableUpdateCompanionBuilder = PlanStateCompanion Function({
   Value<int> id,
@@ -11502,6 +11628,8 @@ typedef $$PlanStateTableUpdateCompanionBuilder = PlanStateCompanion Function({
   Value<int> daysAtStep,
   Value<TaperMode> taperMode,
   Value<String> switchHistoryJson,
+  Value<String?> lastStepDate,
+  Value<TaperDecision?> lastStepDecision,
 });
 
 class $$PlanStateTableFilterComposer
@@ -11554,6 +11682,17 @@ class $$PlanStateTableFilterComposer
     column: $table.switchHistoryJson,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<String> get lastStepDate => $composableBuilder(
+    column: $table.lastStepDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<TaperDecision?, TaperDecision, String>
+  get lastStepDecision => $composableBuilder(
+    column: $table.lastStepDecision,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
 }
 
 class $$PlanStateTableOrderingComposer
@@ -11604,6 +11743,16 @@ class $$PlanStateTableOrderingComposer
     column: $table.switchHistoryJson,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get lastStepDate => $composableBuilder(
+    column: $table.lastStepDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastStepDecision => $composableBuilder(
+    column: $table.lastStepDecision,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$PlanStateTableAnnotationComposer
@@ -11644,6 +11793,17 @@ class $$PlanStateTableAnnotationComposer
 
   GeneratedColumn<String> get switchHistoryJson => $composableBuilder(
     column: $table.switchHistoryJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get lastStepDate => $composableBuilder(
+    column: $table.lastStepDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<TaperDecision?, String>
+  get lastStepDecision => $composableBuilder(
+    column: $table.lastStepDecision,
     builder: (column) => column,
   );
 }
@@ -11687,6 +11847,8 @@ class $$PlanStateTableTableManager
                 Value<int> daysAtStep = const Value.absent(),
                 Value<TaperMode> taperMode = const Value.absent(),
                 Value<String> switchHistoryJson = const Value.absent(),
+                Value<String?> lastStepDate = const Value.absent(),
+                Value<TaperDecision?> lastStepDecision = const Value.absent(),
               }) => PlanStateCompanion(
                 id: id,
                 kind: kind,
@@ -11696,6 +11858,8 @@ class $$PlanStateTableTableManager
                 daysAtStep: daysAtStep,
                 taperMode: taperMode,
                 switchHistoryJson: switchHistoryJson,
+                lastStepDate: lastStepDate,
+                lastStepDecision: lastStepDecision,
               ),
           createCompanionCallback:
               ({
@@ -11707,6 +11871,8 @@ class $$PlanStateTableTableManager
                 Value<int> daysAtStep = const Value.absent(),
                 Value<TaperMode> taperMode = const Value.absent(),
                 Value<String> switchHistoryJson = const Value.absent(),
+                Value<String?> lastStepDate = const Value.absent(),
+                Value<TaperDecision?> lastStepDecision = const Value.absent(),
               }) => PlanStateCompanion.insert(
                 id: id,
                 kind: kind,
@@ -11716,6 +11882,8 @@ class $$PlanStateTableTableManager
                 daysAtStep: daysAtStep,
                 taperMode: taperMode,
                 switchHistoryJson: switchHistoryJson,
+                lastStepDate: lastStepDate,
+                lastStepDecision: lastStepDecision,
               ),
           withReferenceMapper: (p0) => p0
               .map(

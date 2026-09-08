@@ -1870,4 +1870,39 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get howLungBody =>
       'Veröffentlichte jährliche FEV1-Abfallraten als drei typische Kurven: Nieraucher ca. 30 mL/Jahr, dauerhafter Aussteiger ca. 33, Raucher 40 bis 70. Bevölkerungsdurchschnitte, keine Messung.';
+
+  @override
+  String get settingsBodyDataTitle => 'Körperdaten (optional)';
+
+  @override
+  String get settingsBodyDataNote =>
+      'Dient nur der Schärfung der Schadenslast. Lässt du es leer, wird nichts gesperrt.';
+
+  @override
+  String get settingsHeight => 'Größe (cm)';
+
+  @override
+  String get settingsWeight => 'Gewicht (kg)';
+
+  @override
+  String get settingsSmokingYears => 'Rauchjahre';
+
+  @override
+  String get settingsSex => 'Geschlecht (für das Zeitkonto)';
+
+  @override
+  String get sexUnspecified => 'Keine Angabe';
+
+  @override
+  String get sexMale => 'Männlich';
+
+  @override
+  String get sexFemale => 'Weiblich';
+
+  @override
+  String get settingsModelTitle => 'Modell-Einstellungen';
+
+  @override
+  String get settingsPrelogPauseNote =>
+      'Dein Eintrag wird ohnehin gespeichert; die Pause gibt dir nur einen Moment und ein Rückgängig.';
 }

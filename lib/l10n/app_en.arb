@@ -1027,5 +1027,16 @@
   "howMindTitle": "Withdrawal pressure",
   "howMindBody": "A published symptom curve that peaks on days 1–3 and eases over 3–4 weeks, scaled by how deep your current nicotine trough is, then corrected by the difference between our guesses and what you actually reported. The output is a band, never a percentage.",
   "howLungTitle": "Lung scenarios",
-  "howLungBody": "Published annual FEV1 decline rates drawn as three typical curves: never-smoker about 30 mL/year, sustained quitter about 33, current smoker 40 up to 70 at heavier intake. These are population averages for your age group, not a measurement of your lungs."
+  "howLungBody": "Published annual FEV1 decline rates drawn as three typical curves: never-smoker about 30 mL/year, sustained quitter about 33, current smoker 40 up to 70 at heavier intake. These are population averages for your age group, not a measurement of your lungs.",
+  "settingsBodyDataTitle": "Body data (optional)",
+  "settingsBodyDataNote": "Only used to sharpen the Harm Load. Leave it empty and nothing is locked — the index simply reweighs what it has.",
+  "settingsHeight": "Height (cm)",
+  "settingsWeight": "Weight (kg)",
+  "settingsSmokingYears": "Years smoking",
+  "settingsSex": "Sex (for the time ledger)",
+  "sexUnspecified": "Prefer not to say",
+  "sexMale": "Male",
+  "sexFemale": "Female",
+  "settingsModelTitle": "Model settings",
+  "settingsPrelogPauseNote": "Your entry is saved either way; the pause only gives you a moment and an undo."
 }
