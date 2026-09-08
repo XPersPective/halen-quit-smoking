@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:halen/data/repositories/daily_card_repository.dart';
 import 'package:halen/data/repositories/library_repository.dart';
 import 'package:halen/domain/evidence.dart';
 
@@ -82,5 +83,66 @@ void main() {
         library.supportCardForDay(day).channel,
     };
     expect(channels.length, SupportChannel.values.length);
+  });
+
+  group('daily card engine', () {
+    const cards = DailyCardRepository();
+
+    test('a reality card cannot be built without an action line', () {
+      // The rule is structural: fear without efficacy does not change
+      // behaviour, so the constructor refuses the card outright.
+      expect(
+        () => DailyCard(
+          key: 'bad',
+          family: ContentFamily.reality,
+          title: const L10nText(en: 'x', tr: 'x', de: 'x'),
+          body: const L10nText(en: 'x', tr: 'x', de: 'x'),
+          sourceLabel: 'x',
+          sourceUrl: 'https://example.org',
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+
+    test('every shipped reality card carries its action, in every language',
+        () {
+      for (final card in cards.cards()) {
+        if (card.family != ContentFamily.reality) {
+          continue;
+        }
+        for (final locale in locales) {
+          expect(card.action!(locale).trim(), isNotEmpty, reason: card.key);
+        }
+      }
+    });
+
+    test('the withdrawal peak never gets a hard-truth card', () {
+      for (var day = 0; day < 3; day++) {
+        expect(
+          cards.cardForDay(day).family,
+          isNot(ContentFamily.reality),
+          reason: 'day $day',
+        );
+      }
+    });
+
+    test('cards respect their day windows', () {
+      for (var day = 0; day < 120; day++) {
+        final card = cards.cardForDay(day);
+        expect(day, greaterThanOrEqualTo(card.minDay), reason: card.key);
+        expect(day, lessThanOrEqualTo(card.maxDay), reason: card.key);
+      }
+    });
+
+    test('every card is sourced and every source is listed', () {
+      for (final card in cards.cards()) {
+        expect(card.sourceUrl, startsWith('https://'), reason: card.key);
+        expect(card.sourceLabel.trim(), isNotEmpty, reason: card.key);
+      }
+      final listed = cards.allSources().map((s) => s.url).toSet();
+      for (final card in cards.cards()) {
+        expect(listed, contains(card.sourceUrl), reason: card.key);
+      }
+    });
   });
 }

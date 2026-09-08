@@ -11,6 +11,7 @@ import 'domain/entities.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'presentation/screens/articles/article_reader_screen.dart';
 import 'presentation/screens/articles/articles_screen.dart';
+import 'presentation/screens/articles/sources_screen.dart';
 import 'presentation/screens/body/body_screen.dart';
 import 'presentation/screens/economy/economy_screen.dart';
 import 'presentation/screens/onboarding/onboarding_screen.dart';
@@ -59,6 +60,7 @@ class HalenApp extends ConsumerWidget {
         Routes.body: (_) => const BodyScreen(),
         Routes.economy: (_) => const EconomyScreen(),
         Routes.planSwitch: (_) => const PlanSwitchScreen(),
+        Routes.sources: (_) => const SourcesScreen(),
       },
       onGenerateRoute: (settings) {
         // Record detail takes the just-logged event id as an argument.

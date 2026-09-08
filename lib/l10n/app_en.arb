@@ -1038,5 +1038,20 @@
   "sexMale": "Male",
   "sexFemale": "Female",
   "settingsModelTitle": "Model settings",
-  "settingsPrelogPauseNote": "Your entry is saved either way; the pause only gives you a moment and an undo."
+  "settingsPrelogPauseNote": "Your entry is saved either way; the pause only gives you a moment and an undo.",
+  "dailyCardKnowledge": "Good to know",
+  "dailyCardReality": "The hard part",
+  "dailyCardGain": "What you gain",
+  "dailyCardMotivation": "For today",
+  "dailyCardAction": "What you can do",
+  "dailyCardReadMinutes": "{minutes} min read",
+  "@dailyCardReadMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sourcesTitle": "Scientific sources",
+  "sourcesIntro": "Every claim in this app comes from one of these. Tap to open the original."
 }

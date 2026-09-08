@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/dates.dart';
 import '../data/db/app_database.dart';
+import '../data/repositories/daily_card_repository.dart';
 import '../data/repositories/library_repository.dart';
 import '../domain/body_load_model.dart';
 import '../domain/craving_risk.dart';
@@ -23,6 +24,19 @@ import 'taper_controller.dart';
 
 final libraryRepositoryProvider =
     Provider<LibraryRepository>((ref) => const LibraryRepository());
+
+final dailyCardRepositoryProvider =
+    Provider<DailyCardRepository>((ref) => const DailyCardRepository());
+
+/// Today's content card, chosen by where the user is in their journey
+/// (module report §11.③): no fear cards during the withdrawal peak.
+final dailyCardProvider = FutureProvider<DailyCard>((ref) async {
+  final profile = await ref.watch(smokingProfileProvider.future);
+  final quitTs = ref.watch(timelineStateProvider).value;
+  final start = quitTs ?? profile?.startedAt ?? DateTime.now();
+  final dayIndex = DateTime.now().difference(start).inDays.clamp(0, 100000);
+  return ref.watch(dailyCardRepositoryProvider).cardForDay(dayIndex);
+});
 
 /// The user's account row — only the age band is read, and only to give the
 /// Harm Load a rough age. The onboarding never asks for a birth date.

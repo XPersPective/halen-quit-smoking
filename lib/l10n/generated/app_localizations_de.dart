@@ -1905,4 +1905,31 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settingsPrelogPauseNote =>
       'Dein Eintrag wird ohnehin gespeichert; die Pause gibt dir nur einen Moment und ein Rückgängig.';
+
+  @override
+  String get dailyCardKnowledge => 'Gut zu wissen';
+
+  @override
+  String get dailyCardReality => 'Der harte Teil';
+
+  @override
+  String get dailyCardGain => 'Was du gewinnst';
+
+  @override
+  String get dailyCardMotivation => 'Für heute';
+
+  @override
+  String get dailyCardAction => 'Was du tun kannst';
+
+  @override
+  String dailyCardReadMinutes(int minutes) {
+    return '$minutes Min. Lesezeit';
+  }
+
+  @override
+  String get sourcesTitle => 'Wissenschaftliche Quellen';
+
+  @override
+  String get sourcesIntro =>
+      'Jede Aussage in dieser App stammt aus einer dieser Quellen.';
 }

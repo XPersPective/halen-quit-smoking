@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -21,6 +23,7 @@ Future<void> showLogFeedback(
   String? footnote,
   bool celebrate = false,
   Future<void> Function()? onUndo,
+  int pauseSeconds = 0,
 }) {
   final reduceMotion = MediaQuery.of(context).disableAnimations;
   if (!reduceMotion) {
@@ -41,6 +44,7 @@ Future<void> showLogFeedback(
       detail: detail,
       footnote: footnote,
       onUndo: onUndo,
+      pauseSeconds: pauseSeconds,
     ),
   );
 }
@@ -52,6 +56,7 @@ class _LogFeedbackSheet extends StatefulWidget {
     this.detail,
     this.footnote,
     this.onUndo,
+    this.pauseSeconds = 0,
   });
 
   final LogFeedbackKind kind;
@@ -59,6 +64,10 @@ class _LogFeedbackSheet extends StatefulWidget {
   final String? detail;
   final String? footnote;
   final Future<void> Function()? onUndo;
+
+  /// Opt-in pause before the sheet can be dismissed. The record is already
+  /// saved; this only holds the moment open — and Undo stays live throughout.
+  final int pauseSeconds;
 
   @override
   State<_LogFeedbackSheet> createState() => _LogFeedbackSheetState();
@@ -73,14 +82,29 @@ class _LogFeedbackSheetState extends State<_LogFeedbackSheet>
         : const Duration(milliseconds: 1200),
   );
 
+  late int _secondsLeft = widget.pauseSeconds;
+  Timer? _ticker;
+
   @override
   void initState() {
     super.initState();
     _controller.forward();
+    if (_secondsLeft > 0) {
+      _ticker = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (!mounted) {
+          return;
+        }
+        setState(() => _secondsLeft -= 1);
+        if (_secondsLeft <= 0) {
+          timer.cancel();
+        }
+      });
+    }
   }
 
   @override
   void dispose() {
+    _ticker?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -142,6 +166,20 @@ class _LogFeedbackSheetState extends State<_LogFeedbackSheet>
               const SizedBox(height: 12),
               Text(widget.footnote!, style: theme.textTheme.labelMedium),
             ],
+            if (widget.pauseSeconds > 0) ...[
+              const SizedBox(height: 16),
+              Text(l10n.logPauseTitle, style: theme.textTheme.labelLarge),
+              const SizedBox(height: 4),
+              Text(l10n.logPauseNote, style: theme.textTheme.bodySmall),
+              const SizedBox(height: 8),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: 1 - _secondsLeft / widget.pauseSeconds,
+                  minHeight: 6,
+                ),
+              ),
+            ],
             const SizedBox(height: 20),
             Row(
               children: [
@@ -157,8 +195,13 @@ class _LogFeedbackSheetState extends State<_LogFeedbackSheet>
                   ),
                 const Spacer(),
                 FilledButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(l10n.commonDone),
+                  // The pause holds the sheet, never the record.
+                  onPressed: _secondsLeft > 0
+                      ? null
+                      : () => Navigator.of(context).pop(),
+                  child: Text(
+                    _secondsLeft > 0 ? '$_secondsLeft' : l10n.commonDone,
+                  ),
                 ),
               ],
             ),

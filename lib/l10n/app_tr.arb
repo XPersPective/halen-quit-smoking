@@ -575,5 +575,13 @@
   "sexMale": "Erkek",
   "sexFemale": "Kadın",
   "settingsModelTitle": "Model ayarları",
-  "settingsPrelogPauseNote": "Kaydın her hâlükârda alınır; duraklama yalnızca sana bir an ve geri alma imkânı verir."
+  "settingsPrelogPauseNote": "Kaydın her hâlükârda alınır; duraklama yalnızca sana bir an ve geri alma imkânı verir.",
+  "dailyCardKnowledge": "Bilgi",
+  "dailyCardReality": "Zor kısım",
+  "dailyCardGain": "Kazandığın",
+  "dailyCardMotivation": "Bugün için",
+  "dailyCardAction": "Ne yapabilirsin",
+  "dailyCardReadMinutes": "{minutes} dk okuma",
+  "sourcesTitle": "Bilimsel kaynaklar",
+  "sourcesIntro": "Bu uygulamadaki her iddia bunlardan birine dayanır. Orijinalini açmak için dokun."
 }

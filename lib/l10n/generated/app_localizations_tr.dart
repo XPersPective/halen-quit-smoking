@@ -1892,4 +1892,31 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get settingsPrelogPauseNote =>
       'Kaydın her hâlükârda alınır; duraklama yalnızca sana bir an ve geri alma imkânı verir.';
+
+  @override
+  String get dailyCardKnowledge => 'Bilgi';
+
+  @override
+  String get dailyCardReality => 'Zor kısım';
+
+  @override
+  String get dailyCardGain => 'Kazandığın';
+
+  @override
+  String get dailyCardMotivation => 'Bugün için';
+
+  @override
+  String get dailyCardAction => 'Ne yapabilirsin';
+
+  @override
+  String dailyCardReadMinutes(int minutes) {
+    return '$minutes dk okuma';
+  }
+
+  @override
+  String get sourcesTitle => 'Bilimsel kaynaklar';
+
+  @override
+  String get sourcesIntro =>
+      'Bu uygulamadaki her iddia bunlardan birine dayanır. Orijinalini açmak için dokun.';
 }

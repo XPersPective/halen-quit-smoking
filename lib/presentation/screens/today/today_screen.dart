@@ -10,6 +10,7 @@ import 'package:halen/application/module_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/presentation/widgets/daily_card_tile.dart';
 import 'package:halen/presentation/widgets/mind_state_card.dart';
 import 'package:halen/presentation/widgets/support_card_tile.dart';
 import 'package:halen/presentation/widgets/today/log_feedback.dart';
@@ -92,9 +93,14 @@ class _TodayBody extends ConsumerWidget {
     if (!context.mounted) {
       return;
     }
+    final settings = await db.settingsDao.getSettings();
+    if (!context.mounted) {
+      return;
+    }
     await showLogFeedback(
       context,
       kind: LogFeedbackKind.smoked,
+      pauseSeconds: settings.preLogPauseSeconds,
       headline: l10n.logSmokedNeutral(
         events.length,
         baseline.toStringAsFixed(baseline % 1 == 0 ? 0 : 1),
@@ -373,6 +379,10 @@ class _TodayBody extends ConsumerWidget {
           const MindStateCard(),
           const SizedBox(height: 16),
           const SupportCardTile(),
+          const SizedBox(height: 16),
+          // §11 — one card a day, phase-aware, and never a hard-truth card
+          // during the withdrawal peak.
+          const DailyCardTile(),
           const SizedBox(height: 28),
 
           Text(l10n.todayOverview, style: theme.textTheme.titleMedium),

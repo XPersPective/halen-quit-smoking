@@ -3411,6 +3411,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your entry is saved either way; the pause only gives you a moment and an undo.'**
   String get settingsPrelogPauseNote;
+
+  /// No description provided for @dailyCardKnowledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Good to know'**
+  String get dailyCardKnowledge;
+
+  /// No description provided for @dailyCardReality.
+  ///
+  /// In en, this message translates to:
+  /// **'The hard part'**
+  String get dailyCardReality;
+
+  /// No description provided for @dailyCardGain.
+  ///
+  /// In en, this message translates to:
+  /// **'What you gain'**
+  String get dailyCardGain;
+
+  /// No description provided for @dailyCardMotivation.
+  ///
+  /// In en, this message translates to:
+  /// **'For today'**
+  String get dailyCardMotivation;
+
+  /// No description provided for @dailyCardAction.
+  ///
+  /// In en, this message translates to:
+  /// **'What you can do'**
+  String get dailyCardAction;
+
+  /// No description provided for @dailyCardReadMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min read'**
+  String dailyCardReadMinutes(int minutes);
+
+  /// No description provided for @sourcesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scientific sources'**
+  String get sourcesTitle;
+
+  /// No description provided for @sourcesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Every claim in this app comes from one of these. Tap to open the original.'**
+  String get sourcesIntro;
 }
 
 class _AppLocalizationsDelegate

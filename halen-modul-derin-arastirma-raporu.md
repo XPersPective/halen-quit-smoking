@@ -848,14 +848,16 @@ Bu raporun **14 modülünün tamamı** uygulandı ve `master`'a girdi. Kodda kar
 | §8 Psikolojik Durum | `domain/withdrawal_model.dart` | `mindStateProvider`, `moodReportProvider`, `mood_log` tablosu | `widgets/mind_state_card.dart` |
 | §9 Yumuşak Geçiş | `domain/soft_taper.dart` | `application/taper_controller.dart`, `plan_state` tablosu | `screens/plan/plan_screen.dart` (taper notu) |
 | §10 Destek | — | `library_repository.dart` (7 kart), `support_log` tablosu | `widgets/support_card_tile.dart` |
-| §11 İçerik | `domain/evidence.dart` (`ContentFamily`) | mevcut `article_repository.dart` + kanıt rozetleri | makale ekranları |
-| §12 Kayıt Etkileşimi | — | `settings.preLogPauseSeconds` | `widgets/today/log_feedback.dart` |
+| §11 İçerik | `domain/evidence.dart` (`ContentFamily`) | `data/repositories/daily_card_repository.dart` (10 kart, faz pencereli) | `widgets/daily_card_tile.dart`, `screens/articles/sources_screen.dart` |
+| §12 Kayıt Etkileşimi | — | `settings.preLogPauseSeconds` (opsiyonel 20 sn duraklama) | `widgets/today/log_feedback.dart` |
 | §13 Program Sistemi | `domain/plan_kinds.dart` | `PlanKindController`, `plan_state` | `screens/plan/plan_switch_screen.dart` |
 | §14 İki İndeks | `domain/progress_index.dart`, `domain/harm_load.dart` | `indicesProvider`, `index_snapshot` tablosu | `widgets/indices_card.dart` |
 
 **Şeffaflık:** `screens/transparency/how_calculated_screen.dart` artık altı yeni bölümle her formülü, ağırlığı ve sınırı yayımlıyor (§0.2).
 
-**Testler:** 188 test. Bunların içinde davranışsal değil **yapısal** kurallar da var: etik lint (S5 iddia kalıpları), `library_repository_test.dart` (her organ kartının iyileşme metni, her tekniğin kanıt notu, bitki kartının "kanıt yok" ifadesi zorunlu) ve indeks/taper altın-değer testleri.
+**İçerik motoru (§11) yapısal kuralı koda gömüldü:** `DailyCard` yapıcısı, `family == reality` olan bir kartın **eylem satırı olmadan oluşturulmasını assert ile reddeder** — korku ancak öz-yeterlikle işe yaradığı için bu bir editoryal alışkanlık değil, derleme/çalışma zamanı kuralıdır. Kart seçimi faz duyarlıdır: ilk 3 gün (yoksunluk tepesi) yalnızca *Bilgi* ve *Kazanç* aileleri gösterilir.
+
+**Testler:** 192 test. Bunların içinde davranışsal değil **yapısal** kurallar da var: etik lint (S5 iddia kalıpları), `library_repository_test.dart` (her organ kartının iyileşme metni, her tekniğin kanıt notu, bitki kartının "kanıt yok" ifadesi zorunlu) ve indeks/taper altın-değer testleri.
 
 **Kasıtlı davranış değişiklikleri:** (a) sigara kaydından sonra artık önce geri bildirim yaprağı açılıyor (kayıt zaten alınmış durumda, geri alınabilir); (b) SOS ekranındaki 4D kartlar tek bir kanıt dereceli araç setiyle değiştirildi ve bu sete kulak akupresürü ⚪ etiketiyle eklendi — ana raporun "akupresür yok" kuralı bu raporun §5.① kanıt değerlendirmesiyle güncellenmiştir.
 

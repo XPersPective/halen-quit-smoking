@@ -575,5 +575,13 @@
   "sexMale": "Männlich",
   "sexFemale": "Weiblich",
   "settingsModelTitle": "Modell-Einstellungen",
-  "settingsPrelogPauseNote": "Dein Eintrag wird ohnehin gespeichert; die Pause gibt dir nur einen Moment und ein Rückgängig."
+  "settingsPrelogPauseNote": "Dein Eintrag wird ohnehin gespeichert; die Pause gibt dir nur einen Moment und ein Rückgängig.",
+  "dailyCardKnowledge": "Gut zu wissen",
+  "dailyCardReality": "Der harte Teil",
+  "dailyCardGain": "Was du gewinnst",
+  "dailyCardMotivation": "Für heute",
+  "dailyCardAction": "Was du tun kannst",
+  "dailyCardReadMinutes": "{minutes} Min. Lesezeit",
+  "sourcesTitle": "Wissenschaftliche Quellen",
+  "sourcesIntro": "Jede Aussage in dieser App stammt aus einer dieser Quellen."
 }

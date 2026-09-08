@@ -20,4 +20,5 @@ abstract final class Routes {
   static const body = '/body';
   static const economy = '/economy';
   static const planSwitch = '/plan-switch';
+  static const sources = '/sources';
 }
