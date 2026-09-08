@@ -323,5 +323,55 @@
 
   "a11yRing": "Bugünün halkası: hedef {target}, içilen {smoked}",
   "a11yNicotineChart": "Tahmini nikotin maruziyet eğrisi. Her kayıtta yükselir, iki saatte bir yarıya düşer.",
-  "a11ySavingsChart": "Tasarruf grafiği, seçili aralıkta birikimli."
+  "a11ySavingsChart": "Tasarruf grafiği, seçili aralıkta birikimli.",
+
+  "navToday": "Bugün",
+  "navStats": "Grafikler",
+  "navPlan": "Plan",
+  "navArticles": "Rehber",
+  "navSos": "Kriz SOS",
+
+  "statsTabDaily": "Günlük Trend",
+  "statsTabHourly": "24s Dağılım",
+  "statsTabIntervals": "Aralıklar",
+  "statsTabTriggers": "Tetikleyiciler",
+
+  "intervalTitle": "Sigara Arası Süreler",
+  "intervalSubtitle": "İki sigara arasında geçen sürelerin dağılımı",
+  "intervalAverage": "Ortalama aralık",
+  "intervalLongest": "En uzun sigarasız süre",
+  "intervalShortest": "En kısa aralık",
+  "intervalCurrent": "Mevcut sigarasız süre",
+  "intervalMinutes": "{m} dk",
+  "intervalHoursMinutes": "{h} sa {m} dk",
+
+  "hourlyTitle": "24 Saatlik İçme Dağılımı",
+  "hourlySubtitle": "Günün hangi saatlerinde yoğun içiyorsun",
+  "hourlyPeak": "En yoğun saat: {hour}:00 ({count} sigara)",
+  "timeMorning": "Sabah (06–12)",
+  "timeAfternoon": "Öğleden Sonra (12–18)",
+  "timeEvening": "Akşam (18–24)",
+  "timeNight": "Gece (00–06)",
+
+  "triggerTitle": "Tetikleyici Analizi",
+  "triggerSubtitle": "İsteği en çok ne tetikliyor",
+  "triggerOccurrences": "{count} kez (%{percent})",
+
+  "todayLogTitle": "Bugünün Sigara Günlüğü",
+  "todayLogSubtitle": "Gün içinde içilen sigaraların saatlik dökümü",
+  "todayLogEmpty": "Bugün henüz sigara kaydı yok",
+  "deleteCigaretteConfirm": "Bu sigara kaydını silmek istiyor musunuz?",
+  "deletedCigaretteSuccess": "Kayıt silindi",
+
+  "articlesTitle": "Rehber & Makaleler",
+  "articlesSubtitle": "Bilimsel kanıta dayalı sigara bırakma kütüphanesi",
+  "articleCategoryAll": "Tümü",
+  "articleCategoryScience": "Sigara Bilimi",
+  "articleCategoryCrisis": "Kriz Yönetimi",
+  "articleCategoryTriggers": "Tetikleyiciler",
+  "articleCategoryHealth": "Sağlık",
+  "articleCategoryPsychology": "Davranış Değişimi",
+  "articleReadTime": "{min} dk okuma",
+  "articleSourceLabel": "Bilimsel kaynak: {source}",
+  "articleKeyTakeaways": "Öne Çıkanlar & Pratik Adımlar"
 }

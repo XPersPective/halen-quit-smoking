@@ -1,14 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
+import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 
 /// 60-second guided box breathing (report §15).
 ///
-/// 4 s in → 4 s hold → 4 s out → 4 s hold, 3.75 cycles in a minute. The
-/// circle scales with the phase. Motion respects the OS reduce-motion flag:
-/// with animations disabled the guide runs as text + countdown only.
+/// 4 s in → 4 s hold → 4 s out → 4 s hold, 3.75 cycles in a minute.
 class BreathingScreen extends StatefulWidget {
   const BreathingScreen({super.key});
 
@@ -33,10 +30,10 @@ class _BreathingScreenState extends State<BreathingScreen>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: _phaseSeconds),
-      value: 0.25, // Start mid-"in" phase so the circle is never at rest.
+      value: 0.25,
     );
-    _scale = Tween(begin: 0.55, end: 1.0)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    _scale = Tween(begin: 0.65, end: 1.0)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic));
     _controller.repeat(reverse: true);
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) => _tick());
   }
@@ -61,9 +58,10 @@ class _BreathingScreenState extends State<BreathingScreen>
     super.dispose();
   }
 
+  int get _currentPhaseIndex => (_elapsed ~/ _phaseSeconds) % 4;
+
   String _phaseLabel(AppLocalizations l10n) {
-    final phaseIndex = (_elapsed ~/ _phaseSeconds) % 4;
-    return switch (phaseIndex) {
+    return switch (_currentPhaseIndex) {
       0 => l10n.sosBreathingIn,
       1 => l10n.sosBreathingHold,
       2 => l10n.sosBreathingOut,
@@ -71,60 +69,159 @@ class _BreathingScreenState extends State<BreathingScreen>
     };
   }
 
+  Color _phaseColor(ThemeData theme) {
+    return switch (_currentPhaseIndex) {
+      0 => HalenColors.emerald,
+      1 => HalenColors.skyBlue,
+      2 => theme.colorScheme.primary,
+      _ => HalenColors.amberCta,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final reduceMotion =
         MediaQuery.of(context).disableAnimations || _finished;
+    final phaseColor = _phaseColor(theme);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.sos4dBreathe)),
+      appBar: AppBar(
+        title: Text(l10n.sos4dBreathe),
+        elevation: 0,
+      ),
       body: SafeArea(
-        child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (_finished)
-                Text(l10n.sosBreathingFinished,
-                    style: theme.textTheme.headlineSmall)
-              else ...[
-                Text(
-                  '${_totalSeconds - _elapsed} s',
-                  style: theme.textTheme.titleLarge,
+              // Progress Bar
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: LinearProgressIndicator(
+                  value: _elapsed / _totalSeconds,
+                  minHeight: 8,
+                  backgroundColor: theme.colorScheme.outline,
+                  valueColor: AlwaysStoppedAnimation<Color>(phaseColor),
                 ),
-                const SizedBox(height: 24),
-                AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) => Container(
-                    width: 160,
-                    height: 160,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: theme.colorScheme.primaryContainer,
-                    ),
-                    transformAlignment: Alignment.center,
-                    transform: Matrix4.identity()
-                      ..scaleByDouble(
-                        reduceMotion ? 0.9 : _scale.value,
-                        reduceMotion ? 0.9 : _scale.value,
-                        1,
-                        1,
-                      ),
-                    child: Center(
-                      child: Text(
-                        _phaseLabel(l10n),
-                        style: theme.textTheme.titleMedium,
-                      ),
-                    ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                '${_totalSeconds - _elapsed} s',
+                style: theme.textTheme.titleLarge,
+              ),
+
+              const Spacer(),
+
+              if (_finished) ...[
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: HalenColors.emerald.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.check_rounded,
+                    size: 64,
+                    color: HalenColors.emerald,
                   ),
                 ),
+                const SizedBox(height: 24),
+                Text(
+                  l10n.sosBreathingFinished,
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Harika! Vagus sinirini aktive ettin, nabzın yavaşladı.',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: isDark
+                        ? HalenColors.textSecondaryDark
+                        : HalenColors.textSecondaryLight,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ] else ...[
+                AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    final scaleValue = reduceMotion ? 0.85 : _scale.value;
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Outer subtle ripple
+                        Container(
+                          width: 260 * scaleValue,
+                          height: 260 * scaleValue,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: phaseColor.withValues(alpha: 0.08),
+                          ),
+                        ),
+                        // Middle ripple
+                        Container(
+                          width: 210 * scaleValue,
+                          height: 210 * scaleValue,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: phaseColor.withValues(alpha: 0.15),
+                          ),
+                        ),
+                        // Main core circle
+                        Container(
+                          width: 160 * scaleValue,
+                          height: 160 * scaleValue,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: RadialGradient(
+                              colors: [
+                                phaseColor,
+                                phaseColor.withValues(alpha: 0.8),
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: phaseColor.withValues(alpha: 0.35),
+                                blurRadius: 24,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Text(
+                                _phaseLabel(l10n),
+                                style: theme.textTheme.titleLarge?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ],
-              const SizedBox(height: 32),
+
+              const Spacer(),
+
               OutlinedButton(
                 onPressed: () => Navigator.of(context).pop(),
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(52),
+                ),
                 child: Text(l10n.commonDone),
               ),
+              const SizedBox(height: 12),
             ],
           ),
         ),

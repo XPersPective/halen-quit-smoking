@@ -1,5 +1,4 @@
-/// Route names for the app. Navigation stays on Flutter's built-in Navigator
-/// (no extra router package) — the screen count is small and fixed (14).
+/// Route names for the app. Navigation stays on Flutter's built-in Navigator.
 library;
 
 abstract final class Routes {
@@ -16,4 +15,6 @@ abstract final class Routes {
   static const howCalculated = '/how-calculated';
   static const under18 = '/under-18';
   static const breathing = '/breathing';
+  static const articles = '/articles';
+  static const articleReader = '/article-reader';
 }

@@ -1060,4 +1060,147 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get a11ySavingsChart => 'Tasarruf grafiği, seçili aralıkta birikimli.';
+
+  @override
+  String get navToday => 'Bugün';
+
+  @override
+  String get navStats => 'Grafikler';
+
+  @override
+  String get navPlan => 'Plan';
+
+  @override
+  String get navArticles => 'Rehber';
+
+  @override
+  String get navSos => 'Kriz SOS';
+
+  @override
+  String get statsTabDaily => 'Günlük Trend';
+
+  @override
+  String get statsTabHourly => '24s Dağılım';
+
+  @override
+  String get statsTabIntervals => 'Aralıklar';
+
+  @override
+  String get statsTabTriggers => 'Tetikleyiciler';
+
+  @override
+  String get intervalTitle => 'Sigara Arası Süreler';
+
+  @override
+  String get intervalSubtitle => 'İki sigara arasında geçen sürelerin dağılımı';
+
+  @override
+  String get intervalAverage => 'Ortalama aralık';
+
+  @override
+  String get intervalLongest => 'En uzun sigarasız süre';
+
+  @override
+  String get intervalShortest => 'En kısa aralık';
+
+  @override
+  String get intervalCurrent => 'Mevcut sigarasız süre';
+
+  @override
+  String intervalMinutes(int m) {
+    return '$m dk';
+  }
+
+  @override
+  String intervalHoursMinutes(int h, int m) {
+    return '$h sa $m dk';
+  }
+
+  @override
+  String get hourlyTitle => '24 Saatlik İçme Dağılımı';
+
+  @override
+  String get hourlySubtitle => 'Günün hangi saatlerinde yoğun içiyorsun';
+
+  @override
+  String hourlyPeak(int hour, int count) {
+    return 'En yoğun saat: $hour:00 ($count sigara)';
+  }
+
+  @override
+  String get timeMorning => 'Sabah (06–12)';
+
+  @override
+  String get timeAfternoon => 'Öğleden Sonra (12–18)';
+
+  @override
+  String get timeEvening => 'Akşam (18–24)';
+
+  @override
+  String get timeNight => 'Gece (00–06)';
+
+  @override
+  String get triggerTitle => 'Tetikleyici Analizi';
+
+  @override
+  String get triggerSubtitle => 'İsteği en çok ne tetikliyor';
+
+  @override
+  String triggerOccurrences(int count, int percent) {
+    return '$count kez (%$percent)';
+  }
+
+  @override
+  String get todayLogTitle => 'Bugünün Sigara Günlüğü';
+
+  @override
+  String get todayLogSubtitle => 'Gün içinde içilen sigaraların saatlik dökümü';
+
+  @override
+  String get todayLogEmpty => 'Bugün henüz sigara kaydı yok';
+
+  @override
+  String get deleteCigaretteConfirm =>
+      'Bu sigara kaydını silmek istiyor musunuz?';
+
+  @override
+  String get deletedCigaretteSuccess => 'Kayıt silindi';
+
+  @override
+  String get articlesTitle => 'Rehber & Makaleler';
+
+  @override
+  String get articlesSubtitle =>
+      'Bilimsel kanıta dayalı sigara bırakma kütüphanesi';
+
+  @override
+  String get articleCategoryAll => 'Tümü';
+
+  @override
+  String get articleCategoryScience => 'Sigara Bilimi';
+
+  @override
+  String get articleCategoryCrisis => 'Kriz Yönetimi';
+
+  @override
+  String get articleCategoryTriggers => 'Tetikleyiciler';
+
+  @override
+  String get articleCategoryHealth => 'Sağlık';
+
+  @override
+  String get articleCategoryPsychology => 'Davranış Değişimi';
+
+  @override
+  String articleReadTime(int min) {
+    return '$min dk okuma';
+  }
+
+  @override
+  String articleSourceLabel(String source) {
+    return 'Bilimsel kaynak: $source';
+  }
+
+  @override
+  String get articleKeyTakeaways => 'Öne Çıkanlar & Pratik Adımlar';
 }

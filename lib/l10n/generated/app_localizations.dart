@@ -1923,6 +1923,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Savings chart, cumulative over the selected range.'**
   String get a11ySavingsChart;
+
+  /// No description provided for @navToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get navToday;
+
+  /// No description provided for @navStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get navStats;
+
+  /// No description provided for @navPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get navPlan;
+
+  /// No description provided for @navArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'Guides'**
+  String get navArticles;
+
+  /// No description provided for @navSos.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving SOS'**
+  String get navSos;
+
+  /// No description provided for @statsTabDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Trends'**
+  String get statsTabDaily;
+
+  /// No description provided for @statsTabHourly.
+  ///
+  /// In en, this message translates to:
+  /// **'24h Hourly'**
+  String get statsTabHourly;
+
+  /// No description provided for @statsTabIntervals.
+  ///
+  /// In en, this message translates to:
+  /// **'Intervals'**
+  String get statsTabIntervals;
+
+  /// No description provided for @statsTabTriggers.
+  ///
+  /// In en, this message translates to:
+  /// **'Triggers'**
+  String get statsTabTriggers;
+
+  /// No description provided for @intervalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Inter-Cigarette Intervals'**
+  String get intervalTitle;
+
+  /// No description provided for @intervalSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Distribution of time elapsed between each cigarette'**
+  String get intervalSubtitle;
+
+  /// No description provided for @intervalAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Average interval'**
+  String get intervalAverage;
+
+  /// No description provided for @intervalLongest.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest smoke-free gap'**
+  String get intervalLongest;
+
+  /// No description provided for @intervalShortest.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortest gap'**
+  String get intervalShortest;
+
+  /// No description provided for @intervalCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current smoke-free time'**
+  String get intervalCurrent;
+
+  /// No description provided for @intervalMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{m} min'**
+  String intervalMinutes(int m);
+
+  /// No description provided for @intervalHoursMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{h}h {m}m'**
+  String intervalHoursMinutes(int h, int m);
+
+  /// No description provided for @hourlyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'24-Hour Distribution'**
+  String get hourlyTitle;
+
+  /// No description provided for @hourlySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When you smoke during the day'**
+  String get hourlySubtitle;
+
+  /// No description provided for @hourlyPeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Peak hour: {hour}:00 ({count} cigarettes)'**
+  String hourlyPeak(int hour, int count);
+
+  /// No description provided for @timeMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning (06–12)'**
+  String get timeMorning;
+
+  /// No description provided for @timeAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Afternoon (12–18)'**
+  String get timeAfternoon;
+
+  /// No description provided for @timeEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening (18–24)'**
+  String get timeEvening;
+
+  /// No description provided for @timeNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Night (00–06)'**
+  String get timeNight;
+
+  /// No description provided for @triggerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trigger Analysis'**
+  String get triggerTitle;
+
+  /// No description provided for @triggerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What sparks the urge'**
+  String get triggerSubtitle;
+
+  /// No description provided for @triggerOccurrences.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} times ({percent}%)'**
+  String triggerOccurrences(int count, int percent);
+
+  /// No description provided for @todayLogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Cigarette Log'**
+  String get todayLogTitle;
+
+  /// No description provided for @todayLogSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed breakdown of today\'s smokes'**
+  String get todayLogSubtitle;
+
+  /// No description provided for @todayLogEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No cigarettes logged yet today'**
+  String get todayLogEmpty;
+
+  /// No description provided for @deleteCigaretteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this cigarette record?'**
+  String get deleteCigaretteConfirm;
+
+  /// No description provided for @deletedCigaretteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Record deleted'**
+  String get deletedCigaretteSuccess;
+
+  /// No description provided for @articlesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guides & Articles'**
+  String get articlesTitle;
+
+  /// No description provided for @articlesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Evidence-based smoking cessation science'**
+  String get articlesSubtitle;
+
+  /// No description provided for @articleCategoryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get articleCategoryAll;
+
+  /// No description provided for @articleCategoryScience.
+  ///
+  /// In en, this message translates to:
+  /// **'Science'**
+  String get articleCategoryScience;
+
+  /// No description provided for @articleCategoryCrisis.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving Relief'**
+  String get articleCategoryCrisis;
+
+  /// No description provided for @articleCategoryTriggers.
+  ///
+  /// In en, this message translates to:
+  /// **'Triggers'**
+  String get articleCategoryTriggers;
+
+  /// No description provided for @articleCategoryHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get articleCategoryHealth;
+
+  /// No description provided for @articleCategoryPsychology.
+  ///
+  /// In en, this message translates to:
+  /// **'Behavior'**
+  String get articleCategoryPsychology;
+
+  /// No description provided for @articleReadTime.
+  ///
+  /// In en, this message translates to:
+  /// **'{min} min read'**
+  String articleReadTime(int min);
+
+  /// No description provided for @articleSourceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Scientific source: {source}'**
+  String articleSourceLabel(String source);
+
+  /// No description provided for @articleKeyTakeaways.
+  ///
+  /// In en, this message translates to:
+  /// **'Key Takeaways'**
+  String get articleKeyTakeaways;
 }
 
 class _AppLocalizationsDelegate

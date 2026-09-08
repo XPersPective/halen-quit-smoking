@@ -1066,4 +1066,146 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get a11ySavingsChart =>
       'Savings chart, cumulative over the selected range.';
+
+  @override
+  String get navToday => 'Today';
+
+  @override
+  String get navStats => 'Analytics';
+
+  @override
+  String get navPlan => 'Plan';
+
+  @override
+  String get navArticles => 'Guides';
+
+  @override
+  String get navSos => 'Craving SOS';
+
+  @override
+  String get statsTabDaily => 'Daily Trends';
+
+  @override
+  String get statsTabHourly => '24h Hourly';
+
+  @override
+  String get statsTabIntervals => 'Intervals';
+
+  @override
+  String get statsTabTriggers => 'Triggers';
+
+  @override
+  String get intervalTitle => 'Inter-Cigarette Intervals';
+
+  @override
+  String get intervalSubtitle =>
+      'Distribution of time elapsed between each cigarette';
+
+  @override
+  String get intervalAverage => 'Average interval';
+
+  @override
+  String get intervalLongest => 'Longest smoke-free gap';
+
+  @override
+  String get intervalShortest => 'Shortest gap';
+
+  @override
+  String get intervalCurrent => 'Current smoke-free time';
+
+  @override
+  String intervalMinutes(int m) {
+    return '$m min';
+  }
+
+  @override
+  String intervalHoursMinutes(int h, int m) {
+    return '${h}h ${m}m';
+  }
+
+  @override
+  String get hourlyTitle => '24-Hour Distribution';
+
+  @override
+  String get hourlySubtitle => 'When you smoke during the day';
+
+  @override
+  String hourlyPeak(int hour, int count) {
+    return 'Peak hour: $hour:00 ($count cigarettes)';
+  }
+
+  @override
+  String get timeMorning => 'Morning (06–12)';
+
+  @override
+  String get timeAfternoon => 'Afternoon (12–18)';
+
+  @override
+  String get timeEvening => 'Evening (18–24)';
+
+  @override
+  String get timeNight => 'Night (00–06)';
+
+  @override
+  String get triggerTitle => 'Trigger Analysis';
+
+  @override
+  String get triggerSubtitle => 'What sparks the urge';
+
+  @override
+  String triggerOccurrences(int count, int percent) {
+    return '$count times ($percent%)';
+  }
+
+  @override
+  String get todayLogTitle => 'Today\'s Cigarette Log';
+
+  @override
+  String get todayLogSubtitle => 'Detailed breakdown of today\'s smokes';
+
+  @override
+  String get todayLogEmpty => 'No cigarettes logged yet today';
+
+  @override
+  String get deleteCigaretteConfirm => 'Delete this cigarette record?';
+
+  @override
+  String get deletedCigaretteSuccess => 'Record deleted';
+
+  @override
+  String get articlesTitle => 'Guides & Articles';
+
+  @override
+  String get articlesSubtitle => 'Evidence-based smoking cessation science';
+
+  @override
+  String get articleCategoryAll => 'All';
+
+  @override
+  String get articleCategoryScience => 'Science';
+
+  @override
+  String get articleCategoryCrisis => 'Craving Relief';
+
+  @override
+  String get articleCategoryTriggers => 'Triggers';
+
+  @override
+  String get articleCategoryHealth => 'Health';
+
+  @override
+  String get articleCategoryPsychology => 'Behavior';
+
+  @override
+  String articleReadTime(int min) {
+    return '$min min read';
+  }
+
+  @override
+  String articleSourceLabel(String source) {
+    return 'Scientific source: $source';
+  }
+
+  @override
+  String get articleKeyTakeaways => 'Key Takeaways';
 }

@@ -4,29 +4,38 @@ import 'package:flutter/material.dart';
 /// warm neutral background, deep petrol green primary, amber only on the
 /// single primary CTA. 8pt grid, 200-300 ms ease-out motion.
 abstract final class HalenColors {
-  // Warm neutrals.
-  static const Color backgroundLight = Color(0xFFFAF7F2);
-  static const Color backgroundDark = Color(0xFF1B1A17);
+  // Warm neutrals & modern surfaces.
+  static const Color backgroundLight = Color(0xFFF9F7F4);
+  static const Color backgroundDark = Color(0xFF0F1716);
   static const Color surfaceLight = Color(0xFFFFFFFF);
-  static const Color surfaceDark = Color(0xFF26241F);
-  static const Color outlineLight = Color(0xFFE3DDD2);
-  static const Color outlineDark = Color(0xFF3A382F);
+  static const Color surfaceDark = Color(0xFF162220);
+  static const Color surfaceElevatedLight = Color(0xFFF2EFEA);
+  static const Color surfaceElevatedDark = Color(0xFF1C2C29);
+  static const Color outlineLight = Color(0xFFE5DFD5);
+  static const Color outlineDark = Color(0xFF263936);
 
   // Deep petrol green — primary, trust/health.
-  static const Color petrol = Color(0xFF0E5553);
-  static const Color petrolDim = Color(0xFF0A403E);
-  static const Color petrolContainerLight = Color(0xFFD5EAE8);
-  static const Color petrolContainerDark = Color(0xFF0F5A57);
+  static const Color petrol = Color(0xFF0D5E5A);
+  static const Color petrolDim = Color(0xFF08413E);
+  static const Color petrolContainerLight = Color(0xFFD3EAE7);
+  static const Color petrolContainerDark = Color(0xFF11423F);
 
-  // Amber — only ever used for the primary CTA.
+  // Vibrant accent colors for data visualization.
+  static const Color emerald = Color(0xFF10B981);
+  static const Color emeraldContainer = Color(0xFFD1FAE5);
+  static const Color skyBlue = Color(0xFF0EA5E9);
+  static const Color coral = Color(0xFFF43F5E);
+  static const Color purple = Color(0xFF8B5CF6);
+
+  // Amber — primary CTA and craving alerts.
   static const Color amberCta = Color(0xFFE8930C);
   static const Color onAmberCta = Color(0xFF241A02);
 
   // Text.
-  static const Color textLight = Color(0xFF1D2A28);
-  static const Color textDark = Color(0xFFE9E5DC);
-  static const Color textSecondaryLight = Color(0xFF5A6A67);
-  static const Color textSecondaryDark = Color(0xFFA9B4B1);
+  static const Color textLight = Color(0xFF172624);
+  static const Color textDark = Color(0xFFE8ECEB);
+  static const Color textSecondaryLight = Color(0xFF536A66);
+  static const Color textSecondaryDark = Color(0xFFA1B3B0);
 }
 
 abstract final class HalenSpacing {
@@ -38,8 +47,6 @@ abstract final class HalenSpacing {
 }
 
 abstract final class HalenMotion {
-  /// 200-300 ms ease-out per report §12; halved when the user asks for
-  /// reduced motion (system setting or in-app toggle).
   static const Duration standard = Duration(milliseconds: 240);
   static const Curve curve = Curves.easeOutCubic;
 
@@ -55,31 +62,29 @@ class HalenTheme {
     final isLight = brightness == Brightness.light;
     final colorScheme = ColorScheme(
       brightness: brightness,
-      primary: isLight ? HalenColors.petrol : HalenColors.petrolContainerDark,
+      primary: isLight ? HalenColors.petrol : HalenColors.emerald,
       onPrimary: Colors.white,
       primaryContainer: isLight
           ? HalenColors.petrolContainerLight
-          : HalenColors.petrolDim,
+          : HalenColors.petrolContainerDark,
       onPrimaryContainer: isLight ? HalenColors.petrolDim : Colors.white,
-      secondary: isLight ? HalenColors.petrol : HalenColors.petrolContainerDark,
+      secondary: isLight ? HalenColors.petrol : HalenColors.emerald,
       onSecondary: Colors.white,
       secondaryContainer: isLight
           ? HalenColors.petrolContainerLight
-          : HalenColors.petrolDim,
+          : HalenColors.petrolContainerDark,
       onSecondaryContainer: isLight ? HalenColors.petrolDim : Colors.white,
-      // Amber lives only on the primary CTA, surfaced via explicit colors in
-      // the CTA widget — kept here so it is part of the scheme.
       tertiary: HalenColors.amberCta,
       onTertiary: HalenColors.onAmberCta,
       tertiaryContainer: HalenColors.amberCta,
       onTertiaryContainer: HalenColors.onAmberCta,
-      error: const Color(0xFF8C3A22),
+      error: HalenColors.coral,
       onError: Colors.white,
       surface: isLight ? HalenColors.surfaceLight : HalenColors.surfaceDark,
       onSurface: isLight ? HalenColors.textLight : HalenColors.textDark,
       surfaceContainerHighest: isLight
-          ? HalenColors.petrolContainerLight
-          : HalenColors.outlineDark,
+          ? HalenColors.surfaceElevatedLight
+          : HalenColors.surfaceElevatedDark,
       onSurfaceVariant: isLight
           ? HalenColors.textSecondaryLight
           : HalenColors.textSecondaryDark,
@@ -102,10 +107,22 @@ class HalenTheme {
             : HalenColors.backgroundDark,
         foregroundColor: isLight ? HalenColors.textLight : HalenColors.textDark,
         centerTitle: false,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: isLight
+            ? HalenColors.surfaceLight
+            : HalenColors.surfaceDark,
+        indicatorColor: isLight
+            ? HalenColors.petrolContainerLight
+            : HalenColors.petrolContainerDark,
+        elevation: 4,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          minimumSize: const Size(64, 48),
+          minimumSize: const Size(64, 50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -113,22 +130,26 @@ class HalenTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          minimumSize: const Size(64, 48),
+          minimumSize: const Size(64, 50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
+          side: BorderSide(color: colorScheme.outline),
         ),
       ),
       cardTheme: CardThemeData(
         elevation: 0,
         color: colorScheme.surface,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: colorScheme.outline),
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(color: colorScheme.outline, width: 1),
         ),
         margin: EdgeInsets.zero,
       ),
-      snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
     );
   }
 }

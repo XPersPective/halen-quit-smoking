@@ -8,7 +8,9 @@ import 'package:halen/core/dates.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/core/theme.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
+import 'package:halen/presentation/widgets/today/today_log_sheet.dart';
 import 'package:halen/presentation/widgets/today_widgets.dart';
 
 /// Screen 9: BUGÜN — the main daily screen (report §12).
@@ -228,37 +230,72 @@ class _TodayBody extends StatelessWidget {
               '${l10n.ctaResisted} · ${l10n.resistedTodayCount(state.resistedToday)}',
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
+          const TodayLogCard(),
+          const SizedBox(height: 16),
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  const Icon(Icons.savings_outlined),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: HalenColors.emerald.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.savings_rounded,
+                      color: HalenColors.emerald,
+                      size: 20,
+                    ),
+                  ),
                   const SizedBox(width: 12),
-                  Expanded(child: Text(currency)),
+                  Expanded(
+                    child: Text(
+                      currency,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           Card(
             child: InkWell(
+              borderRadius: BorderRadius.circular(20),
               onTap: () =>
                   Navigator.pushNamed(context, Routes.healthTimeline),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    const Icon(Icons.favorite_outline),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: HalenColors.coral.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(
+                        Icons.favorite_outline,
+                        color: HalenColors.coral,
+                        size: 20,
+                      ),
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         l10n.healthStrip(
                             l10n.daysSinceStart(state.daysSinceStart)),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                    const Icon(Icons.chevron_right),
+                    const Icon(Icons.chevron_right, size: 20),
                   ],
                 ),
               ),

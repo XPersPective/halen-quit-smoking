@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:halen/core/routes.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/presentation/screens/articles/articles_screen.dart';
 import 'package:halen/presentation/screens/plan/plan_screen.dart';
 import 'package:halen/presentation/screens/sos/sos_screen.dart';
 import 'package:halen/presentation/screens/stats/stats_screen.dart';
 import 'package:halen/presentation/screens/today/today_screen.dart';
 
-/// The app shell: bottom navigation over the four daily-use screens
-/// (BUGÜN / Plan / Statistics / SOS) with Settings reachable from the app bar.
+/// The app shell: bottom navigation over the five core surfaces
+/// (BUGÜN / Grafikler / Plan / Rehber / Kriz SOS).
 class ShellScreen extends StatefulWidget {
   const ShellScreen({super.key});
 
@@ -23,10 +24,11 @@ class _ShellScreenState extends State<ShellScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final destinations = [
-      (Icons.today_outlined, Icons.today, l10n.todayTitle),
-      (Icons.route_outlined, Icons.route, l10n.planTitle),
-      (Icons.insights_outlined, Icons.insights, l10n.statsTitle),
-      (Icons.waves_outlined, Icons.waves, l10n.sosTitle),
+      (Icons.today_outlined, Icons.today_rounded, l10n.navToday),
+      (Icons.insights_outlined, Icons.insights_rounded, l10n.navStats),
+      (Icons.track_changes_outlined, Icons.track_changes_rounded, l10n.navPlan),
+      (Icons.menu_book_outlined, Icons.menu_book_rounded, l10n.navArticles),
+      (Icons.healing_outlined, Icons.healing_rounded, l10n.navSos),
     ];
 
     return Scaffold(
@@ -34,8 +36,9 @@ class _ShellScreenState extends State<ShellScreen> {
         index: _index,
         children: const [
           TodayScreen(),
-          PlanScreen(),
           StatsScreen(),
+          PlanScreen(),
+          ArticlesScreen(),
           SosScreen(),
         ],
       ),
@@ -56,8 +59,7 @@ class _ShellScreenState extends State<ShellScreen> {
   }
 }
 
-/// Settings entry used from each tab's app bar until phase 13 polishes the
-/// shared shell chrome.
+/// Settings entry used from each tab's app bar.
 class ShellSettingsButton extends StatelessWidget {
   const ShellSettingsButton({super.key});
 

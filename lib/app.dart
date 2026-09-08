@@ -9,6 +9,8 @@ import 'core/routes.dart';
 import 'core/theme.dart';
 import 'domain/entities.dart';
 import 'l10n/generated/app_localizations.dart';
+import 'presentation/screens/articles/article_reader_screen.dart';
+import 'presentation/screens/articles/articles_screen.dart';
 import 'presentation/screens/onboarding/onboarding_screen.dart';
 import 'presentation/screens/paywall/paywall_screen.dart';
 import 'presentation/screens/settings/settings_screen.dart';
@@ -49,6 +51,7 @@ class HalenApp extends ConsumerWidget {
         Routes.today: (_) => const ShellScreen(),
         Routes.settings: (_) => const SettingsScreen(),
         Routes.paywall: (_) => const PaywallScreen(),
+        Routes.articles: (_) => const ArticlesScreen(),
       },
       onGenerateRoute: (settings) {
         // Record detail takes the just-logged event id as an argument.
@@ -75,6 +78,13 @@ class HalenApp extends ConsumerWidget {
           return MaterialPageRoute<void>(
             settings: settings,
             builder: (_) => const BreathingScreen(),
+          );
+        }
+        if (settings.name == Routes.articleReader) {
+          final articleId = settings.arguments! as String;
+          return MaterialPageRoute<void>(
+            settings: settings,
+            builder: (_) => ArticleReaderScreen(articleId: articleId),
           );
         }
         return null;

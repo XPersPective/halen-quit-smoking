@@ -323,5 +323,55 @@
 
   "a11yRing": "Heutiger Ring: {smoked} von {target} Zigaretten",
   "a11yNicotineChart": "Diagramm der geschätzten Nikotin-Exposition. Steigt mit jedem Eintrag, halbiert sich alle zwei Stunden.",
-  "a11ySavingsChart": "Ersparnis-Chart, kumuliert über den gewählten Zeitraum."
+  "a11ySavingsChart": "Ersparnis-Chart, kumuliert über den gewählten Zeitraum.",
+
+  "navToday": "Heute",
+  "navStats": "Analysen",
+  "navPlan": "Plan",
+  "navArticles": "Ratgeber",
+  "navSos": "Notfall SOS",
+
+  "statsTabDaily": "Täglicher Trend",
+  "statsTabHourly": "24h-Verteilung",
+  "statsTabIntervals": "Intervalle",
+  "statsTabTriggers": "Auslöser",
+
+  "intervalTitle": "Intervalle zwischen Zigaretten",
+  "intervalSubtitle": "Zeitdauer zwischen den gerauchten Zigaretten",
+  "intervalAverage": "Durchschnittliches Intervall",
+  "intervalLongest": "Längste rauchfreie Zeit",
+  "intervalShortest": "Kürzestes Intervall",
+  "intervalCurrent": "Aktuelle rauchfreie Zeit",
+  "intervalMinutes": "{m} Min.",
+  "intervalHoursMinutes": "{h} Std. {m} Min.",
+
+  "hourlyTitle": "24-Stunden-Verteilung",
+  "hourlySubtitle": "Wann du am Tag rauchst",
+  "hourlyPeak": "Spitzenzeit: {hour}:00 ({count} Zigaretten)",
+  "timeMorning": "Morgen (06–12)",
+  "timeAfternoon": "Nachmittag (12–18)",
+  "timeEvening": "Abend (18–24)",
+  "timeNight": "Nacht (00–06)",
+
+  "triggerTitle": "Auslöser-Analyse",
+  "triggerSubtitle": "Was das Verlangen am meisten auslöst",
+  "triggerOccurrences": "{count} Mal ({percent}%)",
+
+  "todayLogTitle": "Heutiges Rauchprotokoll",
+  "todayLogSubtitle": "Übersicht der heute gerauchten Zigaretten",
+  "todayLogEmpty": "Heute noch keine Zigaretten eingetragen",
+  "deleteCigaretteConfirm": "Diesen Eintrag löschen?",
+  "deletedCigaretteSuccess": "Eintrag gelöscht",
+
+  "articlesTitle": "Ratgeber & Artikel",
+  "articlesSubtitle": "Evidenzbasierte Rauchstopp-Bibliothek",
+  "articleCategoryAll": "Alle",
+  "articleCategoryScience": "Wissenschaft",
+  "articleCategoryCrisis": "Notfallhilfe",
+  "articleCategoryTriggers": "Auslöser",
+  "articleCategoryHealth": "Gesundheit",
+  "articleCategoryPsychology": "Verhalten",
+  "articleReadTime": "{min} Min. Lesezeit",
+  "articleSourceLabel": "Wissenschaftliche Quelle: {source}",
+  "articleKeyTakeaways": "Wichtigste Erkenntnisse & Schritte"
 }
