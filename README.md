@@ -6,6 +6,11 @@ Halen, cihaz üzerinde tamamen yerel çalışan, tek seferlik satın almaya daya
 yok, reklam yok, abonelik yok; uygulama ilk açılışta hiçbir ağ çağrısı yapmaz
 (tek istisna: mağazadaki tek seferlik satın alma).
 
+## Proje belgeleri
+
+- [`sigara-birakma-app-on-arastirma-ve-urun-raporu.md`](sigara-birakma-app-on-arastirma-ve-urun-raporu.md) — pazar, rakip, bilimsel kanıt, mimari, monetizasyon, ASO (ana rapor).
+- [`halen-modul-derin-arastirma-raporu.md`](halen-modul-derin-arastirma-raporu.md) — 14 modülün derin araştırması ve tasarım şartnamesi: vücut yükü (nikotin/CO/katran modelleri), ekonomi, istek–nikotin ilişkisi, kriz kurtarma seti, akciğer ve organ görselleştirmesi, psikolojik durum, yumuşak geçiş motoru, destek/içerik motorları, kayıt animasyonları, program sistemi ve iki indeks (İlerleme Puanı / Zarar Yükü).
+
 ## Kurulum
 
 ```bash

@@ -14,6 +14,8 @@
 | **S4 — Temsilî gösterim** | Popülasyon düzeyi genel bilgi, bireyselleştirilmiş gibi sunulamaz | WHO sağlık geri kazanım zaman çizelgesi, "sigara başına ~20 dk yaşam" |
 | **S5 — Sunulması YASAK** | Ölçülmüş gibi gösterilirse yanıltıcı/etik dışı | "Kanındaki gerçek nikotin", "vücudundaki CO/katran miktarı", "akciğerin %X'i temizlendi", garanti bırakma tarihi, kişisel kanser riski % |
 
+**Devam belgesi (8 Eylül 2026):** Modül düzeyi derin araştırma ve tasarım şartnamesi için bkz. [`halen-modul-derin-arastirma-raporu.md`](halen-modul-derin-arastirma-raporu.md) — bu raporun §15, §16, §17, §18 ve §21'ini 14 modüle açar (vücut yükü modelleri, ekonomi grafikleri, kriz penceresi tahmini, SOS seti, akciğer/organ görselleştirmesi, yoksunluk psikolojisi, yumuşak geçiş motoru, içerik/destek motorları, kayıt animasyonları, program kuralları, İlerleme Puanı ve Zarar Yükü indeksleri).
+
 ---
 
 ## 1. Executive Summary
