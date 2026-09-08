@@ -274,7 +274,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ctaSmoked => 'I SMOKED';
 
   @override
-  String get ctaResisted => '✋ I resisted a craving';
+  String get ctaResisted => 'I resisted a craving';
 
   @override
   String resistedTodayCount(int n) {
@@ -1208,4 +1208,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get articleKeyTakeaways => 'Key Takeaways';
+
+  @override
+  String get todayFocusTitle => 'More space.\nMore you.';
+
+  @override
+  String get todayFocusNote => 'Every pause is a step forward.';
+
+  @override
+  String get dailyBudgetCaption => 'Logged / daily target';
+
+  @override
+  String get todayOverview => 'Your day, at a glance';
+
+  @override
+  String get todaySupportTitle => 'Take a breathing break';
+
+  @override
+  String get todaySupportNote => 'A quiet moment, whenever you need it.';
+
+  @override
+  String get statsIntro => 'Small steps. A clearer picture.';
+
+  @override
+  String get chartActualLabel => 'Logged';
+
+  @override
+  String get chartTargetLabel => 'Daily target';
+
+  @override
+  String get chartEmptyTitle => 'Your story starts here';
+
+  @override
+  String get chartEmptyBody =>
+      'Your entries will turn into a picture of your progress.';
+
+  @override
+  String get chartTimeBlocks => 'Throughout the day';
+
+  @override
+  String get chartIntervalAxis => 'Time between entries · minutes';
+
+  @override
+  String get chartIntervalEmpty =>
+      'Two entries are enough to see your first interval.';
+
+  @override
+  String get chartTriggerEmpty =>
+      'Add a tag when logging to discover your patterns.';
+
+  @override
+  String get statsSavingsNote => 'Estimated from your entries';
 }

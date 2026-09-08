@@ -28,7 +28,7 @@ class ChoiceCard extends StatelessWidget {
         margin: EdgeInsets.zero,
         color: selected ? theme.colorScheme.primaryContainer : null,
         child: InkWell(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(24),
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -41,15 +41,17 @@ class ChoiceCard extends StatelessWidget {
                     children: [
                       Text(title, style: theme.textTheme.bodyLarge),
                       if (subtitle != null)
-                        Text(
-                          subtitle!,
-                          style: theme.textTheme.bodySmall,
-                        ),
+                        Text(subtitle!, style: theme.textTheme.bodySmall),
                     ],
                   ),
                 ),
-                if (selected)
-                  Icon(Icons.check, color: theme.colorScheme.primary),
+                const SizedBox(width: 12),
+                Icon(
+                  selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                  color: selected
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.outline,
+                ),
               ],
             ),
           ),

@@ -83,7 +83,7 @@
   "nextTargetDayDone": "Tagesplan geschafft — gut gemacht",
   "nicotineMiniLabel": "Geschätzte Nikotin-Exposition (Modell)",
   "ctaSmoked": "GERAUCHT",
-  "ctaResisted": "✋ Gelüstet überstanden",
+  "ctaResisted": "Gelüstet überstanden",
   "resistedTodayCount": "heute {n}",
   "savingsStrip": "{amount} gespart · {n} Zigaretten vermieden",
   "healthStrip": "Als Nächstes: {text}",
@@ -373,5 +373,22 @@
   "articleCategoryPsychology": "Verhalten",
   "articleReadTime": "{min} Min. Lesezeit",
   "articleSourceLabel": "Wissenschaftliche Quelle: {source}",
-  "articleKeyTakeaways": "Wichtigste Erkenntnisse & Schritte"
+  "articleKeyTakeaways": "Wichtigste Erkenntnisse & Schritte",
+
+  "todayFocusTitle": "Mehr Freiraum.\nFür dich.",
+  "todayFocusNote": "Jede Pause ist ein Schritt.",
+  "dailyBudgetCaption": "Einträge / Tagesziel",
+  "todayOverview": "Dein Tag im Überblick",
+  "todaySupportTitle": "Zeit für eine Atempause",
+  "todaySupportNote": "Ein ruhiger Moment, wenn du ihn brauchst.",
+  "statsIntro": "Kleine Schritte werden sichtbar.",
+  "chartActualLabel": "Erfasst",
+  "chartTargetLabel": "Tagesziel",
+  "chartEmptyTitle": "Dein Weg beginnt hier",
+  "chartEmptyBody": "Mit deinen Einträgen wird dein Fortschritt sichtbar.",
+  "chartTimeBlocks": "Im Tagesverlauf",
+  "chartIntervalAxis": "Zeit zwischen Einträgen · Minuten",
+  "chartIntervalEmpty": "Zwei Einträge reichen für deinen ersten Abstand.",
+  "chartTriggerEmpty": "Füge beim Erfassen ein Stichwort hinzu, um Muster zu erkennen.",
+  "statsSavingsNote": "Aus deinen Einträgen geschätzt"
 }

@@ -577,7 +577,7 @@ abstract class AppLocalizations {
   /// No description provided for @ctaResisted.
   ///
   /// In en, this message translates to:
-  /// **'✋ I resisted a craving'**
+  /// **'I resisted a craving'**
   String get ctaResisted;
 
   /// No description provided for @resistedTodayCount.
@@ -2181,6 +2181,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Key Takeaways'**
   String get articleKeyTakeaways;
+
+  /// No description provided for @todayFocusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'More space.\nMore you.'**
+  String get todayFocusTitle;
+
+  /// No description provided for @todayFocusNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Every pause is a step forward.'**
+  String get todayFocusNote;
+
+  /// No description provided for @dailyBudgetCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged / daily target'**
+  String get dailyBudgetCaption;
+
+  /// No description provided for @todayOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Your day, at a glance'**
+  String get todayOverview;
+
+  /// No description provided for @todaySupportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a breathing break'**
+  String get todaySupportTitle;
+
+  /// No description provided for @todaySupportNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A quiet moment, whenever you need it.'**
+  String get todaySupportNote;
+
+  /// No description provided for @statsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Small steps. A clearer picture.'**
+  String get statsIntro;
+
+  /// No description provided for @chartActualLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged'**
+  String get chartActualLabel;
+
+  /// No description provided for @chartTargetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily target'**
+  String get chartTargetLabel;
+
+  /// No description provided for @chartEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your story starts here'**
+  String get chartEmptyTitle;
+
+  /// No description provided for @chartEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your entries will turn into a picture of your progress.'**
+  String get chartEmptyBody;
+
+  /// No description provided for @chartTimeBlocks.
+  ///
+  /// In en, this message translates to:
+  /// **'Throughout the day'**
+  String get chartTimeBlocks;
+
+  /// No description provided for @chartIntervalAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'Time between entries · minutes'**
+  String get chartIntervalAxis;
+
+  /// No description provided for @chartIntervalEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Two entries are enough to see your first interval.'**
+  String get chartIntervalEmpty;
+
+  /// No description provided for @chartTriggerEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a tag when logging to discover your patterns.'**
+  String get chartTriggerEmpty;
+
+  /// No description provided for @statsSavingsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated from your entries'**
+  String get statsSavingsNote;
 }
 
 class _AppLocalizationsDelegate

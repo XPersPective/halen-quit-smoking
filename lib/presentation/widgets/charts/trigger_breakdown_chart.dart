@@ -4,12 +4,19 @@ import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 
 class TriggerBreakdownCard extends StatelessWidget {
-  const TriggerBreakdownCard({
-    super.key,
-    required this.triggers,
-  });
+  const TriggerBreakdownCard({super.key, required this.triggers});
 
   final List<TriggerStatItem> triggers;
+
+  // One calm color family — rank shades, never alarm colors (report §12.1).
+  static const _familyColors = [
+    HalenColors.petrol,
+    HalenColors.emerald,
+    HalenColors.skyBlue,
+    HalenColors.purple,
+    HalenColors.emerald,
+    HalenColors.petrol,
+  ];
 
   IconData _triggerIcon(String key) {
     return switch (key.toLowerCase()) {
@@ -29,6 +36,7 @@ class TriggerBreakdownCard extends StatelessWidget {
   String _triggerTitle(String key, AppLocalizations l10n) {
     return switch (key.toLowerCase()) {
       'coffee' => l10n.triggerCoffee,
+      'triggerAfterMeal' => l10n.triggerAfterMeal,
       'aftermeal' => l10n.triggerAfterMeal,
       'stress' => l10n.triggerStress,
       'alcohol' => l10n.triggerAlcohol,
@@ -41,24 +49,10 @@ class TriggerBreakdownCard extends StatelessWidget {
     };
   }
 
-  Color _triggerColor(int index) {
-    const palette = [
-      HalenColors.amberCta,
-      HalenColors.emerald,
-      HalenColors.skyBlue,
-      HalenColors.purple,
-      HalenColors.coral,
-      Color(0xFFF97316),
-      Color(0xFF06B6D4),
-    ];
-    return palette[index % palette.length];
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Card(
       child: Padding(
@@ -69,15 +63,15 @@ class TriggerBreakdownCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: HalenColors.amberCta.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
+                    color: HalenColors.amberCta.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                   child: const Icon(
                     Icons.psychology_alt_rounded,
                     color: HalenColors.amberCta,
-                    size: 22,
+                    size: 20,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -85,19 +79,11 @@ class TriggerBreakdownCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        l10n.triggerTitle,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Text(l10n.triggerTitle, style: theme.textTheme.titleMedium),
+                      const SizedBox(height: 2),
                       Text(
                         l10n.triggerSubtitle,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: isDark
-                              ? HalenColors.textSecondaryDark
-                              : HalenColors.textSecondaryLight,
-                        ),
+                        style: theme.textTheme.bodySmall,
                       ),
                     ],
                   ),
@@ -111,13 +97,9 @@ class TriggerBreakdownCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: Text(
-                    'Henüz tetikleyici verisi kaydedilmedi. Kayıt sırasında etiket ekleyerek tetikleyici desenlerini görebilirsin.',
+                    l10n.chartTriggerEmpty,
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: isDark
-                          ? HalenColors.textSecondaryDark
-                          : HalenColors.textSecondaryLight,
-                    ),
+                    style: theme.textTheme.bodySmall,
                   ),
                 ),
               ),
@@ -125,44 +107,56 @@ class TriggerBreakdownCard extends StatelessWidget {
               for (var i = 0; i < triggers.length; i++) ...[
                 () {
                   final t = triggers[i];
-                  final color = _triggerColor(i);
+                  final color =
+                      _familyColors[i % _familyColors.length];
                   final pctInt = (t.percentage * 100).round();
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.only(bottom: 14),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
-                            Icon(_triggerIcon(t.triggerKey), size: 16, color: color),
-                            const SizedBox(width: 8),
-                            Text(
-                              _triggerTitle(t.triggerKey, l10n),
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
+                            Container(
+                              padding: const EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                color: color.withValues(alpha: 0.13),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Icon(
+                                _triggerIcon(t.triggerKey),
+                                size: 15,
+                                color: color,
                               ),
                             ),
-                            const Spacer(),
-                            Text(
-                              l10n.triggerOccurrences(t.count, pctInt),
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                color: isDark
-                                    ? HalenColors.textSecondaryDark
-                                    : HalenColors.textSecondaryLight,
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                _triggerTitle(t.triggerKey, l10n),
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  l10n.triggerOccurrences(t.count, pctInt),
+                                  style: theme.textTheme.labelSmall,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 8),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(100),
                           child: LinearProgressIndicator(
                             value: t.percentage,
                             minHeight: 8,
-                            backgroundColor: isDark
-                                ? HalenColors.surfaceElevatedDark
-                                : HalenColors.surfaceElevatedLight,
-                            valueColor: AlwaysStoppedAnimation<Color>(color),
+                            color: color,
                           ),
                         ),
                       ],

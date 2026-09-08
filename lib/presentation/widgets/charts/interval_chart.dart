@@ -1,19 +1,17 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:halen/application/interval_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 
 class IntervalChartCard extends StatelessWidget {
-  const IntervalChartCard({
-    super.key,
-    required this.report,
-  });
+  const IntervalChartCard({super.key, required this.report});
 
   final DailyIntervalsReport report;
 
   String _formatMinutes(int minutes, AppLocalizations l10n) {
-    if (minutes <= 0) return '0 ${l10n.intervalMinutes(0)}';
+    if (minutes <= 0) return l10n.intervalMinutes(0);
     final h = minutes ~/ 60;
     final m = minutes % 60;
     if (h > 0) {
@@ -26,7 +24,6 @@ class IntervalChartCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Card(
       child: Padding(
@@ -37,15 +34,15 @@ class IntervalChartCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: HalenColors.skyBlue.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
+                    color: HalenColors.skyBlue.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                   child: const Icon(
                     Icons.timelapse_rounded,
                     color: HalenColors.skyBlue,
-                    size: 22,
+                    size: 20,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -53,19 +50,11 @@ class IntervalChartCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        l10n.intervalTitle,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Text(l10n.intervalTitle, style: theme.textTheme.titleMedium),
+                      const SizedBox(height: 2),
                       Text(
                         l10n.intervalSubtitle,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: isDark
-                              ? HalenColors.textSecondaryDark
-                              : HalenColors.textSecondaryLight,
-                        ),
+                        style: theme.textTheme.bodySmall,
                       ),
                     ],
                   ),
@@ -74,7 +63,7 @@ class IntervalChartCard extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // Metrics Row
+            // Metrics row
             Row(
               children: [
                 Expanded(
@@ -98,15 +87,19 @@ class IntervalChartCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
-            // Current streak tile
+            // Current smoke-free streak
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
-                color: isDark
-                    ? HalenColors.surfaceElevatedDark
-                    : HalenColors.surfaceElevatedLight,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: theme.colorScheme.outline),
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    HalenColors.skyBlue.withValues(alpha: 0.14),
+                    HalenColors.skyBlue.withValues(alpha: 0.04),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
                 children: [
@@ -116,18 +109,24 @@ class IntervalChartCard extends StatelessWidget {
                     color: HalenColors.skyBlue,
                   ),
                   const SizedBox(width: 10),
-                  Text(
-                    l10n.intervalCurrent,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Text(
+                      l10n.intervalCurrent,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  const Spacer(),
-                  Text(
-                    _formatMinutes(report.currentSmokeFreeMinutes, l10n),
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: HalenColors.skyBlue,
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        _formatMinutes(report.currentSmokeFreeMinutes, l10n),
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: HalenColors.skyBlue,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -136,18 +135,33 @@ class IntervalChartCard extends StatelessWidget {
 
             if (report.items.length >= 2) ...[
               const SizedBox(height: 24),
-              Text(
-                'Aralık Dağılım Grafiği (Dakika)',
-                style: theme.textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Text(l10n.chartIntervalAxis, style: theme.textTheme.labelMedium),
               const SizedBox(height: 12),
-              SizedBox(
-                height: 130,
-                child: _IntervalBarsPainterWidget(
-                  report: report,
-                  theme: theme,
+              LayoutBuilder(
+                builder: (context, constraints) => SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SizedBox(
+                    width: math.max(
+                      constraints.maxWidth,
+                      (report.items.length - 1) * 56.0,
+                    ),
+                    height: 176,
+                    child: Semantics(
+                      image: true,
+                      label: report.items
+                          .where((item) => item.gapFromPrevious != null)
+                          .map(
+                            (item) => l10n.intervalMinutes(
+                              item.gapFromPrevious!.inMinutes,
+                            ),
+                          )
+                          .join(', '),
+                      child: _IntervalBarsPainterWidget(
+                        report: report,
+                        theme: theme,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ] else ...[
@@ -158,12 +172,8 @@ class IntervalChartCard extends StatelessWidget {
                   child: Text(
                     report.items.isEmpty
                         ? l10n.todayLogEmpty
-                        : 'Aralık grafiği için bugün en az 2 sigara kaydı gereklidir.',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: isDark
-                          ? HalenColors.textSecondaryDark
-                          : HalenColors.textSecondaryLight,
-                    ),
+                        : l10n.chartIntervalEmpty,
+                    style: theme.textTheme.bodySmall,
                   ),
                 ),
               ),
@@ -191,44 +201,42 @@ class _MetricTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: isDark
-            ? HalenColors.surfaceElevatedDark
-            : HalenColors.surfaceElevatedLight,
+        color: theme.colorScheme.surfaceContainerHighest.withValues(
+          alpha: 0.55,
+        ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: theme.colorScheme.outline),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, size: 16, color: color),
-              const SizedBox(width: 6),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, size: 13, color: color),
+              ),
+              const SizedBox(width: 7),
               Expanded(
                 child: Text(
                   label,
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: isDark
-                        ? HalenColors.textSecondaryDark
-                        : HalenColors.textSecondaryLight,
-                  ),
+                  style: theme.textTheme.labelSmall,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           Text(
             value,
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: theme.textTheme.titleMedium?.copyWith(color: color),
           ),
         ],
       ),
@@ -237,10 +245,7 @@ class _MetricTile extends StatelessWidget {
 }
 
 class _IntervalBarsPainterWidget extends StatelessWidget {
-  const _IntervalBarsPainterWidget({
-    required this.report,
-    required this.theme,
-  });
+  const _IntervalBarsPainterWidget({required this.report, required this.theme});
 
   final DailyIntervalsReport report;
   final ThemeData theme;
@@ -249,19 +254,13 @@ class _IntervalBarsPainterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       size: Size.infinite,
-      painter: _IntervalPainter(
-        items: report.items,
-        theme: theme,
-      ),
+      painter: _IntervalPainter(items: report.items, theme: theme),
     );
   }
 }
 
 class _IntervalPainter extends CustomPainter {
-  _IntervalPainter({
-    required this.items,
-    required this.theme,
-  });
+  _IntervalPainter({required this.items, required this.theme});
 
   final List<CigaretteIntervalItem> items;
   final ThemeData theme;
@@ -278,17 +277,7 @@ class _IntervalPainter extends CustomPainter {
     final maxGap = math.max(60, gaps.reduce(math.max));
     final count = gaps.length;
     final step = size.width / count;
-    final barWidth = math.min(32.0, step * 0.65);
-
-    // Draw baseline
-    final baseLinePaint = Paint()
-      ..color = theme.colorScheme.outline
-      ..strokeWidth = 1;
-    canvas.drawLine(
-      Offset(0, size.height - 20),
-      Offset(size.width, size.height - 20),
-      baseLinePaint,
-    );
+    final barWidth = math.min(30.0, step * 0.62);
 
     final textPainter = TextPainter(
       textDirection: TextDirection.ltr,
@@ -297,40 +286,40 @@ class _IntervalPainter extends CustomPainter {
 
     for (var i = 0; i < count; i++) {
       final gap = gaps[i];
-      final usableHeight = size.height - 40;
+      final isLast = i == count - 1;
+      final usableHeight = size.height - 42;
       final barHeight = math.max(6.0, (gap / maxGap) * usableHeight);
       final x = i * step + (step - barWidth) / 2;
-      final y = (size.height - 20) - barHeight;
+      final y = (size.height - 22) - barHeight;
 
-      // Color coding: Green if >= 120 mins, Amber if 60-120 mins, Coral if < 60 mins
-      final Color color = gap >= 120
-          ? HalenColors.emerald
-          : gap >= 60
-              ? HalenColors.amberCta
-              : HalenColors.coral;
+      final color = isLast
+          ? theme.colorScheme.primary
+          : theme.colorScheme.primary.withValues(alpha: 0.38);
 
       final rRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, barWidth, barHeight),
-        const Radius.circular(6),
+        const Radius.circular(8),
       );
 
       final barPaint = Paint()
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [color, color.withValues(alpha: 0.65)],
+          colors: [color, color.withValues(alpha: isLast ? 0.75 : 0.2)],
         ).createShader(rRect.outerRect);
 
       canvas.drawRRect(rRect, barPaint);
 
-      // Label on top of bar (minutes or h:m)
-      final labelText = gap >= 60 ? '${gap ~/ 60}s ${gap % 60}d' : '$gap dk';
+      // Minutes on top of each bar
       textPainter.text = TextSpan(
-        text: labelText,
+        text: '$gap',
         style: TextStyle(
+          fontFamily: 'Roboto',
           fontSize: 10,
-          fontWeight: FontWeight.bold,
-          color: theme.colorScheme.onSurface,
+          fontWeight: FontWeight.w700,
+          color: isLast
+              ? theme.colorScheme.primary
+              : theme.colorScheme.onSurfaceVariant,
         ),
       );
       textPainter.layout();
@@ -339,11 +328,11 @@ class _IntervalPainter extends CustomPainter {
         Offset(x + (barWidth - textPainter.width) / 2, y - 16),
       );
 
-      // Label below bar: "#1-2", "#2-3"
-      final indexText = '#${i + 1}→${i + 2}';
+      // Cigarette pair label below: "1–2", "2–3"
       textPainter.text = TextSpan(
-        text: indexText,
+        text: '${i + 1}–${i + 2}',
         style: TextStyle(
+          fontFamily: 'Roboto',
           fontSize: 9,
           color: theme.colorScheme.onSurfaceVariant,
         ),

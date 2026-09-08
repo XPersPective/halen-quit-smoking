@@ -235,6 +235,20 @@ Kural: birincil aksiyon tek ve ekranda en büyük öğe; ikincil "atlattım" aks
 
 **Erişilebilirlik (P0):** VoiceOver/TalkBack etiketleri (özellikle grafiklerin sözel özetleri: "dün 9, hedef 8, plana uyum %89"), WCAG AA kontrast, 44pt+ dokunma hedefleri, renk-körü güvenli palet (kırmızı-yeşil çiftine bilgi yükü vermeme), Dynamic Type, reduce-motion.
 
+### 12.1. Görsel revizyon — 8 Eylül 2026
+
+Yukarıdaki ilk tel kafesin yerine uygulanan düzen: marka ve gün başlığı → koyu orman yeşili günlük odak kartı (kayıt/hedef, son kayıt, sonraki aralık) → tek dokunuşla kayıt ve istek atlatma → tasarruf ve nefes molası → günlük kayıtlar. Tahmini maruziyet eğrisi isteğe bağlı açılan kartta; model açıklamasına buradan ulaşılır. Sayaç tüketimi bir başarı puanı gibi sunmaz; “hak kaldı” ve aşımda kırmızı renk kullanılmaz.
+
+Grafikler: tasarruf özeti, erişilebilir kategori seçimleri, haftalık kayıt sütunları ve ayrı hedef çizgileri. Saatlik dağılım sakin bir palette; aralık grafiği yoğun kayıtta yatay kayar. Tetikleyiciler aynı renk ailesinde, ad ve sayı ile okunur. Veri yokken temsili sonuç üretilmez. Yeni metinler TR/EN/DE yerelleştirmelerine dahildir.
+
+Görsel dil: sıcak taş rengi zemin, beyaz yüzeyler, orman yeşili odak alanları, açık adaçayı vurguları; amber kayıt aksiyonunda. Daha belirgin başlıklar, 20–24 dp içerik boşluğu, 24–28 dp kart köşeleri. Koyu tema ve dar ekranda büyütülmüş metin için esnek yerleşim. Onboarding adımları görünür ilerleme şeridiyle, kriz ekranı okunur dakika:saniye sayacıyla sunulur.
+
+### 12.2. Görsel revizyon — 8 Eylül 2026 (ikinci geçiş)
+
+2026 kategori trendleri (koyu hero kart + dev tipografi + yumuşak gradyan derinlik + tonal yüzeyler; Smoke Free / QuitNow / I Am Sober / Streaks deseni) temel alınarak uygulanan sistemsel yenileme: tek tema dosyasından tüm ekranları kaldıran yeniden yazım — sıcak kâğıt zemin (#F6F4EE) / yeşil-siyah koyu tema (#0C1512), ışık modunda çerçevesiz kartlar + yumuşak gölge, koyu modda tonal saç çizgisi; hero kartlarda radyal ışık dokusu; kalın gradyan halka (gün bütçesi, SOS geri sayımı) parlak uç noktalı; kesikli hedef çizgileri, geçmişe göre %38 saydam + bugün dolgun çubuklar; tetikleyiciler tek sakin renk ailesinde sıra tonlarıyla. Seçili çip etiketi kontrastı durum-çözümlü varsayılana bırakıldı; ikincil metin kontrastı AA için koyulaştırıldı (bugünkü 8.5/10 görsel puan). Kullanılmayan HourlyBarsChart silindi; bozuk utf-8 karakterleri (â€”, â†') temizlendi. İkinci geçişin grafik ayağı: kategori liderlerinin gösterge envanteri (halka göstergesi, büyük sayı kartları, gradyan alan trend eğrisi, dokunmatik ipuçlı yuvarlak çubuklar, milestone ilerleme çubuğu — QuitNow 80 milestone sistemi, Smoke Free tasarruf eğrisi, Streaks halka göstergeleri) uyarlandı: fl_chart 1.2 eklendi (animasyon + dokunmatik tooltip için standart kütüphane); günlük grafik fl_chart BarChart'a taşındı (bugün vurgulu, her çubuğun yanında ince hedef çubuğu), tasarruf hero'sunun içine kümülatif gradyan alan eğrisi, seri kartına 7 günlük milestone ilerleme çubuğu geldi.
+
+---
+
 ## 13. Sigara Kayıt Sistemi + Paket Tarama Araştırması
 
 **Kayıt (P0):** Ana CTA tek dokunuş; kayıt sonrası alt-sayfa kapanır, küçük "neden? (opsiyonel)" çipi 8 saniye görünür: tetikleyici/ortam/mood tek satır işaretlenebilir. Kayıt iddiasız ve hızlı: tarih/saat/tanımlayıcı otomatik, günlük toplam + aralık + plan durumu anında işlenir. Kayıt yüzeyleri: uygulama CTA'sı, widget butonu (iOS 17 interaktif widget App Intent ile uygulama açılmadan yazar; Android RemoteViews + broadcast), iOS 18 ControlWidget, Android QS tile, bildirim aksiyon butonu.

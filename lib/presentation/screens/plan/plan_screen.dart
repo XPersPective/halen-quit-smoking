@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:halen/application/entitlement_providers.dart';
 import 'package:halen/application/plan_screen_providers.dart';
 import 'package:halen/core/routes.dart';
+import 'package:halen/core/theme.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
@@ -35,11 +36,21 @@ class PlanScreen extends ConsumerWidget {
                 children: [
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          Text(l10n.todayPlanLockedFree),
+                          Icon(
+                            Icons.lock_outline_rounded,
+                            color: theme.colorScheme.primary,
+                            size: 32,
+                          ),
                           const SizedBox(height: 12),
+                          Text(
+                            l10n.todayPlanLockedFree,
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.bodyLarge,
+                          ),
+                          const SizedBox(height: 16),
                           FilledButton(
                             onPressed: () =>
                                 Navigator.pushNamed(context, Routes.paywall),
@@ -52,43 +63,78 @@ class PlanScreen extends ConsumerWidget {
                 ],
               )
             : ListView(
-          padding: const EdgeInsets.all(24),
-          children: [
-            planAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Text(l10n.commonErrorTitle),
-              data: (plan) => plan == null
-                  ? Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Text(l10n.todayEmptyFirstDay),
-                      ),
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(24),
+                children: [
+                  planAsync.when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (e, _) => Text(l10n.commonErrorTitle),
+                    data: (plan) => plan == null
+                        ? Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Text(
+                                l10n.todayEmptyFirstDay,
+                                style: theme.textTheme.bodyLarge,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            padding: const EdgeInsets.all(24),
+                            decoration: HalenCard.hero(),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(9),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.14,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(12),
+                                      ),
+                                      child: const Icon(
+                                        Icons.track_changes_rounded,
+                                        color: HalenColors.mint,
+                                        size: 18,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Text(
+                                        plan.phase == PlanPhase.finalWeek
+                                            ? l10n.finalWeekTitle
+                                            : l10n.chartPlanVsActual,
+                                        style: theme.textTheme.titleSmall
+                                            ?.copyWith(
+                                          color: HalenColors.mint,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 18),
                                 Text(
                                   l10n.todayRingLabel(0, plan.targetCount),
-                                  style: theme.textTheme.titleLarge,
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  plan.phase == PlanPhase.finalWeek
-                                      ? l10n.finalWeekTitle
-                                      : l10n.chartPlanVsActual,
-                                  style: theme.textTheme.bodyMedium,
+                                  style:
+                                      theme.textTheme.headlineMedium?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                  ),
                                 ),
                                 if (plan.phase == PlanPhase.finalWeek) ...[
-                                  const SizedBox(height: 8),
-                                  Text(l10n.finalWeekBody),
-                                  const SizedBox(height: 12),
-                                  FilledButton(
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    l10n.finalWeekBody,
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: const Color(0xFFD6E8DB),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  FilledButton.icon(
                                     onPressed: () async {
                                       final day = await showDatePicker(
                                         context: context,
@@ -107,7 +153,8 @@ class PlanScreen extends ConsumerWidget {
                                               content: Text(
                                                 l10n.quitDaySet(
                                                   MaterialLocalizations.of(
-                                                          context)
+                                                        context,
+                                                  )
                                                       .formatMediumDate(day),
                                                 ),
                                               ),
@@ -116,99 +163,106 @@ class PlanScreen extends ConsumerWidget {
                                         }
                                       }
                                     },
-                                    child: Text(l10n.quitDayConfirmTitle),
+                                    icon: const Icon(Icons.event_available),
+                                    label: Text(l10n.quitDayConfirmTitle),
                                   ),
                                 ],
                               ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-            ),
-            const SizedBox(height: 16),
-            estimateAsync.when(
-              loading: () => const SizedBox.shrink(),
-              error: (e, _) => const SizedBox.shrink(),
-              data: (estimate) => estimate == null
-                  ? const SizedBox.shrink()
-                  : Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              l10n.planWeeksEstimate(
-                                estimate.minWeeks,
-                                estimate.maxWeeks,
+                  ),
+                  const SizedBox(height: 16),
+                  estimateAsync.when(
+                    loading: () => const SizedBox.shrink(),
+                    error: (e, _) => const SizedBox.shrink(),
+                    data: (estimate) => estimate == null
+                        ? const SizedBox.shrink()
+                        : Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    l10n.planWeeksEstimate(
+                                      estimate.minWeeks,
+                                      estimate.maxWeeks,
+                                    ),
+                                    style: theme.textTheme.bodyLarge,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(l10n.commonModelTag,
+                                          style: theme.textTheme.labelSmall),
+                                      IconButton(
+                                        tooltip: l10n.commonHowCalculated,
+                                        icon: const Icon(Icons.help_outline,
+                                            size: 18),
+                                        onPressed: () => Navigator.pushNamed(
+                                            context, Routes.howCalculated),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(l10n.commonModelTag,
-                                    style: theme.textTheme.labelSmall),
-                                IconButton(
-                                  tooltip: l10n.commonHowCalculated,
-                                  icon: const Icon(Icons.help_outline,
-                                      size: 18),
-                                  onPressed: () => Navigator.pushNamed(
-                                      context, Routes.howCalculated),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-            ),
-            const SizedBox(height: 16),
-            adjustmentsAsync.when(
-              loading: () => const SizedBox.shrink(),
-              error: (e, _) => const SizedBox.shrink(),
-              data: (adjustments) => adjustments.isEmpty
-                  ? const SizedBox.shrink()
-                  : Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(l10n.recalcTitle,
-                                style: theme.textTheme.titleMedium),
-                            const SizedBox(height: 8),
-                            for (final a in adjustments.take(5))
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Icon(Icons.refresh, size: 18),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Text(
-                                        switch (a.messageKey) {
-                                          'clustered' => l10n.recalcBunched,
-                                          'recalculated' =>
-                                            l10n.recalcDistributed,
-                                          'tempo_extended' =>
-                                            l10n.tempoAutoAdjusted,
-                                          _ => l10n.recalcDistributed,
-                                        },
+                          ),
+                  ),
+                  const SizedBox(height: 16),
+                  adjustmentsAsync.when(
+                    loading: () => const SizedBox.shrink(),
+                    error: (e, _) => const SizedBox.shrink(),
+                    data: (adjustments) => adjustments.isEmpty
+                        ? const SizedBox.shrink()
+                        : Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(l10n.recalcTitle,
+                                      style: theme.textTheme.titleMedium),
+                                  const SizedBox(height: 8),
+                                  for (final a in adjustments.take(5))
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 6),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Icon(
+                                            Icons.refresh_rounded,
+                                            size: 18,
+                                            color:
+                                                theme.colorScheme.primary,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Expanded(
+                                            child: Text(
+                                              switch (a.messageKey) {
+                                                'clustered' =>
+                                                  l10n.recalcBunched,
+                                                'recalculated' =>
+                                                  l10n.recalcDistributed,
+                                                'tempo_extended' =>
+                                                  l10n.tempoAutoAdjusted,
+                                                _ => l10n.recalcDistributed,
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                ],
                               ),
-                          ],
-                        ),
-                      ),
-                    ),
-            ),
-            const SizedBox(height: 24),
-          ],
-        ),
+                            ),
+                          ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
       ),
     );
   }

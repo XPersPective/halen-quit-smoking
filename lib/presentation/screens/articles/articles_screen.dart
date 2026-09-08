@@ -108,24 +108,30 @@ class ArticlesScreen extends ConsumerWidget {
                           children: [
                             Row(
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 3,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: isFeatured
-                                        ? theme.colorScheme.primary
-                                        : theme.colorScheme.primaryContainer,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Text(
-                                    _categoryLabel(article.category, l10n),
-                                    style: theme.textTheme.labelSmall?.copyWith(
-                                      fontWeight: FontWeight.bold,
+                                Flexible(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 3,
+                                    ),
+                                    decoration: BoxDecoration(
                                       color: isFeatured
-                                          ? Colors.white
-                                          : theme.colorScheme.onPrimaryContainer,
+                                          ? theme.colorScheme.primary
+                                          : theme.colorScheme.primaryContainer,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      _categoryLabel(article.category, l10n),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: theme.textTheme.labelSmall
+                                          ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: isFeatured
+                                            ? Colors.white
+                                            : theme.colorScheme
+                                                  .onPrimaryContainer,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -136,10 +142,14 @@ class ArticlesScreen extends ConsumerWidget {
                                   color: theme.colorScheme.onSurfaceVariant,
                                 ),
                                 const SizedBox(width: 4),
-                                Text(
-                                  l10n.articleReadTime(article.readMinutes),
-                                  style: theme.textTheme.labelSmall?.copyWith(
-                                    color: theme.colorScheme.onSurfaceVariant,
+                                Flexible(
+                                  child: Text(
+                                    l10n.articleReadTime(article.readMinutes),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: theme.textTheme.labelSmall?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant,
+                                    ),
                                   ),
                                 ),
                                 const Spacer(),

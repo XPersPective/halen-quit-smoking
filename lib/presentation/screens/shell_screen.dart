@@ -32,15 +32,20 @@ class _ShellScreenState extends State<ShellScreen> {
     ];
 
     return Scaffold(
-      body: IndexedStack(
-        index: _index,
-        children: const [
-          TodayScreen(),
-          StatsScreen(),
-          PlanScreen(),
-          ArticlesScreen(),
-          SosScreen(),
-        ],
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: IndexedStack(
+            index: _index,
+            children: const [
+              TodayScreen(),
+              StatsScreen(),
+              PlanScreen(),
+              ArticlesScreen(),
+              SosScreen(),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,

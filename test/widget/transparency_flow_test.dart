@@ -23,11 +23,11 @@ void main() {
 
     // From Today's health strip into the timeline.
     await tester.scrollUntilVisible(
-      find.byIcon(Icons.favorite_outline),
+      find.byIcon(Icons.favorite_border_rounded),
       300,
       scrollable: find.byType(Scrollable).first,
     );
-    await tester.tap(find.byIcon(Icons.favorite_outline));
+    await tester.tap(find.byIcon(Icons.favorite_border_rounded));
     await tester.pumpAndSettle();
 
     // Locked: preview notice visible, WHO-source cards visible.
@@ -35,26 +35,31 @@ void main() {
     expect(find.textContaining('WHO'), findsWidgets);
 
     // Set a quit date in the past → unlock (preview notice disappears).
-    await db.timelineDao
-        .setQuitTs(DateTime.now().subtract(const Duration(days: 30)));
+    await db.timelineDao.setQuitTs(
+      DateTime.now().subtract(const Duration(days: 30)),
+    );
     await tester.pumpAndSettle();
     expect(find.textContaining('preview'), findsNothing);
 
     await disposeApp(tester);
   });
 
-  testWidgets('transparency screen explains model, limits and sources',
-      (tester) async {
+  testWidgets('transparency screen explains model, limits and sources', (
+    tester,
+  ) async {
     useLargeTestSurface(tester);
     await pumpHalenApp(tester, database: db);
     await tester.pumpAndSettle();
 
     await tester.scrollUntilVisible(
-      find.byIcon(Icons.help_outline),
+      find.byType(ExpansionTile),
       300,
       scrollable: find.byType(Scrollable).first,
     );
-    await tester.tap(find.byIcon(Icons.help_outline).first);
+    await tester.tap(find.byType(ExpansionTile).first);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('How is this estimate calculated?'));
+    await tester.tap(find.text('How is this estimate calculated?'));
     await tester.pumpAndSettle();
 
     expect(find.textContaining('1.2 mg'), findsOneWidget);

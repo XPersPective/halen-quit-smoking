@@ -34,6 +34,7 @@ class HalenApp extends ConsumerWidget {
       databaseFailed: databaseFailed,
       child: MaterialApp(
       title: 'Halen',
+      debugShowCheckedModeBanner: false,
       theme: HalenTheme.light(),
       darkTheme: HalenTheme.dark(),
       themeMode: switch (themeOption) {

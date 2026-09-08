@@ -80,6 +80,29 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 4, 24, 12),
+              child: Semantics(
+                label: l10n.obStepOf(_step + 1),
+                child: Row(
+                  children: [
+                    for (var i = 0; i < _stepCount; i++)
+                      Expanded(
+                        child: Container(
+                          height: 4,
+                          margin: const EdgeInsets.symmetric(horizontal: 3),
+                          decoration: BoxDecoration(
+                            color: i <= _step
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).colorScheme.outline,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
             Expanded(
               child: PageView(
                 controller: _pageController,
@@ -112,8 +135,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       onPressed: _next,
                       style: FilledButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.tertiary,
-                        foregroundColor:
-                            Theme.of(context).colorScheme.onTertiary,
+                        foregroundColor: Theme.of(context)
+                            .colorScheme
+                            .onTertiary,
                       ),
                       child: Text(
                         _step == _stepCount - 1
@@ -276,10 +300,12 @@ class _PriceStepState extends ConsumerState<_PriceStep> {
   void initState() {
     super.initState();
     final answers = ref.read(onboardingControllerProvider);
-    _priceController =
-        TextEditingController(text: answers.pricePerPack.toStringAsFixed(2));
-    _packSizeController =
-        TextEditingController(text: answers.packSize.toString());
+    _priceController = TextEditingController(
+      text: answers.pricePerPack.toStringAsFixed(2),
+    );
+    _packSizeController = TextEditingController(
+      text: answers.packSize.toString(),
+    );
   }
 
   @override
@@ -300,14 +326,14 @@ class _PriceStepState extends ConsumerState<_PriceStep> {
         children: [
           TextField(
             controller: _priceController,
-            keyboardType:
-                const TextInputType.numberWithOptions(decimal: true),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             decoration: InputDecoration(
               labelText: l10n.obPriceTitle,
               border: const OutlineInputBorder(),
             ),
-            onChanged: (v) =>
-                controller.setPricePerPack(double.tryParse(v.replaceAll(',', '.')) ?? 0),
+            onChanged: (v) => controller.setPricePerPack(
+              double.tryParse(v.replaceAll(',', '.')) ?? 0,
+            ),
           ),
           const SizedBox(height: 16),
           TextField(

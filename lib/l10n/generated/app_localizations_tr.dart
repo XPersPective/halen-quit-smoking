@@ -273,7 +273,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get ctaSmoked => 'İÇTİM';
 
   @override
-  String get ctaResisted => '✋ İstek atlattım';
+  String get ctaResisted => 'İstek atlattım';
 
   @override
   String resistedTodayCount(int n) {
@@ -1203,4 +1203,55 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get articleKeyTakeaways => 'Öne Çıkanlar & Pratik Adımlar';
+
+  @override
+  String get todayFocusTitle => 'Her gün,\nbiraz daha özgür.';
+
+  @override
+  String get todayFocusNote => 'Her küçük ara, yeni bir adım.';
+
+  @override
+  String get dailyBudgetCaption => 'Kayıt / günlük hedef';
+
+  @override
+  String get todayOverview => 'Bugün sana kalanlar';
+
+  @override
+  String get todaySupportTitle => 'Bir nefes molası ver';
+
+  @override
+  String get todaySupportNote => 'İhtiyacın olduğunda, bir an kendine dön.';
+
+  @override
+  String get statsIntro => 'Küçük adımlar, görünür bir değişim.';
+
+  @override
+  String get chartActualLabel => 'Kaydedilen';
+
+  @override
+  String get chartTargetLabel => 'Günlük hedef';
+
+  @override
+  String get chartEmptyTitle => 'Değişimin burada başlıyor';
+
+  @override
+  String get chartEmptyBody =>
+      'Kayıtların biriktikçe kendi ritmini burada göreceksin.';
+
+  @override
+  String get chartTimeBlocks => 'Günün zaman dilimleri';
+
+  @override
+  String get chartIntervalAxis => 'Kayıtlar arasındaki süre · dakika';
+
+  @override
+  String get chartIntervalEmpty =>
+      'İlk aralığını görmek için iki kayıt yeterli.';
+
+  @override
+  String get chartTriggerEmpty =>
+      'Kayıtlarına etiket ekle; tetikleyicilerini birlikte görünür kılalım.';
+
+  @override
+  String get statsSavingsNote => 'Kayıtlarına göre tahmini tasarruf';
 }

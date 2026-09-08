@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
@@ -32,8 +33,9 @@ class _BreathingScreenState extends State<BreathingScreen>
       duration: const Duration(seconds: _phaseSeconds),
       value: 0.25,
     );
-    _scale = Tween(begin: 0.65, end: 1.0)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic));
+    _scale = Tween(begin: 0.65, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic),
+    );
     _controller.repeat(reverse: true);
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) => _tick());
   }
@@ -83,15 +85,11 @@ class _BreathingScreenState extends State<BreathingScreen>
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final reduceMotion =
-        MediaQuery.of(context).disableAnimations || _finished;
+    final reduceMotion = MediaQuery.of(context).disableAnimations || _finished;
     final phaseColor = _phaseColor(theme);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.sos4dBreathe),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: Text(l10n.sos4dBreathe), elevation: 0),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -138,7 +136,7 @@ class _BreathingScreenState extends State<BreathingScreen>
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Harika! Vagus sinirini aktive ettin, nabzın yavaşladı.',
+                  l10n.todayFocusNote,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: isDark
                         ? HalenColors.textSecondaryDark

@@ -1,3 +1,5 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,10 +15,6 @@ import 'package:halen/presentation/widgets/charts/interval_chart.dart';
 import 'package:halen/presentation/widgets/charts/trigger_breakdown_chart.dart';
 import 'package:halen/presentation/widgets/stats_charts.dart';
 
-/// Screen 12: Statistics & Analytics Hub.
-///
-/// Features 4 rich views: Daily Trend, 24-Hour Distribution, Inter-Cigarette
-/// Intervals, and Triggers Breakdown.
 class StatsScreen extends ConsumerStatefulWidget {
   const StatsScreen({super.key});
 
@@ -27,28 +25,13 @@ class StatsScreen extends ConsumerStatefulWidget {
 class _StatsScreenState extends ConsumerState<StatsScreen> {
   int _selectedTabIndex = 0;
 
-  String _dayLabel(String dateKey) {
-    try {
-      final dt = DateTime.parse(dateKey);
-      const days = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
-      return days[(dt.weekday - 1) % 7];
-    } catch (_) {
-      return '';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
+    final colors = theme.colorScheme;
     final daily = ref.watch(dailyStatsProvider(7));
     final savings = ref.watch(totalSavingsProvider);
-    final hourlyReportAsync = ref.watch(hourlyAnalyticsProvider);
-    final intervalsReportAsync = ref.watch(todayIntervalsProvider);
-    final triggersAsync = ref.watch(triggerAnalyticsProvider);
-
     final tabs = [
       l10n.statsTabDaily,
       l10n.statsTabHourly,
@@ -58,79 +41,116 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          l10n.statsTitle,
-          style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-        ),
+        title: Text(l10n.statsTitle),
         actions: const [ShellSettingsButton()],
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
           children: [
-            // Segmented tabs control
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: isDark
-                    ? HalenColors.surfaceElevatedDark
-                    : HalenColors.surfaceElevatedLight,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: theme.colorScheme.outline),
+            Text(
+              l10n.statsIntro,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: colors.onSurfaceVariant,
               ),
-              child: Row(
-                children: [
-                  for (var i = 0; i < tabs.length; i++)
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () => setState(() => _selectedTabIndex = i),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+            ),
+            const SizedBox(height: 24),
+            savings.when(
+              loading: () => const LinearProgressIndicator(),
+              error: (e, _) => Text(l10n.commonErrorTitle),
+              data: (total) => Container(
+                padding: const EdgeInsets.all(24),
+                decoration: HalenCard.hero(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(9),
                           decoration: BoxDecoration(
-                            color: _selectedTabIndex == i
-                                ? theme.colorScheme.surface
-                                : Colors.transparent,
+                            color: Colors.white.withValues(alpha: 0.14),
                             borderRadius: BorderRadius.circular(12),
-                            boxShadow: _selectedTabIndex == i
-                                ? [
-                                    BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.05),
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ]
-                                : null,
                           ),
-                          child: Center(
-                            child: Text(
-                              tabs[i],
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                fontWeight: _selectedTabIndex == i
-                                    ? FontWeight.bold
-                                    : FontWeight.w500,
-                                color: _selectedTabIndex == i
-                                    ? theme.colorScheme.primary
-                                    : theme.colorScheme.onSurfaceVariant,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                          child: const Icon(
+                            Icons.savings_rounded,
+                            color: HalenColors.mint,
+                            size: 18,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            l10n.chartSavings,
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              color: HalenColors.mint,
                             ),
                           ),
                         ),
+                        Text(
+                          l10n.statsRangeAll,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: const Color(0xFF9FC4AF),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 18),
+                    Text(
+                      '${total.toStringAsFixed(0)} ₺',
+                      style: theme.textTheme.displaySmall?.copyWith(
+                        color: Colors.white,
+                        fontSize: 46,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -2,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      l10n.statsSavingsNote,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: const Color(0xFFD6E8DB),
+                      ),
+                    ),
+                    // Cumulative savings trend (Smoke Free signature chart).
+                    daily.maybeWhen(
+                      data: (stats) {
+                        if (stats.length < 2) {
+                          return const SizedBox.shrink();
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 14),
+                          child: _SavingsTrendChart(stats: stats),
+                        );
+                      },
+                      orElse: () => const SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  for (var i = 0; i < tabs.length; i++)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: ChoiceChip(
+                        label: Text(tabs[i]),
+                        selected: _selectedTabIndex == i,
+                        onSelected: (_) =>
+                            setState(() => _selectedTabIndex = i),
                       ),
                     ),
                 ],
               ),
             ),
-            const SizedBox(height: 18),
-
-            // Tab 0: Daily Trends
+            const SizedBox(height: 16),
             if (_selectedTabIndex == 0) ...[
               daily.when(
-                loading: () => const SizedBox(
-                  height: 180,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
+                loading: () => const Center(child: CircularProgressIndicator()),
                 error: (e, _) => Text(l10n.commonErrorTitle),
                 data: (stats) => Card(
                   child: Padding(
@@ -138,120 +158,170 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.primary.withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Icon(
-                                Icons.calendar_today_rounded,
-                                color: theme.colorScheme.primary,
-                                size: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        Text(
+                          l10n.chartDaily,
+                          style: theme.textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          l10n.statsRange7,
+                          style: theme.textTheme.bodySmall,
+                        ),
+                        const SizedBox(height: 24),
+                        if (stats.every(
+                          (s) => s.count == 0 && s.planTarget == null,
+                        ))
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 28),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Text(
-                                  l10n.chartDaily,
-                                  style: theme.textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Icon(
+                                  Icons.insights_rounded,
+                                  size: 40,
+                                  color: colors.primary,
                                 ),
+                                const SizedBox(height: 16),
                                 Text(
-                                  l10n.chartPlanVsActual,
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: isDark
-                                        ? HalenColors.textSecondaryDark
-                                        : HalenColors.textSecondaryLight,
+                                  l10n.chartEmptyTitle,
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.titleMedium,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  l10n.chartEmptyBody,
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: colors.onSurfaceVariant,
                                   ),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        DailyBarsChart(
-                          counts: [for (final s in stats) s.count],
-                          planTargets: [for (final s in stats) s.planTarget],
-                          dayLabels: [for (final s in stats) _dayLabel(s.dateKey)],
-                          barColor: theme.colorScheme.primary,
-                          markerColor: HalenColors.amberCta,
-                        ),
-                        const SizedBox(height: 14),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 10,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.primary,
-                                borderRadius: BorderRadius.circular(3),
+                          )
+                        else ...[
+                          DailyBarsChart(
+                            counts: [for (final s in stats) s.count],
+                            planTargets: [for (final s in stats) s.planTarget],
+                            dayLabels: [
+                              for (final s in stats)
+                                DateFormat.E(l10n.localeName)
+                                    .format(DateTime.parse(s.dateKey)),
+                            ],
+                            barColor: colors.primary,
+                            markerColor: colors.onSurfaceVariant,
+                          ),
+                          const SizedBox(height: 16),
+                          Wrap(
+                            spacing: 20,
+                            runSpacing: 8,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 12,
+                                    height: 12,
+                                    decoration: BoxDecoration(
+                                      color: colors.primary,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    l10n.chartActualLabel,
+                                    style: theme.textTheme.bodySmall,
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              'Gerçekleşen',
-                              style: theme.textTheme.labelSmall,
-                            ),
-                            const SizedBox(width: 18),
-                            Container(
-                              width: 12,
-                              height: 3,
-                              color: HalenColors.amberCta,
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              'Plan Hedefi',
-                              style: theme.textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    width: 16,
+                                    child: LayoutBuilder(
+                                      builder: (context, c) => Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          for (final _ in [1, 2, 3])
+                                            Container(
+                                              width: 3,
+                                              height: 2,
+                                              decoration: BoxDecoration(
+                                                color: colors.onSurfaceVariant,
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    l10n.chartTargetLabel,
+                                    style: theme.textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 14),
-
-              // Streak strip
+              const SizedBox(height: 12),
               daily.maybeWhen(
                 data: (stats) {
                   final streaks = computeStreaks([
                     for (final s in stats)
                       DayAdherence(count: s.count, planTarget: s.planTarget),
                   ]);
+                  // Progress toward the next 7-day milestone (no zero
+                  // counters on broken streaks — report §16).
+                  final weekProgress =
+                      (streaks.displayDays % 7) / 7;
                   return Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(20),
                       child: Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: HalenColors.amberCta.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(12),
+                              color: colors.primaryContainer,
+                              borderRadius: BorderRadius.circular(14),
                             ),
-                            child: const Icon(
-                              Icons.local_fire_department_rounded,
-                              color: HalenColors.amberCta,
+                            child: Icon(
+                              Icons.spa_rounded,
+                              color: colors.onPrimaryContainer,
                               size: 22,
                             ),
                           ),
                           const SizedBox(width: 14),
                           Expanded(
-                            child: Text(
-                              streaks.isBroken
-                                  ? l10n.motivationStreakRestart
-                                  : l10n.motivationStreakBest(streaks.displayDays),
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  streaks.isBroken
+                                      ? l10n.motivationStreakRestart
+                                      : l10n.motivationStreakBest(
+                                          streaks.displayDays,
+                                        ),
+                                  style: theme.textTheme.titleSmall,
+                                ),
+                                const SizedBox(height: 8),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: LinearProgressIndicator(
+                                    value: weekProgress,
+                                    minHeight: 6,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -262,105 +332,143 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                 orElse: () => const SizedBox.shrink(),
               ),
             ],
+            if (_selectedTabIndex == 1)
+              ref
+                  .watch(hourlyAnalyticsProvider)
+                  .when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (e, _) => Text(l10n.commonErrorTitle),
+                    data: (report) => HourlyDistributionCard(report: report),
+                  ),
+            if (_selectedTabIndex == 2)
+              ref
+                  .watch(todayIntervalsProvider)
+                  .when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (e, _) => Text(l10n.commonErrorTitle),
+                    data: (report) => IntervalChartCard(report: report),
+                  ),
+            if (_selectedTabIndex == 3)
+              ref
+                  .watch(triggerAnalyticsProvider)
+                  .when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (e, _) => Text(l10n.commonErrorTitle),
+                    data: (report) => TriggerBreakdownCard(triggers: report),
+                  ),
+            const SizedBox(height: 16),
+            TextButton.icon(
+              onPressed: () =>
+                  Navigator.pushNamed(context, Routes.healthTimeline),
+              icon: const Icon(Icons.favorite_border_rounded, size: 18),
+              label: Text(l10n.timelineTitle),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-            // Tab 1: 24h Hourly Distribution
-            if (_selectedTabIndex == 1) ...[
-              hourlyReportAsync.when(
-                loading: () => const SizedBox(
-                  height: 200,
-                  child: Center(child: CircularProgressIndicator()),
+/// Cumulative savings as a smooth gradient area line inside the dark hero
+/// (the signature chart of the category's top apps). Lives on the petrol
+/// surface, so its palette is mint-on-green, not theme colors.
+class _SavingsTrendChart extends StatelessWidget {
+  const _SavingsTrendChart({required this.stats});
+
+  final List<DayStats> stats;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    var running = 0.0;
+    final spots = <FlSpot>[
+      for (var i = 0; i < stats.length; i++)
+        () {
+          running += stats[i].savings ?? 0;
+          return FlSpot(i.toDouble(), running);
+        }(),
+    ];
+    final maxValue = running.clamp(10.0, double.infinity).toDouble();
+
+    return SizedBox(
+      height: 88,
+      child: Semantics(
+        label: l10n.chartSavings,
+        image: true,
+        child: LineChart(
+          LineChartData(
+            minX: 0,
+            maxX: (stats.length - 1).toDouble(),
+            minY: 0,
+            maxY: maxValue,
+            gridData: const FlGridData(show: false),
+            borderData: FlBorderData(show: false),
+            titlesData: const FlTitlesData(
+              topTitles: AxisTitles(),
+              rightTitles: AxisTitles(),
+              leftTitles: AxisTitles(),
+              bottomTitles: AxisTitles(),
+            ),
+            lineTouchData: LineTouchData(
+              enabled: true,
+              touchTooltipData: LineTouchTooltipData(
+                getTooltipColor: (_) => Colors.white,
+                tooltipBorderRadius: BorderRadius.circular(10),
+                tooltipPadding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
                 ),
-                error: (e, _) => Text(l10n.commonErrorTitle),
-                data: (report) => HourlyDistributionCard(report: report),
+                getTooltipItems: (spots) => [
+                  for (final spot in spots)
+                    LineTooltipItem(
+                      '${spot.y.toStringAsFixed(0)} ₺',
+                      TextStyle(
+                        color: HalenColors.petrolDeep,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                ],
               ),
-            ],
-
-            // Tab 2: Intervals between cigarettes
-            if (_selectedTabIndex == 2) ...[
-              intervalsReportAsync.when(
-                loading: () => const SizedBox(
-                  height: 200,
-                  child: Center(child: CircularProgressIndicator()),
+            ),
+            lineBarsData: [
+              LineChartBarData(
+                spots: spots,
+                isCurved: true,
+                curveSmoothness: 0.35,
+                preventCurveOverShooting: true,
+                barWidth: 2.5,
+                color: HalenColors.mint,
+                dotData: FlDotData(
+                  show: true,
+                  getDotPainter: (spot, percent, barData, index) =>
+                      FlDotCirclePainter(
+                    radius: 3,
+                    color: HalenColors.mint,
+                    strokeWidth: 2,
+                    strokeColor: const Color(0xFF1D4A39),
+                  ),
                 ),
-                error: (e, _) => Text(l10n.commonErrorTitle),
-                data: (report) => IntervalChartCard(report: report),
-              ),
-            ],
-
-            // Tab 3: Triggers
-            if (_selectedTabIndex == 3) ...[
-              triggersAsync.when(
-                loading: () => const SizedBox(
-                  height: 200,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                error: (e, _) => Text(l10n.commonErrorTitle),
-                data: (triggers) => TriggerBreakdownCard(triggers: triggers),
-              ),
-            ],
-
-            const SizedBox(height: 14),
-
-            // Total Savings Card
-            savings.when(
-              loading: () => const SizedBox.shrink(),
-              error: (e, _) => Text(l10n.commonErrorTitle),
-              data: (total) => Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(18),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: HalenColors.emerald.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: const Icon(
-                          Icons.savings_rounded,
-                          color: HalenColors.emerald,
-                          size: 24,
-                        ),
-                      ),
-                      const SizedBox(width: 14),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              l10n.chartSavings,
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                color: isDark
-                                    ? HalenColors.textSecondaryDark
-                                    : HalenColors.textSecondaryLight,
-                              ),
-                            ),
-                            Text(
-                              '${total.toStringAsFixed(0)} ₺',
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: HalenColors.emerald,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      OutlinedButton(
-                        onPressed: () =>
-                            Navigator.pushNamed(context, Routes.healthTimeline),
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          minimumSize: const Size(60, 36),
-                        ),
-                        child: const Text('Sağlık Zamanı'),
-                      ),
+                belowBarData: BarAreaData(
+                  show: true,
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      HalenColors.mint.withValues(alpha: 0.35),
+                      HalenColors.mint.withValues(alpha: 0.0),
                     ],
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 24),
-          ],
+            ],
+          ),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
         ),
       ),
     );

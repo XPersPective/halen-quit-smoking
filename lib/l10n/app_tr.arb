@@ -83,7 +83,7 @@
   "nextTargetDayDone": "Günlük plan tamamlandı — iyi gitti",
   "nicotineMiniLabel": "Tahmini nikotin maruziyeti (model)",
   "ctaSmoked": "İÇTİM",
-  "ctaResisted": "✋ İstek atlattım",
+  "ctaResisted": "İstek atlattım",
   "resistedTodayCount": "bugün {n}",
   "savingsStrip": "{amount} kazandın · {n} sigara atladın",
   "healthStrip": "Sırada: {text}",
@@ -373,5 +373,22 @@
   "articleCategoryPsychology": "Davranış Değişimi",
   "articleReadTime": "{min} dk okuma",
   "articleSourceLabel": "Bilimsel kaynak: {source}",
-  "articleKeyTakeaways": "Öne Çıkanlar & Pratik Adımlar"
+  "articleKeyTakeaways": "Öne Çıkanlar & Pratik Adımlar",
+
+  "todayFocusTitle": "Her gün,\nbiraz daha özgür.",
+  "todayFocusNote": "Her küçük ara, yeni bir adım.",
+  "dailyBudgetCaption": "Kayıt / günlük hedef",
+  "todayOverview": "Bugün sana kalanlar",
+  "todaySupportTitle": "Bir nefes molası ver",
+  "todaySupportNote": "İhtiyacın olduğunda, bir an kendine dön.",
+  "statsIntro": "Küçük adımlar, görünür bir değişim.",
+  "chartActualLabel": "Kaydedilen",
+  "chartTargetLabel": "Günlük hedef",
+  "chartEmptyTitle": "Değişimin burada başlıyor",
+  "chartEmptyBody": "Kayıtların biriktikçe kendi ritmini burada göreceksin.",
+  "chartTimeBlocks": "Günün zaman dilimleri",
+  "chartIntervalAxis": "Kayıtlar arasındaki süre · dakika",
+  "chartIntervalEmpty": "İlk aralığını görmek için iki kayıt yeterli.",
+  "chartTriggerEmpty": "Kayıtlarına etiket ekle; tetikleyicilerini birlikte görünür kılalım.",
+  "statsSavingsNote": "Kayıtlarına göre tahmini tasarruf"
 }

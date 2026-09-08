@@ -275,7 +275,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get ctaSmoked => 'GERAUCHT';
 
   @override
-  String get ctaResisted => '✋ Gelüstet überstanden';
+  String get ctaResisted => 'Gelüstet überstanden';
 
   @override
   String resistedTodayCount(int n) {
@@ -1210,4 +1210,55 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get articleKeyTakeaways => 'Wichtigste Erkenntnisse & Schritte';
+
+  @override
+  String get todayFocusTitle => 'Mehr Freiraum.\nFür dich.';
+
+  @override
+  String get todayFocusNote => 'Jede Pause ist ein Schritt.';
+
+  @override
+  String get dailyBudgetCaption => 'Einträge / Tagesziel';
+
+  @override
+  String get todayOverview => 'Dein Tag im Überblick';
+
+  @override
+  String get todaySupportTitle => 'Zeit für eine Atempause';
+
+  @override
+  String get todaySupportNote => 'Ein ruhiger Moment, wenn du ihn brauchst.';
+
+  @override
+  String get statsIntro => 'Kleine Schritte werden sichtbar.';
+
+  @override
+  String get chartActualLabel => 'Erfasst';
+
+  @override
+  String get chartTargetLabel => 'Tagesziel';
+
+  @override
+  String get chartEmptyTitle => 'Dein Weg beginnt hier';
+
+  @override
+  String get chartEmptyBody =>
+      'Mit deinen Einträgen wird dein Fortschritt sichtbar.';
+
+  @override
+  String get chartTimeBlocks => 'Im Tagesverlauf';
+
+  @override
+  String get chartIntervalAxis => 'Zeit zwischen Einträgen · Minuten';
+
+  @override
+  String get chartIntervalEmpty =>
+      'Zwei Einträge reichen für deinen ersten Abstand.';
+
+  @override
+  String get chartTriggerEmpty =>
+      'Füge beim Erfassen ein Stichwort hinzu, um Muster zu erkennen.';
+
+  @override
+  String get statsSavingsNote => 'Aus deinen Einträgen geschätzt';
 }

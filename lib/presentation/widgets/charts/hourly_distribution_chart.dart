@@ -1,14 +1,12 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:halen/application/interval_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 
 class HourlyDistributionCard extends StatelessWidget {
-  const HourlyDistributionCard({
-    super.key,
-    required this.report,
-  });
+  const HourlyDistributionCard({super.key, required this.report});
 
   final HourlyAnalyticsReport report;
 
@@ -36,7 +34,6 @@ class HourlyDistributionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Card(
       child: Padding(
@@ -47,15 +44,15 @@ class HourlyDistributionCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: HalenColors.purple.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
+                    color: HalenColors.purple.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                   child: const Icon(
                     Icons.bar_chart_rounded,
                     color: HalenColors.purple,
-                    size: 22,
+                    size: 20,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -63,19 +60,11 @@ class HourlyDistributionCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        l10n.hourlyTitle,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Text(l10n.hourlyTitle, style: theme.textTheme.titleMedium),
+                      const SizedBox(height: 2),
                       Text(
                         l10n.hourlySubtitle,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: isDark
-                              ? HalenColors.textSecondaryDark
-                              : HalenColors.textSecondaryLight,
-                        ),
+                        style: theme.textTheme.bodySmall,
                       ),
                     ],
                   ),
@@ -88,20 +77,20 @@ class HourlyDistributionCard extends StatelessWidget {
             if (report.peakHour != null && report.peakCount > 0)
               Container(
                 margin: const EdgeInsets.only(bottom: 16),
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
-                  color: HalenColors.amberCta.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: HalenColors.amberCta.withValues(alpha: 0.3),
-                  ),
+                  color: HalenColors.amberCta.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 child: Row(
                   children: [
                     const Icon(
                       Icons.local_fire_department_rounded,
                       color: HalenColors.amberCta,
-                      size: 20,
+                      size: 18,
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -109,7 +98,7 @@ class HourlyDistributionCard extends StatelessWidget {
                         l10n.hourlyPeak(report.peakHour!, report.peakCount),
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: isDark ? Colors.amber[200] : Colors.amber[900],
+                          color: HalenColors.amberCta,
                         ),
                       ),
                     ),
@@ -117,29 +106,32 @@ class HourlyDistributionCard extends StatelessWidget {
                 ),
               ),
 
-            // 24 Hour Histogram Canvas
-            SizedBox(
-              height: 140,
-              child: CustomPaint(
-                size: Size.infinite,
-                painter: _Hourly24Painter(
-                  buckets: report.buckets,
-                  peakHour: report.peakHour,
-                  theme: theme,
+            // 24 hour histogram
+            Semantics(
+              label: report.buckets
+                  .map((b) => "${b.hour}:00: ${b.count}")
+                  .join(", "),
+              image: true,
+              child: SizedBox(
+                height: 176,
+                child: CustomPaint(
+                  size: Size.infinite,
+                  painter: _Hourly24Painter(
+                    buckets: report.buckets,
+                    peakHour: report.peakHour,
+                    theme: theme,
+                  ),
                 ),
               ),
             ),
-
             const SizedBox(height: 20),
             Text(
-              'Günün Zaman Dilimleri',
-              style: theme.textTheme.labelMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              l10n.chartTimeBlocks,
+              style: theme.textTheme.labelMedium,
             ),
             const SizedBox(height: 10),
 
-            // Time blocks grid
+            // Time blocks
             Column(
               children: [
                 for (final b in report.blocks)
@@ -147,41 +139,45 @@ class HourlyDistributionCard extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 10,
+                        horizontal: 14,
+                        vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: isDark
-                            ? HalenColors.surfaceElevatedDark
-                            : HalenColors.surfaceElevatedLight,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: theme.colorScheme.outline),
+                        color: theme.colorScheme.surfaceContainerHighest
+                            .withValues(alpha: 0.55),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: Row(
                         children: [
-                          Icon(
-                            _blockIcon(b.nameKey),
-                            size: 18,
-                            color: theme.colorScheme.primary,
+                          Container(
+                            padding: const EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primaryContainer,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Icon(
+                              _blockIcon(b.nameKey),
+                              size: 15,
+                              color: theme.colorScheme.onPrimaryContainer,
+                            ),
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: 12),
                           Expanded(
                             child: Text(
                               _blockTitle(b.nameKey, l10n),
                               style: theme.textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                           const SizedBox(width: 8),
                           SizedBox(
-                            width: 70,
+                            width: 72,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(4),
+                              borderRadius: BorderRadius.circular(100),
                               child: LinearProgressIndicator(
                                 value: b.percentage,
                                 minHeight: 6,
-                                backgroundColor: theme.colorScheme.outline,
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                   theme.colorScheme.primary,
                                 ),
@@ -189,10 +185,12 @@ class HourlyDistributionCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          Text(
-                            '${b.count}',
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
+                          SizedBox(
+                            width: 24,
+                            child: Text(
+                              '${b.count}',
+                              textAlign: TextAlign.end,
+                              style: theme.textTheme.titleSmall,
                             ),
                           ),
                         ],
@@ -225,18 +223,9 @@ class _Hourly24Painter extends CustomPainter {
 
     final maxCount = buckets.fold(1, (a, b) => a > b.count ? a : b.count);
     final step = size.width / 24;
-    final barWidth = math.max(4.0, step - 3.5);
-    final baselineY = size.height - 20;
-
-    // Draw baseline
-    final baseLinePaint = Paint()
-      ..color = theme.colorScheme.outline
-      ..strokeWidth = 1;
-    canvas.drawLine(
-      Offset(0, baselineY),
-      Offset(size.width, baselineY),
-      baseLinePaint,
-    );
+    final barWidth = math.max(4.0, step - 4.5);
+    final baselineY = size.height - 22;
+    final usableHeight = size.height - 40;
 
     final textPainter = TextPainter(
       textDirection: TextDirection.ltr,
@@ -246,15 +235,14 @@ class _Hourly24Painter extends CustomPainter {
     for (var h = 0; h < 24; h++) {
       final count = buckets[h].count;
       final isPeak = h == peakHour && count > 0;
-      final usableHeight = size.height - 35;
       final barHeight = count > 0
           ? math.max(6.0, (count / maxCount) * usableHeight)
-          : 2.0;
+          : 2.5;
 
       final x = h * step + (step - barWidth) / 2;
       final y = baselineY - barHeight;
 
-      final Color barColor = isPeak
+      final baseColor = isPeak
           ? HalenColors.amberCta
           : count > 0
               ? theme.colorScheme.primary
@@ -262,26 +250,40 @@ class _Hourly24Painter extends CustomPainter {
 
       final rRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, barWidth, barHeight),
-        const Radius.circular(3),
+        Radius.circular(math.min(barWidth / 2, 4)),
       );
 
-      final barPaint = Paint()..color = barColor;
+      final barPaint = count > 0
+          ? (Paint()
+              ..shader = LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  baseColor,
+                  baseColor.withValues(alpha: isPeak ? 0.85 : 0.55),
+                ],
+              ).createShader(rRect.outerRect))
+          : (Paint()..color = baseColor);
       canvas.drawRRect(rRect, barPaint);
 
-      // Label hours every 4 hours: 00, 04, 08, 12, 16, 20
-      if (h % 4 == 0 || h == 23) {
+      // Hour labels every 6 hours: 00, 06, 12, 18
+      if (h % 6 == 0) {
         textPainter.text = TextSpan(
           text: h.toString().padLeft(2, '0'),
           style: TextStyle(
-            fontSize: 9,
+            fontFamily: 'Roboto',
+            fontSize: 11,
             color: theme.colorScheme.onSurfaceVariant,
-            fontWeight: isPeak ? FontWeight.bold : FontWeight.normal,
+            fontWeight: isPeak ? FontWeight.w700 : FontWeight.w500,
           ),
         );
         textPainter.layout();
         textPainter.paint(
           canvas,
-          Offset(x + (barWidth - textPainter.width) / 2, baselineY + 4),
+          Offset(
+            (h + 0.5) * step - textPainter.width / 2,
+            baselineY + 6,
+          ),
         );
       }
     }

@@ -1,10 +1,14 @@
-/// Statistics charts — plain CustomPaint bars, no chart package. Every chart
-/// carries a spoken summary via [Semantics] (report §12/§14).
+/// Statistics charts — fl_chart powered, animated, touch tooltips. Every
+/// chart keeps a spoken summary via [Semantics] (report §12/§14).
 library;
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:halen/l10n/generated/app_localizations.dart';
 
-/// Daily counts as bars with a plan-target marker on each bar.
+/// Daily counts as rounded gradient bars with a slim target rod beside each
+/// bar (Smoke Free pattern: actual vs goal at a glance). The current day is
+/// emphasized; history stays calm and translucent.
 class DailyBarsChart extends StatelessWidget {
   const DailyBarsChart({
     super.key,
@@ -24,197 +28,164 @@ class DailyBarsChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 150,
-      child: CustomPaint(
-        size: Size.infinite,
-        painter: _DailyBarsPainter(
-          counts: counts,
-          planTargets: planTargets,
-          barColor: barColor,
-          markerColor: markerColor,
-          dayLabels: dayLabels,
-          textColor: Theme.of(context).colorScheme.onSurfaceVariant,
-        ),
-      ),
-    );
-  }
-}
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final summary = [
+      for (var i = 0; i < counts.length; i++)
+        '${dayLabels != null && i < dayLabels!.length ? dayLabels![i] : i + 1}: ${l10n.chartActualLabel} ${counts[i]}${i < planTargets.length && planTargets[i] != null ? ', ${l10n.chartTargetLabel} ${planTargets[i]}' : ''}',
+    ].join('. ');
 
-class _DailyBarsPainter extends CustomPainter {
-  const _DailyBarsPainter({
-    required this.counts,
-    required this.planTargets,
-    required this.barColor,
-    required this.markerColor,
-    this.dayLabels,
-    required this.textColor,
-  });
-
-  final List<int> counts;
-  final List<int?> planTargets;
-  final Color barColor;
-  final Color markerColor;
-  final List<String>? dayLabels;
-  final Color textColor;
-
-  @override
-  void paint(Canvas canvas, Size size) {
     if (counts.isEmpty) {
-      return;
+      return const SizedBox.shrink();
     }
+
     final maxValue = [
       ...counts,
       ...planTargets.whereType<int>(),
     ].fold(1, (a, b) => a > b ? a : b);
 
-    final baselineY = size.height - 24;
-    final usableHeight = baselineY - 24;
-    final step = size.width / counts.length;
-    final barWidth = (step * 0.55).clamp(12.0, 36.0);
-
-    final textPainter = TextPainter(
-      textDirection: TextDirection.ltr,
-      textAlign: TextAlign.center,
-    );
-
-    // Draw baseline
-    canvas.drawLine(
-      Offset(0, baselineY),
-      Offset(size.width, baselineY),
-      Paint()
-        ..color = textColor.withValues(alpha: 0.25)
-        ..strokeWidth = 1,
-    );
-
-    for (var i = 0; i < counts.length; i++) {
-      final count = counts[i];
-      final x = i * step + (step - barWidth) / 2;
-      final barHeight = count > 0
-          ? (count / maxValue * usableHeight).clamp(6.0, usableHeight)
-          : 3.0;
-      final y = baselineY - barHeight;
-
-      final rRect = RRect.fromRectAndCorners(
-        Rect.fromLTWH(x, y, barWidth, barHeight),
-        topLeft: const Radius.circular(8),
-        topRight: const Radius.circular(8),
-      );
-
-      final barPaint = Paint()
-        ..shader = LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            barColor,
-            barColor.withValues(alpha: 0.65),
+    return Semantics(
+      label: summary,
+      image: true,
+      child: SizedBox(
+        height: 220,
+        child: BarChart(
+          BarChartData(
+            maxY: (maxValue * 1.18).ceilToDouble(),
+            alignment: BarChartAlignment.spaceAround,
+            barTouchData: BarTouchData(
+            touchTooltipData: BarTouchTooltipData(
+              getTooltipColor: (_) => theme.colorScheme.primary,
+              tooltipBorderRadius: BorderRadius.circular(12),
+              tooltipPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 8,
+              ),
+              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                final i = group.x;
+                final day = dayLabels != null && i < dayLabels!.length
+                    ? dayLabels![i]
+                    : '${i + 1}';
+                final target = i < planTargets.length
+                    ? planTargets[i]
+                    : null;
+                return BarTooltipItem(
+                  '$day\n',
+                  TextStyle(
+                    color: theme.colorScheme.onPrimary,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: '${l10n.chartActualLabel} ${rod.toY.round()}'
+                      '${target != null ? ' · ${l10n.chartTargetLabel} $target' : ''}',
+                      style: TextStyle(
+                        color: theme.colorScheme.onPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          gridData: FlGridData(
+            show: true,
+            drawVerticalLine: false,
+            horizontalInterval: (maxValue / 2).ceilToDouble().clamp(1, 100),
+            getDrawingHorizontalLine: (value) => FlLine(
+              color: theme.colorScheme.onSurfaceVariant.withValues(
+                alpha: 0.08,
+              ),
+              strokeWidth: 1,
+            ),
+          ),
+          borderData: FlBorderData(show: false),
+          titlesData: FlTitlesData(
+            topTitles: const AxisTitles(),
+            rightTitles: const AxisTitles(),
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 26,
+                interval: (maxValue / 2).ceilToDouble().clamp(1, 100),
+                getTitlesWidget: (value, meta) => Text(
+                  value % 1 == 0 && value >= 0 ? '${value.round()}' : '',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
+            ),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 24,
+                getTitlesWidget: (value, meta) {
+                  final i = value.round();
+                  if (dayLabels == null || i < 0 || i >= dayLabels!.length) {
+                    return const SizedBox.shrink();
+                  }
+                  final isLast = i == counts.length - 1;
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: Text(
+                      dayLabels![i],
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: isLast ? FontWeight.w700 : FontWeight.w500,
+                        color: isLast
+                            ? barColor
+                            : theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          barGroups: [
+            for (var i = 0; i < counts.length; i++)
+              BarChartGroupData(
+                x: i,
+                barsSpace: 3,
+                barRods: [
+                  BarChartRodData(
+                    toY: counts[i].toDouble(),
+                    width: 16,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(6),
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: i == counts.length - 1
+                          ? [barColor, barColor.withValues(alpha: 0.78)]
+                          : [
+                              barColor.withValues(alpha: 0.38),
+                              barColor.withValues(alpha: 0.20),
+                            ],
+                    ),
+                  ),
+                  if (i < planTargets.length && planTargets[i] != null)
+                    BarChartRodData(
+                      toY: planTargets[i]!.toDouble(),
+                      width: 3,
+                      borderRadius: BorderRadius.circular(2),
+                      color: markerColor.withValues(alpha: 0.72),
+                    ),
+                ],
+              ),
           ],
-        ).createShader(rRect.outerRect);
-
-      canvas.drawRRect(rRect, barPaint);
-
-      // Target marker
-      final target = planTargets[i];
-      if (target != null && target > 0) {
-        final targetY = baselineY - (target / maxValue * usableHeight);
-        final markerPaint = Paint()
-          ..color = markerColor
-          ..strokeWidth = 2.5
-          ..strokeCap = StrokeCap.round;
-
-        canvas.drawLine(
-          Offset(x - 4, targetY),
-          Offset(x + barWidth + 4, targetY),
-          markerPaint,
-        );
-      }
-
-      // Count value above bar
-      if (count > 0) {
-        textPainter.text = TextSpan(
-          text: '$count',
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-            color: barColor,
           ),
-        );
-        textPainter.layout();
-        textPainter.paint(
-          canvas,
-          Offset(x + (barWidth - textPainter.width) / 2, y - 16),
-        );
-      }
-
-      // Day label below baseline
-      if (dayLabels != null && i < dayLabels!.length) {
-        textPainter.text = TextSpan(
-          text: dayLabels![i],
-          style: TextStyle(
-            fontSize: 10,
-            color: textColor,
-            fontWeight: i == counts.length - 1 ? FontWeight.bold : FontWeight.normal,
-          ),
-        );
-        textPainter.layout();
-        textPainter.paint(
-          canvas,
-          Offset(x + (barWidth - textPainter.width) / 2, baselineY + 6),
-        );
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_DailyBarsPainter old) => true;
-}
-
-/// Hour-of-day histogram (24 slim bars).
-class HourlyBarsChart extends StatelessWidget {
-  const HourlyBarsChart({
-    super.key,
-    required this.histogram,
-    required this.barColor,
-  });
-
-  final List<int> histogram;
-  final Color barColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 80,
-      child: CustomPaint(
-        size: Size.infinite,
-        painter: _HourlyPainter(histogram: histogram, barColor: barColor),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+        ),
       ),
     );
   }
-}
-
-class _HourlyPainter extends CustomPainter {
-  const _HourlyPainter({required this.histogram, required this.barColor});
-
-  final List<int> histogram;
-  final Color barColor;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (histogram.length != 24) {
-      return;
-    }
-    final max = histogram.fold(1, (a, b) => a > b ? a : b);
-    final step = size.width / 24;
-    final paint = Paint()..color = barColor;
-    for (var h = 0; h < 24; h++) {
-      final barHeight = histogram[h] / max * (size.height - 4);
-      canvas.drawRect(
-        Rect.fromLTWH(h * step + 1, size.height - barHeight, step - 2, barHeight),
-        paint,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_HourlyPainter old) => false;
 }

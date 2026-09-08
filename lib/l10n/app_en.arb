@@ -89,7 +89,7 @@
   "nextTargetDayDone": "Daily plan completed — well done",
   "nicotineMiniLabel": "Estimated nicotine exposure (model)",
   "ctaSmoked": "I SMOKED",
-  "ctaResisted": "✋ I resisted a craving",
+  "ctaResisted": "I resisted a craving",
   "resistedTodayCount": "{n} today",
   "@resistedTodayCount": { "placeholders": { "n": { "type": "int" } } },
   "savingsStrip": "You saved {amount} · {n} cigarettes avoided",
@@ -411,5 +411,22 @@
   "@articleReadTime": { "placeholders": { "min": { "type": "int" } } },
   "articleSourceLabel": "Scientific source: {source}",
   "@articleSourceLabel": { "placeholders": { "source": { "type": "String" } } },
-  "articleKeyTakeaways": "Key Takeaways"
+  "articleKeyTakeaways": "Key Takeaways",
+
+  "todayFocusTitle": "More space.\nMore you.",
+  "todayFocusNote": "Every pause is a step forward.",
+  "dailyBudgetCaption": "Logged / daily target",
+  "todayOverview": "Your day, at a glance",
+  "todaySupportTitle": "Take a breathing break",
+  "todaySupportNote": "A quiet moment, whenever you need it.",
+  "statsIntro": "Small steps. A clearer picture.",
+  "chartActualLabel": "Logged",
+  "chartTargetLabel": "Daily target",
+  "chartEmptyTitle": "Your story starts here",
+  "chartEmptyBody": "Your entries will turn into a picture of your progress.",
+  "chartTimeBlocks": "Throughout the day",
+  "chartIntervalAxis": "Time between entries · minutes",
+  "chartIntervalEmpty": "Two entries are enough to see your first interval.",
+  "chartTriggerEmpty": "Add a tag when logging to discover your patterns.",
+  "statsSavingsNote": "Estimated from your entries"
 }
