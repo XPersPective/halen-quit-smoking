@@ -130,10 +130,12 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
                 events: windowEvents,
                 ghostEvents: ghosts,
                 color: _colorFor(_selected),
-                bandLabels: [
-                  l10n.loadBandLow,
-                  l10n.loadBandMedium,
-                  l10n.loadBandHigh,
+                axisCaption: l10n.loadAxisCaption,
+                locale: locale,
+                timeLabels: [
+                  l10n.loadAxisHoursAgo(24),
+                  l10n.loadAxisHoursAgo(12),
+                  l10n.loadAxisNow,
                 ],
                 semanticsLabel: samples.isEmpty
                     ? l10n.bodyLoadEmpty

@@ -90,9 +90,53 @@ ağırlıklarını ve sınırlarını uygulama içinde yayımlar.
   uygulamanın tipografisini hiç kullanmıyordu (çıplak `TextStyle` aileyi ve
   ölçeği düşürüyordu) — düzeltildi.
 
+### Ana ekranda "şu an vücudunda"
+
+- **Yeni:** Bugün ekranının üstünde canlı bir durum kartı — nikotin,
+  oksijen borcu ve son sigaradan bu yana geçen süre, yan yana üç büyük sayı
+  olarak. Her otuz saniyede saati yeniden okur: "şu an" diyen bir sayının
+  donuk kalması, hiç sayı olmamasından kötüdür.
+- Model iki dokunuş ötede, Grafikler sekmesinde duruyordu. İnsanın uygulamayı
+  açarken sorduğu ilk soru "ne kadarı hâlâ içimde" — cevabın indiği yerde
+  olması gerekiyordu.
+
+### Grafik eksenleri artık bir şey söylüyor
+
+- Yük eğrisinin **Y ekseni numaralandı**: %0 / %50 / %100, üstünde birimiyle
+  — *kendi zirvenin %'si*. Eskiden eksende sadece Düşük/Orta/Yüksek yazıyordu;
+  anlamı olmayan bir eksen grafiği süse çevirir.
+- Bu birim, modelin dürüstçe üretebileceği tek birimdir: kişinin kendi 24
+  saatlik zirvesine göre normalize edilmiş değer. ng/mL, COHb% veya mg
+  hiçbir yerde üretilmez — S5 sınırı bu yüzden korunur.
+- **X ekseni de etiketlendi** (24 sa önce · 12 sa önce · şimdi) ve "şimdi"
+  noktası artık kartın kenarında yarılanmıyor.
+- Yüzde işareti dile göre yazılıyor (`%71` / `71%` / `71 %`); tek biçim
+  İngilizce okura bozuk şablon gibi görünüyordu.
+
+### Organlar çizildi
+
+- Organ noktaları **vektör organ şekilleriyle** değişti: bronş sapıyla
+  akciğerler, sivri apeksi ve iki büyük damarıyla kalp, falsiform çentiğiyle
+  karaciğer, J biçimli mide, fasulye çifti böbrekler, kıvrımlarıyla beyin.
+  Bir nokta organ değil, lejant maddesidir.
+- **Her organ kendi ritminde hareket ediyor:** akciğer dört saniyede nefes
+  alır, kalp bir saniyede lub-dub yapar, gerisi hafifçe salınır. Tek ortak
+  titreşim, haritanın şema gibi durmasının sebebiydi.
+- Detay panelinde organ 84 piksellik büyük bir görsel olarak açılıyor —
+  şeklin gerçekten organ gibi okunduğu ilk boy.
+- **Tek şekli olmayan sistemler** (damarlar, bağışıklık, cilt, gözler, üreme)
+  gövdeden alınıp kendi satırına taşındı. Onlara sahte bir anatomi çizmek,
+  noktanın daha iyi giyinmiş hâli olurdu.
+- Silüet parça parça çizilir oldu (baş, boyun, gövde, iki kol, iki bacak);
+  tek kapalı yol kolları omuza kaynatıyordu ve sonuç kardan adam gibi
+  duruyordu.
+
 ### Teknik
 - Şema v2 → v4 (modül tabloları, taper işaretçisi, riskli saat tercihi);
   tüm geçişler eklemeli, mevcut kullanıcı verisine dokunulmaz.
+- Grafik lejantı 360 dp'lik bir telefonda Türkçe seri adıyla taşıyordu;
+  başlıksız kalmaktansa alt satıra iniyor (ekran görüntüsü testinin
+  yakaladığı gerçek bir hata).
 - 202 test: alan modeli altın-değerleri, içerik yapısal kuralları (her organ
   kartının iyileşme metni, her tekniğin kanıt notu, korku kartının eylem
   satırı), etik lint'e eklenen S5 iddia kalıpları ve "her göstergenin

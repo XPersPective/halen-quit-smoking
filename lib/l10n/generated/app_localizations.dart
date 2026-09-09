@@ -3766,6 +3766,54 @@ abstract class AppLocalizations {
   /// **'Each spike is a cigarette; the fall after it is your body clearing it. Green marks are the spikes that never happened.'**
   String get bodyLoadMeaning;
 
+  /// No description provided for @loadAxisCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'% of your own peak — a model, not a measurement'**
+  String get loadAxisCaption;
+
+  /// No description provided for @loadAxisNow.
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get loadAxisNow;
+
+  /// No description provided for @loadAxisHoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h ago'**
+  String loadAxisHoursAgo(int hours);
+
+  /// No description provided for @nowInBodyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'In your body right now'**
+  String get nowInBodyTitle;
+
+  /// No description provided for @nowInBodyLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Last cigarette'**
+  String get nowInBodyLast;
+
+  /// No description provided for @nowInBodyNever.
+  ///
+  /// In en, this message translates to:
+  /// **'none yet'**
+  String get nowInBodyNever;
+
+  /// No description provided for @nowInBodyOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'See the whole picture'**
+  String get nowInBodyOpen;
+
+  /// No description provided for @nowInBodyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your first cigarette and your live curve starts here.'**
+  String get nowInBodyEmpty;
+
   /// No description provided for @glossaryTitle.
   ///
   /// In en, this message translates to:

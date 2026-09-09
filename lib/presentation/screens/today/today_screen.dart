@@ -16,6 +16,7 @@ import 'package:halen/presentation/widgets/mind_state_card.dart';
 import 'package:halen/presentation/widgets/quit_day_co_card.dart';
 import 'package:halen/presentation/widgets/support_card_tile.dart';
 import 'package:halen/presentation/widgets/today/log_feedback.dart';
+import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 import 'package:halen/presentation/widgets/today/today_log_sheet.dart';
 import 'package:halen/presentation/widgets/today_widgets.dart';
@@ -376,18 +377,22 @@ class _TodayBody extends ConsumerWidget {
           const SizedBox(height: 28),
 
           // ——— Overview ———
+          // §1 — the question people open the app with, answered before
+          // anything else: how much is still in me, and how long has it been.
+          const Entrance(child: NowInBodyStrip()),
+          const SizedBox(height: 16),
           // Module report §8 and §10 — the daily pair: an honest guess at how
           // today is likely to feel, and one small thing to do about it.
           // On quit day the fastest good news leads (module report §1.③).
-          const Entrance(child: QuitDayCoCard()),
+          const Entrance(index: 1, child: QuitDayCoCard()),
           const SizedBox(height: 16),
-          const Entrance(index: 1, child: MindStateCard()),
+          const Entrance(index: 2, child: MindStateCard()),
           const SizedBox(height: 16),
-          const Entrance(index: 2, child: SupportCardTile()),
+          const Entrance(index: 3, child: SupportCardTile()),
           const SizedBox(height: 16),
           // §11 — one card a day, phase-aware, and never a hard-truth card
           // during the withdrawal peak.
-          const Entrance(index: 3, child: DailyCardTile()),
+          const Entrance(index: 4, child: DailyCardTile()),
           const SizedBox(height: 28),
 
           Text(l10n.todayOverview, style: theme.textTheme.titleMedium),

@@ -2112,6 +2112,34 @@ class AppLocalizationsTr extends AppLocalizations {
       'Her diş bir sigara; sonrasındaki düşüş vücudunun onu temizlemesi. Yeşil işaretler hiç oluşmayan dişler.';
 
   @override
+  String get loadAxisCaption =>
+      'kendi zirvenin %\'si — model, ölçüm sonucu değil';
+
+  @override
+  String get loadAxisNow => 'şimdi';
+
+  @override
+  String loadAxisHoursAgo(int hours) {
+    return '$hours sa önce';
+  }
+
+  @override
+  String get nowInBodyTitle => 'Şu an vücudunda';
+
+  @override
+  String get nowInBodyLast => 'Son sigara';
+
+  @override
+  String get nowInBodyNever => 'henüz yok';
+
+  @override
+  String get nowInBodyOpen => 'Tümünü gör';
+
+  @override
+  String get nowInBodyEmpty =>
+      'İlk sigaranı kaydet, canlı eğrin burada başlasın.';
+
+  @override
   String get glossaryTitle => 'Kelimeler ne demek';
 
   @override

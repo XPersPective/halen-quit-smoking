@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../../core/dates.dart';
 import '../../../core/theme.dart';
 import '../../../domain/body_load_model.dart';
 
@@ -10,8 +11,11 @@ import '../../../domain/body_load_model.dart';
 /// exponential fall between them, so the user sees their OWN rhythm.
 ///
 /// Deliberate constraints from the report's chart rules:
-///  - the Y axis carries band names (Low / Medium / High), never numbers, so
-///    nothing here can be read as a measured concentration;
+///  - the Y axis is numbered, but in the only unit this model can honestly
+///    produce: PERCENT OF THE USER'S OWN 24-HOUR PEAK. A chart whose axis
+///    means nothing is decoration, so the axis is labelled and captioned —
+///    and because the unit is self-relative, nothing here can be read as a
+///    measured concentration (no ng/mL, no COHb%, no mg);
 ///  - at most three grid lines and no point markers (96 samples would be
 ///    noise);
 ///  - every cigarette gets a tick on the baseline, and every ride-out gets a
@@ -24,7 +28,9 @@ class LoadCurveChart extends StatelessWidget {
     required this.events,
     required this.ghostEvents,
     required this.color,
-    required this.bandLabels,
+    required this.axisCaption,
+    required this.timeLabels,
+    required this.locale,
     required this.semanticsLabel,
     this.height = 168,
   });
@@ -40,8 +46,15 @@ class LoadCurveChart extends StatelessWidget {
 
   final Color color;
 
-  /// Low / Medium / High labels, bottom to top.
-  final List<String> bandLabels;
+  /// What the Y axis measures, e.g. "% of your own peak" — drawn above the
+  /// plot so the numbers are never naked.
+  final String axisCaption;
+
+  /// Three x-axis labels, left to right (window start, midpoint, "now").
+  final List<String> timeLabels;
+
+  /// Language code, for writing the percent sign on the correct side.
+  final String locale;
 
   final String semanticsLabel;
   final double height;
@@ -52,20 +65,34 @@ class LoadCurveChart extends StatelessWidget {
     return Semantics(
       label: semanticsLabel,
       excludeSemantics: true,
-      child: SizedBox(
-        height: height,
-        child: CustomPaint(
-          painter: _LoadCurvePainter(
-            samples: samples,
-            events: events,
-            ghostEvents: ghostEvents,
-            color: color,
-            bandLabels: bandLabels,
-            labelStyle: theme.textTheme.labelSmall ?? const TextStyle(fontSize: 11),
-            gridColor: theme.dividerColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            axisCaption,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
-          size: Size.infinite,
-        ),
+          const SizedBox(height: 4),
+          SizedBox(
+            height: height,
+            child: CustomPaint(
+              painter: _LoadCurvePainter(
+                samples: samples,
+                events: events,
+                ghostEvents: ghostEvents,
+                color: color,
+                timeLabels: timeLabels,
+                locale: locale,
+                labelStyle: theme.textTheme.labelSmall ??
+                    const TextStyle(fontSize: 11),
+                gridColor: theme.dividerColor,
+              ),
+              size: Size.infinite,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -77,7 +104,8 @@ class _LoadCurvePainter extends CustomPainter {
     required this.events,
     required this.ghostEvents,
     required this.color,
-    required this.bandLabels,
+    required this.timeLabels,
+    required this.locale,
     required this.labelStyle,
     required this.gridColor,
   });
@@ -86,22 +114,28 @@ class _LoadCurvePainter extends CustomPainter {
   final List<DateTime> events;
   final List<DateTime> ghostEvents;
   final Color color;
-  final List<String> bandLabels;
+  final List<String> timeLabels;
+  final String locale;
   final TextStyle labelStyle;
   final Color gridColor;
 
-  static const double _tickLane = 14;
-  static const double _labelGutter = 52;
+  /// Room under the plot for the cigarette ticks and the time labels.
+  static const double _tickLane = 28;
+
+  /// Room at the left for the percentage labels.
+  static const double _labelGutter = 38;
 
   @override
   void paint(Canvas canvas, Size size) {
     if (samples.length < 2) {
       return;
     }
+    // The "now" dot sits on the right edge, so the plot stops short of the
+    // canvas — otherwise the marker is sliced in half by the card.
     final plot = Rect.fromLTRB(
       _labelGutter,
       6,
-      size.width,
+      size.width - 6,
       size.height - _tickLane,
     );
     final start = samples.first.at;
@@ -116,15 +150,20 @@ class _LoadCurvePainter extends CustomPainter {
             (at.difference(start).inMilliseconds / span).clamp(0.0, 1.0);
     double yFor(num value) => plot.bottom - plot.height * (value / 100);
 
-    // Three band lines, labelled instead of numbered.
+    // A numbered scale: 0, 50 and 100 percent of the user's own peak. The
+    // caption above the plot carries the unit.
     final gridPaint = Paint()
       ..color = gridColor.withValues(alpha: 0.5)
       ..strokeWidth = 1;
-    for (var i = 0; i < 3; i++) {
-      final value = [17, 50, 84][i];
+    for (final value in [0, 50, 100]) {
       final y = yFor(value);
       canvas.drawLine(Offset(plot.left, y), Offset(plot.right, y), gridPaint);
-      _text(canvas, bandLabels[i], Offset(0, y - 7), _labelGutter - 8);
+      _text(
+        canvas,
+        formatPercent(value, locale),
+        Offset(0, y - 7),
+        _labelGutter - 6,
+      );
     }
 
     // Curve plus its fill.
@@ -184,6 +223,22 @@ class _LoadCurvePainter extends CustomPainter {
       );
     }
 
+    // Time labels under the tick lane: without them the X axis is as mute
+    // as an unlabelled Y axis was.
+    for (var i = 0; i < timeLabels.length && i < 3; i++) {
+      final align = [0.0, 0.5, 1.0][i];
+      final width = 64.0;
+      final x = (plot.left + plot.width * align - width * align)
+          .clamp(0.0, size.width - width);
+      _text(
+        canvas,
+        timeLabels[i],
+        Offset(x, plot.bottom + 12),
+        width,
+        align: align,
+      );
+    }
+
     // "Now" line at the right edge.
     final nowX = xFor(samples.last.at);
     canvas.drawLine(
@@ -229,14 +284,20 @@ class _LoadCurvePainter extends CustomPainter {
     }
   }
 
-  void _text(Canvas canvas, String value, Offset at, double maxWidth) {
+  void _text(
+    Canvas canvas,
+    String value,
+    Offset at,
+    double maxWidth, {
+    double align = 0,
+  }) {
     final painter = TextPainter(
       text: TextSpan(text: value, style: labelStyle),
       textDirection: TextDirection.ltr,
       maxLines: 1,
       ellipsis: '…',
     )..layout(maxWidth: maxWidth);
-    painter.paint(canvas, at);
+    painter.paint(canvas, at.translate((maxWidth - painter.width) * align, 0));
   }
 
   @override
@@ -244,5 +305,6 @@ class _LoadCurvePainter extends CustomPainter {
       old.samples != samples ||
       old.events != events ||
       old.ghostEvents != ghostEvents ||
+      old.timeLabels != timeLabels ||
       old.color != color;
 }

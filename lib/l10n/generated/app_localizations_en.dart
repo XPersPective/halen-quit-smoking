@@ -2118,6 +2118,34 @@ class AppLocalizationsEn extends AppLocalizations {
       'Each spike is a cigarette; the fall after it is your body clearing it. Green marks are the spikes that never happened.';
 
   @override
+  String get loadAxisCaption =>
+      '% of your own peak — a model, not a measurement';
+
+  @override
+  String get loadAxisNow => 'now';
+
+  @override
+  String loadAxisHoursAgo(int hours) {
+    return '$hours h ago';
+  }
+
+  @override
+  String get nowInBodyTitle => 'In your body right now';
+
+  @override
+  String get nowInBodyLast => 'Last cigarette';
+
+  @override
+  String get nowInBodyNever => 'none yet';
+
+  @override
+  String get nowInBodyOpen => 'See the whole picture';
+
+  @override
+  String get nowInBodyEmpty =>
+      'Log your first cigarette and your live curve starts here.';
+
+  @override
   String get glossaryTitle => 'What the words mean';
 
   @override

@@ -59,3 +59,20 @@ String formatShortDuration(Duration d, String localeCode) {
   }
   return minutes == 0 ? '$hours $hourUnit' : '$hours $hourUnit $minutes $minuteUnit';
 }
+
+/// Percent, written the way the locale writes it.
+///
+/// Turkish puts the sign in front ("%71"), English and German put it after
+/// ("71 %" in German, "71%" in English). Hardcoding one of them printed
+/// "%71" to English readers, which reads as a broken template rather than a
+/// number — and these numbers are the headline of the body screens.
+String formatPercent(int value, String localeCode) {
+  final code = localeCode.toLowerCase();
+  if (code.startsWith('tr')) {
+    return '%$value';
+  }
+  if (code.startsWith('de')) {
+    return '$value %';
+  }
+  return '$value%';
+}

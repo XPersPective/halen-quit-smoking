@@ -295,7 +295,13 @@ class ChartLegend extends StatelessWidget {
                 painter: _SwatchPainter(color: s.color, dashed: s.dashed),
               ),
               const SizedBox(width: 6),
-              Text(s.name, style: theme.textTheme.labelMedium),
+              // A series name can be a full Turkish phrase, which on a 360 dp
+              // phone is wider than the card. Let it wrap instead of
+              // overflowing — the legend is what makes the chart readable, so
+              // it is the last thing that should be clipped.
+              Flexible(
+                child: Text(s.name, style: theme.textTheme.labelMedium),
+              ),
             ],
           ),
       ],

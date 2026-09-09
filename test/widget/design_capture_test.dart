@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:halen/core/dates.dart';
 import 'package:halen/data/db/app_database.dart';
@@ -14,40 +11,22 @@ import 'package:halen/presentation/screens/plan/plan_switch_screen.dart';
 import 'package:halen/presentation/screens/sos/ear_acupressure_screen.dart';
 import 'package:halen/presentation/screens/transparency/glossary_screen.dart';
 import 'package:halen/presentation/widgets/indices_card.dart';
+import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
 
+import '../helpers/design_font.dart';
 import '../helpers/pump_app.dart';
 
-/// Headless visual capture of the module screens.
+/// Headless visual capture of the module screens (`screenshots/module/`).
 ///
-/// The existing tour in `screenshots/` was captured by driving the Windows
-/// build with a mouse script, which cannot see any of the screens added
-/// since. This renders them straight from the widget tree instead — no
-/// desktop session, no click coordinates, and it can be re-run in CI.
+/// The main tour lives in `tour_capture_test.dart` and boots the whole app;
+/// this one renders single screens and cards straight, which is how the
+/// pieces that are not reachable as a route get into the tour at all.
 ///
-/// Opt in with:
-///   flutter test test/widget/design_capture_test.dart --update-goldens \
-///     --dart-define=CAPTURE_DESIGN=true \
-///     --dart-define=DESIGN_FONT=`<sdk>`/bin/cache/artifacts/material_fonts/roboto-regular.ttf
-///
-/// Without the defines it is a smoke test: every screen must build and paint
-/// without throwing, which is worth having on its own.
+/// Same opt-in as the tour:
+///   flutter test test/widget/design_capture_test.dart --update-goldens
+///   --dart-define=CAPTURE_DESIGN=true --dart-define=DESIGN_FONT=...
 void main() {
-  const capture = bool.fromEnvironment('CAPTURE_DESIGN');
-
-  setUpAll(() async {
-    const font = String.fromEnvironment('DESIGN_FONT');
-    if (font.isEmpty) {
-      return;
-    }
-    final loader = FontLoader('Roboto');
-    loader.addFont(
-      Future.value(ByteData.sublistView(await File(font).readAsBytes())),
-    );
-    await loader.load();
-    final icons = FontLoader('MaterialIcons');
-    icons.addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
-    await icons.load();
-  });
+  setUpAll(loadDesignFonts);
 
   late AppDatabase db;
 
@@ -114,7 +93,7 @@ void main() {
     }
     expect(tester.takeException(), isNull, reason: name);
 
-    if (capture) {
+    if (captureDesign) {
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('../../screenshots/module/$name.png'),
@@ -142,12 +121,12 @@ void main() {
     );
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    await tester.tap(find.text('Lungs'));
+    await tester.tap(find.bySemanticsLabel('Lungs').first);
     for (var i = 0; i < 12; i++) {
       await tester.pump(const Duration(milliseconds: 80));
     }
     expect(tester.takeException(), isNull);
-    if (capture) {
+    if (captureDesign) {
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('../../screenshots/module/27-organ-detay.png'),
@@ -165,4 +144,8 @@ void main() {
     (t) => shot(t, '24-kulak-akupresuru', const EarAcupressureScreen()),
   );
   testWidgets('glossary', (t) => shot(t, '25-sozluk', const GlossaryScreen()));
+  testWidgets(
+    'now in body',
+    (t) => shot(t, '28-su-an-vucudunda', const NowInBodyStrip()),
+  );
 }

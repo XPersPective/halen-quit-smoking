@@ -932,3 +932,37 @@ Android M3 ileri-solma kullanır; kartlar kademeli girişle belirir.
 8. **"İçtim" sessizleşmedir, "Atladım" açılmadır**; ceza yok, konfeti yok, gerçek veri var (§12).
 9. **İki indeks, iki hız:** İlerleme davranışı ölçer ve hızlı hareket eder; Zarar Yükü geçmişi taşır ve yavaş düşer. Makas metaforu kullanıcıya öğretilir (§14).
 10. **Hiçbir olumsuz içerik, "ne yapabilirsin" olmadan yayımlanamaz** — korku ancak öz-yeterlikle birlikte işe yarar ve bu kural kodda zorunlu alan olarak yaşar (§11).
+
+### Beşinci geçiş — ana ekran, eksenler ve organ çizimi
+
+Kullanıcı geri bildirimi: *"hemen baktığın zaman kandaki nikotin oranını,
+sağlık durumunu, böbrekleri vesaire ayrı güzel grafiklerle hemen
+görebilmesi gerekiyor… bir grafik koyuyorsan grafiğin y ekseninin
+anlamı yoksa bir anlamı yok… organı kaba taslak çizemezsin."*
+
+Üç şey değişti.
+
+**1. Model ana ekrana taşındı.** §1'in vücut yükü modeli doğruydu ama
+Grafikler sekmesinde, ikinci kartta duruyordu. İnsanın uygulamayı açarken
+sorduğu ilk soru "ne kadarı hâlâ içimde" olduğu için cevabın indiği yerde
+olması gerekiyordu: Bugün ekranının üstünde nikotin, oksijen borcu ve son
+sigaradan bu yana geçen süre, üç büyük sayı ve 24 saatlik eğri olarak. Kart
+her 30 saniyede saati yeniden okur.
+
+**2. Y ekseni numaralandı — ama uydurulmadan.** Rapor §1.④ ekseni bant
+adlarıyla (Düşük/Orta/Yüksek) etiketliyordu; bu S5'ten kaçınmak için
+alınmış doğru bir karardı ama sonucu, sayısı olmayan bir eksendi. Çözüm
+konsantrasyon üretmek değil, **modelin dürüstçe üretebildiği tek birimi
+yazmak**: *kişinin kendi 24 saatlik zirvesinin yüzdesi*. Bu birim
+kendine-göreli olduğu için ng/mL, COHb% veya mg iddiası doğurmaz; S5 sınırı
+korunur, eksen ise artık bir şey söyler. X ekseni de etiketlendi.
+
+**3. Organlar çizildi.** §7.④'ün nokta işaretçileri, `OrganShapes` içinde
+vektör organ şekilleriyle değiştirildi (akciğer, kalp, beyin, karaciğer,
+mide, böbrekler, ağız). İki kural korundu: şekiller **çağrıştırıcıdır,
+klinik plaka değildir** ve **hiçbiri hastalıklı çizilmez**; tek bir şekli
+olmayan sistemler (damarlar, bağışıklık, cilt, gözler, üreme) gövdede sahte
+bir anatomi almak yerine kendi satırına taşındı. Her organ kendi ritminde
+hareket eder — akciğer nefes alır, kalp lub-dub yapar — çünkü tek ortak
+titreşim haritanın şema gibi durmasının sebebiydi.
+

@@ -11,6 +11,7 @@ import '../../../domain/health_timeline.dart';
 import '../../../domain/lung_model.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/body_map_view.dart';
+import '../../widgets/organ_shapes.dart';
 import '../../widgets/charts/halen_line_chart.dart';
 import '../../widgets/lung_view.dart';
 
@@ -243,23 +244,30 @@ class _OrgansTabState extends ConsumerState<_OrgansTab> {
                 ),
         ),
 
-        if (selected == null) ...[
-          Text(l10n.organPopulationNote, style: theme.textTheme.bodySmall),
-          const SizedBox(height: 12),
-          // A compact index of the same organs, so the screen still works
-          // for someone who would rather read a list than tap a figure.
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              for (final organ in organs)
+        // Whole-body systems have no organ to point at, so they get a row of
+        // their own instead of a meaningless dot somewhere on the figure.
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final key in BodyMapView.diffuse)
+              for (final organ in organs.where((o) => o.key == key))
                 ActionChip(
+                  avatar: Icon(
+                    Icons.blur_on_rounded,
+                    size: 18,
+                    color: theme.colorScheme.primary,
+                  ),
                   label: Text(organ.name(locale)),
-                  onPressed: () => setState(() => _selected = organ.key),
+                  onPressed: () => setState(
+                    () => _selected = _selected == organ.key ? null : organ.key,
+                  ),
                 ),
-            ],
-          ),
-        ],
+          ],
+        ),
+        const SizedBox(height: 16),
+        if (selected == null)
+          Text(l10n.organPopulationNote, style: theme.textTheme.bodySmall),
       ],
     );
   }
@@ -292,7 +300,26 @@ class _OrganDetail extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(organ.name(locale), style: theme.textTheme.titleLarge),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // The organ at a size where the drawing actually reads as
+                // one. On the map it is a marker; here it is the subject.
+                OrganGlyph(
+                  organKey: organ.key,
+                  color: HalenColors.amberCta,
+                  size: const Size(84, 84),
+                ),
+                if (OrganShapes.drawn.contains(organ.key))
+                  const SizedBox(width: 14),
+                Expanded(
+                  child: Text(
+                    organ.name(locale),
+                    style: theme.textTheme.titleLarge,
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 12),
             if (!impact.isEmpty) ...[
               OrganImpactBar(

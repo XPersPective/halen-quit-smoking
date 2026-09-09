@@ -1208,6 +1208,21 @@
   "mindLegendFelt": "What you said",
   "loadBandMeaning": "One bar per day: the taller the bar, the more your body carried that day. The cap is that day's peak.",
   "bodyLoadMeaning": "Each spike is a cigarette; the fall after it is your body clearing it. Green marks are the spikes that never happened.",
+  "loadAxisCaption": "% of your own peak — a model, not a measurement",
+  "loadAxisNow": "now",
+  "loadAxisHoursAgo": "{hours} h ago",
+  "@loadAxisHoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "nowInBodyTitle": "In your body right now",
+  "nowInBodyLast": "Last cigarette",
+  "nowInBodyNever": "none yet",
+  "nowInBodyOpen": "See the whole picture",
+  "nowInBodyEmpty": "Log your first cigarette and your live curve starts here.",
   "glossaryTitle": "What the words mean",
   "glossaryIntro": "Every term this app uses, in one line each. No jargon, no small print.",
   "glossaryOpen": "What do these words mean?",

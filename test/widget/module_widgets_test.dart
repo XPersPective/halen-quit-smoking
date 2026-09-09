@@ -17,6 +17,7 @@ import 'package:halen/presentation/widgets/daily_card_tile.dart';
 import 'package:halen/presentation/widgets/indices_card.dart';
 import 'package:halen/presentation/widgets/mind_state_card.dart';
 import 'package:halen/presentation/widgets/sos_techniques_list.dart';
+import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
 
 import '../helpers/pump_app.dart';
 
@@ -194,6 +195,44 @@ void main() {
     await disposeApp(tester);
   });
 
+  testWidgets('the home strip answers "how much is still in me", in a unit',
+      (tester) async {
+    await seedProfile();
+    await seedEvents(6);
+    await pumpModuleWidget(tester, db: db, child: const NowInBodyStrip());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    final l10n = await AppLocalizations.delegate.load(const Locale('en'));
+    expect(find.text(l10n.nowInBodyTitle), findsOneWidget);
+
+    // The three headline readouts, and — the point of the card — an axis
+    // that says what its numbers mean.
+    expect(find.text(l10n.loadNicotineAcute), findsOneWidget);
+    expect(find.text(l10n.loadCarbonMonoxide), findsOneWidget);
+    expect(find.text(l10n.nowInBodyLast), findsOneWidget);
+    expect(find.text(l10n.loadAxisCaption), findsOneWidget);
+
+    // A percentage is shown, and it is written the way English writes one.
+    expect(find.textContaining(RegExp(r'^\d+%$')), findsWidgets);
+
+    await disposeApp(tester);
+  });
+
+  testWidgets('with no records the strip invites one instead of showing zero',
+      (tester) async {
+    await seedProfile();
+    await pumpModuleWidget(tester, db: db, child: const NowInBodyStrip());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    final l10n = await AppLocalizations.delegate.load(const Locale('en'));
+    expect(find.text(l10n.nowInBodyEmpty), findsOneWidget);
+    expect(find.text(l10n.loadAxisCaption), findsNothing);
+
+    await disposeApp(tester);
+  });
+
   testWidgets('the body map opens an organ with its impact and recovery',
       (tester) async {
     await seedProfile();
@@ -212,7 +251,7 @@ void main() {
     expect(find.text(l10n.organTapHint), findsOneWidget);
     expect(find.text(l10n.organRecoveryTitle), findsNothing);
 
-    await tester.tap(find.text('Lungs'));
+    await tester.tap(find.bySemanticsLabel('Lungs').first);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
 

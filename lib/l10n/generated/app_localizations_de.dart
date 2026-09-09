@@ -2126,6 +2126,34 @@ class AppLocalizationsDe extends AppLocalizations {
       'Jede Spitze ist eine Zigarette; der Abfall danach ist der Abbau. Grüne Marken sind Spitzen, die nie entstanden.';
 
   @override
+  String get loadAxisCaption =>
+      '% deines eigenen Höchstwerts — ein Modell, keine Messung';
+
+  @override
+  String get loadAxisNow => 'jetzt';
+
+  @override
+  String loadAxisHoursAgo(int hours) {
+    return 'vor $hours Std.';
+  }
+
+  @override
+  String get nowInBodyTitle => 'Gerade in deinem Körper';
+
+  @override
+  String get nowInBodyLast => 'Letzte Zigarette';
+
+  @override
+  String get nowInBodyNever => 'noch keine';
+
+  @override
+  String get nowInBodyOpen => 'Das ganze Bild ansehen';
+
+  @override
+  String get nowInBodyEmpty =>
+      'Trag die erste Zigarette ein, dann beginnt hier deine Live-Kurve.';
+
+  @override
   String get glossaryTitle => 'Was die Begriffe bedeuten';
 
   @override
