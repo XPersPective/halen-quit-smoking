@@ -91,7 +91,7 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
                   tooltip: l10n.commonHowCalculated,
                   icon: const Icon(Icons.help_outline_rounded, size: 20),
                   onPressed: () =>
-                      Navigator.of(context).pushNamed(Routes.howCalculated),
+                      Navigator.of(context).pushNamed(Routes.glossary),
                 ),
               ],
             ),

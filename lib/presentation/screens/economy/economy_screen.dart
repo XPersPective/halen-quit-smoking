@@ -11,7 +11,7 @@ import '../../../core/dates.dart';
 import '../../../core/theme.dart';
 import '../../../domain/economy.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../widgets/charts/two_line_area_chart.dart';
+import '../../widgets/charts/halen_line_chart.dart';
 
 /// Money and time (module report §3).
 ///
@@ -31,6 +31,10 @@ class EconomyScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final locale = Localizations.localeOf(context).toString();
     final money = NumberFormat.currency(locale: locale, decimalDigits: 0);
+    // Axis ticks get the compact form: a full currency string wraps inside
+    // the gutter and collides with the line above it.
+    final compactMoney =
+        NumberFormat.compactCurrency(locale: locale, decimalDigits: 0);
 
     final economy = ref.watch(economyProvider).value;
     final profile = ref.watch(smokingProfileProvider).value;
@@ -56,7 +60,7 @@ class EconomyScreen extends ConsumerWidget {
     final currentCpd = recentCounts.isEmpty
         ? baseline
         : recentCounts.fold<int>(0, (s, d) => s + d.count) /
-            recentCounts.length;
+              recentCounts.length;
 
     // The plan path: the pace's weekly reduction rate applied from today.
     final planPath = <double>[];
@@ -110,36 +114,38 @@ class EconomyScreen extends ConsumerWidget {
           _Equivalent(saved: saved),
           const SizedBox(height: 28),
 
-          Text(
-            l10n.economyProjectionTitle,
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: 12),
-          TwoLineAreaChart(
-            upper: [for (final p in projection) p.keepThisPace],
-            lower: [for (final p in projection) p.finishThePlan],
-            upperColor: HalenColors.textSecondaryLight,
-            lowerColor: HalenColors.emerald,
-            axisLabels: const ['0', '6', '12'],
-            semanticsLabel:
-                '${l10n.economyProjectionTitle}: ${money.format(gap)}',
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  l10n.economyShadedArea,
-                  style: theme.textTheme.bodyMedium,
-                ),
+          ChartCard(
+            title: l10n.economyProjectionTitle,
+            trailing: Text(
+              money.format(gap),
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: HalenColors.emerald,
               ),
-              Text(
-                money.format(gap),
-                style: theme.textTheme.titleLarge?.copyWith(
+            ),
+            footnote: l10n.economyShadedArea,
+            child: HalenLineChart(
+              meaning: l10n.economyMeaning,
+              shadeBetween: true,
+              minY: 0,
+              yFormatter: compactMoney.format,
+              tooltipFormatter: money.format,
+              yLabelWidth: 72,
+              series: [
+                ChartSeries(
+                  name: l10n.economyKeepPace,
+                  color: HalenColors.textSecondaryLight,
+                  values: [for (final p in projection) p.keepThisPace],
+                ),
+                ChartSeries(
+                  name: l10n.economyFinishPlan,
                   color: HalenColors.emerald,
+                  values: [for (final p in projection) p.finishThePlan],
                 ),
-              ),
-            ],
+              ],
+              xLabels: const ['0', '6', '12'],
+              semanticsLabel:
+                  '${l10n.economyProjectionTitle}: ${money.format(gap)}',
+            ),
           ),
           const SizedBox(height: 28),
 
@@ -171,10 +177,7 @@ class EconomyScreen extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            l10n.economyLifeAverageNote,
-            style: theme.textTheme.labelSmall,
-          ),
+          Text(l10n.economyLifeAverageNote, style: theme.textTheme.labelSmall),
           const SizedBox(height: 28),
 
           _GoalSection(
@@ -262,10 +265,11 @@ class _Amount extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             value,
-            style: (emphasize
-                    ? theme.textTheme.headlineMedium
-                    : theme.textTheme.titleMedium)
-                ?.copyWith(color: color),
+            style:
+                (emphasize
+                        ? theme.textTheme.headlineMedium
+                        : theme.textTheme.titleMedium)
+                    ?.copyWith(color: color),
           ),
         ],
       ),
@@ -308,10 +312,7 @@ class _GoalSectionState extends ConsumerState<_GoalSection> {
             if (goal == null) ...[
               Text(l10n.economyGoalHint, style: theme.textTheme.bodyMedium),
               const SizedBox(height: 12),
-              FilledButton(
-                onPressed: _editGoal,
-                child: Text(l10n.commonEdit),
-              ),
+              FilledButton(onPressed: _editGoal, child: Text(l10n.commonEdit)),
             ] else ...[
               Text(goal.label, style: theme.textTheme.titleLarge),
               const SizedBox(height: 10),
@@ -340,8 +341,10 @@ class _GoalSectionState extends ConsumerState<_GoalSection> {
               ),
               Builder(
                 builder: (context) {
-                  final days =
-                      goal.daysRemaining(widget.saved, widget.dailySaving);
+                  final days = goal.daysRemaining(
+                    widget.saved,
+                    widget.dailySaving,
+                  );
                   if (days == null) {
                     return const SizedBox.shrink();
                   }
@@ -360,8 +363,9 @@ class _GoalSectionState extends ConsumerState<_GoalSection> {
 
   Future<void> _editGoal() async {
     final l10n = AppLocalizations.of(context)!;
-    final labelController =
-        TextEditingController(text: widget.goal?.label ?? '');
+    final labelController = TextEditingController(
+      text: widget.goal?.label ?? '',
+    );
     final amountController = TextEditingController(
       text: widget.goal?.amount.toStringAsFixed(0) ?? '',
     );
@@ -404,9 +408,9 @@ class _GoalSectionState extends ConsumerState<_GoalSection> {
     if (amount == null || amount <= 0 || labelController.text.trim().isEmpty) {
       return;
     }
-    await ref.read(databaseProvider).moduleDao.setSavingsGoal(
-          label: labelController.text.trim(),
-          amount: amount,
-        );
+    await ref
+        .read(databaseProvider)
+        .moduleDao
+        .setSavingsGoal(label: labelController.text.trim(), amount: amount);
   }
 }

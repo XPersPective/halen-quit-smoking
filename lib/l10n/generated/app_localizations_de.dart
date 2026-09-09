@@ -2073,4 +2073,115 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get notifRiskyWindowBody =>
       'Zwanzig Minuten. Ein kurzer Spaziergang jetzt wirkt besser als Willenskraft später.';
+
+  @override
+  String get chartLast30Days => 'Letzte 30 Tage';
+
+  @override
+  String get chartToday => 'heute';
+
+  @override
+  String chartDaysAgo(int days) {
+    return 'vor $days T';
+  }
+
+  @override
+  String get chartNotEnoughYet =>
+      'Noch ein paar Tage, dann erscheint diese Linie.';
+
+  @override
+  String get indicesProgressLegend => 'Fortschritt — höher ist besser';
+
+  @override
+  String get indicesHarmLegend => 'Schadenslast — niedriger ist besser';
+
+  @override
+  String get indicesMeaning =>
+      'Die grüne Linie ist dein Verhalten, die graue deine Last. Grün hoch und grau runter ist die Richtung, die zählt.';
+
+  @override
+  String get economyMeaning =>
+      'Beide Linien zeigen die Ausgaben im nächsten Jahr. Die untere ist der Plan; die schraffierte Fläche bleibt dir.';
+
+  @override
+  String get lungsMeaning =>
+      'Typische Lungenfunktion deiner Altersgruppe in drei Zukünften. Höher ist besser.';
+
+  @override
+  String get mindMeaning =>
+      'Was die App schätzte, gegen das, was du sagtest. Wo die Linien auseinandergehen, lag sie falsch.';
+
+  @override
+  String get mindLegendGuess => 'Meine Schätzung';
+
+  @override
+  String get mindLegendFelt => 'Was du sagtest';
+
+  @override
+  String get loadBandMeaning =>
+      'Ein Balken pro Tag: je höher, desto mehr trug dein Körper. Der Strich ist der Tageshöchstwert.';
+
+  @override
+  String get bodyLoadMeaning =>
+      'Jede Spitze ist eine Zigarette; der Abfall danach ist der Abbau. Grüne Marken sind Spitzen, die nie entstanden.';
+
+  @override
+  String get glossaryTitle => 'Was die Begriffe bedeuten';
+
+  @override
+  String get glossaryIntro =>
+      'Jeder Begriff dieser App in einem Satz. Kein Fachjargon.';
+
+  @override
+  String get glossaryOpen => 'Was bedeuten diese Begriffe?';
+
+  @override
+  String get glossaryProgress =>
+      'Wie gut du tust, was du dir vorgenommen hast, von 100. Blickt auf zwei Wochen und bewegt sich bewusst langsam.';
+
+  @override
+  String get glossaryHarm =>
+      'Wie viel Rauchen dein Körper trägt, von 100. Reduzieren senkt etwa die Hälfte.';
+
+  @override
+  String get glossaryBodyLoad =>
+      'Eine Schätzung dessen, was von deinen Zigaretten noch in dir ist. Berechnet — keine Messung.';
+
+  @override
+  String get glossaryCo =>
+      'Das Gas im Rauch, das den Sauerstoff im Blut verdrängt. Es verschwindet am schnellsten.';
+
+  @override
+  String get glossaryTarLoad =>
+      'Wie deine Partikelbelastung zu deinem eigenen Normal steht. Ein Vergleich, keine Menge.';
+
+  @override
+  String get glossaryCravingWindow =>
+      'Die Stunden, in denen du am häufigsten greifst — aus deinen Einträgen gelernt.';
+
+  @override
+  String get glossaryAdherence =>
+      'Der Anteil der Tage, an denen du im Plan geblieben bist.';
+
+  @override
+  String get glossaryPackYears =>
+      'Ein Standardmaß: eine Schachtel täglich für ein Jahr ist ein Packungsjahr.';
+
+  @override
+  String get glossaryWithdrawalPressure =>
+      'Eine Schätzung, wie schwer der Tag wird. Nur du weißt es — und dein Feedback lehrt die App.';
+
+  @override
+  String get glossaryEvidence =>
+      'Wie stark die Evidenz ist: stark, vielversprechend oder traditionell ohne Beleg.';
+
+  @override
+  String get glossarySoftTaper =>
+      'Den Abstand zwischen Zigaretten in kleinen, haltbaren Schritten vergrößern.';
+
+  @override
+  String get glossaryTermSoftTaper => 'Sanfte Reduktion';
+
+  @override
+  String get glossaryTermPackYears => 'Packungsjahre';
 }

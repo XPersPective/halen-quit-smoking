@@ -6,7 +6,7 @@ import '../../application/providers.dart';
 import '../../core/theme.dart';
 import '../../domain/body_load_model.dart';
 import '../../l10n/generated/app_localizations.dart';
-import 'charts/two_line_area_chart.dart';
+import 'charts/halen_line_chart.dart';
 
 /// The quit-day card (module report §1.③).
 ///
@@ -50,28 +50,33 @@ class QuitDayCoCard extends ConsumerWidget {
             const SizedBox(height: 4),
             Text(
               '${l10n.loadCarbonMonoxide} · ${100 - curve[now]}%',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(color: HalenColors.skyBlue),
+              style: theme.textTheme.headlineSmall?.copyWith(
+                color: HalenColors.skyBlue,
+              ),
             ),
             const SizedBox(height: 12),
-            TwoLineAreaChart(
-              // The single curve is drawn against a flat floor so the shaded
-              // area reads as "what has already left".
-              upper: [for (final v in curve) v.toDouble()],
-              lower: List<double>.filled(curve.length, 0),
-              upperColor: HalenColors.skyBlue,
-              lowerColor: HalenColors.skyBlue.withValues(alpha: 0.2),
-              height: 120,
-              axisLabels: [
+            HalenLineChart(
+              meaning: l10n.quitDayCoBody,
+              minY: 0,
+              maxY: 100,
+              height: 150,
+              yFormatter: (v) => '${v.round()}%',
+              series: [
+                ChartSeries(
+                  name: l10n.loadCarbonMonoxide,
+                  color: HalenColors.skyBlue,
+                  fill: true,
+                  values: [for (final v in curve) v.toDouble()],
+                ),
+              ],
+              xLabels: [
                 l10n.quitDayHoursAxis(0),
+                l10n.quitDayHoursAxis((curve.length - 1) ~/ 2),
                 l10n.quitDayHoursAxis(curve.length - 1),
               ],
-              semanticsLabel:
-                  '${l10n.quitDayCoTitle}: ${100 - curve[now]}%',
+              semanticsLabel: '${l10n.quitDayCoTitle}: ${100 - curve[now]}%',
             ),
             const SizedBox(height: 10),
-            Text(l10n.quitDayCoBody, style: theme.textTheme.bodyMedium),
-            const SizedBox(height: 8),
             Text(l10n.moduleModelTag, style: theme.textTheme.labelSmall),
           ],
         ),

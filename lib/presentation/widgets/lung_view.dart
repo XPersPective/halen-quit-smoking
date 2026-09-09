@@ -173,18 +173,18 @@ class _LungPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
     final cx = size.width / 2;
     canvas.drawLine(
-      Offset(cx, size.height * 0.08),
-      Offset(cx, size.height * 0.42),
+      Offset(cx, size.height * 0.10),
+      Offset(cx, size.height * 0.36),
       airway,
     );
     canvas.drawLine(
-      Offset(cx, size.height * 0.42),
-      Offset(size.width * 0.34, size.height * 0.55),
+      Offset(cx, size.height * 0.36),
+      Offset(size.width * 0.36, size.height * 0.50),
       airway,
     );
     canvas.drawLine(
-      Offset(cx, size.height * 0.42),
-      Offset(size.width * 0.66, size.height * 0.55),
+      Offset(cx, size.height * 0.36),
+      Offset(size.width * 0.64, size.height * 0.50),
       airway,
     );
 
@@ -197,18 +197,20 @@ class _LungPainter extends CustomPainter {
     final h = size.height;
     final path = Path();
 
-    // Left lobe.
-    path.moveTo(w * 0.46, h * 0.34);
-    path.cubicTo(w * 0.30, h * 0.32, w * 0.16, h * 0.48, w * 0.18, h * 0.70);
-    path.cubicTo(w * 0.19, h * 0.86, w * 0.30, h * 0.94, w * 0.40, h * 0.90);
-    path.cubicTo(w * 0.47, h * 0.87, w * 0.47, h * 0.70, w * 0.46, h * 0.34);
+    // Left lobe: narrow at the apex, widest low down, notched towards the
+    // heart — the silhouette people recognise, without pretending to be an
+    // anatomical illustration.
+    path.moveTo(w * 0.455, h * 0.30);
+    path.cubicTo(w * 0.36, h * 0.31, w * 0.20, h * 0.44, w * 0.19, h * 0.66);
+    path.cubicTo(w * 0.185, h * 0.84, w * 0.28, h * 0.93, w * 0.385, h * 0.89);
+    path.cubicTo(w * 0.45, h * 0.865, w * 0.455, h * 0.72, w * 0.455, h * 0.30);
     path.close();
 
     // Right lobe (mirrored).
-    path.moveTo(w * 0.54, h * 0.34);
-    path.cubicTo(w * 0.70, h * 0.32, w * 0.84, h * 0.48, w * 0.82, h * 0.70);
-    path.cubicTo(w * 0.81, h * 0.86, w * 0.70, h * 0.94, w * 0.60, h * 0.90);
-    path.cubicTo(w * 0.53, h * 0.87, w * 0.53, h * 0.70, w * 0.54, h * 0.34);
+    path.moveTo(w * 0.545, h * 0.30);
+    path.cubicTo(w * 0.64, h * 0.31, w * 0.80, h * 0.44, w * 0.81, h * 0.66);
+    path.cubicTo(w * 0.815, h * 0.84, w * 0.72, h * 0.93, w * 0.615, h * 0.89);
+    path.cubicTo(w * 0.55, h * 0.865, w * 0.545, h * 0.72, w * 0.545, h * 0.30);
     path.close();
 
     return path;

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:halen/core/dates.dart';
 import 'package:halen/domain/craving_risk.dart';
 import 'package:halen/domain/harm_load.dart';
 import 'package:halen/domain/progress_index.dart';
@@ -207,6 +208,26 @@ void main() {
         ),
         3,
       );
+    });
+  });
+
+  group('short duration formatting', () {
+    test('minutes below an hour', () {
+      expect(formatShortDuration(const Duration(minutes: 40), 'en'), '40 m');
+      expect(formatShortDuration(const Duration(minutes: 40), 'tr'), '40 dk');
+    });
+
+    test('hours drop a trailing zero minutes', () {
+      expect(formatShortDuration(const Duration(hours: 6), 'en'), '6 h');
+      expect(
+        formatShortDuration(const Duration(hours: 6, minutes: 20), 'tr'),
+        '6 sa 20 dk',
+      );
+    });
+
+    test('long spans switch to days, because 465 h is not readable', () {
+      expect(formatShortDuration(const Duration(hours: 465), 'en'), '19 d 9 h');
+      expect(formatShortDuration(const Duration(days: 3), 'tr'), '3 g');
     });
   });
 }

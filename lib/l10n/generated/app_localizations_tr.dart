@@ -2060,4 +2060,113 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get notifRiskyWindowBody =>
       'Yirmi dakika var. Şimdi kısa bir yürüyüş, sonra irade göstermekten iyi çalışıyor.';
+
+  @override
+  String get chartLast30Days => 'Son 30 gün';
+
+  @override
+  String get chartToday => 'bugün';
+
+  @override
+  String chartDaysAgo(int days) {
+    return '$days gün önce';
+  }
+
+  @override
+  String get chartNotEnoughYet => 'Birkaç gün daha, sonra bu çizgi belirecek.';
+
+  @override
+  String get indicesProgressLegend => 'İlerleme — yüksek olması iyi';
+
+  @override
+  String get indicesHarmLegend => 'Zarar Yükü — düşük olması iyi';
+
+  @override
+  String get indicesMeaning =>
+      'Yeşil çizgi ne yaptığın. Gri çizgi ne taşıdığın. Yeşil yukarı, gri aşağı — asıl bakman gereken yön bu.';
+
+  @override
+  String get economyMeaning =>
+      'İki çizgi de önümüzdeki bir yılda harcanan para. Alttaki plan; taralı alan, planı bitirirsen cebinde kalan.';
+
+  @override
+  String get lungsMeaning =>
+      'Yaş grubun için üç farklı gelecekte tipik akciğer fonksiyonu. Yüksek olması iyi; üstteki iki çizginin arası bırakmanın değeri.';
+
+  @override
+  String get mindMeaning =>
+      'Uygulamanın tahmini ile senin söylediğin. Çizgilerin ayrıldığı yerde tahmin yanlıştı.';
+
+  @override
+  String get mindLegendGuess => 'Tahminim';
+
+  @override
+  String get mindLegendFelt => 'Senin söylediğin';
+
+  @override
+  String get loadBandMeaning =>
+      'Her gün için bir sütun: sütun ne kadar uzunsa o gün vücudunun taşıdığı yük o kadar fazla. Üstteki çizgi o günün tepesi.';
+
+  @override
+  String get bodyLoadMeaning =>
+      'Her diş bir sigara; sonrasındaki düşüş vücudunun onu temizlemesi. Yeşil işaretler hiç oluşmayan dişler.';
+
+  @override
+  String get glossaryTitle => 'Kelimeler ne demek';
+
+  @override
+  String get glossaryIntro =>
+      'Uygulamanın kullandığı her terim, birer satırda. Jargon yok, küçük punto yok.';
+
+  @override
+  String get glossaryOpen => 'Bu kelimeler ne demek?';
+
+  @override
+  String get glossaryProgress =>
+      'Yapmaya karar verdiğin şeyi ne kadar yaptığın, 100 üzerinden. Son iki haftana bakar ve bilerek yavaş hareket eder.';
+
+  @override
+  String get glossaryHarm =>
+      'Vücudunun taşıdığı sigara yükü, 100 üzerinden. Azaltmak bunun yaklaşık yarısını düşürür; kalanı yalnızca zamanla hafifleyen geçmişin.';
+
+  @override
+  String get glossaryBodyLoad =>
+      'Kaydettiğin sigaralardan sende hâlâ ne kaldığının tahmini. Hesaplanır, ölçülmez.';
+
+  @override
+  String get glossaryCo =>
+      'Dumandaki, kanında oksijenin yerini alan gaz. En hızlı o çıkar — genelde bir gün içinde.';
+
+  @override
+  String get glossaryTarLoad =>
+      'Partikül maruziyetinin kendi normal düzeyine göre durumu. Bir karşılaştırmadır, miktar değil.';
+
+  @override
+  String get glossaryCravingWindow =>
+      'Kendi kayıtlarından öğrenilen, en sık sigaraya uzandığın saatler.';
+
+  @override
+  String get glossaryAdherence => 'Planının içinde kaldığın günlerin oranı.';
+
+  @override
+  String get glossaryPackYears =>
+      'İçim geçmişini toplamanın standart yolu: bir yıl boyunca günde bir paket, bir paket-yılıdır.';
+
+  @override
+  String get glossaryWithdrawalPressure =>
+      'Bugünün ne kadar zor geçebileceğine dair bir tahmin. Doğru olup olmadığını sen bilirsin; söylemen onu eğitir.';
+
+  @override
+  String get glossaryEvidence =>
+      'Bir önerinin arkasındaki bilimin gücü: güçlü, umut verici veya kanıtı olmayan geleneksel.';
+
+  @override
+  String get glossarySoftTaper =>
+      'Sigaralar arasını, gerçekten sürdürebileceğin küçük adımlarla açmak.';
+
+  @override
+  String get glossaryTermSoftTaper => 'Yumuşak geçiş';
+
+  @override
+  String get glossaryTermPackYears => 'Paket-yılı';
 }

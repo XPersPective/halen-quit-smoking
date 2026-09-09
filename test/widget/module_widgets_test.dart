@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:halen/data/db/app_database.dart';
+import 'package:halen/core/dates.dart';
 import 'package:halen/data/db/connection.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
@@ -9,6 +10,7 @@ import 'package:halen/presentation/screens/articles/sources_screen.dart';
 import 'package:halen/presentation/screens/body/body_screen.dart';
 import 'package:halen/presentation/screens/economy/economy_screen.dart';
 import 'package:halen/presentation/screens/plan/plan_switch_screen.dart';
+import 'package:halen/presentation/screens/transparency/glossary_screen.dart';
 import 'package:halen/presentation/widgets/body_load_card.dart';
 import 'package:halen/presentation/widgets/craving_window_card.dart';
 import 'package:halen/presentation/widgets/daily_card_tile.dart';
@@ -109,8 +111,11 @@ void main() {
     final l10n = await AppLocalizations.delegate.load(const Locale('en'));
     expect(find.text(l10n.progressScoreTitle), findsOneWidget);
     expect(find.text(l10n.harmLoadTitle), findsOneWidget);
-    expect(find.text(l10n.harmNotRisk), findsOneWidget);
+    // The honesty lines now live in each card's footnote.
+    expect(find.textContaining(l10n.harmNotRisk), findsOneWidget);
     expect(find.text(l10n.progressBehaviourNote), findsWidgets);
+    // Both readouts are named, banded and openable rather than bare numbers.
+    expect(find.text(l10n.indicesBreakdownTitle), findsWidgets);
 
     await disposeApp(tester);
   });
@@ -304,6 +309,72 @@ void main() {
       expect(find.text(l10n.dailyCardAction), findsOneWidget);
     }
     expect(find.textContaining(l10n.moduleSourceLabel), findsOneWidget);
+
+    await disposeApp(tester);
+  });
+
+  testWidgets('the glossary explains every term in one plain sentence',
+      (tester) async {
+    await seedProfile();
+    await pumpModuleWidget(
+      tester,
+      db: db,
+      child: const GlossaryScreen(),
+      scrollable: false,
+    );
+    await tester.pumpAndSettle();
+
+    final l10n = await AppLocalizations.delegate.load(const Locale('en'));
+    expect(find.text(l10n.glossaryIntro), findsOneWidget);
+    // The terms a user meets first are the ones explained first.
+    expect(find.text(l10n.progressScoreTitle), findsOneWidget);
+    expect(find.text(l10n.harmLoadTitle), findsOneWidget);
+    expect(find.text(l10n.glossaryProgress), findsOneWidget);
+    // Every explanation is a single sentence — no jargon dumps.
+    for (final meaning in [
+      l10n.glossaryProgress,
+      l10n.glossaryHarm,
+      l10n.glossaryBodyLoad,
+      l10n.glossaryCo,
+    ]) {
+      expect(meaning.split('. ').length, lessThanOrEqualTo(2), reason: meaning);
+    }
+
+    await disposeApp(tester);
+  });
+
+  testWidgets('the indices lead with a gauge, a banded scale and a legend',
+      (tester) async {
+    await seedProfile();
+    await seedEvents(10);
+    // Two earlier snapshots so the 30-day trend has something to draw; with
+    // a single day it correctly says so instead.
+    for (var d = 2; d >= 1; d--) {
+      final day = DateTime.now().subtract(Duration(days: d));
+      await db.moduleDao.putIndexSnapshot(
+        date: dayKey(day),
+        progressScore: 40 + d,
+        harmLoad: 70 - d,
+      );
+    }
+    await pumpModuleWidget(tester, db: db, child: const IndicesCard());
+    await tester.pumpAndSettle();
+
+    final l10n = await AppLocalizations.delegate.load(const Locale('en'));
+    // Every band of the load scale is named on screen — a load without its
+    // bands is a number nobody can read.
+    for (final band in [
+      l10n.harmBandLight,
+      l10n.harmBandModerate,
+      l10n.harmBandHeavy,
+      l10n.harmBandVeryHeavy,
+    ]) {
+      expect(find.text(band), findsWidgets, reason: band);
+    }
+    // The trend chart names both lines and says which way is good.
+    expect(find.text(l10n.indicesProgressLegend), findsOneWidget);
+    expect(find.text(l10n.indicesHarmLegend), findsOneWidget);
+    expect(find.text(l10n.indicesMeaning), findsOneWidget);
 
     await disposeApp(tester);
   });

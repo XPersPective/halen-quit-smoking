@@ -24,6 +24,7 @@ import 'presentation/screens/sos/ear_acupressure_screen.dart';
 import 'presentation/screens/splash_screen.dart';
 import 'presentation/screens/timeline/health_timeline_screen.dart';
 import 'presentation/screens/today/record_detail_screen.dart';
+import 'presentation/screens/transparency/glossary_screen.dart';
 import 'presentation/screens/transparency/how_calculated_screen.dart';
 import 'presentation/screens/under18_screen.dart';
 
@@ -63,6 +64,7 @@ class HalenApp extends ConsumerWidget {
         Routes.planSwitch: (_) => const PlanSwitchScreen(),
         Routes.sources: (_) => const SourcesScreen(),
         Routes.earAcupressure: (_) => const EarAcupressureScreen(),
+        Routes.glossary: (_) => const GlossaryScreen(),
       },
       onGenerateRoute: (settings) {
         // Record detail takes the just-logged event id as an argument.

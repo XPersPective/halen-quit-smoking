@@ -111,6 +111,20 @@ widget servisleri). DB reaktifliği drift `watch()` → Riverpod StreamProvider.
   her cold start'ta mağaza doğrulaması; pending hak vermez; iade/revocation
   hakkı düşürür. İlk açılışta kartsız 7 gün premium deneme.
 
+## Ekran görüntüleri
+
+`screenshots/` — Windows önizlemesinden fare betiğiyle (`capture.ps1`) alınan
+17 ekranlık tur. `screenshots/module/` — modül ekranlarının **başsız** (widget
+ağacından, masaüstü oturumu gerektirmeden) üretilen görüntüleri; yenilemek
+için:
+
+```bash
+flutter test test/widget/design_capture_test.dart --update-goldens --dart-define=CAPTURE_DESIGN=true --dart-define=DESIGN_FONT=<sdk>/bin/cache/artifacts/material_fonts/roboto-regular.ttf
+```
+
+Define'lar olmadan aynı dosya bir duman testidir: her ekran hata fırlatmadan
+çizilmek zorundadır.
+
 ## Testler
 
 `flutter test` — plan motoru, nikotin modeli, tasarruf, tetikleyici

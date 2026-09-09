@@ -6,7 +6,7 @@ import '../../core/routes.dart';
 import '../../core/theme.dart';
 import '../../domain/withdrawal_model.dart';
 import '../../l10n/generated/app_localizations.dart';
-import 'charts/two_line_area_chart.dart';
+import 'charts/halen_line_chart.dart';
 
 /// Mind state (module report §8).
 ///
@@ -56,7 +56,7 @@ class MindStateCard extends ConsumerWidget {
                   tooltip: l10n.commonHowCalculated,
                   icon: const Icon(Icons.help_outline_rounded, size: 20),
                   onPressed: () =>
-                      Navigator.of(context).pushNamed(Routes.howCalculated),
+                      Navigator.of(context).pushNamed(Routes.glossary),
                 ),
               ],
             ),
@@ -198,7 +198,6 @@ class _PressurePainter extends CustomPainter {
       old.curve != curve || old.color != color || old.position != position;
 }
 
-
 /// Guessed against felt (module report §8.④): two lines, no scores. Showing
 /// where the model was wrong is the point — it is what earns the right to
 /// show an estimate at all.
@@ -212,12 +211,30 @@ class _AccuracyChart extends ConsumerWidget {
     if (history.length < 2) {
       return const SizedBox.shrink();
     }
-    return TwoLineAreaChart(
-      upper: [for (final h in history) h.estimated * 100],
-      lower: [for (final h in history) h.reported * 100],
-      upperColor: HalenColors.skyBlue,
-      lowerColor: HalenColors.petrol,
-      height: 96,
+    return HalenLineChart(
+      meaning: l10n.mindMeaning,
+      minY: 0,
+      maxY: 100,
+      height: 150,
+      yFormatter: (v) => v <= 33
+          ? l10n.mindBandCalm
+          : v <= 66
+          ? l10n.mindBandUnderPressure
+          : l10n.mindBandTough,
+      series: [
+        ChartSeries(
+          name: l10n.mindLegendGuess,
+          color: HalenColors.skyBlue,
+          dashed: true,
+          values: [for (final h in history) h.estimated * 100],
+        ),
+        ChartSeries(
+          name: l10n.mindLegendFelt,
+          color: HalenColors.petrol,
+          values: [for (final h in history) h.reported * 100],
+        ),
+      ],
+      xLabels: const [],
       semanticsLabel: l10n.mindAccuracyChartTitle,
     );
   }

@@ -147,6 +147,13 @@ class SettingsScreen extends ConsumerWidget {
                 riskyWindowReminder: settings.riskyWindowReminder,
               ),
               const SizedBox(height: 16),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.menu_book_outlined),
+                title: Text(l10n.glossaryOpen),
+                onTap: () => Navigator.pushNamed(context, Routes.glossary),
+              ),
+              const SizedBox(height: 8),
               Text(l10n.settingsData, style: theme.textTheme.titleMedium),
               ListTile(
                 leading: const Icon(Icons.file_download_outlined),

@@ -40,12 +40,22 @@ DateTime parseDayKey(String key) {
 String formatShortDuration(Duration d, String localeCode) {
   final tr = localeCode.toLowerCase().startsWith('tr');
   final de = localeCode.toLowerCase().startsWith('de');
+  final dayUnit = tr ? 'g' : (de ? 'T' : 'd');
   final hourUnit = tr ? 'sa' : (de ? 'Std' : 'h');
   final minuteUnit = tr ? 'dk' : (de ? 'Min' : 'm');
   final hours = d.inHours;
   final minutes = d.inMinutes.remainder(60);
+
+  // Past two days, hours stop being a readable unit — and a trailing "0 m"
+  // is noise at every size.
+  if (d.inDays >= 2) {
+    final restHours = hours.remainder(24);
+    return restHours == 0
+        ? '${d.inDays} $dayUnit'
+        : '${d.inDays} $dayUnit $restHours $hourUnit';
+  }
   if (hours <= 0) {
     return '$minutes $minuteUnit';
   }
-  return '$hours $hourUnit $minutes $minuteUnit';
+  return minutes == 0 ? '$hours $hourUnit' : '$hours $hourUnit $minutes $minuteUnit';
 }

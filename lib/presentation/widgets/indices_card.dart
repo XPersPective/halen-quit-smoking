@@ -7,16 +7,24 @@ import '../../core/theme.dart';
 import '../../domain/harm_load.dart';
 import '../../domain/progress_index.dart';
 import '../../l10n/generated/app_localizations.dart';
-import 'charts/two_line_area_chart.dart';
+import 'charts/halen_line_chart.dart';
+import 'charts/score_gauge.dart';
 
-/// The twin index card (module report §14.③): Progress Score on the left,
-/// Harm Load on the right, arrows pointing in opposite directions, and the
-/// scissor chart underneath.
+/// The two indices (module report §14.③), rebuilt around how they are
+/// actually read.
 ///
-/// Rules honoured here: the TREND is printed before the absolute number,
-/// each gauge opens its full component breakdown, and both carry the line
-/// that stops them being read as medicine — "behaviour, not health" and
-/// "not a disease risk estimate".
+/// The first version put both numbers into small twin tiles above a bare
+/// two-line chart, which asked the reader to decode a picture before they
+/// could answer "am I doing well?". This version answers that first:
+///
+///  1. a gauge — a score out of a hundred is a fraction, and an arc is how
+///     people read fractions at a glance;
+///  2. a banded scale for the load, because a load only means something
+///     against its bands;
+///  3. only then the 30-day history, with a named legend, a real date axis,
+///     a touch tooltip and a sentence saying which direction is the good one.
+///
+/// Both halves keep the lines that stop them being read as medicine.
 class IndicesCard extends ConsumerWidget {
   const IndicesCard({super.key});
 
@@ -26,154 +34,184 @@ class IndicesCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final state = ref.watch(indicesProvider);
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: state.when(
-          // A quiet placeholder rather than a spinner: the card appears at
-          // the same size it will settle at, and nothing on screen animates
-          // forever while the local query runs.
-          loading: () => SizedBox(
-            height: 132,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                l10n.commonLoading,
-                style: theme.textTheme.bodyMedium,
-              ),
-            ),
+    return state.when(
+      // A quiet placeholder rather than a spinner: the card appears at the
+      // size it will settle at, and nothing animates forever while a local
+      // query runs.
+      loading: () => ChartCard(
+        title: l10n.indicesScissorTitle,
+        child: SizedBox(
+          height: 140,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(l10n.commonLoading, style: theme.textTheme.bodyMedium),
           ),
-          error: (_, _) => Text(
-            l10n.commonErrorTitle,
-            style: theme.textTheme.bodyMedium,
-          ),
-          data: (indices) {
-            final progressBand = switch (indices.progress.band) {
-              ProgressBand.starting => l10n.progressBandStarting,
-              ProgressBand.onTrack => l10n.progressBandOnTrack,
-              ProgressBand.strong => l10n.progressBandStrong,
-              ProgressBand.veryStrong => l10n.progressBandVeryStrong,
-            };
-            final harmBand = switch (indices.harm.band) {
-              HarmBand.light => l10n.harmBandLight,
-              HarmBand.moderate => l10n.harmBandModerate,
-              HarmBand.heavy => l10n.harmBandHeavy,
-              HarmBand.veryHeavy => l10n.harmBandVeryHeavy,
-            };
-            final delta = indices.delta7d;
-            final deltaLabel = delta > 0
-                ? l10n.progressDeltaUp(delta)
-                : delta < 0
-                    ? l10n.progressDeltaDown(-delta)
-                    : l10n.progressDeltaFlat;
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        l10n.indicesScissorTitle,
-                        style: theme.textTheme.titleMedium,
-                      ),
-                    ),
-                    IconButton(
-                      tooltip: l10n.commonHowCalculated,
-                      icon: const Icon(Icons.help_outline_rounded, size: 20),
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed(Routes.howCalculated),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: _Gauge(
-                        title: l10n.progressScoreTitle,
-                        subtitle: l10n.progressWindowLabel,
-                        trend: deltaLabel,
-                        score: indices.progress.score,
-                        band: progressBand,
-                        color: HalenColors.emerald,
-                        rising: true,
-                        onTap: () => _showBreakdown(
-                          context,
-                          title: l10n.progressScoreTitle,
-                          note: l10n.progressBehaviourNote,
-                          rows: [
-                            for (final b in indices.progress.breakdown)
-                              (
-                                label: _progressLabel(b.component, l10n),
-                                points: b.points,
-                                weight: b.component.weight,
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _Gauge(
-                        title: l10n.harmLoadTitle,
-                        subtitle: l10n.harmPackYears(
-                          indices.harm.packYears.toStringAsFixed(1),
-                        ),
-                        trend: l10n.harmNotRisk,
-                        score: indices.harm.score,
-                        band: harmBand,
-                        color: HalenColors.textSecondaryLight,
-                        rising: false,
-                        onTap: () => _showBreakdown(
-                          context,
-                          title: l10n.harmLoadTitle,
-                          note: l10n.harmMovingPartNote,
-                          rows: [
-                            for (final b in indices.harm.breakdown)
-                              (
-                                label: _harmLabel(b.component, l10n),
-                                points: b.points,
-                                weight: b.component.weight,
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                if (indices.progressHistory.length >= 2) ...[
-                  const SizedBox(height: 20),
-                  Text(
-                    l10n.indicesScissorNote,
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  TwoLineAreaChart(
-                    upper: [
-                      for (final v in indices.progressHistory) v.toDouble(),
-                    ],
-                    lower: [for (final v in indices.harmHistory) v.toDouble()],
-                    upperColor: HalenColors.emerald,
-                    lowerColor: HalenColors.textSecondaryLight,
-                    height: 150,
-                    semanticsLabel:
-                        '${l10n.progressScoreTitle} ${indices.progress.score}, '
-                        '${l10n.harmLoadTitle} ${indices.harm.score}',
-                  ),
-                ],
-                const SizedBox(height: 12),
-                Text(
-                  l10n.progressBehaviourNote,
-                  style: theme.textTheme.labelSmall,
-                ),
-              ],
-            );
-          },
         ),
       ),
+      error: (_, _) => ChartCard(
+        title: l10n.indicesScissorTitle,
+        child: Text(l10n.commonErrorTitle, style: theme.textTheme.bodyMedium),
+      ),
+      data: (indices) {
+        final progressBand = switch (indices.progress.band) {
+          ProgressBand.starting => l10n.progressBandStarting,
+          ProgressBand.onTrack => l10n.progressBandOnTrack,
+          ProgressBand.strong => l10n.progressBandStrong,
+          ProgressBand.veryStrong => l10n.progressBandVeryStrong,
+        };
+        final harmBands = [
+          l10n.harmBandLight,
+          l10n.harmBandModerate,
+          l10n.harmBandHeavy,
+          l10n.harmBandVeryHeavy,
+        ];
+        final harmIndex = HarmBand.values.indexOf(indices.harm.band);
+        final delta = indices.delta7d;
+        final deltaLabel = delta > 0
+            ? l10n.progressDeltaUp(delta)
+            : delta < 0
+            ? l10n.progressDeltaDown(-delta)
+            : l10n.progressDeltaFlat;
+
+        return Column(
+          children: [
+            // ——— 1. Am I doing well? ———
+            ChartCard(
+              title: l10n.progressScoreTitle,
+              subtitle: l10n.progressWindowLabel,
+              onHelp: () =>
+                  Navigator.of(context).pushNamed(Routes.glossary),
+              footnote: l10n.progressBehaviourNote,
+              child: Column(
+                children: [
+                  Center(
+                    child: ScoreGauge(
+                      score: indices.progress.score,
+                      band: progressBand,
+                      delta: delta,
+                      deltaLabel: deltaLabel,
+                      color: HalenColors.emerald,
+                      semanticsLabel:
+                          '${l10n.progressScoreTitle} ${indices.progress.score}, '
+                          '$progressBand, $deltaLabel',
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  _BreakdownButton(
+                    label: l10n.indicesBreakdownTitle,
+                    onTap: () => _showBreakdown(
+                      context,
+                      title: l10n.progressScoreTitle,
+                      note: l10n.progressBehaviourNote,
+                      rows: [
+                        for (final b in indices.progress.breakdown)
+                          (
+                            label: _progressLabel(b.component, l10n),
+                            points: b.points,
+                            weight: b.component.weight,
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // ——— 2. How much am I carrying? ———
+            ChartCard(
+              title: l10n.harmLoadTitle,
+              subtitle: l10n.harmPackYears(
+                indices.harm.packYears.toStringAsFixed(1),
+              ),
+              onHelp: () =>
+                  Navigator.of(context).pushNamed(Routes.glossary),
+              footnote: '${l10n.harmNotRisk} ${l10n.harmMovingPartNote}',
+              child: Column(
+                children: [
+                  HarmScale(
+                    score: indices.harm.score,
+                    bandLabels: harmBands,
+                    activeBand: harmIndex,
+                    semanticsLabel:
+                        '${l10n.harmLoadTitle} '
+                        '${indices.harm.score}, ${harmBands[harmIndex]}',
+                  ),
+                  const SizedBox(height: 8),
+                  _BreakdownButton(
+                    label: l10n.indicesBreakdownTitle,
+                    onTap: () => _showBreakdown(
+                      context,
+                      title: l10n.harmLoadTitle,
+                      note: l10n.harmMovingPartNote,
+                      rows: [
+                        for (final b in indices.harm.breakdown)
+                          (
+                            label: _harmLabel(b.component, l10n),
+                            points: b.points,
+                            weight: b.component.weight,
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // ——— 3. Which way is it going? ———
+            ChartCard(
+              title: l10n.indicesScissorTitle,
+              subtitle: l10n.chartLast30Days,
+              child: indices.progressHistory.length < 2
+                  ? Text(
+                      l10n.chartNotEnoughYet,
+                      style: theme.textTheme.bodyMedium,
+                    )
+                  : HalenLineChart(
+                      meaning: l10n.indicesMeaning,
+                      minY: 0,
+                      maxY: 100,
+                      series: [
+                        ChartSeries(
+                          name: l10n.indicesProgressLegend,
+                          color: HalenColors.emerald,
+                          values: [
+                            for (final v in indices.progressHistory)
+                              v.toDouble(),
+                          ],
+                          fill: true,
+                        ),
+                        ChartSeries(
+                          name: l10n.indicesHarmLegend,
+                          color: HalenColors.textSecondaryLight,
+                          values: [
+                            for (final v in indices.harmHistory) v.toDouble(),
+                          ],
+                        ),
+                      ],
+                      xLabels: _dayLabels(indices.progressHistory.length, l10n),
+                      semanticsLabel:
+                          '${l10n.progressScoreTitle} ${indices.progress.score}, '
+                          '${l10n.harmLoadTitle} ${indices.harm.score}',
+                    ),
+            ),
+          ],
+        );
+      },
     );
+  }
+
+  /// Three x-axis labels: the oldest day, the middle one, and "today".
+  List<String> _dayLabels(int length, AppLocalizations l10n) {
+    if (length < 2) {
+      return const [];
+    }
+    return [
+      l10n.chartDaysAgo(length - 1),
+      l10n.chartDaysAgo((length - 1) ~/ 2),
+      l10n.chartToday,
+    ];
   }
 
   String _progressLabel(ProgressComponent c, AppLocalizations l10n) =>
@@ -188,12 +226,12 @@ class IndicesCard extends ConsumerWidget {
       };
 
   String _harmLabel(HarmComponent c, AppLocalizations l10n) => switch (c) {
-        HarmComponent.cumulativeExposure => l10n.componentCumulativeExposure,
-        HarmComponent.currentIntensity => l10n.componentCurrentIntensity,
-        HarmComponent.dependenceDepth => l10n.componentDependenceDepth,
-        HarmComponent.ageAndDuration => l10n.componentAgeAndDuration,
-        HarmComponent.bodySize => l10n.componentBodySize,
-      };
+    HarmComponent.cumulativeExposure => l10n.componentCumulativeExposure,
+    HarmComponent.currentIntensity => l10n.componentCurrentIntensity,
+    HarmComponent.dependenceDepth => l10n.componentDependenceDepth,
+    HarmComponent.ageAndDuration => l10n.componentAgeAndDuration,
+    HarmComponent.bodySize => l10n.componentBodySize,
+  };
 
   void _showBreakdown(
     BuildContext context, {
@@ -208,7 +246,7 @@ class IndicesCard extends ConsumerWidget {
       builder: (context) {
         final theme = Theme.of(context);
         return SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,7 +261,7 @@ class IndicesCard extends ConsumerWidget {
                 const SizedBox(height: 16),
                 for (final row in rows)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.only(bottom: 14),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -263,81 +301,20 @@ class IndicesCard extends ConsumerWidget {
   }
 }
 
-class _Gauge extends StatelessWidget {
-  const _Gauge({
-    required this.title,
-    required this.subtitle,
-    required this.trend,
-    required this.score,
-    required this.band,
-    required this.color,
-    required this.rising,
-    required this.onTap,
-  });
+class _BreakdownButton extends StatelessWidget {
+  const _BreakdownButton({required this.label, required this.onTap});
 
-  final String title;
-  final String subtitle;
-  final String trend;
-  final int score;
-  final String band;
-  final Color color;
-
-  /// Which way this index should move — the two arrows point opposite ways
-  /// on purpose, and that contrast is the point of the card.
-  final bool rising;
+  final String label;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Semantics(
-      button: true,
-      label: '$title $score, $band',
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(18),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: theme.textTheme.labelLarge),
-              Text(subtitle, style: theme.textTheme.labelSmall),
-              const SizedBox(height: 10),
-              // Trend before the absolute number (chart rule 3).
-              Row(
-                children: [
-                  Icon(
-                    rising
-                        ? Icons.trending_up_rounded
-                        : Icons.trending_down_rounded,
-                    size: 16,
-                    color: color,
-                  ),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: Text(
-                      trend,
-                      style: theme.textTheme.labelSmall,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 6),
-              Text(
-                '$score',
-                style: theme.textTheme.displaySmall?.copyWith(color: color),
-              ),
-              Text(band, style: theme.textTheme.bodyMedium),
-            ],
-          ),
-        ),
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: TextButton.icon(
+        onPressed: onTap,
+        icon: const Icon(Icons.pie_chart_outline_rounded, size: 16),
+        label: Text(label),
       ),
     );
   }

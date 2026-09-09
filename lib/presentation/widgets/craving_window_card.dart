@@ -68,7 +68,7 @@ class CravingWindowCard extends ConsumerWidget {
                   tooltip: l10n.commonHowCalculated,
                   icon: const Icon(Icons.help_outline_rounded, size: 20),
                   onPressed: () =>
-                      Navigator.of(context).pushNamed(Routes.howCalculated),
+                      Navigator.of(context).pushNamed(Routes.glossary),
                 ),
               ],
             ),

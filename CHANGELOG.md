@@ -53,6 +53,23 @@ ağırlıklarını ve sınırlarını uygulama içinde yayımlar.
   alınmıştır ve geri alınabilir.
 - "Nasıl hesaplanıyor?" ekranı altı yeni bölümle her formülü yayımlar.
 
+### Grafikler (yeniden yazıldı)
+- Modül grafikleri elle çizilen resimlerden **fl_chart** tabanlı tek bir
+  bileşene taşındı (`HalenLineChart`): her grafiğin üstünde ne anlama
+  geldiğini söyleyen bir cümle, altında **adlandırılmış açıklama (legend)**,
+  gerçek eksen etiketleri, dokunma ipucu ve "bugün" işareti var.
+- İki indeks yeniden tasarlandı: İlerleme Puanı artık bir **yay göstergesi**
+  (yüzdelik böyle okunur), Zarar Yükü ise **bantları çizilmiş bir skala**
+  (yük ancak bantlarıyla anlam taşır). Otuz günlük eğilim grafiği bunların
+  altında, "yeşil yukarı, gri aşağı" cümlesiyle.
+- Para ekseni kısa biçime geçti (etiketler sarıp çakışıyordu), süreler iki
+  günden sonra güne dönüyor ("465 sa" yerine "19 g 9 sa"), sabit eksen
+  verilen grafiklerde uydurma tik değerleri (−12, 112) kalktı.
+- Yeni **Sözlük** ekranı: her terim birer cümlede, jargonsuz. Kartlardaki "?"
+  düğmesi önce sözlüğe, oradan formüllere götürüyor.
+- `screenshots/module/` — modül ekranlarının başsız üretilen görüntüleri
+  (`design_capture_test.dart`; define'sız çalıştırıldığında duman testi).
+
 ### Teknik
 - Şema v2 → v4 (modül tabloları, taper işaretçisi, riskli saat tercihi);
   tüm geçişler eklemeli, mevcut kullanıcı verisine dokunulmaz.

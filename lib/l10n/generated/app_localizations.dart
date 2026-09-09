@@ -3681,6 +3681,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Twenty minutes. A short walk now works better than willpower later.'**
   String get notifRiskyWindowBody;
+
+  /// No description provided for @chartLast30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get chartLast30Days;
+
+  /// No description provided for @chartToday.
+  ///
+  /// In en, this message translates to:
+  /// **'today'**
+  String get chartToday;
+
+  /// No description provided for @chartDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days}d ago'**
+  String chartDaysAgo(int days);
+
+  /// No description provided for @chartNotEnoughYet.
+  ///
+  /// In en, this message translates to:
+  /// **'A few more days and this line appears.'**
+  String get chartNotEnoughYet;
+
+  /// No description provided for @indicesProgressLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress — higher is better'**
+  String get indicesProgressLegend;
+
+  /// No description provided for @indicesHarmLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Harm Load — lower is better'**
+  String get indicesHarmLegend;
+
+  /// No description provided for @indicesMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'The green line is what you are doing. The grey line is what you are carrying. Green up and grey down is the direction that counts.'**
+  String get indicesMeaning;
+
+  /// No description provided for @economyMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Both lines are money spent over the next year. The lower one is the plan; the shaded gap is what finishing it keeps in your pocket.'**
+  String get economyMeaning;
+
+  /// No description provided for @lungsMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical lung function for your age group under three futures. Higher is better, and the gap between the top two lines is what quitting is worth.'**
+  String get lungsMeaning;
+
+  /// No description provided for @mindMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'What the app guessed, against what you said. Where the lines separate, the guess was wrong.'**
+  String get mindMeaning;
+
+  /// No description provided for @mindLegendGuess.
+  ///
+  /// In en, this message translates to:
+  /// **'My guess'**
+  String get mindLegendGuess;
+
+  /// No description provided for @mindLegendFelt.
+  ///
+  /// In en, this message translates to:
+  /// **'What you said'**
+  String get mindLegendFelt;
+
+  /// No description provided for @loadBandMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'One bar per day: the taller the bar, the more your body carried that day. The cap is that day\'s peak.'**
+  String get loadBandMeaning;
+
+  /// No description provided for @bodyLoadMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Each spike is a cigarette; the fall after it is your body clearing it. Green marks are the spikes that never happened.'**
+  String get bodyLoadMeaning;
+
+  /// No description provided for @glossaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What the words mean'**
+  String get glossaryTitle;
+
+  /// No description provided for @glossaryIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Every term this app uses, in one line each. No jargon, no small print.'**
+  String get glossaryIntro;
+
+  /// No description provided for @glossaryOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'What do these words mean?'**
+  String get glossaryOpen;
+
+  /// No description provided for @glossaryProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'How well you are doing what you set out to do, out of 100. It looks at your last two weeks and moves slowly on purpose.'**
+  String get glossaryProgress;
+
+  /// No description provided for @glossaryHarm.
+  ///
+  /// In en, this message translates to:
+  /// **'How much smoking your body is carrying, out of 100. Cutting down lowers about half of it; the rest is history that only time softens.'**
+  String get glossaryHarm;
+
+  /// No description provided for @glossaryBodyLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'An estimate of what is still in you from the cigarettes you logged. It is calculated, never measured.'**
+  String get glossaryBodyLoad;
+
+  /// No description provided for @glossaryCo.
+  ///
+  /// In en, this message translates to:
+  /// **'The gas in smoke that takes the place of oxygen in your blood. It leaves fastest — usually within a day.'**
+  String get glossaryCo;
+
+  /// No description provided for @glossaryTarLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'How your particle exposure compares with your own usual level. It is a comparison, not an amount.'**
+  String get glossaryTarLoad;
+
+  /// No description provided for @glossaryCravingWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'The hours you most often reach for a cigarette, learned from your own records.'**
+  String get glossaryCravingWindow;
+
+  /// No description provided for @glossaryAdherence.
+  ///
+  /// In en, this message translates to:
+  /// **'The share of days you stayed inside your plan.'**
+  String get glossaryAdherence;
+
+  /// No description provided for @glossaryPackYears.
+  ///
+  /// In en, this message translates to:
+  /// **'A standard way to add up a smoking history: a pack a day for a year is one pack-year.'**
+  String get glossaryPackYears;
+
+  /// No description provided for @glossaryWithdrawalPressure.
+  ///
+  /// In en, this message translates to:
+  /// **'A guess at how hard today is likely to feel. Only you know if it is right, and telling the app teaches it.'**
+  String get glossaryWithdrawalPressure;
+
+  /// No description provided for @glossaryEvidence.
+  ///
+  /// In en, this message translates to:
+  /// **'How strong the science is behind a suggestion: strong, promising, or traditional with no proof.'**
+  String get glossaryEvidence;
+
+  /// No description provided for @glossarySoftTaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Widening the gap between cigarettes in small steps you can actually keep.'**
+  String get glossarySoftTaper;
+
+  /// No description provided for @glossaryTermSoftTaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Soft taper'**
+  String get glossaryTermSoftTaper;
+
+  /// No description provided for @glossaryTermPackYears.
+  ///
+  /// In en, this message translates to:
+  /// **'Pack-years'**
+  String get glossaryTermPackYears;
 }
 
 class _AppLocalizationsDelegate

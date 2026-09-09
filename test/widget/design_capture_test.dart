@@ -1,0 +1,138 @@
+import 'dart:io';
+
+import 'package:drift/drift.dart' show Value;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:halen/core/dates.dart';
+import 'package:halen/data/db/app_database.dart';
+import 'package:halen/data/db/connection.dart';
+import 'package:halen/domain/entities.dart';
+import 'package:halen/presentation/screens/body/body_screen.dart';
+import 'package:halen/presentation/screens/economy/economy_screen.dart';
+import 'package:halen/presentation/screens/plan/plan_switch_screen.dart';
+import 'package:halen/presentation/screens/sos/ear_acupressure_screen.dart';
+import 'package:halen/presentation/screens/transparency/glossary_screen.dart';
+import 'package:halen/presentation/widgets/indices_card.dart';
+
+import '../helpers/pump_app.dart';
+
+/// Headless visual capture of the module screens.
+///
+/// The existing tour in `screenshots/` was captured by driving the Windows
+/// build with a mouse script, which cannot see any of the screens added
+/// since. This renders them straight from the widget tree instead — no
+/// desktop session, no click coordinates, and it can be re-run in CI.
+///
+/// Opt in with:
+///   flutter test test/widget/design_capture_test.dart --update-goldens \
+///     --dart-define=CAPTURE_DESIGN=true \
+///     --dart-define=DESIGN_FONT=`<sdk>`/bin/cache/artifacts/material_fonts/roboto-regular.ttf
+///
+/// Without the defines it is a smoke test: every screen must build and paint
+/// without throwing, which is worth having on its own.
+void main() {
+  const capture = bool.fromEnvironment('CAPTURE_DESIGN');
+
+  setUpAll(() async {
+    const font = String.fromEnvironment('DESIGN_FONT');
+    if (font.isEmpty) {
+      return;
+    }
+    final loader = FontLoader('Roboto');
+    loader.addFont(
+      Future.value(ByteData.sublistView(await File(font).readAsBytes())),
+    );
+    await loader.load();
+    final icons = FontLoader('MaterialIcons');
+    icons.addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
+    await icons.load();
+  });
+
+  late AppDatabase db;
+
+  setUp(() async {
+    db = AppDatabase(inMemoryExecutor());
+    await db.profileDao.saveUserProfile(locale: 'tr', ageBand: AgeBand.y35to44);
+    await db.profileDao.saveSmokingProfile(
+      SmokingProfileCompanion.insert(
+        baselineCpd: 20,
+        ttfcBand: TtfcBand.five30,
+        pricePerPack: 100,
+        targetMode: TargetMode.reduce,
+        pace: Pace.standard,
+        startedAt: DateTime.now().subtract(const Duration(days: 30)),
+      ),
+    );
+
+    final now = DateTime.now();
+    for (var d = 29; d >= 0; d--) {
+      final day = now.subtract(Duration(days: d));
+      final count = (18 - (29 - d) ~/ 3).clamp(4, 20);
+      await db.statsDao.upsertSummary(
+        DailySummaryCompanion.insert(
+          date: dayKey(day),
+          count: count,
+          planTarget: Value(count + 1),
+          adherence: const Value(0.8),
+          savings: Value(8.0 + d),
+        ),
+      );
+      await db.moduleDao.putIndexSnapshot(
+        date: dayKey(day),
+        progressScore: (35 + (29 - d)).clamp(0, 100),
+        harmLoad: (78 - (29 - d) ~/ 2).clamp(0, 100),
+      );
+    }
+    for (var i = 0; i < 9; i++) {
+      await db.recordDao.insertEvent(
+        CigaretteEventCompanion.insert(
+          ts: now.subtract(Duration(hours: 2 * i + 1)),
+          source: RecordSource.app,
+          triggerLabel: Value(i.isEven ? TriggerLabel.coffee : null),
+        ),
+      );
+    }
+  });
+
+  Future<void> shot(WidgetTester tester, String name, Widget screen) async {
+    tester.view.physicalSize = const Size(420, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await pumpModuleWidget(
+      tester,
+      db: db,
+      child: screen,
+      scrollable: screen is IndicesCard,
+    );
+    // Fixed frames rather than settle: several of these screens breathe or
+    // animate on purpose and would never come to rest.
+    await tester.pump();
+    for (var i = 0; i < 12; i++) {
+      await tester.pump(const Duration(milliseconds: 80));
+    }
+    expect(tester.takeException(), isNull, reason: name);
+
+    if (capture) {
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('../../screenshots/module/$name.png'),
+      );
+    }
+    await disposeApp(tester);
+  }
+
+  testWidgets('indices', (t) => shot(t, '20-indeksler', const IndicesCard()));
+  testWidgets('body', (t) => shot(t, '21-beden', const BodyScreen()));
+  testWidgets('economy', (t) => shot(t, '22-ekonomi', const EconomyScreen()));
+  testWidgets(
+    'plan switch',
+    (t) => shot(t, '23-plan-degistir', const PlanSwitchScreen()),
+  );
+  testWidgets(
+    'ear acupressure',
+    (t) => shot(t, '24-kulak-akupresuru', const EarAcupressureScreen()),
+  );
+  testWidgets('glossary', (t) => shot(t, '25-sozluk', const GlossaryScreen()));
+}

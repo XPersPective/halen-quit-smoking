@@ -1186,5 +1186,42 @@
   "settingsRiskyWindowReminder": "Heads-up before your riskiest hour",
   "settingsRiskyWindowNote": "Off by default. Needs about a month of records before it knows your pattern.",
   "notifRiskyWindowTitle": "Your usual hour is coming up",
-  "notifRiskyWindowBody": "Twenty minutes. A short walk now works better than willpower later."
+  "notifRiskyWindowBody": "Twenty minutes. A short walk now works better than willpower later.",
+  "chartLast30Days": "Last 30 days",
+  "chartToday": "today",
+  "chartDaysAgo": "{days}d ago",
+  "@chartDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "chartNotEnoughYet": "A few more days and this line appears.",
+  "indicesProgressLegend": "Progress — higher is better",
+  "indicesHarmLegend": "Harm Load — lower is better",
+  "indicesMeaning": "The green line is what you are doing. The grey line is what you are carrying. Green up and grey down is the direction that counts.",
+  "economyMeaning": "Both lines are money spent over the next year. The lower one is the plan; the shaded gap is what finishing it keeps in your pocket.",
+  "lungsMeaning": "Typical lung function for your age group under three futures. Higher is better, and the gap between the top two lines is what quitting is worth.",
+  "mindMeaning": "What the app guessed, against what you said. Where the lines separate, the guess was wrong.",
+  "mindLegendGuess": "My guess",
+  "mindLegendFelt": "What you said",
+  "loadBandMeaning": "One bar per day: the taller the bar, the more your body carried that day. The cap is that day's peak.",
+  "bodyLoadMeaning": "Each spike is a cigarette; the fall after it is your body clearing it. Green marks are the spikes that never happened.",
+  "glossaryTitle": "What the words mean",
+  "glossaryIntro": "Every term this app uses, in one line each. No jargon, no small print.",
+  "glossaryOpen": "What do these words mean?",
+  "glossaryProgress": "How well you are doing what you set out to do, out of 100. It looks at your last two weeks and moves slowly on purpose.",
+  "glossaryHarm": "How much smoking your body is carrying, out of 100. Cutting down lowers about half of it; the rest is history that only time softens.",
+  "glossaryBodyLoad": "An estimate of what is still in you from the cigarettes you logged. It is calculated, never measured.",
+  "glossaryCo": "The gas in smoke that takes the place of oxygen in your blood. It leaves fastest — usually within a day.",
+  "glossaryTarLoad": "How your particle exposure compares with your own usual level. It is a comparison, not an amount.",
+  "glossaryCravingWindow": "The hours you most often reach for a cigarette, learned from your own records.",
+  "glossaryAdherence": "The share of days you stayed inside your plan.",
+  "glossaryPackYears": "A standard way to add up a smoking history: a pack a day for a year is one pack-year.",
+  "glossaryWithdrawalPressure": "A guess at how hard today is likely to feel. Only you know if it is right, and telling the app teaches it.",
+  "glossaryEvidence": "How strong the science is behind a suggestion: strong, promising, or traditional with no proof.",
+  "glossarySoftTaper": "Widening the gap between cigarettes in small steps you can actually keep.",
+  "glossaryTermSoftTaper": "Soft taper",
+  "glossaryTermPackYears": "Pack-years"
 }

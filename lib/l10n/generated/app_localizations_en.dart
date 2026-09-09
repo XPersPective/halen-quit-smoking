@@ -2066,4 +2066,114 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notifRiskyWindowBody =>
       'Twenty minutes. A short walk now works better than willpower later.';
+
+  @override
+  String get chartLast30Days => 'Last 30 days';
+
+  @override
+  String get chartToday => 'today';
+
+  @override
+  String chartDaysAgo(int days) {
+    return '${days}d ago';
+  }
+
+  @override
+  String get chartNotEnoughYet => 'A few more days and this line appears.';
+
+  @override
+  String get indicesProgressLegend => 'Progress — higher is better';
+
+  @override
+  String get indicesHarmLegend => 'Harm Load — lower is better';
+
+  @override
+  String get indicesMeaning =>
+      'The green line is what you are doing. The grey line is what you are carrying. Green up and grey down is the direction that counts.';
+
+  @override
+  String get economyMeaning =>
+      'Both lines are money spent over the next year. The lower one is the plan; the shaded gap is what finishing it keeps in your pocket.';
+
+  @override
+  String get lungsMeaning =>
+      'Typical lung function for your age group under three futures. Higher is better, and the gap between the top two lines is what quitting is worth.';
+
+  @override
+  String get mindMeaning =>
+      'What the app guessed, against what you said. Where the lines separate, the guess was wrong.';
+
+  @override
+  String get mindLegendGuess => 'My guess';
+
+  @override
+  String get mindLegendFelt => 'What you said';
+
+  @override
+  String get loadBandMeaning =>
+      'One bar per day: the taller the bar, the more your body carried that day. The cap is that day\'s peak.';
+
+  @override
+  String get bodyLoadMeaning =>
+      'Each spike is a cigarette; the fall after it is your body clearing it. Green marks are the spikes that never happened.';
+
+  @override
+  String get glossaryTitle => 'What the words mean';
+
+  @override
+  String get glossaryIntro =>
+      'Every term this app uses, in one line each. No jargon, no small print.';
+
+  @override
+  String get glossaryOpen => 'What do these words mean?';
+
+  @override
+  String get glossaryProgress =>
+      'How well you are doing what you set out to do, out of 100. It looks at your last two weeks and moves slowly on purpose.';
+
+  @override
+  String get glossaryHarm =>
+      'How much smoking your body is carrying, out of 100. Cutting down lowers about half of it; the rest is history that only time softens.';
+
+  @override
+  String get glossaryBodyLoad =>
+      'An estimate of what is still in you from the cigarettes you logged. It is calculated, never measured.';
+
+  @override
+  String get glossaryCo =>
+      'The gas in smoke that takes the place of oxygen in your blood. It leaves fastest — usually within a day.';
+
+  @override
+  String get glossaryTarLoad =>
+      'How your particle exposure compares with your own usual level. It is a comparison, not an amount.';
+
+  @override
+  String get glossaryCravingWindow =>
+      'The hours you most often reach for a cigarette, learned from your own records.';
+
+  @override
+  String get glossaryAdherence =>
+      'The share of days you stayed inside your plan.';
+
+  @override
+  String get glossaryPackYears =>
+      'A standard way to add up a smoking history: a pack a day for a year is one pack-year.';
+
+  @override
+  String get glossaryWithdrawalPressure =>
+      'A guess at how hard today is likely to feel. Only you know if it is right, and telling the app teaches it.';
+
+  @override
+  String get glossaryEvidence =>
+      'How strong the science is behind a suggestion: strong, promising, or traditional with no proof.';
+
+  @override
+  String get glossarySoftTaper =>
+      'Widening the gap between cigarettes in small steps you can actually keep.';
+
+  @override
+  String get glossaryTermSoftTaper => 'Soft taper';
+
+  @override
+  String get glossaryTermPackYears => 'Pack-years';
 }

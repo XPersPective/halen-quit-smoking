@@ -10,7 +10,7 @@ import '../../../application/providers.dart';
 import '../../../domain/health_timeline.dart';
 import '../../../domain/lung_model.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../widgets/charts/two_line_area_chart.dart';
+import '../../widgets/charts/halen_line_chart.dart';
 import '../../widgets/lung_view.dart';
 
 /// The body screen: lungs (module report §6), the organ map (§7) and what is
@@ -66,7 +66,8 @@ class _LungsTab extends ConsumerWidget {
     final scenarios = ref.watch(lungScenariosProvider).value;
     final quitTs = ref.watch(timelineStateProvider).value;
     // A milestone reached within the last day earns one glow.
-    final justReached = quitTs != null &&
+    final justReached =
+        quitTs != null &&
         HealthMilestone.values.any((m) {
           final days = daysSinceQuit(quitTs, DateTime.now());
           return m.minQuitDays == days && days > 0;
@@ -102,19 +103,37 @@ class _LungsTab extends ConsumerWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TwoLineAreaChart(
-                    // The better scenario sits on top here: lung function is
-                    // a "higher is better" axis.
-                    upper: [for (final p in quit) p.percentOfPeak],
-                    lower: [for (final p in keep) p.percentOfPeak],
-                    reference: [for (final p in never) p.percentOfPeak],
-                    upperColor: HalenColors.emerald,
-                    lowerColor: HalenColors.amberCta,
-                    referenceColor: HalenColors.textSecondaryLight,
-                    axisLabels: keep.isEmpty
+                  HalenLineChart(
+                    meaning: l10n.lungsMeaning,
+                    // The better future sits on top: lung function is a
+                    // "higher is better" axis, and the shaded gap between
+                    // quitting and carrying on is the whole argument.
+                    shadeBetween: true,
+                    maxY: 100,
+                    yFormatter: (v) => '${v.round()}%',
+                    series: [
+                      ChartSeries(
+                        name: l10n.lungsScenarioQuit,
+                        color: HalenColors.emerald,
+                        values: [for (final p in quit) p.percentOfPeak],
+                      ),
+                      ChartSeries(
+                        name: l10n.lungsScenarioKeep,
+                        color: HalenColors.amberCta,
+                        values: [for (final p in keep) p.percentOfPeak],
+                      ),
+                      ChartSeries(
+                        name: l10n.lungsScenarioNever,
+                        color: HalenColors.textSecondaryLight,
+                        dashed: true,
+                        values: [for (final p in never) p.percentOfPeak],
+                      ),
+                    ],
+                    xLabels: keep.isEmpty
                         ? const []
                         : [
                             '${l10n.lungsAxisAge} ${keep.first.age}',
+                            '${keep[keep.length ~/ 2].age}',
                             '${keep.last.age}',
                           ],
                     semanticsLabel:
@@ -139,50 +158,12 @@ class _LungsTab extends ConsumerWidget {
                       );
                     },
                   ),
-                  const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 16,
-                    runSpacing: 8,
-                    children: [
-                      _Legend(
-                        color: HalenColors.emerald,
-                        label: l10n.lungsScenarioQuit,
-                      ),
-                      _Legend(
-                        color: HalenColors.amberCta,
-                        label: l10n.lungsScenarioKeep,
-                      ),
-                      _Legend(
-                        color: HalenColors.textSecondaryLight,
-                        label: l10n.lungsScenarioNever,
-                      ),
-                    ],
-                  ),
                 ],
               );
             },
           ),
         const SizedBox(height: 16),
         Text(l10n.moduleModelTag, style: theme.textTheme.labelSmall),
-      ],
-    );
-  }
-}
-
-class _Legend extends StatelessWidget {
-  const _Legend({required this.color, required this.label});
-
-  final Color color;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(width: 12, height: 3, color: color),
-        const SizedBox(width: 6),
-        Text(label, style: Theme.of(context).textTheme.labelSmall),
       ],
     );
   }
@@ -239,10 +220,7 @@ class _OrgansTab extends ConsumerWidget {
                       style: theme.textTheme.labelLarge,
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      organ.harm(locale),
-                      style: theme.textTheme.bodyMedium,
-                    ),
+                    Text(organ.harm(locale), style: theme.textTheme.bodyMedium),
                     const SizedBox(height: 14),
                     // Recovery is always present and always the louder half.
                     Container(
@@ -348,8 +326,9 @@ class _ToxicantsTab extends ConsumerWidget {
                 height: 10,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: HalenColors.textSecondaryLight
-                      .withValues(alpha: i < toxicants.length ? 0.9 : 0.35),
+                  color: HalenColors.textSecondaryLight.withValues(
+                    alpha: i < toxicants.length ? 0.9 : 0.35,
+                  ),
                 ),
               ),
           ],

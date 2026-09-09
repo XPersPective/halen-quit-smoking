@@ -22,4 +22,5 @@ abstract final class Routes {
   static const planSwitch = '/plan-switch';
   static const sources = '/sources';
   static const earAcupressure = '/ear-acupressure';
+  static const glossary = '/glossary';
 }

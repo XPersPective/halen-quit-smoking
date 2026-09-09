@@ -85,6 +85,7 @@ Future<void> pumpModuleWidget(
         ...extraOverrides,
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('en'),
