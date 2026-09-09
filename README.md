@@ -58,7 +58,8 @@ Tools • Dart 3.13.2 • DevTools 2.60.0
 edilebilir) → `data` (drift DAO'ları, repository'ler, purchase/notification/
 widget servisleri). DB reaktifliği drift `watch()` → Riverpod StreamProvider.
 
-- **Veri:** 13 tablo (rapor §25), `halen.db`, SQLCipher şifreli; anahtar
+- **Veri:** 18 tablo (ana rapor §25 + modül raporu §16b), şema v4, `halen.db`,
+  SQLCipher şifreli; anahtar
   Android Keystore / iOS Keychain'de. iOS'ta DB klasörü
   `isExcludedFromBackup`; Android'de `dataExtractionRules` ile cloud-backup
   ve device-transfer hariç. "Veri sunucuya gitmez" iddiası bu yüzden teknik
@@ -69,14 +70,37 @@ widget servisleri). DB reaktifliği drift `watch()` → Riverpod StreamProvider.
   (aşım → dağıt, sıkışma → mesaj, haftalık taşma → %5 yumuşatma), tempo
   adaptasyonu (≥%85 hızlandır önerisi, ≤%55 faz uzatma), günlük bütçe ≤3'te
   son-hafta fazı ve bırakma günü onayı, aralıklı "kaç hafta" tahmini (S3).
-- **Nikotin modeli:** sigara başına 1,2 mg emilim varsayımı; plazma vekil
-  eğrisi `C(t) = Σ d·2^(−Δt/2h)`; UI yalnızca 0–100 normalize "tahmini
-  maruziyet" gösterir; her S3 göstergede "?" → şeffaflık ekranı.
+- **Vücut yükü modeli:** sigara başına 1,2 mg emilim varsayımı; dört eğri
+  `C(t) = Σ d·2^(−Δt/t½)` — nikotin 2 sa, gün boyu zemin 16 sa (kotinin
+  karşılığı), karbonmonoksit 4,5 sa, partikül yükü ~30 gün (temsilî). UI
+  yalnızca 0–100 normalize "tahmini maruziyet" gösterir; ng/mL veya miligram
+  asla üretilmez. Her S3 göstergede "?" → şeffaflık ekranı, ve **her
+  göstergenin formülü orada yayımlanmış olmalı** (bunu bir test zorunlu
+  kılar).
+- **İki indeks:** İlerleme Puanı (davranış; uyum 35 + tüketim eğilimi 30 +
+  kriz başa çıkma 20 + kayıt tutarlılığı 10 + nikotin zemini 5, günde en fazla
+  ±4 puan, asla sıfırlanmaz) ve Zarar Yükü (kümülatif maruziyet 40 + güncel
+  yoğunluk 30 + bağımlılık 15 + yaş/süre 10 + vücut ölçüsü 5; vücut verisi
+  isteğe bağlı, girilmezse ağırlıklar yeniden dağıtılır). Zarar Yükü bir
+  hastalık riski tahmini değildir ve ekranda böyle yazar.
+- **Yumuşak geçiş motoru:** adımda en fazla %15 aralık uzatma, 3 gün + %70
+  uyum stabilizasyonu, geri alma yerine adım tekrarı, plan bozulunca son üç
+  başarılı günün ortalamasına yumuşak iniş; en kolay saatler önce, uyanınca
+  içilen sigara en sona.
 - **Health timeline:** WHO metinleri (rapor §17) birebir; azaltma modunda
   bırakma günü belirlenene dek "önizleme" kilitli.
-- **Craving SOS:** 2 dk sayaç + 4D kartlar + 60 sn kutu nefesi +
-  "İzle ve bekle"; "Atlattım" pozitif sayaç, "İçtim" kayıt + yeniden hesap,
-  utanç dili yok; sabit NRT satırı.
+- **Craving SOS:** 2 dk sayaç + **kanıt dereceli tek araç seti** (🟢 5 dk
+  yürüyüş ve 6/dk nefes, 🟡 3 dk erteleme ve su, ⚪ kulak akupresürü ve soğuk
+  su), kişinin kendi verisine göre sıralanır; rehberli kulak akupresürü
+  ekranı (5 NADA noktası, 12'şer saniye, iğnesiz). "Atlattım" pozitif sayaç,
+  "İçtim" kayıt + yeniden hesap, utanç dili yok; sabit NRT satırı.
+- **Kriz penceresi:** risk = 0,45 × nikotin çukuru + 0,35 × kendi saat
+  örüntün + 0,20 × tetikleyici bağlamı; ~21 kayıttan önce sessiz kalır,
+  riskli saatte ne yapılacağını söyler; opsiyonel (varsayılan kapalı) 20 dk
+  önce hatırlatma.
+- **Beden ekranı:** nefes alan akciğer görseli + üç tipik FEV1 senaryosu,
+  12 organ kartı (her zarar kartının yanında iyileşme kartı), duman
+  kütüphanesi (12 madde, IARC sınıfı ve kaynak).
 - **Bildirimler:** yoğunluk Sakin/Standart/Yoğun + tam kapatma; plan-saati
   hatırlatması varsayılan KAPALI; tam saat yalnız kullanıcı opt-in'i ile
   (USE_EXACT_ALARM bildirilmez); reboot sonrası yeniden planlama.
