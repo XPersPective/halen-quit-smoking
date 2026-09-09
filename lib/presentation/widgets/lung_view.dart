@@ -18,6 +18,7 @@ class LungView extends StatefulWidget {
     required this.mist,
     required this.semanticsLabel,
     this.height = 220,
+    this.celebrate = false,
   });
 
   /// Relative particle load, 0..1 — drives the mist and the breath depth.
@@ -25,6 +26,10 @@ class LungView extends StatefulWidget {
 
   final String semanticsLabel;
   final double height;
+
+  /// True in the window after a health milestone is reached: the outline
+  /// glows once rather than firing confetti (module report §6.④).
+  final bool celebrate;
 
   @override
   State<LungView> createState() => _LungViewState();
@@ -75,6 +80,7 @@ class _LungViewState extends State<LungView>
                 : 1 - Curves.easeInOutSine.transform((phase - 0.4) / 0.6);
             return CustomPaint(
               painter: _LungPainter(
+                glow: widget.celebrate,
                 mist: widget.mist.clamp(0.0, 1.0),
                 // A heavy load makes the breath shallower — the state is
                 // legible without a single number.
@@ -95,11 +101,13 @@ class _LungPainter extends CustomPainter {
     required this.mist,
     required this.breath,
     required this.isLight,
+    this.glow = false,
   });
 
   final double mist;
   final double breath;
   final bool isLight;
+  final bool glow;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -117,6 +125,17 @@ class _LungPainter extends CustomPainter {
       body,
       Paint()..color = tint.withValues(alpha: isLight ? 0.10 : 0.16),
     );
+    if (glow) {
+      // One soft halo on the outline — the milestone is marked, not partied.
+      canvas.drawPath(
+        body,
+        Paint()
+          ..color = HalenColors.amberCta.withValues(alpha: 0.5)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 6
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8),
+      );
+    }
     canvas.drawPath(
       body,
       Paint()
@@ -197,5 +216,8 @@ class _LungPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_LungPainter old) =>
-      old.mist != mist || old.breath != breath || old.isLight != isLight;
+      old.mist != mist ||
+      old.breath != breath ||
+      old.isLight != isLight ||
+      old.glow != glow;
 }

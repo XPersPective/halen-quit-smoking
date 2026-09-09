@@ -341,11 +341,34 @@ class _TaperNote extends ConsumerWidget {
         l10n.taperHoldStep,
       TaperDecision.atTarget => l10n.taperAdvance(step.intervalMinutes),
     };
-    return Row(
+    final detail = ref.watch(taperPlanDetailProvider).value;
+    final kind = ref.watch(planStateProvider).value?.kind;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Icon(Icons.timelapse_rounded, size: 18),
-        const SizedBox(width: 8),
-        Expanded(child: Text(text, style: theme.textTheme.bodyMedium)),
+        Row(
+          children: [
+            const Icon(Icons.timelapse_rounded, size: 18),
+            const SizedBox(width: 8),
+            Expanded(child: Text(text, style: theme.textTheme.bodyMedium)),
+          ],
+        ),
+        if (detail != null && detail.hours.isNotEmpty) ...[
+          const SizedBox(height: 4),
+          Text(
+            '${l10n.taperEasiestFirst} '
+            '(${detail.hours.take(3).map((h) => '$h:00').join(', ')})',
+            style: theme.textTheme.labelSmall,
+          ),
+        ],
+        if (detail != null && kind == PlanKind.dailyQuota) ...[
+          const SizedBox(height: 4),
+          Text(
+            l10n.planQuotaToday(detail.ceiling),
+            style: theme.textTheme.labelMedium,
+          ),
+        ],
       ],
     );
   }

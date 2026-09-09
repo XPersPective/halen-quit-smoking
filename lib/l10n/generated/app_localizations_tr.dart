@@ -1919,4 +1919,130 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get sourcesIntro =>
       'Bu uygulamadaki her iddia bunlardan birine dayanır. Orijinalini açmak için dokun.';
+
+  @override
+  String get economyEquivalentTitle => 'Bu şuna denk';
+
+  @override
+  String get equivalentGroceries => 'bir aylık market';
+
+  @override
+  String get equivalentFuelTank => 'tam depo yakıt';
+
+  @override
+  String get equivalentGymMonth => 'bir aylık spor salonu';
+
+  @override
+  String get equivalentFlightTicket => 'kısa mesafe uçak bileti';
+
+  @override
+  String get equivalentPhone => 'yeni bir telefon';
+
+  @override
+  String economyEquivalentCount(int count, String item) {
+    return '${count}x $item';
+  }
+
+  @override
+  String get cravingWhatToDo => 'Burada ne işe yarar';
+
+  @override
+  String cravingSuggestionAt(String time, String technique) {
+    return '$time civarında genelde bir tane yakıyorsun. Geldiğinde şunu dene: $technique';
+  }
+
+  @override
+  String get cravingOpenToolkit => 'Araç setini aç';
+
+  @override
+  String get earGuideTitle => 'Kulak akupresürü';
+
+  @override
+  String get earGuideStart => '60 saniyeyi başlat';
+
+  @override
+  String earGuideStep(String point, int seconds) {
+    return '$point · $seconds sn';
+  }
+
+  @override
+  String get earGuideFinished => 'Tur tamamlandı.';
+
+  @override
+  String toxicantsToday(int count) {
+    return 'Bugün $count kayıt';
+  }
+
+  @override
+  String get loadBandTitle => 'Yükün, gün gün';
+
+  @override
+  String get loadBandWeek => '7 gün';
+
+  @override
+  String get loadBandMonth => '30 gün';
+
+  @override
+  String loadBandTrendDown(int percent) {
+    return 'geçen haftaya göre %$percent düşük';
+  }
+
+  @override
+  String loadBandTrendUp(int percent) {
+    return 'geçen haftaya göre %$percent yüksek';
+  }
+
+  @override
+  String get loadBandTrendFlat => 'geçen haftayla aynı';
+
+  @override
+  String get mindAccuracyChartTitle => 'Tahminim ve senin hissettiğin';
+
+  @override
+  String lungsGapAt(int age, String points) {
+    return '$age yaşında, akciğer fonksiyonunda yaklaşık $points puanlık fark.';
+  }
+
+  @override
+  String get supportWeekNote =>
+      'Amaç ızgarayı doldurmak değil, örüntüyü görmek.';
+
+  @override
+  String get taperEasiestFirst =>
+      'Önce en kolay saatlerini açıyoruz, en zorları sona bırakıyoruz.';
+
+  @override
+  String planQuotaToday(int count) {
+    return 'Bugünün tavanı: $count';
+  }
+
+  @override
+  String motivationSaved(String amount) {
+    return 'Dumana gidecek $amount sende kaldı.';
+  }
+
+  @override
+  String motivationRides(int count) {
+    return 'Bu ay $count kriz atlattın.';
+  }
+
+  @override
+  String motivationTime(String time) {
+    return 'Popülasyon ortalamasına göre $time geri kazandın.';
+  }
+
+  @override
+  String get motivationTitle => 'Bugün için';
+
+  @override
+  String get quitDayCoTitle => 'Bıraktığından beri';
+
+  @override
+  String get quitDayCoBody =>
+      'Dumanın bıraktığı her şey içinde en hızlı temizlenen karbonmonoksittir. Bu, son sigaradan sonraki saatlerin tipik eğrisi.';
+
+  @override
+  String quitDayHoursAxis(int hours) {
+    return '$hours sa';
+  }
 }

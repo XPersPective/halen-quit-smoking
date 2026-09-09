@@ -99,6 +99,42 @@ class TaperController {
     return landed;
   }
 
+  /// The hours to widen next, easiest first (module report §9.③).
+  ///
+  /// The wake-up cigarette and the two densest hours are always tapered LAST:
+  /// the first cigarette after waking is the strongest dependence item there
+  /// is, and attacking it early is the documented way plans collapse.
+  Future<List<int>> hoursOrderedForTaper(DateTime now) async {
+    final histogram = await _db.statsDao.hourlyHistogram(
+      dayStartMinusDays(now, 27),
+      now,
+    );
+    if (histogram.length != 24 || histogram.every((h) => h == 0)) {
+      return const [];
+    }
+    final firstOfDay = await _db.statsDao.getSummariesBetween(
+      dayKey(dayStartMinusDays(now, 6)),
+      dayKey(now),
+    );
+    final wakeHours = [
+      for (final summary in firstOfDay)
+        if (summary.firstTs != null) summary.firstTs!.hour,
+    ];
+    final wakeHour = wakeHours.isEmpty
+        ? null
+        : (wakeHours.reduce((a, b) => a + b) / wakeHours.length).round();
+    return taperOrderForHours(histogram, wakeHour: wakeHour);
+  }
+
+  /// The daily ceiling implied by the current target interval — what the
+  /// quota plan shows instead of a clock.
+  Future<int> dailyCeiling(DateTime now) async {
+    final state = await _db.moduleDao.ensurePlanState(now: now);
+    return budgetForInterval(
+      intervalMinutes: state.intervalMinutes ?? await _seedInterval(now),
+    );
+  }
+
   /// Mean achieved gap for each of the last [days] days, oldest first.
   /// Days with fewer than two records contribute nothing — a single record
   /// says nothing about spacing.

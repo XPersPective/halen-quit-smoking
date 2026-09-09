@@ -216,6 +216,8 @@ class _SosScreenState extends ConsumerState<SosScreen> {
                 switch (key) {
                   case 'breathe':
                     Navigator.pushNamed(context, Routes.breathing);
+                  case 'earAcupressure':
+                    Navigator.pushNamed(context, Routes.earAcupressure);
                   case 'delay' || 'walk5':
                     _startTimer();
                 }

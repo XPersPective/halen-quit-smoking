@@ -1926,4 +1926,129 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get sourcesIntro =>
       'Every claim in this app comes from one of these. Tap to open the original.';
+
+  @override
+  String get economyEquivalentTitle => 'That is about';
+
+  @override
+  String get equivalentGroceries => 'a month of groceries';
+
+  @override
+  String get equivalentFuelTank => 'a full tank of fuel';
+
+  @override
+  String get equivalentGymMonth => 'a month at the gym';
+
+  @override
+  String get equivalentFlightTicket => 'a short-haul flight';
+
+  @override
+  String get equivalentPhone => 'a new phone';
+
+  @override
+  String economyEquivalentCount(int count, String item) {
+    return '${count}x $item';
+  }
+
+  @override
+  String get cravingWhatToDo => 'What helps here';
+
+  @override
+  String cravingSuggestionAt(String time, String technique) {
+    return 'Around $time you usually reach for one. When it comes, try: $technique';
+  }
+
+  @override
+  String get cravingOpenToolkit => 'Open the toolkit';
+
+  @override
+  String get earGuideTitle => 'Ear acupressure';
+
+  @override
+  String get earGuideStart => 'Start the 60 seconds';
+
+  @override
+  String earGuideStep(String point, int seconds) {
+    return '$point · $seconds s';
+  }
+
+  @override
+  String get earGuideFinished => 'That is the full round.';
+
+  @override
+  String toxicantsToday(int count) {
+    return '$count logged today';
+  }
+
+  @override
+  String get loadBandTitle => 'Your load, day by day';
+
+  @override
+  String get loadBandWeek => '7 days';
+
+  @override
+  String get loadBandMonth => '30 days';
+
+  @override
+  String loadBandTrendDown(int percent) {
+    return 'down $percent% on last week';
+  }
+
+  @override
+  String loadBandTrendUp(int percent) {
+    return 'up $percent% on last week';
+  }
+
+  @override
+  String get loadBandTrendFlat => 'level with last week';
+
+  @override
+  String get mindAccuracyChartTitle => 'What I guessed vs what you felt';
+
+  @override
+  String lungsGapAt(int age, String points) {
+    return 'By $age, about $points points of lung function apart.';
+  }
+
+  @override
+  String get supportWeekNote => 'The point is the pattern, not a full grid.';
+
+  @override
+  String get taperEasiestFirst =>
+      'We widen your easiest hours first and leave the hardest ones for last.';
+
+  @override
+  String planQuotaToday(int count) {
+    return 'Today\'s ceiling: $count';
+  }
+
+  @override
+  String motivationSaved(String amount) {
+    return 'You have kept $amount that would have gone up in smoke.';
+  }
+
+  @override
+  String motivationRides(int count) {
+    return '$count cravings ridden out this month.';
+  }
+
+  @override
+  String motivationTime(String time) {
+    return '$time back, on the population average.';
+  }
+
+  @override
+  String get motivationTitle => 'For today';
+
+  @override
+  String get quitDayCoTitle => 'Since you stopped';
+
+  @override
+  String get quitDayCoBody =>
+      'Carbon monoxide clears fastest of everything smoke leaves behind. This is the typical curve for the hours after a last cigarette.';
+
+  @override
+  String quitDayHoursAxis(int hours) {
+    return '$hours h';
+  }
 }

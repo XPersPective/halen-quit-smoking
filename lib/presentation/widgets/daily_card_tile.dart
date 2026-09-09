@@ -1,9 +1,16 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../application/module_providers.dart';
+import '../../application/record_providers.dart';
+import '../../application/stats_providers.dart';
+import '../../core/dates.dart';
 import '../../core/routes.dart';
 import '../../core/theme.dart';
+import '../../domain/entities.dart';
 import '../../domain/evidence.dart';
 import '../../l10n/generated/app_localizations.dart';
 
@@ -92,6 +99,8 @@ class DailyCardTile extends ConsumerWidget {
                 ),
               ),
             ],
+            const SizedBox(height: 12),
+            const _MotivationLine(),
             const SizedBox(height: 10),
             InkWell(
               onTap: () => Navigator.of(context).pushNamed(Routes.sources),
@@ -113,6 +122,66 @@ class DailyCardTile extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+
+/// The daily motivation line (module report §11.③).
+///
+/// The rule that keeps it out of fortune-cookie territory: it is ALWAYS
+/// built from the user's own numbers. There is no generic "you can do it"
+/// string in the catalogue, and when there is no data yet there is no line.
+class _MotivationLine extends ConsumerWidget {
+  const _MotivationLine();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).toString();
+    final economy = ref.watch(economyProvider).value;
+    final baseline = ref.watch(measuredBaselineProvider).value ?? 0;
+    final stats = ref.watch(dailyStatsProvider(30)).value ?? const [];
+    final cravings = ref.watch(cravingEventsProvider).value ?? const [];
+    if (economy == null || stats.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final monthStart = DateTime(DateTime.now().year, DateTime.now().month);
+    final rides = cravings
+        .where((c) =>
+            c.outcome == CravingOutcome.resisted && c.ts.isAfter(monthStart))
+        .length;
+    final avoided = stats.fold<int>(
+      0,
+      (sum, d) => sum + math.max(0, (baseline - d.count).round()),
+    );
+
+    // Rotate between the lines the user actually has data for.
+    final options = <String>[
+      if (avoided > 0)
+        l10n.motivationSaved(
+          NumberFormat.currency(locale: locale, decimalDigits: 0)
+              .format(economy.saved(avoided)),
+        ),
+      if (rides > 0) l10n.motivationRides(rides),
+      if (avoided > 0)
+        l10n.motivationTime(
+          formatShortDuration(economy.timeRegained(avoided), locale),
+        ),
+    ];
+    if (options.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    final line = options[DateTime.now().day % options.length];
+
+    return Row(
+      children: [
+        const Icon(Icons.auto_awesome_rounded, size: 14),
+        const SizedBox(width: 6),
+        Expanded(child: Text(line, style: theme.textTheme.labelLarge)),
+      ],
     );
   }
 }

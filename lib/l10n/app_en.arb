@@ -1053,5 +1053,134 @@
     }
   },
   "sourcesTitle": "Scientific sources",
-  "sourcesIntro": "Every claim in this app comes from one of these. Tap to open the original."
+  "sourcesIntro": "Every claim in this app comes from one of these. Tap to open the original.",
+  "economyEquivalentTitle": "That is about",
+  "equivalentGroceries": "a month of groceries",
+  "equivalentFuelTank": "a full tank of fuel",
+  "equivalentGymMonth": "a month at the gym",
+  "equivalentFlightTicket": "a short-haul flight",
+  "equivalentPhone": "a new phone",
+  "economyEquivalentCount": "{count}x {item}",
+  "@economyEquivalentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "cravingWhatToDo": "What helps here",
+  "cravingSuggestionAt": "Around {time} you usually reach for one. When it comes, try: {technique}",
+  "@cravingSuggestionAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "technique": {
+        "type": "String"
+      }
+    }
+  },
+  "cravingOpenToolkit": "Open the toolkit",
+  "earGuideTitle": "Ear acupressure",
+  "earGuideStart": "Start the 60 seconds",
+  "earGuideStep": "{point} · {seconds} s",
+  "@earGuideStep": {
+    "placeholders": {
+      "point": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "earGuideFinished": "That is the full round.",
+  "toxicantsToday": "{count} logged today",
+  "@toxicantsToday": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadBandTitle": "Your load, day by day",
+  "loadBandWeek": "7 days",
+  "loadBandMonth": "30 days",
+  "loadBandTrendDown": "down {percent}% on last week",
+  "@loadBandTrendDown": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "loadBandTrendUp": "up {percent}% on last week",
+  "@loadBandTrendUp": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "loadBandTrendFlat": "level with last week",
+  "mindAccuracyChartTitle": "What I guessed vs what you felt",
+  "lungsGapAt": "By {age}, about {points} points of lung function apart.",
+  "@lungsGapAt": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      },
+      "points": {
+        "type": "String"
+      }
+    }
+  },
+  "supportWeekNote": "The point is the pattern, not a full grid.",
+  "taperEasiestFirst": "We widen your easiest hours first and leave the hardest ones for last.",
+  "planQuotaToday": "Today's ceiling: {count}",
+  "@planQuotaToday": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "motivationSaved": "You have kept {amount} that would have gone up in smoke.",
+  "@motivationSaved": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "motivationRides": "{count} cravings ridden out this month.",
+  "@motivationRides": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "motivationTime": "{time} back, on the population average.",
+  "@motivationTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "motivationTitle": "For today",
+  "quitDayCoTitle": "Since you stopped",
+  "quitDayCoBody": "Carbon monoxide clears fastest of everything smoke leaves behind. This is the typical curve for the hours after a last cigarette.",
+  "quitDayHoursAxis": "{hours} h",
+  "@quitDayHoursAxis": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  }
 }

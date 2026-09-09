@@ -162,3 +162,58 @@ class SavingsGoal {
 /// Localizable equivalent suggestions. Keys resolve to ARB copy; the amounts
 /// are per-market defaults the user can overwrite with their own goal.
 enum EquivalentKey { groceries, fuelTank, gymMonth, flightTicket, phone }
+
+/// Rough, market-typical price points used only to turn a saved amount into
+/// something you can picture. They are ordered small to large and are NOT
+/// claimed to be accurate prices — the user's own goal always outranks them
+/// (module report §3.③), which is why the UI shows a goal when one exists
+/// and falls back to these only when it does not.
+List<({EquivalentKey key, double amount})> equivalentDefaults(String locale) {
+  final code = locale.toLowerCase();
+  if (code.startsWith('tr')) {
+    return const [
+      (key: EquivalentKey.gymMonth, amount: 1200),
+      (key: EquivalentKey.fuelTank, amount: 2500),
+      (key: EquivalentKey.groceries, amount: 9000),
+      (key: EquivalentKey.flightTicket, amount: 4000),
+      (key: EquivalentKey.phone, amount: 30000),
+    ];
+  }
+  if (code.startsWith('de')) {
+    return const [
+      (key: EquivalentKey.gymMonth, amount: 35),
+      (key: EquivalentKey.fuelTank, amount: 90),
+      (key: EquivalentKey.flightTicket, amount: 150),
+      (key: EquivalentKey.groceries, amount: 400),
+      (key: EquivalentKey.phone, amount: 800),
+    ];
+  }
+  return const [
+    (key: EquivalentKey.gymMonth, amount: 45),
+    (key: EquivalentKey.fuelTank, amount: 60),
+    (key: EquivalentKey.flightTicket, amount: 200),
+    (key: EquivalentKey.groceries, amount: 500),
+    (key: EquivalentKey.phone, amount: 900),
+  ];
+}
+
+/// The most substantial equivalent [amount] covers, with how many of it.
+/// Null while the saving is too small to picture as anything yet — better to
+/// stay quiet than to say "0.3 of a tank of fuel".
+({EquivalentKey key, int count})? bestEquivalent({
+  required double amount,
+  required String locale,
+}) {
+  ({EquivalentKey key, int count})? best;
+  // Sorted here rather than trusted to the table's order, so a market list
+  // can be edited without silently changing which equivalent wins.
+  final options = [...equivalentDefaults(locale)]
+    ..sort((a, b) => a.amount.compareTo(b.amount));
+  for (final option in options) {
+    final count = amount ~/ option.amount;
+    if (count >= 1) {
+      best = (key: option.key, count: count);
+    }
+  }
+  return best;
+}

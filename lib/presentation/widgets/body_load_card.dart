@@ -9,6 +9,7 @@ import '../../core/theme.dart';
 import '../../domain/body_load_model.dart';
 import '../../domain/entities.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'charts/load_band_chart.dart';
 import 'charts/load_curve_chart.dart';
 
 /// The Body Load card (module report §1.③): one sentence that answers "what
@@ -26,6 +27,7 @@ class BodyLoadCard extends ConsumerStatefulWidget {
 
 class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
   LoadKind _selected = LoadKind.nicotineAcute;
+  int _bandDays = 7;
 
   Color _colorFor(LoadKind kind) => switch (kind) {
         LoadKind.nicotineAcute => HalenColors.amberCta,
@@ -175,6 +177,10 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
                     ),
                 ],
               ),
+              const SizedBox(height: 20),
+              _LoadBandSection(days: _bandDays, onDaysChanged: (d) {
+                setState(() => _bandDays = d);
+              }),
               const SizedBox(height: 12),
               Text(
                 switch (_selected) {
@@ -241,6 +247,65 @@ class _LoadChip extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+/// "Is the whole week coming down?" — the daily band under the sawtooth
+/// (module report §1.④). Trend first, bars second.
+class _LoadBandSection extends ConsumerWidget {
+  const _LoadBandSection({required this.days, required this.onDaysChanged});
+
+  final int days;
+  final ValueChanged<int> onDaysChanged;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final band = ref.watch(loadBandProvider(days)).value;
+    if (band == null || band.means.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    final trend = band.trendPercent;
+    final trendLabel = trend < -2
+        ? l10n.loadBandTrendDown(-trend)
+        : trend > 2
+            ? l10n.loadBandTrendUp(trend)
+            : l10n.loadBandTrendFlat;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Title and range selector stack instead of sharing a row: at large
+        // text scales on a 320 dp screen the two cannot fit side by side.
+        Text(l10n.loadBandTitle, style: theme.textTheme.labelLarge),
+        const SizedBox(height: 6),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: SegmentedButton<int>(
+            style: const ButtonStyle(visualDensity: VisualDensity.compact),
+            segments: [
+              ButtonSegment(value: 7, label: Text(l10n.loadBandWeek)),
+              ButtonSegment(value: 30, label: Text(l10n.loadBandMonth)),
+            ],
+            selected: {days},
+            showSelectedIcon: false,
+            onSelectionChanged: (s) => onDaysChanged(s.first),
+          ),
+        ),
+        const SizedBox(height: 4),
+        // Trend before the bars (chart rule 3).
+        Text(trendLabel, style: theme.textTheme.bodyMedium),
+        const SizedBox(height: 8),
+        LoadBandChart(
+          means: band.means,
+          peaks: band.peaks,
+          color: HalenColors.amberCta,
+          semanticsLabel: '${l10n.loadBandTitle}: $trendLabel',
+        ),
+      ],
     );
   }
 }

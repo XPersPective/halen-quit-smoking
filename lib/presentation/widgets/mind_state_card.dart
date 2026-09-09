@@ -6,6 +6,7 @@ import '../../core/routes.dart';
 import '../../core/theme.dart';
 import '../../domain/withdrawal_model.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'charts/two_line_area_chart.dart';
 
 /// Mind state (module report §8).
 ///
@@ -96,7 +97,14 @@ class MindStateCard extends ConsumerWidget {
               ],
             ),
             if (state?.accuracy != null) ...[
-              const SizedBox(height: 10),
+              const SizedBox(height: 14),
+              Text(
+                l10n.mindAccuracyChartTitle,
+                style: theme.textTheme.labelLarge,
+              ),
+              const SizedBox(height: 6),
+              const _AccuracyChart(),
+              const SizedBox(height: 6),
               Text(
                 l10n.mindAccuracy((state!.accuracy! * 100).round()),
                 style: theme.textTheme.labelSmall,
@@ -188,4 +196,29 @@ class _PressurePainter extends CustomPainter {
   @override
   bool shouldRepaint(_PressurePainter old) =>
       old.curve != curve || old.color != color || old.position != position;
+}
+
+
+/// Guessed against felt (module report §8.④): two lines, no scores. Showing
+/// where the model was wrong is the point — it is what earns the right to
+/// show an estimate at all.
+class _AccuracyChart extends ConsumerWidget {
+  const _AccuracyChart();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final history = ref.watch(mindHistoryProvider).value ?? const [];
+    if (history.length < 2) {
+      return const SizedBox.shrink();
+    }
+    return TwoLineAreaChart(
+      upper: [for (final h in history) h.estimated * 100],
+      lower: [for (final h in history) h.reported * 100],
+      upperColor: HalenColors.skyBlue,
+      lowerColor: HalenColors.petrol,
+      height: 96,
+      semanticsLabel: l10n.mindAccuracyChartTitle,
+    );
+  }
 }

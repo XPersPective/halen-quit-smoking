@@ -376,4 +376,32 @@ void main() {
       );
     });
   });
+
+  group('equivalents', () {
+    test('picks the largest thing the saving actually covers', () {
+      final best = bestEquivalent(amount: 100, locale: 'en');
+      expect(best, isNotNull);
+      expect(best!.key, EquivalentKey.fuelTank);
+      expect(best.count, 1);
+    });
+
+    test('stays silent below the smallest equivalent', () {
+      expect(bestEquivalent(amount: 5, locale: 'en'), isNull);
+    });
+
+    test('counts multiples', () {
+      final best = bestEquivalent(amount: 1000, locale: 'en');
+      expect(best!.key, EquivalentKey.phone);
+      expect(best.count, 1);
+      final gym = bestEquivalent(amount: 100, locale: 'de');
+      expect(gym!.key, EquivalentKey.fuelTank);
+    });
+
+    test('every market list covers all the keys', () {
+      for (final locale in ['en', 'tr', 'de']) {
+        final keys = equivalentDefaults(locale).map((e) => e.key).toSet();
+        expect(keys.length, EquivalentKey.values.length, reason: locale);
+      }
+    });
+  });
 }

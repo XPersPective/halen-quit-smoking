@@ -853,11 +853,13 @@ Bu raporun **14 modülünün tamamı** uygulandı ve `master`'a girdi. Kodda kar
 | §13 Program Sistemi | `domain/plan_kinds.dart` | `PlanKindController`, `plan_state` | `screens/plan/plan_switch_screen.dart` |
 | §14 İki İndeks | `domain/progress_index.dart`, `domain/harm_load.dart` | `indicesProvider`, `index_snapshot` tablosu | `widgets/indices_card.dart` |
 
+**İkinci geçiş (9 Eylül 2026) — raporun ikincil maddeleri de kapatıldı:** §1 günlük yük bandı (7/30 gün, trend önce) ve bırakma günü CO iyileşme kartı; §2 "bugün temas ettiklerin"; §3 eşdeğer motoru (yerel varsayılanlar, kullanıcı hedefi hep önce); §4 "ne yapmalı" önerisi (kendi verisinde işe yarayan tekniği öneriyor) + araç setine kısa yol; §5 rehberli kulak akupresürü ekranı (5 NADA noktası, 12'şer saniye, iğnesiz, stilize çizim); §6 senaryo farkı cümlesi + kilometre taşı parlaması; §8 "tahminim vs senin hissettiğin" örtüşme grafiği; §9 en kolay saatler önce + günlük kota tavanı; §10 haftalık destek ızgarası; §11 veriye bağlı motivasyon satırı.
+
 **Şeffaflık:** `screens/transparency/how_calculated_screen.dart` artık altı yeni bölümle her formülü, ağırlığı ve sınırı yayımlıyor (§0.2).
 
 **İçerik motoru (§11) yapısal kuralı koda gömüldü:** `DailyCard` yapıcısı, `family == reality` olan bir kartın **eylem satırı olmadan oluşturulmasını assert ile reddeder** — korku ancak öz-yeterlikle işe yaradığı için bu bir editoryal alışkanlık değil, derleme/çalışma zamanı kuralıdır. Kart seçimi faz duyarlıdır: ilk 3 gün (yoksunluk tepesi) yalnızca *Bilgi* ve *Kazanç* aileleri gösterilir.
 
-**Testler:** 196 test. Bunların içinde davranışsal değil **yapısal** kurallar da var: etik lint (S5 iddia kalıpları), `library_repository_test.dart` (her organ kartının iyileşme metni, her tekniğin kanıt notu, bitki kartının "kanıt yok" ifadesi zorunlu) ve indeks/taper altın-değer testleri.
+**Testler:** 200 test. Bunların içinde davranışsal değil **yapısal** kurallar da var: etik lint (S5 iddia kalıpları), `library_repository_test.dart` (her organ kartının iyileşme metni, her tekniğin kanıt notu, bitki kartının "kanıt yok" ifadesi zorunlu) ve indeks/taper altın-değer testleri.
 
 **Kasıtlı davranış değişiklikleri:** (a) sigara kaydından sonra artık önce geri bildirim yaprağı açılıyor (kayıt zaten alınmış durumda, geri alınabilir); (b) SOS ekranındaki 4D kartlar tek bir kanıt dereceli araç setiyle değiştirildi ve bu sete kulak akupresürü ⚪ etiketiyle eklendi — ana raporun "akupresür yok" kuralı bu raporun §5.① kanıt değerlendirmesiyle güncellenmiştir.
 

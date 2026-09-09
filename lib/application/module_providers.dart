@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,6 +10,7 @@ import '../data/repositories/library_repository.dart';
 import '../domain/body_load_model.dart';
 import '../domain/craving_risk.dart';
 import '../domain/economy.dart';
+import '../domain/evidence.dart';
 import '../domain/entities.dart';
 import '../domain/harm_load.dart';
 import '../domain/lung_model.dart';
@@ -100,6 +103,78 @@ final tarLoadProvider = Provider<AsyncValue<int>>((ref) {
           baselineCpd: (profile?.baselineCpd ?? 0).toDouble(),
         ),
       );
+});
+
+/// Daily mean and peak modelled load for the last [days] days
+/// (module report §1.④ secondary chart), plus the week-on-week trend.
+class DailyLoadBand {
+  const DailyLoadBand({
+    required this.means,
+    required this.peaks,
+    required this.trendPercent,
+  });
+
+  /// Mean normalized load per day, 0–100, oldest first.
+  final List<int> means;
+
+  /// Peak normalized load per day, 0–100, oldest first.
+  final List<int> peaks;
+
+  /// Change against the previous week of the same length, in percent.
+  /// Negative is downward, which is the direction that matters here.
+  final int trendPercent;
+}
+
+final loadBandProvider = Provider.family<AsyncValue<DailyLoadBand>, int>((
+  ref,
+  days,
+) {
+  final model = ref.watch(bodyLoadModelProvider);
+  final now = DateTime.now();
+  return ref.watch(eventTimestampsProvider).whenData((events) {
+    // Sample each day hourly on the raw curve, then normalize the whole
+    // window against its own peak — the same rule as every other load view:
+    // relative to the user's own history, never an absolute quantity.
+    final rawMeans = <double>[];
+    final rawPeaks = <double>[];
+    for (var d = days * 2 - 1; d >= 0; d--) {
+      final dayStart = dayStartMinusDays(now, d);
+      final samples = [
+        for (var h = 0; h < 24; h++)
+          model.rawAt(
+            LoadKind.nicotineAcute,
+            dayStart.add(Duration(hours: h)),
+            events,
+          ),
+      ];
+      rawMeans.add(samples.reduce((a, b) => a + b) / samples.length);
+      rawPeaks.add(samples.reduce(math.max));
+    }
+    final peak = rawPeaks.fold<double>(0, math.max);
+    List<int> normalize(List<double> values) => [
+          for (final v in values)
+            peak <= 0 ? 0 : (v / peak * 100).round().clamp(0, 100),
+        ];
+
+    final allMeans = normalize(rawMeans);
+    final previous = allMeans.sublist(0, days);
+    final current = allMeans.sublist(days);
+    final previousMean = previous.isEmpty
+        ? 0.0
+        : previous.reduce((a, b) => a + b) / previous.length;
+    final currentMean = current.isEmpty
+        ? 0.0
+        : current.reduce((a, b) => a + b) / current.length;
+    final trend = previousMean <= 0
+        ? 0
+        : ((currentMean - previousMean) / previousMean * 100).round();
+
+    return DailyLoadBand(
+      means: current,
+      peaks: normalize(rawPeaks).sublist(days),
+      trendPercent: trend,
+    );
+  });
 });
 
 /// Per-hour share of records that carried a trigger label — the craving
@@ -211,6 +286,22 @@ final mindStateProvider = FutureProvider<MindState>((ref) async {
   );
 });
 
+/// The last 14 (estimate, report) pairs for the overlap chart
+/// (module report §8.④) — how well the model tracked reality, shown rather
+/// than hidden.
+final mindHistoryProvider =
+    FutureProvider<List<({double estimated, double reported})>>((ref) async {
+  final db = ref.watch(databaseProvider);
+  final moods = await db.moduleDao.moodsSince(
+    DateTime.now().subtract(const Duration(days: 28)),
+  );
+  final recent = moods.length <= 14 ? moods : moods.sublist(moods.length - 14);
+  return [
+    for (final m in recent)
+      (estimated: m.estimated, reported: m.reportedBand / 2),
+  ];
+});
+
 /// Records how the user actually feels, so the model can learn its offset.
 final moodReportProvider = Provider<Future<void> Function(int, double)>((ref) {
   return (band, estimated) async {
@@ -223,6 +314,7 @@ final moodReportProvider = Provider<Future<void> Function(int, double)>((ref) {
       ),
     );
     ref.invalidate(mindStateProvider);
+    ref.invalidate(mindHistoryProvider);
   };
 });
 
@@ -263,6 +355,18 @@ final measuredBaselineProvider = FutureProvider<double>((ref) async {
 /// The active plan row, created on first read.
 final planStateProvider = StreamProvider<PlanStateRow?>((ref) {
   return ref.watch(databaseProvider).moduleDao.watchPlanState();
+});
+
+/// The hours the taper will widen next, easiest first, and the ceiling the
+/// quota plan implies (module report §9).
+final taperPlanDetailProvider =
+    FutureProvider<({List<int> hours, int ceiling})>((ref) async {
+  final controller = ref.watch(taperControllerProvider);
+  final now = DateTime.now();
+  return (
+    hours: await controller.hoursOrderedForTaper(now),
+    ceiling: await controller.dailyCeiling(now),
+  );
 });
 
 /// Both indices plus their history — the twin gauge card and the scissor
@@ -427,6 +531,38 @@ final lungScenariosProvider =
         quitAge: age,
       ),
   };
+});
+
+/// The week's support completions as a 3 x 7 grid (module report §10.④):
+/// rows are channels, columns are the last seven days, oldest first.
+final supportWeekProvider =
+    FutureProvider<Map<SupportChannel, List<bool>>>((ref) async {
+  final db = ref.watch(databaseProvider);
+  final library = ref.watch(libraryRepositoryProvider);
+  final now = DateTime.now();
+  final rows = await db.moduleDao
+      .watchSupportSince(dayKey(dayStartMinusDays(now, 6)))
+      .first;
+  final byKey = {for (final card in library.supportCards()) card.key: card};
+
+  final grid = {
+    for (final channel in SupportChannel.values)
+      channel: List<bool>.filled(7, false),
+  };
+  for (final row in rows) {
+    if (!row.done) {
+      continue;
+    }
+    final card = byKey[row.cardKey];
+    if (card == null) {
+      continue;
+    }
+    final index = 6 - now.difference(parseDayKey(row.date)).inDays;
+    if (index >= 0 && index < 7) {
+      grid[card.channel]![index] = true;
+    }
+  }
+  return grid;
 });
 
 /// Today's support card and whether it is already ticked off.

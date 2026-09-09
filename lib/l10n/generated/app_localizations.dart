@@ -3459,6 +3459,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Every claim in this app comes from one of these. Tap to open the original.'**
   String get sourcesIntro;
+
+  /// No description provided for @economyEquivalentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'That is about'**
+  String get economyEquivalentTitle;
+
+  /// No description provided for @equivalentGroceries.
+  ///
+  /// In en, this message translates to:
+  /// **'a month of groceries'**
+  String get equivalentGroceries;
+
+  /// No description provided for @equivalentFuelTank.
+  ///
+  /// In en, this message translates to:
+  /// **'a full tank of fuel'**
+  String get equivalentFuelTank;
+
+  /// No description provided for @equivalentGymMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'a month at the gym'**
+  String get equivalentGymMonth;
+
+  /// No description provided for @equivalentFlightTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'a short-haul flight'**
+  String get equivalentFlightTicket;
+
+  /// No description provided for @equivalentPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'a new phone'**
+  String get equivalentPhone;
+
+  /// No description provided for @economyEquivalentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}x {item}'**
+  String economyEquivalentCount(int count, String item);
+
+  /// No description provided for @cravingWhatToDo.
+  ///
+  /// In en, this message translates to:
+  /// **'What helps here'**
+  String get cravingWhatToDo;
+
+  /// No description provided for @cravingSuggestionAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Around {time} you usually reach for one. When it comes, try: {technique}'**
+  String cravingSuggestionAt(String time, String technique);
+
+  /// No description provided for @cravingOpenToolkit.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the toolkit'**
+  String get cravingOpenToolkit;
+
+  /// No description provided for @earGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ear acupressure'**
+  String get earGuideTitle;
+
+  /// No description provided for @earGuideStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the 60 seconds'**
+  String get earGuideStart;
+
+  /// No description provided for @earGuideStep.
+  ///
+  /// In en, this message translates to:
+  /// **'{point} · {seconds} s'**
+  String earGuideStep(String point, int seconds);
+
+  /// No description provided for @earGuideFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'That is the full round.'**
+  String get earGuideFinished;
+
+  /// No description provided for @toxicantsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} logged today'**
+  String toxicantsToday(int count);
+
+  /// No description provided for @loadBandTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your load, day by day'**
+  String get loadBandTitle;
+
+  /// No description provided for @loadBandWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days'**
+  String get loadBandWeek;
+
+  /// No description provided for @loadBandMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'30 days'**
+  String get loadBandMonth;
+
+  /// No description provided for @loadBandTrendDown.
+  ///
+  /// In en, this message translates to:
+  /// **'down {percent}% on last week'**
+  String loadBandTrendDown(int percent);
+
+  /// No description provided for @loadBandTrendUp.
+  ///
+  /// In en, this message translates to:
+  /// **'up {percent}% on last week'**
+  String loadBandTrendUp(int percent);
+
+  /// No description provided for @loadBandTrendFlat.
+  ///
+  /// In en, this message translates to:
+  /// **'level with last week'**
+  String get loadBandTrendFlat;
+
+  /// No description provided for @mindAccuracyChartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What I guessed vs what you felt'**
+  String get mindAccuracyChartTitle;
+
+  /// No description provided for @lungsGapAt.
+  ///
+  /// In en, this message translates to:
+  /// **'By {age}, about {points} points of lung function apart.'**
+  String lungsGapAt(int age, String points);
+
+  /// No description provided for @supportWeekNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The point is the pattern, not a full grid.'**
+  String get supportWeekNote;
+
+  /// No description provided for @taperEasiestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'We widen your easiest hours first and leave the hardest ones for last.'**
+  String get taperEasiestFirst;
+
+  /// No description provided for @planQuotaToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s ceiling: {count}'**
+  String planQuotaToday(int count);
+
+  /// No description provided for @motivationSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'You have kept {amount} that would have gone up in smoke.'**
+  String motivationSaved(String amount);
+
+  /// No description provided for @motivationRides.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} cravings ridden out this month.'**
+  String motivationRides(int count);
+
+  /// No description provided for @motivationTime.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} back, on the population average.'**
+  String motivationTime(String time);
+
+  /// No description provided for @motivationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'For today'**
+  String get motivationTitle;
+
+  /// No description provided for @quitDayCoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Since you stopped'**
+  String get quitDayCoTitle;
+
+  /// No description provided for @quitDayCoBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbon monoxide clears fastest of everything smoke leaves behind. This is the typical curve for the hours after a last cigarette.'**
+  String get quitDayCoBody;
+
+  /// No description provided for @quitDayHoursAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h'**
+  String quitDayHoursAxis(int hours);
 }
 
 class _AppLocalizationsDelegate

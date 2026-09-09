@@ -1,0 +1,274 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+import '../../../core/theme.dart';
+import '../../../l10n/generated/app_localizations.dart';
+
+/// The guided ear-acupressure round (module report §5.④).
+///
+/// Five points, twelve seconds each — the NADA set (Shen Men, Autonomic,
+/// Kidney, Liver, Lung). Three constraints shaped this screen:
+///  - **fingers only.** Needles are never suggested, and the line saying so
+///    is always on screen, not buried in a footnote;
+///  - **no anatomical photograph.** A stylised outline avoids both a
+///    licensing problem and the medical-procedure look that would oversell
+///    what this is;
+///  - **the evidence label travels with it.** This is the ⚪ traditional tier:
+///    short-term withdrawal data exists, long-term quitting benefit has not
+///    been shown, and the screen says exactly that.
+class EarAcupressureScreen extends StatefulWidget {
+  const EarAcupressureScreen({super.key});
+
+  @override
+  State<EarAcupressureScreen> createState() => _EarAcupressureScreenState();
+}
+
+class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
+  static const _secondsPerPoint = 12;
+  static const _pointCount = 5;
+
+  int _elapsed = 0;
+  bool _running = false;
+  Timer? _ticker;
+
+  int get _currentPoint => (_elapsed ~/ _secondsPerPoint).clamp(0, _pointCount - 1);
+  int get _secondsLeftOnPoint =>
+      _secondsPerPoint - (_elapsed % _secondsPerPoint);
+  bool get _finished => _elapsed >= _secondsPerPoint * _pointCount;
+
+  void _start() {
+    _ticker?.cancel();
+    setState(() {
+      _elapsed = 0;
+      _running = true;
+    });
+    _ticker = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _elapsed += 1);
+      if (_finished) {
+        timer.cancel();
+        setState(() => _running = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _ticker?.cancel();
+    super.dispose();
+  }
+
+  List<String> _pointNames(AppLocalizations l10n) => [
+        l10n.sosEarPointShenMen,
+        l10n.sosEarPointAutonomic,
+        l10n.sosEarPointKidney,
+        l10n.sosEarPointLiver,
+        l10n.sosEarPointLung,
+      ];
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final names = _pointNames(l10n);
+
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.earGuideTitle)),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(24),
+          children: [
+            Center(
+              child: SizedBox(
+                height: 240,
+                width: 180,
+                child: Semantics(
+                  label: _running
+                      ? l10n.earGuideStep(
+                          names[_currentPoint],
+                          _secondsLeftOnPoint,
+                        )
+                      : l10n.earGuideTitle,
+                  excludeSemantics: true,
+                  child: CustomPaint(
+                    painter: _EarPainter(
+                      activePoint: _running ? _currentPoint : -1,
+                      isLight: theme.brightness == Brightness.light,
+                    ),
+                    size: Size.infinite,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            for (var i = 0; i < _pointCount; i++)
+              _PointRow(
+                index: i,
+                name: names[i],
+                state: !_running && !_finished
+                    ? _PointState.idle
+                    : i < _currentPoint || _finished
+                        ? _PointState.done
+                        : i == _currentPoint
+                            ? _PointState.active
+                            : _PointState.idle,
+                secondsLeft: _secondsLeftOnPoint,
+              ),
+            const SizedBox(height: 20),
+            if (_finished)
+              Text(l10n.earGuideFinished, style: theme.textTheme.titleMedium)
+            else
+              FilledButton(
+                onPressed: _running ? null : _start,
+                child: Text(l10n.earGuideStart),
+              ),
+            const SizedBox(height: 20),
+            Text(
+              l10n.sosNoNeedles,
+              style: theme.textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '${l10n.evidenceTraditional} · ${l10n.evidenceLabel}',
+              style: theme.textTheme.labelSmall,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+enum _PointState { idle, active, done }
+
+class _PointRow extends StatelessWidget {
+  const _PointRow({
+    required this.index,
+    required this.name,
+    required this.state,
+    required this.secondsLeft,
+  });
+
+  final int index;
+  final String name;
+  final _PointState state;
+  final int secondsLeft;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final active = state == _PointState.active;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: switch (state) {
+                _PointState.done =>
+                  HalenColors.emerald.withValues(alpha: 0.25),
+                _PointState.active =>
+                  HalenColors.petrol.withValues(alpha: 0.25),
+                _PointState.idle => theme.dividerColor.withValues(alpha: 0.4),
+              },
+            ),
+            child: state == _PointState.done
+                ? const Icon(Icons.check_rounded, size: 14)
+                : Text('${index + 1}', style: theme.textTheme.labelSmall),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              active ? l10n.earGuideStep(name, secondsLeft) : name,
+              style: active
+                  ? theme.textTheme.titleSmall
+                  : theme.textTheme.bodyMedium,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A stylised outer ear with the five NADA points — deliberately a drawing,
+/// not a photograph or a clinical diagram.
+class _EarPainter extends CustomPainter {
+  _EarPainter({required this.activePoint, required this.isLight});
+
+  final int activePoint;
+  final bool isLight;
+
+  /// Relative positions of the five points inside the ear outline.
+  static const _points = <Offset>[
+    Offset(0.46, 0.34), // Shen Men — upper triangular fossa
+    Offset(0.38, 0.44), // Autonomic
+    Offset(0.52, 0.52), // Kidney
+    Offset(0.58, 0.44), // Liver
+    Offset(0.50, 0.62), // Lung
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final tint = isLight ? HalenColors.petrol : HalenColors.mint;
+    final w = size.width;
+    final h = size.height;
+
+    final outline = Path()
+      ..moveTo(w * 0.62, h * 0.12)
+      ..cubicTo(w * 0.28, h * 0.10, w * 0.16, h * 0.42, w * 0.26, h * 0.66)
+      ..cubicTo(w * 0.33, h * 0.84, w * 0.48, h * 0.94, w * 0.62, h * 0.88)
+      ..cubicTo(w * 0.72, h * 0.84, w * 0.70, h * 0.74, w * 0.62, h * 0.72);
+
+    final helix = Path()
+      ..moveTo(w * 0.58, h * 0.24)
+      ..cubicTo(w * 0.38, h * 0.26, w * 0.32, h * 0.48, w * 0.40, h * 0.64)
+      ..cubicTo(w * 0.46, h * 0.76, w * 0.56, h * 0.78, w * 0.60, h * 0.72);
+
+    final stroke = Paint()
+      ..color = tint
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.4
+      ..strokeCap = StrokeCap.round;
+    canvas.drawPath(outline, stroke);
+    canvas.drawPath(
+      helix,
+      Paint()
+        ..color = tint.withValues(alpha: 0.55)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.8
+        ..strokeCap = StrokeCap.round,
+    );
+
+    for (var i = 0; i < _points.length; i++) {
+      final centre = Offset(_points[i].dx * w, _points[i].dy * h);
+      final isActive = i == activePoint;
+      canvas.drawCircle(
+        centre,
+        isActive ? 11 : 6,
+        Paint()
+          ..color = (isActive ? HalenColors.amberCta : tint)
+              .withValues(alpha: isActive ? 0.30 : 0.16),
+      );
+      canvas.drawCircle(
+        centre,
+        isActive ? 6 : 4,
+        Paint()..color = isActive ? HalenColors.amberCta : tint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_EarPainter old) =>
+      old.activePoint != activePoint || old.isLight != isLight;
+}

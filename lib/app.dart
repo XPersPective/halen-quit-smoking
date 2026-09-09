@@ -20,6 +20,7 @@ import 'presentation/screens/plan/plan_switch_screen.dart';
 import 'presentation/screens/settings/settings_screen.dart';
 import 'presentation/screens/shell_screen.dart';
 import 'presentation/screens/sos/breathing_screen.dart';
+import 'presentation/screens/sos/ear_acupressure_screen.dart';
 import 'presentation/screens/splash_screen.dart';
 import 'presentation/screens/timeline/health_timeline_screen.dart';
 import 'presentation/screens/today/record_detail_screen.dart';
@@ -61,6 +62,7 @@ class HalenApp extends ConsumerWidget {
         Routes.economy: (_) => const EconomyScreen(),
         Routes.planSwitch: (_) => const PlanSwitchScreen(),
         Routes.sources: (_) => const SourcesScreen(),
+        Routes.earAcupressure: (_) => const EarAcupressureScreen(),
       },
       onGenerateRoute: (settings) {
         // Record detail takes the just-logged event id as an argument.

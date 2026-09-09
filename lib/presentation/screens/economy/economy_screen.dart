@@ -106,6 +106,8 @@ class EconomyScreen extends ConsumerWidget {
               ),
             ],
           ),
+          const SizedBox(height: 16),
+          _Equivalent(saved: saved),
           const SizedBox(height: 28),
 
           Text(
@@ -186,6 +188,45 @@ class EconomyScreen extends ConsumerWidget {
           const SizedBox(height: 24),
         ],
       ),
+    );
+  }
+}
+
+/// "That is about 2x a month at the gym" — the equivalent engine
+/// (module report §3.③). Silent until the saving is worth picturing.
+class _Equivalent extends StatelessWidget {
+  const _Equivalent({required this.saved});
+
+  final double saved;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
+    final best = bestEquivalent(amount: saved, locale: locale);
+    if (best == null) {
+      return const SizedBox.shrink();
+    }
+    final item = switch (best.key) {
+      EquivalentKey.groceries => l10n.equivalentGroceries,
+      EquivalentKey.fuelTank => l10n.equivalentFuelTank,
+      EquivalentKey.gymMonth => l10n.equivalentGymMonth,
+      EquivalentKey.flightTicket => l10n.equivalentFlightTicket,
+      EquivalentKey.phone => l10n.equivalentPhone,
+    };
+    return Row(
+      children: [
+        const Icon(Icons.swap_horiz_rounded, size: 18),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            '${l10n.economyEquivalentTitle}: '
+            '${l10n.economyEquivalentCount(best.count, item)}',
+            style: theme.textTheme.bodyMedium,
+          ),
+        ),
+      ],
     );
   }
 }

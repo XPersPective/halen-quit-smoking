@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../application/module_providers.dart';
+import '../../application/record_providers.dart';
 import '../../core/routes.dart';
 import '../../core/theme.dart';
 import '../../domain/craving_risk.dart';
+import '../../domain/entities.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'charts/week_heatmap.dart';
 
@@ -112,6 +114,49 @@ class CravingWindowCard extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
 
+            // A risk number on its own is a warning; the report's rule is
+            // that it must open a door instead. The suggestion is the
+            // technique that has actually worked for this user, falling back
+            // to the best-supported one.
+            if (windows.isNotEmpty) ...[
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: HalenColors.emerald.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.cravingWhatToDo,
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: HalenColors.petrol,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      l10n.cravingSuggestionAt(
+                        '${windows.first.startHour}:00',
+                        _suggestedTechnique(ref, context),
+                      ),
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: FilledButton.tonal(
+                        onPressed: () => Navigator.of(context)
+                            .pushNamed(Routes.cravingSos),
+                        child: Text(l10n.cravingOpenToolkit),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+
             Text(l10n.cravingHeatmapTitle, style: theme.textTheme.labelLarge),
             const SizedBox(height: 8),
             if (!hasEnough)
@@ -138,6 +183,35 @@ class CravingWindowCard extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  /// The technique to offer for the next risky window: whatever has worked
+  /// for this user at least three times, else the best-supported one.
+  String _suggestedTechnique(WidgetRef ref, BuildContext context) {
+    final locale = Localizations.localeOf(context).languageCode;
+    final techniques = ref.watch(libraryRepositoryProvider).sosTechniques();
+    final cravings = ref.watch(cravingEventsProvider).value ?? const [];
+    final attempts = <String, int>{};
+    final wins = <String, int>{};
+    for (final craving in cravings) {
+      final key = craving.techniqueKey;
+      if (key == null) {
+        continue;
+      }
+      attempts[key] = (attempts[key] ?? 0) + 1;
+      if (craving.outcome == CravingOutcome.resisted) {
+        wins[key] = (wins[key] ?? 0) + 1;
+      }
+    }
+    final proven = attempts.entries
+        .where((e) => e.value >= 3)
+        .toList()
+      ..sort((a, b) => ((wins[b.key] ?? 0) / b.value)
+          .compareTo((wins[a.key] ?? 0) / a.value));
+    final key = proven.isEmpty ? techniques.first.key : proven.first.key;
+    return techniques
+        .firstWhere((t) => t.key == key, orElse: () => techniques.first)
+        .name(locale);
   }
 
   /// Localized narrow weekday names, Monday first (matching DateTime.weekday).

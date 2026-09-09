@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../application/module_providers.dart';
+import '../../../core/dates.dart';
 import '../../../core/routes.dart';
 import '../../../core/theme.dart';
 import '../../../data/repositories/library_repository.dart';
+import '../../../application/providers.dart';
+import '../../../domain/health_timeline.dart';
 import '../../../domain/lung_model.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/charts/two_line_area_chart.dart';
@@ -61,11 +64,19 @@ class _LungsTab extends ConsumerWidget {
     final theme = Theme.of(context);
     final tarLoad = ref.watch(tarLoadProvider).value ?? 0;
     final scenarios = ref.watch(lungScenariosProvider).value;
+    final quitTs = ref.watch(timelineStateProvider).value;
+    // A milestone reached within the last day earns one glow.
+    final justReached = quitTs != null &&
+        HealthMilestone.values.any((m) {
+          final days = daysSinceQuit(quitTs, DateTime.now());
+          return m.minQuitDays == days && days > 0;
+        });
 
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
         LungView(
+          celebrate: justReached,
           mist: mistLevel(tarLoadVsBaseline: tarLoad),
           semanticsLabel: '${l10n.lungsMistLabel}: $tarLoad / 100',
         ),
@@ -108,6 +119,25 @@ class _LungsTab extends ConsumerWidget {
                           ],
                     semanticsLabel:
                         '${l10n.lungsScenarioQuit} vs ${l10n.lungsScenarioKeep}',
+                  ),
+                  const SizedBox(height: 10),
+                  // What the shaded area is worth, in one sentence.
+                  Builder(
+                    builder: (context) {
+                      final gap = scenarioGapAt(
+                        fromAge: keep.first.age,
+                        atAge: 70,
+                        cigarettesPerDay:
+                            ref.watch(measuredBaselineProvider).value ?? 15,
+                      );
+                      if (gap <= 0.5) {
+                        return const SizedBox.shrink();
+                      }
+                      return Text(
+                        l10n.lungsGapAt(70, gap.toStringAsFixed(0)),
+                        style: theme.textTheme.titleSmall,
+                      );
+                    },
                   ),
                   const SizedBox(height: 12),
                   Wrap(
@@ -265,10 +295,40 @@ class _ToxicantsTab extends ConsumerWidget {
     final locale = Localizations.localeOf(context).languageCode;
     final library = ref.watch(libraryRepositoryProvider);
     final toxicants = library.toxicants();
+    final now = DateTime.now();
+    final todayCount = (ref.watch(eventTimestampsProvider).value ?? const [])
+        .where((e) => e.isSameLocalDayAs(now))
+        .length;
 
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
+        if (todayCount > 0) ...[
+          // The library only lands when it is attached to today's own record
+          // (module report §2.③) — no dose claim, just the count and the
+          // names it puts you in contact with.
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 5,
+            runSpacing: 5,
+            children: [
+              for (var i = 0; i < todayCount.clamp(0, 20); i++)
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: HalenColors.amberCta,
+                  ),
+                ),
+              Text(
+                l10n.toxicantsToday(todayCount),
+                style: theme.textTheme.labelMedium,
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
         Text(
           l10n.toxicantsSubtitle(
             LibraryRepository.knownChemicals,

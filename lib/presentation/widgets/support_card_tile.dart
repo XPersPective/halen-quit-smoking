@@ -111,11 +111,80 @@ class SupportCardTile extends ConsumerWidget {
                   ),
               ],
             ),
+            const SizedBox(height: 16),
+            const _SupportWeekGrid(),
             const SizedBox(height: 8),
             Text(l10n.supportNotATest, style: theme.textTheme.labelSmall),
           ],
         ),
       ),
+    );
+  }
+}
+
+
+/// The week at a glance (module report §10.④). The goal is to see the
+/// pattern, not to fill the grid — which is why there is no score, no streak
+/// and no empty-cell colour that reads as failure.
+class _SupportWeekGrid extends ConsumerWidget {
+  const _SupportWeekGrid();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final grid = ref.watch(supportWeekProvider).value;
+    if (grid == null) {
+      return const SizedBox.shrink();
+    }
+    String label(SupportChannel channel) => switch (channel) {
+          SupportChannel.movement => l10n.supportChannelMovement,
+          SupportChannel.nutrition => l10n.supportChannelNutrition,
+          SupportChannel.ritual => l10n.supportChannelRitual,
+        };
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.supportWeekTitle, style: theme.textTheme.labelLarge),
+        const SizedBox(height: 8),
+        for (final channel in SupportChannel.values)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Row(
+              children: [
+                // Flexible, not fixed: at 1.6x text scale a 72 dp label box
+                // is not enough and the row would overflow.
+                Flexible(
+                  child: Text(
+                    label(channel),
+                    style: theme.textTheme.labelSmall,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                for (final done in grid[channel]!)
+                  Container(
+                    width: 18,
+                    height: 18,
+                    margin: const EdgeInsets.only(right: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: done
+                          ? HalenColors.emerald.withValues(alpha: 0.75)
+                          : Colors.transparent,
+                      border: done
+                          ? null
+                          : Border.all(
+                              color: theme.dividerColor.withValues(alpha: 0.6),
+                            ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        Text(l10n.supportWeekNote, style: theme.textTheme.labelSmall),
+      ],
     );
   }
 }
