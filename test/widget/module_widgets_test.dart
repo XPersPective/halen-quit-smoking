@@ -194,28 +194,36 @@ void main() {
     await disposeApp(tester);
   });
 
-  testWidgets('every organ pairs harm with recovery', (tester) async {
+  testWidgets('the body map opens an organ with its impact and recovery',
+      (tester) async {
     await seedProfile();
     await pumpModuleWidget(
       tester,
       db: db,
-      child: const BodyScreen(),
+      child: const BodyScreen(initialTab: 1),
       scrollable: false,
     );
-    // The lungs breathe forever by design, so settle is not an option here.
+    // The map pulses forever by design, so settle is not an option.
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
 
     final l10n = await AppLocalizations.delegate.load(const Locale('en'));
-    expect(find.text(l10n.lungsNotAScan), findsOneWidget);
+    // Nothing is selected yet: the invitation is on screen, no detail is.
+    expect(find.text(l10n.organTapHint), findsOneWidget);
+    expect(find.text(l10n.organRecoveryTitle), findsNothing);
 
-    await tester.tap(find.text(l10n.organMapTitle).last);
+    await tester.tap(find.text('Lungs'));
     await tester.pump();
-    await tester.pump(const Duration(seconds: 1));
-    expect(find.text(l10n.organRecoveryTitle), findsWidgets);
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Harm never ships without recovery, and the figure is labelled as a
+    // population figure rather than a reading of this body.
+    expect(find.text(l10n.organHarmTitle), findsOneWidget);
+    expect(find.text(l10n.organRecoveryTitle), findsOneWidget);
+    expect(find.text(l10n.organNotYou), findsOneWidget);
     expect(
-      find.text(l10n.organHarmTitle).evaluate().length,
-      find.text(l10n.organRecoveryTitle).evaluate().length,
+      find.text(l10n.organImpactAttributable(79)),
+      findsOneWidget,
     );
 
     await disposeApp(tester);

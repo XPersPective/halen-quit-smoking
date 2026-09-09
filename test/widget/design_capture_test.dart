@@ -125,6 +125,36 @@ void main() {
 
   testWidgets('indices', (t) => shot(t, '20-indeksler', const IndicesCard()));
   testWidgets('body', (t) => shot(t, '21-beden', const BodyScreen()));
+  testWidgets('organ map', (t) async {
+    await shot(t, '26-organ-haritasi', const BodyScreen(initialTab: 1));
+  });
+
+  testWidgets('organ detail', (tester) async {
+    tester.view.physicalSize = const Size(420, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await pumpModuleWidget(
+      tester,
+      db: db,
+      child: const BodyScreen(initialTab: 1),
+      scrollable: false,
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(find.text('Lungs'));
+    for (var i = 0; i < 12; i++) {
+      await tester.pump(const Duration(milliseconds: 80));
+    }
+    expect(tester.takeException(), isNull);
+    if (capture) {
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('../../screenshots/module/27-organ-detay.png'),
+      );
+    }
+    await disposeApp(tester);
+  });
   testWidgets('economy', (t) => shot(t, '22-ekonomi', const EconomyScreen()));
   testWidgets(
     'plan switch',

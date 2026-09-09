@@ -10,6 +10,7 @@ import '../../../application/providers.dart';
 import '../../../domain/health_timeline.dart';
 import '../../../domain/lung_model.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../widgets/body_map_view.dart';
 import '../../widgets/charts/halen_line_chart.dart';
 import '../../widgets/lung_view.dart';
 
@@ -20,13 +21,18 @@ import '../../widgets/lung_view.dart';
 /// scenario curve is labelled "typical for your age group", and every organ
 /// card puts recovery next to harm — the negative half never ships alone.
 class BodyScreen extends ConsumerWidget {
-  const BodyScreen({super.key});
+  const BodyScreen({super.key, this.initialTab = 0});
+
+  /// Which tab opens first — used by the visual capture, and by any future
+  /// deep link that wants to land on the body map directly.
+  final int initialTab;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     return DefaultTabController(
       length: 3,
+      initialIndex: initialTab,
       child: Scaffold(
         appBar: AppBar(
           title: Text(l10n.organMapTitle),
@@ -169,14 +175,22 @@ class _LungsTab extends ConsumerWidget {
   }
 }
 
-class _OrgansTab extends ConsumerWidget {
+class _OrgansTab extends ConsumerStatefulWidget {
   const _OrgansTab();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_OrgansTab> createState() => _OrgansTabState();
+}
+
+class _OrgansTabState extends ConsumerState<_OrgansTab> {
+  String? _selected;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final locale = Localizations.localeOf(context).languageCode;
+    final reduceMotion = MediaQuery.of(context).disableAnimations;
     final user = ref.watch(userProfileProvider).value;
     final age = midpointAge(user?.ageBand);
     final organs = [...ref.watch(libraryRepositoryProvider).organs()]
@@ -188,77 +202,143 @@ class _OrgansTab extends ConsumerWidget {
         }
         return (b.cardiovascular ? 1 : 0).compareTo(a.cardiovascular ? 1 : 0);
       });
+    final selected = _selected == null
+        ? null
+        : organs.firstWhere((o) => o.key == _selected);
 
     return ListView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
       children: [
-        Text(l10n.organPopulationNote, style: theme.textTheme.bodySmall),
+        BodyMapView(
+          organs: organs,
+          selectedKey: _selected,
+          locale: locale,
+          onSelected: (key) =>
+              setState(() => _selected = _selected == key ? null : key),
+        ),
+        const SizedBox(height: 8),
+        Center(
+          child: Text(
+            selected == null ? l10n.organTapHint : l10n.organNotYou,
+            style: theme.textTheme.labelSmall,
+            textAlign: TextAlign.center,
+          ),
+        ),
         const SizedBox(height: 16),
-        for (final organ in organs)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      organ.name(locale),
-                      style: theme.textTheme.titleMedium,
-                    ),
-                    if (organ.relativeRisk != null) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        organ.relativeRisk!,
-                        style: theme.textTheme.labelSmall,
-                      ),
-                    ],
-                    const SizedBox(height: 12),
-                    Text(
-                      l10n.organHarmTitle,
-                      style: theme.textTheme.labelLarge,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(organ.harm(locale), style: theme.textTheme.bodyMedium),
-                    const SizedBox(height: 14),
-                    // Recovery is always present and always the louder half.
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: HalenColors.emerald.withValues(alpha: 0.10),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            l10n.organRecoveryTitle,
-                            style: theme.textTheme.labelLarge?.copyWith(
-                              color: HalenColors.petrol,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            organ.recovery(locale),
-                            style: theme.textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      '${l10n.moduleSourceLabel}: ${organ.sourceUrl}',
-                      style: theme.textTheme.labelSmall,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+
+        // The detail slides in under the figure rather than replacing it, so
+        // the body stays in view and the tap reads as an expansion.
+        AnimatedSize(
+          duration: reduceMotion
+              ? Duration.zero
+              : const Duration(milliseconds: 280),
+          curve: Curves.easeOutCubic,
+          alignment: Alignment.topCenter,
+          child: selected == null
+              ? const SizedBox(width: double.infinity)
+              : _OrganDetail(
+                  key: ValueKey(selected.key),
+                  organ: selected,
+                  locale: locale,
                 ),
+        ),
+
+        if (selected == null) ...[
+          Text(l10n.organPopulationNote, style: theme.textTheme.bodySmall),
+          const SizedBox(height: 12),
+          // A compact index of the same organs, so the screen still works
+          // for someone who would rather read a list than tap a figure.
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final organ in organs)
+                ActionChip(
+                  label: Text(organ.name(locale)),
+                  onPressed: () => setState(() => _selected = organ.key),
+                ),
+            ],
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// One organ, opened from the map: what it does, what recovery looks like,
+/// and the population figure behind it — in that order, with recovery given
+/// the louder container (module report §7.③).
+class _OrganDetail extends StatelessWidget {
+  const _OrganDetail({super.key, required this.organ, required this.locale});
+
+  final OrganEntry organ;
+  final String locale;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final impact = organ.impact;
+    final caption = impact.attributable != null
+        ? l10n.organImpactAttributable((impact.attributable! * 100).round())
+        : impact.relativeRisk != null
+        ? l10n.organImpactRelative(impact.relativeRisk!.toStringAsFixed(1))
+        : '';
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(organ.name(locale), style: theme.textTheme.titleLarge),
+            const SizedBox(height: 12),
+            if (!impact.isEmpty) ...[
+              OrganImpactBar(
+                impact: impact,
+                caption: caption,
+                color: HalenColors.amberCta,
+              ),
+              const SizedBox(height: 16),
+            ],
+            Text(l10n.organHarmTitle, style: theme.textTheme.labelLarge),
+            const SizedBox(height: 4),
+            Text(organ.harm(locale), style: theme.textTheme.bodyMedium),
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: HalenColors.emerald.withValues(alpha: 0.10),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.organRecoveryTitle,
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      color: HalenColors.petrol,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    organ.recovery(locale),
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ],
               ),
             ),
-          ),
-      ],
+            const SizedBox(height: 10),
+            Text(
+              '${l10n.moduleSourceLabel}: ${organ.sourceUrl}',
+              style: theme.textTheme.labelSmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

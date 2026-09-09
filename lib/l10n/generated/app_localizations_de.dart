@@ -2184,4 +2184,22 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get glossaryTermPackYears => 'Packungsjahre';
+
+  @override
+  String get organTapHint =>
+      'Tippe auf einen Punkt, um Wirkung und Erholung zu sehen.';
+
+  @override
+  String organImpactAttributable(int percent) {
+    return '$percent% dieser Fälle in der Bevölkerung werden dem Rauchen zugeschrieben';
+  }
+
+  @override
+  String organImpactRelative(String times) {
+    return 'Etwa $times-mal wahrscheinlicher als bei Nierauchern';
+  }
+
+  @override
+  String get organNotYou =>
+      'Das sind Bevölkerungszahlen — keine Messung deines Körpers.';
 }

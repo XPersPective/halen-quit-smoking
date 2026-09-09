@@ -2169,4 +2169,22 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get glossaryTermPackYears => 'Paket-yılı';
+
+  @override
+  String get organTapHint =>
+      'Ne yaptığını ve iyileşmenin nasıl göründüğünü görmek için bir noktaya dokun.';
+
+  @override
+  String organImpactAttributable(int percent) {
+    return 'Popülasyonda bu vakaların %$percent kadarı sigaraya bağlanıyor';
+  }
+
+  @override
+  String organImpactRelative(String times) {
+    return 'Hiç içmemiş birine göre yaklaşık $times kat';
+  }
+
+  @override
+  String get organNotYou =>
+      'Bunlar popülasyon rakamları — senin vücudunun ölçümü değil.';
 }

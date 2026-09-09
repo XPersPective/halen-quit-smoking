@@ -1223,5 +1223,23 @@
   "glossaryEvidence": "How strong the science is behind a suggestion: strong, promising, or traditional with no proof.",
   "glossarySoftTaper": "Widening the gap between cigarettes in small steps you can actually keep.",
   "glossaryTermSoftTaper": "Soft taper",
-  "glossaryTermPackYears": "Pack-years"
+  "glossaryTermPackYears": "Pack-years",
+  "organTapHint": "Tap a point to see what it does and what recovery looks like.",
+  "organImpactAttributable": "{percent}% of these cases in the population are attributed to smoking",
+  "@organImpactAttributable": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "organImpactRelative": "About {times}x likelier than in someone who never smoked",
+  "@organImpactRelative": {
+    "placeholders": {
+      "times": {
+        "type": "String"
+      }
+    }
+  },
+  "organNotYou": "These are population figures — not a reading of your body."
 }

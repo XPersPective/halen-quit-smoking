@@ -650,5 +650,9 @@
   "glossaryEvidence": "Bir önerinin arkasındaki bilimin gücü: güçlü, umut verici veya kanıtı olmayan geleneksel.",
   "glossarySoftTaper": "Sigaralar arasını, gerçekten sürdürebileceğin küçük adımlarla açmak.",
   "glossaryTermSoftTaper": "Yumuşak geçiş",
-  "glossaryTermPackYears": "Paket-yılı"
+  "glossaryTermPackYears": "Paket-yılı",
+  "organTapHint": "Ne yaptığını ve iyileşmenin nasıl göründüğünü görmek için bir noktaya dokun.",
+  "organImpactAttributable": "Popülasyonda bu vakaların %{percent} kadarı sigaraya bağlanıyor",
+  "organImpactRelative": "Hiç içmemiş birine göre yaklaşık {times} kat",
+  "organNotYou": "Bunlar popülasyon rakamları — senin vücudunun ölçümü değil."
 }

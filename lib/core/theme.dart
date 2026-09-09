@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
 
 /// Halen design language (report §12): warm paper background, deep petrol
@@ -125,6 +126,17 @@ class HalenTheme {
     );
 
     return base.copyWith(
+      // Motion (module report §15): iOS keeps its own interactive back-swipe
+      // transition, because replacing it is the fastest way to make an app
+      // feel foreign there. Android gets the Material 3 forwards fade, which
+      // is calmer than the zoom default and matches this product's tone.
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: {
+          TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
+          TargetPlatform.macOS: const CupertinoPageTransitionsBuilder(),
+          TargetPlatform.android: const FadeForwardsPageTransitionsBuilder(),
+        },
+      ),
       textTheme: base.textTheme.copyWith(
         displaySmall: base.textTheme.displaySmall?.copyWith(
           fontWeight: FontWeight.w700,
@@ -221,7 +233,12 @@ class HalenTheme {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         // No explicit color here — M3 resolves selected vs unselected label
         // colors with proper contrast against the selected fill.
-        labelStyle: TextStyle(
+        //
+        // The style is derived from the text theme rather than written from
+        // scratch: a bare TextStyle drops the family and the type scale, so
+        // chip labels stopped matching the rest of the app (and rendered as
+        // boxes in the visual captures, which is how this was spotted).
+        labelStyle: base.textTheme.labelLarge?.copyWith(
           fontWeight: FontWeight.w600,
         ),
         selectedColor: colorScheme.primary,

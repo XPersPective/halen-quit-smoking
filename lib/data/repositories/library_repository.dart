@@ -60,6 +60,44 @@ class Toxicant {
   final String sourceUrl;
 }
 
+/// How strongly smoking is tied to an organ, at POPULATION level.
+///
+/// Two different quantities live in the literature and mixing them up is the
+/// most common popular error, so the type keeps them apart and the UI always
+/// prints which one it is showing:
+///  - [attributable] — the share of cases or deaths in a population that are
+///    attributed to smoking ("87% of lung cancer deaths");
+///  - [relativeRisk] — how many times likelier a smoker is than a
+///    non-smoker ("kidney failure, about twice").
+///
+/// Neither is a statement about one person's organ, and the body map says so
+/// on the same screen.
+@immutable
+class OrganImpact {
+  const OrganImpact({this.attributable, this.relativeRisk});
+
+  /// Population attributable fraction, 0..1.
+  final double? attributable;
+
+  /// Risk multiplier versus a non-smoker.
+  final double? relativeRisk;
+
+  /// 0..1 for the bar length. A relative risk is mapped onto the same bar by
+  /// treating 6x as the top of the scale, which keeps organs comparable
+  /// without implying the two measures are the same thing.
+  double get barFraction {
+    if (attributable != null) {
+      return attributable!.clamp(0.0, 1.0);
+    }
+    if (relativeRisk != null) {
+      return ((relativeRisk! - 1) / 5).clamp(0.0, 1.0);
+    }
+    return 0;
+  }
+
+  bool get isEmpty => attributable == null && relativeRisk == null;
+}
+
 /// One organ or system on the body map (module report §7).
 @immutable
 class OrganEntry {
@@ -70,6 +108,7 @@ class OrganEntry {
     required this.recovery,
     required this.sourceUrl,
     this.relativeRisk,
+    this.impact = const OrganImpact(),
     this.cardiovascular = false,
   });
 
@@ -84,6 +123,9 @@ class OrganEntry {
 
   /// Published relative-risk label (population level), when one exists.
   final String? relativeRisk;
+
+  /// The same fact as a number, for the body map's impact bar.
+  final OrganImpact impact;
   final String sourceUrl;
 
   /// Cardiovascular entries are surfaced first for older, longer-exposure
@@ -357,6 +399,7 @@ class LibraryRepository {
   List<OrganEntry> organs() => const [
         OrganEntry(
           key: 'lungs',
+          impact: OrganImpact(attributable: 0.79),
           name: L10nText(en: 'Lungs', tr: 'Akciğerler', de: 'Lunge'),
           harm: L10nText(
             en: 'Smoking accelerates the yearly loss of lung function and causes most COPD.',
@@ -373,6 +416,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'heart',
+          impact: OrganImpact(attributable: 0.32),
           name: L10nText(en: 'Heart', tr: 'Kalp', de: 'Herz'),
           harm: L10nText(
             en: 'Smoking causes about a third of coronary heart disease deaths. Even one cigarette a day carries roughly half the risk of twenty.',
@@ -390,6 +434,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'brain',
+          impact: OrganImpact(relativeRisk: 2.4),
           name: L10nText(en: 'Brain', tr: 'Beyin', de: 'Gehirn'),
           harm: L10nText(
             en: 'Nicotine reshapes reward circuits, and smoking raises stroke risk.',
@@ -407,6 +452,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'bloodVessels',
+          impact: OrganImpact(relativeRisk: 2.0),
           name: L10nText(en: 'Blood vessels', tr: 'Damarlar', de: 'Blutgefäße'),
           harm: L10nText(
             en: 'Smoking stiffens and narrows arteries throughout the body.',
@@ -424,6 +470,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'mouth',
+          impact: OrganImpact(relativeRisk: 5.0),
           name: L10nText(
             en: 'Mouth and throat',
             tr: 'Ağız ve boğaz',
@@ -444,6 +491,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'stomach',
+          impact: OrganImpact(relativeRisk: 1.6),
           name: L10nText(en: 'Stomach', tr: 'Mide', de: 'Magen'),
           harm: L10nText(
             en: 'Linked to ulcers, reflux and stomach cancer.',
@@ -460,6 +508,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'liver',
+          impact: OrganImpact(relativeRisk: 1.7),
           name: L10nText(en: 'Liver', tr: 'Karaciğer', de: 'Leber'),
           harm: L10nText(
             en: 'The 2014 Surgeon General report added liver cancer to the causal list.',
@@ -476,6 +525,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'kidneyBladder',
+          impact: OrganImpact(relativeRisk: 2.0),
           name: L10nText(
             en: 'Kidneys and bladder',
             tr: 'Böbrekler ve mesane',
@@ -496,6 +546,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'reproductive',
+          impact: OrganImpact(relativeRisk: 1.6),
           name: L10nText(
             en: 'Reproductive system',
             tr: 'Üreme sistemi',
@@ -516,6 +567,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'skin',
+          impact: OrganImpact(relativeRisk: 2.0),
           name: L10nText(
             en: 'Skin and healing',
             tr: 'Cilt ve yara iyileşmesi',
@@ -536,6 +588,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'eyes',
+          impact: OrganImpact(relativeRisk: 2.0),
           name: L10nText(en: 'Eyes', tr: 'Gözler', de: 'Augen'),
           harm: L10nText(
             en: 'Causally linked to age-related macular degeneration and cataract.',
@@ -552,6 +605,7 @@ class LibraryRepository {
         ),
         OrganEntry(
           key: 'immune',
+          impact: OrganImpact(relativeRisk: 2.3),
           name: L10nText(
             en: 'Immune system',
             tr: 'Bağışıklık sistemi',

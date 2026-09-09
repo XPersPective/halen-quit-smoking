@@ -3861,6 +3861,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pack-years'**
   String get glossaryTermPackYears;
+
+  /// No description provided for @organTapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a point to see what it does and what recovery looks like.'**
+  String get organTapHint;
+
+  /// No description provided for @organImpactAttributable.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of these cases in the population are attributed to smoking'**
+  String organImpactAttributable(int percent);
+
+  /// No description provided for @organImpactRelative.
+  ///
+  /// In en, this message translates to:
+  /// **'About {times}x likelier than in someone who never smoked'**
+  String organImpactRelative(String times);
+
+  /// No description provided for @organNotYou.
+  ///
+  /// In en, this message translates to:
+  /// **'These are population figures — not a reading of your body.'**
+  String get organNotYou;
 }
 
 class _AppLocalizationsDelegate

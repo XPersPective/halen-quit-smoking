@@ -2176,4 +2176,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get glossaryTermPackYears => 'Pack-years';
+
+  @override
+  String get organTapHint =>
+      'Tap a point to see what it does and what recovery looks like.';
+
+  @override
+  String organImpactAttributable(int percent) {
+    return '$percent% of these cases in the population are attributed to smoking';
+  }
+
+  @override
+  String organImpactRelative(String times) {
+    return 'About ${times}x likelier than in someone who never smoked';
+  }
+
+  @override
+  String get organNotYou =>
+      'These are population figures — not a reading of your body.';
 }

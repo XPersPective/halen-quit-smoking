@@ -650,5 +650,9 @@
   "glossaryEvidence": "Wie stark die Evidenz ist: stark, vielversprechend oder traditionell ohne Beleg.",
   "glossarySoftTaper": "Den Abstand zwischen Zigaretten in kleinen, haltbaren Schritten vergrößern.",
   "glossaryTermSoftTaper": "Sanfte Reduktion",
-  "glossaryTermPackYears": "Packungsjahre"
+  "glossaryTermPackYears": "Packungsjahre",
+  "organTapHint": "Tippe auf einen Punkt, um Wirkung und Erholung zu sehen.",
+  "organImpactAttributable": "{percent}% dieser Fälle in der Bevölkerung werden dem Rauchen zugeschrieben",
+  "organImpactRelative": "Etwa {times}-mal wahrscheinlicher als bei Nierauchern",
+  "organNotYou": "Das sind Bevölkerungszahlen — keine Messung deines Körpers."
 }

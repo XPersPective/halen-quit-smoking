@@ -70,6 +70,26 @@ ağırlıklarını ve sınırlarını uygulama içinde yayımlar.
 - `screenshots/module/` — modül ekranlarının başsız üretilen görüntüleri
   (`design_capture_test.dart`; define'sız çalıştırıldığında duman testi).
 
+### Hareket ve organ haritası
+- **Vücut haritası (§7)** kart listesinden dokunulabilir bir silüete dönüştü:
+  12 organ noktası ortak bir dört saniyelik saatte, konumuna göre kaydırılmış
+  fazlarla nefes alır (gövde dalgalanır, noktalar aynı anda yanıp sönmez).
+  Bir noktaya dokununca o organ büyür, diğerleri geri çekilir ve detay
+  altından açılır.
+- **Organ etki oranları** artık görünür: her organ için popülasyon düzeyinde
+  *atfedilen oran* (akciğer/KOAH %79, kalp %32) veya *göreli risk* (böbrek
+  ~2 kat) sıfırdan animasyonla dolan bir çubukla gösterilir. İki büyüklük
+  koda ayrı tiplerle girilmiştir ve ekranda hangisinin çizildiği yazar;
+  "senin organının %X'i" iddiası hiçbir yerde üretilmez.
+- **Geçişler:** iOS kendi kaydırmalı geri hareketini korur (değiştirmek bir
+  uygulamayı orada yabancı hissettirmenin en hızlı yoludur); Android Material 3
+  ileri-solma geçişini alır.
+- **Kartlar sahneye girer:** modül kartları 8 piksellik, 280 ms'lik kademeli
+  bir yükselişle belirir; hareket azaltmada tamamen atlanır.
+- Ekran görüntülerinin ortaya çıkardığı gerçek hata: çip etiketleri
+  uygulamanın tipografisini hiç kullanmıyordu (çıplak `TextStyle` aileyi ve
+  ölçeği düşürüyordu) — düzeltildi.
+
 ### Teknik
 - Şema v2 → v4 (modül tabloları, taper işaretçisi, riskli saat tercihi);
   tüm geçişler eklemeli, mevcut kullanıcı verisine dokunulmaz.

@@ -11,6 +11,7 @@ import 'package:halen/core/theme.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/daily_card_tile.dart';
+import 'package:halen/presentation/widgets/entrance.dart';
 import 'package:halen/presentation/widgets/mind_state_card.dart';
 import 'package:halen/presentation/widgets/quit_day_co_card.dart';
 import 'package:halen/presentation/widgets/support_card_tile.dart';
@@ -378,15 +379,15 @@ class _TodayBody extends ConsumerWidget {
           // Module report §8 and §10 — the daily pair: an honest guess at how
           // today is likely to feel, and one small thing to do about it.
           // On quit day the fastest good news leads (module report §1.③).
-          const QuitDayCoCard(),
+          const Entrance(child: QuitDayCoCard()),
           const SizedBox(height: 16),
-          const MindStateCard(),
+          const Entrance(index: 1, child: MindStateCard()),
           const SizedBox(height: 16),
-          const SupportCardTile(),
+          const Entrance(index: 2, child: SupportCardTile()),
           const SizedBox(height: 16),
           // §11 — one card a day, phase-aware, and never a hard-truth card
           // during the withdrawal peak.
-          const DailyCardTile(),
+          const Entrance(index: 3, child: DailyCardTile()),
           const SizedBox(height: 28),
 
           Text(l10n.todayOverview, style: theme.textTheme.titleMedium),

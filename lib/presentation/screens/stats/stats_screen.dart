@@ -15,6 +15,7 @@ import 'package:halen/presentation/widgets/charts/hourly_distribution_chart.dart
 import 'package:halen/presentation/widgets/charts/interval_chart.dart';
 import 'package:halen/presentation/widgets/charts/trigger_breakdown_chart.dart';
 import 'package:halen/presentation/widgets/craving_window_card.dart';
+import 'package:halen/presentation/widgets/entrance.dart';
 import 'package:halen/presentation/widgets/indices_card.dart';
 import 'package:halen/presentation/widgets/stats_charts.dart';
 
@@ -61,13 +62,13 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
 
             // Module report §14 — the twin indices lead, because "am I
             // getting better?" is the question people open stats to answer.
-            const IndicesCard(),
+            const Entrance(child: IndicesCard()),
             const SizedBox(height: 16),
             // §1 — the body-load sawtooth, built from the user's own times.
-            const BodyLoadCard(),
+            const Entrance(index: 1, child: BodyLoadCard()),
             const SizedBox(height: 16),
             // §4 — craving arrives while nicotine falls, shown in their data.
-            const CravingWindowCard(),
+            const Entrance(index: 2, child: CravingWindowCard()),
             const SizedBox(height: 16),
             Row(
               children: [
