@@ -131,6 +131,20 @@ ağırlıklarını ve sınırlarını uygulama içinde yayımlar.
   tek kapalı yol kolları omuza kaynatıyordu ve sonuç kardan adam gibi
   duruyordu.
 
+### Premium çizim + iyileşme zaman çizelgesi
+
+- **Organ çizimleri gradient dolguya geçti:** düz renk yerine üstten aydınlatmalı
+  doğrusal gradyan; seçili organa yumuşak bir dış parıltı (glow) eklendi.
+- Her organın detay panelinde **iyileşme zaman çizelgesi** beliriyor: literatürün
+  belgelediği zaman noktaları, yeşil bir hat üzerinde dairesel işaretlerle.
+  Y ekseni yok — çünkü organ başına yüzdesel bir eğri mevcut değildir;
+  eksen, bırakmadan itibaren geçen süre. Her etiket, organın kendi kaynaklı
+  iyileşme metninden alınmıştır.
+- Şu organlar zaman çizelgesi alır (literatürün net süre verdiği yerler):
+  akciğerler, kalp, beyin, damarlar, ağız/boğaz, mide, karaciğer, böbrek/mesane,
+  üreme sistemi, cilt. Gözler ve bağışıklık metin bazında kalır — süre çıkarmak
+  dürüst olmazdı.
+
 ### Teknik
 - Şema v2 → v4 (modül tabloları, taper işaretçisi, riskli saat tercihi);
   tüm geçişler eklemeli, mevcut kullanıcı verisine dokunulmaz.

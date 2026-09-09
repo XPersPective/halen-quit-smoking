@@ -308,7 +308,7 @@ class _OrganDetail extends StatelessWidget {
                 OrganGlyph(
                   organKey: organ.key,
                   color: HalenColors.amberCta,
-                  size: const Size(84, 84),
+                  size: const Size(96, 96),
                 ),
                 if (OrganShapes.drawn.contains(organ.key))
                   const SizedBox(width: 14),
@@ -356,6 +356,24 @@ class _OrganDetail extends StatelessWidget {
                 ],
               ),
             ),
+            // The same recovery line, structured in time — where the
+            // literature gives a timeframe worth placing.
+            if (organ.recoveryTimeline.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Text(l10n.organTimelineTitle, style: theme.textTheme.labelLarge),
+              const SizedBox(height: 2),
+              Text(
+                l10n.organTimelineCaption,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 10),
+              OrganRecoveryTimeline(
+                anchors: organ.recoveryTimeline,
+                locale: locale,
+              ),
+            ],
             const SizedBox(height: 10),
             Text(
               '${l10n.moduleSourceLabel}: ${organ.sourceUrl}',

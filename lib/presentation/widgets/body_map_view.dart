@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../../core/theme.dart';
 import '../../data/repositories/library_repository.dart';
+import 'entrance.dart';
 import 'organ_shapes.dart';
 
 /// A tappable, breathing body map (module report §7.④).
@@ -292,6 +293,10 @@ class _Hotspot extends StatelessWidget {
 }
 
 /// Paints one unit-box organ path, scaled about its own centre.
+///
+/// The fill is a top-lit gradient rather than a flat tint — the single
+/// cheapest thing that separates a drawn organ from a diagram — and the
+/// selected/detail state adds a soft glow so the organ reads as the subject.
 class _OrganPainter extends CustomPainter {
   _OrganPainter({
     required this.unit,
@@ -300,6 +305,7 @@ class _OrganPainter extends CustomPainter {
     required this.strokeAlpha,
     required this.strokeWidth,
     required this.scale,
+    this.glow = false,
   });
 
   final Path unit;
@@ -308,6 +314,7 @@ class _OrganPainter extends CustomPainter {
   final double strokeAlpha;
   final double strokeWidth;
   final double scale;
+  final bool glow;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -317,8 +324,28 @@ class _OrganPainter extends CustomPainter {
       ..scale(scale)
       ..translate(-size.width / 2, -size.height / 2);
     final path = OrganShapes.scaled(unit, Offset.zero & size);
+    if (glow) {
+      canvas.drawPath(
+        path,
+        Paint()
+          ..color = color.withValues(alpha: 0.32)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10),
+      );
+    }
     canvas
-      ..drawPath(path, Paint()..color = color.withValues(alpha: fillAlpha))
+      ..drawPath(
+        path,
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.lerp(color, Colors.white, 0.40)!
+                  .withValues(alpha: fillAlpha),
+              color.withValues(alpha: (fillAlpha * 1.2).clamp(0.0, 1.0)),
+            ],
+          ).createShader(Offset.zero & size),
+      )
       ..drawPath(
         path,
         Paint()
@@ -336,6 +363,7 @@ class _OrganPainter extends CustomPainter {
       old.color != color ||
       old.fillAlpha != fillAlpha ||
       old.strokeAlpha != strokeAlpha ||
+      old.glow != glow ||
       old.unit != unit;
 }
 
@@ -388,18 +416,42 @@ class _OrganGlyphState extends State<OrganGlyph>
     }
     final reduceMotion = MediaQuery.of(context).disableAnimations;
     final motion = motionFor(widget.organKey);
-    return AnimatedBuilder(
-      animation: _clock,
-      builder: (context, _) => CustomPaint(
-        size: widget.size,
-        painter: _OrganPainter(
-          unit: unit,
-          color: widget.color,
-          fillAlpha: 0.22,
-          strokeAlpha: 0.95,
-          strokeWidth: 2,
-          scale: reduceMotion ? 1.0 : organScale(motion, _clock.value),
-        ),
+    return SizedBox(
+      width: widget.size.width,
+      height: widget.size.height,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // A soft halo plate: the glyph sits in light, not on the card.
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    widget.color.withValues(alpha: 0.12),
+                    widget.color.withValues(alpha: 0.0),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          AnimatedBuilder(
+            animation: _clock,
+            builder: (context, _) => CustomPaint(
+              size: widget.size,
+              painter: _OrganPainter(
+                unit: unit,
+                color: widget.color,
+                fillAlpha: 0.22,
+                strokeAlpha: 0.95,
+                strokeWidth: 2,
+                scale: reduceMotion ? 1.0 : organScale(motion, _clock.value),
+                glow: true,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -610,6 +662,109 @@ class OrganImpactBar extends StatelessWidget {
               valueColor: AlwaysStoppedAnimation<Color>(color),
             ),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+/// What recovery looks like over time for one organ (module report §7.③).
+///
+/// A timeline, not a curve: the literature documents *when* an organ heals,
+/// not a smooth per-organ percentage, so drawing one would put a y-axis
+/// behind a number nothing measures. Time since the last cigarette is the
+/// only axis here, and every label is paraphrased straight from the organ's
+/// own sourced recovery line — the structure is new, the claims are not.
+class OrganRecoveryTimeline extends StatelessWidget {
+  const OrganRecoveryTimeline({
+    super.key,
+    required this.anchors,
+    required this.locale,
+  });
+
+  final List<RecoveryAnchor> anchors;
+  final String locale;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Stack(
+      children: [
+        if (anchors.length > 1)
+          Positioned(
+            left: 5,
+            top: 10,
+            bottom: 16,
+            child: Container(
+              width: 2,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(1),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    HalenColors.emerald.withValues(alpha: 0.60),
+                    HalenColors.emerald.withValues(alpha: 0.12),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (var i = 0; i < anchors.length; i++)
+              Entrance(
+                index: i,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: i == anchors.length - 1 ? 2 : 14,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 4),
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: HalenColors.emerald,
+                          border: Border.all(
+                            color: theme.colorScheme.surface,
+                            width: 2,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: HalenColors.emerald.withValues(alpha: 0.45),
+                              blurRadius: 6,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              anchors[i].when(locale),
+                              style: theme.textTheme.labelMedium?.copyWith(
+                                color: HalenColors.petrol,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(anchors[i].label(locale),
+                                style: theme.textTheme.bodySmall),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
         ),
       ],
     );

@@ -461,6 +461,8 @@
   "organMapTitle": "Körperkarte",
   "organHarmTitle": "Was Rauchen bewirkt",
   "organRecoveryTitle": "Was passiert, wenn du aufhörst",
+  "organTimelineTitle": "Erholungs-Zeitachse",
+  "organTimelineCaption": "Zeit seit deiner letzten Zigarette — Populationsdaten, keine persönliche Messung",
   "organPopulationNote": "Ergebnisse auf Bevölkerungsebene. Keine persönliche Risikoschätzung.",
   "toxicantsTitle": "Was im Rauch steckt",
   "toxicantsSubtitle": "{chemicals} Chemikalien, mehr als {carcinogens} davon bekannte Karzinogene",

@@ -98,6 +98,35 @@ class OrganImpact {
   bool get isEmpty => attributable == null && relativeRisk == null;
 }
 
+/// One sourced point — or span — on an organ's recovery timeline.
+///
+/// The position is time since the last cigarette; the label paraphrases the
+/// organ's own published recovery line and the WHO/CDC timeline facts the app
+/// already ships. The timeline structures sourced information, it invents no
+/// new quantity and draws no y-axis — which is the honest alternative to a
+/// per-organ percentage curve the literature simply does not contain.
+@immutable
+class RecoveryAnchor {
+  const RecoveryAnchor({
+    required this.fromDays,
+    required this.when,
+    required this.label,
+    this.toDays,
+  });
+
+  /// Start of the anchor, in days since quitting.
+  final double fromDays;
+
+  /// End of a documented span, or null for a single point.
+  final double? toDays;
+
+  /// The time itself, in words ("2–12 weeks") — localized, never computed.
+  final L10nText when;
+
+  /// What improves, paraphrased from the organ's sourced recovery line.
+  final L10nText label;
+}
+
 /// One organ or system on the body map (module report §7).
 @immutable
 class OrganEntry {
@@ -110,6 +139,7 @@ class OrganEntry {
     this.relativeRisk,
     this.impact = const OrganImpact(),
     this.cardiovascular = false,
+    this.recoveryTimeline = const [],
   });
 
   final String key;
@@ -131,6 +161,11 @@ class OrganEntry {
   /// Cardiovascular entries are surfaced first for older, longer-exposure
   /// users — ordering changes with age, numbers never do.
   final bool cardiovascular;
+
+  /// The recovery line, structured as sourced points in time. Empty when the
+  /// literature gives no timeframe worth placing — the organ then ships its
+  /// text and nothing drawn, rather than a decorative fake position.
+  final List<RecoveryAnchor> recoveryTimeline;
 }
 
 /// One immediate craving intervention (module report §5).
@@ -412,6 +447,36 @@ class LibraryRepository {
             de: 'In 1–9 Monaten nehmen Husten und Atemnot ab, die Flimmerhärchen erholen sich. Nur Aufhören verlangsamt den Abfall.',
           ),
           relativeRisk: 'COPD: ~79% of cases attributable',
+          recoveryTimeline: [
+            RecoveryAnchor(
+              fromDays: 14,
+              toDays: 84,
+              when: L10nText(
+                en: '2–12 weeks',
+                tr: '2–12 hafta',
+                de: '2–12 Wochen',
+              ),
+              label: L10nText(
+                en: 'Lung function improves',
+                tr: 'Akciğer fonksiyonu düzelir',
+                de: 'Die Lungenfunktion verbessert sich',
+              ),
+            ),
+            RecoveryAnchor(
+              fromDays: 30,
+              toDays: 270,
+              when: L10nText(
+                en: '1–9 months',
+                tr: '1–9 ay',
+                de: '1–9 Monate',
+              ),
+              label: L10nText(
+                en: 'Coughing and shortness of breath decrease; the cilia recover',
+                tr: 'Öksürük ve nefes darlığı azalır; tüycükler toparlanır',
+                de: 'Husten und Atemnot nehmen ab; die Flimmerhärchen erholen sich',
+              ),
+            ),
+          ],
           sourceUrl: 'https://www.hhs.gov/surgeongeneral/reports-and-publications/tobacco/consequences-smoking-factsheet/index.html',
         ),
         OrganEntry(
@@ -430,6 +495,39 @@ class LibraryRepository {
           ),
           relativeRisk: 'CHD deaths: ~32% attributable',
           cardiovascular: true,
+          recoveryTimeline: [
+            RecoveryAnchor(
+              fromDays: 20 / 1440,
+              when: L10nText(
+                en: '20 minutes',
+                tr: '20 dakika',
+                de: '20 Minuten',
+              ),
+              label: L10nText(
+                en: 'Heart rate and blood pressure start falling',
+                tr: 'Nabız ve tansiyon düşmeye başlar',
+                de: 'Puls und Blutdruck beginnen zu sinken',
+              ),
+            ),
+            RecoveryAnchor(
+              fromDays: 365,
+              when: L10nText(en: '1 year', tr: '1 yıl', de: '1 Jahr'),
+              label: L10nText(
+                en: 'Excess coronary risk drops substantially',
+                tr: 'Fazladan koroner risk belirgin biçimde azalır',
+                de: 'Das zusätzliche Koronarrisiko sinkt deutlich',
+              ),
+            ),
+            RecoveryAnchor(
+              fromDays: 15 * 365,
+              when: L10nText(en: '15 years', tr: '15 yıl', de: '15 Jahre'),
+              label: L10nText(
+                en: 'Coronary risk approaches a non-smoker\'s',
+                tr: 'Koroner risk, içmeyen birininkine yaklaşır',
+                de: 'Das Koronarrisiko nähert sich dem eines Nichtrauchers',
+              ),
+            ),
+          ],
           sourceUrl: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5781309/',
         ),
         OrganEntry(
@@ -448,6 +546,22 @@ class LibraryRepository {
           ),
           relativeRisk: null,
           cardiovascular: true,
+          recoveryTimeline: [
+            RecoveryAnchor(
+              fromDays: 5 * 365,
+              toDays: 15 * 365,
+              when: L10nText(
+                en: '5–15 years',
+                tr: '5–15 yıl',
+                de: '5–15 Jahre',
+              ),
+              label: L10nText(
+                en: 'Stroke risk falls towards a non-smoker\'s',
+                tr: 'İnme riski içmeyen birinin düzeyine doğru iner',
+                de: 'Das Schlaganfallrisiko nähert sich dem eines Nichtrauchers',
+              ),
+            ),
+          ],
           sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/24524926/',
         ),
         OrganEntry(
@@ -466,6 +580,22 @@ class LibraryRepository {
           ),
           relativeRisk: null,
           cardiovascular: true,
+          recoveryTimeline: [
+            RecoveryAnchor(
+              fromDays: 14,
+              toDays: 84,
+              when: L10nText(
+                en: '2–12 weeks',
+                tr: '2–12 hafta',
+                de: '2–12 Wochen',
+              ),
+              label: L10nText(
+                en: 'Circulation improves; walking and effort get easier',
+                tr: 'Dolaşım düzelir; yürümek ve efor kolaylaşır',
+                de: 'Die Durchblutung verbessert sich; Gehen und Belastung fallen leichter',
+              ),
+            ),
+          ],
           sourceUrl: 'https://www.hhs.gov/surgeongeneral/reports-and-publications/tobacco/consequences-smoking-factsheet/index.html',
         ),
         OrganEntry(
@@ -487,6 +617,17 @@ class LibraryRepository {
             de: 'Geschmack und Geruch werden innerhalb von Tagen schärfer — eine der ersten spürbaren Veränderungen.',
           ),
           relativeRisk: null,
+          recoveryTimeline: [
+            RecoveryAnchor(
+              fromDays: 2,
+              when: L10nText(en: '48 hours', tr: '48 saat', de: '48 Stunden'),
+              label: L10nText(
+                en: 'Taste and smell sharpen',
+                tr: 'Tat ve koku keskinleşir',
+                de: 'Geschmack und Geruch werden schärfer',
+              ),
+            ),
+          ],
           sourceUrl: 'https://www.ncbi.nlm.nih.gov/books/NBK294317/table/ch4.t1/',
         ),
         OrganEntry(
@@ -504,6 +645,22 @@ class LibraryRepository {
             de: 'Reflux und Geschwürheilung bessern sich nach dem Aufhören.',
           ),
           relativeRisk: null,
+          recoveryTimeline: [
+            RecoveryAnchor(
+              fromDays: 14,
+              toDays: 84,
+              when: L10nText(
+                en: 'Weeks',
+                tr: 'Haftalar içinde',
+                de: 'In Wochen',
+              ),
+              label: L10nText(
+                en: 'Reflux eases and ulcer healing improves',
+                tr: 'Reflü azalır, ülser iyileşmesi hızlanır',
+                de: 'Reflux lässt nach und Geschwüre heilen besser',
+              ),
+            ),
+          ],
           sourceUrl: 'https://www.ncbi.nlm.nih.gov/books/NBK294317/table/ch4.t1/',
         ),
         OrganEntry(
@@ -521,6 +678,21 @@ class LibraryRepository {
             de: 'Das Risiko sinkt stetig mit den rauchfreien Jahren.',
           ),
           relativeRisk: null,
+          recoveryTimeline: [
+            RecoveryAnchor(
+              fromDays: 365,
+              when: L10nText(
+                en: 'With the years',
+                tr: 'Yıllarla',
+                de: 'Mit den Jahren',
+              ),
+              label: L10nText(
+                en: 'Risk declines steadily with every smoke-free year',
+                tr: 'Risk, sigarasız her yılla düzenli olarak azalır',
+                de: 'Das Risiko sinkt mit jedem rauchfreien Jahr stetig',
+              ),
+            ),
+          ],
           sourceUrl: 'https://ash.org/surgeon-general-report-links-more-diseases-health-problems-to-smoking-tobacco/',
         ),
         OrganEntry(
@@ -542,6 +714,22 @@ class LibraryRepository {
             de: 'Das Blasenkrebsrisiko sinkt mit den Jahren nach dem Aufhören.',
           ),
           relativeRisk: 'Renal failure RR ≈ 2.0',
+          recoveryTimeline: [
+            RecoveryAnchor(
+              fromDays: 365,
+              toDays: 15 * 365,
+              when: L10nText(
+                en: 'With the years',
+                tr: 'Yıllarla',
+                de: 'Mit den Jahren',
+              ),
+              label: L10nText(
+                en: 'Bladder cancer risk falls with the smoke-free years',
+                tr: 'Mesane kanseri riski sigarasız geçen yıllarla düşer',
+                de: 'Das Blasenkrebsrisiko sinkt mit den rauchfreien Jahren',
+              ),
+            ),
+          ],
           sourceUrl: 'https://www.nejm.org/doi/full/10.1056/NEJMsa1407211',
         ),
         OrganEntry(
@@ -563,6 +751,22 @@ class LibraryRepository {
             de: 'Durchblutung und Fruchtbarkeitswerte bessern sich binnen Monaten.',
           ),
           relativeRisk: null,
+          recoveryTimeline: [
+            RecoveryAnchor(
+              fromDays: 30,
+              toDays: 180,
+              when: L10nText(
+                en: 'Months',
+                tr: 'Aylar içinde',
+                de: 'In Monaten',
+              ),
+              label: L10nText(
+                en: 'Blood flow and fertility measures improve',
+                tr: 'Kan akımı ve doğurganlık ölçütleri düzelir',
+                de: 'Durchblutung und Fruchtbarkeitswerte bessern sich',
+              ),
+            ),
+          ],
           sourceUrl: 'https://ash.org/surgeon-general-report-links-more-diseases-health-problems-to-smoking-tobacco/',
         ),
         OrganEntry(
@@ -584,6 +788,22 @@ class LibraryRepository {
             de: 'Operations- und Wundheilung bessern sich binnen Wochen messbar.',
           ),
           relativeRisk: null,
+          recoveryTimeline: [
+            RecoveryAnchor(
+              fromDays: 14,
+              toDays: 56,
+              when: L10nText(
+                en: 'Weeks',
+                tr: 'Haftalar içinde',
+                de: 'In Wochen',
+              ),
+              label: L10nText(
+                en: 'Surgical and wound healing measurably improve',
+                tr: 'Cerrahi ve yara iyileşmesi gözle görülür biçimde düzelir',
+                de: 'Operations- und Wundheilung bessern sich messbar',
+              ),
+            ),
+          ],
           sourceUrl: 'https://www.hhs.gov/surgeongeneral/reports-and-publications/tobacco/consequences-smoking-factsheet/index.html',
         ),
         OrganEntry(

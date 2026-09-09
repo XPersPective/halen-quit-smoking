@@ -21,6 +21,38 @@ void main() {
     }
   });
 
+  test('every recovery anchor is structured and localized', () {
+    for (final organ in library.organs()) {
+      for (final anchor in organ.recoveryTimeline) {
+        expect(anchor.fromDays, greaterThan(0), reason: '${organ.key} anchor');
+        expect(
+          anchor.toDays == null || anchor.toDays! >= anchor.fromDays,
+          isTrue,
+          reason: '${organ.key} anchor',
+        );
+        for (final locale in locales) {
+          expect(
+            anchor.when(locale).trim(),
+            isNotEmpty,
+            reason: '${organ.key} when($locale)',
+          );
+          expect(
+            anchor.label(locale).trim(),
+            isNotEmpty,
+            reason: '${organ.key} label($locale)',
+          );
+        }
+      }
+    }
+    // Organs the report explicitly names must carry at least one anchor.
+    final withTimeline = library
+        .organs()
+        .where((o) => o.recoveryTimeline.isNotEmpty)
+        .map((o) => o.key)
+        .toSet();
+    expect(withTimeline, containsAll(['lungs', 'heart', 'kidneyBladder']));
+  });
+
   test('every technique states what its evidence does and does not show', () {
     for (final technique in library.sosTechniques()) {
       for (final locale in locales) {

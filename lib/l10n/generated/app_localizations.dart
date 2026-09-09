@@ -2722,6 +2722,18 @@ abstract class AppLocalizations {
   /// **'What happens when you stop'**
   String get organRecoveryTitle;
 
+  /// No description provided for @organTimelineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery timeline'**
+  String get organTimelineTitle;
+
+  /// No description provided for @organTimelineCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Time since your last cigarette — population data, not a personal measurement'**
+  String get organTimelineCaption;
+
   /// No description provided for @organPopulationNote.
   ///
   /// In en, this message translates to:

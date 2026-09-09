@@ -1514,6 +1514,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get organRecoveryTitle => 'Was passiert, wenn du aufhörst';
 
   @override
+  String get organTimelineTitle => 'Erholungs-Zeitachse';
+
+  @override
+  String get organTimelineCaption =>
+      'Zeit seit deiner letzten Zigarette — Populationsdaten, keine persönliche Messung';
+
+  @override
   String get organPopulationNote =>
       'Ergebnisse auf Bevölkerungsebene. Keine persönliche Risikoschätzung.';
 

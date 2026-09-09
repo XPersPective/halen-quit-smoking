@@ -264,6 +264,9 @@ void main() {
       find.text(l10n.organImpactAttributable(79)),
       findsOneWidget,
     );
+    // The recovery timeline is part of every drawn organ's detail.
+    expect(find.text(l10n.organTimelineTitle), findsOneWidget);
+    expect(find.text('2–12 weeks'), findsOneWidget);
 
     await disposeApp(tester);
   });

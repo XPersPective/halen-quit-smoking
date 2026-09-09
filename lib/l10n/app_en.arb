@@ -821,6 +821,8 @@
   "organMapTitle": "Body map",
   "organHarmTitle": "What smoking does",
   "organRecoveryTitle": "What happens when you stop",
+  "organTimelineTitle": "Recovery timeline",
+  "organTimelineCaption": "Time since your last cigarette — population data, not a personal measurement",
   "organPopulationNote": "Population-level findings. Not a personal risk estimate.",
   "toxicantsTitle": "What's in the smoke",
   "toxicantsSubtitle": "{chemicals} chemicals, more than {carcinogens} of them known carcinogens",

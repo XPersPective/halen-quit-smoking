@@ -461,6 +461,8 @@
   "organMapTitle": "Organ haritası",
   "organHarmTitle": "Sigara ne yapıyor",
   "organRecoveryTitle": "Bırakınca ne oluyor",
+  "organTimelineTitle": "İyileşme zaman çizelgesi",
+  "organTimelineCaption": "Son sigaradan bu yana geçen süre — popülasyon verisi, kişisel ölçüm değil",
   "organPopulationNote": "Popülasyon düzeyinde bulgular. Kişisel risk tahmini değildir.",
   "toxicantsTitle": "Dumanın içinde ne var",
   "toxicantsSubtitle": "{chemicals} kimyasal, bunların {carcinogens} kadarı bilinen kanserojen",

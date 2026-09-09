@@ -1510,6 +1510,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get organRecoveryTitle => 'What happens when you stop';
 
   @override
+  String get organTimelineTitle => 'Recovery timeline';
+
+  @override
+  String get organTimelineCaption =>
+      'Time since your last cigarette — population data, not a personal measurement';
+
+  @override
   String get organPopulationNote =>
       'Population-level findings. Not a personal risk estimate.';
 

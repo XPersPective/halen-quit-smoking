@@ -1504,6 +1504,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get organRecoveryTitle => 'Bırakınca ne oluyor';
 
   @override
+  String get organTimelineTitle => 'İyileşme zaman çizelgesi';
+
+  @override
+  String get organTimelineCaption =>
+      'Son sigaradan bu yana geçen süre — popülasyon verisi, kişisel ölçüm değil';
+
+  @override
   String get organPopulationNote =>
       'Popülasyon düzeyinde bulgular. Kişisel risk tahmini değildir.';
 
