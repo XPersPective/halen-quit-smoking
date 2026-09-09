@@ -2099,6 +2099,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'The green line is what you are doing. The grey line is what you are carrying. Green up and grey down is the direction that counts.';
 
   @override
+  String get indicesAxisCaption =>
+      'points, 0-100 — higher progress is better, lower load is better';
+
+  @override
   String get economyMeaning =>
       'Both lines are money spent over the next year. The lower one is the plan; the shaded gap is what finishing it keeps in your pocket.';
 

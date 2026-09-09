@@ -3,9 +3,11 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../core/design/tokens.dart';
 import '../../core/theme.dart';
 import '../../data/repositories/library_repository.dart';
 import 'entrance.dart';
+import 'design/body_clock.dart';
 import 'organ_shapes.dart';
 
 /// A tappable, breathing body map (module report §7.④).
@@ -65,29 +67,7 @@ class BodyMapView extends StatefulWidget {
   State<BodyMapView> createState() => _BodyMapViewState();
 }
 
-class _BodyMapViewState extends State<BodyMapView>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _clock = AnimationController(
-    vsync: this,
-    duration: const Duration(seconds: 4),
-  );
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (MediaQuery.of(context).disableAnimations) {
-      _clock.stop();
-    } else if (!_clock.isAnimating) {
-      _clock.repeat();
-    }
-  }
-
-  @override
-  void dispose() {
-    _clock.dispose();
-    super.dispose();
-  }
-
+class _BodyMapViewState extends State<BodyMapView> {
   /// Where each organ sits on the figure, in fractions of the canvas.
   static const hotspots = <String, Offset>{
     'brain': Offset(0.500, 0.058),
@@ -121,42 +101,40 @@ class _BodyMapViewState extends State<BodyMapView>
       child: LayoutBuilder(
         builder: (context, constraints) {
           final size = Size(constraints.maxWidth, widget.height);
-          return AnimatedBuilder(
-            animation: _clock,
-            builder: (context, _) {
-              final phase = reduceMotion ? 0.5 : _clock.value;
+          return BodyPulse(
+            builder: (context, seconds) {
+              final phase = BodyClock.phaseOf(seconds, HalenDuration.breath);
               return Stack(
-                children: [
-                  Positioned.fill(
-                    child: CustomPaint(
-                      painter: _BodyPainter(
-                        outline: theme.colorScheme.onSurface
-                            .withValues(alpha: 0.28),
-                        fill: theme.colorScheme.primary.withValues(alpha: 0.05),
-                      ),
-                    ),
+            children: [
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: _BodyPainter(
+                    outline:
+                        theme.colorScheme.onSurface.withValues(alpha: 0.28),
+                    fill: theme.colorScheme.primary.withValues(alpha: 0.05),
                   ),
-                  for (final organ in _drawOrder())
-                    if (hotspots[organ.key] != null &&
-                        boxes[organ.key] != null)
-                      _Hotspot(
-                        organ: organ,
-                        locale: widget.locale,
-                        position: hotspots[organ.key]!,
-                        box: boxes[organ.key],
-                        canvas: size,
-                        phase: phase,
-                        selected: widget.selectedKey == organ.key,
-                        dimmed: widget.selectedKey != null &&
-                            widget.selectedKey != organ.key,
-                        reduceMotion: reduceMotion,
-                        onTap: () {
-                          if (!reduceMotion) {
-                            HapticFeedback.selectionClick();
-                          }
-                          widget.onSelected(organ.key);
-                        },
-                      ),
+                ),
+              ),
+              for (final organ in _drawOrder())
+                if (hotspots[organ.key] != null && boxes[organ.key] != null)
+                  _Hotspot(
+                    organ: organ,
+                    locale: widget.locale,
+                    position: hotspots[organ.key]!,
+                    box: boxes[organ.key],
+                    canvas: size,
+                    phase: phase,
+                    selected: widget.selectedKey == organ.key,
+                    dimmed: widget.selectedKey != null &&
+                        widget.selectedKey != organ.key,
+                    reduceMotion: reduceMotion,
+                    onTap: () {
+                      if (!reduceMotion) {
+                        HapticFeedback.selectionClick();
+                      }
+                      widget.onSelected(organ.key);
+                    },
+                  ),
                 ],
               );
             },
@@ -369,89 +347,45 @@ class _OrganPainter extends CustomPainter {
 
 /// One organ, drawn large and alive — for the detail panel, where the shape
 /// finally has the pixels to read as an organ rather than a marker.
-class OrganGlyph extends StatefulWidget {
+class OrganGlyph extends StatelessWidget {
   const OrganGlyph({
     super.key,
     required this.organKey,
     required this.color,
     this.size = const Size(120, 120),
+    this.glow = false,
   });
 
   final String organKey;
   final Color color;
   final Size size;
-
-  @override
-  State<OrganGlyph> createState() => _OrganGlyphState();
-}
-
-class _OrganGlyphState extends State<OrganGlyph>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _clock = AnimationController(
-    vsync: this,
-    duration: const Duration(seconds: 4),
-  );
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (MediaQuery.of(context).disableAnimations) {
-      _clock.stop();
-    } else if (!_clock.isAnimating) {
-      _clock.repeat();
-    }
-  }
-
-  @override
-  void dispose() {
-    _clock.dispose();
-    super.dispose();
-  }
+  final bool glow;
 
   @override
   Widget build(BuildContext context) {
-    final unit = OrganShapes.pathFor(widget.organKey);
+    final unit = OrganShapes.pathFor(organKey);
     if (unit == null) {
       return const SizedBox.shrink();
     }
-    final reduceMotion = MediaQuery.of(context).disableAnimations;
-    final motion = motionFor(widget.organKey);
-    return SizedBox(
-      width: widget.size.width,
-      height: widget.size.height,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // A soft halo plate: the glyph sits in light, not on the card.
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    widget.color.withValues(alpha: 0.12),
-                    widget.color.withValues(alpha: 0.0),
-                  ],
-                ),
-              ),
-            ),
+    // Everything reads the same four-second clock; organScale folds the
+    // heart's faster rhythm out of it, so a beat and a breath stay locked to
+    // one another instead of drifting apart.
+    final motion = motionFor(organKey);
+    return BodyPulse(
+      builder: (context, seconds) => CustomPaint(
+        size: size,
+        painter: _OrganPainter(
+          unit: unit,
+          color: color,
+          fillAlpha: 0.22,
+          strokeAlpha: 0.95,
+          strokeWidth: 2,
+          glow: glow,
+          scale: organScale(
+            motion,
+            BodyClock.phaseOf(seconds, HalenDuration.breath),
           ),
-          AnimatedBuilder(
-            animation: _clock,
-            builder: (context, _) => CustomPaint(
-              size: widget.size,
-              painter: _OrganPainter(
-                unit: unit,
-                color: widget.color,
-                fillAlpha: 0.22,
-                strokeAlpha: 0.95,
-                strokeWidth: 2,
-                scale: reduceMotion ? 1.0 : organScale(motion, _clock.value),
-                glow: true,
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

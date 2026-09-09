@@ -2093,6 +2093,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Yeşil çizgi ne yaptığın. Gri çizgi ne taşıdığın. Yeşil yukarı, gri aşağı — asıl bakman gereken yön bu.';
 
   @override
+  String get indicesAxisCaption =>
+      'puan, 0-100 — ilerleme yukarı, yük aşağı iyidir';
+
+  @override
   String get economyMeaning =>
       'İki çizgi de önümüzdeki bir yılda harcanan para. Alttaki plan; taralı alan, planı bitirirsen cebinde kalan.';
 

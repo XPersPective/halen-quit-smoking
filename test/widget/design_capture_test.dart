@@ -74,7 +74,12 @@ void main() {
     }
   });
 
-  Future<void> shot(WidgetTester tester, String name, Widget screen) async {
+  Future<void> shot(
+    WidgetTester tester,
+    String name,
+    Widget screen, {
+    Brightness brightness = Brightness.light,
+  }) async {
     tester.view.physicalSize = const Size(420, 1000);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
@@ -84,6 +89,7 @@ void main() {
       db: db,
       child: screen,
       scrollable: screen is IndicesCard,
+      brightness: brightness,
     );
     // Fixed frames rather than settle: several of these screens breathe or
     // animate on purpose and would never come to rest.
@@ -147,5 +153,35 @@ void main() {
   testWidgets(
     'now in body',
     (t) => shot(t, '28-su-an-vucudunda', const NowInBodyStrip()),
+  );
+
+  // Dark mode was supported in code and had never been looked at (premium
+  // brief §B.5). These captures are how it gets verified rather than assumed.
+  testWidgets(
+    'now in body, dark',
+    (t) => shot(
+      t,
+      '29-su-an-vucudunda-koyu',
+      const NowInBodyStrip(),
+      brightness: Brightness.dark,
+    ),
+  );
+  testWidgets(
+    'body map, dark',
+    (t) => shot(
+      t,
+      '30-organ-haritasi-koyu',
+      const BodyScreen(initialTab: 1),
+      brightness: Brightness.dark,
+    ),
+  );
+  testWidgets(
+    'indices, dark',
+    (t) => shot(
+      t,
+      '31-indeksler-koyu',
+      const IndicesCard(),
+      brightness: Brightness.dark,
+    ),
   );
 }

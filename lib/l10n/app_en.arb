@@ -1203,6 +1203,7 @@
   "indicesProgressLegend": "Progress — higher is better",
   "indicesHarmLegend": "Harm Load — lower is better",
   "indicesMeaning": "The green line is what you are doing. The grey line is what you are carrying. Green up and grey down is the direction that counts.",
+  "indicesAxisCaption": "points, 0-100 — higher progress is better, lower load is better",
   "economyMeaning": "Both lines are money spent over the next year. The lower one is the plan; the shaded gap is what finishing it keeps in your pocket.",
   "lungsMeaning": "Typical lung function for your age group under three futures. Higher is better, and the gap between the top two lines is what quitting is worth.",
   "mindMeaning": "What the app guessed, against what you said. Where the lines separate, the guess was wrong.",

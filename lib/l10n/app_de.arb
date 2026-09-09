@@ -630,6 +630,7 @@
   "indicesProgressLegend": "Fortschritt — höher ist besser",
   "indicesHarmLegend": "Schadenslast — niedriger ist besser",
   "indicesMeaning": "Die grüne Linie ist dein Verhalten, die graue deine Last. Grün hoch und grau runter ist die Richtung, die zählt.",
+  "indicesAxisCaption": "Punkte, 0-100 — Fortschritt hoch, Last runter ist gut",
   "economyMeaning": "Beide Linien zeigen die Ausgaben im nächsten Jahr. Die untere ist der Plan; die schraffierte Fläche bleibt dir.",
   "lungsMeaning": "Typische Lungenfunktion deiner Altersgruppe in drei Zukünften. Höher ist besser.",
   "mindMeaning": "Was die App schätzte, gegen das, was du sagtest. Wo die Linien auseinandergehen, lag sie falsch.",

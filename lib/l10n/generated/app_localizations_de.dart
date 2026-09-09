@@ -2107,6 +2107,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Die grüne Linie ist dein Verhalten, die graue deine Last. Grün hoch und grau runter ist die Richtung, die zählt.';
 
   @override
+  String get indicesAxisCaption =>
+      'Punkte, 0-100 — Fortschritt hoch, Last runter ist gut';
+
+  @override
   String get economyMeaning =>
       'Beide Linien zeigen die Ausgaben im nächsten Jahr. Die untere ist der Plan; die schraffierte Fläche bleibt dir.';
 

@@ -3736,6 +3736,12 @@ abstract class AppLocalizations {
   /// **'The green line is what you are doing. The grey line is what you are carrying. Green up and grey down is the direction that counts.'**
   String get indicesMeaning;
 
+  /// No description provided for @indicesAxisCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'points, 0-100 — higher progress is better, lower load is better'**
+  String get indicesAxisCaption;
+
   /// No description provided for @economyMeaning.
   ///
   /// In en, this message translates to:

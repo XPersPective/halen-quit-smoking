@@ -630,6 +630,7 @@
   "indicesProgressLegend": "İlerleme — yüksek olması iyi",
   "indicesHarmLegend": "Zarar Yükü — düşük olması iyi",
   "indicesMeaning": "Yeşil çizgi ne yaptığın. Gri çizgi ne taşıdığın. Yeşil yukarı, gri aşağı — asıl bakman gereken yön bu.",
+  "indicesAxisCaption": "puan, 0-100 — ilerleme yukarı, yük aşağı iyidir",
   "economyMeaning": "İki çizgi de önümüzdeki bir yılda harcanan para. Alttaki plan; taralı alan, planı bitirirsen cebinde kalan.",
   "lungsMeaning": "Yaş grubun için üç farklı gelecekte tipik akciğer fonksiyonu. Yüksek olması iyi; üstteki iki çizginin arası bırakmanın değeri.",
   "mindMeaning": "Uygulamanın tahmini ile senin söylediğin. Çizgilerin ayrıldığı yerde tahmin yanlıştı.",

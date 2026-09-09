@@ -6,12 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../application/module_providers.dart';
 import '../../../application/record_providers.dart';
 import '../../../core/dates.dart';
+import '../../../core/design/data_palette.dart';
+import '../../../core/design/tokens.dart';
 import '../../../core/routes.dart';
-import '../../../core/theme.dart';
 import '../../../domain/body_load_model.dart';
 import '../../../domain/entities.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../charts/load_curve_chart.dart';
+import '../design/halen_components.dart';
 
 /// "What is in me right now", on the home screen (module report §1.③).
 ///
@@ -70,9 +72,9 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
     if (windowEvents.isEmpty) {
       return _Shell(
         title: l10n.nowInBodyTitle,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          child: Text(l10n.nowInBodyEmpty, style: theme.textTheme.bodyMedium),
+        child: HalenEmptyState(
+          icon: Icons.timeline_rounded,
+          message: l10n.nowInBodyEmpty,
         ),
       );
     }
@@ -107,39 +109,38 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: _Readout(
+                child: HalenStat(
                   label: l10n.loadNicotineAcute,
                   value: formatPercent(snapshot.nicotinePercentOfPeak, locale),
                   caption: band(snapshot.nicotinePercentOfPeak),
-                  color: HalenColors.amberCta,
+                  color: DataRole.nicotine.of(context),
                 ),
               ),
               Expanded(
-                child: _Readout(
+                child: HalenStat(
                   label: l10n.loadCarbonMonoxide,
                   value: formatPercent(snapshot.coPercentOfPeak, locale),
                   caption: band(snapshot.coPercentOfPeak),
-                  color: HalenColors.skyBlue,
+                  color: DataRole.oxygen.of(context),
                 ),
               ),
               Expanded(
-                child: _Readout(
+                child: HalenStat(
                   label: l10n.nowInBodyLast,
                   value: snapshot.sinceLast == null
                       ? l10n.nowInBodyNever
                       : formatShortDuration(snapshot.sinceLast!, locale),
-                  caption: '',
                   color: theme.colorScheme.onSurface,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
           LoadCurveChart(
             samples: samples,
             events: windowEvents,
             ghostEvents: ghosts,
-            color: HalenColors.amberCta,
+            color: DataRole.nicotine.of(context),
             axisCaption: l10n.loadAxisCaption,
             timeLabels: [
               l10n.loadAxisHoursAgo(24),
@@ -152,58 +153,10 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
                 '${formatPercent(snapshot.nicotinePercentOfPeak, locale)} — '
                 '${band(snapshot.nicotinePercentOfPeak)}',
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: HalenSpace.x3),
           Text(l10n.bodyLoadMeaning, style: theme.textTheme.bodySmall),
         ],
       ),
-    );
-  }
-}
-
-/// One big number with its name above and its band below.
-class _Readout extends StatelessWidget {
-  const _Readout({
-    required this.label,
-    required this.value,
-    required this.caption,
-    required this.color,
-  });
-
-  final String label;
-  final String value;
-  final String caption;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: theme.textTheme.labelSmall?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-          maxLines: 2,
-        ),
-        const SizedBox(height: 4),
-        // The number is the point of the card, so it is allowed to shrink
-        // rather than wrap: "1 g 4 sa" at 1.6x text must still read as one line.
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Text(
-            value,
-            style: theme.textTheme.headlineSmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-        if (caption.isNotEmpty)
-          Text(caption, style: theme.textTheme.labelSmall),
-      ],
     );
   }
 }
@@ -223,30 +176,25 @@ class _Shell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 18, 20, 14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 12),
-            child,
-            if (onOpen != null) ...[
-              const SizedBox(height: 4),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton.icon(
-                  onPressed: onOpen,
-                  icon: const Icon(Icons.arrow_forward_rounded, size: 18),
-                  iconAlignment: IconAlignment.end,
-                  label: Text(openLabel!),
-                ),
+    return HalenCard(
+      emphasis: CardEmphasis.raised,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          HalenSectionHeader(title: title),
+          const SizedBox(height: HalenSpace.x3),
+          child,
+          if (onOpen != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton.icon(
+                onPressed: onOpen,
+                icon: const Icon(Icons.arrow_forward_rounded, size: 18),
+                iconAlignment: IconAlignment.end,
+                label: Text(openLabel!),
               ),
-            ],
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

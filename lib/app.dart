@@ -27,6 +27,7 @@ import 'presentation/screens/today/record_detail_screen.dart';
 import 'presentation/screens/transparency/glossary_screen.dart';
 import 'presentation/screens/transparency/how_calculated_screen.dart';
 import 'presentation/screens/under18_screen.dart';
+import 'presentation/widgets/design/body_clock.dart';
 
 class HalenApp extends ConsumerWidget {
   const HalenApp({super.key, this.databaseFailed = false});
@@ -66,6 +67,11 @@ class HalenApp extends ConsumerWidget {
         Routes.earAcupressure: (_) => const EarAcupressureScreen(),
         Routes.glossary: (_) => const GlossaryScreen(),
       },
+      // One clock above every route: everything that breathes on screen —
+      // the lung, the body map, an organ glyph — derives its phase from the
+      // same time value, so two living elements on one screen read as one
+      // body rather than as two animations (premium brief §B.8).
+      builder: (context, child) => BodyClock(child: child ?? const SizedBox()),
       onGenerateRoute: (settings) {
         // Record detail takes the just-logged event id as an argument.
         if (settings.name == Routes.recordDetail) {

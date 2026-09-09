@@ -8,6 +8,7 @@ import 'package:halen/domain/entities.dart';
 import 'package:halen/application/providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/presentation/widgets/design/body_clock.dart';
 import 'package:riverpod/misc.dart' show Override;
 
 /// Boots the real app with an in-memory database override and returns the
@@ -77,6 +78,7 @@ Future<void> pumpModuleWidget(
   required Widget child,
   List<Override> extraOverrides = const [],
   bool scrollable = true,
+  Brightness brightness = Brightness.light,
 }) async {
   await tester.pumpWidget(
     ProviderScope(
@@ -89,7 +91,13 @@ Future<void> pumpModuleWidget(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('en'),
-        theme: HalenTheme.light(),
+        theme: brightness == Brightness.light
+            ? HalenTheme.light()
+            : HalenTheme.dark(),
+        // The real app mounts one shared clock above every route; module
+        // widgets read their animation phase from it, so tests need it too.
+        builder: (context, view) =>
+            BodyClock(child: view ?? const SizedBox.shrink()),
         home: scrollable
             ? Scaffold(body: SingleChildScrollView(child: child))
             : child,

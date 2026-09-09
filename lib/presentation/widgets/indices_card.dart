@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../application/module_providers.dart';
 import '../../core/routes.dart';
+import '../../core/design/data_palette.dart';
 import '../../core/theme.dart';
 import '../../domain/harm_load.dart';
 import '../../domain/progress_index.dart';
@@ -170,12 +171,13 @@ class IndicesCard extends ConsumerWidget {
                     )
                   : HalenLineChart(
                       meaning: l10n.indicesMeaning,
+                      axisCaption: l10n.indicesAxisCaption,
                       minY: 0,
                       maxY: 100,
                       series: [
                         ChartSeries(
                           name: l10n.indicesProgressLegend,
-                          color: HalenColors.emerald,
+                          color: DataRole.progress.of(context),
                           values: [
                             for (final v in indices.progressHistory)
                               v.toDouble(),
@@ -184,7 +186,7 @@ class IndicesCard extends ConsumerWidget {
                         ),
                         ChartSeries(
                           name: l10n.indicesHarmLegend,
-                          color: HalenColors.textSecondaryLight,
+                          color: DataRole.particle.of(context),
                           values: [
                             for (final v in indices.harmHistory) v.toDouble(),
                           ],

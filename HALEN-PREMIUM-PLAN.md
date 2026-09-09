@@ -31,6 +31,31 @@ hiçbir yerde geçilemiyor.
 **Kabul:** ekran dosyalarında elle yazılmış `EdgeInsets.all(18)`,
 `Duration(milliseconds: 280)` veya ham `Color(0x…)` kalmayacak.
 
+### Faz 1 durumu
+
+| # | Durum | Not |
+|---|-------|-----|
+| 1.1 Token katmanı | ✅ | `lib/core/design/tokens.dart` |
+| 1.2 Semantik renk rolleri | ✅ | `lib/core/design/data_palette.dart` — `DataRole` |
+| 1.3 Tipografi kimliği | ⏸ | **Yazı tipi dosyası gerekiyor** (aşağıya bak) |
+| 1.4 Sayı tipografisi | ⏸ | 1.3'e bağlı |
+| 1.5 Bileşen kütüphanesi | ✅ | `HalenCard`, `HalenSectionHeader`, `HalenStat`, `HalenEmptyState`, `HalenPill` |
+| 1.6 Hareket dili | ✅ | `HalenDuration`, `HalenCurves` |
+| 1.7 Tek saat | ✅ | `BodyClock` + `BodyPulse` — tembel: ekranda nabız yoksa tik atmaz |
+| 1.8 Karanlık tema doğrulaması | ◐ | 3 ekran yakalandı ve düzeltildi; kalanlar sırada |
+
+**Yazı tipi engeli (1.3):** Depoda paketlenmiş bir yazı tipi yok; uygulama
+sistem fontuyla çiziliyor ve bu tek başına "premium değil" hissinin en büyük
+tek sebebi. Değişken bir font (Inter / Manrope / Plus Jakarta Sans gibi)
+`assets/fonts/` altına indirilip `pubspec.yaml`'a eklenmeli. İndirme
+kullanıcı onayı gerektirdiği için bu madde bekliyor.
+
+**Karanlık temanın ortaya çıkardığı iki gerçek kural ihlali (düzeltildi):**
+- Zarar skalasının son bandı mercandı; ürünün kendi kuralı "sağlık verisinde
+  kırmızı yok" diyor. Koyu kehribara çevrildi.
+- İlerleme/yük grafiğinin ekseni numaralıydı ama birimi yazmıyordu. Artık
+  "puan, 0-100" başlığı var.
+
 ---
 
 ## Faz 2 — İlk 60 saniye
@@ -107,7 +132,7 @@ Kullanıcının açıkça istediği: *"ya kaydıracak ya da bakacak"*.
 
 | Faz | Durum |
 |-----|-------|
-| 1 — Tasarım sistemi | ▫ başlanmadı |
+| 1 — Tasarım sistemi | ◐ sürüyor |
 | 2 — İlk 60 saniye | ▫ başlanmadı |
 | 3 — Klinik iskelet | ▫ başlanmadı |
 | 4 — Tek akışta grafikler | ▫ başlanmadı |

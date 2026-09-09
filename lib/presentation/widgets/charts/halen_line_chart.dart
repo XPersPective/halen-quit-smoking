@@ -51,6 +51,7 @@ class HalenLineChart extends StatelessWidget {
     required this.meaning,
     required this.xLabels,
     required this.semanticsLabel,
+    this.axisCaption,
     this.yFormatter,
     this.tooltipFormatter,
     this.minY,
@@ -68,6 +69,10 @@ class HalenLineChart extends StatelessWidget {
 
   /// Labels for the x axis, evenly spaced (typically 3: start, middle, end).
   final List<String> xLabels;
+
+  /// What the Y axis measures, e.g. "points, 0-100". A numbered axis without
+  /// its unit is decoration; this is how the unit gets said.
+  final String? axisCaption;
 
   final String semanticsLabel;
 
@@ -146,6 +151,15 @@ class HalenLineChart extends StatelessWidget {
       children: [
         // Rule 1: the sentence comes before the picture.
         Text(meaning, style: theme.textTheme.bodyMedium),
+        if (axisCaption != null) ...[
+          const SizedBox(height: 6),
+          Text(
+            axisCaption!,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
         const SizedBox(height: 12),
         Semantics(
           label: semanticsLabel,

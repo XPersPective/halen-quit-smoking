@@ -246,13 +246,17 @@ class HarmScale extends StatelessWidget {
               child: CustomPaint(
                 painter: _HarmScalePainter(
                   fraction: value,
-                  // Charcoal to warm, never red: this is a load the user
-                  // is carrying, not an alarm they have triggered.
+                  // Cool to warm, and it stops at amber. The last band used
+                  // to be coral, which is red enough to read as an alarm —
+                  // and the product's own rule is that health data is never
+                  // red. This is a load the person is carrying, not a
+                  // failure they have triggered, so the scale darkens
+                  // instead of reddening.
                   colors: const [
                     HalenColors.mint,
                     HalenColors.emerald,
                     HalenColors.amberCta,
-                    HalenColors.coral,
+                    Color(0xFF8A5A21),
                   ],
                   markerColor: theme.colorScheme.onSurface,
                 ),
