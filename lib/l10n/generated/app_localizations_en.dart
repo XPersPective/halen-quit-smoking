@@ -2051,4 +2051,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String quitDayHoursAxis(int hours) {
     return '$hours h';
   }
+
+  @override
+  String get settingsRiskyWindowReminder =>
+      'Heads-up before your riskiest hour';
+
+  @override
+  String get settingsRiskyWindowNote =>
+      'Off by default. Needs about a month of records before it knows your pattern.';
+
+  @override
+  String get notifRiskyWindowTitle => 'Your usual hour is coming up';
+
+  @override
+  String get notifRiskyWindowBody =>
+      'Twenty minutes. A short walk now works better than willpower later.';
 }

@@ -178,6 +178,12 @@ class Settings extends Table {
   IntColumn get preLogPauseSeconds => integer()
       .withDefault(const Constant(0))();
 
+  /// Opt-in heads-up 20 minutes before the riskiest hour of the day
+  /// (module report §4.③). Off by default — the category's own reviews show
+  /// what unrequested pushes do to a quit app's rating.
+  BoolColumn get riskyWindowReminder =>
+      boolean().withDefault(const Constant(false))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

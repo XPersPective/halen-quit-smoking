@@ -20,5 +20,7 @@ NotificationTexts notificationTextsFor(String localeCode) {
     quitBody: l10n.notifQuitBody,
     milestoneTitle: l10n.notifMilestoneTitle,
     milestoneBody: l10n.notifMilestoneBody,
+    riskyWindowTitle: l10n.notifRiskyWindowTitle,
+    riskyWindowBody: l10n.notifRiskyWindowBody,
   );
 }

@@ -4,6 +4,63 @@ Tüm önemli değişiklikler bu dosyada belgelenir. Biçim:
 [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) ·
 sürümleme: [SemVer](https://semver.org/lang/tr/).
 
+## [Yayımlanmamış] — modül raporu uygulaması
+
+Kaynak: [`halen-modul-derin-arastirma-raporu.md`](halen-modul-derin-arastirma-raporu.md)
+(14 modül). Ölçülemeyen hiçbir değer üretilmez; her gösterge modelini,
+ağırlıklarını ve sınırlarını uygulama içinde yayımlar.
+
+### Eklendi (Added)
+- **Vücut Yükü (§1):** nikotin (t½ 2 sa), gün boyu zemin (kotinin karşılığı,
+  t½ 16 sa), oksijen borcu/CO (t½ 4,5 sa) ve göreli partikül yükü eğrileri;
+  24 saatlik testere-dişi grafiği, atlatılan krizler için "oluşmayan tepe",
+  günlük yük bandı (7/30 gün) ve bırakma günü CO iyileşme kartı.
+- **Zararlı Madde Kütüphanesi (§2):** 12 madde, IARC sınıfı ve kaynağıyla;
+  "bugün temas ettiklerin" sayacı. Doz iddiası yok.
+- **Ekonomi (§3):** kazanılan **ve** hâlâ harcanan, iki senaryolu projeksiyon,
+  zaman defteri (popülasyon ortalaması etiketiyle), kullanıcının kendi hedefi
+  ve yerel eşdeğerler.
+- **Kriz penceresi (§4):** çukur/saat/tetikleyici ağırlıklı risk modeli,
+  haftalık ısı haritası, "isteklerinin %X'i yük en düşükken geldi" bulgusu ve
+  ne yapılacağını söyleyen öneri; opsiyonel (varsayılan kapalı) riskli saat
+  hatırlatıcısı.
+- **Kriz Kurtarma Seti (§5):** kanıt dereceli tek araç seti (🟢/🟡/⚪), kişinin
+  kendi verisine göre sıralanır; rehberli kulak akupresürü (5 NADA noktası,
+  iğnesiz, geleneksel etiketiyle).
+- **Akciğer ve organlar (§6, §7):** nefes alan akciğer görseli, üç tipik FEV1
+  senaryosu ve fark cümlesi, kilometre taşı parlaması; 12 organ kartı — her
+  zarar kartının yanında iyileşme kartı.
+- **Psikolojik durum (§8):** yoksunluk basıncı bandı (yüzde değil), kişisel
+  ofseti kullanıcının kendi bildiriminden öğrenme, "tahminim vs hissettiğin"
+  grafiği ve bırakmanın kaygıyı düşürdüğü bulgusu.
+- **Yumuşak geçiş (§9):** %15 adım sınırı, 3 gün + %70 stabilizasyon, geri
+  alma yerine adım tekrarı, yumuşak iniş; en kolay saatler önce.
+- **Destek ve içerik (§10, §11):** günlük destek kartı ve haftalık ızgara,
+  faz duyarlı günlük kart motoru, veriye bağlı motivasyon satırı, bilimsel
+  kaynaklar ekranı.
+- **Kayıt etkileşimi (§12):** "içtim" sessizleşmesi (geri alma + opsiyonel 20
+  sn duraklama), "atladım" açılması.
+- **Program sistemi (§13):** dört plan, karne, veriye dayalı öneri, 7 gün
+  kuralı; geçmiş asla silinmez.
+- **İki indeks (§14):** İlerleme Puanı ve Zarar Yükü, makas grafiği, tam
+  bileşen dökümü; Zarar Yükü azaltınca düşer, vücut verisi isteğe bağlıdır.
+
+### Değişti (Changed)
+- SOS ekranındaki 4D kartlar, kanıt dereceli tek araç setiyle değiştirildi;
+  kulak akupresürü dürüst etiketle bu sete eklendi (ana raporun "akupresür
+  yok" kuralı, modül raporu §5.① kanıt değerlendirmesiyle güncellendi).
+- Sigara kaydından sonra önce geri bildirim yaprağı açılır; kayıt zaten
+  alınmıştır ve geri alınabilir.
+- "Nasıl hesaplanıyor?" ekranı altı yeni bölümle her formülü yayımlar.
+
+### Teknik
+- Şema v2 → v4 (modül tabloları, taper işaretçisi, riskli saat tercihi);
+  tüm geçişler eklemeli, mevcut kullanıcı verisine dokunulmaz.
+- 202 test: alan modeli altın-değerleri, içerik yapısal kuralları (her organ
+  kartının iyileşme metni, her tekniğin kanıt notu, korku kartının eylem
+  satırı), etik lint'e eklenen S5 iddia kalıpları ve "her göstergenin
+  formülü yayımlanmış olmalı" kabul testi.
+
 ## [1.0.0] — 2026-09-07
 
 ### Eklandı (Added)

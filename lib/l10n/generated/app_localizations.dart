@@ -3657,6 +3657,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{hours} h'**
   String quitDayHoursAxis(int hours);
+
+  /// No description provided for @settingsRiskyWindowReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Heads-up before your riskiest hour'**
+  String get settingsRiskyWindowReminder;
+
+  /// No description provided for @settingsRiskyWindowNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Off by default. Needs about a month of records before it knows your pattern.'**
+  String get settingsRiskyWindowNote;
+
+  /// No description provided for @notifRiskyWindowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your usual hour is coming up'**
+  String get notifRiskyWindowTitle;
+
+  /// No description provided for @notifRiskyWindowBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Twenty minutes. A short walk now works better than willpower later.'**
+  String get notifRiskyWindowBody;
 }
 
 class _AppLocalizationsDelegate

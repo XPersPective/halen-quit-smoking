@@ -17,9 +17,14 @@ import '../../l10n/generated/app_localizations.dart';
 /// is optional — the Harm Load renormalizes its weights without it rather
 /// than penalizing anyone for leaving it blank.
 class ModelSettingsSection extends ConsumerStatefulWidget {
-  const ModelSettingsSection({super.key, required this.preLogPauseSeconds});
+  const ModelSettingsSection({
+    super.key,
+    required this.preLogPauseSeconds,
+    required this.riskyWindowReminder,
+  });
 
   final int preLogPauseSeconds;
+  final bool riskyWindowReminder;
 
   @override
   ConsumerState<ModelSettingsSection> createState() =>
@@ -90,6 +95,19 @@ class _ModelSettingsSectionState extends ConsumerState<ModelSettingsSection> {
           },
           title: Text(l10n.logPauseSettingTitle),
           subtitle: Text(l10n.settingsPrelogPauseNote),
+        ),
+        // The only push the modules add — and it stays off until asked for.
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
+          value: widget.riskyWindowReminder,
+          onChanged: (on) async {
+            await ref.read(databaseProvider).settingsDao.updateSettings(
+                  SettingsCompanion(riskyWindowReminder: Value(on)),
+                );
+            await applyRiskyWindowReminder(ref, enabled: on);
+          },
+          title: Text(l10n.settingsRiskyWindowReminder),
+          subtitle: Text(l10n.settingsRiskyWindowNote),
         ),
         const SizedBox(height: 16),
 

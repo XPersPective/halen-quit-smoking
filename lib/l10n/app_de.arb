@@ -616,5 +616,9 @@
   "motivationTitle": "Für heute",
   "quitDayCoTitle": "Seit du aufgehört hast",
   "quitDayCoBody": "Kohlenmonoxid baut sich am schnellsten ab. Das ist die typische Kurve für die Stunden nach der letzten Zigarette.",
-  "quitDayHoursAxis": "{hours} Std"
+  "quitDayHoursAxis": "{hours} Std",
+  "settingsRiskyWindowReminder": "Hinweis vor deiner riskantesten Stunde",
+  "settingsRiskyWindowNote": "Standardmäßig aus. Braucht etwa einen Monat Einträge.",
+  "notifRiskyWindowTitle": "Deine übliche Stunde steht bevor",
+  "notifRiskyWindowBody": "Zwanzig Minuten. Ein kurzer Spaziergang jetzt wirkt besser als Willenskraft später."
 }

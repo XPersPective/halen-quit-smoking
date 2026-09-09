@@ -144,6 +144,7 @@ class SettingsScreen extends ConsumerWidget {
               // user, each optional and each explained.
               ModelSettingsSection(
                 preLogPauseSeconds: settings.preLogPauseSeconds,
+                riskyWindowReminder: settings.riskyWindowReminder,
               ),
               const SizedBox(height: 16),
               Text(l10n.settingsData, style: theme.textTheme.titleMedium),

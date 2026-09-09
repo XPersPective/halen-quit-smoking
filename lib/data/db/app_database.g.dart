@@ -5552,6 +5552,20 @@ class $SettingsTable extends Settings
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _riskyWindowReminderMeta =
+      const VerificationMeta('riskyWindowReminder');
+  @override
+  late final GeneratedColumn<bool> riskyWindowReminder = GeneratedColumn<bool>(
+    'risky_window_reminder',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("risky_window_reminder" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -5561,6 +5575,7 @@ class $SettingsTable extends Settings
     haptics,
     trialStartedAt,
     preLogPauseSeconds,
+    riskyWindowReminder,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5610,6 +5625,15 @@ class $SettingsTable extends Settings
         ),
       );
     }
+    if (data.containsKey('risky_window_reminder')) {
+      context.handle(
+        _riskyWindowReminderMeta,
+        riskyWindowReminder.isAcceptableOrUnknown(
+          data['risky_window_reminder']!,
+          _riskyWindowReminderMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -5651,6 +5675,10 @@ class $SettingsTable extends Settings
         DriftSqlType.int,
         data['${effectivePrefix}pre_log_pause_seconds'],
       )!,
+      riskyWindowReminder: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}risky_window_reminder'],
+      )!,
     );
   }
 
@@ -5679,6 +5707,11 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
   /// still written immediately; the pause only offers a window to undo it.
   /// 0 = off, the default.
   final int preLogPauseSeconds;
+
+  /// Opt-in heads-up 20 minutes before the riskiest hour of the day
+  /// (module report §4.③). Off by default — the category's own reviews show
+  /// what unrequested pushes do to a quit app's rating.
+  final bool riskyWindowReminder;
   const SettingsRow({
     required this.id,
     required this.notifLevel,
@@ -5687,6 +5720,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     required this.haptics,
     this.trialStartedAt,
     required this.preLogPauseSeconds,
+    required this.riskyWindowReminder,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5708,6 +5742,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       map['trial_started_at'] = Variable<DateTime>(trialStartedAt);
     }
     map['pre_log_pause_seconds'] = Variable<int>(preLogPauseSeconds);
+    map['risky_window_reminder'] = Variable<bool>(riskyWindowReminder);
     return map;
   }
 
@@ -5722,6 +5757,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ? const Value.absent()
           : Value(trialStartedAt),
       preLogPauseSeconds: Value(preLogPauseSeconds),
+      riskyWindowReminder: Value(riskyWindowReminder),
     );
   }
 
@@ -5742,6 +5778,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       haptics: serializer.fromJson<bool>(json['haptics']),
       trialStartedAt: serializer.fromJson<DateTime?>(json['trialStartedAt']),
       preLogPauseSeconds: serializer.fromJson<int>(json['preLogPauseSeconds']),
+      riskyWindowReminder: serializer.fromJson<bool>(
+        json['riskyWindowReminder'],
+      ),
     );
   }
   @override
@@ -5759,6 +5798,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       'haptics': serializer.toJson<bool>(haptics),
       'trialStartedAt': serializer.toJson<DateTime?>(trialStartedAt),
       'preLogPauseSeconds': serializer.toJson<int>(preLogPauseSeconds),
+      'riskyWindowReminder': serializer.toJson<bool>(riskyWindowReminder),
     };
   }
 
@@ -5770,6 +5810,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     bool? haptics,
     Value<DateTime?> trialStartedAt = const Value.absent(),
     int? preLogPauseSeconds,
+    bool? riskyWindowReminder,
   }) => SettingsRow(
     id: id ?? this.id,
     notifLevel: notifLevel ?? this.notifLevel,
@@ -5780,6 +5821,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
         ? trialStartedAt.value
         : this.trialStartedAt,
     preLogPauseSeconds: preLogPauseSeconds ?? this.preLogPauseSeconds,
+    riskyWindowReminder: riskyWindowReminder ?? this.riskyWindowReminder,
   );
   SettingsRow copyWithCompanion(SettingsCompanion data) {
     return SettingsRow(
@@ -5798,6 +5840,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       preLogPauseSeconds: data.preLogPauseSeconds.present
           ? data.preLogPauseSeconds.value
           : this.preLogPauseSeconds,
+      riskyWindowReminder: data.riskyWindowReminder.present
+          ? data.riskyWindowReminder.value
+          : this.riskyWindowReminder,
     );
   }
 
@@ -5810,7 +5855,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ..write('reduceMotion: $reduceMotion, ')
           ..write('haptics: $haptics, ')
           ..write('trialStartedAt: $trialStartedAt, ')
-          ..write('preLogPauseSeconds: $preLogPauseSeconds')
+          ..write('preLogPauseSeconds: $preLogPauseSeconds, ')
+          ..write('riskyWindowReminder: $riskyWindowReminder')
           ..write(')'))
         .toString();
   }
@@ -5824,6 +5870,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     haptics,
     trialStartedAt,
     preLogPauseSeconds,
+    riskyWindowReminder,
   );
   @override
   bool operator ==(Object other) =>
@@ -5835,7 +5882,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           other.reduceMotion == this.reduceMotion &&
           other.haptics == this.haptics &&
           other.trialStartedAt == this.trialStartedAt &&
-          other.preLogPauseSeconds == this.preLogPauseSeconds);
+          other.preLogPauseSeconds == this.preLogPauseSeconds &&
+          other.riskyWindowReminder == this.riskyWindowReminder);
 }
 
 class SettingsCompanion extends UpdateCompanion<SettingsRow> {
@@ -5846,6 +5894,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
   final Value<bool> haptics;
   final Value<DateTime?> trialStartedAt;
   final Value<int> preLogPauseSeconds;
+  final Value<bool> riskyWindowReminder;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.notifLevel = const Value.absent(),
@@ -5854,6 +5903,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.haptics = const Value.absent(),
     this.trialStartedAt = const Value.absent(),
     this.preLogPauseSeconds = const Value.absent(),
+    this.riskyWindowReminder = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -5863,6 +5913,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.haptics = const Value.absent(),
     this.trialStartedAt = const Value.absent(),
     this.preLogPauseSeconds = const Value.absent(),
+    this.riskyWindowReminder = const Value.absent(),
   });
   static Insertable<SettingsRow> custom({
     Expression<int>? id,
@@ -5872,6 +5923,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Expression<bool>? haptics,
     Expression<DateTime>? trialStartedAt,
     Expression<int>? preLogPauseSeconds,
+    Expression<bool>? riskyWindowReminder,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -5882,6 +5934,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       if (trialStartedAt != null) 'trial_started_at': trialStartedAt,
       if (preLogPauseSeconds != null)
         'pre_log_pause_seconds': preLogPauseSeconds,
+      if (riskyWindowReminder != null)
+        'risky_window_reminder': riskyWindowReminder,
     });
   }
 
@@ -5893,6 +5947,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Value<bool>? haptics,
     Value<DateTime?>? trialStartedAt,
     Value<int>? preLogPauseSeconds,
+    Value<bool>? riskyWindowReminder,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -5902,6 +5957,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       haptics: haptics ?? this.haptics,
       trialStartedAt: trialStartedAt ?? this.trialStartedAt,
       preLogPauseSeconds: preLogPauseSeconds ?? this.preLogPauseSeconds,
+      riskyWindowReminder: riskyWindowReminder ?? this.riskyWindowReminder,
     );
   }
 
@@ -5933,6 +5989,9 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     if (preLogPauseSeconds.present) {
       map['pre_log_pause_seconds'] = Variable<int>(preLogPauseSeconds.value);
     }
+    if (riskyWindowReminder.present) {
+      map['risky_window_reminder'] = Variable<bool>(riskyWindowReminder.value);
+    }
     return map;
   }
 
@@ -5945,7 +6004,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
           ..write('reduceMotion: $reduceMotion, ')
           ..write('haptics: $haptics, ')
           ..write('trialStartedAt: $trialStartedAt, ')
-          ..write('preLogPauseSeconds: $preLogPauseSeconds')
+          ..write('preLogPauseSeconds: $preLogPauseSeconds, ')
+          ..write('riskyWindowReminder: $riskyWindowReminder')
           ..write(')'))
         .toString();
   }
@@ -10818,6 +10878,7 @@ typedef $$SettingsTableCreateCompanionBuilder = SettingsCompanion Function({
   Value<bool> haptics,
   Value<DateTime?> trialStartedAt,
   Value<int> preLogPauseSeconds,
+  Value<bool> riskyWindowReminder,
 });
 typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<int> id,
@@ -10827,6 +10888,7 @@ typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<bool> haptics,
   Value<DateTime?> trialStartedAt,
   Value<int> preLogPauseSeconds,
+  Value<bool> riskyWindowReminder,
 });
 
 class $$SettingsTableFilterComposer
@@ -10878,6 +10940,11 @@ class $$SettingsTableFilterComposer
     column: $table.preLogPauseSeconds,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<bool> get riskyWindowReminder => $composableBuilder(
+    column: $table.riskyWindowReminder,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SettingsTableOrderingComposer
@@ -10923,6 +10990,11 @@ class $$SettingsTableOrderingComposer
     column: $table.preLogPauseSeconds,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get riskyWindowReminder => $composableBuilder(
+    column: $table.riskyWindowReminder,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -10961,6 +11033,11 @@ class $$SettingsTableAnnotationComposer
 
   GeneratedColumn<int> get preLogPauseSeconds => $composableBuilder(
     column: $table.preLogPauseSeconds,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get riskyWindowReminder => $composableBuilder(
+    column: $table.riskyWindowReminder,
     builder: (column) => column,
   );
 }
@@ -11003,6 +11080,7 @@ class $$SettingsTableTableManager
                 Value<bool> haptics = const Value.absent(),
                 Value<DateTime?> trialStartedAt = const Value.absent(),
                 Value<int> preLogPauseSeconds = const Value.absent(),
+                Value<bool> riskyWindowReminder = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 notifLevel: notifLevel,
@@ -11011,6 +11089,7 @@ class $$SettingsTableTableManager
                 haptics: haptics,
                 trialStartedAt: trialStartedAt,
                 preLogPauseSeconds: preLogPauseSeconds,
+                riskyWindowReminder: riskyWindowReminder,
               ),
           createCompanionCallback:
               ({
@@ -11021,6 +11100,7 @@ class $$SettingsTableTableManager
                 Value<bool> haptics = const Value.absent(),
                 Value<DateTime?> trialStartedAt = const Value.absent(),
                 Value<int> preLogPauseSeconds = const Value.absent(),
+                Value<bool> riskyWindowReminder = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 notifLevel: notifLevel,
@@ -11029,6 +11109,7 @@ class $$SettingsTableTableManager
                 haptics: haptics,
                 trialStartedAt: trialStartedAt,
                 preLogPauseSeconds: preLogPauseSeconds,
+                riskyWindowReminder: riskyWindowReminder,
               ),
           withReferenceMapper: (p0) => p0
               .map(

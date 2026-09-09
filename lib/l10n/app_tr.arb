@@ -616,5 +616,9 @@
   "motivationTitle": "Bugün için",
   "quitDayCoTitle": "Bıraktığından beri",
   "quitDayCoBody": "Dumanın bıraktığı her şey içinde en hızlı temizlenen karbonmonoksittir. Bu, son sigaradan sonraki saatlerin tipik eğrisi.",
-  "quitDayHoursAxis": "{hours} sa"
+  "quitDayHoursAxis": "{hours} sa",
+  "settingsRiskyWindowReminder": "En riskli saatinden önce haber ver",
+  "settingsRiskyWindowNote": "Varsayılan kapalı. Örüntünü bilmesi için yaklaşık bir aylık kayıt gerekir.",
+  "notifRiskyWindowTitle": "Her zamanki saatin yaklaşıyor",
+  "notifRiskyWindowBody": "Yirmi dakika var. Şimdi kısa bir yürüyüş, sonra irade göstermekten iyi çalışıyor."
 }

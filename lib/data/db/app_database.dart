@@ -59,7 +59,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.e);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -97,6 +97,10 @@ class AppDatabase extends _$AppDatabase {
             // v3 — the taper engine's once-a-day marker.
             await m.addColumn(planState, planState.lastStepDate);
             await m.addColumn(planState, planState.lastStepDecision);
+          }
+          if (from < 4) {
+            // v4 — the opt-in risky-window heads-up.
+            await m.addColumn(settings, settings.riskyWindowReminder);
           }
         },
       );

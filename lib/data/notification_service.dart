@@ -22,6 +22,8 @@ class NotificationTexts {
     required this.quitBody,
     required this.milestoneTitle,
     required this.milestoneBody,
+    required this.riskyWindowTitle,
+    required this.riskyWindowBody,
   });
 
   final String summaryTitle;
@@ -34,6 +36,8 @@ class NotificationTexts {
   final String quitBody;
   final String milestoneTitle;
   final String milestoneBody;
+  final String riskyWindowTitle;
+  final String riskyWindowBody;
 }
 
 /// Local notification scheduling (report §20).
@@ -170,7 +174,40 @@ class NotificationService {
     }
   }
 
+  /// Opt-in heads-up 20 minutes before the user's riskiest hour
+  /// (module report §4.③).
+  ///
+  /// Deliberately separate from [applyDensity]: it is not part of any
+  /// density level, it is never scheduled unless the user asked for it, and
+  /// it is driven by their own histogram rather than a fixed clock time.
+  Future<void> scheduleRiskyWindow({
+    required int hour,
+    required NotificationTexts texts,
+  }) async {
+    await init();
+    await _plugin.cancel(id: _riskyWindowId);
+    final minutesBefore = hour * 60 - 20;
+    if (minutesBefore < 0) {
+      return; // A window in the first 20 minutes of the day gets no push.
+    }
+    await _scheduleDaily(
+      id: _riskyWindowId,
+      hour: minutesBefore ~/ 60,
+      minute: minutesBefore % 60,
+      channel: _supportChannel,
+      title: texts.riskyWindowTitle,
+      body: texts.riskyWindowBody,
+    );
+  }
+
+  /// Cancels the heads-up (the user turned it off, or the pattern is gone).
+  Future<void> cancelRiskyWindow() async {
+    await init();
+    await _plugin.cancel(id: _riskyWindowId);
+  }
+
   static const _dailySummaryId = 1;
+  static const _riskyWindowId = 4;
   static const _morningGoalId = 2;
   static const _returnNudgeId = 3;
   static const _quitSupportBaseId = 10;

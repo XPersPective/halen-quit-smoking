@@ -2045,4 +2045,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String quitDayHoursAxis(int hours) {
     return '$hours sa';
   }
+
+  @override
+  String get settingsRiskyWindowReminder =>
+      'En riskli saatinden önce haber ver';
+
+  @override
+  String get settingsRiskyWindowNote =>
+      'Varsayılan kapalı. Örüntünü bilmesi için yaklaşık bir aylık kayıt gerekir.';
+
+  @override
+  String get notifRiskyWindowTitle => 'Her zamanki saatin yaklaşıyor';
+
+  @override
+  String get notifRiskyWindowBody =>
+      'Yirmi dakika var. Şimdi kısa bir yürüyüş, sonra irade göstermekten iyi çalışıyor.';
 }

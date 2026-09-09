@@ -1182,5 +1182,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "settingsRiskyWindowReminder": "Heads-up before your riskiest hour",
+  "settingsRiskyWindowNote": "Off by default. Needs about a month of records before it knows your pattern.",
+  "notifRiskyWindowTitle": "Your usual hour is coming up",
+  "notifRiskyWindowBody": "Twenty minutes. A short walk now works better than willpower later."
 }

@@ -17,6 +17,8 @@ import '../domain/lung_model.dart';
 import '../domain/plan_kinds.dart';
 import '../domain/progress_index.dart';
 import '../domain/withdrawal_model.dart';
+import 'notification_texts.dart';
+import 'settings_screen_controller.dart';
 import 'providers.dart';
 import 'record_providers.dart';
 import 'taper_controller.dart';
@@ -581,6 +583,32 @@ final supportCardProvider = FutureProvider<({SupportCard card, bool done})>(
     );
   },
 );
+
+/// Applies the opt-in risky-window heads-up (module report §4.③).
+///
+/// It only ever fires from the user's OWN histogram, and only once the
+/// craving model says there is enough history to name a window at all —
+/// a push built on five records would be noise wearing a data costume.
+Future<void> applyRiskyWindowReminder(
+  WidgetRef ref, {
+  required bool enabled,
+}) async {
+  final service = ref.read(notificationServiceProvider);
+  if (!enabled) {
+    await service.cancelRiskyWindow();
+    return;
+  }
+  final windows = ref.read(riskWindowsProvider).value ?? const [];
+  if (windows.isEmpty) {
+    await service.cancelRiskyWindow();
+    return;
+  }
+  final user = await ref.read(userProfileProvider.future);
+  await service.scheduleRiskyWindow(
+    hour: windows.first.startHour,
+    texts: notificationTextsFor(user?.locale ?? 'en'),
+  );
+}
 
 /// Plan report card and switching (module report §13). Switching is allowed
 /// but deliberate: the user sees their own numbers first, and history is
