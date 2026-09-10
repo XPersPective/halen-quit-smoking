@@ -15,6 +15,9 @@ import 'package:halen/presentation/widgets/entrance.dart';
 import 'package:halen/presentation/widgets/mind_state_card.dart';
 import 'package:halen/presentation/widgets/quit_day_co_card.dart';
 import 'package:halen/presentation/widgets/support_card_tile.dart';
+import 'package:halen/core/design/tokens.dart';
+import 'package:halen/presentation/widgets/cessation/quit_date_strip.dart';
+import 'package:halen/presentation/widgets/cessation/slip_coach_card.dart';
 import 'package:halen/presentation/widgets/today/log_feedback.dart';
 import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
@@ -377,10 +380,16 @@ class _TodayBody extends ConsumerWidget {
           const SizedBox(height: 28),
 
           // ——— Overview ———
+          // The quit attempt comes first when there is something to say
+          // about it: a slip that needs naming, or a date that is close.
+          // Neither appears when there is nothing to report.
+          const SlipCoachCard(),
+          const QuitDateStrip(),
+
           // §1 — the question people open the app with, answered before
           // anything else: how much is still in me, and how long has it been.
           const Entrance(child: NowInBodyStrip()),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
           // Module report §8 and §10 — the daily pair: an honest guess at how
           // today is likely to feel, and one small thing to do about it.
           // On quit day the fastest good news leads (module report §1.③).

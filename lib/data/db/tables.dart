@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 
 import '../../domain/body_load_model.dart';
+import '../../domain/cessation.dart';
 import '../../domain/economy.dart';
 import '../../domain/entities.dart';
 import '../../domain/plan_kinds.dart';
@@ -274,4 +275,56 @@ class SavingsGoalTable extends Table {
 
   @override
   Set<Column> get primaryKey => {id};
+}
+
+
+/// The quit attempt itself (premium brief §C.2, §C.4, §C.6).
+///
+/// One row. Everything here is optional: a person can use the app to reduce
+/// without ever setting a date, and nothing is gated on filling this in.
+@DataClassName('CessationPlanRow')
+class CessationPlanTable extends Table {
+  IntColumn get id => integer().withDefault(const Constant(1))();
+
+  /// Local calendar day, ISO "yyyy-MM-dd" — a quit date is a day, not an
+  /// instant, and storing it as one keeps it stable across time zones.
+  TextColumn get quitDate => text().nullable()();
+
+  /// Times the date has been moved. Counted, never scolded.
+  IntColumn get quitDateMoves => integer().withDefault(const Constant(0))();
+
+  TextColumn get reason => textEnum<QuitReason>().nullable()();
+
+  /// First name or nickname only. The app stores no contact details and
+  /// never reads the address book.
+  TextColumn get supportPerson => text().nullable()();
+
+  BoolColumn get notAPuffAccepted =>
+      boolean().withDefault(const Constant(false))();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// One high-risk situation and what the person will do instead.
+@DataClassName('CopingPlanRow')
+class CopingPlanTable extends Table {
+  TextColumn get trigger => textEnum<TriggerLabel>()();
+  TextColumn get plan => text()();
+  BoolColumn get rehearsed => boolean().withDefault(const Constant(false))();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {trigger};
+}
+
+/// A PHQ-2 result. Kept so the app can notice a trend and offer the
+/// referral again — never to label the user.
+@DataClassName('MoodScreenRow')
+class MoodScreen extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  DateTimeColumn get ts => dateTime()();
+  IntColumn get lowInterest => integer()();
+  IntColumn get lowMood => integer()();
+  IntColumn get total => integer()();
 }

@@ -2233,4 +2233,419 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get organNotYou =>
       'These are population figures — not a reading of your body.';
+
+  @override
+  String get obWhyTitle => 'Why do you want to stop?';
+
+  @override
+  String get obWhyHint =>
+      'Pick the one that is truest today. Halen shows it back to you when a craving hits.';
+
+  @override
+  String get reasonChildren => 'For my children';
+
+  @override
+  String get reasonHealth => 'For my health';
+
+  @override
+  String get reasonMoney => 'For the money';
+
+  @override
+  String get reasonFreedom => 'To not be owned by it';
+
+  @override
+  String get reasonSmell => 'For the smell';
+
+  @override
+  String get reasonFitness => 'To breathe better';
+
+  @override
+  String get reasonSomeoneAsked => 'Someone asked me to';
+
+  @override
+  String get resultTitle => 'This is where you are starting';
+
+  @override
+  String get resultSubtitle =>
+      'All of it worked out from what you just told us.';
+
+  @override
+  String get resultPerYearPacks => 'Packs a year';
+
+  @override
+  String get resultPerYearMoney => 'A year';
+
+  @override
+  String get resultPerYearTime => 'A year, smoking';
+
+  @override
+  String get resultDependenceTitle => 'How much your body is leaning on it';
+
+  @override
+  String get resultDependenceLow => 'Light';
+
+  @override
+  String get resultDependenceModerate => 'Moderate';
+
+  @override
+  String get resultDependenceHigh => 'Strong';
+
+  @override
+  String get resultDependenceExplain =>
+      'From two questions: how many a day, and how soon after waking. It sets how gently your plan starts — nothing else.';
+
+  @override
+  String get resultFirst72Title => 'What the first 72 hours look like';
+
+  @override
+  String get resultFirst7220m => '20 minutes';
+
+  @override
+  String get resultFirst7220mBody =>
+      'Heart rate and blood pressure start to fall.';
+
+  @override
+  String get resultFirst7212h => '12 hours';
+
+  @override
+  String get resultFirst7212hBody =>
+      'Carbon monoxide clears; more oxygen reaches your blood.';
+
+  @override
+  String get resultFirst7248h => '48-72 hours';
+
+  @override
+  String get resultFirst7248hBody =>
+      'The hardest stretch, and the peak of it. Taste and smell start coming back.';
+
+  @override
+  String get resultStart => 'Start';
+
+  @override
+  String get resultSourceNote => 'Milestones from WHO and CDC population data.';
+
+  @override
+  String get quitPlanTitle => 'Your quit plan';
+
+  @override
+  String get quitPlanSubtitle =>
+      'Five things that make an attempt stick. None of them are compulsory.';
+
+  @override
+  String quitPlanReadiness(int done, int total) {
+    return '$done of $total ready';
+  }
+
+  @override
+  String get quitDateTitle => 'A date to stop';
+
+  @override
+  String get quitDateNone => 'Not set yet';
+
+  @override
+  String get quitDateSet => 'Pick a date';
+
+  @override
+  String get quitDateChange => 'Move the date';
+
+  @override
+  String get quitDateClear => 'Remove the date';
+
+  @override
+  String get quitDateWhy =>
+      'Cutting down works when it is aimed at a day. Without one, reducing tends to settle into a habit of its own.';
+
+  @override
+  String quitDateIn(int days) {
+    return 'In $days days';
+  }
+
+  @override
+  String get quitDateTomorrow => 'Tomorrow';
+
+  @override
+  String get quitDateToday => 'Today';
+
+  @override
+  String quitDatePassed(int days) {
+    return 'Day $days';
+  }
+
+  @override
+  String get quitDateTooSoonNote =>
+      'Under three days leaves no room to get ready — to get medicine, tell someone, clear the house.';
+
+  @override
+  String get quitDateTooFarNote =>
+      'Past six weeks a date stops working as a commitment. Nearer is better.';
+
+  @override
+  String quitDateMovedNote(int count) {
+    return 'Moved $count times so far. That is allowed.';
+  }
+
+  @override
+  String get medicinesTitle => 'Medicines that help';
+
+  @override
+  String get medicinesLead =>
+      'These roughly double the chance an attempt succeeds. It is the most effective help available, and most people never try it.';
+
+  @override
+  String get medicinesOtc => 'Available at a pharmacy';
+
+  @override
+  String get medicinesPrescription => 'Ask a doctor';
+
+  @override
+  String get medicinesHowItWorks => 'How it works';
+
+  @override
+  String get medicinesTypicalUse => 'How it is used';
+
+  @override
+  String get medicinesCommonMistake => 'The usual mistake';
+
+  @override
+  String medicinesRatioPlacebo(String ratio) {
+    return '${ratio}x the quit rate of a dummy treatment, across trials';
+  }
+
+  @override
+  String medicinesRatioSingle(String ratio) {
+    return '${ratio}x the quit rate of one form used alone, across trials';
+  }
+
+  @override
+  String get medicinesCombinationSuggestion =>
+      'Given how much you smoke, the usual starting point is a patch plus one fast form. Worth asking a pharmacist about.';
+
+  @override
+  String get medicinesDisclaimer =>
+      'Halen is not a prescriber and sells nothing. Doses, suitability and interactions are for a pharmacist or a doctor to judge — especially in pregnancy, heart disease or a psychiatric condition.';
+
+  @override
+  String get copingTitle => 'The hard moments';
+
+  @override
+  String get copingLead =>
+      'Name what you will do instead, before you are in it. Deciding in the moment is the part that fails.';
+
+  @override
+  String get copingHint => 'What will you do instead?';
+
+  @override
+  String get copingSaved => 'Saved';
+
+  @override
+  String get copingEmpty =>
+      'Your plan is empty. Even one line for your worst moment is worth having.';
+
+  @override
+  String get notAPuffTitle => 'Not a single puff';
+
+  @override
+  String get notAPuffBody =>
+      'The rule is not about willpower. One cigarette re-teaches the craving that smoking still works, and that is what turns one into ten.';
+
+  @override
+  String get notAPuffAccept => 'I take the rule';
+
+  @override
+  String get notAPuffTaken => 'Rule taken';
+
+  @override
+  String get supportPersonTitle => 'Someone who knows';
+
+  @override
+  String get supportPersonBody =>
+      'Telling one person raises the odds. First name is enough — Halen never reads your contacts and stores nothing else.';
+
+  @override
+  String get supportPersonHint => 'First name';
+
+  @override
+  String supportPersonDraft(String date) {
+    return 'Something you could send: \"I am stopping smoking on $date. If I get unbearable, that is why. Ask me how it is going.\"';
+  }
+
+  @override
+  String get supportPersonCopy => 'Copy the message';
+
+  @override
+  String get supportPersonCopied => 'Copied';
+
+  @override
+  String get moodCheckTitle => 'Two questions about your mood';
+
+  @override
+  String get moodCheckLead =>
+      'Over the last two weeks, how often have you been bothered by...';
+
+  @override
+  String get moodCheckQ1 => 'Little interest or pleasure in doing things';
+
+  @override
+  String get moodCheckQ2 => 'Feeling down, depressed or hopeless';
+
+  @override
+  String get moodCheckNever => 'Not at all';
+
+  @override
+  String get moodCheckSomeDays => 'Several days';
+
+  @override
+  String get moodCheckMostDays => 'More than half the days';
+
+  @override
+  String get moodCheckEveryDay => 'Nearly every day';
+
+  @override
+  String get moodCheckWhy =>
+      'Stopping can bring low mood to the surface in people prone to it. This is a screen, not a diagnosis, and nothing here leaves your phone.';
+
+  @override
+  String get moodCheckResultClear =>
+      'Nothing here suggests you need to change course. Ask again whenever you want.';
+
+  @override
+  String get moodCheckResultTalk =>
+      'This score is at the level where talking to a doctor is worth doing — not because stopping is wrong for you, but because low mood is treatable and easier to carry when it is treated.';
+
+  @override
+  String get moodCheckDone => 'Done';
+
+  @override
+  String get slipTitle => 'That was one cigarette';
+
+  @override
+  String get slipBody =>
+      'One is a slip, not the end of the attempt. What decides the next week is what you do in the next hour.';
+
+  @override
+  String get slipAction =>
+      'Throw the rest away, and go back to the plan now — not tomorrow, not Monday.';
+
+  @override
+  String get slipClusteringTitle => 'This is getting harder';
+
+  @override
+  String get slipClusteringBody =>
+      'Several in a week usually means the situation is stronger than the plan, not that you are weak. This is the moment medicine helps most.';
+
+  @override
+  String get slipRelapseTitle => 'The attempt has slipped back';
+
+  @override
+  String get slipRelapseBody =>
+      'Most people who stop for good have done this several times first. The attempt that works is usually not the first one.';
+
+  @override
+  String get slipSetNewDate => 'Set a new date';
+
+  @override
+  String get slipSeeMedicines => 'See what medicine could do';
+
+  @override
+  String get quitDayTitle => 'Today is the day';
+
+  @override
+  String get quitDayLead =>
+      'The first day is mostly logistics. Here is the whole of it.';
+
+  @override
+  String get quitDayMorning => 'This morning';
+
+  @override
+  String get quitDayMorningBody =>
+      'Throw away every cigarette, lighter and ashtray you own. Not hidden — gone.';
+
+  @override
+  String get quitDayAfternoon => 'This afternoon';
+
+  @override
+  String get quitDayAfternoonBody =>
+      'The first cravings come in waves of a few minutes. Walk, water, breathe — they pass whether or not you smoke.';
+
+  @override
+  String get quitDayEvening => 'Tonight';
+
+  @override
+  String get quitDayEveningBody =>
+      'Evening is the hardest hour of day one. Change what you do at that hour, not just what you hold.';
+
+  @override
+  String quitDayReasonReminder(String reason) {
+    return 'You said you were doing this $reason.';
+  }
+
+  @override
+  String get helplineTitle => 'A person on the phone';
+
+  @override
+  String get helplineBody =>
+      'Quitlines work — talking to a trained counsellor raises the odds on its own.';
+
+  @override
+  String get statusTitle => 'Where you are';
+
+  @override
+  String get statusSwipeHint => 'Swipe for the next one';
+
+  @override
+  String get statusOpen => 'See all your numbers';
+
+  @override
+  String get statusPageNicotine => 'Nicotine';
+
+  @override
+  String get statusPageOxygen => 'Oxygen debt';
+
+  @override
+  String get statusPageBaseline => 'All-day baseline';
+
+  @override
+  String get statusPageParticles => 'Particle load';
+
+  @override
+  String get statusPageProgress => 'Progress score';
+
+  @override
+  String get statusPageHarm => 'Harm load';
+
+  @override
+  String get statusPageMoney => 'Money';
+
+  @override
+  String get statusPageTime => 'Time';
+
+  @override
+  String get statusNeedsData => 'A few more records and this one draws itself.';
+
+  @override
+  String get celebrateTitle => 'That is a real one';
+
+  @override
+  String get celebrateClose => 'Keep going';
+
+  @override
+  String get celebrateDay1 => 'One full day';
+
+  @override
+  String get celebrateDay3 => 'Three days — past the peak';
+
+  @override
+  String get celebrateWeek1 => 'One week';
+
+  @override
+  String get celebrateMonth1 => 'One month';
+
+  @override
+  String get celebrateResisted100 => '100 cravings ridden out';
+
+  @override
+  String get commonNotNow => 'Not now';
+
+  @override
+  String get commonOpen => 'Open';
 }

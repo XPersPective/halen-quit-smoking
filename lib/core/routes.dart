@@ -23,4 +23,11 @@ abstract final class Routes {
   static const sources = '/sources';
   static const earAcupressure = '/ear-acupressure';
   static const glossary = '/glossary';
+
+  // The quit attempt (premium brief §C).
+  static const quitPlan = '/quit-plan';
+  static const medicines = '/medicines';
+  static const quitDay = '/quit-day';
+  static const onboardingResult = '/onboarding-result';
+  static const status = '/status';
 }

@@ -7816,6 +7816,1108 @@ class SavingsGoalTableCompanion extends UpdateCompanion<SavingsGoalRow> {
   }
 }
 
+class $CessationPlanTableTable extends CessationPlanTable
+    with TableInfo<$CessationPlanTableTable, CessationPlanRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CessationPlanTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _quitDateMeta = const VerificationMeta(
+    'quitDate',
+  );
+  @override
+  late final GeneratedColumn<String> quitDate = GeneratedColumn<String>(
+    'quit_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _quitDateMovesMeta = const VerificationMeta(
+    'quitDateMoves',
+  );
+  @override
+  late final GeneratedColumn<int> quitDateMoves = GeneratedColumn<int>(
+    'quit_date_moves',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<QuitReason?, String> reason =
+      GeneratedColumn<String>(
+        'reason',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      ).withConverter<QuitReason?>($CessationPlanTableTable.$converterreasonn);
+  static const VerificationMeta _supportPersonMeta = const VerificationMeta(
+    'supportPerson',
+  );
+  @override
+  late final GeneratedColumn<String> supportPerson = GeneratedColumn<String>(
+    'support_person',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _notAPuffAcceptedMeta = const VerificationMeta(
+    'notAPuffAccepted',
+  );
+  @override
+  late final GeneratedColumn<bool> notAPuffAccepted = GeneratedColumn<bool>(
+    'not_a_puff_accepted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("not_a_puff_accepted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    quitDate,
+    quitDateMoves,
+    reason,
+    supportPerson,
+    notAPuffAccepted,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cessation_plan_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CessationPlanRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('quit_date')) {
+      context.handle(
+        _quitDateMeta,
+        quitDate.isAcceptableOrUnknown(data['quit_date']!, _quitDateMeta),
+      );
+    }
+    if (data.containsKey('quit_date_moves')) {
+      context.handle(
+        _quitDateMovesMeta,
+        quitDateMoves.isAcceptableOrUnknown(
+          data['quit_date_moves']!,
+          _quitDateMovesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('support_person')) {
+      context.handle(
+        _supportPersonMeta,
+        supportPerson.isAcceptableOrUnknown(
+          data['support_person']!,
+          _supportPersonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('not_a_puff_accepted')) {
+      context.handle(
+        _notAPuffAcceptedMeta,
+        notAPuffAccepted.isAcceptableOrUnknown(
+          data['not_a_puff_accepted']!,
+          _notAPuffAcceptedMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CessationPlanRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CessationPlanRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      quitDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}quit_date'],
+      ),
+      quitDateMoves: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}quit_date_moves'],
+      )!,
+      reason: $CessationPlanTableTable.$converterreasonn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}reason'],
+        ),
+      ),
+      supportPerson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}support_person'],
+      ),
+      notAPuffAccepted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}not_a_puff_accepted'],
+      )!,
+    );
+  }
+
+  @override
+  $CessationPlanTableTable createAlias(String alias) {
+    return $CessationPlanTableTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<QuitReason, String, String> $converterreason =
+      const EnumNameConverter<QuitReason>(QuitReason.values);
+  static JsonTypeConverter2<QuitReason?, String?, String?> $converterreasonn =
+      JsonTypeConverter2.asNullable($converterreason);
+}
+
+class CessationPlanRow extends DataClass
+    implements Insertable<CessationPlanRow> {
+  final int id;
+
+  /// Local calendar day, ISO "yyyy-MM-dd" — a quit date is a day, not an
+  /// instant, and storing it as one keeps it stable across time zones.
+  final String? quitDate;
+
+  /// Times the date has been moved. Counted, never scolded.
+  final int quitDateMoves;
+  final QuitReason? reason;
+
+  /// First name or nickname only. The app stores no contact details and
+  /// never reads the address book.
+  final String? supportPerson;
+  final bool notAPuffAccepted;
+  const CessationPlanRow({
+    required this.id,
+    this.quitDate,
+    required this.quitDateMoves,
+    this.reason,
+    this.supportPerson,
+    required this.notAPuffAccepted,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || quitDate != null) {
+      map['quit_date'] = Variable<String>(quitDate);
+    }
+    map['quit_date_moves'] = Variable<int>(quitDateMoves);
+    if (!nullToAbsent || reason != null) {
+      map['reason'] = Variable<String>(
+        $CessationPlanTableTable.$converterreasonn.toSql(reason),
+      );
+    }
+    if (!nullToAbsent || supportPerson != null) {
+      map['support_person'] = Variable<String>(supportPerson);
+    }
+    map['not_a_puff_accepted'] = Variable<bool>(notAPuffAccepted);
+    return map;
+  }
+
+  CessationPlanTableCompanion toCompanion(bool nullToAbsent) {
+    return CessationPlanTableCompanion(
+      id: Value(id),
+      quitDate: quitDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(quitDate),
+      quitDateMoves: Value(quitDateMoves),
+      reason: reason == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reason),
+      supportPerson: supportPerson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(supportPerson),
+      notAPuffAccepted: Value(notAPuffAccepted),
+    );
+  }
+
+  factory CessationPlanRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CessationPlanRow(
+      id: serializer.fromJson<int>(json['id']),
+      quitDate: serializer.fromJson<String?>(json['quitDate']),
+      quitDateMoves: serializer.fromJson<int>(json['quitDateMoves']),
+      reason: $CessationPlanTableTable.$converterreasonn.fromJson(
+        serializer.fromJson<String?>(json['reason']),
+      ),
+      supportPerson: serializer.fromJson<String?>(json['supportPerson']),
+      notAPuffAccepted: serializer.fromJson<bool>(json['notAPuffAccepted']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'quitDate': serializer.toJson<String?>(quitDate),
+      'quitDateMoves': serializer.toJson<int>(quitDateMoves),
+      'reason': serializer.toJson<String?>(
+        $CessationPlanTableTable.$converterreasonn.toJson(reason),
+      ),
+      'supportPerson': serializer.toJson<String?>(supportPerson),
+      'notAPuffAccepted': serializer.toJson<bool>(notAPuffAccepted),
+    };
+  }
+
+  CessationPlanRow copyWith({
+    int? id,
+    Value<String?> quitDate = const Value.absent(),
+    int? quitDateMoves,
+    Value<QuitReason?> reason = const Value.absent(),
+    Value<String?> supportPerson = const Value.absent(),
+    bool? notAPuffAccepted,
+  }) => CessationPlanRow(
+    id: id ?? this.id,
+    quitDate: quitDate.present ? quitDate.value : this.quitDate,
+    quitDateMoves: quitDateMoves ?? this.quitDateMoves,
+    reason: reason.present ? reason.value : this.reason,
+    supportPerson: supportPerson.present
+        ? supportPerson.value
+        : this.supportPerson,
+    notAPuffAccepted: notAPuffAccepted ?? this.notAPuffAccepted,
+  );
+  CessationPlanRow copyWithCompanion(CessationPlanTableCompanion data) {
+    return CessationPlanRow(
+      id: data.id.present ? data.id.value : this.id,
+      quitDate: data.quitDate.present ? data.quitDate.value : this.quitDate,
+      quitDateMoves: data.quitDateMoves.present
+          ? data.quitDateMoves.value
+          : this.quitDateMoves,
+      reason: data.reason.present ? data.reason.value : this.reason,
+      supportPerson: data.supportPerson.present
+          ? data.supportPerson.value
+          : this.supportPerson,
+      notAPuffAccepted: data.notAPuffAccepted.present
+          ? data.notAPuffAccepted.value
+          : this.notAPuffAccepted,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CessationPlanRow(')
+          ..write('id: $id, ')
+          ..write('quitDate: $quitDate, ')
+          ..write('quitDateMoves: $quitDateMoves, ')
+          ..write('reason: $reason, ')
+          ..write('supportPerson: $supportPerson, ')
+          ..write('notAPuffAccepted: $notAPuffAccepted')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    quitDate,
+    quitDateMoves,
+    reason,
+    supportPerson,
+    notAPuffAccepted,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CessationPlanRow &&
+          other.id == this.id &&
+          other.quitDate == this.quitDate &&
+          other.quitDateMoves == this.quitDateMoves &&
+          other.reason == this.reason &&
+          other.supportPerson == this.supportPerson &&
+          other.notAPuffAccepted == this.notAPuffAccepted);
+}
+
+class CessationPlanTableCompanion extends UpdateCompanion<CessationPlanRow> {
+  final Value<int> id;
+  final Value<String?> quitDate;
+  final Value<int> quitDateMoves;
+  final Value<QuitReason?> reason;
+  final Value<String?> supportPerson;
+  final Value<bool> notAPuffAccepted;
+  const CessationPlanTableCompanion({
+    this.id = const Value.absent(),
+    this.quitDate = const Value.absent(),
+    this.quitDateMoves = const Value.absent(),
+    this.reason = const Value.absent(),
+    this.supportPerson = const Value.absent(),
+    this.notAPuffAccepted = const Value.absent(),
+  });
+  CessationPlanTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.quitDate = const Value.absent(),
+    this.quitDateMoves = const Value.absent(),
+    this.reason = const Value.absent(),
+    this.supportPerson = const Value.absent(),
+    this.notAPuffAccepted = const Value.absent(),
+  });
+  static Insertable<CessationPlanRow> custom({
+    Expression<int>? id,
+    Expression<String>? quitDate,
+    Expression<int>? quitDateMoves,
+    Expression<String>? reason,
+    Expression<String>? supportPerson,
+    Expression<bool>? notAPuffAccepted,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (quitDate != null) 'quit_date': quitDate,
+      if (quitDateMoves != null) 'quit_date_moves': quitDateMoves,
+      if (reason != null) 'reason': reason,
+      if (supportPerson != null) 'support_person': supportPerson,
+      if (notAPuffAccepted != null) 'not_a_puff_accepted': notAPuffAccepted,
+    });
+  }
+
+  CessationPlanTableCompanion copyWith({
+    Value<int>? id,
+    Value<String?>? quitDate,
+    Value<int>? quitDateMoves,
+    Value<QuitReason?>? reason,
+    Value<String?>? supportPerson,
+    Value<bool>? notAPuffAccepted,
+  }) {
+    return CessationPlanTableCompanion(
+      id: id ?? this.id,
+      quitDate: quitDate ?? this.quitDate,
+      quitDateMoves: quitDateMoves ?? this.quitDateMoves,
+      reason: reason ?? this.reason,
+      supportPerson: supportPerson ?? this.supportPerson,
+      notAPuffAccepted: notAPuffAccepted ?? this.notAPuffAccepted,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (quitDate.present) {
+      map['quit_date'] = Variable<String>(quitDate.value);
+    }
+    if (quitDateMoves.present) {
+      map['quit_date_moves'] = Variable<int>(quitDateMoves.value);
+    }
+    if (reason.present) {
+      map['reason'] = Variable<String>(
+        $CessationPlanTableTable.$converterreasonn.toSql(reason.value),
+      );
+    }
+    if (supportPerson.present) {
+      map['support_person'] = Variable<String>(supportPerson.value);
+    }
+    if (notAPuffAccepted.present) {
+      map['not_a_puff_accepted'] = Variable<bool>(notAPuffAccepted.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CessationPlanTableCompanion(')
+          ..write('id: $id, ')
+          ..write('quitDate: $quitDate, ')
+          ..write('quitDateMoves: $quitDateMoves, ')
+          ..write('reason: $reason, ')
+          ..write('supportPerson: $supportPerson, ')
+          ..write('notAPuffAccepted: $notAPuffAccepted')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CopingPlanTableTable extends CopingPlanTable
+    with TableInfo<$CopingPlanTableTable, CopingPlanRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CopingPlanTableTable(this.attachedDatabase, [this._alias]);
+  @override
+  late final GeneratedColumnWithTypeConverter<TriggerLabel, String> trigger =
+      GeneratedColumn<String>(
+        'trigger',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<TriggerLabel>($CopingPlanTableTable.$convertertrigger);
+  static const VerificationMeta _planMeta = const VerificationMeta('plan');
+  @override
+  late final GeneratedColumn<String> plan = GeneratedColumn<String>(
+    'plan',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _rehearsedMeta = const VerificationMeta(
+    'rehearsed',
+  );
+  @override
+  late final GeneratedColumn<bool> rehearsed = GeneratedColumn<bool>(
+    'rehearsed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("rehearsed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [trigger, plan, rehearsed, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'coping_plan_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CopingPlanRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('plan')) {
+      context.handle(
+        _planMeta,
+        plan.isAcceptableOrUnknown(data['plan']!, _planMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_planMeta);
+    }
+    if (data.containsKey('rehearsed')) {
+      context.handle(
+        _rehearsedMeta,
+        rehearsed.isAcceptableOrUnknown(data['rehearsed']!, _rehearsedMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {trigger};
+  @override
+  CopingPlanRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CopingPlanRow(
+      trigger: $CopingPlanTableTable.$convertertrigger.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}trigger'],
+        )!,
+      ),
+      plan: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plan'],
+      )!,
+      rehearsed: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}rehearsed'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $CopingPlanTableTable createAlias(String alias) {
+    return $CopingPlanTableTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<TriggerLabel, String, String> $convertertrigger =
+      const EnumNameConverter<TriggerLabel>(TriggerLabel.values);
+}
+
+class CopingPlanRow extends DataClass implements Insertable<CopingPlanRow> {
+  final TriggerLabel trigger;
+  final String plan;
+  final bool rehearsed;
+  final DateTime updatedAt;
+  const CopingPlanRow({
+    required this.trigger,
+    required this.plan,
+    required this.rehearsed,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    {
+      map['trigger'] = Variable<String>(
+        $CopingPlanTableTable.$convertertrigger.toSql(trigger),
+      );
+    }
+    map['plan'] = Variable<String>(plan);
+    map['rehearsed'] = Variable<bool>(rehearsed);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  CopingPlanTableCompanion toCompanion(bool nullToAbsent) {
+    return CopingPlanTableCompanion(
+      trigger: Value(trigger),
+      plan: Value(plan),
+      rehearsed: Value(rehearsed),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory CopingPlanRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CopingPlanRow(
+      trigger: $CopingPlanTableTable.$convertertrigger.fromJson(
+        serializer.fromJson<String>(json['trigger']),
+      ),
+      plan: serializer.fromJson<String>(json['plan']),
+      rehearsed: serializer.fromJson<bool>(json['rehearsed']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'trigger': serializer.toJson<String>(
+        $CopingPlanTableTable.$convertertrigger.toJson(trigger),
+      ),
+      'plan': serializer.toJson<String>(plan),
+      'rehearsed': serializer.toJson<bool>(rehearsed),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  CopingPlanRow copyWith({
+    TriggerLabel? trigger,
+    String? plan,
+    bool? rehearsed,
+    DateTime? updatedAt,
+  }) => CopingPlanRow(
+    trigger: trigger ?? this.trigger,
+    plan: plan ?? this.plan,
+    rehearsed: rehearsed ?? this.rehearsed,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  CopingPlanRow copyWithCompanion(CopingPlanTableCompanion data) {
+    return CopingPlanRow(
+      trigger: data.trigger.present ? data.trigger.value : this.trigger,
+      plan: data.plan.present ? data.plan.value : this.plan,
+      rehearsed: data.rehearsed.present ? data.rehearsed.value : this.rehearsed,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CopingPlanRow(')
+          ..write('trigger: $trigger, ')
+          ..write('plan: $plan, ')
+          ..write('rehearsed: $rehearsed, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(trigger, plan, rehearsed, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CopingPlanRow &&
+          other.trigger == this.trigger &&
+          other.plan == this.plan &&
+          other.rehearsed == this.rehearsed &&
+          other.updatedAt == this.updatedAt);
+}
+
+class CopingPlanTableCompanion extends UpdateCompanion<CopingPlanRow> {
+  final Value<TriggerLabel> trigger;
+  final Value<String> plan;
+  final Value<bool> rehearsed;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const CopingPlanTableCompanion({
+    this.trigger = const Value.absent(),
+    this.plan = const Value.absent(),
+    this.rehearsed = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CopingPlanTableCompanion.insert({
+    required TriggerLabel trigger,
+    required String plan,
+    this.rehearsed = const Value.absent(),
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : trigger = Value(trigger),
+       plan = Value(plan),
+       updatedAt = Value(updatedAt);
+  static Insertable<CopingPlanRow> custom({
+    Expression<String>? trigger,
+    Expression<String>? plan,
+    Expression<bool>? rehearsed,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (trigger != null) 'trigger': trigger,
+      if (plan != null) 'plan': plan,
+      if (rehearsed != null) 'rehearsed': rehearsed,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CopingPlanTableCompanion copyWith({
+    Value<TriggerLabel>? trigger,
+    Value<String>? plan,
+    Value<bool>? rehearsed,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return CopingPlanTableCompanion(
+      trigger: trigger ?? this.trigger,
+      plan: plan ?? this.plan,
+      rehearsed: rehearsed ?? this.rehearsed,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (trigger.present) {
+      map['trigger'] = Variable<String>(
+        $CopingPlanTableTable.$convertertrigger.toSql(trigger.value),
+      );
+    }
+    if (plan.present) {
+      map['plan'] = Variable<String>(plan.value);
+    }
+    if (rehearsed.present) {
+      map['rehearsed'] = Variable<bool>(rehearsed.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CopingPlanTableCompanion(')
+          ..write('trigger: $trigger, ')
+          ..write('plan: $plan, ')
+          ..write('rehearsed: $rehearsed, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MoodScreenTable extends MoodScreen
+    with TableInfo<$MoodScreenTable, MoodScreenRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MoodScreenTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _tsMeta = const VerificationMeta('ts');
+  @override
+  late final GeneratedColumn<DateTime> ts = GeneratedColumn<DateTime>(
+    'ts',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lowInterestMeta = const VerificationMeta(
+    'lowInterest',
+  );
+  @override
+  late final GeneratedColumn<int> lowInterest = GeneratedColumn<int>(
+    'low_interest',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lowMoodMeta = const VerificationMeta(
+    'lowMood',
+  );
+  @override
+  late final GeneratedColumn<int> lowMood = GeneratedColumn<int>(
+    'low_mood',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _totalMeta = const VerificationMeta('total');
+  @override
+  late final GeneratedColumn<int> total = GeneratedColumn<int>(
+    'total',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, ts, lowInterest, lowMood, total];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mood_screen';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MoodScreenRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('ts')) {
+      context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
+    } else if (isInserting) {
+      context.missing(_tsMeta);
+    }
+    if (data.containsKey('low_interest')) {
+      context.handle(
+        _lowInterestMeta,
+        lowInterest.isAcceptableOrUnknown(
+          data['low_interest']!,
+          _lowInterestMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_lowInterestMeta);
+    }
+    if (data.containsKey('low_mood')) {
+      context.handle(
+        _lowMoodMeta,
+        lowMood.isAcceptableOrUnknown(data['low_mood']!, _lowMoodMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lowMoodMeta);
+    }
+    if (data.containsKey('total')) {
+      context.handle(
+        _totalMeta,
+        total.isAcceptableOrUnknown(data['total']!, _totalMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_totalMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MoodScreenRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MoodScreenRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      ts: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}ts'],
+      )!,
+      lowInterest: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}low_interest'],
+      )!,
+      lowMood: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}low_mood'],
+      )!,
+      total: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total'],
+      )!,
+    );
+  }
+
+  @override
+  $MoodScreenTable createAlias(String alias) {
+    return $MoodScreenTable(attachedDatabase, alias);
+  }
+}
+
+class MoodScreenRow extends DataClass implements Insertable<MoodScreenRow> {
+  final int id;
+  final DateTime ts;
+  final int lowInterest;
+  final int lowMood;
+  final int total;
+  const MoodScreenRow({
+    required this.id,
+    required this.ts,
+    required this.lowInterest,
+    required this.lowMood,
+    required this.total,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['ts'] = Variable<DateTime>(ts);
+    map['low_interest'] = Variable<int>(lowInterest);
+    map['low_mood'] = Variable<int>(lowMood);
+    map['total'] = Variable<int>(total);
+    return map;
+  }
+
+  MoodScreenCompanion toCompanion(bool nullToAbsent) {
+    return MoodScreenCompanion(
+      id: Value(id),
+      ts: Value(ts),
+      lowInterest: Value(lowInterest),
+      lowMood: Value(lowMood),
+      total: Value(total),
+    );
+  }
+
+  factory MoodScreenRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MoodScreenRow(
+      id: serializer.fromJson<int>(json['id']),
+      ts: serializer.fromJson<DateTime>(json['ts']),
+      lowInterest: serializer.fromJson<int>(json['lowInterest']),
+      lowMood: serializer.fromJson<int>(json['lowMood']),
+      total: serializer.fromJson<int>(json['total']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'ts': serializer.toJson<DateTime>(ts),
+      'lowInterest': serializer.toJson<int>(lowInterest),
+      'lowMood': serializer.toJson<int>(lowMood),
+      'total': serializer.toJson<int>(total),
+    };
+  }
+
+  MoodScreenRow copyWith({
+    int? id,
+    DateTime? ts,
+    int? lowInterest,
+    int? lowMood,
+    int? total,
+  }) => MoodScreenRow(
+    id: id ?? this.id,
+    ts: ts ?? this.ts,
+    lowInterest: lowInterest ?? this.lowInterest,
+    lowMood: lowMood ?? this.lowMood,
+    total: total ?? this.total,
+  );
+  MoodScreenRow copyWithCompanion(MoodScreenCompanion data) {
+    return MoodScreenRow(
+      id: data.id.present ? data.id.value : this.id,
+      ts: data.ts.present ? data.ts.value : this.ts,
+      lowInterest: data.lowInterest.present
+          ? data.lowInterest.value
+          : this.lowInterest,
+      lowMood: data.lowMood.present ? data.lowMood.value : this.lowMood,
+      total: data.total.present ? data.total.value : this.total,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MoodScreenRow(')
+          ..write('id: $id, ')
+          ..write('ts: $ts, ')
+          ..write('lowInterest: $lowInterest, ')
+          ..write('lowMood: $lowMood, ')
+          ..write('total: $total')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, ts, lowInterest, lowMood, total);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MoodScreenRow &&
+          other.id == this.id &&
+          other.ts == this.ts &&
+          other.lowInterest == this.lowInterest &&
+          other.lowMood == this.lowMood &&
+          other.total == this.total);
+}
+
+class MoodScreenCompanion extends UpdateCompanion<MoodScreenRow> {
+  final Value<int> id;
+  final Value<DateTime> ts;
+  final Value<int> lowInterest;
+  final Value<int> lowMood;
+  final Value<int> total;
+  const MoodScreenCompanion({
+    this.id = const Value.absent(),
+    this.ts = const Value.absent(),
+    this.lowInterest = const Value.absent(),
+    this.lowMood = const Value.absent(),
+    this.total = const Value.absent(),
+  });
+  MoodScreenCompanion.insert({
+    this.id = const Value.absent(),
+    required DateTime ts,
+    required int lowInterest,
+    required int lowMood,
+    required int total,
+  }) : ts = Value(ts),
+       lowInterest = Value(lowInterest),
+       lowMood = Value(lowMood),
+       total = Value(total);
+  static Insertable<MoodScreenRow> custom({
+    Expression<int>? id,
+    Expression<DateTime>? ts,
+    Expression<int>? lowInterest,
+    Expression<int>? lowMood,
+    Expression<int>? total,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (ts != null) 'ts': ts,
+      if (lowInterest != null) 'low_interest': lowInterest,
+      if (lowMood != null) 'low_mood': lowMood,
+      if (total != null) 'total': total,
+    });
+  }
+
+  MoodScreenCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? ts,
+    Value<int>? lowInterest,
+    Value<int>? lowMood,
+    Value<int>? total,
+  }) {
+    return MoodScreenCompanion(
+      id: id ?? this.id,
+      ts: ts ?? this.ts,
+      lowInterest: lowInterest ?? this.lowInterest,
+      lowMood: lowMood ?? this.lowMood,
+      total: total ?? this.total,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (ts.present) {
+      map['ts'] = Variable<DateTime>(ts.value);
+    }
+    if (lowInterest.present) {
+      map['low_interest'] = Variable<int>(lowInterest.value);
+    }
+    if (lowMood.present) {
+      map['low_mood'] = Variable<int>(lowMood.value);
+    }
+    if (total.present) {
+      map['total'] = Variable<int>(total.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MoodScreenCompanion(')
+          ..write('id: $id, ')
+          ..write('ts: $ts, ')
+          ..write('lowInterest: $lowInterest, ')
+          ..write('lowMood: $lowMood, ')
+          ..write('total: $total')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -7844,6 +8946,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $SavingsGoalTableTable savingsGoalTable = $SavingsGoalTableTable(
     this,
   );
+  late final $CessationPlanTableTable cessationPlanTable =
+      $CessationPlanTableTable(this);
+  late final $CopingPlanTableTable copingPlanTable = $CopingPlanTableTable(
+    this,
+  );
+  late final $MoodScreenTable moodScreen = $MoodScreenTable(this);
   late final ProfileDao profileDao = ProfileDao(this as AppDatabase);
   late final RecordDao recordDao = RecordDao(this as AppDatabase);
   late final PlanDao planDao = PlanDao(this as AppDatabase);
@@ -7854,6 +8962,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final SettingsDao settingsDao = SettingsDao(this as AppDatabase);
   late final TimelineDao timelineDao = TimelineDao(this as AppDatabase);
   late final ModuleDao moduleDao = ModuleDao(this as AppDatabase);
+  late final CessationDao cessationDao = CessationDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -7877,6 +8986,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     indexSnapshot,
     planState,
     savingsGoalTable,
+    cessationPlanTable,
+    copingPlanTable,
+    moodScreen,
   ];
 }
 
@@ -12166,6 +13278,646 @@ typedef $$SavingsGoalTableTableProcessedTableManager =
       SavingsGoalRow,
       PrefetchHooks Function()
     >;
+typedef $$CessationPlanTableTableCreateCompanionBuilder =
+    CessationPlanTableCompanion Function({
+      Value<int> id,
+      Value<String?> quitDate,
+      Value<int> quitDateMoves,
+      Value<QuitReason?> reason,
+      Value<String?> supportPerson,
+      Value<bool> notAPuffAccepted,
+    });
+typedef $$CessationPlanTableTableUpdateCompanionBuilder =
+    CessationPlanTableCompanion Function({
+      Value<int> id,
+      Value<String?> quitDate,
+      Value<int> quitDateMoves,
+      Value<QuitReason?> reason,
+      Value<String?> supportPerson,
+      Value<bool> notAPuffAccepted,
+    });
+
+class $$CessationPlanTableTableFilterComposer
+    extends Composer<_$AppDatabase, $CessationPlanTableTable> {
+  $$CessationPlanTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get quitDate => $composableBuilder(
+    column: $table.quitDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get quitDateMoves => $composableBuilder(
+    column: $table.quitDateMoves,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<QuitReason?, QuitReason, String> get reason =>
+      $composableBuilder(
+        column: $table.reason,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnFilters<String> get supportPerson => $composableBuilder(
+    column: $table.supportPerson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get notAPuffAccepted => $composableBuilder(
+    column: $table.notAPuffAccepted,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CessationPlanTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $CessationPlanTableTable> {
+  $$CessationPlanTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get quitDate => $composableBuilder(
+    column: $table.quitDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get quitDateMoves => $composableBuilder(
+    column: $table.quitDateMoves,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get supportPerson => $composableBuilder(
+    column: $table.supportPerson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get notAPuffAccepted => $composableBuilder(
+    column: $table.notAPuffAccepted,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CessationPlanTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CessationPlanTableTable> {
+  $$CessationPlanTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get quitDate =>
+      $composableBuilder(column: $table.quitDate, builder: (column) => column);
+
+  GeneratedColumn<int> get quitDateMoves => $composableBuilder(
+    column: $table.quitDateMoves,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<QuitReason?, String> get reason =>
+      $composableBuilder(column: $table.reason, builder: (column) => column);
+
+  GeneratedColumn<String> get supportPerson => $composableBuilder(
+    column: $table.supportPerson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get notAPuffAccepted => $composableBuilder(
+    column: $table.notAPuffAccepted,
+    builder: (column) => column,
+  );
+}
+
+class $$CessationPlanTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CessationPlanTableTable,
+          CessationPlanRow,
+          $$CessationPlanTableTableFilterComposer,
+          $$CessationPlanTableTableOrderingComposer,
+          $$CessationPlanTableTableAnnotationComposer,
+          $$CessationPlanTableTableCreateCompanionBuilder,
+          $$CessationPlanTableTableUpdateCompanionBuilder,
+          (
+            CessationPlanRow,
+            BaseReferences<
+              _$AppDatabase,
+              $CessationPlanTableTable,
+              CessationPlanRow
+            >,
+          ),
+          CessationPlanRow,
+          PrefetchHooks Function()
+        > {
+  $$CessationPlanTableTableTableManager(
+    _$AppDatabase db,
+    $CessationPlanTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CessationPlanTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CessationPlanTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CessationPlanTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String?> quitDate = const Value.absent(),
+                Value<int> quitDateMoves = const Value.absent(),
+                Value<QuitReason?> reason = const Value.absent(),
+                Value<String?> supportPerson = const Value.absent(),
+                Value<bool> notAPuffAccepted = const Value.absent(),
+              }) => CessationPlanTableCompanion(
+                id: id,
+                quitDate: quitDate,
+                quitDateMoves: quitDateMoves,
+                reason: reason,
+                supportPerson: supportPerson,
+                notAPuffAccepted: notAPuffAccepted,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String?> quitDate = const Value.absent(),
+                Value<int> quitDateMoves = const Value.absent(),
+                Value<QuitReason?> reason = const Value.absent(),
+                Value<String?> supportPerson = const Value.absent(),
+                Value<bool> notAPuffAccepted = const Value.absent(),
+              }) => CessationPlanTableCompanion.insert(
+                id: id,
+                quitDate: quitDate,
+                quitDateMoves: quitDateMoves,
+                reason: reason,
+                supportPerson: supportPerson,
+                notAPuffAccepted: notAPuffAccepted,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$CessationPlanTableTable, CessationPlanRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $CessationPlanTableTable,
+                    CessationPlanRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CessationPlanTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CessationPlanTableTable,
+      CessationPlanRow,
+      $$CessationPlanTableTableFilterComposer,
+      $$CessationPlanTableTableOrderingComposer,
+      $$CessationPlanTableTableAnnotationComposer,
+      $$CessationPlanTableTableCreateCompanionBuilder,
+      $$CessationPlanTableTableUpdateCompanionBuilder,
+      (
+        CessationPlanRow,
+        BaseReferences<
+          _$AppDatabase,
+          $CessationPlanTableTable,
+          CessationPlanRow
+        >,
+      ),
+      CessationPlanRow,
+      PrefetchHooks Function()
+    >;
+typedef $$CopingPlanTableTableCreateCompanionBuilder =
+    CopingPlanTableCompanion Function({
+      required TriggerLabel trigger,
+      required String plan,
+      Value<bool> rehearsed,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$CopingPlanTableTableUpdateCompanionBuilder =
+    CopingPlanTableCompanion Function({
+      Value<TriggerLabel> trigger,
+      Value<String> plan,
+      Value<bool> rehearsed,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+class $$CopingPlanTableTableFilterComposer
+    extends Composer<_$AppDatabase, $CopingPlanTableTable> {
+  $$CopingPlanTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnWithTypeConverterFilters<TriggerLabel, TriggerLabel, String>
+  get trigger => $composableBuilder(
+    column: $table.trigger,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<String> get plan => $composableBuilder(
+    column: $table.plan,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get rehearsed => $composableBuilder(
+    column: $table.rehearsed,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CopingPlanTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $CopingPlanTableTable> {
+  $$CopingPlanTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get trigger => $composableBuilder(
+    column: $table.trigger,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plan => $composableBuilder(
+    column: $table.plan,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get rehearsed => $composableBuilder(
+    column: $table.rehearsed,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CopingPlanTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CopingPlanTableTable> {
+  $$CopingPlanTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumnWithTypeConverter<TriggerLabel, String> get trigger =>
+      $composableBuilder(column: $table.trigger, builder: (column) => column);
+
+  GeneratedColumn<String> get plan =>
+      $composableBuilder(column: $table.plan, builder: (column) => column);
+
+  GeneratedColumn<bool> get rehearsed =>
+      $composableBuilder(column: $table.rehearsed, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$CopingPlanTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CopingPlanTableTable,
+          CopingPlanRow,
+          $$CopingPlanTableTableFilterComposer,
+          $$CopingPlanTableTableOrderingComposer,
+          $$CopingPlanTableTableAnnotationComposer,
+          $$CopingPlanTableTableCreateCompanionBuilder,
+          $$CopingPlanTableTableUpdateCompanionBuilder,
+          (
+            CopingPlanRow,
+            BaseReferences<_$AppDatabase, $CopingPlanTableTable, CopingPlanRow>,
+          ),
+          CopingPlanRow,
+          PrefetchHooks Function()
+        > {
+  $$CopingPlanTableTableTableManager(
+    _$AppDatabase db,
+    $CopingPlanTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CopingPlanTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CopingPlanTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CopingPlanTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<TriggerLabel> trigger = const Value.absent(),
+                Value<String> plan = const Value.absent(),
+                Value<bool> rehearsed = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CopingPlanTableCompanion(
+                trigger: trigger,
+                plan: plan,
+                rehearsed: rehearsed,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required TriggerLabel trigger,
+                required String plan,
+                Value<bool> rehearsed = const Value.absent(),
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => CopingPlanTableCompanion.insert(
+                trigger: trigger,
+                plan: plan,
+                rehearsed: rehearsed,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$CopingPlanTableTable, CopingPlanRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $CopingPlanTableTable,
+                    CopingPlanRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CopingPlanTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CopingPlanTableTable,
+      CopingPlanRow,
+      $$CopingPlanTableTableFilterComposer,
+      $$CopingPlanTableTableOrderingComposer,
+      $$CopingPlanTableTableAnnotationComposer,
+      $$CopingPlanTableTableCreateCompanionBuilder,
+      $$CopingPlanTableTableUpdateCompanionBuilder,
+      (
+        CopingPlanRow,
+        BaseReferences<_$AppDatabase, $CopingPlanTableTable, CopingPlanRow>,
+      ),
+      CopingPlanRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MoodScreenTableCreateCompanionBuilder = MoodScreenCompanion Function({
+  Value<int> id,
+  required DateTime ts,
+  required int lowInterest,
+  required int lowMood,
+  required int total,
+});
+typedef $$MoodScreenTableUpdateCompanionBuilder = MoodScreenCompanion Function({
+  Value<int> id,
+  Value<DateTime> ts,
+  Value<int> lowInterest,
+  Value<int> lowMood,
+  Value<int> total,
+});
+
+class $$MoodScreenTableFilterComposer
+    extends Composer<_$AppDatabase, $MoodScreenTable> {
+  $$MoodScreenTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get ts => $composableBuilder(
+    column: $table.ts,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lowInterest => $composableBuilder(
+    column: $table.lowInterest,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lowMood => $composableBuilder(
+    column: $table.lowMood,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get total => $composableBuilder(
+    column: $table.total,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MoodScreenTableOrderingComposer
+    extends Composer<_$AppDatabase, $MoodScreenTable> {
+  $$MoodScreenTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get ts => $composableBuilder(
+    column: $table.ts,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get lowInterest => $composableBuilder(
+    column: $table.lowInterest,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get lowMood => $composableBuilder(
+    column: $table.lowMood,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get total => $composableBuilder(
+    column: $table.total,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MoodScreenTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MoodScreenTable> {
+  $$MoodScreenTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get ts =>
+      $composableBuilder(column: $table.ts, builder: (column) => column);
+
+  GeneratedColumn<int> get lowInterest => $composableBuilder(
+    column: $table.lowInterest,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get lowMood =>
+      $composableBuilder(column: $table.lowMood, builder: (column) => column);
+
+  GeneratedColumn<int> get total =>
+      $composableBuilder(column: $table.total, builder: (column) => column);
+}
+
+class $$MoodScreenTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MoodScreenTable,
+          MoodScreenRow,
+          $$MoodScreenTableFilterComposer,
+          $$MoodScreenTableOrderingComposer,
+          $$MoodScreenTableAnnotationComposer,
+          $$MoodScreenTableCreateCompanionBuilder,
+          $$MoodScreenTableUpdateCompanionBuilder,
+          (
+            MoodScreenRow,
+            BaseReferences<_$AppDatabase, $MoodScreenTable, MoodScreenRow>,
+          ),
+          MoodScreenRow,
+          PrefetchHooks Function()
+        > {
+  $$MoodScreenTableTableManager(_$AppDatabase db, $MoodScreenTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MoodScreenTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MoodScreenTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MoodScreenTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> ts = const Value.absent(),
+                Value<int> lowInterest = const Value.absent(),
+                Value<int> lowMood = const Value.absent(),
+                Value<int> total = const Value.absent(),
+              }) => MoodScreenCompanion(
+                id: id,
+                ts: ts,
+                lowInterest: lowInterest,
+                lowMood: lowMood,
+                total: total,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required DateTime ts,
+                required int lowInterest,
+                required int lowMood,
+                required int total,
+              }) => MoodScreenCompanion.insert(
+                id: id,
+                ts: ts,
+                lowInterest: lowInterest,
+                lowMood: lowMood,
+                total: total,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MoodScreenTable, MoodScreenRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MoodScreenTable,
+                    MoodScreenRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MoodScreenTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MoodScreenTable,
+      MoodScreenRow,
+      $$MoodScreenTableFilterComposer,
+      $$MoodScreenTableOrderingComposer,
+      $$MoodScreenTableAnnotationComposer,
+      $$MoodScreenTableCreateCompanionBuilder,
+      $$MoodScreenTableUpdateCompanionBuilder,
+      (
+        MoodScreenRow,
+        BaseReferences<_$AppDatabase, $MoodScreenTable, MoodScreenRow>,
+      ),
+      MoodScreenRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -12206,4 +13958,10 @@ class $AppDatabaseManager {
       $$PlanStateTableTableManager(_db, _db.planState);
   $$SavingsGoalTableTableTableManager get savingsGoalTable =>
       $$SavingsGoalTableTableTableManager(_db, _db.savingsGoalTable);
+  $$CessationPlanTableTableTableManager get cessationPlanTable =>
+      $$CessationPlanTableTableTableManager(_db, _db.cessationPlanTable);
+  $$CopingPlanTableTableTableManager get copingPlanTable =>
+      $$CopingPlanTableTableTableManager(_db, _db.copingPlanTable);
+  $$MoodScreenTableTableManager get moodScreen =>
+      $$MoodScreenTableTableManager(_db, _db.moodScreen);
 }

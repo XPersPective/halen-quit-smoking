@@ -8,9 +8,11 @@ import 'package:halen/application/plan_controller.dart';
 import 'package:halen/application/providers.dart';
 import 'package:halen/application/record_providers.dart';
 import 'package:halen/core/dates.dart';
+import 'package:halen/core/design/tokens.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/presentation/widgets/design/halen_components.dart';
 import 'package:halen/presentation/widgets/sos_techniques_list.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 
@@ -278,21 +280,53 @@ class _SosScreenState extends ConsumerState<SosScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
-            // Fixed NRT line (report §15 — product never recommends NRT).
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    const Icon(Icons.medical_information_outlined),
-                    const SizedBox(width: 12),
-                    Expanded(child: Text(l10n.sosNrtLine)),
-                  ],
-                ),
+            const SizedBox(height: HalenSpace.x2),
+            // The medicines, reachable from the moment they are most
+            // relevant. The old line here mentioned NRT and went nowhere;
+            // there is a whole screen behind it now (premium brief §C.1).
+            HalenCard(
+              onTap: () => Navigator.of(context).pushNamed(Routes.medicines),
+              child: Row(
+                children: [
+                  const Icon(Icons.medical_information_outlined),
+                  const SizedBox(width: HalenSpace.x3),
+                  Expanded(child: Text(l10n.sosNrtLine)),
+                  const Icon(Icons.chevron_right_rounded),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: HalenSpace.x3),
+            // A trained counsellor on the phone raises the odds on its own,
+            // and a craving is exactly when a person will not go looking for
+            // the number (premium brief §C.9).
+            HalenCard(
+              emphasis: CardEmphasis.quiet,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.call_outlined),
+                      const SizedBox(width: HalenSpace.x3),
+                      Expanded(
+                        child: Text(
+                          l10n.helplineTitle,
+                          style: theme.textTheme.titleSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: HalenSpace.x2),
+                  Text(l10n.helplineBody, style: theme.textTheme.bodyMedium),
+                  const SizedBox(height: HalenSpace.x2),
+                  SelectableText(
+                    l10n.settingsHelplines,
+                    style: theme.textTheme.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: HalenSpace.x6),
           ],
         ),
       ),

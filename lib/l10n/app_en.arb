@@ -1259,5 +1259,187 @@
       }
     }
   },
-  "organNotYou": "These are population figures — not a reading of your body."
+  "organNotYou": "These are population figures — not a reading of your body.",
+  "obWhyTitle": "Why do you want to stop?",
+  "obWhyHint": "Pick the one that is truest today. Halen shows it back to you when a craving hits.",
+  "reasonChildren": "For my children",
+  "reasonHealth": "For my health",
+  "reasonMoney": "For the money",
+  "reasonFreedom": "To not be owned by it",
+  "reasonSmell": "For the smell",
+  "reasonFitness": "To breathe better",
+  "reasonSomeoneAsked": "Someone asked me to",
+  "resultTitle": "This is where you are starting",
+  "resultSubtitle": "All of it worked out from what you just told us.",
+  "resultPerYearPacks": "Packs a year",
+  "resultPerYearMoney": "A year",
+  "resultPerYearTime": "A year, smoking",
+  "resultDependenceTitle": "How much your body is leaning on it",
+  "resultDependenceLow": "Light",
+  "resultDependenceModerate": "Moderate",
+  "resultDependenceHigh": "Strong",
+  "resultDependenceExplain": "From two questions: how many a day, and how soon after waking. It sets how gently your plan starts — nothing else.",
+  "resultFirst72Title": "What the first 72 hours look like",
+  "resultFirst7220m": "20 minutes",
+  "resultFirst7220mBody": "Heart rate and blood pressure start to fall.",
+  "resultFirst7212h": "12 hours",
+  "resultFirst7212hBody": "Carbon monoxide clears; more oxygen reaches your blood.",
+  "resultFirst7248h": "48-72 hours",
+  "resultFirst7248hBody": "The hardest stretch, and the peak of it. Taste and smell start coming back.",
+  "resultStart": "Start",
+  "resultSourceNote": "Milestones from WHO and CDC population data.",
+  "quitPlanTitle": "Your quit plan",
+  "quitPlanSubtitle": "Five things that make an attempt stick. None of them are compulsory.",
+  "quitPlanReadiness": "{done} of {total} ready",
+  "@quitPlanReadiness": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "quitDateTitle": "A date to stop",
+  "quitDateNone": "Not set yet",
+  "quitDateSet": "Pick a date",
+  "quitDateChange": "Move the date",
+  "quitDateClear": "Remove the date",
+  "quitDateWhy": "Cutting down works when it is aimed at a day. Without one, reducing tends to settle into a habit of its own.",
+  "quitDateIn": "In {days} days",
+  "@quitDateIn": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "quitDateTomorrow": "Tomorrow",
+  "quitDateToday": "Today",
+  "quitDatePassed": "Day {days}",
+  "@quitDatePassed": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "quitDateTooSoonNote": "Under three days leaves no room to get ready — to get medicine, tell someone, clear the house.",
+  "quitDateTooFarNote": "Past six weeks a date stops working as a commitment. Nearer is better.",
+  "quitDateMovedNote": "Moved {count} times so far. That is allowed.",
+  "@quitDateMovedNote": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "medicinesTitle": "Medicines that help",
+  "medicinesLead": "These roughly double the chance an attempt succeeds. It is the most effective help available, and most people never try it.",
+  "medicinesOtc": "Available at a pharmacy",
+  "medicinesPrescription": "Ask a doctor",
+  "medicinesHowItWorks": "How it works",
+  "medicinesTypicalUse": "How it is used",
+  "medicinesCommonMistake": "The usual mistake",
+  "medicinesRatioPlacebo": "{ratio}x the quit rate of a dummy treatment, across trials",
+  "@medicinesRatioPlacebo": {
+    "placeholders": {
+      "ratio": {
+        "type": "String"
+      }
+    }
+  },
+  "medicinesRatioSingle": "{ratio}x the quit rate of one form used alone, across trials",
+  "@medicinesRatioSingle": {
+    "placeholders": {
+      "ratio": {
+        "type": "String"
+      }
+    }
+  },
+  "medicinesCombinationSuggestion": "Given how much you smoke, the usual starting point is a patch plus one fast form. Worth asking a pharmacist about.",
+  "medicinesDisclaimer": "Halen is not a prescriber and sells nothing. Doses, suitability and interactions are for a pharmacist or a doctor to judge — especially in pregnancy, heart disease or a psychiatric condition.",
+  "copingTitle": "The hard moments",
+  "copingLead": "Name what you will do instead, before you are in it. Deciding in the moment is the part that fails.",
+  "copingHint": "What will you do instead?",
+  "copingSaved": "Saved",
+  "copingEmpty": "Your plan is empty. Even one line for your worst moment is worth having.",
+  "notAPuffTitle": "Not a single puff",
+  "notAPuffBody": "The rule is not about willpower. One cigarette re-teaches the craving that smoking still works, and that is what turns one into ten.",
+  "notAPuffAccept": "I take the rule",
+  "notAPuffTaken": "Rule taken",
+  "supportPersonTitle": "Someone who knows",
+  "supportPersonBody": "Telling one person raises the odds. First name is enough — Halen never reads your contacts and stores nothing else.",
+  "supportPersonHint": "First name",
+  "supportPersonDraft": "Something you could send: \"I am stopping smoking on {date}. If I get unbearable, that is why. Ask me how it is going.\"",
+  "@supportPersonDraft": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "supportPersonCopy": "Copy the message",
+  "supportPersonCopied": "Copied",
+  "moodCheckTitle": "Two questions about your mood",
+  "moodCheckLead": "Over the last two weeks, how often have you been bothered by...",
+  "moodCheckQ1": "Little interest or pleasure in doing things",
+  "moodCheckQ2": "Feeling down, depressed or hopeless",
+  "moodCheckNever": "Not at all",
+  "moodCheckSomeDays": "Several days",
+  "moodCheckMostDays": "More than half the days",
+  "moodCheckEveryDay": "Nearly every day",
+  "moodCheckWhy": "Stopping can bring low mood to the surface in people prone to it. This is a screen, not a diagnosis, and nothing here leaves your phone.",
+  "moodCheckResultClear": "Nothing here suggests you need to change course. Ask again whenever you want.",
+  "moodCheckResultTalk": "This score is at the level where talking to a doctor is worth doing — not because stopping is wrong for you, but because low mood is treatable and easier to carry when it is treated.",
+  "moodCheckDone": "Done",
+  "slipTitle": "That was one cigarette",
+  "slipBody": "One is a slip, not the end of the attempt. What decides the next week is what you do in the next hour.",
+  "slipAction": "Throw the rest away, and go back to the plan now — not tomorrow, not Monday.",
+  "slipClusteringTitle": "This is getting harder",
+  "slipClusteringBody": "Several in a week usually means the situation is stronger than the plan, not that you are weak. This is the moment medicine helps most.",
+  "slipRelapseTitle": "The attempt has slipped back",
+  "slipRelapseBody": "Most people who stop for good have done this several times first. The attempt that works is usually not the first one.",
+  "slipSetNewDate": "Set a new date",
+  "slipSeeMedicines": "See what medicine could do",
+  "quitDayTitle": "Today is the day",
+  "quitDayLead": "The first day is mostly logistics. Here is the whole of it.",
+  "quitDayMorning": "This morning",
+  "quitDayMorningBody": "Throw away every cigarette, lighter and ashtray you own. Not hidden — gone.",
+  "quitDayAfternoon": "This afternoon",
+  "quitDayAfternoonBody": "The first cravings come in waves of a few minutes. Walk, water, breathe — they pass whether or not you smoke.",
+  "quitDayEvening": "Tonight",
+  "quitDayEveningBody": "Evening is the hardest hour of day one. Change what you do at that hour, not just what you hold.",
+  "quitDayReasonReminder": "You said you were doing this {reason}.",
+  "@quitDayReasonReminder": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "helplineTitle": "A person on the phone",
+  "helplineBody": "Quitlines work — talking to a trained counsellor raises the odds on its own.",
+  "statusTitle": "Where you are",
+  "statusSwipeHint": "Swipe for the next one",
+  "statusOpen": "See all your numbers",
+  "statusPageNicotine": "Nicotine",
+  "statusPageOxygen": "Oxygen debt",
+  "statusPageBaseline": "All-day baseline",
+  "statusPageParticles": "Particle load",
+  "statusPageProgress": "Progress score",
+  "statusPageHarm": "Harm load",
+  "statusPageMoney": "Money",
+  "statusPageTime": "Time",
+  "statusNeedsData": "A few more records and this one draws itself.",
+  "celebrateTitle": "That is a real one",
+  "celebrateClose": "Keep going",
+  "celebrateDay1": "One full day",
+  "celebrateDay3": "Three days — past the peak",
+  "celebrateWeek1": "One week",
+  "celebrateMonth1": "One month",
+  "celebrateResisted100": "100 cravings ridden out",
+  "commonNotNow": "Not now",
+  "commonOpen": "Open"
 }

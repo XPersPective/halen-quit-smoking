@@ -255,14 +255,20 @@ class HalenPill extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (icon != null) ...[
             Icon(icon, size: 14, color: color),
             const SizedBox(width: HalenSpace.x1 + 2),
           ],
-          Text(
-            label,
-            style: theme.textTheme.labelSmall?.copyWith(color: color),
+          // A pill's label is usually two words, but an evidence line is a
+          // sentence — and a Row with mainAxisSize.min will happily overflow
+          // rather than wrap it. Flexible lets the long ones fold.
+          Flexible(
+            child: Text(
+              label,
+              style: theme.textTheme.labelSmall?.copyWith(color: color),
+            ),
           ),
         ],
       ),

@@ -13,6 +13,9 @@ import 'presentation/screens/articles/article_reader_screen.dart';
 import 'presentation/screens/articles/articles_screen.dart';
 import 'presentation/screens/articles/sources_screen.dart';
 import 'presentation/screens/body/body_screen.dart';
+import 'presentation/screens/cessation/medicines_screen.dart';
+import 'presentation/screens/cessation/quit_day_screen.dart';
+import 'presentation/screens/cessation/quit_plan_screen.dart';
 import 'presentation/screens/economy/economy_screen.dart';
 import 'presentation/screens/onboarding/onboarding_screen.dart';
 import 'presentation/screens/paywall/paywall_screen.dart';
@@ -66,6 +69,9 @@ class HalenApp extends ConsumerWidget {
         Routes.sources: (_) => const SourcesScreen(),
         Routes.earAcupressure: (_) => const EarAcupressureScreen(),
         Routes.glossary: (_) => const GlossaryScreen(),
+        Routes.quitPlan: (_) => const QuitPlanScreen(),
+        Routes.medicines: (_) => const MedicinesScreen(),
+        Routes.quitDay: (_) => const QuitDayScreen(),
       },
       // One clock above every route: everything that breathes on screen —
       // the lung, the body map, an organ glyph — derives its phase from the

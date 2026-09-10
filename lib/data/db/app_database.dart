@@ -1,12 +1,14 @@
 import 'package:drift/drift.dart' hide Trigger;
 
 import '../../domain/body_load_model.dart';
+import '../../domain/cessation.dart';
 import '../../domain/economy.dart';
 import '../../domain/entities.dart';
 import '../../domain/plan_kinds.dart';
 import '../../domain/soft_taper.dart';
 import 'daos/content_dao.dart';
 import 'daos/craving_dao.dart';
+import 'daos/cessation_dao.dart';
 import 'daos/module_dao.dart';
 import 'daos/plan_dao.dart';
 import 'daos/profile_dao.dart';
@@ -39,6 +41,9 @@ part 'app_database.g.dart';
     IndexSnapshot,
     PlanState,
     SavingsGoalTable,
+    CessationPlanTable,
+    CopingPlanTable,
+    MoodScreen,
   ],
   daos: [
     ProfileDao,
@@ -51,6 +56,7 @@ part 'app_database.g.dart';
     SettingsDao,
     TimelineDao,
     ModuleDao,
+    CessationDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -59,7 +65,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.e);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -101,6 +107,13 @@ class AppDatabase extends _$AppDatabase {
           if (from < 4) {
             // v4 — the opt-in risky-window heads-up.
             await m.addColumn(settings, settings.riskyWindowReminder);
+          }
+          if (from < 5) {
+            // v5 — the quit attempt: a date, a reason, a person told, a plan
+            // for the hard situations, and the mood screen. Additive only.
+            await m.createTable(cessationPlanTable);
+            await m.createTable(copingPlanTable);
+            await m.createTable(moodScreen);
           }
         },
       );

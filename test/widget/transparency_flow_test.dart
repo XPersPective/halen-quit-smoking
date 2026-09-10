@@ -27,6 +27,11 @@ void main() {
       300,
       scrollable: find.byType(Scrollable).first,
     );
+    // scrollUntilVisible stops as soon as the target is technically on
+    // screen, which can leave it half under the edge — and a tap there
+    // silently misses. ensureVisible centres it first.
+    await tester.ensureVisible(find.byIcon(Icons.favorite_border_rounded));
+    await tester.pumpAndSettle();
     await tester.tap(find.byIcon(Icons.favorite_border_rounded));
     await tester.pumpAndSettle();
 

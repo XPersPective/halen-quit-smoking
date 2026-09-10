@@ -2226,4 +2226,418 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get organNotYou =>
       'Bunlar popülasyon rakamları — senin vücudunun ölçümü değil.';
+
+  @override
+  String get obWhyTitle => 'Neden bırakmak istiyorsun?';
+
+  @override
+  String get obWhyHint =>
+      'Bugün en doğru geleni seç. Halen, istek geldiğinde bunu sana geri gösterir.';
+
+  @override
+  String get reasonChildren => 'Çocuklarım için';
+
+  @override
+  String get reasonHealth => 'Sağlığım için';
+
+  @override
+  String get reasonMoney => 'Para için';
+
+  @override
+  String get reasonFreedom => 'Bana hükmetmesin diye';
+
+  @override
+  String get reasonSmell => 'Koku için';
+
+  @override
+  String get reasonFitness => 'Daha iyi nefes almak için';
+
+  @override
+  String get reasonSomeoneAsked => 'Biri benden istedi';
+
+  @override
+  String get resultTitle => 'Başladığın yer burası';
+
+  @override
+  String get resultSubtitle => 'Hepsi az önce söylediklerinden hesaplandı.';
+
+  @override
+  String get resultPerYearPacks => 'Yılda paket';
+
+  @override
+  String get resultPerYearMoney => 'Yılda';
+
+  @override
+  String get resultPerYearTime => 'Yılda, içerek';
+
+  @override
+  String get resultDependenceTitle => 'Vücudun buna ne kadar yaslanmış';
+
+  @override
+  String get resultDependenceLow => 'Hafif';
+
+  @override
+  String get resultDependenceModerate => 'Orta';
+
+  @override
+  String get resultDependenceHigh => 'Güçlü';
+
+  @override
+  String get resultDependenceExplain =>
+      'İki sorudan: günde kaç tane ve uyandıktan ne kadar sonra. Yalnızca planının ne kadar yumuşak başlayacağını belirler, başka bir şeyi değil.';
+
+  @override
+  String get resultFirst72Title => 'İlk 72 saat neye benzer';
+
+  @override
+  String get resultFirst7220m => '20 dakika';
+
+  @override
+  String get resultFirst7220mBody => 'Nabız ve tansiyon düşmeye başlar.';
+
+  @override
+  String get resultFirst7212h => '12 saat';
+
+  @override
+  String get resultFirst7212hBody =>
+      'Karbonmonoksit temizlenir; kana daha çok oksijen gider.';
+
+  @override
+  String get resultFirst7248h => '48-72 saat';
+
+  @override
+  String get resultFirst7248hBody =>
+      'En zor bölüm ve tepesi burada. Tat ve koku geri gelmeye başlar.';
+
+  @override
+  String get resultStart => 'Başla';
+
+  @override
+  String get resultSourceNote =>
+      'Kilometre taşları WHO ve CDC popülasyon verisinden.';
+
+  @override
+  String get quitPlanTitle => 'Bırakma planın';
+
+  @override
+  String get quitPlanSubtitle =>
+      'Bir denemeyi tutturan beş şey. Hiçbiri zorunlu değil.';
+
+  @override
+  String quitPlanReadiness(int done, int total) {
+    return '$total adımdan $done tamam';
+  }
+
+  @override
+  String get quitDateTitle => 'Bırakma tarihi';
+
+  @override
+  String get quitDateNone => 'Henüz belirlenmedi';
+
+  @override
+  String get quitDateSet => 'Tarih seç';
+
+  @override
+  String get quitDateChange => 'Tarihi taşı';
+
+  @override
+  String get quitDateClear => 'Tarihi kaldır';
+
+  @override
+  String get quitDateWhy =>
+      'Azaltmak, bir güne nişan alındığında işe yarar. Tarih olmadan azaltma kendi başına bir alışkanlığa yerleşir.';
+
+  @override
+  String quitDateIn(int days) {
+    return '$days gün sonra';
+  }
+
+  @override
+  String get quitDateTomorrow => 'Yarın';
+
+  @override
+  String get quitDateToday => 'Bugün';
+
+  @override
+  String quitDatePassed(int days) {
+    return '$days. gün';
+  }
+
+  @override
+  String get quitDateTooSoonNote =>
+      'Üç günden azı hazırlanmaya yer bırakmaz: ilaç almak, birine söylemek, evi temizlemek.';
+
+  @override
+  String get quitDateTooFarNote =>
+      'Altı haftayı geçince tarih bir söz olmaktan çıkar. Yakın olan daha iyi.';
+
+  @override
+  String quitDateMovedNote(int count) {
+    return 'Şimdiye dek $count kez taşındı. Bu serbest.';
+  }
+
+  @override
+  String get medicinesTitle => 'Yardımcı ilaçlar';
+
+  @override
+  String get medicinesLead =>
+      'Bunlar bir denemenin tutma ihtimalini kabaca ikiye katlar. Elde edilebilecek en etkili yardım bu ve çoğu kişi hiç denemiyor.';
+
+  @override
+  String get medicinesOtc => 'Eczaneden alınabilir';
+
+  @override
+  String get medicinesPrescription => 'Hekime sor';
+
+  @override
+  String get medicinesHowItWorks => 'Nasıl çalışır';
+
+  @override
+  String get medicinesTypicalUse => 'Nasıl kullanılır';
+
+  @override
+  String get medicinesCommonMistake => 'En sık yapılan hata';
+
+  @override
+  String medicinesRatioPlacebo(String ratio) {
+    return 'Denemelerde, sahte tedaviye göre bırakma oranı $ratio kat';
+  }
+
+  @override
+  String medicinesRatioSingle(String ratio) {
+    return 'Denemelerde, tek form kullanmaya göre bırakma oranı $ratio kat';
+  }
+
+  @override
+  String get medicinesCombinationSuggestion =>
+      'İçtiğin miktara göre olağan başlangıç noktası bant artı hızlı bir form. Eczacına sormaya değer.';
+
+  @override
+  String get medicinesDisclaimer =>
+      'Halen reçete yazmaz ve hiçbir şey satmaz. Doz, uygunluk ve etkileşim kararı eczacıya ya da hekime aittir — özellikle gebelikte, kalp hastalığında ve psikiyatrik durumlarda.';
+
+  @override
+  String get copingTitle => 'Zor anlar';
+
+  @override
+  String get copingLead =>
+      'İçine düşmeden önce ne yapacağını yaz. O an karar vermek, işin tutmayan kısmı.';
+
+  @override
+  String get copingHint => 'Onun yerine ne yapacaksın?';
+
+  @override
+  String get copingSaved => 'Kaydedildi';
+
+  @override
+  String get copingEmpty =>
+      'Planın boş. En zor anın için tek satır bile olsa değer.';
+
+  @override
+  String get notAPuffTitle => 'Tek bir nefes bile yok';
+
+  @override
+  String get notAPuffBody =>
+      'Kural irade meselesi değil. Tek bir sigara, isteğe sigaranın hâlâ işe yaradığını yeniden öğretir; biri ona dönüştüren şey budur.';
+
+  @override
+  String get notAPuffAccept => 'Kuralı kabul ediyorum';
+
+  @override
+  String get notAPuffTaken => 'Kural alındı';
+
+  @override
+  String get supportPersonTitle => 'Bilen biri';
+
+  @override
+  String get supportPersonBody =>
+      'Bir kişiye söylemek şansı artırır. Sadece ad yeter — Halen rehberini hiç okumaz ve başka bir şey saklamaz.';
+
+  @override
+  String get supportPersonHint => 'Ad';
+
+  @override
+  String supportPersonDraft(String date) {
+    return 'Gönderebileceğin bir şey: \"$date tarihinde sigarayı bırakıyorum. Çekilmez olursam sebebi bu. Ara sıra nasıl gittiğini sor.\"';
+  }
+
+  @override
+  String get supportPersonCopy => 'Mesajı kopyala';
+
+  @override
+  String get supportPersonCopied => 'Kopyalandı';
+
+  @override
+  String get moodCheckTitle => 'Ruh hâlin hakkında iki soru';
+
+  @override
+  String get moodCheckLead =>
+      'Son iki haftada şunlar seni ne sıklıkta rahatsız etti...';
+
+  @override
+  String get moodCheckQ1 =>
+      'Bir şeyleri yapmaya karşı ilgisizlik veya keyifsizlik';
+
+  @override
+  String get moodCheckQ2 => 'Kendini kötü, çökmüş veya umutsuz hissetmek';
+
+  @override
+  String get moodCheckNever => 'Hiç';
+
+  @override
+  String get moodCheckSomeDays => 'Birkaç gün';
+
+  @override
+  String get moodCheckMostDays => 'Günlerin yarısından fazla';
+
+  @override
+  String get moodCheckEveryDay => 'Neredeyse her gün';
+
+  @override
+  String get moodCheckWhy =>
+      'Bırakmak, yatkın kişilerde çökkünlüğü yüzeye çıkarabilir. Bu bir tarama, tanı değil; buradaki hiçbir şey telefonundan çıkmaz.';
+
+  @override
+  String get moodCheckResultClear =>
+      'Burada rotanı değiştirmen gerektiğini gösteren bir şey yok. İstediğin zaman yeniden sorabilirsin.';
+
+  @override
+  String get moodCheckResultTalk =>
+      'Bu puan, bir hekimle konuşmaya değer düzeyde — bırakmak sana yanlış geldiği için değil, çökkünlük tedavi edilebilir olduğu ve tedavi edildiğinde taşıması kolaylaştığı için.';
+
+  @override
+  String get moodCheckDone => 'Bitti';
+
+  @override
+  String get slipTitle => 'Bu bir sigaraydı';
+
+  @override
+  String get slipBody =>
+      'Bir tane kaymadır, denemenin sonu değil. Önümüzdeki haftayı belirleyen şey, önümüzdeki bir saatte yaptığın.';
+
+  @override
+  String get slipAction =>
+      'Kalanı at ve şimdi plana dön — yarın değil, pazartesi değil.';
+
+  @override
+  String get slipClusteringTitle => 'Bu zorlaşıyor';
+
+  @override
+  String get slipClusteringBody =>
+      'Bir haftada birkaç tane, genelde durumun plandan güçlü olduğu anlamına gelir; zayıf olduğun değil. İlacın en çok yardım ettiği an tam burası.';
+
+  @override
+  String get slipRelapseTitle => 'Deneme geri kaydı';
+
+  @override
+  String get slipRelapseBody =>
+      'Kalıcı bırakanların çoğu bunu birkaç kez yaşadı. Tutan deneme, genelde ilk deneme değildir.';
+
+  @override
+  String get slipSetNewDate => 'Yeni tarih belirle';
+
+  @override
+  String get slipSeeMedicines => 'İlacın ne yapabileceğine bak';
+
+  @override
+  String get quitDayTitle => 'Bugün o gün';
+
+  @override
+  String get quitDayLead => 'İlk gün çoğunlukla lojistik. Tamamı burada.';
+
+  @override
+  String get quitDayMorning => 'Bu sabah';
+
+  @override
+  String get quitDayMorningBody =>
+      'Sahip olduğun her sigarayı, çakmağı ve küllüğü at. Saklama — yok et.';
+
+  @override
+  String get quitDayAfternoon => 'Bu öğleden sonra';
+
+  @override
+  String get quitDayAfternoonBody =>
+      'İlk istekler birkaç dakikalık dalgalar hâlinde gelir. Yürü, su iç, nefes al — içsen de içmesen de geçerler.';
+
+  @override
+  String get quitDayEvening => 'Bu akşam';
+
+  @override
+  String get quitDayEveningBody =>
+      'Akşam, birinci günün en zor saatidir. O saatte sadece elinde tuttuğunu değil, ne yaptığını da değiştir.';
+
+  @override
+  String quitDayReasonReminder(String reason) {
+    return 'Bunu şu sebeple yaptığını söylemiştin: $reason.';
+  }
+
+  @override
+  String get helplineTitle => 'Telefonda bir insan';
+
+  @override
+  String get helplineBody =>
+      'Bırakma hatları işe yarar — eğitimli bir danışmanla konuşmak tek başına şansı artırır.';
+
+  @override
+  String get statusTitle => 'Neredesin';
+
+  @override
+  String get statusSwipeHint => 'Sonraki için kaydır';
+
+  @override
+  String get statusOpen => 'Bütün sayılarına bak';
+
+  @override
+  String get statusPageNicotine => 'Nikotin';
+
+  @override
+  String get statusPageOxygen => 'Oksijen borcu';
+
+  @override
+  String get statusPageBaseline => 'Gün boyu zemin';
+
+  @override
+  String get statusPageParticles => 'Partikül yükü';
+
+  @override
+  String get statusPageProgress => 'İlerleme puanı';
+
+  @override
+  String get statusPageHarm => 'Zarar yükü';
+
+  @override
+  String get statusPageMoney => 'Para';
+
+  @override
+  String get statusPageTime => 'Zaman';
+
+  @override
+  String get statusNeedsData => 'Birkaç kayıt daha, bu kendi kendine çizilir.';
+
+  @override
+  String get celebrateTitle => 'Bu gerçek bir tane';
+
+  @override
+  String get celebrateClose => 'Devam';
+
+  @override
+  String get celebrateDay1 => 'Tam bir gün';
+
+  @override
+  String get celebrateDay3 => 'Üç gün — tepeyi geçtin';
+
+  @override
+  String get celebrateWeek1 => 'Bir hafta';
+
+  @override
+  String get celebrateMonth1 => 'Bir ay';
+
+  @override
+  String get celebrateResisted100 => '100 istek atlatıldı';
+
+  @override
+  String get commonNotNow => 'Şimdi değil';
+
+  @override
+  String get commonOpen => 'Aç';
 }

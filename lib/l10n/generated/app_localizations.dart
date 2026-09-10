@@ -3951,6 +3951,744 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'These are population figures — not a reading of your body.'**
   String get organNotYou;
+
+  /// No description provided for @obWhyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Why do you want to stop?'**
+  String get obWhyTitle;
+
+  /// No description provided for @obWhyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the one that is truest today. Halen shows it back to you when a craving hits.'**
+  String get obWhyHint;
+
+  /// No description provided for @reasonChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'For my children'**
+  String get reasonChildren;
+
+  /// No description provided for @reasonHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'For my health'**
+  String get reasonHealth;
+
+  /// No description provided for @reasonMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'For the money'**
+  String get reasonMoney;
+
+  /// No description provided for @reasonFreedom.
+  ///
+  /// In en, this message translates to:
+  /// **'To not be owned by it'**
+  String get reasonFreedom;
+
+  /// No description provided for @reasonSmell.
+  ///
+  /// In en, this message translates to:
+  /// **'For the smell'**
+  String get reasonSmell;
+
+  /// No description provided for @reasonFitness.
+  ///
+  /// In en, this message translates to:
+  /// **'To breathe better'**
+  String get reasonFitness;
+
+  /// No description provided for @reasonSomeoneAsked.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone asked me to'**
+  String get reasonSomeoneAsked;
+
+  /// No description provided for @resultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This is where you are starting'**
+  String get resultTitle;
+
+  /// No description provided for @resultSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All of it worked out from what you just told us.'**
+  String get resultSubtitle;
+
+  /// No description provided for @resultPerYearPacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Packs a year'**
+  String get resultPerYearPacks;
+
+  /// No description provided for @resultPerYearMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'A year'**
+  String get resultPerYearMoney;
+
+  /// No description provided for @resultPerYearTime.
+  ///
+  /// In en, this message translates to:
+  /// **'A year, smoking'**
+  String get resultPerYearTime;
+
+  /// No description provided for @resultDependenceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How much your body is leaning on it'**
+  String get resultDependenceTitle;
+
+  /// No description provided for @resultDependenceLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get resultDependenceLow;
+
+  /// No description provided for @resultDependenceModerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get resultDependenceModerate;
+
+  /// No description provided for @resultDependenceHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get resultDependenceHigh;
+
+  /// No description provided for @resultDependenceExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'From two questions: how many a day, and how soon after waking. It sets how gently your plan starts — nothing else.'**
+  String get resultDependenceExplain;
+
+  /// No description provided for @resultFirst72Title.
+  ///
+  /// In en, this message translates to:
+  /// **'What the first 72 hours look like'**
+  String get resultFirst72Title;
+
+  /// No description provided for @resultFirst7220m.
+  ///
+  /// In en, this message translates to:
+  /// **'20 minutes'**
+  String get resultFirst7220m;
+
+  /// No description provided for @resultFirst7220mBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart rate and blood pressure start to fall.'**
+  String get resultFirst7220mBody;
+
+  /// No description provided for @resultFirst7212h.
+  ///
+  /// In en, this message translates to:
+  /// **'12 hours'**
+  String get resultFirst7212h;
+
+  /// No description provided for @resultFirst7212hBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbon monoxide clears; more oxygen reaches your blood.'**
+  String get resultFirst7212hBody;
+
+  /// No description provided for @resultFirst7248h.
+  ///
+  /// In en, this message translates to:
+  /// **'48-72 hours'**
+  String get resultFirst7248h;
+
+  /// No description provided for @resultFirst7248hBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The hardest stretch, and the peak of it. Taste and smell start coming back.'**
+  String get resultFirst7248hBody;
+
+  /// No description provided for @resultStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get resultStart;
+
+  /// No description provided for @resultSourceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones from WHO and CDC population data.'**
+  String get resultSourceNote;
+
+  /// No description provided for @quitPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your quit plan'**
+  String get quitPlanTitle;
+
+  /// No description provided for @quitPlanSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Five things that make an attempt stick. None of them are compulsory.'**
+  String get quitPlanSubtitle;
+
+  /// No description provided for @quitPlanReadiness.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} ready'**
+  String quitPlanReadiness(int done, int total);
+
+  /// No description provided for @quitDateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A date to stop'**
+  String get quitDateTitle;
+
+  /// No description provided for @quitDateNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set yet'**
+  String get quitDateNone;
+
+  /// No description provided for @quitDateSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get quitDateSet;
+
+  /// No description provided for @quitDateChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the date'**
+  String get quitDateChange;
+
+  /// No description provided for @quitDateClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the date'**
+  String get quitDateClear;
+
+  /// No description provided for @quitDateWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Cutting down works when it is aimed at a day. Without one, reducing tends to settle into a habit of its own.'**
+  String get quitDateWhy;
+
+  /// No description provided for @quitDateIn.
+  ///
+  /// In en, this message translates to:
+  /// **'In {days} days'**
+  String quitDateIn(int days);
+
+  /// No description provided for @quitDateTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get quitDateTomorrow;
+
+  /// No description provided for @quitDateToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get quitDateToday;
+
+  /// No description provided for @quitDatePassed.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {days}'**
+  String quitDatePassed(int days);
+
+  /// No description provided for @quitDateTooSoonNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Under three days leaves no room to get ready — to get medicine, tell someone, clear the house.'**
+  String get quitDateTooSoonNote;
+
+  /// No description provided for @quitDateTooFarNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Past six weeks a date stops working as a commitment. Nearer is better.'**
+  String get quitDateTooFarNote;
+
+  /// No description provided for @quitDateMovedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved {count} times so far. That is allowed.'**
+  String quitDateMovedNote(int count);
+
+  /// No description provided for @medicinesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Medicines that help'**
+  String get medicinesTitle;
+
+  /// No description provided for @medicinesLead.
+  ///
+  /// In en, this message translates to:
+  /// **'These roughly double the chance an attempt succeeds. It is the most effective help available, and most people never try it.'**
+  String get medicinesLead;
+
+  /// No description provided for @medicinesOtc.
+  ///
+  /// In en, this message translates to:
+  /// **'Available at a pharmacy'**
+  String get medicinesOtc;
+
+  /// No description provided for @medicinesPrescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a doctor'**
+  String get medicinesPrescription;
+
+  /// No description provided for @medicinesHowItWorks.
+  ///
+  /// In en, this message translates to:
+  /// **'How it works'**
+  String get medicinesHowItWorks;
+
+  /// No description provided for @medicinesTypicalUse.
+  ///
+  /// In en, this message translates to:
+  /// **'How it is used'**
+  String get medicinesTypicalUse;
+
+  /// No description provided for @medicinesCommonMistake.
+  ///
+  /// In en, this message translates to:
+  /// **'The usual mistake'**
+  String get medicinesCommonMistake;
+
+  /// No description provided for @medicinesRatioPlacebo.
+  ///
+  /// In en, this message translates to:
+  /// **'{ratio}x the quit rate of a dummy treatment, across trials'**
+  String medicinesRatioPlacebo(String ratio);
+
+  /// No description provided for @medicinesRatioSingle.
+  ///
+  /// In en, this message translates to:
+  /// **'{ratio}x the quit rate of one form used alone, across trials'**
+  String medicinesRatioSingle(String ratio);
+
+  /// No description provided for @medicinesCombinationSuggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Given how much you smoke, the usual starting point is a patch plus one fast form. Worth asking a pharmacist about.'**
+  String get medicinesCombinationSuggestion;
+
+  /// No description provided for @medicinesDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Halen is not a prescriber and sells nothing. Doses, suitability and interactions are for a pharmacist or a doctor to judge — especially in pregnancy, heart disease or a psychiatric condition.'**
+  String get medicinesDisclaimer;
+
+  /// No description provided for @copingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The hard moments'**
+  String get copingTitle;
+
+  /// No description provided for @copingLead.
+  ///
+  /// In en, this message translates to:
+  /// **'Name what you will do instead, before you are in it. Deciding in the moment is the part that fails.'**
+  String get copingLead;
+
+  /// No description provided for @copingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What will you do instead?'**
+  String get copingHint;
+
+  /// No description provided for @copingSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get copingSaved;
+
+  /// No description provided for @copingEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan is empty. Even one line for your worst moment is worth having.'**
+  String get copingEmpty;
+
+  /// No description provided for @notAPuffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a single puff'**
+  String get notAPuffTitle;
+
+  /// No description provided for @notAPuffBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The rule is not about willpower. One cigarette re-teaches the craving that smoking still works, and that is what turns one into ten.'**
+  String get notAPuffBody;
+
+  /// No description provided for @notAPuffAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'I take the rule'**
+  String get notAPuffAccept;
+
+  /// No description provided for @notAPuffTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'Rule taken'**
+  String get notAPuffTaken;
+
+  /// No description provided for @supportPersonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone who knows'**
+  String get supportPersonTitle;
+
+  /// No description provided for @supportPersonBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Telling one person raises the odds. First name is enough — Halen never reads your contacts and stores nothing else.'**
+  String get supportPersonBody;
+
+  /// No description provided for @supportPersonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'First name'**
+  String get supportPersonHint;
+
+  /// No description provided for @supportPersonDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Something you could send: \"I am stopping smoking on {date}. If I get unbearable, that is why. Ask me how it is going.\"'**
+  String supportPersonDraft(String date);
+
+  /// No description provided for @supportPersonCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy the message'**
+  String get supportPersonCopy;
+
+  /// No description provided for @supportPersonCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get supportPersonCopied;
+
+  /// No description provided for @moodCheckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two questions about your mood'**
+  String get moodCheckTitle;
+
+  /// No description provided for @moodCheckLead.
+  ///
+  /// In en, this message translates to:
+  /// **'Over the last two weeks, how often have you been bothered by...'**
+  String get moodCheckLead;
+
+  /// No description provided for @moodCheckQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'Little interest or pleasure in doing things'**
+  String get moodCheckQ1;
+
+  /// No description provided for @moodCheckQ2.
+  ///
+  /// In en, this message translates to:
+  /// **'Feeling down, depressed or hopeless'**
+  String get moodCheckQ2;
+
+  /// No description provided for @moodCheckNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Not at all'**
+  String get moodCheckNever;
+
+  /// No description provided for @moodCheckSomeDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Several days'**
+  String get moodCheckSomeDays;
+
+  /// No description provided for @moodCheckMostDays.
+  ///
+  /// In en, this message translates to:
+  /// **'More than half the days'**
+  String get moodCheckMostDays;
+
+  /// No description provided for @moodCheckEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearly every day'**
+  String get moodCheckEveryDay;
+
+  /// No description provided for @moodCheckWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopping can bring low mood to the surface in people prone to it. This is a screen, not a diagnosis, and nothing here leaves your phone.'**
+  String get moodCheckWhy;
+
+  /// No description provided for @moodCheckResultClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here suggests you need to change course. Ask again whenever you want.'**
+  String get moodCheckResultClear;
+
+  /// No description provided for @moodCheckResultTalk.
+  ///
+  /// In en, this message translates to:
+  /// **'This score is at the level where talking to a doctor is worth doing — not because stopping is wrong for you, but because low mood is treatable and easier to carry when it is treated.'**
+  String get moodCheckResultTalk;
+
+  /// No description provided for @moodCheckDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get moodCheckDone;
+
+  /// No description provided for @slipTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'That was one cigarette'**
+  String get slipTitle;
+
+  /// No description provided for @slipBody.
+  ///
+  /// In en, this message translates to:
+  /// **'One is a slip, not the end of the attempt. What decides the next week is what you do in the next hour.'**
+  String get slipBody;
+
+  /// No description provided for @slipAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Throw the rest away, and go back to the plan now — not tomorrow, not Monday.'**
+  String get slipAction;
+
+  /// No description provided for @slipClusteringTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This is getting harder'**
+  String get slipClusteringTitle;
+
+  /// No description provided for @slipClusteringBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Several in a week usually means the situation is stronger than the plan, not that you are weak. This is the moment medicine helps most.'**
+  String get slipClusteringBody;
+
+  /// No description provided for @slipRelapseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The attempt has slipped back'**
+  String get slipRelapseTitle;
+
+  /// No description provided for @slipRelapseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Most people who stop for good have done this several times first. The attempt that works is usually not the first one.'**
+  String get slipRelapseBody;
+
+  /// No description provided for @slipSetNewDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a new date'**
+  String get slipSetNewDate;
+
+  /// No description provided for @slipSeeMedicines.
+  ///
+  /// In en, this message translates to:
+  /// **'See what medicine could do'**
+  String get slipSeeMedicines;
+
+  /// No description provided for @quitDayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today is the day'**
+  String get quitDayTitle;
+
+  /// No description provided for @quitDayLead.
+  ///
+  /// In en, this message translates to:
+  /// **'The first day is mostly logistics. Here is the whole of it.'**
+  String get quitDayLead;
+
+  /// No description provided for @quitDayMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'This morning'**
+  String get quitDayMorning;
+
+  /// No description provided for @quitDayMorningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Throw away every cigarette, lighter and ashtray you own. Not hidden — gone.'**
+  String get quitDayMorningBody;
+
+  /// No description provided for @quitDayAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'This afternoon'**
+  String get quitDayAfternoon;
+
+  /// No description provided for @quitDayAfternoonBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The first cravings come in waves of a few minutes. Walk, water, breathe — they pass whether or not you smoke.'**
+  String get quitDayAfternoonBody;
+
+  /// No description provided for @quitDayEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Tonight'**
+  String get quitDayEvening;
+
+  /// No description provided for @quitDayEveningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening is the hardest hour of day one. Change what you do at that hour, not just what you hold.'**
+  String get quitDayEveningBody;
+
+  /// No description provided for @quitDayReasonReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'You said you were doing this {reason}.'**
+  String quitDayReasonReminder(String reason);
+
+  /// No description provided for @helplineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A person on the phone'**
+  String get helplineTitle;
+
+  /// No description provided for @helplineBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Quitlines work — talking to a trained counsellor raises the odds on its own.'**
+  String get helplineBody;
+
+  /// No description provided for @statusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you are'**
+  String get statusTitle;
+
+  /// No description provided for @statusSwipeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe for the next one'**
+  String get statusSwipeHint;
+
+  /// No description provided for @statusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'See all your numbers'**
+  String get statusOpen;
+
+  /// No description provided for @statusPageNicotine.
+  ///
+  /// In en, this message translates to:
+  /// **'Nicotine'**
+  String get statusPageNicotine;
+
+  /// No description provided for @statusPageOxygen.
+  ///
+  /// In en, this message translates to:
+  /// **'Oxygen debt'**
+  String get statusPageOxygen;
+
+  /// No description provided for @statusPageBaseline.
+  ///
+  /// In en, this message translates to:
+  /// **'All-day baseline'**
+  String get statusPageBaseline;
+
+  /// No description provided for @statusPageParticles.
+  ///
+  /// In en, this message translates to:
+  /// **'Particle load'**
+  String get statusPageParticles;
+
+  /// No description provided for @statusPageProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress score'**
+  String get statusPageProgress;
+
+  /// No description provided for @statusPageHarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Harm load'**
+  String get statusPageHarm;
+
+  /// No description provided for @statusPageMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Money'**
+  String get statusPageMoney;
+
+  /// No description provided for @statusPageTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get statusPageTime;
+
+  /// No description provided for @statusNeedsData.
+  ///
+  /// In en, this message translates to:
+  /// **'A few more records and this one draws itself.'**
+  String get statusNeedsData;
+
+  /// No description provided for @celebrateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'That is a real one'**
+  String get celebrateTitle;
+
+  /// No description provided for @celebrateClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going'**
+  String get celebrateClose;
+
+  /// No description provided for @celebrateDay1.
+  ///
+  /// In en, this message translates to:
+  /// **'One full day'**
+  String get celebrateDay1;
+
+  /// No description provided for @celebrateDay3.
+  ///
+  /// In en, this message translates to:
+  /// **'Three days — past the peak'**
+  String get celebrateDay3;
+
+  /// No description provided for @celebrateWeek1.
+  ///
+  /// In en, this message translates to:
+  /// **'One week'**
+  String get celebrateWeek1;
+
+  /// No description provided for @celebrateMonth1.
+  ///
+  /// In en, this message translates to:
+  /// **'One month'**
+  String get celebrateMonth1;
+
+  /// No description provided for @celebrateResisted100.
+  ///
+  /// In en, this message translates to:
+  /// **'100 cravings ridden out'**
+  String get celebrateResisted100;
+
+  /// No description provided for @commonNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get commonNotNow;
+
+  /// No description provided for @commonOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get commonOpen;
 }
 
 class _AppLocalizationsDelegate
