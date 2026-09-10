@@ -3,6 +3,7 @@ import 'package:halen/application/interval_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import '../../../core/design/tokens.dart';
+import '../design/halen_components.dart';
 
 class TriggerBreakdownCard extends StatelessWidget {
   const TriggerBreakdownCard({super.key, required this.triggers});
@@ -94,15 +95,9 @@ class TriggerBreakdownCard extends StatelessWidget {
             const SizedBox(height: HalenSpace.x5),
 
             if (triggers.isEmpty) ...[
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: HalenSpace.x6),
-                  child: Text(
-                    l10n.chartTriggerEmpty,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodySmall,
-                  ),
-                ),
+              HalenEmptyState(
+                icon: Icons.label_outline_rounded,
+                message: l10n.chartTriggerEmpty,
               ),
             ] else ...[
               for (var i = 0; i < triggers.length; i++) ...[

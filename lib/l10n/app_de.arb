@@ -788,5 +788,7 @@
   "celebrateMonth1": "Ein Monat",
   "celebrateResisted100": "100 Verlangen ausgehalten",
   "commonNotNow": "Jetzt nicht",
-  "commonOpen": "Öffnen"
+  "commonOpen": "Öffnen",
+  "todaySectionState": "Wo du stehst",
+  "todaySectionSupport": "Heutige Unterstützung"
 }

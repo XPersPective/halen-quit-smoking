@@ -1441,5 +1441,7 @@
   "celebrateMonth1": "One month",
   "celebrateResisted100": "100 cravings ridden out",
   "commonNotNow": "Not now",
-  "commonOpen": "Open"
+  "commonOpen": "Open",
+  "todaySectionState": "Where you stand",
+  "todaySectionSupport": "Today's support"
 }

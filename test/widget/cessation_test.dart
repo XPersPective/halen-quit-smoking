@@ -67,7 +67,10 @@ void main() {
 
     expect(find.text(l10n.quitPlanTitle), findsOneWidget);
     expect(find.text(l10n.quitDateNone), findsOneWidget);
-    expect(find.text(l10n.quitPlanReadiness(5, 0)), findsOneWidget);
+    // Argument order matters and a swapped pair reads as "5 of 0 ready" —
+    // which is exactly what shipped until a screenshot showed it. Asserting
+    // the rendered sentence, not the helper call, is what catches that.
+    expect(find.text('0 of 5 ready'), findsOneWidget);
     // The empty coping plan says what is missing rather than showing nothing.
     expect(find.text(l10n.copingEmpty), findsOneWidget);
 
@@ -87,11 +90,11 @@ void main() {
 
     await tester.tap(find.text(l10n.reasonChildren));
     await settle(tester);
-    expect(find.text(l10n.quitPlanReadiness(5, 1)), findsOneWidget);
+    expect(find.text('1 of 5 ready'), findsOneWidget);
 
     await tester.tap(find.text(l10n.notAPuffAccept));
     await settle(tester);
-    expect(find.text(l10n.quitPlanReadiness(5, 2)), findsOneWidget);
+    expect(find.text('2 of 5 ready'), findsOneWidget);
     expect(find.text(l10n.notAPuffTaken), findsOneWidget);
 
     final plan = await db.cessationDao.getPlan();

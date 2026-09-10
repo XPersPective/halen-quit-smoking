@@ -96,7 +96,7 @@ class PlanScreen extends ConsumerWidget {
                           )
                         : Container(
                             padding: const EdgeInsets.all(HalenSpace.x6),
-                            decoration: HalenCard.hero(),
+                            decoration: HalenSurface.hero(),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

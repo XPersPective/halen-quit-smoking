@@ -11,6 +11,7 @@ import 'package:halen/core/theme.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/daily_card_tile.dart';
+import 'package:halen/presentation/widgets/design/halen_components.dart';
 import 'package:halen/presentation/widgets/entrance.dart';
 import 'package:halen/presentation/widgets/milestone_watcher.dart';
 import 'package:halen/presentation/widgets/mind_state_card.dart';
@@ -220,7 +221,7 @@ class _TodayBody extends ConsumerWidget {
 
           // ——— Focus hero ———
           Container(
-            decoration: HalenCard.hero(),
+            decoration: HalenSurface.hero(),
             child: Stack(
               children: [
                 // Soft radial highlight for depth.
@@ -393,15 +394,22 @@ class _TodayBody extends ConsumerWidget {
           const SlipCoachCard(),
           const QuitDateStrip(),
 
+          // Two named groups rather than one undifferentiated stack. Eight
+          // cards in a row with no headings reads as a wall: every card looks
+          // equally important, which means none of them do.
+          HalenSectionHeader(title: l10n.todaySectionState),
+          const SizedBox(height: HalenSpace.x3),
           // §1 — the question people open the app with, answered before
           // anything else: how much is still in me, and how long has it been.
           const Entrance(child: NowInBodyStrip()),
           const SizedBox(height: HalenSpace.x4),
+          const Entrance(index: 1, child: QuitDayCoCard()),
+          const SizedBox(height: HalenSpace.x8),
+
           // Module report §8 and §10 — the daily pair: an honest guess at how
           // today is likely to feel, and one small thing to do about it.
-          // On quit day the fastest good news leads (module report §1.③).
-          const Entrance(index: 1, child: QuitDayCoCard()),
-          const SizedBox(height: HalenSpace.x4),
+          HalenSectionHeader(title: l10n.todaySectionSupport),
+          const SizedBox(height: HalenSpace.x3),
           const Entrance(index: 2, child: MindStateCard()),
           const SizedBox(height: HalenSpace.x4),
           const Entrance(index: 3, child: SupportCardTile()),

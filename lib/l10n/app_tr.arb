@@ -788,5 +788,7 @@
   "celebrateMonth1": "Bir ay",
   "celebrateResisted100": "100 istek atlatıldı",
   "commonNotNow": "Şimdi değil",
-  "commonOpen": "Aç"
+  "commonOpen": "Aç",
+  "todaySectionState": "Durumun",
+  "todaySectionSupport": "Bugünün desteği"
 }

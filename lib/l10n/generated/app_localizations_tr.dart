@@ -2640,4 +2640,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get commonOpen => 'Aç';
+
+  @override
+  String get todaySectionState => 'Durumun';
+
+  @override
+  String get todaySectionSupport => 'Bugünün desteği';
 }

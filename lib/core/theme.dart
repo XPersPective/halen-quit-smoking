@@ -319,7 +319,11 @@ class HalenTheme {
 
 /// Shared decoration for standard white cards so screens stay consistent
 /// without repeating BoxDecoration everywhere.
-abstract final class HalenCard {
+/// Decoration recipes for surfaces that are not [HalenCard] widgets — the
+/// gradient hero blocks, mainly. Named for what it is: this used to be called
+/// `HalenCard`, which collided with the component of the same name and made
+/// two unrelated things share one word.
+abstract final class HalenSurface {
   static BoxDecoration decoration(ThemeData theme) => BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(24),

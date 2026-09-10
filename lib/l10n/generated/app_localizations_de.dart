@@ -2658,4 +2658,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get commonOpen => 'Öffnen';
+
+  @override
+  String get todaySectionState => 'Wo du stehst';
+
+  @override
+  String get todaySectionSupport => 'Heutige Unterstützung';
 }

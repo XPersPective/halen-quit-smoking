@@ -5,6 +5,7 @@ import 'package:halen/application/interval_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import '../../../core/design/tokens.dart';
+import '../design/halen_components.dart';
 
 class IntervalChartCard extends StatelessWidget {
   const IntervalChartCard({super.key, required this.report});
@@ -166,17 +167,11 @@ class IntervalChartCard extends StatelessWidget {
                 ),
               ),
             ] else ...[
-              const SizedBox(height: HalenSpace.x4),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: HalenSpace.x3),
-                  child: Text(
-                    report.items.isEmpty
-                        ? l10n.todayLogEmpty
-                        : l10n.chartIntervalEmpty,
-                    style: theme.textTheme.bodySmall,
-                  ),
-                ),
+              HalenEmptyState(
+                icon: Icons.schedule_rounded,
+                message: report.items.isEmpty
+                    ? l10n.todayLogEmpty
+                    : l10n.chartIntervalEmpty,
               ),
             ],
           ],

@@ -81,7 +81,7 @@ class _ReadinessBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          l10n.quitPlanReadiness(total, done),
+          l10n.quitPlanReadiness(done, total),
           style: theme.textTheme.labelMedium,
         ),
         const SizedBox(height: HalenSpace.x2),

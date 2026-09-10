@@ -4689,6 +4689,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open'**
   String get commonOpen;
+
+  /// No description provided for @todaySectionState.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you stand'**
+  String get todaySectionState;
+
+  /// No description provided for @todaySectionSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s support'**
+  String get todaySectionSupport;
 }
 
 class _AppLocalizationsDelegate

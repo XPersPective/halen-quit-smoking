@@ -63,6 +63,9 @@ class NotificationService {
   static const _remindersChannel = 'halen_reminders';
   static const _supportChannel = 'halen_support';
 
+  /// Own id so the quit-day reminder can be cancelled when the date moves.
+  static const _quitDayId = 9100;
+
   Future<void> init() async {
     if (_initialized || !mobilePlatform) {
       return;
@@ -287,6 +290,43 @@ class NotificationService {
         payload: 'quit_support',
       );
     }
+  }
+
+  /// The quit date itself: one notification on the morning of the day.
+  ///
+  /// Scheduled when the date is set and cancelled when it is moved or
+  /// cleared, so a date that changes never leaves a stale reminder behind —
+  /// which is the failure mode that teaches people to turn notifications off.
+  Future<void> scheduleQuitDay({
+    required DateTime quitDate,
+    required NotificationTexts texts,
+  }) async {
+    await init();
+    await cancelQuitDay();
+    final when = tz.TZDateTime(
+      tz.local,
+      quitDate.year,
+      quitDate.month,
+      quitDate.day,
+      8,
+    );
+    if (!when.isAfter(tz.TZDateTime.now(tz.local))) {
+      return;
+    }
+    await _plugin.zonedSchedule(
+      id: _quitDayId,
+      title: texts.quitTitle,
+      body: texts.quitBody,
+      scheduledDate: when,
+      notificationDetails: _details(_supportChannel),
+      androidScheduleMode: _scheduleMode,
+      payload: 'quit_day',
+    );
+  }
+
+  Future<void> cancelQuitDay() async {
+    await init();
+    await _plugin.cancel(id: _quitDayId);
   }
 
   /// (5) Milestone notification (event-based, on quit-day milestones).

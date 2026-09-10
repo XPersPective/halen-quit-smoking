@@ -196,6 +196,42 @@ void main() {
     ),
   );
   testWidgets(
+    'quit plan, dark',
+    (t) => shot(
+      t,
+      '36-birakma-plani-koyu',
+      const QuitPlanScreen(),
+      brightness: Brightness.dark,
+    ),
+  );
+  testWidgets(
+    'medicines, dark',
+    (t) => shot(
+      t,
+      '37-ilaclar-koyu',
+      const MedicinesScreen(),
+      brightness: Brightness.dark,
+    ),
+  );
+  testWidgets(
+    'status flow, dark',
+    (t) => shot(
+      t,
+      '38-durum-akisi-koyu',
+      const StatusFlowScreen(),
+      brightness: Brightness.dark,
+    ),
+  );
+  testWidgets(
+    'onboarding result, dark',
+    (t) => shot(
+      t,
+      '39-onboarding-sonuc-koyu',
+      const OnboardingResultScreen(),
+      brightness: Brightness.dark,
+    ),
+  );
+  testWidgets(
     'indices, dark',
     (t) => shot(
       t,

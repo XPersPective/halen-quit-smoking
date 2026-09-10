@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Modify this file to customize your launch splash screen -->
+<!-- The window the OS paints while the Flutter engine starts. It used to be
+     plain white, so every cold start flashed white and then jumped to the
+     app's warm paper ground — the kind of seam that reads as cheap without
+     anyone being able to say why. It now matches the app's own background,
+     with the mark centred so the launch and the first frame are continuous. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@android:color/white" />
-
-    <!-- You can insert your own image assets here -->
-    <!-- <item>
+    <item android:drawable="@color/halen_launch_background" />
+    <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+            android:src="@mipmap/ic_launcher_foreground" />
+    </item>
 </layer-list>

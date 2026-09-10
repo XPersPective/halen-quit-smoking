@@ -9,6 +9,7 @@ import '../../domain/harm_load.dart';
 import '../../domain/progress_index.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'charts/halen_line_chart.dart';
+import 'design/halen_components.dart';
 import 'charts/score_gauge.dart';
 import '../../core/design/tokens.dart';
 
@@ -166,9 +167,9 @@ class IndicesCard extends ConsumerWidget {
               title: l10n.indicesScissorTitle,
               subtitle: l10n.chartLast30Days,
               child: indices.progressHistory.length < 2
-                  ? Text(
-                      l10n.chartNotEnoughYet,
-                      style: theme.textTheme.bodyMedium,
+                  ? HalenEmptyState(
+                      icon: Icons.show_chart_rounded,
+                      message: l10n.chartNotEnoughYet,
                     )
                   : HalenLineChart(
                       meaning: l10n.indicesMeaning,

@@ -98,7 +98,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
               error: (e, _) => Text(l10n.commonErrorTitle),
               data: (total) => Container(
                 padding: const EdgeInsets.all(HalenSpace.x6),
-                decoration: HalenCard.hero(),
+                decoration: HalenSurface.hero(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

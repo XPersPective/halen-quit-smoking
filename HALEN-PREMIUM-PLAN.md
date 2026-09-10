@@ -137,7 +137,7 @@ Kullanıcının açıkça istediği: *"ya kaydıracak ya da bakacak"*.
 | 2 — İlk 60 saniye | ✅ tamam |
 | 3 — Klinik iskelet | ✅ tamam |
 | 4 — Tek akışta grafikler | ✅ tamam |
-| 5 — Bağlılık ve cila | ◐ cihaz koşusu hariç tamam |
+| 5 — Bağlılık ve cila | ✅ cihaz koşusu hariç tamam |
 
 ### Ne yapıldı
 
@@ -159,6 +159,15 @@ metrik + tek büyük sayı + tek grafik + tek cümle. Ana ekrandan tek dokunuş.
 cümle; her taş yalnızca bir kez ve gösterilmeden önce kaydediliyor), üç
 kademeli haptik dili, GitHub Actions CI (analyze --fatal-infos + test +
 üretilmiş kodun güncelliği).
+
+**Son tur (kalan maddeler):** boş durumlar tasarlandı (yük kartı, indeks
+trendi, aralık ve tetikleyici grafikleri), ana ekran iki adlandırılmış gruba
+bölündü, uygulama ikonu ve açılış ekranı yapıldı (varsayılan Flutter logosu
+gidiyor), bırakma günü bildirimi tarihe bağlandı (tarih taşınınca eski
+hatırlatma iptal ediliyor), karanlık tema yeni ekranlarda da doğrulandı.
+
+Seri (streak) dili zaten doğruydu: kırılan seri vurgulanmıyor, en uzun seriye
+düşülüyor — yeniden yazmak gerekmedi.
 
 **Açık kalan tek madde:** gerçek cihaz koşusu (haptik teslimi, bildirim
 teslimi, kare hızı, kaydırma hissi). Bu ancak bir telefonda doğrulanabilir.

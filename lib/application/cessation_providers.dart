@@ -5,7 +5,9 @@ import '../data/repositories/medicine_repository.dart';
 import '../domain/cessation.dart';
 import '../domain/entities.dart';
 import 'module_providers.dart';
+import 'notification_texts.dart';
 import 'providers.dart';
+import 'settings_screen_controller.dart';
 
 /// The quit attempt (premium brief §C).
 const medicineRepository = MedicineRepository();
@@ -118,7 +120,25 @@ class CessationController {
   final Ref _ref;
 
   Future<void> setQuitDate(DateTime? date) async {
-    await _ref.read(databaseProvider).cessationDao.setQuitDate(date);
+    final db = _ref.read(databaseProvider);
+    await db.cessationDao.setQuitDate(date);
+
+    // The reminder follows the date. A stale notification for a date that
+    // has moved is exactly what teaches people to switch notifications off.
+    final service = _ref.read(notificationServiceProvider);
+    if (date == null) {
+      await service.cancelQuitDay();
+      return;
+    }
+    final settings = await db.settingsDao.getSettings();
+    if (settings.notifLevel == NotificationDensity.off) {
+      return;
+    }
+    final profile = await db.profileDao.getUserProfile();
+    await service.scheduleQuitDay(
+      quitDate: date,
+      texts: notificationTextsFor(profile?.locale ?? 'en'),
+    );
   }
 
   Future<void> setReason(QuitReason? reason) async {
