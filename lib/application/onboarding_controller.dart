@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart' show WidgetsBinding;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../domain/cessation.dart';
 import '../domain/entities.dart';
 import '../domain/onboarding.dart';
 import 'providers.dart';
@@ -52,9 +53,31 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
 
   void setBrandName(String? brand) => state = _copy(brandName: brand);
 
+  /// Clearing the reason has to be possible, so this one replaces rather
+  /// than merges — the usual `??` copy would make deselection impossible.
+  void setQuitReason(QuitReason? reason) => state = OnboardingAnswers(
+        ageBand: state.ageBand,
+        baselineCpd: state.baselineCpd,
+        ttfcBand: state.ttfcBand,
+        pricePerPack: state.pricePerPack,
+        packSize: state.packSize,
+        triggers: state.triggers,
+        targetMode: state.targetMode,
+        brandName: state.brandName,
+        quitReason: reason,
+      );
+
   Future<void> submit() async {
     final repo = ref.read(profileRepositoryProvider);
     await repo.saveOnboardingAnswers(state, locale: _deviceLanguageCode());
+    // The reason lives on the quit plan, not the smoking profile: it belongs
+    // to the attempt, and the attempt is where it is read back from.
+    if (state.quitReason != null) {
+      await ref
+          .read(databaseProvider)
+          .cessationDao
+          .setReason(state.quitReason);
+    }
   }
 
   /// Under-18 path (report §39): the age band is recorded, no smoking
@@ -84,6 +107,7 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
       triggers: triggers ?? current.triggers,
       targetMode: targetMode ?? current.targetMode,
       brandName: brandName ?? current.brandName,
+      quitReason: current.quitReason,
     );
   }
 

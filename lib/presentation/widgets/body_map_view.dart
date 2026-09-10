@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../core/design/tokens.dart';
+import '../../core/haptics.dart';
 import '../../core/theme.dart';
 import '../../data/repositories/library_repository.dart';
 import 'entrance.dart';
@@ -129,9 +129,7 @@ class _BodyMapViewState extends State<BodyMapView> {
                         widget.selectedKey != organ.key,
                     reduceMotion: reduceMotion,
                     onTap: () {
-                      if (!reduceMotion) {
-                        HapticFeedback.selectionClick();
-                      }
+                      HalenHaptics.select(context);
                       widget.onSelected(organ.key);
                     },
                   ),

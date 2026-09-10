@@ -10,6 +10,10 @@ import 'package:halen/presentation/screens/economy/economy_screen.dart';
 import 'package:halen/presentation/screens/plan/plan_switch_screen.dart';
 import 'package:halen/presentation/screens/sos/ear_acupressure_screen.dart';
 import 'package:halen/presentation/screens/transparency/glossary_screen.dart';
+import 'package:halen/presentation/screens/cessation/medicines_screen.dart';
+import 'package:halen/presentation/screens/cessation/quit_plan_screen.dart';
+import 'package:halen/presentation/screens/onboarding/onboarding_result_screen.dart';
+import 'package:halen/presentation/screens/status/status_flow_screen.dart';
 import 'package:halen/presentation/widgets/indices_card.dart';
 import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
 
@@ -150,6 +154,22 @@ void main() {
     (t) => shot(t, '24-kulak-akupresuru', const EarAcupressureScreen()),
   );
   testWidgets('glossary', (t) => shot(t, '25-sozluk', const GlossaryScreen()));
+  testWidgets(
+    'onboarding result',
+    (t) => shot(t, '32-onboarding-sonuc', const OnboardingResultScreen()),
+  );
+  testWidgets(
+    'quit plan',
+    (t) => shot(t, '33-birakma-plani', const QuitPlanScreen()),
+  );
+  testWidgets(
+    'medicines',
+    (t) => shot(t, '34-ilaclar', const MedicinesScreen()),
+  );
+  testWidgets(
+    'status flow',
+    (t) => shot(t, '35-durum-akisi', const StatusFlowScreen()),
+  );
   testWidgets(
     'now in body',
     (t) => shot(t, '28-su-an-vucudunda', const NowInBodyStrip()),

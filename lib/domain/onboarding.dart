@@ -1,3 +1,4 @@
+import 'cessation.dart';
 import 'entities.dart';
 
 /// The seven onboarding answers (report §11). Deliberately minimal data:
@@ -12,6 +13,7 @@ class OnboardingAnswers {
     required this.triggers,
     required this.targetMode,
     this.brandName,
+    this.quitReason,
   });
 
   final AgeBand ageBand;
@@ -22,6 +24,10 @@ class OnboardingAnswers {
   final Set<TriggerLabel> triggers;
   final TargetMode targetMode;
   final String? brandName;
+
+  /// Why they are doing this, in their own words. Optional — the app never
+  /// blocks on it (premium brief §C.7).
+  final QuitReason? quitReason;
 }
 
 /// Country-based defaults for the pack price question (report §11 step 4:

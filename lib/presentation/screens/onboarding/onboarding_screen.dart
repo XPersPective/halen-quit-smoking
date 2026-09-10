@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:halen/application/onboarding_controller.dart';
+import 'package:halen/core/design/tokens.dart';
 import 'package:halen/core/routes.dart';
+import 'package:halen/domain/cessation.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/presentation/screens/cessation/quit_plan_screen.dart'
+    show quitReasonLabel;
 import 'package:halen/presentation/widgets/choice_card.dart';
 
-/// Screens 2–8: the seven-step onboarding (<90 s, no account, report §11).
+/// Screens 2–9: the eight-step onboarding (<90 s, no account, report §11).
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -19,7 +23,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final _pageController = PageController();
   int _step = 0;
 
-  static const _stepCount = 7;
+  // Eight now: the reason a person gives in their own words is the
+  // motivational-interviewing step the flow was missing, and it is the one
+  // the app plays back at the moment of a craving (premium brief §C.7).
+  static const _stepCount = 8;
 
   @override
   void dispose() {
@@ -54,7 +61,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     if (!mounted) {
       return;
     }
-    Navigator.pushReplacementNamed(context, Routes.today);
+    // Straight to the payoff, not to an empty Today. The person has just
+    // spent a minute answering questions; the first thing they see has to
+    // be what those answers bought them (premium brief §A.1).
+    Navigator.pushReplacementNamed(context, Routes.onboardingResult);
   }
 
   void _back() {
@@ -114,6 +124,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   _PriceStep(),
                   _TriggersStep(),
                   _GoalStep(),
+                  _WhyStep(),
                   _BrandStep(),
                 ],
               ),
@@ -422,6 +433,39 @@ class _GoalStep extends ConsumerWidget {
             selected: answers.targetMode == TargetMode.undecided,
             onTap: () => controller.setTargetMode(TargetMode.undecided),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Why, in the person's own words (premium brief §C.7).
+///
+/// A reason someone states themselves outperforms a reason the app supplies,
+/// which is the whole basis of motivational interviewing. It is stored on the
+/// quit plan and shown back on quit day and inside a craving.
+class _WhyStep extends ConsumerWidget {
+  const _WhyStep();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final selected = ref.watch(onboardingControllerProvider).quitReason;
+    final controller = ref.read(onboardingControllerProvider.notifier);
+    return _StepScaffold(
+      title: l10n.obWhyTitle,
+      hint: l10n.obWhyHint,
+      child: Wrap(
+        spacing: HalenSpace.x2,
+        runSpacing: HalenSpace.x2,
+        children: [
+          for (final reason in QuitReason.values)
+            ChoiceChip(
+              label: Text(quitReasonLabel(reason, l10n)),
+              selected: selected == reason,
+              onSelected: (isSelected) =>
+                  controller.setQuitReason(isSelected ? reason : null),
+            ),
         ],
       ),
     );

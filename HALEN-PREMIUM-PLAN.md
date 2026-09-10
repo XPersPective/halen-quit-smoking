@@ -133,8 +133,32 @@ Kullanıcının açıkça istediği: *"ya kaydıracak ya da bakacak"*.
 
 | Faz | Durum |
 |-----|-------|
-| 1 — Tasarım sistemi | ◐ sürüyor |
-| 2 — İlk 60 saniye | ▫ başlanmadı |
-| 3 — Klinik iskelet | ▫ başlanmadı |
-| 4 — Tek akışta grafikler | ▫ başlanmadı |
-| 5 — Bağlılık ve cila | ▫ başlanmadı |
+| 1 — Tasarım sistemi | ✅ tamam |
+| 2 — İlk 60 saniye | ✅ tamam |
+| 3 — Klinik iskelet | ✅ tamam |
+| 4 — Tek akışta grafikler | ✅ tamam |
+| 5 — Bağlılık ve cila | ◐ cihaz koşusu hariç tamam |
+
+### Ne yapıldı
+
+**Faz 2** — Onboarding artık boş bir Bugün ekranına değil, kendi verinden
+üretilmiş bir sonuç ekranına çıkıyor: yılda paket, yılda para, yılda zaman,
+bağımlılık düzeyin ve ilk 72 saatin ne olacağı. "Neden bırakıyorsun?" adımı
+eklendi (8 adım); cevap bırakma planında saklanıyor ve bırakma gününde geri
+gösteriliyor.
+
+**Faz 3** — İlaç rehberi (8 madde, etki büyüklüğü + karşılaştırıldığı şey),
+bırakma tarihi protokolü, bırakma günü ekranı, kayma/nüks öğretimi,
+tetikleyicilerden tohumlanan nüks önleme planı, destek kişisi, PHQ-2 ruh
+hâli taraması, kriz ekranında yardım hatları. Şema v5.
+
+**Faz 4** — `StatusFlowScreen`: altı sayfa, kaydırmalı, her sayfada tek
+metrik + tek büyük sayı + tek grafik + tek cümle. Ana ekrandan tek dokunuş.
+
+**Faz 5** — Kilometre taşı kutlaması (konfeti yok: tek halka, tek sayı, tek
+cümle; her taş yalnızca bir kez ve gösterilmeden önce kaydediliyor), üç
+kademeli haptik dili, GitHub Actions CI (analyze --fatal-infos + test +
+üretilmiş kodun güncelliği).
+
+**Açık kalan tek madde:** gerçek cihaz koşusu (haptik teslimi, bildirim
+teslimi, kare hızı, kaydırma hissi). Bu ancak bir telefonda doğrulanabilir.

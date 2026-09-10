@@ -12,10 +12,12 @@ import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/daily_card_tile.dart';
 import 'package:halen/presentation/widgets/entrance.dart';
+import 'package:halen/presentation/widgets/milestone_watcher.dart';
 import 'package:halen/presentation/widgets/mind_state_card.dart';
 import 'package:halen/presentation/widgets/quit_day_co_card.dart';
 import 'package:halen/presentation/widgets/support_card_tile.dart';
 import 'package:halen/core/design/tokens.dart';
+import 'package:halen/core/haptics.dart';
 import 'package:halen/presentation/widgets/cessation/quit_date_strip.dart';
 import 'package:halen/presentation/widgets/cessation/slip_coach_card.dart';
 import 'package:halen/presentation/widgets/today/log_feedback.dart';
@@ -58,6 +60,9 @@ class _TodayBody extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final db = ref.read(databaseProvider);
     final controller = PlanController(db);
+    // The lightest touch in the app: a record is a neutral data point, and
+    // a heavy buzz here would be a scolding by another means.
+    HalenHaptics.logged(context);
     final id = await ref
         .read(recordRepositoryProvider)
         .logCigarette(source: RecordSource.app);
@@ -131,6 +136,7 @@ class _TodayBody extends ConsumerWidget {
 
   Future<void> _logResisted(BuildContext context, WidgetRef ref) async {
     final l10n = AppLocalizations.of(context)!;
+    HalenHaptics.resisted(context);
     await ref
         .read(recordRepositoryProvider)
         .logCraving(outcome: CravingOutcome.resisted);
@@ -383,6 +389,7 @@ class _TodayBody extends ConsumerWidget {
           // The quit attempt comes first when there is something to say
           // about it: a slip that needs naming, or a date that is close.
           // Neither appears when there is nothing to report.
+          const MilestoneWatcher(),
           const SlipCoachCard(),
           const QuitDateStrip(),
 

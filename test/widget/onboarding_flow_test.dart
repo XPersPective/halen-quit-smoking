@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:halen/data/db/app_database.dart';
 import 'package:halen/data/db/connection.dart';
+import 'package:halen/domain/cessation.dart';
 import 'package:halen/domain/entities.dart';
 
 import '../helpers/pump_app.dart';
@@ -17,7 +18,7 @@ void main() {
     await db.close();
   });
 
-  testWidgets('onboarding walks 7 steps and creates the smoking profile',
+  testWidgets('onboarding walks 8 steps and creates the smoking profile',
       (tester) async {
     await pumpHalenApp(tester, database: db);
 
@@ -51,7 +52,13 @@ void main() {
     expect(find.text('What is your goal?'), findsOneWidget);
     await _next(tester);
 
-    // Step 7: brand optional + disclaimer → finish. (Text appears twice:
+    // Step 7: why — the reason in their own words, stored on the quit plan.
+    expect(find.text('Why do you want to stop?'), findsOneWidget);
+    await tester.tap(find.text('For my children'));
+    await tester.pumpAndSettle();
+    await _next(tester);
+
+    // Step 8: brand optional + disclaimer → finish. (Text appears twice:
     // as the step title and as the TextField label.)
     expect(find.text('Your brand (optional)'), findsWidgets);
     expect(find.textContaining('not medical advice'), findsOneWidget);
@@ -59,7 +66,24 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.pumpAndSettle();
-    // Today shell visible after onboarding.
+    // Onboarding now lands on the result screen rather than an empty Today:
+    // eight questions have to buy something visible (premium brief §A.1).
+    expect(find.text('This is where you are starting'), findsOneWidget);
+    expect(find.text('Packs a year'), findsOneWidget);
+
+    final plan = await db.cessationDao.getPlan();
+    expect(plan!.reason, QuitReason.children);
+
+    // The result screen is a lazy ListView: the button below the fold is
+    // not built until it is scrolled into range.
+    await tester.scrollUntilVisible(
+      find.widgetWithText(FilledButton, 'Start'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(FilledButton, 'Start'));
+    await tester.pumpAndSettle();
     expect(find.text('Today'), findsWidgets);
 
     final profile = await db.profileDao.getSmokingProfile();

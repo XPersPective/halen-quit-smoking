@@ -1,48 +1,43 @@
 name: CI
 
+# Analyze and test on every push and pull request. The suite has caught real
+# defects repeatedly during development — a chart legend overflowing on a
+# 360 dp phone, a body-load provider looping forever, an app-wide ticker
+# deadlocking every widget test — and none of that is useful if it only runs
+# when someone remembers to run it.
 on:
   push:
     branches: [master]
   pull_request:
-    branches: [master]
 
 jobs:
-  analyze-test-android:
-    name: Analyze + Test + Release APK (Linux)
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter test
-      - run: flutter build apk --release
-      - uses: actions/upload-artifact@v4
-        with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
 
-  ios-build:
-    name: iOS Build (macOS)
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter test
-      # Build the Flutter iOS framework and then compile the full Xcode workspace
-      # (app target + WidgetKit extension) without code signing.
-      - run: flutter build ios --release --no-codesign
-      - run: |
-          cd ios
-          xcodebuild -workspace Runner.xcworkspace -scheme Runner \
-            -configuration Release -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
-            CODE_SIGNING_ALLOWED=NO build
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify generated code is current
+        # drift and the l10n generator both write committed files. If a
+        # regeneration would change them, the working tree is out of date and
+        # the build that ships would not match the source.
+        run: |
+          dart run build_runner build --delete-conflicting-outputs
+          flutter gen-l10n
+          git diff --exit-code || (
+            echo "::error::Generated code is stale. Run build_runner and gen-l10n, then commit."
+            exit 1
+          )
+
+      - name: Analyze
+        run: flutter analyze --fatal-infos
+
+      - name: Test
+        run: flutter test

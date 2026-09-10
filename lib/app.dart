@@ -17,6 +17,7 @@ import 'presentation/screens/cessation/medicines_screen.dart';
 import 'presentation/screens/cessation/quit_day_screen.dart';
 import 'presentation/screens/cessation/quit_plan_screen.dart';
 import 'presentation/screens/economy/economy_screen.dart';
+import 'presentation/screens/onboarding/onboarding_result_screen.dart';
 import 'presentation/screens/onboarding/onboarding_screen.dart';
 import 'presentation/screens/paywall/paywall_screen.dart';
 import 'presentation/screens/plan/plan_switch_screen.dart';
@@ -25,6 +26,7 @@ import 'presentation/screens/shell_screen.dart';
 import 'presentation/screens/sos/breathing_screen.dart';
 import 'presentation/screens/sos/ear_acupressure_screen.dart';
 import 'presentation/screens/splash_screen.dart';
+import 'presentation/screens/status/status_flow_screen.dart';
 import 'presentation/screens/timeline/health_timeline_screen.dart';
 import 'presentation/screens/today/record_detail_screen.dart';
 import 'presentation/screens/transparency/glossary_screen.dart';
@@ -58,6 +60,7 @@ class HalenApp extends ConsumerWidget {
       routes: {
         Routes.splash: (_) => const SplashScreen(),
         Routes.onboarding: (_) => const OnboardingScreen(),
+        Routes.onboardingResult: (_) => const OnboardingResultScreen(),
         Routes.under18: (_) => const Under18Screen(),
         Routes.today: (_) => const ShellScreen(),
         Routes.settings: (_) => const SettingsScreen(),
@@ -72,6 +75,7 @@ class HalenApp extends ConsumerWidget {
         Routes.quitPlan: (_) => const QuitPlanScreen(),
         Routes.medicines: (_) => const MedicinesScreen(),
         Routes.quitDay: (_) => const QuitDayScreen(),
+        Routes.status: (_) => const StatusFlowScreen(),
       },
       // One clock above every route: everything that breathes on screen —
       // the lung, the body map, an organ glyph — derives its phase from the

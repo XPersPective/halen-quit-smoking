@@ -100,8 +100,10 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
 
     return _Shell(
       title: l10n.nowInBodyTitle,
-      onOpen: () => Navigator.of(context).pushNamed(Routes.body),
-      openLabel: l10n.nowInBodyOpen,
+      // Every metric now lives in one swipeable flow, so the card's own
+      // exit goes there rather than to a single screen.
+      onOpen: () => Navigator.of(context).pushNamed(Routes.status),
+      openLabel: l10n.statusOpen,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
