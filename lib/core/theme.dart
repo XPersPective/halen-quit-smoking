@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
 
+import 'design/typography.dart';
+
 /// Halen design language (report §12): warm paper background, deep petrol
 /// green for focus surfaces, a single amber accent reserved for the primary
 /// CTA. 8pt grid, 24-28 dp card radii, 200-300 ms ease-out motion, soft
@@ -119,6 +121,7 @@ class HalenTheme {
     final base = ThemeData(
       useMaterial3: true,
       brightness: brightness,
+      fontFamily: HalenType.family,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: isLight
           ? HalenColors.backgroundLight
@@ -137,45 +140,11 @@ class HalenTheme {
           TargetPlatform.android: const FadeForwardsPageTransitionsBuilder(),
         },
       ),
-      textTheme: base.textTheme.copyWith(
-        displaySmall: base.textTheme.displaySmall?.copyWith(
-          fontWeight: FontWeight.w700,
-          letterSpacing: -2,
-        ),
-        displayLarge: base.textTheme.displayLarge?.copyWith(
-          fontWeight: FontWeight.w700,
-          letterSpacing: -2.5,
-        ),
-        headlineMedium: base.textTheme.headlineMedium?.copyWith(
-          fontWeight: FontWeight.w700,
-          letterSpacing: -1.2,
-        ),
-        headlineSmall: base.textTheme.headlineSmall?.copyWith(
-          fontWeight: FontWeight.w700,
-          letterSpacing: -0.8,
-        ),
-        titleLarge: base.textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.w700,
-          letterSpacing: -0.5,
-        ),
-        titleMedium: base.textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.w700,
-          letterSpacing: -0.3,
-        ),
-        titleSmall: base.textTheme.titleSmall?.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
-        bodyLarge: base.textTheme.bodyLarge?.copyWith(height: 1.5),
-        bodyMedium: base.textTheme.bodyMedium?.copyWith(height: 1.45),
-        bodySmall: base.textTheme.bodySmall?.copyWith(
-          height: 1.45,
-          color: colorScheme.onSurfaceVariant,
-        ),
-        labelSmall: base.textTheme.labelSmall?.copyWith(
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.2,
-        ),
-      ),
+      // One family, one scale, one place (premium brief §A.4). The old
+      // block set weights and tracking per-role on the platform default
+      // face; HalenType now owns the whole scale so a type change is one
+      // edit rather than fourteen.
+      textTheme: HalenType.apply(base.textTheme),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colorScheme.surface,

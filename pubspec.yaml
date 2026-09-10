@@ -49,3 +49,18 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  fonts:
+    # Inter, the variable original. Declaring the one file under four weights
+    # instances the wght axis instead of letting the engine synthesise a fake
+    # bold, which is what makes hand-rolled font setups look smeared.
+    # SIL Open Font License 1.1 — assets/fonts/OFL.txt.
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter.ttf
+          weight: 400
+        - asset: assets/fonts/Inter.ttf
+          weight: 500
+        - asset: assets/fonts/Inter.ttf
+          weight: 600
+        - asset: assets/fonts/Inter.ttf
+          weight: 700

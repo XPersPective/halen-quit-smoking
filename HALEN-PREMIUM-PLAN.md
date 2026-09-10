@@ -37,18 +37,19 @@ hiçbir yerde geçilemiyor.
 |---|-------|-----|
 | 1.1 Token katmanı | ✅ | `lib/core/design/tokens.dart` |
 | 1.2 Semantik renk rolleri | ✅ | `lib/core/design/data_palette.dart` — `DataRole` |
-| 1.3 Tipografi kimliği | ⏸ | **Yazı tipi dosyası gerekiyor** (aşağıya bak) |
-| 1.4 Sayı tipografisi | ⏸ | 1.3'e bağlı |
+| 1.3 Tipografi kimliği | ✅ | Inter (değişken, SIL OFL) paketlendi; `HalenType` tüm ölçeği taşıyor |
+| 1.4 Sayı tipografisi | ✅ | `.asNumber` — tabular + lining rakamlar |
 | 1.5 Bileşen kütüphanesi | ✅ | `HalenCard`, `HalenSectionHeader`, `HalenStat`, `HalenEmptyState`, `HalenPill` |
 | 1.6 Hareket dili | ✅ | `HalenDuration`, `HalenCurves` |
 | 1.7 Tek saat | ✅ | `BodyClock` + `BodyPulse` — tembel: ekranda nabız yoksa tik atmaz |
 | 1.8 Karanlık tema doğrulaması | ◐ | 3 ekran yakalandı ve düzeltildi; kalanlar sırada |
 
-**Yazı tipi engeli (1.3):** Depoda paketlenmiş bir yazı tipi yok; uygulama
-sistem fontuyla çiziliyor ve bu tek başına "premium değil" hissinin en büyük
-tek sebebi. Değişken bir font (Inter / Manrope / Plus Jakarta Sans gibi)
-`assets/fonts/` altına indirilip `pubspec.yaml`'a eklenmeli. İndirme
-kullanıcı onayı gerektirdiği için bu madde bekliyor.
+**Yazı tipi (1.3, çözüldü):** Inter'in değişken aslı `assets/fonts/Inter.ttf`
+olarak paketlendi (SIL OFL 1.1, lisans dosyası yanında). Tek dosya dört ağırlık
+altında bildiriliyor; böylece motor sahte kalın üretmek yerine `wght` eksenini
+örnekliyor. Seçim sebebi: arayüz için çizilmiş olması, Türkçe ve Almancayı
+kelime ortasında yedeğe düşmeden taşıması, ve **tabular rakamları** — saniyede
+bir güncellenen bir sayacın rakam genişliği değiştikçe yana kaymaması için.
 
 **Karanlık temanın ortaya çıkardığı iki gerçek kural ihlali (düzeltildi):**
 - Zarar skalasının son bandı mercandı; ürünün kendi kuralı "sağlık verisinde

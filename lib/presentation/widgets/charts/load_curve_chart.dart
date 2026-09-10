@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../../core/dates.dart';
+import '../../../core/design/typography.dart';
 import '../../../core/theme.dart';
 import '../../../domain/body_load_model.dart';
 
@@ -85,8 +86,9 @@ class LoadCurveChart extends StatelessWidget {
                 color: color,
                 timeLabels: timeLabels,
                 locale: locale,
-                labelStyle: theme.textTheme.labelSmall ??
-                    const TextStyle(fontSize: 11),
+                labelStyle: (theme.textTheme.labelSmall ??
+                      const TextStyle(fontSize: 11))
+                  .asNumber,
                 gridColor: theme.dividerColor,
               ),
               size: Size.infinite,
@@ -123,7 +125,11 @@ class _LoadCurvePainter extends CustomPainter {
   static const double _tickLane = 28;
 
   /// Room at the left for the percentage labels.
-  static const double _labelGutter = 38;
+  ///
+  /// Tabular figures are wider than proportional ones — that is the point of
+  /// them — so the gutter that fitted "100%" before the type change clipped
+  /// it to "10…" after. Sized against the widest label the axis can produce.
+  static const double _labelGutter = 48;
 
   @override
   void paint(Canvas canvas, Size size) {

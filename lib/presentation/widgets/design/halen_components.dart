@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/design/tokens.dart';
+import '../../../core/design/typography.dart';
 
 /// The shared component vocabulary (premium brief §B.3).
 ///
@@ -169,10 +170,13 @@ class HalenStat extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             value,
+            // A quantity, so tabular figures: the value updates every
+            // thirty seconds and must not shuffle sideways as digits change.
             style: (large
                     ? theme.textTheme.displaySmall
                     : theme.textTheme.headlineSmall)
-                ?.copyWith(color: color, fontWeight: FontWeight.w700),
+                ?.copyWith(color: color, fontWeight: FontWeight.w700)
+                .asNumber,
           ),
         ),
         if (caption != null && caption!.isNotEmpty)

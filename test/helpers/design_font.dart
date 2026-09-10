@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:halen/core/design/typography.dart';
 
 /// Whether the visual captures should be written, rather than only smoke-run.
 const captureDesign = bool.fromEnvironment('CAPTURE_DESIGN');
@@ -13,23 +12,18 @@ const captureDesign = bool.fromEnvironment('CAPTURE_DESIGN');
 /// also what makes it usable as store material.
 const tourSurface = Size(420, 1000);
 
-/// Loads real text and icon fonts into the test binding.
+/// Loads the app's real fonts into the test binding.
 ///
-/// Without this, a golden capture renders every glyph as a filled box: the
-/// test binding ships no font. Point [DESIGN_FONT] at a TTF — the Flutter SDK
-/// carries one at `bin/cache/artifacts/material_fonts/roboto-regular.ttf`.
+/// Without this a golden capture renders every glyph as a filled box: the
+/// test binding ships no font. The app draws in Inter now, so the capture
+/// has to load Inter — loading the SDK's Roboto instead would produce
+/// screenshots of a typeface the app never uses.
 Future<void> loadDesignFonts() async {
-  const font = String.fromEnvironment('DESIGN_FONT');
-  if (font.isEmpty) {
-    return;
-  }
-  final loader = FontLoader('Roboto');
-  loader.addFont(
-    Future.value(ByteData.sublistView(await File(font).readAsBytes())),
-  );
-  await loader.load();
-  final icons = FontLoader('MaterialIcons');
-  icons.addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
+  final inter = FontLoader(HalenType.family)
+    ..addFont(rootBundle.load('assets/fonts/Inter.ttf'));
+  await inter.load();
+  final icons = FontLoader('MaterialIcons')
+    ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
   await icons.load();
 }
 
