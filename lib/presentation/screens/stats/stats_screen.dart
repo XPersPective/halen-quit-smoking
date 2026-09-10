@@ -18,6 +18,7 @@ import 'package:halen/presentation/widgets/craving_window_card.dart';
 import 'package:halen/presentation/widgets/entrance.dart';
 import 'package:halen/presentation/widgets/indices_card.dart';
 import 'package:halen/presentation/widgets/stats_charts.dart';
+import '../../../core/design/tokens.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {
   const StatsScreen({super.key});
@@ -58,18 +59,18 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                 color: colors.onSurfaceVariant,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: HalenSpace.x6),
 
             // Module report §14 — the twin indices lead, because "am I
             // getting better?" is the question people open stats to answer.
             const Entrance(child: IndicesCard()),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             // §1 — the body-load sawtooth, built from the user's own times.
             const Entrance(index: 1, child: BodyLoadCard()),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             // §4 — craving arrives while nicotine falls, shown in their data.
             const Entrance(index: 2, child: CravingWindowCard()),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             Row(
               children: [
                 Expanded(
@@ -80,7 +81,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                     label: Text(l10n.organMapTitle),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: HalenSpace.x3),
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: () =>
@@ -91,12 +92,12 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: HalenSpace.x6),
             savings.when(
               loading: () => const LinearProgressIndicator(),
               error: (e, _) => Text(l10n.commonErrorTitle),
               data: (total) => Container(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(HalenSpace.x6),
                 decoration: HalenCard.hero(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +105,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(9),
+                          padding: const EdgeInsets.all(HalenSpace.x2),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.14),
                             borderRadius: BorderRadius.circular(12),
@@ -115,7 +116,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                             size: 18,
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: HalenSpace.x3),
                         Expanded(
                           child: Text(
                             l10n.chartSavings,
@@ -132,7 +133,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 18),
+                    const SizedBox(height: HalenSpace.x5),
                     Text(
                       '${total.toStringAsFixed(0)} ₺',
                       style: theme.textTheme.displaySmall?.copyWith(
@@ -142,7 +143,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                         letterSpacing: -2,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: HalenSpace.x1),
                     Text(
                       l10n.statsSavingsNote,
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -166,7 +167,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: HalenSpace.x6),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -184,14 +185,14 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             if (_selectedTabIndex == 0) ...[
               daily.when(
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (e, _) => Text(l10n.commonErrorTitle),
                 data: (stats) => Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(HalenSpace.x5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -199,17 +200,17 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                           l10n.chartDaily,
                           style: theme.textTheme.titleLarge,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: HalenSpace.x1),
                         Text(
                           l10n.statsRange7,
                           style: theme.textTheme.bodySmall,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: HalenSpace.x6),
                         if (stats.every(
                           (s) => s.count == 0 && s.planTarget == null,
                         ))
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 28),
+                            padding: const EdgeInsets.symmetric(vertical: HalenSpace.x8),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
@@ -218,13 +219,13 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                                   size: 40,
                                   color: colors.primary,
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: HalenSpace.x4),
                                 Text(
                                   l10n.chartEmptyTitle,
                                   textAlign: TextAlign.center,
                                   style: theme.textTheme.titleMedium,
                                 ),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: HalenSpace.x2),
                                 Text(
                                   l10n.chartEmptyBody,
                                   textAlign: TextAlign.center,
@@ -247,7 +248,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                             barColor: colors.primary,
                             markerColor: colors.onSurfaceVariant,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: HalenSpace.x4),
                           Wrap(
                             spacing: 20,
                             runSpacing: 8,
@@ -263,7 +264,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                   ),
-                                  const SizedBox(width: 6),
+                                  const SizedBox(width: HalenSpace.x2),
                                   Text(
                                     l10n.chartActualLabel,
                                     style: theme.textTheme.bodySmall,
@@ -294,7 +295,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 6),
+                                  const SizedBox(width: HalenSpace.x2),
                                   Text(
                                     l10n.chartTargetLabel,
                                     style: theme.textTheme.bodySmall,
@@ -309,7 +310,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: HalenSpace.x3),
               daily.maybeWhen(
                 data: (stats) {
                   final streaks = computeStreaks([
@@ -322,11 +323,11 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                       (streaks.displayDays % 7) / 7;
                   return Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(HalenSpace.x5),
                       child: Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(HalenSpace.x3),
                             decoration: BoxDecoration(
                               color: colors.primaryContainer,
                               borderRadius: BorderRadius.circular(14),
@@ -337,7 +338,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                               size: 22,
                             ),
                           ),
-                          const SizedBox(width: 14),
+                          const SizedBox(width: HalenSpace.x4),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -350,7 +351,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                                         ),
                                   style: theme.textTheme.titleSmall,
                                 ),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: HalenSpace.x2),
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
                                   child: LinearProgressIndicator(
@@ -396,7 +397,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                     error: (e, _) => Text(l10n.commonErrorTitle),
                     data: (report) => TriggerBreakdownCard(triggers: report),
                   ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             TextButton.icon(
               onPressed: () =>
                   Navigator.pushNamed(context, Routes.healthTimeline),

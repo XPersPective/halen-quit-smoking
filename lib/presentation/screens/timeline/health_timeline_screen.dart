@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:halen/application/providers.dart';
 import 'package:halen/domain/health_timeline.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 /// Screen: WHO health-benefits timeline (report §17, S4 data).
 ///
@@ -52,26 +53,26 @@ class HealthTimelineScreen extends ConsumerWidget {
                 quitTs == null ? 0 : daysSinceQuit(quitTs, DateTime.now());
             final current = currentMilestone(days);
             return ListView(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(HalenSpace.x6),
               children: [
                 Text(l10n.timelineGeneralPattern,
                     style: theme.textTheme.bodyLarge),
-                const SizedBox(height: 8),
+                const SizedBox(height: HalenSpace.x2),
                 if (locked)
                   Card(
                     color: theme.colorScheme.surfaceContainerHighest,
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(HalenSpace.x4),
                       child: Row(
                         children: [
                           const Icon(Icons.lock_outline),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: HalenSpace.x3),
                           Expanded(child: Text(l10n.timelinePreviewLocked)),
                         ],
                       ),
                     ),
                   ),
-                const SizedBox(height: 8),
+                const SizedBox(height: HalenSpace.x2),
                 for (final milestone in HealthMilestone.values)
                   _MilestoneCard(
                     title: titles[milestone]!,
@@ -80,14 +81,14 @@ class HealthTimelineScreen extends ConsumerWidget {
                     reached: !locked && days >= milestone.minQuitDays,
                     current: !locked && current == milestone,
                   ),
-                const SizedBox(height: 8),
+                const SizedBox(height: HalenSpace.x2),
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(HalenSpace.x4),
                     child: Text(l10n.timelineCoCard),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: HalenSpace.x6),
               ],
             );
           },

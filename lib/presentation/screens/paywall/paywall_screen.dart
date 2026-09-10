@@ -5,6 +5,7 @@ import 'package:halen/application/entitlement_providers.dart';
 import 'package:halen/data/purchase_service.dart';
 import 'package:halen/domain/entitlement.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 /// Paywall (report §12/§28): shown only after value proof (day-7 gate or
 /// the adherence screen), never mid-onboarding. Copy is "one-time ·
@@ -51,7 +52,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
       appBar: AppBar(title: Text(l10n.paywallTitle)),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(HalenSpace.x6),
           children: [
             if (access != null && access.source == PremiumSource.trial)
               Padding(
@@ -65,7 +66,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
               ),
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(HalenSpace.x4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -82,7 +83,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                         child: Row(
                           children: [
                             const Icon(Icons.check, size: 18),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: HalenSpace.x2),
                             Expanded(child: Text(feature)),
                           ],
                         ),
@@ -91,20 +92,20 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             // Store price line (dynamic) + the one-time promise.
             Text(
               _priceLine ?? '…',
               textAlign: TextAlign.center,
               style: theme.textTheme.headlineSmall,
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: HalenSpace.x1),
             Text(
               l10n.purchaseCopy,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyLarge,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             if (access?.lifetimeOwned ?? false)
               Center(child: Text(l10n.purchaseOwned))
             else ...[
@@ -123,7 +124,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                       },
                 child: Text(l10n.purchaseCta),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: HalenSpace.x2),
               // Restore is mandatory-practical on both stores (report §29).
               OutlinedButton(
                 onPressed: () =>
@@ -131,13 +132,13 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                 child: Text(l10n.purchaseRestore),
               ),
             ],
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             Text(
               l10n.paywallTrialNote,
               style: theme.textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: HalenSpace.x6),
           ],
         ),
       ),

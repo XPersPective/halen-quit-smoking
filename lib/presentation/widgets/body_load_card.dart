@@ -11,6 +11,7 @@ import '../../domain/entities.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'charts/load_band_chart.dart';
 import 'charts/load_curve_chart.dart';
+import '../../core/design/tokens.dart';
 
 /// The Body Load card (module report §1.③): one sentence that answers "what
 /// is in me right now", the signature 24-hour sawtooth, and four normalized
@@ -75,7 +76,7 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -95,10 +96,10 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
                 ),
               ],
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: HalenSpace.x1),
             if (!hasData)
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24),
+                padding: const EdgeInsets.symmetric(vertical: HalenSpace.x6),
                 child: Text(
                   l10n.bodyLoadEmpty,
                   style: theme.textTheme.bodyMedium,
@@ -113,7 +114,7 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
                   ),
                   style: theme.textTheme.titleLarge,
                 ),
-              const SizedBox(height: 6),
+              const SizedBox(height: HalenSpace.x2),
               if (snapshot != null) ...[
                 Text(
                   l10n.bodyLoadNicotineNow(snapshot.nicotinePercentOfPeak),
@@ -124,7 +125,7 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
                   style: theme.textTheme.bodyMedium,
                 ),
               ],
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
               LoadCurveChart(
                 samples: samples,
                 events: windowEvents,
@@ -143,7 +144,7 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
                         '${_bandLabel(samples.last.value, l10n)}',
               ),
               if (ghosts.isNotEmpty) ...[
-                const SizedBox(height: 8),
+                const SizedBox(height: HalenSpace.x2),
                 Row(
                   children: [
                     Container(
@@ -151,7 +152,7 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
                       height: 2,
                       color: HalenColors.emerald,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: HalenSpace.x2),
                     Text(
                       l10n.ghostPeakLabel,
                       style: theme.textTheme.labelSmall,
@@ -159,7 +160,7 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
                   ],
                 ),
               ],
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
@@ -179,11 +180,11 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
                     ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: HalenSpace.x5),
               _LoadBandSection(days: _bandDays, onDaysChanged: (d) {
                 setState(() => _bandDays = d);
               }),
-              const SizedBox(height: 12),
+              const SizedBox(height: HalenSpace.x3),
               Text(
                 switch (_selected) {
                   LoadKind.tarCumulative => l10n.bodyLoadTarNote,
@@ -240,7 +241,7 @@ class _LoadChip extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(label, style: theme.textTheme.labelSmall),
-              const SizedBox(height: 2),
+              const SizedBox(height: HalenSpace.x1),
               Text(
                 band,
                 style: theme.textTheme.titleSmall?.copyWith(color: color),
@@ -283,7 +284,7 @@ class _LoadBandSection extends ConsumerWidget {
         // Title and range selector stack instead of sharing a row: at large
         // text scales on a 320 dp screen the two cannot fit side by side.
         Text(l10n.loadBandTitle, style: theme.textTheme.labelLarge),
-        const SizedBox(height: 6),
+        const SizedBox(height: HalenSpace.x2),
         Align(
           alignment: Alignment.centerLeft,
           child: SegmentedButton<int>(
@@ -297,10 +298,10 @@ class _LoadBandSection extends ConsumerWidget {
             onSelectionChanged: (s) => onDaysChanged(s.first),
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: HalenSpace.x1),
         // Trend before the bars (chart rule 3).
         Text(trendLabel, style: theme.textTheme.bodyMedium),
-        const SizedBox(height: 8),
+        const SizedBox(height: HalenSpace.x2),
         LoadBandChart(
           means: band.means,
           peaks: band.peaks,

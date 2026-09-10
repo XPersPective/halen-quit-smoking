@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../../../core/theme.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 /// The two log animations (module report §12).
 ///
@@ -156,22 +157,22 @@ class _LogFeedbackSheetState extends State<_LogFeedbackSheet>
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: HalenSpace.x6),
             Text(widget.headline, style: theme.textTheme.titleLarge),
             if (widget.detail != null) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: HalenSpace.x2),
               Text(widget.detail!, style: theme.textTheme.bodyMedium),
             ],
             if (widget.footnote != null) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: HalenSpace.x3),
               Text(widget.footnote!, style: theme.textTheme.labelMedium),
             ],
             if (widget.pauseSeconds > 0) ...[
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
               Text(l10n.logPauseTitle, style: theme.textTheme.labelLarge),
-              const SizedBox(height: 4),
+              const SizedBox(height: HalenSpace.x1),
               Text(l10n.logPauseNote, style: theme.textTheme.bodySmall),
-              const SizedBox(height: 8),
+              const SizedBox(height: HalenSpace.x2),
               ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
@@ -180,7 +181,7 @@ class _LogFeedbackSheetState extends State<_LogFeedbackSheet>
                 ),
               ),
             ],
-            const SizedBox(height: 20),
+            const SizedBox(height: HalenSpace.x5),
             Row(
               children: [
                 if (widget.onUndo != null)

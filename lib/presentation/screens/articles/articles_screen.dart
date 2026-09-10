@@ -6,6 +6,7 @@ import 'package:halen/core/theme.dart';
 import 'package:halen/data/repositories/article_repository.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
+import '../../../core/design/tokens.dart';
 
 class ArticlesScreen extends ConsumerWidget {
   const ArticlesScreen({super.key});
@@ -45,7 +46,7 @@ class ArticlesScreen extends ConsumerWidget {
               height: 48,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: HalenSpace.x5),
                 children: [
                   _FilterChip(
                     label: l10n.articleCategoryAll,
@@ -68,14 +69,14 @@ class ArticlesScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: HalenSpace.x3),
 
             // Articles List
             Expanded(
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 itemCount: articles.length,
-                separatorBuilder: (_, _) => const SizedBox(height: 14),
+                separatorBuilder: (_, _) => const SizedBox(height: HalenSpace.x4),
                 itemBuilder: (context, index) {
                   final article = articles[index];
                   final isFeatured = index == 0 && selectedCategory == null;
@@ -90,7 +91,7 @@ class ArticlesScreen extends ConsumerWidget {
                         arguments: article.id,
                       ),
                       child: Container(
-                        padding: const EdgeInsets.all(18),
+                        padding: const EdgeInsets.all(HalenSpace.x5),
                         decoration: isFeatured
                             ? BoxDecoration(
                                 gradient: LinearGradient(
@@ -135,13 +136,13 @@ class ArticlesScreen extends ConsumerWidget {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 8),
+                                const SizedBox(width: HalenSpace.x2),
                                 Icon(
                                   Icons.schedule_rounded,
                                   size: 13,
                                   color: theme.colorScheme.onSurfaceVariant,
                                 ),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: HalenSpace.x1),
                                 Flexible(
                                   child: Text(
                                     l10n.articleReadTime(article.readMinutes),
@@ -159,7 +160,7 @@ class ArticlesScreen extends ConsumerWidget {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: HalenSpace.x3),
                             Text(
                               article.title,
                               style: theme.textTheme.titleMedium?.copyWith(
@@ -167,7 +168,7 @@ class ArticlesScreen extends ConsumerWidget {
                                 height: 1.25,
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            const SizedBox(height: HalenSpace.x2),
                             Text(
                               article.subtitle,
                               style: theme.textTheme.bodySmall?.copyWith(
@@ -179,7 +180,7 @@ class ArticlesScreen extends ConsumerWidget {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: HalenSpace.x3),
                             Row(
                               children: [
                                 Icon(
@@ -187,7 +188,7 @@ class ArticlesScreen extends ConsumerWidget {
                                   size: 14,
                                   color: HalenColors.emerald,
                                 ),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: HalenSpace.x1),
                                 Expanded(
                                   child: Text(
                                     article.sourceName,

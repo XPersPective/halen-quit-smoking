@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../application/module_providers.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 /// Every source behind the app's claims, in one list (module report §11.③).
 ///
@@ -34,7 +35,7 @@ class SourcesScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.sourcesTitle)),
       body: ListView.separated(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         itemCount: unique.length + 1,
         separatorBuilder: (_, _) => const Divider(height: 1),
         itemBuilder: (context, index) {

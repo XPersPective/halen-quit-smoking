@@ -7,6 +7,7 @@ import '../../core/theme.dart';
 import '../../domain/body_load_model.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'charts/halen_line_chart.dart';
+import '../../core/design/tokens.dart';
 
 /// The quit-day card (module report §1.③).
 ///
@@ -42,19 +43,19 @@ class QuitDayCoCard extends ConsumerWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(l10n.quitDayCoTitle, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 4),
+            const SizedBox(height: HalenSpace.x1),
             Text(
               '${l10n.loadCarbonMonoxide} · ${100 - curve[now]}%',
               style: theme.textTheme.headlineSmall?.copyWith(
                 color: HalenColors.skyBlue,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: HalenSpace.x3),
             HalenLineChart(
               meaning: l10n.quitDayCoBody,
               minY: 0,
@@ -76,7 +77,7 @@ class QuitDayCoCard extends ConsumerWidget {
               ],
               semanticsLabel: '${l10n.quitDayCoTitle}: ${100 - curve[now]}%',
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: HalenSpace.x3),
             Text(l10n.moduleModelTag, style: theme.textTheme.labelSmall),
           ],
         ),

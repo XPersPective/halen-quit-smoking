@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 /// The guided ear-acupressure round (module report §5.④).
 ///
@@ -79,7 +80,7 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
       appBar: AppBar(title: Text(l10n.earGuideTitle)),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(HalenSpace.x6),
           children: [
             Center(
               child: SizedBox(
@@ -103,7 +104,7 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: HalenSpace.x5),
             for (var i = 0; i < _pointCount; i++)
               _PointRow(
                 index: i,
@@ -117,7 +118,7 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
                             : _PointState.idle,
                 secondsLeft: _secondsLeftOnPoint,
               ),
-            const SizedBox(height: 20),
+            const SizedBox(height: HalenSpace.x5),
             if (_finished)
               Text(l10n.earGuideFinished, style: theme.textTheme.titleMedium)
             else
@@ -125,14 +126,14 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
                 onPressed: _running ? null : _start,
                 child: Text(l10n.earGuideStart),
               ),
-            const SizedBox(height: 20),
+            const SizedBox(height: HalenSpace.x5),
             Text(
               l10n.sosNoNeedles,
               style: theme.textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: HalenSpace.x2),
             Text(
               '${l10n.evidenceTraditional} · ${l10n.evidenceLabel}',
               style: theme.textTheme.labelSmall,
@@ -165,7 +166,7 @@ class _PointRow extends StatelessWidget {
     final theme = Theme.of(context);
     final active = state == _PointState.active;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: HalenSpace.x1),
       child: Row(
         children: [
           Container(
@@ -186,7 +187,7 @@ class _PointRow extends StatelessWidget {
                 ? const Icon(Icons.check_rounded, size: 14)
                 : Text('${index + 1}', style: theme.textTheme.labelSmall),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: HalenSpace.x3),
           Expanded(
             child: Text(
               active ? l10n.earGuideStep(name, secondsLeft) : name,

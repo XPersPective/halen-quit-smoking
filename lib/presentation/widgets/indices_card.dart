@@ -10,6 +10,7 @@ import '../../domain/progress_index.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'charts/halen_line_chart.dart';
 import 'charts/score_gauge.dart';
+import '../../core/design/tokens.dart';
 
 /// The two indices (module report §14.③), rebuilt around how they are
 /// actually read.
@@ -97,7 +98,7 @@ class IndicesCard extends ConsumerWidget {
                           '$progressBand, $deltaLabel',
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: HalenSpace.x1),
                   _BreakdownButton(
                     label: l10n.indicesBreakdownTitle,
                     onTap: () => _showBreakdown(
@@ -117,7 +118,7 @@ class IndicesCard extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
 
             // ——— 2. How much am I carrying? ———
             ChartCard(
@@ -138,7 +139,7 @@ class IndicesCard extends ConsumerWidget {
                         '${l10n.harmLoadTitle} '
                         '${indices.harm.score}, ${harmBands[harmIndex]}',
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: HalenSpace.x2),
                   _BreakdownButton(
                     label: l10n.indicesBreakdownTitle,
                     onTap: () => _showBreakdown(
@@ -158,7 +159,7 @@ class IndicesCard extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
 
             // ——— 3. Which way is it going? ———
             ChartCard(
@@ -255,12 +256,12 @@ class IndicesCard extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(title, style: theme.textTheme.titleLarge),
-                const SizedBox(height: 4),
+                const SizedBox(height: HalenSpace.x1),
                 Text(
                   l10n.indicesBreakdownTitle,
                   style: theme.textTheme.bodySmall,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: HalenSpace.x4),
                 for (final row in rows)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 14),
@@ -279,7 +280,7 @@ class IndicesCard extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: HalenSpace.x2),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: LinearProgressIndicator(
@@ -292,7 +293,7 @@ class IndicesCard extends ConsumerWidget {
                       ],
                     ),
                   ),
-                const SizedBox(height: 8),
+                const SizedBox(height: HalenSpace.x2),
                 Text(note, style: theme.textTheme.bodySmall),
               ],
             ),

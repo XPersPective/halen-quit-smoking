@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 /// 60-second guided box breathing (report §15).
 ///
@@ -92,7 +93,7 @@ class _BreathingScreenState extends State<BreathingScreen>
       appBar: AppBar(title: Text(l10n.sos4dBreathe), elevation: 0),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(HalenSpace.x6),
           child: Column(
             children: [
               // Progress Bar
@@ -105,7 +106,7 @@ class _BreathingScreenState extends State<BreathingScreen>
                   valueColor: AlwaysStoppedAnimation<Color>(phaseColor),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: HalenSpace.x3),
               Text(
                 '${_totalSeconds - _elapsed} s',
                 style: theme.textTheme.titleLarge,
@@ -115,7 +116,7 @@ class _BreathingScreenState extends State<BreathingScreen>
 
               if (_finished) ...[
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(HalenSpace.x6),
                   decoration: BoxDecoration(
                     color: HalenColors.emerald.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
@@ -126,7 +127,7 @@ class _BreathingScreenState extends State<BreathingScreen>
                     color: HalenColors.emerald,
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: HalenSpace.x6),
                 Text(
                   l10n.sosBreathingFinished,
                   style: theme.textTheme.headlineSmall?.copyWith(
@@ -134,7 +135,7 @@ class _BreathingScreenState extends State<BreathingScreen>
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: HalenSpace.x2),
                 Text(
                   l10n.todayFocusNote,
                   style: theme.textTheme.bodyMedium?.copyWith(
@@ -192,7 +193,7 @@ class _BreathingScreenState extends State<BreathingScreen>
                           ),
                           child: Center(
                             child: Padding(
-                              padding: const EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(HalenSpace.x3),
                               child: Text(
                                 _phaseLabel(l10n),
                                 style: theme.textTheme.titleLarge?.copyWith(
@@ -219,7 +220,7 @@ class _BreathingScreenState extends State<BreathingScreen>
                 ),
                 child: Text(l10n.commonDone),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: HalenSpace.x3),
             ],
           ),
         ),

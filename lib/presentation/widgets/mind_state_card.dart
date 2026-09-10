@@ -7,6 +7,7 @@ import '../../core/theme.dart';
 import '../../domain/withdrawal_model.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'charts/halen_line_chart.dart';
+import '../../core/design/tokens.dart';
 
 /// Mind state (module report §8).
 ///
@@ -40,7 +41,7 @@ class MindStateCard extends ConsumerWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -60,25 +61,25 @@ class MindStateCard extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: HalenSpace.x1),
             Text(l10n.mindPressureLabel, style: theme.textTheme.labelMedium),
-            const SizedBox(height: 6),
+            const SizedBox(height: HalenSpace.x2),
             Text(
               label,
               style: theme.textTheme.headlineSmall?.copyWith(color: color),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: HalenSpace.x3),
 
             // The typical 28-day course, with the user's own position on it.
             _PressureCurve(color: color, position: state?.value ?? 0),
-            const SizedBox(height: 6),
+            const SizedBox(height: HalenSpace.x2),
             Text(l10n.mindPeakNote, style: theme.textTheme.bodySmall),
-            const SizedBox(height: 14),
+            const SizedBox(height: HalenSpace.x4),
 
             Text(l10n.mindOnlyYouKnow, style: theme.textTheme.bodyMedium),
-            const SizedBox(height: 10),
+            const SizedBox(height: HalenSpace.x3),
             Text(l10n.mindHowDoYouFeel, style: theme.textTheme.labelLarge),
-            const SizedBox(height: 8),
+            const SizedBox(height: HalenSpace.x2),
             Wrap(
               spacing: 8,
               children: [
@@ -97,22 +98,22 @@ class MindStateCard extends ConsumerWidget {
               ],
             ),
             if (state?.accuracy != null) ...[
-              const SizedBox(height: 14),
+              const SizedBox(height: HalenSpace.x4),
               Text(
                 l10n.mindAccuracyChartTitle,
                 style: theme.textTheme.labelLarge,
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: HalenSpace.x2),
               const _AccuracyChart(),
-              const SizedBox(height: 6),
+              const SizedBox(height: HalenSpace.x2),
               Text(
                 l10n.mindAccuracy((state!.accuracy! * 100).round()),
                 style: theme.textTheme.labelSmall,
               ),
             ],
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             Container(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.all(HalenSpace.x4),
               decoration: BoxDecoration(
                 color: HalenColors.emerald.withValues(alpha: 0.10),
                 borderRadius: BorderRadius.circular(16),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:halen/application/interval_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 class HourlyDistributionCard extends StatelessWidget {
   const HourlyDistributionCard({super.key, required this.report});
@@ -37,14 +38,14 @@ class HourlyDistributionCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(HalenSpace.x3),
                   decoration: BoxDecoration(
                     color: HalenColors.purple.withValues(alpha: 0.14),
                     borderRadius: BorderRadius.circular(14),
@@ -55,13 +56,13 @@ class HourlyDistributionCard extends StatelessWidget {
                     size: 20,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: HalenSpace.x3),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(l10n.hourlyTitle, style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: HalenSpace.x1),
                       Text(
                         l10n.hourlySubtitle,
                         style: theme.textTheme.bodySmall,
@@ -71,7 +72,7 @@ class HourlyDistributionCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
 
             // Peak hour badge
             if (report.peakHour != null && report.peakCount > 0)
@@ -92,7 +93,7 @@ class HourlyDistributionCard extends StatelessWidget {
                       color: HalenColors.amberCta,
                       size: 18,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: HalenSpace.x2),
                     Expanded(
                       child: Text(
                         l10n.hourlyPeak(report.peakHour!, report.peakCount),
@@ -124,12 +125,12 @@ class HourlyDistributionCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: HalenSpace.x5),
             Text(
               l10n.chartTimeBlocks,
               style: theme.textTheme.labelMedium,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: HalenSpace.x3),
 
             // Time blocks
             Column(
@@ -150,7 +151,7 @@ class HourlyDistributionCard extends StatelessWidget {
                       child: Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(7),
+                            padding: const EdgeInsets.all(HalenSpace.x2),
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primaryContainer,
                               borderRadius: BorderRadius.circular(10),
@@ -161,7 +162,7 @@ class HourlyDistributionCard extends StatelessWidget {
                               color: theme.colorScheme.onPrimaryContainer,
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: HalenSpace.x3),
                           Expanded(
                             child: Text(
                               _blockTitle(b.nameKey, l10n),
@@ -170,7 +171,7 @@ class HourlyDistributionCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: HalenSpace.x2),
                           SizedBox(
                             width: 72,
                             child: ClipRRect(
@@ -184,7 +185,7 @@ class HourlyDistributionCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: HalenSpace.x3),
                           SizedBox(
                             width: 24,
                             child: Text(

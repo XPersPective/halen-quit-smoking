@@ -15,6 +15,7 @@ import 'package:halen/data/db/app_database.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/model_settings_section.dart';
+import '../../../core/design/tokens.dart';
 
 /// Reads a JSON backup chosen by the user (file picker stays local-only).
 Future<Map<String, dynamic>> _pickAndReadJson() async {
@@ -49,11 +50,11 @@ class SettingsScreen extends ConsumerWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(child: Text(l10n.commonErrorTitle)),
           data: (settings) => ListView(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(HalenSpace.x6),
             children: [
               Text(l10n.settingsNotifications,
                   style: theme.textTheme.titleMedium),
-              const SizedBox(height: 8),
+              const SizedBox(height: HalenSpace.x2),
               SegmentedButton<NotificationDensity>(
                 segments: [
                   ButtonSegment(
@@ -101,7 +102,7 @@ class SettingsScreen extends ConsumerWidget {
                 onChanged: null,
                 title: Text(l10n.notifPlanReminder),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
               Text(l10n.settingsAppearance,
                   style: theme.textTheme.titleMedium),
               SegmentedButton<ThemeOption>(
@@ -139,21 +140,21 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 title: Text(l10n.settingsHaptics),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
               // Module report §1/§12/§14 — the dials the models expose to the
               // user, each optional and each explained.
               ModelSettingsSection(
                 preLogPauseSeconds: settings.preLogPauseSeconds,
                 riskyWindowReminder: settings.riskyWindowReminder,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.menu_book_outlined),
                 title: Text(l10n.glossaryOpen),
                 onTap: () => Navigator.pushNamed(context, Routes.glossary),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: HalenSpace.x2),
               Text(l10n.settingsData, style: theme.textTheme.titleMedium),
               ListTile(
                 leading: const Icon(Icons.file_download_outlined),
@@ -238,7 +239,7 @@ class SettingsScreen extends ConsumerWidget {
                   }
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
               Text(l10n.settingsAbout, style: theme.textTheme.titleMedium),
               ListTile(
                 leading: const Icon(Icons.workspace_premium_outlined),
@@ -252,27 +253,27 @@ class SettingsScreen extends ConsumerWidget {
                 onTap: () =>
                     Navigator.pushNamed(context, Routes.healthTimeline),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: HalenSpace.x2),
               // Mandatory health notice + helplines (report §39).
               Card(
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(HalenSpace.x4),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(l10n.settingsDisclaimerTitle,
                           style: theme.textTheme.titleSmall),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: HalenSpace.x1),
                       Text(l10n.settingsDisclaimer),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: HalenSpace.x2),
                       Text(l10n.settingsHelplines),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: HalenSpace.x1),
                       Text(l10n.settingsPrivacy),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: HalenSpace.x6),
             ],
           ),
         ),

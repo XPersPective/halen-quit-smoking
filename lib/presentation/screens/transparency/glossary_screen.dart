@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/routes.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 /// Plain-language glossary (module report §16).
 ///
@@ -36,9 +37,9 @@ class GlossaryScreen extends StatelessWidget {
       appBar: AppBar(title: Text(l10n.glossaryTitle)),
       body: SafeArea(
         child: ListView.separated(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(HalenSpace.x6),
           itemCount: entries.length + 2,
-          separatorBuilder: (_, _) => const SizedBox(height: 18),
+          separatorBuilder: (_, _) => const SizedBox(height: HalenSpace.x5),
           itemBuilder: (context, index) {
             if (index == 0) {
               return Text(
@@ -60,7 +61,7 @@ class GlossaryScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(entry.term, style: theme.textTheme.titleSmall),
-                const SizedBox(height: 4),
+                const SizedBox(height: HalenSpace.x1),
                 Text(entry.meaning, style: theme.textTheme.bodyMedium),
               ],
             );

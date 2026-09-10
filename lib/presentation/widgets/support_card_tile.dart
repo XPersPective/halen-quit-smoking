@@ -7,6 +7,7 @@ import '../../core/dates.dart';
 import '../../core/theme.dart';
 import '../../domain/evidence.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../core/design/tokens.dart';
 
 /// Today's support card (module report §10.③): one card a day, one channel,
 /// fifteen seconds to read, one tap to tick off — and skipping costs nothing,
@@ -45,7 +46,7 @@ class SupportCardTile extends ConsumerWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -63,11 +64,11 @@ class SupportCardTile extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: HalenSpace.x2),
             Text(card.title(locale), style: theme.textTheme.titleMedium),
-            const SizedBox(height: 6),
+            const SizedBox(height: HalenSpace.x2),
             Text(card.body(locale), style: theme.textTheme.bodyMedium),
-            const SizedBox(height: 12),
+            const SizedBox(height: HalenSpace.x3),
             Row(
               children: [
                 Container(
@@ -91,7 +92,7 @@ class SupportCardTile extends ConsumerWidget {
                         size: 18,
                         color: HalenColors.emerald,
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: HalenSpace.x2),
                       Text(
                         l10n.commonDone,
                         style: theme.textTheme.labelMedium,
@@ -111,9 +112,9 @@ class SupportCardTile extends ConsumerWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             const _SupportWeekGrid(),
-            const SizedBox(height: 8),
+            const SizedBox(height: HalenSpace.x2),
             Text(l10n.supportNotATest, style: theme.textTheme.labelSmall),
           ],
         ),
@@ -147,7 +148,7 @@ class _SupportWeekGrid extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(l10n.supportWeekTitle, style: theme.textTheme.labelLarge),
-        const SizedBox(height: 8),
+        const SizedBox(height: HalenSpace.x2),
         for (final channel in SupportChannel.values)
           Padding(
             padding: const EdgeInsets.only(bottom: 6),
@@ -162,7 +163,7 @@ class _SupportWeekGrid extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: HalenSpace.x2),
                 for (final done in grid[channel]!)
                   Container(
                     width: 18,

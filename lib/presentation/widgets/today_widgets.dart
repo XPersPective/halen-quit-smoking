@@ -7,6 +7,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import '../../core/design/tokens.dart';
 
 /// The daily-budget progress ring: thick gradient stroke, glowing cap.
 class BudgetRing extends StatelessWidget {
@@ -55,7 +56,7 @@ class BudgetRing extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: HalenSpace.x2),
             Flexible(
               child: Text(
                 AppLocalizations.of(context)!.dailyBudgetCaption,

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:halen/application/record_providers.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 /// Screen 10: optional follow-up detail for a just-logged cigarette.
 /// One tap logged the cigarette already — this only adds an optional tag.
@@ -39,10 +40,10 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
       appBar: AppBar(title: Text(l10n.recordDetailTitle)),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(HalenSpace.x6),
           children: [
             Text(l10n.recordDetailHint, style: theme.textTheme.bodyMedium),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -59,7 +60,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                   ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: HalenSpace.x6),
             FilledButton(
               onPressed: () async {
                 await ref

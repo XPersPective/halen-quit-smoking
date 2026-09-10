@@ -12,6 +12,7 @@ import '../../../core/theme.dart';
 import '../../../domain/economy.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/charts/halen_line_chart.dart';
+import '../../../core/design/tokens.dart';
 
 /// Money and time (module report §3).
 ///
@@ -86,10 +87,10 @@ class EconomyScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.economyTitle)),
       body: ListView(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         children: [
           Text(l10n.economyExactNote, style: theme.textTheme.bodyMedium),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
           Row(
             children: [
               Expanded(
@@ -100,7 +101,7 @@ class EconomyScreen extends ConsumerWidget {
                   emphasize: true,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: HalenSpace.x3),
               Expanded(
                 child: _Amount(
                   label: l10n.economySpent,
@@ -110,9 +111,9 @@ class EconomyScreen extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
           _Equivalent(saved: saved),
-          const SizedBox(height: 28),
+          const SizedBox(height: HalenSpace.x8),
 
           ChartCard(
             title: l10n.economyProjectionTitle,
@@ -147,10 +148,10 @@ class EconomyScreen extends ConsumerWidget {
                   '${l10n.economyProjectionTitle}: ${money.format(gap)}',
             ),
           ),
-          const SizedBox(height: 28),
+          const SizedBox(height: HalenSpace.x8),
 
           Text(l10n.economyTimeLedger, style: theme.textTheme.titleMedium),
-          const SizedBox(height: 12),
+          const SizedBox(height: HalenSpace.x3),
           Row(
             children: [
               Expanded(
@@ -163,7 +164,7 @@ class EconomyScreen extends ConsumerWidget {
                   color: HalenColors.emerald,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: HalenSpace.x3),
               Expanded(
                 child: _Amount(
                   label: l10n.economyTimeLost,
@@ -176,9 +177,9 @@ class EconomyScreen extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: HalenSpace.x2),
           Text(l10n.economyLifeAverageNote, style: theme.textTheme.labelSmall),
-          const SizedBox(height: 28),
+          const SizedBox(height: HalenSpace.x8),
 
           _GoalSection(
             goal: goal == null
@@ -188,7 +189,7 @@ class EconomyScreen extends ConsumerWidget {
             dailySaving: dailySaving,
             money: money,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: HalenSpace.x6),
         ],
       ),
     );
@@ -221,7 +222,7 @@ class _Equivalent extends StatelessWidget {
     return Row(
       children: [
         const Icon(Icons.swap_horiz_rounded, size: 18),
-        const SizedBox(width: 8),
+        const SizedBox(width: HalenSpace.x2),
         Expanded(
           child: Text(
             '${l10n.economyEquivalentTitle}: '
@@ -253,7 +254,7 @@ class _Amount extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(HalenSpace.x4),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(18),
@@ -262,7 +263,7 @@ class _Amount extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: theme.textTheme.labelMedium),
-          const SizedBox(height: 6),
+          const SizedBox(height: HalenSpace.x2),
           Text(
             value,
             style:
@@ -303,19 +304,19 @@ class _GoalSectionState extends ConsumerState<_GoalSection> {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(l10n.economyGoalTitle, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
+            const SizedBox(height: HalenSpace.x2),
             if (goal == null) ...[
               Text(l10n.economyGoalHint, style: theme.textTheme.bodyMedium),
-              const SizedBox(height: 12),
+              const SizedBox(height: HalenSpace.x3),
               FilledButton(onPressed: _editGoal, child: Text(l10n.commonEdit)),
             ] else ...[
               Text(goal.label, style: theme.textTheme.titleLarge),
-              const SizedBox(height: 10),
+              const SizedBox(height: HalenSpace.x3),
               ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: LinearProgressIndicator(
@@ -323,7 +324,7 @@ class _GoalSectionState extends ConsumerState<_GoalSection> {
                   minHeight: 10,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: HalenSpace.x2),
               Row(
                 children: [
                   Expanded(
@@ -381,7 +382,7 @@ class _GoalSectionState extends ConsumerState<_GoalSection> {
               decoration: InputDecoration(labelText: l10n.economyGoalLabel),
               textInputAction: TextInputAction.next,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: HalenSpace.x3),
             TextField(
               controller: amountController,
               decoration: InputDecoration(labelText: l10n.economyGoalAmount),

@@ -9,6 +9,7 @@ import '../../data/repositories/library_repository.dart';
 import '../../domain/entities.dart';
 import '../../domain/evidence.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../core/design/tokens.dart';
 
 /// The SOS toolkit (module report §5.③).
 ///
@@ -39,7 +40,7 @@ class SosTechniquesList extends ConsumerWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(HalenSpace.x4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -47,7 +48,7 @@ class SosTechniquesList extends ConsumerWidget {
               personalized ? l10n.sosWhatWorked : l10n.sosTechniquesTitle,
               style: theme.textTheme.titleMedium,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: HalenSpace.x3),
             for (final technique in ordered.$1)
               _TechniqueTile(
                 technique: technique,
@@ -129,7 +130,7 @@ class _TechniqueTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.all(HalenSpace.x4),
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.07),
             borderRadius: BorderRadius.circular(16),
@@ -161,18 +162,18 @@ class _TechniqueTile extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: HalenSpace.x2),
               Text(
                 technique.instruction(locale),
                 style: theme.textTheme.bodyMedium,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: HalenSpace.x2),
               Text(
                 '${l10n.evidenceLabel}: ${technique.evidenceNote(locale)}',
                 style: theme.textTheme.labelSmall,
               ),
               if (technique.key == 'earAcupressure') ...[
-                const SizedBox(height: 8),
+                const SizedBox(height: HalenSpace.x2),
                 Text(
                   '${l10n.sosEarPointsTitle} — '
                   '${[

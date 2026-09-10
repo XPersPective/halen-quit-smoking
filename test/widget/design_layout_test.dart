@@ -10,6 +10,7 @@ import 'package:halen/domain/entitlement.dart';
 import 'package:halen/data/db/app_database.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import 'package:halen/presentation/screens/stats/stats_screen.dart';
 import 'package:halen/presentation/screens/today/today_screen.dart';
 
 import '../helpers/pump_app.dart';
@@ -76,15 +77,26 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
       await screenshot('stats');
+      // The savings hero and the trend chart push the chips below the fold
+      // on small screens, so the lazy ListView has to be scrolled once to
+      // build them. Scroll the OUTER list explicitly: some of the charts are
+      // horizontally scrollable, so once a tab is open `Scrollable.first` is
+      // no longer reliably the page.
+      final page = find.descendant(
+        of: find.byType(StatsScreen),
+        matching: find.byType(Scrollable),
+      ).first;
+      await tester.scrollUntilVisible(
+        find.widgetWithText(ChoiceChip, l10n.statsTabHourly),
+        200,
+        scrollable: page,
+      );
+      await tester.pumpAndSettle();
+
       for (final tab in [l10n.statsTabHourly, l10n.statsTabIntervals, l10n.statsTabTriggers]) {
         final chip = find.widgetWithText(ChoiceChip, tab);
-        // The savings hero + trend chart push the chips below the fold on
-        // small screens — scroll the lazy ListView items into existence.
-        await tester.scrollUntilVisible(
-          chip,
-          200,
-          scrollable: find.byType(Scrollable).first,
-        );
+        await tester.ensureVisible(chip);
+        await tester.pumpAndSettle();
         await tester.tap(chip);
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);

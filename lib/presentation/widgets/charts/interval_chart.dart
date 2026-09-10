@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:halen/application/interval_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 class IntervalChartCard extends StatelessWidget {
   const IntervalChartCard({super.key, required this.report});
@@ -27,14 +28,14 @@ class IntervalChartCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(HalenSpace.x3),
                   decoration: BoxDecoration(
                     color: HalenColors.skyBlue.withValues(alpha: 0.14),
                     borderRadius: BorderRadius.circular(14),
@@ -45,13 +46,13 @@ class IntervalChartCard extends StatelessWidget {
                     size: 20,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: HalenSpace.x3),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(l10n.intervalTitle, style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: HalenSpace.x1),
                       Text(
                         l10n.intervalSubtitle,
                         style: theme.textTheme.bodySmall,
@@ -61,7 +62,7 @@ class IntervalChartCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: HalenSpace.x5),
 
             // Metrics row
             Row(
@@ -74,7 +75,7 @@ class IntervalChartCard extends StatelessWidget {
                     color: HalenColors.emerald,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: HalenSpace.x3),
                 Expanded(
                   child: _MetricTile(
                     label: l10n.intervalLongest,
@@ -85,7 +86,7 @@ class IntervalChartCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: HalenSpace.x3),
 
             // Current smoke-free streak
             Container(
@@ -108,7 +109,7 @@ class IntervalChartCard extends StatelessWidget {
                     size: 20,
                     color: HalenColors.skyBlue,
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: HalenSpace.x3),
                   Expanded(
                     child: Text(
                       l10n.intervalCurrent,
@@ -117,7 +118,7 @@ class IntervalChartCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: HalenSpace.x2),
                   Flexible(
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
@@ -134,9 +135,9 @@ class IntervalChartCard extends StatelessWidget {
             ),
 
             if (report.items.length >= 2) ...[
-              const SizedBox(height: 24),
+              const SizedBox(height: HalenSpace.x6),
               Text(l10n.chartIntervalAxis, style: theme.textTheme.labelMedium),
-              const SizedBox(height: 12),
+              const SizedBox(height: HalenSpace.x3),
               LayoutBuilder(
                 builder: (context, constraints) => SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -165,10 +166,10 @@ class IntervalChartCard extends StatelessWidget {
                 ),
               ),
             ] else ...[
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: HalenSpace.x3),
                   child: Text(
                     report.items.isEmpty
                         ? l10n.todayLogEmpty
@@ -203,7 +204,7 @@ class _MetricTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(HalenSpace.x4),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest.withValues(
           alpha: 0.55,
@@ -216,14 +217,14 @@ class _MetricTile extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(HalenSpace.x1),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.14),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(icon, size: 13, color: color),
               ),
-              const SizedBox(width: 7),
+              const SizedBox(width: HalenSpace.x2),
               Expanded(
                 child: Text(
                   label,
@@ -233,7 +234,7 @@ class _MetricTile extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: HalenSpace.x3),
           Text(
             value,
             style: theme.textTheme.titleMedium?.copyWith(color: color),

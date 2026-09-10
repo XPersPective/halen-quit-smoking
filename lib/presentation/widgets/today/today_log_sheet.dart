@@ -5,6 +5,7 @@ import 'package:halen/application/plan_controller.dart';
 import 'package:halen/application/providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 class TodayLogCard extends ConsumerWidget {
   const TodayLogCard({super.key});
@@ -92,14 +93,14 @@ class TodayLogCard extends ConsumerWidget {
 
         return Card(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(HalenSpace.x5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(HalenSpace.x2),
                       decoration: BoxDecoration(
                         color: HalenColors.emerald.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(12),
@@ -110,7 +111,7 @@ class TodayLogCard extends ConsumerWidget {
                         size: 22,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: HalenSpace.x3),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,11 +153,11 @@ class TodayLogCard extends ConsumerWidget {
                       ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: HalenSpace.x4),
 
                 if (items.isEmpty)
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: HalenSpace.x4),
                     child: Center(
                       child: Text(
                         l10n.todayLogEmpty,
@@ -191,7 +192,7 @@ class TodayLogCard extends ConsumerWidget {
                       return Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(HalenSpace.x2),
                             decoration: BoxDecoration(
                               color: isDark
                                   ? HalenColors.surfaceElevatedDark
@@ -204,7 +205,7 @@ class TodayLogCard extends ConsumerWidget {
                               color: theme.colorScheme.primary,
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: HalenSpace.x3),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

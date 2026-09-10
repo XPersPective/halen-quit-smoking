@@ -120,16 +120,16 @@ class _SosScreenState extends ConsumerState<SosScreen> {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(HalenSpace.x6),
           children: [
             Text(l10n.sosIntro, style: theme.textTheme.bodyLarge),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             // 2-minute timer (report §15: delay first) — a calm countdown
             // ring instead of an urgent clock.
             Card(
               color: theme.colorScheme.primaryContainer,
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(HalenSpace.x6),
                 child: Column(
                   children: [
                     SizedBox(
@@ -158,7 +158,7 @@ class _SosScreenState extends ConsumerState<SosScreen> {
                                   color: theme.colorScheme.primary,
                                   size: 24,
                                 ),
-                                const SizedBox(height: 6),
+                                const SizedBox(height: HalenSpace.x2),
                                 ExcludeSemantics(
                                   child: Text(
                                     '${(_secondsLeft ~/ 60).toString().padLeft(2, '0')}:${(_secondsLeft % 60).toString().padLeft(2, '0')}',
@@ -178,7 +178,7 @@ class _SosScreenState extends ConsumerState<SosScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: HalenSpace.x3),
                     Text(
                       _timerRunning || _secondsLeft < _timerSeconds
                           ? (_secondsLeft > 0
@@ -188,7 +188,7 @@ class _SosScreenState extends ConsumerState<SosScreen> {
                       style: theme.textTheme.bodyMedium,
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: HalenSpace.x3),
                     if (!_timerRunning && _secondsLeft == 0)
                       OutlinedButton(
                         onPressed: () =>
@@ -205,7 +205,7 @@ class _SosScreenState extends ConsumerState<SosScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             // The 4D set now lives inside the evidence-graded toolkit
             // below, so there is exactly one list of things to do and every
             // entry carries what the evidence actually says about it.
@@ -225,11 +225,11 @@ class _SosScreenState extends ConsumerState<SosScreen> {
                 }
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             // Outcome recording (report §15: positive resisted, shameless smoked).
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(HalenSpace.x4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -237,9 +237,9 @@ class _SosScreenState extends ConsumerState<SosScreen> {
                       l10n.sosOutcomeTitle,
                       style: theme.textTheme.titleMedium,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: HalenSpace.x2),
                     Text(l10n.sosIntensityTitle),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: HalenSpace.x1),
                     SegmentedButton<CravingIntensity>(
                       segments: [
                         ButtonSegment(
@@ -259,19 +259,19 @@ class _SosScreenState extends ConsumerState<SosScreen> {
                       onSelectionChanged: (selection) =>
                           setState(() => _intensity = selection.first),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: HalenSpace.x3),
                     FilledButton.icon(
                       onPressed: () => _record(CravingOutcome.resisted),
                       icon: const Icon(Icons.front_hand),
                       label: Text(l10n.sosResisted),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: HalenSpace.x2),
                     OutlinedButton.icon(
                       onPressed: () => _record(CravingOutcome.smoked),
                       icon: const Icon(Icons.edit_note),
                       label: Text(l10n.sosSmoked),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: HalenSpace.x2),
                     resistedAsync.maybeWhen(
                       data: (n) => Text(l10n.sosResistedCount(n)),
                       orElse: () => const SizedBox.shrink(),

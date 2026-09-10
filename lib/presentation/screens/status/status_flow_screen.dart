@@ -99,7 +99,7 @@ class _PageDots extends StatelessWidget {
           for (var i = 0; i < count; i++)
             AnimatedContainer(
               duration: HalenDuration.respecting(context, HalenDuration.quick),
-              margin: const EdgeInsets.symmetric(horizontal: 3),
+              margin: const EdgeInsets.symmetric(horizontal: HalenSpace.x1),
               width: i == active ? 18 : 6,
               height: 6,
               decoration: BoxDecoration(

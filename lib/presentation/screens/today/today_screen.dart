@@ -208,7 +208,7 @@ class _TodayBody extends ConsumerWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: HalenSpace.x1),
                     Text(l10n.todayTitle, style: theme.textTheme.headlineMedium),
                   ],
                 ),
@@ -216,7 +216,7 @@ class _TodayBody extends ConsumerWidget {
               const ShellSettingsButton(),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: HalenSpace.x5),
 
           // ——— Focus hero ———
           Container(
@@ -240,7 +240,7 @@ class _TodayBody extends ConsumerWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(HalenSpace.x6),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -261,7 +261,7 @@ class _TodayBody extends ConsumerWidget {
                               color: HalenColors.mint,
                               size: 13,
                             ),
-                            const SizedBox(width: 5),
+                            const SizedBox(width: HalenSpace.x1),
                             Flexible(
                               child: Text(
                                 l10n.daysSinceStart(state.daysSinceStart),
@@ -276,7 +276,7 @@ class _TodayBody extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 18),
+                      const SizedBox(height: HalenSpace.x5),
                       LayoutBuilder(
                         builder: (context, constraints) {
                           final copy = Column(
@@ -291,7 +291,7 @@ class _TodayBody extends ConsumerWidget {
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: HalenSpace.x3),
                               Text(
                                 l10n.todayFocusNote,
                                 style: theme.textTheme.bodySmall?.copyWith(
@@ -314,7 +314,7 @@ class _TodayBody extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 copy,
-                                const SizedBox(height: 16),
+                                const SizedBox(height: HalenSpace.x4),
                                 Center(child: ring),
                               ],
                             );
@@ -322,18 +322,18 @@ class _TodayBody extends ConsumerWidget {
                           return Row(
                             children: [
                               Expanded(child: copy),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: HalenSpace.x2),
                               ring,
                             ],
                           );
                         },
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: HalenSpace.x5),
                       _HeroStatRow(
                         icon: Icons.history_rounded,
                         label: _lastCigaretteText(l10n, state.lastCigarette),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: HalenSpace.x3),
                       _HeroStatRow(
                         icon: Icons.flag_rounded,
                         label: _nextTargetText(l10n, state.nextSuggestion),
@@ -345,7 +345,7 @@ class _TodayBody extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
 
           // ——— Primary CTA ———
           FilledButton.icon(
@@ -363,7 +363,7 @@ class _TodayBody extends ConsumerWidget {
             icon: const Icon(Icons.add_rounded, size: 26),
             label: Text(l10n.ctaSmoked),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: HalenSpace.x2),
           OutlinedButton.icon(
             onPressed: () => _logResisted(context, ref),
             style: OutlinedButton.styleFrom(
@@ -383,7 +383,7 @@ class _TodayBody extends ConsumerWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 28),
+          const SizedBox(height: HalenSpace.x8),
 
           // ——— Overview ———
           // The quit attempt comes first when there is something to say
@@ -401,25 +401,25 @@ class _TodayBody extends ConsumerWidget {
           // today is likely to feel, and one small thing to do about it.
           // On quit day the fastest good news leads (module report §1.③).
           const Entrance(index: 1, child: QuitDayCoCard()),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
           const Entrance(index: 2, child: MindStateCard()),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
           const Entrance(index: 3, child: SupportCardTile()),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
           // §11 — one card a day, phase-aware, and never a hard-truth card
           // during the withdrawal peak.
           const Entrance(index: 4, child: DailyCardTile()),
-          const SizedBox(height: 28),
+          const SizedBox(height: HalenSpace.x8),
 
           Text(l10n.todayOverview, style: theme.textTheme.titleMedium),
-          const SizedBox(height: 12),
+          const SizedBox(height: HalenSpace.x3),
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(HalenSpace.x5),
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(HalenSpace.x3),
                     decoration: BoxDecoration(
                       color: colors.primaryContainer,
                       borderRadius: BorderRadius.circular(14),
@@ -430,7 +430,7 @@ class _TodayBody extends ConsumerWidget {
                       size: 22,
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  const SizedBox(width: HalenSpace.x4),
                   Expanded(
                     child: Text(
                       l10n.savingsStrip(
@@ -444,7 +444,7 @@ class _TodayBody extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: HalenSpace.x3),
           Card(
             color: colors.primaryContainer,
             child: ListTile(
@@ -452,7 +452,7 @@ class _TodayBody extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(24),
               ),
               leading: Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(HalenSpace.x3),
                 decoration: BoxDecoration(
                   color: colors.onPrimaryContainer.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(14),
@@ -483,9 +483,9 @@ class _TodayBody extends ConsumerWidget {
               onTap: () => Navigator.pushNamed(context, Routes.breathing),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: HalenSpace.x6),
           const TodayLogCard(),
-          const SizedBox(height: 12),
+          const SizedBox(height: HalenSpace.x3),
           Card(
             clipBehavior: Clip.antiAlias,
             child: ExpansionTile(
@@ -496,7 +496,7 @@ class _TodayBody extends ConsumerWidget {
               shape: const Border(),
               collapsedShape: const Border(),
               leading: Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(HalenSpace.x3),
                 decoration: BoxDecoration(
                   color: colors.secondaryContainer,
                   borderRadius: BorderRadius.circular(14),
@@ -517,7 +517,7 @@ class _TodayBody extends ConsumerWidget {
                   curve: state.nicotineCurve,
                   semanticLabel: l10n.a11yNicotineChart,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: HalenSpace.x3),
                 TextButton.icon(
                   onPressed: () =>
                       Navigator.pushNamed(context, Routes.howCalculated),
@@ -527,11 +527,11 @@ class _TodayBody extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: HalenSpace.x3),
           Card(
             child: ListTile(
               leading: Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(HalenSpace.x3),
                 decoration: BoxDecoration(
                   color: colors.secondaryContainer,
                   borderRadius: BorderRadius.circular(14),
@@ -551,7 +551,7 @@ class _TodayBody extends ConsumerWidget {
             ),
           ),
           if (state.isFirstDay) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
             Text(
               l10n.todayEmptyFirstDay,
               style: theme.textTheme.bodySmall,
@@ -592,7 +592,7 @@ class _HeroStatRow extends StatelessWidget {
             size: 17,
             color: emphasize ? HalenColors.mint : const Color(0xFF9FC4AF),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: HalenSpace.x3),
           Expanded(
             child: Text(
               label,
@@ -626,7 +626,7 @@ class _ErrorRetry extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(message),
-          const SizedBox(height: 12),
+          const SizedBox(height: HalenSpace.x3),
           OutlinedButton(onPressed: onRetry, child: Text(l10n.commonRetry)),
         ],
       ),

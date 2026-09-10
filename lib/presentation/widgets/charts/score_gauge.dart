@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../../core/theme.dart';
+import '../../../core/design/tokens.dart';
 
 /// The Progress Score gauge (module report §14.1).
 ///
@@ -87,7 +88,7 @@ class ScoreGauge extends StatelessWidget {
                       ),
                     ),
                     Text(band, style: theme.textTheme.titleSmall),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: HalenSpace.x1),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -100,7 +101,7 @@ class ScoreGauge extends StatelessWidget {
                           size: 13,
                           color: color,
                         ),
-                        const SizedBox(width: 3),
+                        const SizedBox(width: HalenSpace.x1),
                         Text(deltaLabel, style: theme.textTheme.labelSmall),
                       ],
                     ),
@@ -226,14 +227,14 @@ class HarmScale extends StatelessWidget {
                   letterSpacing: -1,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: HalenSpace.x2),
               Text(
                 bandLabels[activeBand.clamp(0, bandLabels.length - 1)],
                 style: theme.textTheme.titleSmall,
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: HalenSpace.x3),
           TweenAnimationBuilder<double>(
             tween: Tween<double>(begin: 0, end: score / 100),
             duration: reduceMotion
@@ -263,7 +264,7 @@ class HarmScale extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: HalenSpace.x2),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -5,6 +5,7 @@ import '../../../application/module_providers.dart';
 import '../../../core/theme.dart';
 import '../../../domain/plan_kinds.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 /// Changing plans (module report §13).
 ///
@@ -74,17 +75,17 @@ class _PlanSwitchScreenState extends ConsumerState<PlanSwitchScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(HalenSpace.x5),
               children: [
                 if (report != null) ...[
                   Text(
                     l10n.planReportCardTitle,
                     style: theme.textTheme.titleMedium,
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: HalenSpace.x3),
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(HalenSpace.x4),
                       child: Column(
                         children: [
                           _ReportRow(
@@ -109,7 +110,7 @@ class _PlanSwitchScreenState extends ConsumerState<PlanSwitchScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: HalenSpace.x5),
                 ],
                 if (_verdict == SwitchVerdict.tooSoon && report != null)
                   _Note(
@@ -121,7 +122,7 @@ class _PlanSwitchScreenState extends ConsumerState<PlanSwitchScreen> {
                     text: l10n.planFrequentSwitchNote,
                     color: HalenColors.skyBlue,
                   ),
-                const SizedBox(height: 8),
+                const SizedBox(height: HalenSpace.x2),
                 for (final kind in PlanKind.values)
                   _PlanOption(
                     title: _planName(kind, l10n),
@@ -136,12 +137,12 @@ class _PlanSwitchScreenState extends ConsumerState<PlanSwitchScreen> {
                             _verdict != SwitchVerdict.tooSoon),
                     onTap: () => _switchTo(kind),
                   ),
-                const SizedBox(height: 12),
+                const SizedBox(height: HalenSpace.x3),
                 Text(
                   l10n.planHistoryKept,
                   style: theme.textTheme.labelSmall,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: HalenSpace.x6),
               ],
             ),
     );
@@ -166,7 +167,7 @@ class _ReportRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.symmetric(vertical: HalenSpace.x2),
       child: Row(
         children: [
           Expanded(child: Text(label, style: theme.textTheme.bodyMedium)),
@@ -187,7 +188,7 @@ class _Note extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(HalenSpace.x4),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(16),
@@ -227,7 +228,7 @@ class _PlanOption extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           onTap: enabled ? onTap : null,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(HalenSpace.x4),
             child: Row(
               children: [
                 Icon(
@@ -236,7 +237,7 @@ class _PlanOption extends StatelessWidget {
                       : Icons.radio_button_unchecked_rounded,
                   color: selected ? HalenColors.petrol : theme.dividerColor,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: HalenSpace.x3),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,7 +251,7 @@ class _PlanOption extends StatelessWidget {
                             ),
                           ),
                           if (suggested) ...[
-                            const SizedBox(width: 8),
+                            const SizedBox(width: HalenSpace.x2),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
@@ -271,7 +272,7 @@ class _PlanOption extends StatelessWidget {
                           ],
                         ],
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: HalenSpace.x1),
                       Text(note, style: theme.textTheme.bodySmall),
                     ],
                   ),

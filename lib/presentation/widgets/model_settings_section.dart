@@ -8,6 +8,7 @@ import '../../data/db/app_database.dart';
 import '../../domain/body_load_model.dart';
 import '../../domain/economy.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../core/design/tokens.dart';
 
 /// Model settings (module report §1.⑤, §12.③, §14.2).
 ///
@@ -54,11 +55,11 @@ class _ModelSettingsSectionState extends ConsumerState<ModelSettingsSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(l10n.settingsModelTitle, style: theme.textTheme.titleMedium),
-        const SizedBox(height: 8),
+        const SizedBox(height: HalenSpace.x2),
 
         // Clearance pace — a calibration dial, never a measurement.
         Text(l10n.metabolismTitle, style: theme.textTheme.labelLarge),
-        const SizedBox(height: 6),
+        const SizedBox(height: HalenSpace.x2),
         SegmentedButton<MetabolismSpeed>(
           segments: [
             ButtonSegment(
@@ -79,9 +80,9 @@ class _ModelSettingsSectionState extends ConsumerState<ModelSettingsSection> {
             SmokingProfileCompanion(metabolism: Value(selection.first)),
           ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: HalenSpace.x2),
         Text(l10n.metabolismNote, style: theme.textTheme.bodySmall),
-        const SizedBox(height: 16),
+        const SizedBox(height: HalenSpace.x4),
 
         // Pre-log pause — friction that never costs a record.
         SwitchListTile(
@@ -109,13 +110,13 @@ class _ModelSettingsSectionState extends ConsumerState<ModelSettingsSection> {
           title: Text(l10n.settingsRiskyWindowReminder),
           subtitle: Text(l10n.settingsRiskyWindowNote),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: HalenSpace.x4),
 
         // Optional body data.
         Text(l10n.settingsBodyDataTitle, style: theme.textTheme.labelLarge),
-        const SizedBox(height: 4),
+        const SizedBox(height: HalenSpace.x1),
         Text(l10n.settingsBodyDataNote, style: theme.textTheme.bodySmall),
-        const SizedBox(height: 12),
+        const SizedBox(height: HalenSpace.x3),
         Row(
           children: [
             Expanded(
@@ -126,7 +127,7 @@ class _ModelSettingsSectionState extends ConsumerState<ModelSettingsSection> {
                     _updateProfile(SmokingProfileCompanion(heightCm: Value(v))),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: HalenSpace.x3),
             Expanded(
               child: _NumberField(
                 label: l10n.settingsWeight,
@@ -137,7 +138,7 @@ class _ModelSettingsSectionState extends ConsumerState<ModelSettingsSection> {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: HalenSpace.x3),
         _NumberField(
           label: l10n.settingsSmokingYears,
           value: profile?.smokingYears,
@@ -145,9 +146,9 @@ class _ModelSettingsSectionState extends ConsumerState<ModelSettingsSection> {
             SmokingProfileCompanion(smokingYears: Value(v)),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: HalenSpace.x3),
         Text(l10n.settingsSex, style: theme.textTheme.labelLarge),
-        const SizedBox(height: 6),
+        const SizedBox(height: HalenSpace.x2),
         SegmentedButton<SexOption>(
           segments: [
             ButtonSegment(

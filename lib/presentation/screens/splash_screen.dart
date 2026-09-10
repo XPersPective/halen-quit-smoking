@@ -6,6 +6,7 @@ import 'package:halen/application/settings_screen_controller.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/choice_card.dart';
+import '../../core/design/tokens.dart';
 
 /// Screen 1: splash / permission rationale / privacy promise (report §12).
 class SplashScreen extends ConsumerStatefulWidget {
@@ -41,11 +42,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(HalenSpace.x6),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 24),
+                const SizedBox(height: HalenSpace.x6),
                 // Abstract mark: breathing ring (no cigarette imagery, §12).
                 Center(
                   child: Container(
@@ -71,47 +72,47 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: HalenSpace.x6),
                 Text(
                   l10n.splashWelcomeTitle,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.headlineMedium,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: HalenSpace.x2),
                 Text(
                   l10n.splashTagline,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyLarge,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: HalenSpace.x6),
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(HalenSpace.x4),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _bullet(context, l10n.splashPrivacyLine),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: HalenSpace.x2),
                         _bullet(context, l10n.splashBackupLine),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: HalenSpace.x4),
                 Text(
                   l10n.splashMedicalNote,
                   style: theme.textTheme.bodySmall,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: HalenSpace.x6),
                 // Notification rationale + allow button (report §20: the
                 // explanation is always shown before the runtime request).
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(HalenSpace.x4),
                     child: Column(
                       children: [
                         Text(l10n.splashNotificationRationale),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: HalenSpace.x3),
                         ChoiceCard(
                           title: l10n.splashEnableNotifications,
                           selected: false,
@@ -129,7 +130,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: HalenSpace.x8),
                 FilledButton(
                   onPressed: () =>
                       Navigator.pushReplacementNamed(context, Routes.onboarding),
@@ -159,7 +160,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           padding: EdgeInsets.only(top: 2),
           child: Icon(Icons.check_circle_outline, size: 18),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: HalenSpace.x2),
         Expanded(child: Text(text)),
       ],
     );

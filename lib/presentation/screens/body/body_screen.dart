@@ -14,6 +14,7 @@ import '../../widgets/body_map_view.dart';
 import '../../widgets/organ_shapes.dart';
 import '../../widgets/charts/halen_line_chart.dart';
 import '../../widgets/lung_view.dart';
+import '../../../core/design/tokens.dart';
 
 /// The body screen: lungs (module report §6), the organ map (§7) and what is
 /// actually in the smoke (§2).
@@ -81,14 +82,14 @@ class _LungsTab extends ConsumerWidget {
         });
 
     return ListView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(HalenSpace.x5),
       children: [
         LungView(
           celebrate: justReached,
           mist: mistLevel(tarLoadVsBaseline: tarLoad),
           semanticsLabel: '${l10n.lungsMistLabel}: $tarLoad / 100',
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: HalenSpace.x2),
         Center(
           child: Text(
             l10n.lungsNotAScan,
@@ -96,11 +97,11 @@ class _LungsTab extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: HalenSpace.x6),
         Text(l10n.lungsSlowsLine, style: theme.textTheme.titleMedium),
-        const SizedBox(height: 4),
+        const SizedBox(height: HalenSpace.x1),
         Text(l10n.lungsTypicalLabel, style: theme.textTheme.bodySmall),
-        const SizedBox(height: 16),
+        const SizedBox(height: HalenSpace.x4),
         if (scenarios != null && scenarios[LungScenario.keepThisPace] != null)
           Builder(
             builder: (context) {
@@ -146,7 +147,7 @@ class _LungsTab extends ConsumerWidget {
                     semanticsLabel:
                         '${l10n.lungsScenarioQuit} vs ${l10n.lungsScenarioKeep}',
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: HalenSpace.x3),
                   // What the shaded area is worth, in one sentence.
                   Builder(
                     builder: (context) {
@@ -169,7 +170,7 @@ class _LungsTab extends ConsumerWidget {
               );
             },
           ),
-        const SizedBox(height: 16),
+        const SizedBox(height: HalenSpace.x4),
         Text(l10n.moduleModelTag, style: theme.textTheme.labelSmall),
       ],
     );
@@ -217,7 +218,7 @@ class _OrgansTabState extends ConsumerState<_OrgansTab> {
           onSelected: (key) =>
               setState(() => _selected = _selected == key ? null : key),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: HalenSpace.x2),
         Center(
           child: Text(
             selected == null ? l10n.organTapHint : l10n.organNotYou,
@@ -225,7 +226,7 @@ class _OrgansTabState extends ConsumerState<_OrgansTab> {
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: HalenSpace.x4),
 
         // The detail slides in under the figure rather than replacing it, so
         // the body stays in view and the tap reads as an expansion.
@@ -265,7 +266,7 @@ class _OrgansTabState extends ConsumerState<_OrgansTab> {
                 ),
           ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: HalenSpace.x4),
         if (selected == null)
           Text(l10n.organPopulationNote, style: theme.textTheme.bodySmall),
       ],
@@ -296,7 +297,7 @@ class _OrganDetail extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       child: Padding(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -311,7 +312,7 @@ class _OrganDetail extends StatelessWidget {
                   size: const Size(96, 96),
                 ),
                 if (OrganShapes.drawn.contains(organ.key))
-                  const SizedBox(width: 14),
+                  const SizedBox(width: HalenSpace.x4),
                 Expanded(
                   child: Text(
                     organ.name(locale),
@@ -320,21 +321,21 @@ class _OrganDetail extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: HalenSpace.x3),
             if (!impact.isEmpty) ...[
               OrganImpactBar(
                 impact: impact,
                 caption: caption,
                 color: HalenColors.amberCta,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
             ],
             Text(l10n.organHarmTitle, style: theme.textTheme.labelLarge),
-            const SizedBox(height: 4),
+            const SizedBox(height: HalenSpace.x1),
             Text(organ.harm(locale), style: theme.textTheme.bodyMedium),
-            const SizedBox(height: 14),
+            const SizedBox(height: HalenSpace.x4),
             Container(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.all(HalenSpace.x4),
               decoration: BoxDecoration(
                 color: HalenColors.emerald.withValues(alpha: 0.10),
                 borderRadius: BorderRadius.circular(16),
@@ -348,7 +349,7 @@ class _OrganDetail extends StatelessWidget {
                       color: HalenColors.petrol,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: HalenSpace.x1),
                   Text(
                     organ.recovery(locale),
                     style: theme.textTheme.bodyMedium,
@@ -359,22 +360,22 @@ class _OrganDetail extends StatelessWidget {
             // The same recovery line, structured in time — where the
             // literature gives a timeframe worth placing.
             if (organ.recoveryTimeline.isNotEmpty) ...[
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
               Text(l10n.organTimelineTitle, style: theme.textTheme.labelLarge),
-              const SizedBox(height: 2),
+              const SizedBox(height: HalenSpace.x1),
               Text(
                 l10n.organTimelineCaption,
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: HalenSpace.x3),
               OrganRecoveryTimeline(
                 anchors: organ.recoveryTimeline,
                 locale: locale,
               ),
             ],
-            const SizedBox(height: 10),
+            const SizedBox(height: HalenSpace.x3),
             Text(
               '${l10n.moduleSourceLabel}: ${organ.sourceUrl}',
               style: theme.textTheme.labelSmall,
@@ -404,7 +405,7 @@ class _ToxicantsTab extends ConsumerWidget {
         .length;
 
     return ListView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(HalenSpace.x5),
       children: [
         if (todayCount > 0) ...[
           // The library only lands when it is attached to today's own record
@@ -430,7 +431,7 @@ class _ToxicantsTab extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
         ],
         Text(
           l10n.toxicantsSubtitle(
@@ -439,7 +440,7 @@ class _ToxicantsTab extends ConsumerWidget {
           ),
           style: theme.textTheme.titleMedium,
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: HalenSpace.x4),
         // 70 dots: the scale of the carcinogen count, without a wall of text.
         Wrap(
           spacing: 6,
@@ -458,13 +459,13 @@ class _ToxicantsTab extends ConsumerWidget {
               ),
           ],
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: HalenSpace.x5),
         for (final toxicant in toxicants)
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(HalenSpace.x4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -483,7 +484,7 @@ class _ToxicantsTab extends ConsumerWidget {
                           ),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: HalenSpace.x3),
                     Text(
                       l10n.toxicantAnalogyLabel,
                       style: theme.textTheme.labelSmall,
@@ -492,7 +493,7 @@ class _ToxicantsTab extends ConsumerWidget {
                       toxicant.everydayAnalogy(locale),
                       style: theme.textTheme.bodyMedium,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: HalenSpace.x2),
                     Text(
                       l10n.toxicantMechanismLabel,
                       style: theme.textTheme.labelSmall,
@@ -507,7 +508,7 @@ class _ToxicantsTab extends ConsumerWidget {
             ),
           ),
         Text(l10n.toxicantNoDose, style: theme.textTheme.labelSmall),
-        const SizedBox(height: 24),
+        const SizedBox(height: HalenSpace.x6),
       ],
     );
   }

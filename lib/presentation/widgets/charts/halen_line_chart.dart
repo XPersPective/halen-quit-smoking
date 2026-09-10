@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme.dart';
+import '../../../core/design/tokens.dart';
 
 /// One named series on a [HalenLineChart].
 class ChartSeries {
@@ -152,7 +153,7 @@ class HalenLineChart extends StatelessWidget {
         // Rule 1: the sentence comes before the picture.
         Text(meaning, style: theme.textTheme.bodyMedium),
         if (axisCaption != null) ...[
-          const SizedBox(height: 6),
+          const SizedBox(height: HalenSpace.x2),
           Text(
             axisCaption!,
             style: theme.textTheme.labelSmall?.copyWith(
@@ -160,7 +161,7 @@ class HalenLineChart extends StatelessWidget {
             ),
           ),
         ],
-        const SizedBox(height: 12),
+        const SizedBox(height: HalenSpace.x3),
         Semantics(
           label: semanticsLabel,
           image: true,
@@ -280,7 +281,7 @@ class HalenLineChart extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: HalenSpace.x3),
         ChartLegend(series: series),
       ],
     );
@@ -308,7 +309,7 @@ class ChartLegend extends StatelessWidget {
                 size: const Size(16, 3),
                 painter: _SwatchPainter(color: s.color, dashed: s.dashed),
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: HalenSpace.x2),
               // A series name can be a full Turkish phrase, which on a 360 dp
               // phone is wider than the card. Let it wrap instead of
               // overflowing — the legend is what makes the chart readable, so
@@ -384,7 +385,7 @@ class ChartCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -408,10 +409,10 @@ class ChartCard extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: HalenSpace.x3),
             child,
             if (footnote != null) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: HalenSpace.x3),
               Text(
                 footnote!,
                 style: theme.textTheme.labelSmall?.copyWith(

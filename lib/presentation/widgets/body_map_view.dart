@@ -578,7 +578,7 @@ class OrganImpactBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(caption, style: theme.textTheme.labelMedium),
-        const SizedBox(height: 6),
+        const SizedBox(height: HalenSpace.x2),
         TweenAnimationBuilder<double>(
           tween: Tween<double>(begin: 0, end: impact.barFraction),
           duration: reduceMotion
@@ -674,7 +674,7 @@ class OrganRecoveryTimeline extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: HalenSpace.x3),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -686,7 +686,7 @@ class OrganRecoveryTimeline extends StatelessWidget {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            const SizedBox(height: 2),
+                            const SizedBox(height: HalenSpace.x1),
                             Text(anchors[i].label(locale),
                                 style: theme.textTheme.bodySmall),
                           ],

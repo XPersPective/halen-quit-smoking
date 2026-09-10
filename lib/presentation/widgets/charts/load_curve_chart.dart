@@ -6,6 +6,7 @@ import '../../../core/dates.dart';
 import '../../../core/design/typography.dart';
 import '../../../core/theme.dart';
 import '../../../domain/body_load_model.dart';
+import '../../../core/design/tokens.dart';
 
 /// The signature chart of the product (module report §1.④): 24 hours of the
 /// modelled body load as a sawtooth — a steep rise at every cigarette and an
@@ -75,7 +76,7 @@ class LoadCurveChart extends StatelessWidget {
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: HalenSpace.x1),
           SizedBox(
             height: height,
             child: CustomPaint(

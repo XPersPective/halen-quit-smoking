@@ -9,6 +9,7 @@ import '../../domain/craving_risk.dart';
 import '../../domain/entities.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'charts/week_heatmap.dart';
+import '../../core/design/tokens.dart';
 
 /// Craving window card (module report §4.③).
 ///
@@ -52,7 +53,7 @@ class CravingWindowCard extends ConsumerWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -72,18 +73,18 @@ class CravingWindowCard extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: HalenSpace.x1),
 
             // The sentence first — the chart only supports it.
             Text(l10n.cravingFallingNote, style: theme.textTheme.bodyMedium),
             if (lowestThird != null) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: HalenSpace.x2),
               Text(
                 l10n.cravingLowestThird((lowestThird * 100).round()),
                 style: theme.textTheme.titleSmall,
               ),
             ],
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
 
             Row(
               children: [
@@ -101,7 +102,7 @@ class CravingWindowCard extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: HalenSpace.x3),
                 if (windows.isNotEmpty)
                   Expanded(
                     child: Text(
@@ -112,7 +113,7 @@ class CravingWindowCard extends ConsumerWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: HalenSpace.x4),
 
             // A risk number on its own is a warning; the report's rule is
             // that it must open a door instead. The suggestion is the
@@ -120,7 +121,7 @@ class CravingWindowCard extends ConsumerWidget {
             // to the best-supported one.
             if (windows.isNotEmpty) ...[
               Container(
-                padding: const EdgeInsets.all(14),
+                padding: const EdgeInsets.all(HalenSpace.x4),
                 decoration: BoxDecoration(
                   color: HalenColors.emerald.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(16),
@@ -134,7 +135,7 @@ class CravingWindowCard extends ConsumerWidget {
                         color: HalenColors.petrol,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: HalenSpace.x1),
                     Text(
                       l10n.cravingSuggestionAt(
                         '${windows.first.startHour}:00',
@@ -142,7 +143,7 @@ class CravingWindowCard extends ConsumerWidget {
                       ),
                       style: theme.textTheme.bodyMedium,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: HalenSpace.x2),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: FilledButton.tonal(
@@ -154,14 +155,14 @@ class CravingWindowCard extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: HalenSpace.x4),
             ],
 
             Text(l10n.cravingHeatmapTitle, style: theme.textTheme.labelLarge),
-            const SizedBox(height: 8),
+            const SizedBox(height: HalenSpace.x2),
             if (!hasEnough)
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: HalenSpace.x4),
                 child: Text(
                   l10n.moduleNeedMoreData,
                   style: theme.textTheme.bodyMedium,
@@ -177,7 +178,7 @@ class CravingWindowCard extends ConsumerWidget {
                     : '${l10n.cravingRiskyHours}: '
                         '${windows.map((w) => l10n.cravingWindowRange(w.startHour, w.endHour)).join(', ')}',
               ),
-            const SizedBox(height: 12),
+            const SizedBox(height: HalenSpace.x3),
             Text(l10n.moduleModelTag, style: theme.textTheme.labelSmall),
           ],
         ),

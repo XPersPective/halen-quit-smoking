@@ -4,6 +4,7 @@ import 'package:halen/application/article_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/data/repositories/article_repository.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 class ArticleReaderScreen extends ConsumerWidget {
   const ArticleReaderScreen({
@@ -70,18 +71,18 @@ class ArticleReaderScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: HalenSpace.x2),
                 Text(
                   '•',
                   style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: HalenSpace.x2),
                 Icon(
                   Icons.schedule_rounded,
                   size: 14,
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: HalenSpace.x1),
                 Text(
                   l10n.articleReadTime(article.readMinutes),
                   style: theme.textTheme.labelSmall?.copyWith(
@@ -90,7 +91,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: HalenSpace.x4),
 
             // Title & Subtitle
             Text(
@@ -100,7 +101,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                 height: 1.25,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: HalenSpace.x3),
             Text(
               article.subtitle,
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -110,11 +111,11 @@ class ArticleReaderScreen extends ConsumerWidget {
                 height: 1.4,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: HalenSpace.x6),
 
             // Key Takeaways Highlight Box
             Container(
-              padding: const EdgeInsets.all(18),
+              padding: const EdgeInsets.all(HalenSpace.x5),
               decoration: BoxDecoration(
                 color: HalenColors.emerald.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(18),
@@ -132,7 +133,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                         color: HalenColors.emerald,
                         size: 20,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: HalenSpace.x2),
                       Text(
                         l10n.articleKeyTakeaways,
                         style: theme.textTheme.titleSmall?.copyWith(
@@ -142,7 +143,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: HalenSpace.x3),
                   for (final takeaway in article.keyTakeaways)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
@@ -157,7 +158,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                               color: HalenColors.emerald,
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: HalenSpace.x2),
                           Expanded(
                             child: Text(
                               takeaway,
@@ -173,7 +174,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: HalenSpace.x6),
 
             // Content Sections
             for (final sec in article.sections) ...[
@@ -183,7 +184,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: HalenSpace.x2),
               Text(
                 sec.content,
                 style: theme.textTheme.bodyMedium?.copyWith(
@@ -191,14 +192,14 @@ class ArticleReaderScreen extends ConsumerWidget {
                   color: isDark ? HalenColors.textDark : HalenColors.textLight,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: HalenSpace.x5),
             ],
 
             const Divider(height: 32),
 
             // Scientific Source Citation
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(HalenSpace.x4),
               decoration: BoxDecoration(
                 color: isDark
                     ? HalenColors.surfaceElevatedDark
@@ -213,7 +214,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                     color: HalenColors.emerald,
                     size: 20,
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: HalenSpace.x3),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,7 +226,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: HalenSpace.x1),
                         Text(
                           article.sourceName,
                           style: theme.textTheme.bodySmall?.copyWith(
@@ -238,7 +239,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: HalenSpace.x8),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:halen/application/interval_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
+import '../../../core/design/tokens.dart';
 
 class TriggerBreakdownCard extends StatelessWidget {
   const TriggerBreakdownCard({super.key, required this.triggers});
@@ -56,14 +57,14 @@ class TriggerBreakdownCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(HalenSpace.x3),
                   decoration: BoxDecoration(
                     color: HalenColors.amberCta.withValues(alpha: 0.14),
                     borderRadius: BorderRadius.circular(14),
@@ -74,13 +75,13 @@ class TriggerBreakdownCard extends StatelessWidget {
                     size: 20,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: HalenSpace.x3),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(l10n.triggerTitle, style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: HalenSpace.x1),
                       Text(
                         l10n.triggerSubtitle,
                         style: theme.textTheme.bodySmall,
@@ -90,12 +91,12 @@ class TriggerBreakdownCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: HalenSpace.x5),
 
             if (triggers.isEmpty) ...[
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  padding: const EdgeInsets.symmetric(vertical: HalenSpace.x6),
                   child: Text(
                     l10n.chartTriggerEmpty,
                     textAlign: TextAlign.center,
@@ -118,7 +119,7 @@ class TriggerBreakdownCard extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              padding: const EdgeInsets.all(7),
+                              padding: const EdgeInsets.all(HalenSpace.x2),
                               decoration: BoxDecoration(
                                 color: color.withValues(alpha: 0.13),
                                 borderRadius: BorderRadius.circular(10),
@@ -129,7 +130,7 @@ class TriggerBreakdownCard extends StatelessWidget {
                                 color: color,
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: HalenSpace.x3),
                             Expanded(
                               child: Text(
                                 _triggerTitle(t.triggerKey, l10n),
@@ -138,7 +139,7 @@ class TriggerBreakdownCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: HalenSpace.x2),
                             Flexible(
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
@@ -150,7 +151,7 @@ class TriggerBreakdownCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: HalenSpace.x2),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: LinearProgressIndicator(

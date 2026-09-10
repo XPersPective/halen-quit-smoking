@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/design/tokens.dart';
 
 /// A single-select card used across onboarding and settings.
 /// Minimum 48 dp height for comfortable touch targets (report §14).
@@ -34,7 +35,7 @@ class ChoiceCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
               children: [
-                if (leading != null) ...[leading!, const SizedBox(width: 12)],
+                if (leading != null) ...[leading!, const SizedBox(width: HalenSpace.x3)],
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +46,7 @@ class ChoiceCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: HalenSpace.x3),
                 Icon(
                   selected ? Icons.check_circle_rounded : Icons.circle_outlined,
                   color: selected

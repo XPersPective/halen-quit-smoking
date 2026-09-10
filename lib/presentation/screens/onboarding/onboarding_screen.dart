@@ -100,7 +100,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       Expanded(
                         child: Container(
                           height: 4,
-                          margin: const EdgeInsets.symmetric(horizontal: 3),
+                          margin: const EdgeInsets.symmetric(horizontal: HalenSpace.x1),
                           decoration: BoxDecoration(
                             color: i <= _step
                                 ? Theme.of(context).colorScheme.primary
@@ -130,7 +130,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(HalenSpace.x4),
               child: Row(
                 children: [
                   Expanded(
@@ -139,7 +139,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       child: Text(l10n.commonBack),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: HalenSpace.x4),
                   Expanded(
                     flex: 2,
                     child: FilledButton(
@@ -178,16 +178,16 @@ class _StepScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(HalenSpace.x6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(title, style: theme.textTheme.headlineSmall),
           if (hint != null) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: HalenSpace.x2),
             Text(hint!, style: theme.textTheme.bodySmall),
           ],
-          const SizedBox(height: 24),
+          const SizedBox(height: HalenSpace.x6),
           child,
         ],
       ),
@@ -248,7 +248,7 @@ class _DailyCountStep extends ConsumerWidget {
             '${answers.baselineCpd}',
             style: Theme.of(context).textTheme.displayMedium,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
           Slider(
             value: answers.baselineCpd.toDouble(),
             min: 1,
@@ -346,7 +346,7 @@ class _PriceStepState extends ConsumerState<_PriceStep> {
               double.tryParse(v.replaceAll(',', '.')) ?? 0,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: HalenSpace.x4),
           TextField(
             controller: _packSizeController,
             keyboardType: TextInputType.number,
@@ -419,14 +419,14 @@ class _GoalStep extends ConsumerWidget {
             selected: answers.targetMode == TargetMode.reduce,
             onTap: () => controller.setTargetMode(TargetMode.reduce),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: HalenSpace.x2),
           ChoiceCard(
             title: l10n.obGoalQuitNow,
             subtitle: l10n.obGoalQuitNowHint,
             selected: answers.targetMode == TargetMode.quitNow,
             onTap: () => controller.setTargetMode(TargetMode.quitNow),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: HalenSpace.x2),
           ChoiceCard(
             title: l10n.obGoalUndecided,
             subtitle: l10n.obGoalUndecidedHint,
@@ -514,19 +514,19 @@ class _BrandStepState extends ConsumerState<_BrandStep> {
             ),
             onChanged: (v) => controller.setBrandName(v.isEmpty ? null : v),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: HalenSpace.x6),
           // Final medical disclaimer (report §13/§39) — shown at the end of
           // onboarding, before the plan is created.
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(HalenSpace.x4),
               child: Text(
                 l10n.obFinalDisclaimer,
                 style: theme.textTheme.bodySmall,
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: HalenSpace.x2),
           Text(l10n.obDataNote, style: theme.textTheme.bodySmall),
         ],
       ),

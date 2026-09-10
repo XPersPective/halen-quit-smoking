@@ -13,6 +13,7 @@ import '../../core/theme.dart';
 import '../../domain/entities.dart';
 import '../../domain/evidence.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../core/design/tokens.dart';
 
 /// Today's card from the content engine (module report §11).
 ///
@@ -44,7 +45,7 @@ class DailyCardTile extends ConsumerWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(HalenSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -69,14 +70,14 @@ class DailyCardTile extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: HalenSpace.x3),
             Text(card.title(locale), style: theme.textTheme.titleMedium),
-            const SizedBox(height: 6),
+            const SizedBox(height: HalenSpace.x2),
             Text(card.body(locale), style: theme.textTheme.bodyMedium),
             if (card.action != null) ...[
-              const SizedBox(height: 14),
+              const SizedBox(height: HalenSpace.x4),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(HalenSpace.x3),
                 decoration: BoxDecoration(
                   color: HalenColors.emerald.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(14),
@@ -90,7 +91,7 @@ class DailyCardTile extends ConsumerWidget {
                         color: HalenColors.petrol,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: HalenSpace.x1),
                     Text(
                       card.action!(locale),
                       style: theme.textTheme.bodyMedium,
@@ -99,15 +100,15 @@ class DailyCardTile extends ConsumerWidget {
                 ),
               ),
             ],
-            const SizedBox(height: 12),
+            const SizedBox(height: HalenSpace.x3),
             const _MotivationLine(),
-            const SizedBox(height: 10),
+            const SizedBox(height: HalenSpace.x3),
             InkWell(
               onTap: () => Navigator.of(context).pushNamed(Routes.sources),
               child: Row(
                 children: [
                   const Icon(Icons.link_rounded, size: 14),
-                  const SizedBox(width: 6),
+                  const SizedBox(width: HalenSpace.x2),
                   Expanded(
                     child: Text(
                       '${l10n.moduleSourceLabel}: ${card.sourceLabel}',
@@ -179,7 +180,7 @@ class _MotivationLine extends ConsumerWidget {
     return Row(
       children: [
         const Icon(Icons.auto_awesome_rounded, size: 14),
-        const SizedBox(width: 6),
+        const SizedBox(width: HalenSpace.x2),
         Expanded(child: Text(line, style: theme.textTheme.labelLarge)),
       ],
     );
