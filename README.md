@@ -163,6 +163,36 @@ Define olmadan aynı dosya bir duman testidir: her ekran hata fırlatmadan
 çizilmek zorundadır. `screenshots/` kökündeki eski 17 ekranlık tur, fare
 betiğiyle alınmış masaüstü pencereleridir ve modül öncesi sürümü gösterir.
 
+## Yayına hazırlık
+
+**İkon ve açılış ekranı.** Her iki platformun ikonu `tool/make_icon.py` ile
+uygulamanın kendi gösterge yayından üretiliyor (Android adaptive + monokrom,
+iOS'un asset kataloğundaki her slot, 1024'lük mağaza görseli). iOS ikonları
+alfa kanalsız ve köşesiz yazılır — iOS kendi maskesini uygular, kendi kendini
+yuvarlayan bir ikon iki kez yuvarlanır.
+
+**İmzalama.** `android/key.properties` varsa release derlemesi yükleme
+anahtarıyla imzalanır; yoksa debug anahtarına düşer, böylece temiz bir klonda
+`flutter build apk --release` çalışmaya devam eder. Debug imzalı APK test için
+kurulur ama Play tarafından reddedilir — doğru hata modu bu: kazara
+yayımlanamaz.
+
+```bash
+keytool -genkey -v -keystore ~/halen-upload.jks -keyalg RSA         -keysize 2048 -validity 10000 -alias halen
+```
+
+Sonra `android/key.properties` (git'e girmez):
+
+```properties
+storeFile=/mutlak/yol/halen-upload.jks
+storePassword=...
+keyAlias=halen
+keyPassword=...
+```
+
+Bu keystore kaybolursa uygulamayı Play'de **güncelleme yeteneği kaybolur**;
+yeri parola yöneticisidir, bu depo değil.
+
 ## Testler
 
 `flutter test` — 259 test: plan motoru, nikotin modeli, tasarruf, tetikleyici

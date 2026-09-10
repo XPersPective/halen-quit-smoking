@@ -116,9 +116,16 @@ app.*.symbols
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
-!/dev/ci/**/Gemfile.lockHalen-v1.0.0-release.apk
+!/dev/ci/**/Gemfile.lock
+
+# A stray release APK from an early build.
+Halen-v1.0.0-release.apk
 
 # Built APKs. Kept out of git deliberately: an 80 MB binary per build turns a
 # source repository into an artefact store, and the CI/store pipeline is where
 # release binaries belong.
 /dist/
+
+# Upload-key credentials beyond the entries above. Whoever holds these can
+# ship updates as us.
+*.keystore

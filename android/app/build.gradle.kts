@@ -1,8 +1,36 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// Upload-key credentials, read from android/key.properties, which is
+// gitignored and never committed. The file is absent on a fresh clone and on
+// CI, and the build below falls back to debug signing so `flutter build apk`
+// keeps working for anyone who just wants to run the thing.
+//
+// To produce a store-signable build, create the keystore once:
+//
+//   keytool -genkey -v -keystore ~/halen-upload.jks -keyalg RSA //           -keysize 2048 -validity 10000 -alias halen
+//
+// then write android/key.properties:
+//
+//   storeFile=/absolute/path/to/halen-upload.jks
+//   storePassword=...
+//   keyAlias=halen
+//   keyPassword=...
+//
+// Losing that keystore means losing the ability to update the app on Play,
+// so it belongs in a password manager, not in this repository.
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("key.properties")
+    if (file.exists()) {
+        file.inputStream().use { load(it) }
+    }
+}
+val hasUploadKey = keystoreProperties.getProperty("storeFile") != null
 
 android {
     namespace = "com.halenquitsmoking.app"
@@ -29,11 +57,29 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (hasUploadKey) {
+            create("upload") {
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // Signed with debug keys so `flutter build apk --release` works locally;
-            // replace with the upload keystore before publishing to Play.
-            signingConfig = signingConfigs.getByName("debug")
+            // The upload key when it is configured; debug keys otherwise, so
+            // `flutter build apk --release` still works on a fresh clone. A
+            // debug-signed APK installs fine for testing and is refused by
+            // Play, which is the correct failure: it cannot be published by
+            // accident.
+            signingConfig = if (hasUploadKey) {
+                signingConfigs.getByName("upload")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }

@@ -5,16 +5,25 @@ The app shipped with Flutter's default blue logo, which is the single most
 visible "unfinished" signal a product can have: it is what somebody sees on
 their home screen before they open anything.
 
-The mark is the one the splash already uses — concentric rings, a breath
-rather than a cigarette — on the product's petrol green. Deliberately not a
-crossed-out cigarette: the app's whole tone is about what someone is moving
-towards, and a home-screen icon that shouts SMOKING at every glance is both
-off-tone and something people do not want on a shared phone.
+The mark is the gauge arc the app draws on its own scores, on the product's
+petrol green. Deliberately not a crossed-out cigarette: the app's whole tone
+is about what someone is moving towards, and a home-screen icon that shouts
+SMOKING at every glance is both off-tone and something people do not want on
+a shared phone.
 
-Adaptive icons need the mark inside the safe zone (the outer ~28% of an
-adaptive icon can be masked away by the launcher), so the foreground layer is
-drawn at 60% of the canvas.
+Platform rules that shape the output:
+
+  * **Android adaptive** — the outer ~28% of the canvas can be masked away by
+    the launcher, so the foreground layer draws the mark at 42% of 108dp to
+    stay inside the safe zone. A monochrome layer is included, or Android 13+
+    themed icons fall back to a flat colour blob.
+  * **iOS** — icons must be fully opaque with square corners and no alpha;
+    iOS applies its own mask, and an icon that pre-rounds itself gets rounded
+    twice. Sizes come from the asset catalogue itself rather than a list here,
+    so adding an idiom in Xcode cannot silently leave a slot unfilled.
 """
+
+import json
 import io
 import os
 
@@ -116,6 +125,34 @@ def write(path, image):
     return path
 
 
+IOS_SET = 'ios/Runner/Assets.xcassets/AppIcon.appiconset'
+
+
+def write_ios(written):
+    """Fills every slot the asset catalogue declares.
+
+    iOS rejects alpha in app icons outright at submission, so these are drawn
+    on an opaque ground with square corners and flattened to RGB.
+    """
+    manifest = os.path.join(IOS_SET, 'Contents.json')
+    if not os.path.isfile(manifest):
+        return
+    catalogue = json.load(io.open(manifest, encoding='utf-8'))
+    done = set()
+    for entry in catalogue.get('images', []):
+        filename = entry.get('filename')
+        if not filename or filename in done:
+            continue
+        done.add(filename)
+        base = float(entry['size'].split('x')[0])
+        scale = int(entry.get('scale', '1x').rstrip('x'))
+        size = int(round(base * scale))
+        icon = Image.new('RGBA', (size, size), PETROL)
+        icon.alpha_composite(draw_mark(size, 0.62))
+        written.append(
+            write(os.path.join(IOS_SET, filename), icon.convert('RGB')))
+
+
 def main():
     written = []
 
@@ -146,6 +183,8 @@ def main():
         written.append(
             write(os.path.join(RES, folder, 'ic_launcher_monochrome.png'),
                   mono))
+
+    write_ios(written)
 
     # A 1024 store icon, flat (no rounding: the stores apply their own).
     store = Image.new('RGBA', (1024, 1024), PETROL_DEEP)
