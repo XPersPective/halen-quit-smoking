@@ -10,6 +10,7 @@ import '../../domain/body_load_model.dart';
 import '../../domain/entities.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'charts/load_band_chart.dart';
+import 'design/halen_components.dart';
 import 'charts/load_curve_chart.dart';
 import '../../core/design/tokens.dart';
 
@@ -98,12 +99,9 @@ class _BodyLoadCardState extends ConsumerState<BodyLoadCard> {
             ),
             const SizedBox(height: HalenSpace.x1),
             if (!hasData)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: HalenSpace.x6),
-                child: Text(
-                  l10n.bodyLoadEmpty,
-                  style: theme.textTheme.bodyMedium,
-                ),
+              HalenEmptyState(
+                icon: Icons.timeline_rounded,
+                message: l10n.bodyLoadEmpty,
               )
             else ...[
               // The one sentence that answers the user's actual question.

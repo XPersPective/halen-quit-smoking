@@ -58,7 +58,8 @@ Tools • Dart 3.13.2 • DevTools 2.60.0
 edilebilir) → `data` (drift DAO'ları, repository'ler, purchase/notification/
 widget servisleri). DB reaktifliği drift `watch()` → Riverpod StreamProvider.
 
-- **Veri:** 18 tablo (ana rapor §25 + modül raporu §16b), şema v4, `halen.db`,
+- **Veri:** 21 tablo (ana rapor §25 + modül raporu §16b + bırakma denemesi),
+  şema v5, `halen.db`,
   SQLCipher şifreli; anahtar
   Android Keystore / iOS Keychain'de. iOS'ta DB klasörü
   `isExcludedFromBackup`; Android'de `dataExtractionRules` ile cloud-backup
@@ -111,26 +112,69 @@ widget servisleri). DB reaktifliği drift `watch()` → Riverpod StreamProvider.
   her cold start'ta mağaza doğrulaması; pending hak vermez; iade/revocation
   hakkı düşürür. İlk açılışta kartsız 7 gün premium deneme.
 
+## Tasarım sistemi
+
+[`HALEN-PREMIUM-BRIEF.md`](HALEN-PREMIUM-BRIEF.md) yönergesine göre kuruldu:
+
+- **Token'lar** — `lib/core/design/tokens.dart`: boşluk ölçeği (4/8/12/16/20/
+  24/32/48), üç köşe yarıçapı, gölge reçeteleri, dört hareket süresi. Ekran
+  dosyalarında elle yazılmış boşluk sabiti bırakılmadı (`tool/snap_spacing.py`
+  ile 445 sabit ölçeğe oturtuldu).
+- **Semantik renk rolleri** — `DataRole`: her rengin tek bir anlamı var
+  (ilerleme / nikotin / oksijen borcu / zemin / partikül / para / zaman /
+  uyarı). **Sağlık verisinde kırmızı kullanılmaz.**
+- **Tipografi** — Inter (değişken asıl, SIL OFL 1.1, `assets/fonts/`). Tek
+  dosya dört ağırlık altında bildirilir ki motor sahte kalın üretmesin.
+  Sayılar tabular rakamlarla çizilir (`.asNumber`): saniyede güncellenen bir
+  sayaç yana kaymaz.
+- **Tek saat** — `BodyClock` + `BodyPulse`: nefes alan her şey aynı saatten
+  fazını alır. Tembel: ekranda nabız yoksa tik atmaz (sürekli çalışan bir
+  ticker `pumpAndSettle`'ı kilitler).
+- **Bileşenler** — `HalenCard`, `HalenSectionHeader`, `HalenStat`,
+  `HalenEmptyState`, `HalenPill`.
+
+## Bırakma programı (klinik iskelet)
+
+- **İlaçlar** — 8 madde (5 NRT formu, kombinasyon, vareniklin, bupropion):
+  nasıl çalışır, nasıl kullanılır, en sık yapılan hata, ve yayımlanmış etki
+  büyüklüğü **karşılaştırıldığı şeyle birlikte**. Marka yok, doz yok, öneri
+  yok; her madde eczacı/hekim yönlendirmesiyle biter.
+- **Bırakma tarihi** — azaltma bir güne nişan aldığında işe yarar. Tarih
+  taşınabilir (sayılır, azarlanmaz); "üç günden az" ve "altı haftadan uzak"
+  notları yalnızca geçerliyken çıkar.
+- **Kayma / nüks** — bir sigara kaymadır, denemenin sonu değil. Üç adlandırılmış
+  durum, her biri somut bir hamleyle biter; kümelenme ve nüks ilaç önerir.
+- **Nüks önleme planı** — kullanıcının kendi tetikleyicilerinden tohumlanır.
+- **Destek kişisi** (yalnızca ad; rehber hiç okunmaz), **"tek nefes bile yok"
+  kuralı**, **PHQ-2 ruh hâli taraması** (doğrulanmış eşik + yönlendirme, tanı
+  değil), **yardım hatları kriz ekranında**.
+
 ## Ekran görüntüleri
 
-`screenshots/` — Windows önizlemesinden fare betiğiyle (`capture.ps1`) alınan
-17 ekranlık tur. `screenshots/module/` — modül ekranlarının **başsız** (widget
-ağacından, masaüstü oturumu gerektirmeden) üretilen görüntüleri; yenilemek
+`screenshots/module/` — ekranların **başsız** (widget ağacından, masaüstü
+oturumu gerektirmeden) üretilen görüntüleri; karanlık tema dahil. Yenilemek
 için:
 
 ```bash
-flutter test test/widget/design_capture_test.dart --update-goldens --dart-define=CAPTURE_DESIGN=true --dart-define=DESIGN_FONT=<sdk>/bin/cache/artifacts/material_fonts/roboto-regular.ttf
+flutter test test/widget/design_capture_test.dart --update-goldens --dart-define=CAPTURE_DESIGN=true
 ```
 
-Define'lar olmadan aynı dosya bir duman testidir: her ekran hata fırlatmadan
-çizilmek zorundadır.
+Define olmadan aynı dosya bir duman testidir: her ekran hata fırlatmadan
+çizilmek zorundadır. `screenshots/` kökündeki eski 17 ekranlık tur, fare
+betiğiyle alınmış masaüstü pencereleridir ve modül öncesi sürümü gösterir.
 
 ## Testler
 
-`flutter test` — plan motoru, nikotin modeli, tasarruf, tetikleyici
+`flutter test` — 259 test: plan motoru, nikotin modeli, tasarruf, tetikleyici
 istatistiği (n≥10 sessizlik), streak, health timeline aritmetiği, entitlement
-mantığı, veri katmanı (13 tablo, backup round-trip) ve widget testleri
-(onboarding, kayıt akışı, paywall görünürlüğü, SOS, timeline).
+mantığı, bırakma denemesi (tarih penceresi, kayma/nüks sınıflaması, PHQ-2,
+ilaç kanıt tablosu, kilometre taşı geçişleri), veri katmanı (backup
+round-trip) ve widget testleri (onboarding, kayıt akışı, paywall
+görünürlüğü, SOS, timeline, bırakma planı, ilaçlar).
+
+Her push'ta GitHub Actions `flutter analyze --fatal-infos`, testler ve
+**üretilmiş kodun güncelliği** (build_runner + gen-l10n sonrası `git diff`
+boş olmalı) koşar.
 `test/forbidden_strings_test.dart` yasak iddia ifadelerini ("tedavi eder",
 "garanti", "detoks", "kanındaki gerçek", "ölçüldü" ve EN/DE eşdeğerlerini)
 kaynak ve ARB dosyalarında engeller.

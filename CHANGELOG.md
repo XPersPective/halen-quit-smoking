@@ -145,13 +145,55 @@ ağırlıklarını ve sınırlarını uygulama içinde yayımlar.
   üreme sistemi, cilt. Gözler ve bağışıklık metin bazında kalır — süre çıkarmak
   dürüst olmazdı.
 
+### Premium yeniden tasarımı
+
+Kaynak: [`HALEN-PREMIUM-BRIEF.md`](HALEN-PREMIUM-BRIEF.md) ·
+plan: [`HALEN-PREMIUM-PLAN.md`](HALEN-PREMIUM-PLAN.md) ·
+geri dönüş noktası: `v1.1.0-modules`
+
+**Tasarım sistemi.** Token katmanı (boşluk/köşe/gölge/hareket), semantik renk
+rolleri (`DataRole` — her rengin tek anlamı), Inter yazı tipi (değişken asıl,
+SIL OFL) ve tabular rakamlar, tek paylaşılan animasyon saati, beş bileşenlik
+kütüphane. 445 boşluk sabiti ölçeğe oturtuldu.
+
+**İlk 60 saniye.** Onboarding artık boş bir ekrana değil, kendi verinden
+üretilmiş bir sonuç ekranına çıkıyor: yılda paket, yılda para, yılda zaman,
+bağımlılık düzeyin (zaten hesaplanıyordu, hiç gösterilmiyordu) ve ilk 72
+saatin ne olacağı. Yeni bir adım "neden bırakıyorsun?" diye soruyor; cevap
+bırakma gününde geri gösteriliyor.
+
+**Klinik iskelet.** Uygulamanın en büyük eksiği kapandı:
+- **İlaç rehberi** — NRT bırakma oranını yaklaşık 1,5 kat, vareniklin 2,2 kat
+  artırıyor ve uygulama bunu hiç anmıyordu. 8 madde; her birinde etki
+  büyüklüğü *karşılaştırıldığı şeyle birlikte*. Marka, doz ve öneri yok.
+- **Bırakma tarihi** protokolü, geri sayımı ve bırakma günü ekranı.
+- **Kayma / nüks ayrımı** — bir sigara kaymadır; kümelenme ve nüks ilaç
+  öneriyor, çünkü en çok orada yardım ediyor.
+- Nüks önleme planı, destek kişisi, "tek nefes bile yok" kuralı, PHQ-2 ruh
+  hâli taraması, kriz ekranında yardım hatları. Şema v5 (eklemeli).
+
+**Tek akışta grafikler.** `Durum` ekranı: altı sayfa, kaydırmalı, her
+sayfada tek metrik + tek büyük sayı + tek grafik + tek cümle.
+
+**Bağlılık.** Kilometre taşı kutlaması (konfeti yok: tek halka, tek sayı,
+tek cümle; gösterilmeden önce kaydediliyor, asla tekrarlamıyor), üç kademeli
+haptik dili — sigara kaydı uygulamadaki en hafif dokunuş, çünkü ağır bir
+titreşim orada başka yoldan azarlamaktır.
+
+**Karanlık tema** ilk kez gözle doğrulandı ve iki kural ihlali yakalandı:
+zarar skalasının son bandı mercandı (sağlık verisinde kırmızı yasak) ve
+ilerleme grafiğinin ekseni numaralıydı ama birimi yazmıyordu.
+
+**CI** eklendi: her push'ta analyze --fatal-infos, testler ve üretilmiş kodun
+güncelliği.
+
 ### Teknik
 - Şema v2 → v4 (modül tabloları, taper işaretçisi, riskli saat tercihi);
   tüm geçişler eklemeli, mevcut kullanıcı verisine dokunulmaz.
 - Grafik lejantı 360 dp'lik bir telefonda Türkçe seri adıyla taşıyordu;
   başlıksız kalmaktansa alt satıra iniyor (ekran görüntüsü testinin
   yakaladığı gerçek bir hata).
-- 202 test: alan modeli altın-değerleri, içerik yapısal kuralları (her organ
+- 259 test: alan modeli altın-değerleri, içerik yapısal kuralları (her organ
   kartının iyileşme metni, her tekniğin kanıt notu, korku kartının eylem
   satırı), etik lint'e eklenen S5 iddia kalıpları ve "her göstergenin
   formülü yayımlanmış olmalı" kabul testi.

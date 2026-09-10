@@ -35,6 +35,15 @@ Halen is a private, on-device quit-smoking companion:
   twenty minutes ahead (off by default).
 • HEALTH TIMELINE — WHO-based milestones, from 20 minutes to 15 years, plus
   a body map where every harm card ships a recovery card.
+• MEDICINES THAT WORK — the thing most quit apps leave out. What nicotine
+  replacement, varenicline and bupropion actually do, how they are used, the
+  mistake that wastes them, and their published effect sizes. No brands, no
+  doses, no sales — just what to ask a pharmacist.
+• A DATE, AND A PLAN FOR IT — set a quit date, count down to it, and get the
+  first day hour by hour. A plan for your own high-risk moments, written
+  before you are in one.
+• ONE SLIP IS NOT THE END — Halen names what happened and tells you the next
+  move. No blame, but no silence either.
 • CRAVING SOS — one toolkit, every technique graded by evidence: a
   five-minute walk and paced breathing (strong), delay and water
   (promising), ear acupressure (traditional, needle-free, and we say plainly
@@ -87,6 +96,15 @@ Halen tamamen cihazında çalışan, özel bir sigara bırakma yardımcısı:
   haber verir (varsayılan kapalı).
 • SAĞLIK ZAMAN ÇİZELGESİ — WHO kaynaklı dönüm noktaları (20 dakikadan 15
   yıla) ve her zarar kartının yanında iyileşme kartı olan organ haritası.
+• İŞE YARAYAN İLAÇLAR — çoğu bırakma uygulamasının atladığı şey. Nikotin
+  replasmanı, vareniklin ve bupropion gerçekte ne yapar, nasıl kullanılır, en
+  sık hangi hata boşa harcar ve yayımlanmış etki büyüklükleri nedir. Marka
+  yok, doz yok, satış yok — eczacına ne soracağın var.
+• BİR TARİH VE ONA GÖRE PLAN — bırakma tarihi belirle, geri sayımını gör,
+  ilk günü saat saat al. Kendi zor anların için, içine düşmeden önce
+  yazılmış bir plan.
+• BİR KAYMA SONUN DEĞİL — Halen ne olduğunu adlandırır ve bir sonraki hamleyi
+  söyler. Suçlama yok, ama sessizlik de yok.
 • İSTEK SOS — tek araç seti, her tekniğin kanıt derecesiyle: 5 dakikalık
   yürüyüş ve tempolu nefes (güçlü), erteleme ve su (umut verici), kulak
   akupresürü (geleneksel, iğnesiz — ve uzun vadeli kanıtının olmadığını
@@ -138,6 +156,14 @@ Halen ist ein privater Begleiter, komplett auf deinem Gerät:
   vorher (standardmäßig aus).
 • GESUNDHEITS-ZEITSTRAHL — WHO-basierte Meilensteine von 20 Minuten bis
   15 Jahre, dazu eine Körperkarte, auf der zu jedem Schaden die Erholung steht.
+• MEDIKAMENTE, DIE WIRKEN — das, was die meisten Apps weglassen. Was
+  Nikotinersatz, Vareniclin und Bupropion tatsächlich tun, wie sie angewendet
+  werden, welcher Fehler sie verschenkt, und ihre publizierten Effektstärken.
+  Keine Marken, keine Dosierungen, kein Verkauf.
+• EIN DATUM UND EIN PLAN DAFÜR — Rauchstopp-Datum setzen, herunterzählen,
+  den ersten Tag Stunde für Stunde. Ein Plan für deine eigenen Risikomomente.
+• EIN AUSRUTSCHER IST NICHT DAS ENDE — Halen benennt, was passiert ist, und
+  nennt den nächsten Schritt. Kein Vorwurf, aber auch kein Schweigen.
 • CRAVING-SOS — ein Werkzeugkasten, jede Technik mit Evidenzgrad: fünf
   Minuten gehen und langsames Atmen (stark), warten und Wasser
   (vielversprechend), Ohr-Akupressur (traditionell, ohne Nadeln — und wir
