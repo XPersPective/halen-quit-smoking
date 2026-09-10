@@ -151,8 +151,9 @@ widget servisleri). DB reaktifliği drift `watch()` → Riverpod StreamProvider.
 
 ## Ekran görüntüleri
 
-`screenshots/module/` — ekranların **başsız** (widget ağacından, masaüstü
-oturumu gerektirmeden) üretilen görüntüleri; karanlık tema dahil. Yenilemek
+`screenshots/` — çekirdek ekranlar (01–08), `screenshots/module/` — modül ve
+klinik ekranlar, karanlık tema dahil. Hepsi **başsız** üretilir: widget
+ağacından, masaüstü oturumu gerektirmeden, bir telefon yüzeyinde. Yenilemek
 için:
 
 ```bash
@@ -160,8 +161,13 @@ flutter test test/widget/design_capture_test.dart --update-goldens --dart-define
 ```
 
 Define olmadan aynı dosya bir duman testidir: her ekran hata fırlatmadan
-çizilmek zorundadır. `screenshots/` kökündeki eski 17 ekranlık tur, fare
-betiğiyle alınmış masaüstü pencereleridir ve modül öncesi sürümü gösterir.
+çizilmek zorundadır — bu tek başına değerli, çünkü bir ekranın çizilirken
+patlaması testlerin geri kalanından kaçabiliyor.
+
+Önceki 17 ekranlık masaüstü turu silindi: fare betiğiyle tek bir Windows
+makinesinde alınmıştı, 1600×900 pencere çerçevesi içeriyordu ve modül
+öncesi bir uygulamayı gösteriyordu. Yanıltıcı bir görsel, eksik bir
+görselden kötüdür.
 
 ## Yayına hazırlık
 

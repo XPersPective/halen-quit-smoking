@@ -19,11 +19,24 @@ import 'db/app_database.dart';
 ///    store/product/token/state/lastVerifiedAt and is refreshed from the
 ///    store, so reinstall/redevice restores and refunds demote correctly.
 class PurchaseService {
-  PurchaseService(this.db, {InAppPurchase? iap})
-      : _iap = iap ?? InAppPurchase.instance;
+  PurchaseService(this.db, {InAppPurchase? iap}) : _injectedIap = iap;
 
   final AppDatabase db;
-  final InAppPurchase _iap;
+
+  final InAppPurchase? _injectedIap;
+  InAppPurchase? _resolvedIap;
+
+  /// The store handle, resolved on first use rather than in the constructor.
+  ///
+  /// `InAppPurchase.instance` builds a platform billing client the moment it
+  /// is touched, and the constructor runs as soon as the provider is read —
+  /// which meant the billing client was being constructed on every launch
+  /// before [start] had a chance to decide there is no store here, and
+  /// before the paywall was anywhere near the screen. Resolving it lazily
+  /// keeps that cost, and that platform channel, inside the code paths that
+  /// genuinely need a store.
+  InAppPurchase get _iap =>
+      _resolvedIap ??= _injectedIap ?? InAppPurchase.instance;
   StreamSubscription<List<PurchaseDetails>>? _subscription;
 
   /// Both stores use the same product id suffix; the App Store / Play
