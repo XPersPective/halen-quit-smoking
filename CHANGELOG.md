@@ -198,6 +198,35 @@ güncelliği.
   satırı), etik lint'e eklenen S5 iddia kalıpları ve "her göstergenin
   formülü yayımlanmış olmalı" kabul testi.
 
+## [1.2.1] — 2026-09-10
+
+### Düzeltildi (Fixed)
+
+- **Uygulama gerçek cihazda açılır açılmaz kapanıyordu.** Sebebi: proje
+  `sqlite3` 3.x kullanıyor — bu sürümde native kütüphane bir **build hook**
+  ile geliyor — ama eski eklenti çağının `sqlcipher_flutter_libs` ve
+  `sqlite3_flutter_libs` paketleri de duruyordu. Sonuç: APK'da **iki ayrı
+  SQLite** (`libsqlcipher.so` + `libsqlite3.so`) aynı sürece yükleniyordu.
+  `sqlite3` paketinin kendi changelog'u 3.0.0'da "yükseltirken bu
+  bağımlılıkları kaldırın" diyor. İkisi de kaldırıldı; artık tek kütüphane
+  var.
+- **Veritabanı aslında şifrelenmiyordu.** `sqlite3` 3.x varsayılan olarak
+  düz SQLite paketliyor ve SQLite tanımadığı pragma'ları **sessizce yok
+  sayar** — yani `PRAGMA key` kabul ediliyor, hiçbir şey yapmıyor ve çalışan
+  bir veritabanı dönüyordu. Ortada hata yoktu, sadece düz metin bir dosya
+  vardı; uygulama ise kullanıcıya "şifreli" diyordu. `pubspec.yaml`'a
+  `hooks > user_defines > sqlite3 > source: sqlcipher` eklendi ve
+  `connection.dart` açılışta `PRAGMA cipher_version` ile **SQLCipher olup
+  olmadığını doğruluyor**; değilse açmayı reddediyor. Bu sessizce bir daha
+  olamaz.
+- **Veritabanı açılmazsa uygulama hiçbir şey göstermeden ölüyordu.**
+  `main()` hatayı yakalıyor ve `databaseFailed` bayrağını uygulamaya
+  geçiriyordu — ama bu bayrak yalnızca bir arka plan kuyruğunu atlamak için
+  kullanılıyordu. Bütün ekranlar yine çalışıyor, splash yine veritabanını
+  istiyor ve uygulama ilk kareyi çizmeden kapanıyordu. Artık
+  `StartupFailureScreen` var: ne olduğunu düz dille söylüyor, teknik
+  ayrıntıyı kopyalanabilir şekilde taşıyor ve hata artık yutulmuyor.
+
 ## [1.0.0] — 2026-09-07
 
 ### Eklandı (Added)

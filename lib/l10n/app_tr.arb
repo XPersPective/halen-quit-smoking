@@ -790,5 +790,12 @@
   "commonNotNow": "Şimdi değil",
   "commonOpen": "Aç",
   "todaySectionState": "Durumun",
-  "todaySectionSupport": "Bugünün desteği"
+  "todaySectionSupport": "Bugünün desteği",
+  "startupFailTitle": "Halen veritabanını açamadı",
+  "startupFailBody": "Bu cihazdaki şifreli depo açılmadı; uygulama onsuz başlamak yerine durdu.",
+  "startupFailDataSafe": "Hiçbir şey kaybolmadı ve hiçbir yere bir şey gönderilmedi. Bu tekrar ederse, aşağıdaki ayrıntı bir geliştiricinin ihtiyaç duyduğu şey.",
+  "startupFailRetry": "Tekrar dene",
+  "startupFailDetailTitle": "Teknik ayrıntı",
+  "startupFailCopy": "Ayrıntıyı kopyala",
+  "startupFailUnknown": "Başka ayrıntı bildirilmedi."
 }

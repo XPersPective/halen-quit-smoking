@@ -1443,5 +1443,12 @@
   "commonNotNow": "Not now",
   "commonOpen": "Open",
   "todaySectionState": "Where you stand",
-  "todaySectionSupport": "Today's support"
+  "todaySectionSupport": "Today's support",
+  "startupFailTitle": "Halen could not open its database",
+  "startupFailBody": "The encrypted store on this device would not open, so the app stopped rather than start without it.",
+  "startupFailDataSafe": "Nothing has been lost and nothing was sent anywhere. If this keeps happening, the detail below is what a developer needs.",
+  "startupFailRetry": "Try again",
+  "startupFailDetailTitle": "Technical detail",
+  "startupFailCopy": "Copy the detail",
+  "startupFailUnknown": "No further detail was reported."
 }

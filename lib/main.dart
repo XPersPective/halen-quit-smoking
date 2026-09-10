@@ -14,10 +14,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   AppDatabase? database;
+  Object? startupError;
   try {
     database = await openHalenDatabase();
-  } catch (_) {
-    //surfaced by the app as the database-error screen; nothing is sent anywhere.
+  } catch (error, stack) {
+    // Kept, not swallowed. The old version discarded the reason, so a device
+    // that could not open the store gave the user a blank close and gave a
+    // developer nothing at all. Surfaced by StartupFailureScreen; nothing is
+    // sent anywhere.
+    startupError = error;
+    debugPrintStack(stackTrace: stack, label: '$error');
   }
 
   final overrides = [
@@ -50,7 +56,7 @@ Future<void> main() async {
   runApp(
     UncontrolledProviderScope(
       container: container,
-      child: HalenApp(databaseFailed: database == null),
+      child: HalenApp(startupError: database == null ? startupError : null),
     ),
   );
 }

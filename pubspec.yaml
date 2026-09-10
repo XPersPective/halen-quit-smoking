@@ -1,7 +1,7 @@
 name: halen
 description: "Halen: Quit Smoking Tracker — Reduce at your pace. Quit for good."
 publish_to: "none"
-version: 1.0.0+1
+version: 1.2.1+2
 
 environment:
   sdk: ^3.13.2
@@ -18,7 +18,6 @@ dependencies:
 
   # Local encrypted database (drift + SQLCipher)
   drift: ^2.34.0
-  sqlcipher_flutter_libs: ^0.6.6
   sqlite3: ^3.5.2
 
   # Secure key storage (Android Keystore / iOS Keychain)
@@ -35,7 +34,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   in_app_purchase_android: ^0.5.3
   file_selector: ^1.1.0
-  sqlite3_flutter_libs: ^0.6.0+eol
   fl_chart: ^1.2.0
 
 dev_dependencies:
@@ -45,6 +43,16 @@ dev_dependencies:
   drift_dev: ^2.34.0
   build_runner: ^2.4.15
   riverpod: ^3.4.3
+
+# Which SQLite the build hook bundles. Without this the default is plain
+# SQLite, which has never heard of `PRAGMA key` — and SQLite silently ignores
+# pragmas it does not know, so the database would be written in PLAINTEXT
+# while the app promised encryption. connection.dart asserts cipher_version
+# at open time so that can never happen quietly again.
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlcipher
 
 flutter:
   uses-material-design: true

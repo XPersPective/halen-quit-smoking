@@ -4701,6 +4701,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today\'s support'**
   String get todaySectionSupport;
+
+  /// No description provided for @startupFailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Halen could not open its database'**
+  String get startupFailTitle;
+
+  /// No description provided for @startupFailBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The encrypted store on this device would not open, so the app stopped rather than start without it.'**
+  String get startupFailBody;
+
+  /// No description provided for @startupFailDataSafe.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing has been lost and nothing was sent anywhere. If this keeps happening, the detail below is what a developer needs.'**
+  String get startupFailDataSafe;
+
+  /// No description provided for @startupFailRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get startupFailRetry;
+
+  /// No description provided for @startupFailDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Technical detail'**
+  String get startupFailDetailTitle;
+
+  /// No description provided for @startupFailCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy the detail'**
+  String get startupFailCopy;
+
+  /// No description provided for @startupFailUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'No further detail was reported.'**
+  String get startupFailUnknown;
 }
 
 class _AppLocalizationsDelegate

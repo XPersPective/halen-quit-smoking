@@ -2664,4 +2664,27 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get todaySectionSupport => 'Heutige Unterstützung';
+
+  @override
+  String get startupFailTitle => 'Halen konnte seine Datenbank nicht öffnen';
+
+  @override
+  String get startupFailBody =>
+      'Der verschlüsselte Speicher auf diesem Gerät ließ sich nicht öffnen, deshalb hat die App abgebrochen statt ohne ihn zu starten.';
+
+  @override
+  String get startupFailDataSafe =>
+      'Es ist nichts verloren gegangen und nichts wurde irgendwohin gesendet. Wenn das wieder passiert, ist das Detail unten das, was Entwickelnde brauchen.';
+
+  @override
+  String get startupFailRetry => 'Erneut versuchen';
+
+  @override
+  String get startupFailDetailTitle => 'Technisches Detail';
+
+  @override
+  String get startupFailCopy => 'Detail kopieren';
+
+  @override
+  String get startupFailUnknown => 'Kein weiteres Detail gemeldet.';
 }

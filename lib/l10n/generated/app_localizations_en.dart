@@ -2654,4 +2654,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get todaySectionSupport => 'Today\'s support';
+
+  @override
+  String get startupFailTitle => 'Halen could not open its database';
+
+  @override
+  String get startupFailBody =>
+      'The encrypted store on this device would not open, so the app stopped rather than start without it.';
+
+  @override
+  String get startupFailDataSafe =>
+      'Nothing has been lost and nothing was sent anywhere. If this keeps happening, the detail below is what a developer needs.';
+
+  @override
+  String get startupFailRetry => 'Try again';
+
+  @override
+  String get startupFailDetailTitle => 'Technical detail';
+
+  @override
+  String get startupFailCopy => 'Copy the detail';
+
+  @override
+  String get startupFailUnknown => 'No further detail was reported.';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'application/providers.dart';
@@ -26,6 +27,7 @@ import 'presentation/screens/shell_screen.dart';
 import 'presentation/screens/sos/breathing_screen.dart';
 import 'presentation/screens/sos/ear_acupressure_screen.dart';
 import 'presentation/screens/splash_screen.dart';
+import 'presentation/screens/startup_failure_screen.dart';
 import 'presentation/screens/status/status_flow_screen.dart';
 import 'presentation/screens/timeline/health_timeline_screen.dart';
 import 'presentation/screens/today/record_detail_screen.dart';
@@ -35,9 +37,15 @@ import 'presentation/screens/under18_screen.dart';
 import 'presentation/widgets/design/body_clock.dart';
 
 class HalenApp extends ConsumerWidget {
-  const HalenApp({super.key, this.databaseFailed = false});
+  const HalenApp({super.key, this.startupError});
 
-  final bool databaseFailed;
+  /// Non-null when the database could not be opened at launch. The app then
+  /// shows [StartupFailureScreen] and nothing else — every other screen
+  /// reads the database, so routing into them is what killed the app before
+  /// its first frame.
+  final Object? startupError;
+
+  bool get databaseFailed => startupError != null;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,7 +64,16 @@ class HalenApp extends ConsumerWidget {
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      initialRoute: Routes.splash,
+      home: databaseFailed
+          ? StartupFailureScreen(
+              error: startupError,
+              // A cold restart is the only honest retry: the database is
+              // opened before the app exists, so there is nothing here that
+              // could reopen it in place.
+              onRetry: () => SystemNavigator.pop(),
+            )
+          : null,
+      initialRoute: databaseFailed ? null : Routes.splash,
       routes: {
         Routes.splash: (_) => const SplashScreen(),
         Routes.onboarding: (_) => const OnboardingScreen(),

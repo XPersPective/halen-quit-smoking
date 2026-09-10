@@ -2646,4 +2646,27 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get todaySectionSupport => 'Bugünün desteği';
+
+  @override
+  String get startupFailTitle => 'Halen veritabanını açamadı';
+
+  @override
+  String get startupFailBody =>
+      'Bu cihazdaki şifreli depo açılmadı; uygulama onsuz başlamak yerine durdu.';
+
+  @override
+  String get startupFailDataSafe =>
+      'Hiçbir şey kaybolmadı ve hiçbir yere bir şey gönderilmedi. Bu tekrar ederse, aşağıdaki ayrıntı bir geliştiricinin ihtiyaç duyduğu şey.';
+
+  @override
+  String get startupFailRetry => 'Tekrar dene';
+
+  @override
+  String get startupFailDetailTitle => 'Teknik ayrıntı';
+
+  @override
+  String get startupFailCopy => 'Ayrıntıyı kopyala';
+
+  @override
+  String get startupFailUnknown => 'Başka ayrıntı bildirilmedi.';
 }

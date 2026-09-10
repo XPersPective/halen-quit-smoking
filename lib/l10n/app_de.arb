@@ -790,5 +790,12 @@
   "commonNotNow": "Jetzt nicht",
   "commonOpen": "Öffnen",
   "todaySectionState": "Wo du stehst",
-  "todaySectionSupport": "Heutige Unterstützung"
+  "todaySectionSupport": "Heutige Unterstützung",
+  "startupFailTitle": "Halen konnte seine Datenbank nicht öffnen",
+  "startupFailBody": "Der verschlüsselte Speicher auf diesem Gerät ließ sich nicht öffnen, deshalb hat die App abgebrochen statt ohne ihn zu starten.",
+  "startupFailDataSafe": "Es ist nichts verloren gegangen und nichts wurde irgendwohin gesendet. Wenn das wieder passiert, ist das Detail unten das, was Entwickelnde brauchen.",
+  "startupFailRetry": "Erneut versuchen",
+  "startupFailDetailTitle": "Technisches Detail",
+  "startupFailCopy": "Detail kopieren",
+  "startupFailUnknown": "Kein weiteres Detail gemeldet."
 }
