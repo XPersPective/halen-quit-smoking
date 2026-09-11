@@ -39,10 +39,65 @@ class PurchaseService {
       _resolvedIap ??= _injectedIap ?? InAppPurchase.instance;
   StreamSubscription<List<PurchaseDetails>>? _subscription;
 
-  /// Both stores use the same product id suffix; the App Store / Play
-  /// Console products must be created with this id
-  /// (`com.halenquitsmoking.app.lifetime`).
-  static const productId = 'com.halenquitsmoking.app.lifetime';
+  /// Store product identifiers.
+  static const productIdLifetime = 'com.halenquitsmoking.app.lifetime';
+  static const productIdAnnual = 'com.halenquitsmoking.app.annual';
+  static const productIdMonthly = 'com.halenquitsmoking.app.monthly';
+
+  /// Legacy alias for single lifetime product
+  static const productId = productIdLifetime;
+
+  /// All supported monetization tiers
+  static const productIds = {
+    productIdAnnual,
+    productIdMonthly,
+    productIdLifetime,
+  };
+
+  /// Store-specific subscription management URLs for user convenience
+  static const String manageSubscriptionsUrlApple =
+      'https://apps.apple.com/account/subscriptions';
+  static const String manageSubscriptionsUrlGoogle =
+      'https://play.google.com/store/account/subscriptions';
+
+  static Uri get manageSubscriptionsUri => Uri.parse(
+        Platform.isIOS
+            ? manageSubscriptionsUrlApple
+            : manageSubscriptionsUrlGoogle,
+      );
+
+  /// Offline/preview fallback products when store billing is unavailable
+  static List<ProductDetails> fallbackProducts({String currencySymbol = '₺'}) {
+    return [
+      ProductDetails(
+        id: productIdAnnual,
+        title: 'Halen Yıllık',
+        description: '7 gün ücretsiz deneme, ardından yıllık abonelik',
+        price: '${currencySymbol}399,99/yıl',
+        rawPrice: 399.99,
+        currencyCode: 'TRY',
+        currencySymbol: currencySymbol,
+      ),
+      ProductDetails(
+        id: productIdMonthly,
+        title: 'Halen Aylık',
+        description: 'Esnek aylık abonelik',
+        price: '${currencySymbol}59,99/ay',
+        rawPrice: 59.99,
+        currencyCode: 'TRY',
+        currencySymbol: currencySymbol,
+      ),
+      ProductDetails(
+        id: productIdLifetime,
+        title: 'Halen Ömür Boyu',
+        description: 'Tek seferlik sınırsız lisans',
+        price: '${currencySymbol}799,99',
+        rawPrice: 799.99,
+        currencyCode: 'TRY',
+        currencySymbol: currencySymbol,
+      ),
+    ];
+  }
 
   bool _started = false;
 
@@ -72,8 +127,9 @@ class PurchaseService {
   /// iOS needs an explicit restore — called from the Restore button and on
   /// cold start only when a stale verified row exists.
   Future<void> refreshFromStore() async {
-    final query = await _iap.queryProductDetails({productId});
-    if (query.notFoundIDs.contains(productId) && query.productDetails.isEmpty) {
+    final query = await _iap.queryProductDetails(productIds);
+    if (query.notFoundIDs.toSet().containsAll(productIds) &&
+        query.productDetails.isEmpty) {
       // Store not configured (e.g. local dev) — keep current state.
       return;
     }
@@ -102,17 +158,30 @@ class PurchaseService {
   }
 
   /// Localized product info (price etc. resolved from the store console).
+  /// Falls back to default placeholder pricing if store is unreachable.
   Future<List<ProductDetails>> productDetails() async {
-    final query = await _iap.queryProductDetails({productId});
-    return query.productDetails;
+    if (!Platform.isAndroid && !Platform.isIOS) {
+      return fallbackProducts();
+    }
+    try {
+      final query = await _iap.queryProductDetails(productIds);
+      if (query.productDetails.isNotEmpty) {
+        return query.productDetails;
+      }
+    } catch (_) {
+      // Network or store failure — fall through to fallbacks
+    }
+    return fallbackProducts();
   }
 
-  /// Buys the lifetime unlock (non-consumable).
-  Future<bool> buy() async {
-    final query = await _iap.queryProductDetails({productId});
-    final product = query.productDetails.firstWhere(
-      (p) => p.id == productId,
-      orElse: () => throw StateError('Lifetime product not available'),
+  /// Buys the selected product (non-consumable / auto-renewable subscription).
+  /// Defaults to [productIdLifetime] if unspecified.
+  Future<bool> buy([String? productId]) async {
+    final effectiveId = productId ?? productIdLifetime;
+    final products = await productDetails();
+    final product = products.firstWhere(
+      (p) => p.id == effectiveId,
+      orElse: () => throw StateError('Product $effectiveId not available'),
     );
     final param = PurchaseParam(productDetails: product);
     return _iap.buyNonConsumable(purchaseParam: param);
@@ -123,7 +192,7 @@ class PurchaseService {
 
   Future<void> _onPurchases(List<PurchaseDetails> purchases) async {
     for (final purchase in purchases) {
-      if (purchase.productID != productId) {
+      if (!productIds.contains(purchase.productID)) {
         continue;
       }
       switch (purchase.status) {
@@ -133,7 +202,7 @@ class PurchaseService {
           await db.purchaseDao.upsertEntitlement(
             PurchaseEntitlementCompanion.insert(
               store: Platform.isAndroid ? 'play' : 'appstore',
-              productId: productId,
+              productId: purchase.productID,
               purchaseToken: purchase.verificationData.localVerificationData,
               state: 'owned',
               lastVerifiedAt: DateTime.now(),
@@ -148,18 +217,18 @@ class PurchaseService {
         case PurchaseStatus.error:
         case PurchaseStatus.canceled:
           // Refund/revocation demotes the entitlement.
-          await _demote();
+          await _demote(purchase.productID);
       }
     }
   }
 
-  Future<void> _demote() async {
+  Future<void> _demote([String? pid]) async {
     final row = await db.purchaseDao.latest();
     if (row != null) {
       await db.purchaseDao.upsertEntitlement(
         PurchaseEntitlementCompanion.insert(
           store: row.store,
-          productId: row.productId,
+          productId: pid ?? row.productId,
           purchaseToken: row.purchaseToken,
           state: 'revoked',
           lastVerifiedAt: DateTime.now(),

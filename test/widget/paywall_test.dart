@@ -1,9 +1,11 @@
 import 'package:drift/drift.dart' hide Column;
+import 'package:flutter/material.dart' hide Column;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:halen/application/entitlement_providers.dart';
 import 'package:halen/data/db/app_database.dart';
 import 'package:halen/data/purchase_service.dart';
+import 'package:halen/presentation/screens/paywall/paywall_screen.dart';
 
 import '../helpers/pump_app.dart';
 
@@ -22,7 +24,7 @@ class FakePurchaseService extends PurchaseService {
   Future<List<ProductDetails>> productDetails() async => const [];
 
   @override
-  Future<bool> buy() async => false;
+  Future<bool> buy([String? productId]) async => false;
 
   @override
   Future<void> restore() async {
@@ -120,6 +122,63 @@ void main() {
     await tester.tap(find.text('Plan'));
     await tester.pumpAndSettle();
     expect(find.textContaining('Premium'), findsNothing);
+
+    await disposeApp(tester);
+    await db.close();
+  });
+
+  testWidgets('paywall screen allows selecting tiers and updates CTA', (tester) async {
+    useLargeTestSurface(tester);
+    final db = await seedOnboardedProfile();
+    final fakeService = FakePurchaseService(db, owned: false);
+
+    await pumpModuleWidget(
+      tester,
+      db: db,
+      child: const PaywallScreen(),
+      locale: const Locale('tr'),
+      extraOverrides: [
+        purchaseServiceProvider.overrideWithValue(fakeService),
+      ],
+      scrollable: false,
+    );
+    await tester.pumpAndSettle();
+
+    // Verify 3 tiers rendered
+    expect(find.text('Yıllık Plan'), findsOneWidget);
+    expect(find.text('Aylık Plan'), findsOneWidget);
+    expect(find.text('Ömür Boyu Erişim'), findsOneWidget);
+
+    // Annual is selected by default -> trial timeline is visible & trial CTA is active
+    expect(find.text('Nasıl Çalışır? (Sıfır Risk)'), findsOneWidget);
+    expect(find.text('7 Gün Ücretsiz Dene & Başla'), findsOneWidget);
+
+    // Tap Monthly tier -> CTA becomes "Hemen Başla", trial timeline hides
+    await tester.tap(find.text('Aylık Plan'));
+    await tester.pumpAndSettle();
+    expect(find.text('Hemen Başla'), findsOneWidget);
+    expect(find.text('Nasıl Çalışır? (Sıfır Risk)'), findsNothing);
+
+    // Tap Lifetime tier -> CTA becomes "Ömür Boyu Sahip Ol"
+    await tester.tap(find.text('Ömür Boyu Erişim'));
+    await tester.pumpAndSettle();
+    expect(find.text('Ömür Boyu Sahip Ol'), findsOneWidget);
+
+    // Tap Buy button on Lifetime
+    await tester.tap(find.text('Ömür Boyu Sahip Ol'));
+    await tester.pumpAndSettle();
+
+    // Verify restore button and compliance links exist
+    expect(find.byIcon(Icons.restore_rounded), findsWidgets);
+    expect(find.text('Kullanım Koşulları (EULA)'), findsOneWidget);
+    expect(find.text('Gizlilik Politikası'), findsOneWidget);
+
+    // Tap Terms of Service link -> opens legal dialog
+    await tester.tap(find.text('Kullanım Koşulları (EULA)'));
+    await tester.pumpAndSettle();
+    expect(find.text('Apple Standard End User License Agreement (EULA):\n\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nHalen uygulaması kullanıcı gizliliğine ve şeffaf faturalandırmaya tam uyumludur. Abonelikleriniz dönem bitiminden en az 24 saat önce iptal edilmediği müddetçe otomatik yenilenir.'), findsOneWidget);
+    await tester.tap(find.text('Kapat'));
+    await tester.pumpAndSettle();
 
     await disposeApp(tester);
     await db.close();

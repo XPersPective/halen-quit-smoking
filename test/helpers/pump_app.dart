@@ -79,6 +79,7 @@ Future<void> pumpModuleWidget(
   List<Override> extraOverrides = const [],
   bool scrollable = true,
   Brightness brightness = Brightness.light,
+  Locale locale = const Locale('en'),
 }) async {
   await tester.pumpWidget(
     ProviderScope(
@@ -90,7 +91,7 @@ Future<void> pumpModuleWidget(
         debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        locale: const Locale('en'),
+        locale: locale,
         theme: brightness == Brightness.light
             ? HalenTheme.light()
             : HalenTheme.dark(),

@@ -832,6 +832,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get paywallTitle => 'Halen Premium ile devam et';
 
   @override
+  String get paywallSubtitle =>
+      'Sigara harcamandan daha azına tam bilimsel özgürlük';
+
+  @override
   String paywallValueLine(int n) {
     return 'Bu hafta planına zamanın %$n\'inde uyudun.';
   }
@@ -851,14 +855,95 @@ class AppLocalizationsTr extends AppLocalizations {
   String get paywallFeatureTimeline => 'Tam sağlık çizelgesi';
 
   @override
-  String get paywallFeatureSos => 'Tam SOS araç seti';
+  String get paywallFeatureSos =>
+      'Tam SOS araç seti, akupunktur ve beslenme rehberi';
 
   @override
   String get paywallFeatureWidget => 'Widget özelleştirme';
 
   @override
+  String get paywallFeaturePrivacy =>
+      '%100 yerel gizlilik: hesap yok, sunucu yok, şifreli yerel kasa';
+
+  @override
   String get paywallTrialNote =>
       '7 günlük ücretsiz deneme ilk açılışta başlar — kart gerekmez.';
+
+  @override
+  String get planTierAnnual => 'Yıllık Plan';
+
+  @override
+  String get planTierAnnualBadge => 'EN POPÜLER · %50 TASARRUF';
+
+  @override
+  String planTierAnnualSub(String price) {
+    return '7 gün ücretsiz dene, ardından $price/yıl';
+  }
+
+  @override
+  String get planTierMonthly => 'Aylık Plan';
+
+  @override
+  String get planTierMonthlySub =>
+      'Taahhütsüz esnek abonelik, dilediğin an iptal et';
+
+  @override
+  String get planTierLifetime => 'Ömür Boyu Erişim';
+
+  @override
+  String get planTierLifetimeBadge => 'TEK SEFERLİK';
+
+  @override
+  String get planTierLifetimeSub =>
+      'Tek seferlik ödeme, sonsuza dek sınırsız erişim';
+
+  @override
+  String get paywallTimelineToday => 'Bugün';
+
+  @override
+  String get paywallTimelineTodayDesc =>
+      '7 günlük tam deneme başlar, ücret alınmaz.';
+
+  @override
+  String get paywallTimelineReminder => '5. Gün';
+
+  @override
+  String get paywallTimelineReminderDesc =>
+      'Denemenin bitişiyle ilgili nazik hatırlatma.';
+
+  @override
+  String get paywallTimelineBilling => '7. Gün';
+
+  @override
+  String get paywallTimelineBillingDesc =>
+      'Abonelik başlar, öncesinde dilediğin an iptal edebilirsin.';
+
+  @override
+  String get paywallCtaTrial => '7 Gün Ücretsiz Dene & Başla';
+
+  @override
+  String get paywallCtaSubscribe => 'Hemen Başla';
+
+  @override
+  String get paywallCtaLifetime => 'Ömür Boyu Sahip Ol';
+
+  @override
+  String get paywallTerms => 'Kullanım Koşulları (EULA)';
+
+  @override
+  String get paywallPrivacy => 'Gizlilik Politikası';
+
+  @override
+  String get paywallLegalDisclaimer =>
+      'Abonelik, cari dönemin bitiminden en az 24 saat önce iptal edilmediği sürece otomatik yenilenir. Satın alımlarınızı App Store / Google Play hesap ayarlarınızdan dilediğiniz an yönetebilirsiniz.';
+
+  @override
+  String get paywallRestoreSuccess =>
+      'Satın alımlarınız başarıyla geri yüklendi.';
+
+  @override
+  String get paywallRestoreNone =>
+      'Geri yüklenecek aktif bir satın alım bulunamadı.';
 
   @override
   String get timelineTitle => 'Sağlık çizelgesi';

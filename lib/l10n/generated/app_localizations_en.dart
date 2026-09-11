@@ -835,6 +835,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paywallTitle => 'Keep going with Halen Premium';
 
   @override
+  String get paywallSubtitle =>
+      'Scientific freedom for less than the cost of a single pack';
+
+  @override
   String paywallValueLine(int n) {
     return 'This week you kept to your plan $n% of the time.';
   }
@@ -854,14 +858,93 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paywallFeatureTimeline => 'The full health timeline';
 
   @override
-  String get paywallFeatureSos => 'The complete SOS toolkit';
+  String get paywallFeatureSos =>
+      'The complete SOS toolkit, acupressure and nutrition guide';
 
   @override
   String get paywallFeatureWidget => 'Widget customisation';
 
   @override
+  String get paywallFeaturePrivacy =>
+      '100% on-device privacy: no account, no server, fully encrypted vault';
+
+  @override
   String get paywallTrialNote =>
       'Your 7-day free trial starts on first launch — no card needed.';
+
+  @override
+  String get planTierAnnual => 'Annual Plan';
+
+  @override
+  String get planTierAnnualBadge => 'BEST VALUE · SAVE 50%';
+
+  @override
+  String planTierAnnualSub(String price) {
+    return '7-day free trial, then $price/year';
+  }
+
+  @override
+  String get planTierMonthly => 'Monthly Plan';
+
+  @override
+  String get planTierMonthlySub =>
+      'Flexible monthly subscription, cancel anytime';
+
+  @override
+  String get planTierLifetime => 'Lifetime Access';
+
+  @override
+  String get planTierLifetimeBadge => 'ONE-TIME';
+
+  @override
+  String get planTierLifetimeSub =>
+      'One-time payment, unlimited lifetime access';
+
+  @override
+  String get paywallTimelineToday => 'Today';
+
+  @override
+  String get paywallTimelineTodayDesc =>
+      '7-day full access trial begins, \$0 charged.';
+
+  @override
+  String get paywallTimelineReminder => 'Day 5';
+
+  @override
+  String get paywallTimelineReminderDesc =>
+      'Gentle reminder before your trial ends.';
+
+  @override
+  String get paywallTimelineBilling => 'Day 7';
+
+  @override
+  String get paywallTimelineBillingDesc =>
+      'Subscription begins, cancel anytime prior.';
+
+  @override
+  String get paywallCtaTrial => 'Start 7-Day Free Trial';
+
+  @override
+  String get paywallCtaSubscribe => 'Subscribe Now';
+
+  @override
+  String get paywallCtaLifetime => 'Get Lifetime Access';
+
+  @override
+  String get paywallTerms => 'Terms of Use (EULA)';
+
+  @override
+  String get paywallPrivacy => 'Privacy Policy';
+
+  @override
+  String get paywallLegalDisclaimer =>
+      'Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Manage in your App Store / Google Play account settings.';
+
+  @override
+  String get paywallRestoreSuccess => 'Purchases restored successfully.';
+
+  @override
+  String get paywallRestoreNone => 'No active purchases found to restore.';
 
   @override
   String get timelineTitle => 'Health timeline';

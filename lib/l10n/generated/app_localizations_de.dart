@@ -839,6 +839,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get paywallTitle => 'Weiter mit Halen Premium';
 
   @override
+  String get paywallSubtitle =>
+      'Wissenschaftliche Freiheit für weniger als den Preis einer Schachtel';
+
+  @override
   String paywallValueLine(int n) {
     return 'Diese Woche hast du zu $n % deinen Plan eingehalten.';
   }
@@ -858,14 +862,93 @@ class AppLocalizationsDe extends AppLocalizations {
   String get paywallFeatureTimeline => 'Die komplette Gesundheits-Zeitleiste';
 
   @override
-  String get paywallFeatureSos => 'Das vollständige SOS-Set';
+  String get paywallFeatureSos =>
+      'Das vollständige SOS-Set, Akupressur und Ernährungsratgeber';
 
   @override
   String get paywallFeatureWidget => 'Widget-Anpassung';
 
   @override
+  String get paywallFeaturePrivacy =>
+      '100 % Privatsphäre: kein Konto, kein Server, verschlüsselter lokaler Tresor';
+
+  @override
   String get paywallTrialNote =>
       'Deine 7-tägige kostenlose Testphase startet beim ersten Start — ohne Karte.';
+
+  @override
+  String get planTierAnnual => 'Jahresplan';
+
+  @override
+  String get planTierAnnualBadge => 'BELIEBTESTE · 50% SPAREN';
+
+  @override
+  String planTierAnnualSub(String price) {
+    return '7 Tage kostenlos testen, danach $price/Jahr';
+  }
+
+  @override
+  String get planTierMonthly => 'Monatsplan';
+
+  @override
+  String get planTierMonthlySub => 'Flexibles Monatsabo, jederzeit kündbar';
+
+  @override
+  String get planTierLifetime => 'Lebenslanger Zugriff';
+
+  @override
+  String get planTierLifetimeBadge => 'EINMALIG';
+
+  @override
+  String get planTierLifetimeSub =>
+      'Einmalige Zahlung, unbegrenzter lebenslanger Zugriff';
+
+  @override
+  String get paywallTimelineToday => 'Heute';
+
+  @override
+  String get paywallTimelineTodayDesc =>
+      '7 Tage kostenloser Vollzugriff starten, 0 € berechnet.';
+
+  @override
+  String get paywallTimelineReminder => 'Tag 5';
+
+  @override
+  String get paywallTimelineReminderDesc =>
+      'Sanfte Erinnerung an das bevorstehende Testende.';
+
+  @override
+  String get paywallTimelineBilling => 'Tag 7';
+
+  @override
+  String get paywallTimelineBillingDesc =>
+      'Abo beginnt, davor jederzeit kündbar.';
+
+  @override
+  String get paywallCtaTrial => '7 Tage kostenlos testen & starten';
+
+  @override
+  String get paywallCtaSubscribe => 'Jetzt abonnieren';
+
+  @override
+  String get paywallCtaLifetime => 'Lebenslang sichern';
+
+  @override
+  String get paywallTerms => 'Nutzungsbedingungen (EULA)';
+
+  @override
+  String get paywallPrivacy => 'Datenschutzerklärung';
+
+  @override
+  String get paywallLegalDisclaimer =>
+      'Das Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Verwaltung in den Kontoeinstellungen.';
+
+  @override
+  String get paywallRestoreSuccess => 'Käufe erfolgreich wiederhergestellt.';
+
+  @override
+  String get paywallRestoreNone =>
+      'Keine aktiven Käufe zum Wiederherstellen gefunden.';
 
   @override
   String get timelineTitle => 'Gesundheits-Zeitleiste';

@@ -208,6 +208,14 @@ Bu liste, bu belgeden sonra sırayla ve adım adım hayata geçirilecek maddeler
 - [x] **E.3 Destek Hatları Acil Arama Butonları:** SOS ekranına ve Kriz merkezine ALO 171 Sigara Bırakma Hattı, YEDAM 115 ve uluslararası hatlar için tek tıkla arama sağlayan belirgin butonlar eklemek.
 - [x] **E.4 İstek Atlatma (Craving) Günlüğü:** 'Nasıl geçti? Ne kadar güçlüydü?' akışını kullanıcının geçmiş krizleri nasıl yendiğini gösteren motive edici bir başarı geçmişine dönüştürmek.
 
+### Faz F: Mağaza Ödeme ve Abonelik Mimarisi (In-App Purchases & Subscriptions)
+- [x] **F.1 Çok Seviyeli Paket ve Ürün Mimarisi:** `PurchaseService` üzerinden Yıllık (7 Gün Ücretsiz Denemeli), Aylık ve Tek Seferlik Ömür Boyu (`com.halenquitsmoking.app.lifetime`, `annual`, `monthly`) ürün kimlikleri ve satın alma motoru.
+- [x] **F.2 Sıfır Risk 3 Aşamalı Deneme Zaman Çizelgesi:** Kullanıcının kart çekilmeden önce 5. gün nazik bildirim alacağını ve dilediği an iptal edebileceğini gösteren interaktif görsel zaman çizgisi.
+- [x] **F.3 App Store (StoreKit) & Google Play Billing Yasal Uyumluluk:** EULA kullanım koşulları, SQLCipher yerel şifreli gizlilik politikası modalları ve otomatik yenileme şartı yasal metinleri.
+- [x] **F.4 Satın Alımları Geri Yükleme (Restore Purchases):** Hem Paywall üst barında hem alt butonunda tek tıkla App Store / Google Play makbuz doğrulama ve senkronizasyon.
+- [x] **F.5 Sıfır Üyelik / Sıfır Kayıt Duvarı:** Hiçbir kullanıcıdan e-posta, şifre veya kayıt zorunluluğu istenmez; tüm lisans ve veriler cihazda %100 yerel şifreli çalışır.
+- [x] **F.6 Çevrimdışı ve Geliştirici Yedek Fiyatlama:** Mağaza bağlantısının olmadığı durumlarda ve masaüstü önizlemede uygulamanın bozulmasını önleyen dinamik `fallbackProducts` katmanı.
+
 ---
 
 ## 7. ESKİ BELGELERİN ARŞİVLENMESİ / TEMİZLENMESİ

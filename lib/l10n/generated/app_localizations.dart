@@ -1546,6 +1546,12 @@ abstract class AppLocalizations {
   /// **'Keep going with Halen Premium'**
   String get paywallTitle;
 
+  /// No description provided for @paywallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scientific freedom for less than the cost of a single pack'**
+  String get paywallSubtitle;
+
   /// No description provided for @paywallValueLine.
   ///
   /// In en, this message translates to:
@@ -1579,7 +1585,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallFeatureSos.
   ///
   /// In en, this message translates to:
-  /// **'The complete SOS toolkit'**
+  /// **'The complete SOS toolkit, acupressure and nutrition guide'**
   String get paywallFeatureSos;
 
   /// No description provided for @paywallFeatureWidget.
@@ -1588,11 +1594,149 @@ abstract class AppLocalizations {
   /// **'Widget customisation'**
   String get paywallFeatureWidget;
 
+  /// No description provided for @paywallFeaturePrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'100% on-device privacy: no account, no server, fully encrypted vault'**
+  String get paywallFeaturePrivacy;
+
   /// No description provided for @paywallTrialNote.
   ///
   /// In en, this message translates to:
   /// **'Your 7-day free trial starts on first launch — no card needed.'**
   String get paywallTrialNote;
+
+  /// No description provided for @planTierAnnual.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual Plan'**
+  String get planTierAnnual;
+
+  /// No description provided for @planTierAnnualBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'BEST VALUE · SAVE 50%'**
+  String get planTierAnnualBadge;
+
+  /// No description provided for @planTierAnnualSub.
+  ///
+  /// In en, this message translates to:
+  /// **'7-day free trial, then {price}/year'**
+  String planTierAnnualSub(String price);
+
+  /// No description provided for @planTierMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Plan'**
+  String get planTierMonthly;
+
+  /// No description provided for @planTierMonthlySub.
+  ///
+  /// In en, this message translates to:
+  /// **'Flexible monthly subscription, cancel anytime'**
+  String get planTierMonthlySub;
+
+  /// No description provided for @planTierLifetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime Access'**
+  String get planTierLifetime;
+
+  /// No description provided for @planTierLifetimeBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'ONE-TIME'**
+  String get planTierLifetimeBadge;
+
+  /// No description provided for @planTierLifetimeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'One-time payment, unlimited lifetime access'**
+  String get planTierLifetimeSub;
+
+  /// No description provided for @paywallTimelineToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get paywallTimelineToday;
+
+  /// No description provided for @paywallTimelineTodayDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'7-day full access trial begins, \$0 charged.'**
+  String get paywallTimelineTodayDesc;
+
+  /// No description provided for @paywallTimelineReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Day 5'**
+  String get paywallTimelineReminder;
+
+  /// No description provided for @paywallTimelineReminderDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle reminder before your trial ends.'**
+  String get paywallTimelineReminderDesc;
+
+  /// No description provided for @paywallTimelineBilling.
+  ///
+  /// In en, this message translates to:
+  /// **'Day 7'**
+  String get paywallTimelineBilling;
+
+  /// No description provided for @paywallTimelineBillingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription begins, cancel anytime prior.'**
+  String get paywallTimelineBillingDesc;
+
+  /// No description provided for @paywallCtaTrial.
+  ///
+  /// In en, this message translates to:
+  /// **'Start 7-Day Free Trial'**
+  String get paywallCtaTrial;
+
+  /// No description provided for @paywallCtaSubscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe Now'**
+  String get paywallCtaSubscribe;
+
+  /// No description provided for @paywallCtaLifetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Lifetime Access'**
+  String get paywallCtaLifetime;
+
+  /// No description provided for @paywallTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Use (EULA)'**
+  String get paywallTerms;
+
+  /// No description provided for @paywallPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get paywallPrivacy;
+
+  /// No description provided for @paywallLegalDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Manage in your App Store / Google Play account settings.'**
+  String get paywallLegalDisclaimer;
+
+  /// No description provided for @paywallRestoreSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases restored successfully.'**
+  String get paywallRestoreSuccess;
+
+  /// No description provided for @paywallRestoreNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No active purchases found to restore.'**
+  String get paywallRestoreNone;
 
   /// No description provided for @timelineTitle.
   ///

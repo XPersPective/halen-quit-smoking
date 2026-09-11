@@ -457,6 +457,7 @@
     }
   },
   "paywallTitle": "Keep going with Halen Premium",
+  "paywallSubtitle": "Scientific freedom for less than the cost of a single pack",
   "paywallValueLine": "This week you kept to your plan {n}% of the time.",
   "@paywallValueLine": {
     "placeholders": {
@@ -469,9 +470,39 @@
   "paywallFeatureCharts": "Full charts: plan vs actual, gaps, hourly pattern",
   "paywallFeatureTriggers": "Trigger patterns",
   "paywallFeatureTimeline": "The full health timeline",
-  "paywallFeatureSos": "The complete SOS toolkit",
+  "paywallFeatureSos": "The complete SOS toolkit, acupressure and nutrition guide",
   "paywallFeatureWidget": "Widget customisation",
+  "paywallFeaturePrivacy": "100% on-device privacy: no account, no server, fully encrypted vault",
   "paywallTrialNote": "Your 7-day free trial starts on first launch — no card needed.",
+  "planTierAnnual": "Annual Plan",
+  "planTierAnnualBadge": "BEST VALUE · SAVE 50%",
+  "planTierAnnualSub": "7-day free trial, then {price}/year",
+  "@planTierAnnualSub": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "planTierMonthly": "Monthly Plan",
+  "planTierMonthlySub": "Flexible monthly subscription, cancel anytime",
+  "planTierLifetime": "Lifetime Access",
+  "planTierLifetimeBadge": "ONE-TIME",
+  "planTierLifetimeSub": "One-time payment, unlimited lifetime access",
+  "paywallTimelineToday": "Today",
+  "paywallTimelineTodayDesc": "7-day full access trial begins, $0 charged.",
+  "paywallTimelineReminder": "Day 5",
+  "paywallTimelineReminderDesc": "Gentle reminder before your trial ends.",
+  "paywallTimelineBilling": "Day 7",
+  "paywallTimelineBillingDesc": "Subscription begins, cancel anytime prior.",
+  "paywallCtaTrial": "Start 7-Day Free Trial",
+  "paywallCtaSubscribe": "Subscribe Now",
+  "paywallCtaLifetime": "Get Lifetime Access",
+  "paywallTerms": "Terms of Use (EULA)",
+  "paywallPrivacy": "Privacy Policy",
+  "paywallLegalDisclaimer": "Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Manage in your App Store / Google Play account settings.",
+  "paywallRestoreSuccess": "Purchases restored successfully.",
+  "paywallRestoreNone": "No active purchases found to restore.",
   "timelineTitle": "Health timeline",
   "timelinePreviewLocked": "In reduce mode the countdown starts on your quit day. Until then this is a preview.",
   "timelineSourceWho": "Source: WHO",

@@ -55,7 +55,7 @@ class _OfflineStore extends PurchaseService {
   Future<List<ProductDetails>> productDetails() async => const [];
 
   @override
-  Future<bool> buy() async => false;
+  Future<bool> buy([String? productId]) async => false;
 
   @override
   Future<void> restore() async {}
