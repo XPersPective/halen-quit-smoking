@@ -88,5 +88,13 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <!-- The tree-planting links (item 10) open in the browser. From
+             Android 11, an app must declare which intents it resolves;
+             without this, some devices report no handler for https and the
+             link silently fails to open. -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
+        </intent>
     </queries>
 </manifest>
