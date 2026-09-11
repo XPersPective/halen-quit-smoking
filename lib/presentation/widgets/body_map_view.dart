@@ -8,6 +8,7 @@ import '../../core/theme.dart';
 import '../../data/repositories/library_repository.dart';
 import 'entrance.dart';
 import 'design/body_clock.dart';
+import 'body_silhouette.dart';
 import 'organ_shapes.dart';
 
 /// A tappable, breathing body map (module report §7.④).
@@ -39,7 +40,7 @@ class BodyMapView extends StatefulWidget {
     required this.selectedKey,
     required this.onSelected,
     required this.locale,
-    this.height = 360,
+    this.height = 420,
   });
 
   final List<OrganEntry> organs;
@@ -68,29 +69,6 @@ class BodyMapView extends StatefulWidget {
 }
 
 class _BodyMapViewState extends State<BodyMapView> {
-  /// Where each organ sits on the figure, in fractions of the canvas.
-  static const hotspots = <String, Offset>{
-    'brain': Offset(0.500, 0.058),
-    'mouth': Offset(0.500, 0.108),
-    'lungs': Offset(0.500, 0.272),
-    'heart': Offset(0.528, 0.352),
-    'liver': Offset(0.436, 0.428),
-    'stomach': Offset(0.566, 0.424),
-    'kidneyBladder': Offset(0.500, 0.516),
-  };
-
-
-  /// Drawing box for each organ, as fractions of the canvas.
-  static const boxes = <String, Size>{
-    'brain': Size(0.120, 0.078),
-    'mouth': Size(0.062, 0.024),
-    'lungs': Size(0.175, 0.125),
-    'heart': Size(0.082, 0.070),
-    'liver': Size(0.115, 0.060),
-    'stomach': Size(0.082, 0.066),
-    'kidneyBladder': Size(0.120, 0.056),
-  };
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -100,7 +78,8 @@ class _BodyMapViewState extends State<BodyMapView> {
       height: widget.height,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final size = Size(constraints.maxWidth, widget.height);
+          final frame =
+              BodyFrame(Size(constraints.maxWidth, widget.height));
           return BodyPulse(
             builder: (context, seconds) {
               final phase = BodyClock.phaseOf(seconds, HalenDuration.breath);
@@ -108,21 +87,23 @@ class _BodyMapViewState extends State<BodyMapView> {
             children: [
               Positioned.fill(
                 child: CustomPaint(
-                  painter: _BodyPainter(
-                    outline:
-                        theme.colorScheme.onSurface.withValues(alpha: 0.28),
-                    fill: theme.colorScheme.primary.withValues(alpha: 0.05),
+                  painter: BodySilhouettePainter(
+                    tint: theme.colorScheme.primary,
+                    outline: theme.colorScheme.onSurface,
+                    highlight: theme.brightness == Brightness.dark
+                        ? theme.colorScheme.primary
+                        : Colors.white,
                   ),
                 ),
               ),
               for (final organ in _drawOrder())
-                if (hotspots[organ.key] != null && boxes[organ.key] != null)
+                if (BodyGeometry.organs[organ.key] case final placement?)
                   _Hotspot(
                     organ: organ,
                     locale: widget.locale,
-                    position: hotspots[organ.key]!,
-                    box: boxes[organ.key],
-                    canvas: size,
+                    center: frame.point(placement.$1),
+                    boxSize: frame.box(placement.$2),
+                    phaseOffset: placement.$1.dy,
                     phase: phase,
                     selected: widget.selectedKey == organ.key,
                     dimmed: widget.selectedKey != null &&
@@ -157,9 +138,9 @@ class _Hotspot extends StatelessWidget {
   const _Hotspot({
     required this.organ,
     required this.locale,
-    required this.position,
-    required this.box,
-    required this.canvas,
+    required this.center,
+    required this.boxSize,
+    required this.phaseOffset,
     required this.phase,
     required this.selected,
     required this.dimmed,
@@ -169,11 +150,16 @@ class _Hotspot extends StatelessWidget {
 
   final OrganEntry organ;
   final String locale;
-  final Offset position;
 
-  /// Drawing box for a shaped organ; null keeps the abstract ring.
-  final Size? box;
-  final Size canvas;
+  /// Where the organ sits, in pixels.
+  final Offset center;
+
+  /// The organ's drawing box, in pixels.
+  final Size boxSize;
+
+  /// The organ's height on the body (0..1), used to stagger its phase so
+  /// the body ripples rather than pulsing in unison.
+  final double phaseOffset;
 
   /// Shared 0..1 clock for the whole body.
   final double phase;
@@ -186,7 +172,7 @@ class _Hotspot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final unit = box == null ? null : OrganShapes.pathFor(organ.key);
+    final unit = OrganShapes.pathFor(organ.key);
     final color = selected ? HalenColors.amberCta : theme.colorScheme.primary;
 
     // A stronger population link is drawn a little more solidly. It is a
@@ -201,10 +187,10 @@ class _Hotspot extends StatelessWidget {
       // Each organ moves on its own rhythm, offset along the shared clock by
       // where it sits, so the body ripples instead of flashing in unison.
       final motion = motionFor(organ.key);
-      final local = (phase + position.dy) % 1.0;
+      final local = (phase + phaseOffset) % 1.0;
       final scale = reduceMotion ? 1.0 : organScale(motion, local);
-      width = box!.width * canvas.width * (selected ? 1.35 : 1.0);
-      height = box!.height * canvas.height * (selected ? 1.35 : 1.0);
+      width = boxSize.width * (selected ? 1.35 : 1.0);
+      height = boxSize.height * (selected ? 1.35 : 1.0);
       mark = CustomPaint(
         painter: _OrganPainter(
           unit: unit,
@@ -219,7 +205,7 @@ class _Hotspot extends StatelessWidget {
     } else {
       // Diffuse systems: a ring, honestly abstract, pulsing on the shared
       // clock so it belongs to the same body.
-      final local = (phase + position.dy) % 1.0;
+      final local = (phase + phaseOffset) % 1.0;
       final pulse = reduceMotion ? 0.5 : 0.5 - 0.5 * math.cos(local * 2 * math.pi);
       final radius = (selected ? 20.0 : 15.0) + (reduceMotion ? 0 : 3 * pulse * weight);
       width = radius * 2;
@@ -240,8 +226,8 @@ class _Hotspot extends StatelessWidget {
     final touch = Size(math.max(width, 44), math.max(height, 44));
 
     return Positioned(
-      left: position.dx * canvas.width - touch.width / 2,
-      top: position.dy * canvas.height - touch.height / 2,
+      left: center.dx - touch.width / 2,
+      top: center.dy - touch.height / 2,
       child: Semantics(
         button: true,
         selected: selected,
@@ -387,163 +373,6 @@ class OrganGlyph extends StatelessWidget {
       ),
     );
   }
-}
-
-/// A single calm human outline — a silhouette, not an anatomical plate.
-///
-/// Drawn as separate pieces (head, neck, torso, two arms, two legs) rather
-/// than one closed outline. The single-path version fused the arms into the
-/// shoulders and the legs into the hips, and the result read as a snowman:
-/// with the organs now drawn inside it, the body has to look like a body.
-class _BodyPainter extends CustomPainter {
-  _BodyPainter({required this.outline, required this.fill});
-
-  final Color outline;
-  final Color fill;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final w = size.width;
-    final h = size.height;
-    final cx = w / 2;
-
-    Offset p(double x, double y) => Offset(cx + w * x, h * y);
-
-    final head = Path()
-      ..addOval(Rect.fromCircle(center: p(0, 0.078), radius: h * 0.062));
-
-    final neck = Path()
-      ..moveTo(cx - w * 0.040, h * 0.120)
-      ..lineTo(cx + w * 0.040, h * 0.120)
-      ..lineTo(cx + w * 0.046, h * 0.165)
-      ..lineTo(cx - w * 0.046, h * 0.165)
-      ..close();
-
-    // Torso: shoulders, a waist that actually narrows, and hips.
-    final torso = Path()
-      ..moveTo(cx - w * 0.046, h * 0.160)
-      ..cubicTo(
-        cx - w * 0.110, h * 0.170,
-        cx - w * 0.150, h * 0.192,
-        cx - w * 0.156, h * 0.232,
-      )
-      ..cubicTo(
-        cx - w * 0.160, h * 0.312,
-        cx - w * 0.134, h * 0.360,
-        cx - w * 0.120, h * 0.420,
-      )
-      ..cubicTo(
-        cx - w * 0.110, h * 0.462,
-        cx - w * 0.128, h * 0.512,
-        cx - w * 0.146, h * 0.560,
-      )
-      ..cubicTo(
-        cx - w * 0.158, h * 0.600,
-        cx - w * 0.140, h * 0.622,
-        cx, h * 0.624,
-      )
-      ..cubicTo(
-        cx + w * 0.140, h * 0.622,
-        cx + w * 0.158, h * 0.600,
-        cx + w * 0.146, h * 0.560,
-      )
-      ..cubicTo(
-        cx + w * 0.128, h * 0.512,
-        cx + w * 0.110, h * 0.462,
-        cx + w * 0.120, h * 0.420,
-      )
-      ..cubicTo(
-        cx + w * 0.134, h * 0.360,
-        cx + w * 0.160, h * 0.312,
-        cx + w * 0.156, h * 0.232,
-      )
-      ..cubicTo(
-        cx + w * 0.150, h * 0.192,
-        cx + w * 0.110, h * 0.170,
-        cx + w * 0.046, h * 0.160,
-      )
-      ..close();
-
-    // Arms and legs as their own rounded limbs, set off the trunk.
-    Path limb(List<Offset> spine, double halfWidth) {
-      final path = Path();
-      final left = <Offset>[];
-      final right = <Offset>[];
-      for (var i = 0; i < spine.length; i++) {
-        final before = spine[math.max(0, i - 1)];
-        final after = spine[math.min(spine.length - 1, i + 1)];
-        final dir = after - before;
-        final len = dir.distance;
-        final normal = len == 0
-            ? const Offset(1, 0)
-            : Offset(-dir.dy / len, dir.dx / len);
-        // Taper towards the far end so a limb is not a rectangle.
-        final t = 1 - 0.35 * (i / (spine.length - 1));
-        left.add(spine[i] + normal * halfWidth * t);
-        right.add(spine[i] - normal * halfWidth * t);
-      }
-      path.moveTo(left.first.dx, left.first.dy);
-      for (final o in left.skip(1)) {
-        path.lineTo(o.dx, o.dy);
-      }
-      for (final o in right.reversed) {
-        path.lineTo(o.dx, o.dy);
-      }
-      path.close();
-      return path;
-    }
-
-    final arms = [
-      for (final side in const [-1.0, 1.0])
-        limb(
-          [
-            // The first point sits inside the trunk so the shoulder joins
-            // instead of showing a seam between arm and body.
-            p(side * 0.110, 0.178),
-            p(side * 0.150, 0.208),
-            p(side * 0.200, 0.290),
-            p(side * 0.216, 0.376),
-            p(side * 0.212, 0.462),
-            p(side * 0.200, 0.536),
-          ],
-          w * 0.028,
-        ),
-    ];
-
-    final legs = [
-      for (final side in const [-1.0, 1.0])
-        limb(
-          [
-            p(side * 0.072, 0.612),
-            p(side * 0.078, 0.716),
-            p(side * 0.072, 0.828),
-            p(side * 0.064, 0.940),
-          ],
-          w * 0.046,
-        ),
-    ];
-
-    final body = Path()..addPath(torso, Offset.zero);
-    for (final piece in [head, neck, ...arms, ...legs]) {
-      body.addPath(piece, Offset.zero);
-    }
-
-    canvas.drawPath(body, Paint()..color = fill);
-    for (final piece in [neck, torso, head, ...arms, ...legs]) {
-      canvas.drawPath(
-        piece,
-        Paint()
-          ..color = outline
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.5
-          ..strokeJoin = StrokeJoin.round,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_BodyPainter old) =>
-      old.outline != outline || old.fill != fill;
 }
 
 /// The population-impact bar under an organ's name (module report §7.③).

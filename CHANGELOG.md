@@ -198,6 +198,13 @@ güncelliği.
   satırı), etik lint'e eklenen S5 iddia kalıpları ve "her göstergenin
   formülü yayımlanmış olmalı" kabul testi.
 
+## [1.3.1] — yeni insan figürü
+
+- Organ haritasındaki figür baştan çizildi. Eskisi ayrı parçalardan (daire kafa, dikdörtgen boyun, kutu gövde, düz çizgili çokgen uzuvlar) oluşuyordu; ek yerleri ve köşeler görünüyor, oranlar kardan adam gibiydi.
+- Yeni figür tek bir yol: parçalar `Path.combine(union)` ile birleşiyor, tüm konturlar Catmull-Rom eğrisinden geçiyor (köşe yok). Yaklaşık 8 kafa oranı, eğimli omuz, bel, kalça, diz ve bilek incelmesi.
+- Degrade dolgu, göğüste cam ışığı, yumuşak dış parıltı, hafif anatomik ipuçları ve zemin gölgesi.
+- Organ yerleşimi ekran genişliği yerine vücut koordinatlarında (`BodyGeometry`, `BodyFrame`): her ekranda organlar gövdenin içinde.
+
 ## [1.3.0] — cihaz geri bildirimi (15 madde)
 
 Gerçek bir telefonda kullanıldıktan sonra gelen 15 maddelik geri bildirim.
