@@ -30,9 +30,11 @@ void main() {
     // behind it and it is dismissed with a single tap.
     await tester.tap(find.text('I smoked one'));
     await tester.pumpAndSettle();
-    // The sheet leads with a sad-but-hopeful line now (item 9); it rotates
-    // by the day's count, and this is the first cigarette of the day.
-    expect(find.text('A little sad, and still on the way.'), findsOneWidget);
+    // The sheet leads with objective physiological feedback and resets cleanly.
+    expect(
+      find.text('Cigarette logged. Carbon monoxide clearance has reset.'),
+      findsOneWidget,
+    );
     await tester.tap(find.widgetWithText(FilledButton, 'Done'));
     await tester.pumpAndSettle();
 

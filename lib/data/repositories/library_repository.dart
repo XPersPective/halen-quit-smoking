@@ -951,6 +951,27 @@ class LibraryRepository {
           sourceUrl: 'https://www.tobaccoinduceddiseases.org/Acupuncture-and-related-acupoint-therapies-for-smoking-cessation-An-umbrella-review,186147,0,2.html',
         ),
         SosTechnique(
+          key: 'nutrition',
+          name: L10nText(
+            en: 'Anti-craving nutrition guide',
+            tr: 'Aşerme beslenme & sıvı rehberi',
+            de: 'Anti-Craving Ernährungsratgeber',
+          ),
+          instruction: L10nText(
+            en: 'Vitamin C, alkaline foods, ice water vagal stimulation and avoiding caffeine spikes.',
+            tr: 'C vitamini, alkali gıdalar, soğuk su ile vagus uyarımı ve kafein/şeker tuzaklarından kaçınma.',
+            de: 'Vitamin C, basische Kost, Eiswasser zur Vagusstimulation und Koffeinreduktion.',
+          ),
+          evidence: EvidenceLevel.promising,
+          evidenceNote: L10nText(
+            en: 'Dietary pH shifts modulate nicotine renal excretion rate; cold liquids and antioxidant support reduce acute autonomic distress.',
+            tr: 'İdrar pH değişiklikleri nikotin atılım hızını etkiler; soğuk sıvı ve C vitamini akut otonomik stresi hafifletir.',
+            de: 'Der Urin-pH beeinflusst die Nikotinausscheidung; Kälte und Vitamin C dämpfen den Entzugsstress.',
+          ),
+          durationSeconds: 120,
+          sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/3773121/',
+        ),
+        SosTechnique(
           key: 'coldWater',
           name: L10nText(
             en: 'Cold water on your wrists',

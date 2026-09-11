@@ -19,9 +19,11 @@ import 'package:halen/presentation/widgets/quit_day_co_card.dart';
 import 'package:halen/presentation/widgets/support_card_tile.dart';
 import 'package:halen/core/design/tokens.dart';
 import 'package:halen/core/haptics.dart';
+import 'package:halen/domain/plan_kinds.dart';
 import 'package:halen/presentation/widgets/cessation/quit_date_strip.dart';
 import 'package:halen/presentation/widgets/cessation/slip_coach_card.dart';
 import 'package:halen/presentation/widgets/today/log_feedback.dart';
+import 'package:halen/presentation/widgets/today/mini_organ_cockpit.dart';
 import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
 import 'package:halen/presentation/widgets/today/progress_score_tile.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
@@ -213,6 +215,18 @@ class _TodayBody extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final planRow = ref.watch(planStateProvider).value;
+    final planKind = planRow?.kind ?? PlanKind.gradualTaper;
+    final planName = switch (planKind) {
+      PlanKind.gradualTaper => l10n.planKindGradual,
+      PlanKind.dailyQuota => l10n.planKindQuota,
+      PlanKind.quitDay => l10n.planKindQuitDay,
+      PlanKind.trackOnly => l10n.planKindTrackOnly,
+    };
+    final planWeek = planRow == null
+        ? 1
+        : DateTime.now().difference(planRow.startedAt).inDays ~/ 7 + 1;
+
     return SafeArea(
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
@@ -241,7 +255,7 @@ class _TodayBody extends ConsumerWidget {
           ),
           const SizedBox(height: HalenSpace.x5),
 
-          // ——— Focus hero ———
+          // ——— Focus hero: Active Plan & Rhythm ———
           Container(
             decoration: HalenSurface.hero(),
             child: Stack(
@@ -267,37 +281,90 @@ class _TodayBody extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.14),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.spa_rounded,
-                              color: HalenColors.mint,
-                              size: 13,
+                      Wrap(
+                        spacing: HalenSpace.x2,
+                        runSpacing: HalenSpace.x2,
+                        alignment: WrapAlignment.spaceBetween,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
                             ),
-                            const SizedBox(width: HalenSpace.x1),
-                            Flexible(
-                              child: Text(
-                                l10n.daysSinceStart(state.daysSinceStart),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: theme.textTheme.labelSmall?.copyWith(
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.14),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.spa_rounded,
                                   color: HalenColors.mint,
-                                  fontWeight: FontWeight.w700,
+                                  size: 13,
+                                ),
+                                const SizedBox(width: HalenSpace.x1),
+                                Flexible(
+                                  child: Text(
+                                    l10n.daysSinceStart(state.daysSinceStart),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: theme.textTheme.labelSmall?.copyWith(
+                                      color: HalenColors.mint,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                Routes.planSwitch,
+                              ),
+                              borderRadius: BorderRadius.circular(100),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.16),
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(
+                                    color: Colors.white.withValues(alpha: 0.25),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(
+                                      Icons.swap_horiz_rounded,
+                                      color: Colors.white,
+                                      size: 14,
+                                    ),
+                                    const SizedBox(width: HalenSpace.x1),
+                                    Flexible(
+                                      child: Text(
+                                        l10n.planCardSwitch,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: theme.textTheme.labelSmall?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: HalenSpace.x5),
                       LayoutBuilder(
@@ -306,19 +373,29 @@ class _TodayBody extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                l10n.todayFocusTitle,
+                                l10n.planStripLabel(planName, planWeek),
                                 style: theme.textTheme.headlineSmall?.copyWith(
                                   color: Colors.white,
-                                  fontSize: 25,
-                                  height: 1.18,
+                                  fontSize: 22,
+                                  height: 1.2,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              const SizedBox(height: HalenSpace.x3),
+                              const SizedBox(height: HalenSpace.x2),
                               Text(
-                                l10n.todayFocusNote,
-                                style: theme.textTheme.bodySmall?.copyWith(
+                                l10n.planCardTarget(state.target),
+                                style: theme.textTheme.bodyMedium?.copyWith(
                                   color: const Color(0xFFD6E8DB),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: HalenSpace.x1),
+                              Text(
+                                state.smoked <= state.target
+                                    ? l10n.recalcDistributed
+                                    : l10n.recalcWeekSoftened,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: Colors.white.withValues(alpha: 0.75),
                                 ),
                               ),
                             ],
@@ -415,7 +492,11 @@ class _TodayBody extends ConsumerWidget {
             icon: const Icon(Icons.smoking_rooms_rounded, size: 20),
             label: Text(l10n.ctaSmoked),
           ),
-          const SizedBox(height: HalenSpace.x8),
+          const SizedBox(height: HalenSpace.x4),
+
+          // ——— Smoking diary right below action buttons (road-tested visibility) ———
+          const TodayLogCard(),
+          const SizedBox(height: HalenSpace.x6),
 
           // ——— Overview ———
           // The quit attempt comes first when there is something to say
@@ -433,6 +514,8 @@ class _TodayBody extends ConsumerWidget {
           // Item 14: the one number that answers "am I getting better?"
           // leads the section instead of living below the fold on Grafikler.
           const Entrance(child: ProgressScoreTile()),
+          const SizedBox(height: HalenSpace.x4),
+          const Entrance(child: MiniOrganCockpit()),
           const SizedBox(height: HalenSpace.x4),
           // §1 — the question people open the app with, answered before
           // anything else: how much is still in me, and how long has it been.
@@ -526,9 +609,7 @@ class _TodayBody extends ConsumerWidget {
               onTap: () => Navigator.pushNamed(context, Routes.breathing),
             ),
           ),
-          const SizedBox(height: HalenSpace.x6),
-          const TodayLogCard(),
-          const SizedBox(height: HalenSpace.x3),
+          const SizedBox(height: HalenSpace.x4),
           Card(
             clipBehavior: Clip.antiAlias,
             child: ExpansionTile(

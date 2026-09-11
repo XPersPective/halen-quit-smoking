@@ -23,11 +23,26 @@ import '../../../core/design/tokens.dart';
 ///
 /// It also shows the half nobody else dares to: money still being spent.
 /// Neutral grey, same type size, no commentary.
-class EconomyScreen extends ConsumerWidget {
+enum EconomyTimeFilter { oneMonth, oneYear, allTime, lifetime }
+
+/// Money and time (module report §3).
+///
+/// This is the one screen in the app where nothing is modelled: it is the
+/// user's own price, their own records and arithmetic — and it says so. The
+/// only estimate on it is the time ledger, which carries the word "average"
+/// because 20 minutes per cigarette is a population figure, not a promise.
+class EconomyScreen extends ConsumerStatefulWidget {
   const EconomyScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<EconomyScreen> createState() => _EconomyScreenState();
+}
+
+class _EconomyScreenState extends ConsumerState<EconomyScreen> {
+  EconomyTimeFilter _filter = EconomyTimeFilter.allTime;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final locale = Localizations.localeOf(context).toString();
@@ -40,7 +55,6 @@ class EconomyScreen extends ConsumerWidget {
     final economy = ref.watch(economyProvider).value;
     final profile = ref.watch(smokingProfileProvider).value;
     final baseline = ref.watch(measuredBaselineProvider).value ?? 0;
-    final stats = ref.watch(dailyStatsProvider(90)).value ?? const [];
     final goal = ref.watch(savingsGoalProvider).value;
 
     if (economy == null || profile == null) {
@@ -50,11 +64,40 @@ class EconomyScreen extends ConsumerWidget {
       );
     }
 
-    final smokedTotal = stats.fold<int>(0, (sum, d) => sum + d.count);
-    final avoidedTotal = stats.fold<int>(
+    final now = DateTime.now();
+    final daysSinceStart = now.difference(profile.startedAt).inDays + 1;
+    final queryDays = switch (_filter) {
+      EconomyTimeFilter.oneMonth => 30,
+      EconomyTimeFilter.oneYear => 365,
+      EconomyTimeFilter.allTime => math.max(30, daysSinceStart + 2),
+      EconomyTimeFilter.lifetime => 30,
+    };
+
+    final stats = ref.watch(dailyStatsProvider(queryDays)).value ?? const [];
+
+    final startKey = dayKey(profile.startedAt);
+    final todayKey = dayKey(now);
+    final filterMinKey = switch (_filter) {
+      EconomyTimeFilter.oneMonth => dayKey(dayStartMinusDays(now, 29)),
+      EconomyTimeFilter.oneYear => dayKey(dayStartMinusDays(now, 364)),
+      _ => startKey,
+    };
+
+    // Only count days between startedAt (or filter bound) and today.
+    // Prevents phantom pre-install empty days from being counted as avoided!
+    final trackedStats = stats.where((d) {
+      final afterMin = d.dateKey.compareTo(filterMinKey) >= 0;
+      final afterStart = d.dateKey.compareTo(startKey) >= 0;
+      final beforeToday = d.dateKey.compareTo(todayKey) <= 0;
+      return afterMin && afterStart && beforeToday;
+    }).toList();
+
+    final smokedTotal = trackedStats.fold<int>(0, (sum, d) => sum + d.count);
+    final avoidedTotal = trackedStats.fold<int>(
       0,
       (sum, d) => sum + math.max(0, (baseline - d.count).round()),
     );
+
     final recentCounts = stats.length <= 7
         ? stats
         : stats.sublist(stats.length - 7);
@@ -84,111 +127,203 @@ class EconomyScreen extends ConsumerWidget {
       math.max(0, (baseline - currentCpd).round()),
     );
 
+    // Lifetime historical calculation
+    final smokingYears = (profile.smokingYears ?? 10.0).clamp(0.5, 70.0);
+    final lifetimeCigarettes = (smokingYears * 365.25 * profile.baselineCpd).round();
+    final lifetimeSpent = (lifetimeCigarettes / profile.packSize) * profile.pricePerPack;
+    final lifetimeTimeLost = economy.timeLost(lifetimeCigarettes);
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.economyTitle)),
       body: ListView(
         padding: const EdgeInsets.all(HalenSpace.x5),
         children: [
-          Text(l10n.economyExactNote, style: theme.textTheme.bodyMedium),
-          const SizedBox(height: HalenSpace.x4),
-          Row(
-            children: [
-              Expanded(
-                child: _Amount(
-                  label: l10n.economySaved,
-                  value: money.format(saved),
-                  color: HalenColors.emerald,
-                  emphasize: true,
+          // Filter switcher
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SegmentedButton<EconomyTimeFilter>(
+              segments: [
+                ButtonSegment(
+                  value: EconomyTimeFilter.oneMonth,
+                  label: Text(l10n.economyTimeFilter1m),
                 ),
-              ),
-              const SizedBox(width: HalenSpace.x3),
-              Expanded(
-                child: _Amount(
-                  label: l10n.economySpent,
-                  value: money.format(spent),
-                  color: HalenColors.textSecondaryLight,
+                ButtonSegment(
+                  value: EconomyTimeFilter.oneYear,
+                  label: Text(l10n.economyTimeFilter1y),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: HalenSpace.x4),
-          _Equivalent(saved: saved),
-          const SizedBox(height: HalenSpace.x8),
-
-          ChartCard(
-            title: l10n.economyProjectionTitle,
-            trailing: Text(
-              money.format(gap),
-              style: theme.textTheme.titleLarge?.copyWith(
-                color: HalenColors.emerald,
-              ),
-            ),
-            footnote: l10n.economyShadedArea,
-            child: HalenLineChart(
-              meaning: l10n.economyMeaning,
-              shadeBetween: true,
-              minY: 0,
-              yFormatter: compactMoney.format,
-              tooltipFormatter: money.format,
-              yLabelWidth: 72,
-              series: [
-                ChartSeries(
-                  name: l10n.economyKeepPace,
-                  color: HalenColors.textSecondaryLight,
-                  values: [for (final p in projection) p.keepThisPace],
+                ButtonSegment(
+                  value: EconomyTimeFilter.allTime,
+                  label: Text(l10n.economyTimeFilterAll),
                 ),
-                ChartSeries(
-                  name: l10n.economyFinishPlan,
-                  color: HalenColors.emerald,
-                  values: [for (final p in projection) p.finishThePlan],
+                ButtonSegment(
+                  value: EconomyTimeFilter.lifetime,
+                  label: Text(l10n.economyTimeFilterLifetime),
                 ),
               ],
-              xLabels: const ['0', '6', '12'],
-              semanticsLabel:
-                  '${l10n.economyProjectionTitle}: ${money.format(gap)}',
+              selected: {_filter},
+              onSelectionChanged: (selection) =>
+                  setState(() => _filter = selection.first),
             ),
           ),
-          const SizedBox(height: HalenSpace.x8),
+          const SizedBox(height: HalenSpace.x4),
 
-          Text(l10n.economyTimeLedger, style: theme.textTheme.titleMedium),
-          const SizedBox(height: HalenSpace.x3),
-          Row(
-            children: [
-              Expanded(
-                child: _Amount(
-                  label: l10n.economyTimeRegained,
-                  value: formatShortDuration(
-                    economy.timeRegained(avoidedTotal),
-                    locale,
+          if (_filter == EconomyTimeFilter.lifetime) ...[
+            Text(
+              l10n.economyHistoricalTitle,
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: HalenSpace.x1),
+            Text(
+              l10n.economyHistoricalSubtitle,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: HalenSpace.x4),
+            _Amount(
+              label: l10n.economySpent,
+              value: money.format(lifetimeSpent),
+              color: HalenColors.coral,
+              emphasize: true,
+            ),
+            const SizedBox(height: HalenSpace.x3),
+            Row(
+              children: [
+                Expanded(
+                  child: _Amount(
+                    label: '${smokingYears.toStringAsFixed(smokingYears % 1 == 0 ? 0 : 1)} yıl / sigara',
+                    value: '${NumberFormat.decimalPattern(locale).format(lifetimeCigarettes)} adet',
+                    color: HalenColors.textSecondaryLight,
                   ),
+                ),
+                const SizedBox(width: HalenSpace.x3),
+                Expanded(
+                  child: _Amount(
+                    label: l10n.economyTimeLost,
+                    value: formatShortDuration(lifetimeTimeLost, locale),
+                    color: HalenColors.coral,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: HalenSpace.x4),
+            _Equivalent(saved: lifetimeSpent),
+            const SizedBox(height: HalenSpace.x4),
+            Container(
+              padding: const EdgeInsets.all(HalenSpace.x4),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Text(
+                'Geçmişte harcanan bu meblağ geride kaldı; ancak Halen ile sigarayı bırakarak önündeki yıllarda servetinin ve ömrünün cebinde kalmasını sağlayabilirsin.',
+                style: theme.textTheme.bodyMedium,
+              ),
+            ),
+          ] else ...[
+            Text(l10n.economyExactNote, style: theme.textTheme.bodyMedium),
+            const SizedBox(height: HalenSpace.x4),
+            Row(
+              children: [
+                Expanded(
+                  child: _Amount(
+                    label: l10n.economySaved,
+                    value: money.format(saved),
+                    color: HalenColors.emerald,
+                    emphasize: true,
+                  ),
+                ),
+                const SizedBox(width: HalenSpace.x3),
+                Expanded(
+                  child: _Amount(
+                    label: l10n.economySpent,
+                    value: money.format(spent),
+                    color: HalenColors.textSecondaryLight,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: HalenSpace.x4),
+            _Equivalent(saved: saved),
+            const SizedBox(height: HalenSpace.x8),
+
+            ChartCard(
+              title: l10n.economyProjectionTitle,
+              trailing: Text(
+                money.format(gap),
+                style: theme.textTheme.titleLarge?.copyWith(
                   color: HalenColors.emerald,
                 ),
               ),
-              const SizedBox(width: HalenSpace.x3),
-              Expanded(
-                child: _Amount(
-                  label: l10n.economyTimeLost,
-                  value: formatShortDuration(
-                    economy.timeLost(smokedTotal),
-                    locale,
+              footnote: l10n.economyShadedArea,
+              child: HalenLineChart(
+                meaning: l10n.economyMeaning,
+                shadeBetween: true,
+                minY: 0,
+                yFormatter: compactMoney.format,
+                tooltipFormatter: money.format,
+                yLabelWidth: 72,
+                series: [
+                  ChartSeries(
+                    name: l10n.economyKeepPace,
+                    color: HalenColors.textSecondaryLight,
+                    values: [for (final p in projection) p.keepThisPace],
                   ),
-                  color: HalenColors.textSecondaryLight,
-                ),
+                  ChartSeries(
+                    name: l10n.economyFinishPlan,
+                    color: HalenColors.emerald,
+                    values: [for (final p in projection) p.finishThePlan],
+                  ),
+                ],
+                xLabels: const ['0', '6', '12'],
+                semanticsLabel:
+                    '${l10n.economyProjectionTitle}: ${money.format(gap)}',
               ),
-            ],
-          ),
-          const SizedBox(height: HalenSpace.x2),
-          Text(l10n.economyLifeAverageNote, style: theme.textTheme.labelSmall),
-          const SizedBox(height: HalenSpace.x8),
+            ),
+            const SizedBox(height: HalenSpace.x8),
 
-          _GoalSection(
-            goal: goal == null
-                ? null
-                : SavingsGoal(label: goal.label, amount: goal.amount),
-            saved: saved,
-            dailySaving: dailySaving,
-            money: money,
-          ),
+            Text(l10n.economyTimeLedger, style: theme.textTheme.titleMedium),
+            const SizedBox(height: HalenSpace.x3),
+            Row(
+              children: [
+                Expanded(
+                  child: _Amount(
+                    label: l10n.economyTimeRegained,
+                    value: formatShortDuration(
+                      economy.timeRegained(avoidedTotal),
+                      locale,
+                    ),
+                    color: HalenColors.emerald,
+                  ),
+                ),
+                const SizedBox(width: HalenSpace.x3),
+                Expanded(
+                  child: _Amount(
+                    label: l10n.economyTimeLost,
+                    value: formatShortDuration(
+                      economy.timeLost(smokedTotal),
+                      locale,
+                    ),
+                    color: HalenColors.textSecondaryLight,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: HalenSpace.x2),
+            Text(l10n.economyLifeAverageNote, style: theme.textTheme.labelSmall),
+            const SizedBox(height: HalenSpace.x8),
+
+            _GoalSection(
+              goal: goal == null
+                  ? null
+                  : SavingsGoal(label: goal.label, amount: goal.amount),
+              saved: saved,
+              dailySaving: dailySaving,
+              money: money,
+            ),
+          ],
           const SizedBox(height: HalenSpace.x6),
         ],
       ),

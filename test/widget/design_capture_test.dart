@@ -177,7 +177,7 @@ void main() {
   testWidgets('indices', (t) => shot(t, '20-indeksler', const IndicesCard()));
   testWidgets('body', (t) => shot(t, '21-beden', const BodyScreen()));
   testWidgets('organ map', (t) async {
-    await shot(t, '26-organ-haritasi', const BodyScreen(initialTab: 1));
+    await shot(t, '26-organ-haritasi', const BodyScreen(initialTab: 0));
   });
 
   testWidgets('organ detail', (tester) async {
@@ -188,7 +188,7 @@ void main() {
     await pumpModuleWidget(
       tester,
       db: db,
-      child: const BodyScreen(initialTab: 1),
+      child: const BodyScreen(initialTab: 0),
       scrollable: false,
     );
     await tester.pump();
@@ -281,7 +281,7 @@ void main() {
     (t) => shot(
       t,
       '30-organ-haritasi-koyu',
-      const BodyScreen(initialTab: 1),
+      const BodyScreen(initialTab: 0),
       brightness: Brightness.dark,
     ),
   );

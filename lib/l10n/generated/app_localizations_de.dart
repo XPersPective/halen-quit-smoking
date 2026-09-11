@@ -2690,34 +2690,35 @@ class AppLocalizationsDe extends AppLocalizations {
   String get startupFailUnknown => 'Kein weiteres Detail gemeldet.';
 
   @override
-  String get smokedHeadline0 => 'Die ist vorbei. Die nächste muss nicht sein.';
+  String get smokedHeadline0 => 'Erfasst. Dein Nikotinspiegel ist gestiegen.';
 
   @override
-  String get smokedHeadline1 => 'Ein bisschen traurig, und trotzdem unterwegs.';
+  String get smokedHeadline1 =>
+      'Zigarette protokolliert. Der Kohlenmonoxid-Abbau beginnt von vorn.';
 
   @override
   String get smokedHeadline2 =>
-      'Dein Körper baut diese hier ab jetzt schon ab.';
+      'Eintrag aktualisiert. Bleib auf deinem Rhythmus.';
 
   @override
   String get smokedHeadline3 =>
-      'Kein Scheitern. Die nächste Stunde gehört dir.';
+      'Gespeichert. Die nächste hinauszuzögern, liegt in deiner Hand.';
 
   @override
   String get smokedAdvice0 =>
-      'Wenn das nächste Verlangen kommt, warte fünf Minuten, bevor du entscheidest. Die meisten vergehen in dieser Zeit.';
+      'Trinke jetzt ein großes Glas kaltes Wasser, um den Geschmack zu neutralisieren.';
 
   @override
   String get smokedAdvice1 =>
-      'Trink jetzt ein Glas Wasser und steh kurz auf. Was Hände und Füße tun, zu ändern, schwächt das nächste Verlangen.';
+      'Steh auf und mach einen kurzen Spaziergang. Ein Umgebungswechsel schwächt den Drang.';
 
   @override
   String get smokedAdvice2 =>
-      'Jede ausgelassene Zigarette senkt das Kohlenmonoxid im Blut weiter. Versuch, diese zur letzten heute zu machen.';
+      'Nimm einen tiefen Atemzug. Gönne deinem Körper mindestens eine Stunde Pause.';
 
   @override
   String get smokedAdvice3 =>
-      'Aufhören ist das Beste, was du für deine Gesundheit tun kannst. Nicht unbedingt heute, aber jede ausgelassene zählt.';
+      'Dein Körper braucht etwa 8 Stunden für den Nikotinabbau. Trinke ausreichend Wasser.';
 
   @override
   String get splashContinue => 'Weiter';
@@ -2959,4 +2960,70 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get envFiltersLabel => 'Filter';
+
+  @override
+  String get callQuitlineA171 => 'Türkei Rauchstopp-Hotline (ALO 171)';
+
+  @override
+  String get callYedam115 => 'YEDAM Beratungshotline (115)';
+
+  @override
+  String get callQuitlineUs => 'US Quitline (1-800-QUIT-NOW)';
+
+  @override
+  String get callQuitlineUk => 'UK NHS Smokefree (0300 123 1044)';
+
+  @override
+  String get callQuitlineDe => 'BZgA Beratungstelefon (0800 8 313131)';
+
+  @override
+  String get callQuitlineFr => 'Frankreich Tabac Info (39 89)';
+
+  @override
+  String get nutritionGuideTitle => 'Ernährungs- & Flüssigkeitsratgeber';
+
+  @override
+  String get nutritionGuideSubtitle =>
+      'Vitamin C, basische Kost und akute Flüssigkeitszufuhr';
+
+  @override
+  String get planCardTitle => 'Aktiver Plan & Rhythmus';
+
+  @override
+  String get planCardSwitch => 'Plan verwalten / wechseln';
+
+  @override
+  String planCardTarget(int count) {
+    return 'Heutiges Ziel: $count Zigaretten';
+  }
+
+  @override
+  String get planCardNextInterval => 'Nächstes empfohlenes Intervall';
+
+  @override
+  String get economyHistoricalTitle => 'Lebenslange Ausgaben fürs Rauchen';
+
+  @override
+  String get economyHistoricalSubtitle =>
+      'Geschätzte Gesamtausgaben für Zigaretten in der Vergangenheit';
+
+  @override
+  String get economyTimeFilter1m => '1 Monat';
+
+  @override
+  String get economyTimeFilter1y => '1 Jahr';
+
+  @override
+  String get economyTimeFilterAll => 'Gesamte Zeit (Halen)';
+
+  @override
+  String get economyTimeFilterLifetime => 'Rauchgeschichte';
+
+  @override
+  String get progressScoreExplainer =>
+      'Zieltreue-Score (von 100): Einhaltung der Tagesquoten, Vergrößerung der Abstände und Widerstandskraft.';
+
+  @override
+  String get mindPressureExplainer =>
+      'Nikotinentzugsdruck: Simulation des biologischen Drucks der Nikotinrezeptoren. Spitzen sind vorübergehend (~5-10 Min.).';
 }

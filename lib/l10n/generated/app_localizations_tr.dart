@@ -2671,33 +2671,36 @@ class AppLocalizationsTr extends AppLocalizations {
   String get startupFailUnknown => 'Başka ayrıntı bildirilmedi.';
 
   @override
-  String get smokedHeadline0 => 'Bu geçti. Bir sonrakinin olması gerekmiyor.';
+  String get smokedHeadline0 =>
+      'Kayıt alındı. Vücudundaki nikotin seviyesi yükseldi.';
 
   @override
-  String get smokedHeadline1 => 'Biraz üzücü, ama hâlâ yoldasın.';
+  String get smokedHeadline1 =>
+      'Sigara kaydedildi. Karbonmonoksit temizliği yeniden başladı.';
 
   @override
-  String get smokedHeadline2 => 'Vücudun bunu şu an temizlemeye başladı.';
+  String get smokedHeadline2 =>
+      'Kayıt güncellendi. Hedefinden sapma yok, yola devam.';
 
   @override
   String get smokedHeadline3 =>
-      'Başarısızlık değil. Önümüzdeki bir saat senin.';
+      'İşlendi. Bir sonraki sigarayı geciktirmek senin elinde.';
 
   @override
   String get smokedAdvice0 =>
-      'Bir sonraki istek geldiğinde karar vermeden beş dakika bekle. Çoğu istek o süre içinde geçer.';
+      'Şimdi büyük bir bardak soğuk su iç. Su, ağızdaki nikotini nötrler ve vagus sinirini uyarır.';
 
   @override
   String get smokedAdvice1 =>
-      'Şimdi bir bardak su iç ve bir dakika kalk. Ellerinin ve ayaklarının ne yaptığını değiştirmek bir sonraki isteği zayıflatır.';
+      'Hemen ayağa kalk ve kısa bir yürüyüş yap. Ortam değiştirmek bir sonraki isteği zayıflatır.';
 
   @override
   String get smokedAdvice2 =>
-      'Atladığın her sigara kandaki karbonmonoksiti biraz daha düşürür. Bunu bugünün son sigarası yapmayı dene.';
+      'Derin bir diyafram nefesi al. Bir sonraki sigaraya kadar en az bir saat mola ver.';
 
   @override
   String get smokedAdvice3 =>
-      'Bırakmak sağlığın için yapabileceğin en iyi tek şey. Bugün yapmak zorunda değilsin ama atladığın her biri sayılıyor.';
+      'Vücudunun bu nikotini temizlemesi yaklaşık 8 saat sürecek. Bol sıvı alarak vücudunun arınmasını destekle.';
 
   @override
   String get splashContinue => 'Devam et';
@@ -2939,4 +2942,71 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get envFiltersLabel => 'İzmarit';
+
+  @override
+  String get callQuitlineA171 => 'ALO 171 Sigara Bırakma Hattı';
+
+  @override
+  String get callYedam115 => 'Yeşilay YEDAM 115 Danışmanlık Hattı';
+
+  @override
+  String get callQuitlineUs => 'ABD Bırakma Hattı (1-800-QUIT-NOW)';
+
+  @override
+  String get callQuitlineUk => 'İngiltere NHS Bırakma Hattı (0300 123 1044)';
+
+  @override
+  String get callQuitlineDe => 'Almanya BZgA Hattı (0800 8 313131)';
+
+  @override
+  String get callQuitlineFr => 'Fransa Tabac Info (39 89)';
+
+  @override
+  String get nutritionGuideTitle => 'Aşerme Önleme & Beslenme Rehberi';
+
+  @override
+  String get nutritionGuideSubtitle =>
+      'C vitamini, alkali gıdalar ve kriz anında sıvı desteği';
+
+  @override
+  String get planCardTitle => 'Aktif Plan & Ritim';
+
+  @override
+  String get planCardSwitch => 'Planı Yönet / Değiştir';
+
+  @override
+  String planCardTarget(int count) {
+    return 'Bugünkü Hedef: $count sigara';
+  }
+
+  @override
+  String get planCardNextInterval => 'Sonraki Önerilen Aralık';
+
+  @override
+  String get economyHistoricalTitle =>
+      'İçicilik Hayatında Harcanan Toplam Para';
+
+  @override
+  String get economyHistoricalSubtitle =>
+      'Geçmişte sigaraya ödenen tahmini toplam bedel';
+
+  @override
+  String get economyTimeFilter1m => '1 Ay';
+
+  @override
+  String get economyTimeFilter1y => '1 Yıl';
+
+  @override
+  String get economyTimeFilterAll => 'Tüm Süre (Halen)';
+
+  @override
+  String get economyTimeFilterLifetime => 'İçicilik Geçmişi';
+
+  @override
+  String get progressScoreExplainer =>
+      'Hedefe Uyum Skoru (100 üzerinden): Hedef kotalara uyum, aralıkların açılması ve isteklere direnme başarısı.';
+
+  @override
+  String get mindPressureExplainer =>
+      'Nikotin Yoksunluk Basıncı: Beyindeki nikotinik reseptörlerin yarattığı biyolojik baskı simülasyonu. Krizler geçicidir (~5-10 dk).';
 }

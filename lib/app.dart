@@ -26,6 +26,7 @@ import 'presentation/screens/settings/settings_screen.dart';
 import 'presentation/screens/shell_screen.dart';
 import 'presentation/screens/sos/breathing_screen.dart';
 import 'presentation/screens/sos/ear_acupressure_screen.dart';
+import 'presentation/screens/sos/nutrition_guide_screen.dart';
 import 'presentation/screens/splash_screen.dart';
 import 'presentation/screens/startup_failure_screen.dart';
 import 'presentation/screens/status/status_flow_screen.dart';
@@ -83,12 +84,12 @@ class HalenApp extends ConsumerWidget {
         Routes.settings: (_) => const SettingsScreen(),
         Routes.paywall: (_) => const PaywallScreen(),
         Routes.articles: (_) => const ArticlesScreen(),
-        Routes.body: (_) => const BodyScreen(),
         Routes.economy: (_) => const EconomyScreen(),
         Routes.planSwitch: (_) => const PlanSwitchScreen(),
         Routes.sources: (_) => const SourcesScreen(),
         Routes.earAcupressure: (_) => const EarAcupressureScreen(),
         Routes.glossary: (_) => const GlossaryScreen(),
+        Routes.nutritionGuide: (_) => const NutritionGuideScreen(),
         Routes.quitPlan: (_) => const QuitPlanScreen(),
         Routes.medicines: (_) => const MedicinesScreen(),
         Routes.quitDay: (_) => const QuitDayScreen(),
@@ -131,6 +132,13 @@ class HalenApp extends ConsumerWidget {
           return MaterialPageRoute<void>(
             settings: settings,
             builder: (_) => ArticleReaderScreen(articleId: articleId),
+          );
+        }
+        if (settings.name == Routes.body) {
+          final organKey = settings.arguments as String?;
+          return MaterialPageRoute<void>(
+            settings: settings,
+            builder: (_) => BodyScreen(initialOrganKey: organKey),
           );
         }
         return null;

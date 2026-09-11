@@ -5,6 +5,7 @@ import '../../application/module_providers.dart';
 import '../../core/dates.dart';
 import '../../core/design/tokens.dart';
 import '../../core/theme.dart';
+import '../../data/repositories/library_repository.dart';
 import '../../domain/body_load_model.dart';
 import '../../domain/organ_exposure.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -13,21 +14,15 @@ import 'charts/load_curve_chart.dart';
 import 'design/halen_components.dart';
 
 /// One organ, as this person's smoking reaches it (device feedback, item 5).
-///
-/// The detail used to carry only a population figure — true, and about
-/// somebody else. This card is about *them*: the organ's own 24-hour curve
-/// from their own cigarettes, how long since the last one reached it, and
-/// what each cigarette does to this particular organ in the minutes and hours
-/// after.
-///
-/// The organ is drawn in colour that darkens with its current load — clean
-/// green at rest, heavy brown at a peak. It is deliberately uncomfortable to
-/// look at after a cigarette, which is what the brief asked for, and it is
-/// still never red: this is a load being carried, not an alarm.
 class OrganExposureCard extends ConsumerWidget {
-  const OrganExposureCard({super.key, required this.organKey});
+  const OrganExposureCard({
+    super.key,
+    required this.organKey,
+    this.organ,
+  });
 
   final String organKey;
+  final OrganEntry? organ;
 
   static const _rest = HalenColors.emerald;
   static const _heavy = Color(0xFF6B4A2B);
@@ -86,13 +81,18 @@ class OrganExposureCard extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.organExposureTitle,
-                      style: theme.textTheme.titleMedium,
+                      organ?.name(locale) ?? l10n.organExposureTitle,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     const SizedBox(height: HalenSpace.x1),
                     Text(
                       l10n.organExposureNow(current),
-                      style: theme.textTheme.bodyMedium?.copyWith(color: tint),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: tint,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     Text(
                       l10n.organSinceLast(

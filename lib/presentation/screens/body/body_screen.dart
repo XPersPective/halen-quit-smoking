@@ -24,18 +24,19 @@ import '../../../core/design/tokens.dart';
 /// scenario curve is labelled "typical for your age group", and every organ
 /// card puts recovery next to harm — the negative half never ships alone.
 class BodyScreen extends ConsumerWidget {
-  const BodyScreen({super.key, this.initialTab = 0});
+  const BodyScreen({super.key, this.initialTab = 0, this.initialOrganKey});
 
-  /// Which tab opens first — used by the visual capture, and by any future
-  /// deep link that wants to land on the body map directly.
+  /// Which tab opens first (0: Organ Map, 1: Toxicants).
   final int initialTab;
+  final String? initialOrganKey;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final index = initialTab.clamp(0, 1);
     return DefaultTabController(
-      length: 3,
-      initialIndex: initialTab,
+      length: 2,
+      initialIndex: index,
       child: Scaffold(
         appBar: AppBar(
           title: Text(l10n.organMapTitle),
@@ -48,145 +49,43 @@ class BodyScreen extends ConsumerWidget {
             ),
           ],
           bottom: TabBar(
-            isScrollable: true,
             tabs: [
-              Tab(text: l10n.lungsTitle),
               Tab(text: l10n.organMapTitle),
               Tab(text: l10n.toxicantsTitle),
             ],
           ),
         ),
-        body: const TabBarView(
-          children: [_LungsTab(), _OrgansTab(), _ToxicantsTab()],
+        body: TabBarView(
+          children: [
+            _OrgansTab(initialSelected: initialOrganKey),
+            const _ToxicantsTab(),
+          ],
         ),
       ),
     );
   }
 }
 
-class _LungsTab extends ConsumerWidget {
-  const _LungsTab();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-    final tarLoad = ref.watch(tarLoadProvider).value ?? 0;
-    final scenarios = ref.watch(lungScenariosProvider).value;
-    final quitTs = ref.watch(timelineStateProvider).value;
-    // A milestone reached within the last day earns one glow.
-    final justReached =
-        quitTs != null &&
-        HealthMilestone.values.any((m) {
-          final days = daysSinceQuit(quitTs, DateTime.now());
-          return m.minQuitDays == days && days > 0;
-        });
-
-    return ListView(
-      padding: const EdgeInsets.all(HalenSpace.x5),
-      children: [
-        LungView(
-          celebrate: justReached,
-          mist: mistLevel(tarLoadVsBaseline: tarLoad),
-          semanticsLabel: '${l10n.lungsMistLabel}: $tarLoad / 100',
-        ),
-        const SizedBox(height: HalenSpace.x2),
-        Center(
-          child: Text(
-            l10n.lungsNotAScan,
-            style: theme.textTheme.labelSmall,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        const SizedBox(height: HalenSpace.x6),
-        Text(l10n.lungsSlowsLine, style: theme.textTheme.titleMedium),
-        const SizedBox(height: HalenSpace.x1),
-        Text(l10n.lungsTypicalLabel, style: theme.textTheme.bodySmall),
-        const SizedBox(height: HalenSpace.x4),
-        if (scenarios != null && scenarios[LungScenario.keepThisPace] != null)
-          Builder(
-            builder: (context) {
-              final keep = scenarios[LungScenario.keepThisPace]!;
-              final quit = scenarios[LungScenario.quitToday]!;
-              final never = scenarios[LungScenario.neverSmoked]!;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  HalenLineChart(
-                    meaning: l10n.lungsMeaning,
-                    // The better future sits on top: lung function is a
-                    // "higher is better" axis, and the shaded gap between
-                    // quitting and carrying on is the whole argument.
-                    shadeBetween: true,
-                    maxY: 100,
-                    yFormatter: (v) => '${v.round()}%',
-                    series: [
-                      ChartSeries(
-                        name: l10n.lungsScenarioQuit,
-                        color: HalenColors.emerald,
-                        values: [for (final p in quit) p.percentOfPeak],
-                      ),
-                      ChartSeries(
-                        name: l10n.lungsScenarioKeep,
-                        color: HalenColors.amberCta,
-                        values: [for (final p in keep) p.percentOfPeak],
-                      ),
-                      ChartSeries(
-                        name: l10n.lungsScenarioNever,
-                        color: HalenColors.textSecondaryLight,
-                        dashed: true,
-                        values: [for (final p in never) p.percentOfPeak],
-                      ),
-                    ],
-                    xLabels: keep.isEmpty
-                        ? const []
-                        : [
-                            '${l10n.lungsAxisAge} ${keep.first.age}',
-                            '${keep[keep.length ~/ 2].age}',
-                            '${keep.last.age}',
-                          ],
-                    semanticsLabel:
-                        '${l10n.lungsScenarioQuit} vs ${l10n.lungsScenarioKeep}',
-                  ),
-                  const SizedBox(height: HalenSpace.x3),
-                  // What the shaded area is worth, in one sentence.
-                  Builder(
-                    builder: (context) {
-                      final gap = scenarioGapAt(
-                        fromAge: keep.first.age,
-                        atAge: 70,
-                        cigarettesPerDay:
-                            ref.watch(measuredBaselineProvider).value ?? 15,
-                      );
-                      if (gap <= 0.5) {
-                        return const SizedBox.shrink();
-                      }
-                      return Text(
-                        l10n.lungsGapAt(70, gap.toStringAsFixed(0)),
-                        style: theme.textTheme.titleSmall,
-                      );
-                    },
-                  ),
-                ],
-              );
-            },
-          ),
-        const SizedBox(height: HalenSpace.x4),
-        Text(l10n.moduleModelTag, style: theme.textTheme.labelSmall),
-      ],
-    );
-  }
-}
-
 class _OrgansTab extends ConsumerStatefulWidget {
-  const _OrgansTab();
+  const _OrgansTab({this.initialSelected});
+
+  final String? initialSelected;
 
   @override
   ConsumerState<_OrgansTab> createState() => _OrgansTabState();
 }
 
 class _OrgansTabState extends ConsumerState<_OrgansTab> {
-  String? _selected;
+  late String? _selected = widget.initialSelected;
+
+  @override
+  void didUpdateWidget(covariant _OrgansTab oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialSelected != oldWidget.initialSelected &&
+        widget.initialSelected != null) {
+      _selected = widget.initialSelected;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -278,14 +177,14 @@ class _OrgansTabState extends ConsumerState<_OrgansTab> {
 /// One organ, opened from the map: what it does, what recovery looks like,
 /// and the population figure behind it — in that order, with recovery given
 /// the louder container (module report §7.③).
-class _OrganDetail extends StatelessWidget {
+class _OrganDetail extends ConsumerWidget {
   const _OrganDetail({super.key, required this.organ, required this.locale});
 
   final OrganEntry organ;
   final String locale;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final impact = organ.impact;
@@ -295,20 +194,110 @@ class _OrganDetail extends StatelessWidget {
         ? l10n.organImpactRelative(((impact.relativeRisk! - 1) * 100).round())
         : '';
 
-    // Item 5: this person's own exposure leads, the population figure
-    // follows. The first is about them; the second is about everyone.
+    final isLungs = organ.key == 'lungs';
+    final tarLoad = isLungs ? (ref.watch(tarLoadProvider).value ?? 0) : 0;
+    final scenarios = isLungs ? ref.watch(lungScenariosProvider).value : null;
+    final quitTs = ref.watch(timelineStateProvider).value;
+    final justReached =
+        quitTs != null &&
+        HealthMilestone.values.any((m) {
+          final days = daysSinceQuit(quitTs, DateTime.now());
+          return m.minQuitDays == days && days > 0;
+        });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        OrganExposureCard(organKey: organ.key),
+        OrganExposureCard(organKey: organ.key, organ: organ),
+        if (isLungs) ...[
+          const SizedBox(height: HalenSpace.x4),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(HalenSpace.x5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.lungsTitle,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: HalenSpace.x2),
+                  LungView(
+                    celebrate: justReached,
+                    mist: mistLevel(tarLoadVsBaseline: tarLoad),
+                    semanticsLabel: '${l10n.lungsMistLabel}: $tarLoad / 100',
+                  ),
+                  const SizedBox(height: HalenSpace.x2),
+                  Center(
+                    child: Text(
+                      l10n.lungsNotAScan,
+                      style: theme.textTheme.labelSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  if (scenarios != null &&
+                      scenarios[LungScenario.keepThisPace] != null) ...[
+                    const SizedBox(height: HalenSpace.x5),
+                    Text(l10n.lungsSlowsLine, style: theme.textTheme.titleSmall),
+                    const SizedBox(height: HalenSpace.x1),
+                    Text(l10n.lungsTypicalLabel, style: theme.textTheme.bodySmall),
+                    const SizedBox(height: HalenSpace.x3),
+                    Builder(
+                      builder: (context) {
+                        final keep = scenarios[LungScenario.keepThisPace]!;
+                        final quit = scenarios[LungScenario.quitToday]!;
+                        final never = scenarios[LungScenario.neverSmoked]!;
+                        return HalenLineChart(
+                          meaning: l10n.lungsMeaning,
+                          shadeBetween: true,
+                          maxY: 100,
+                          yFormatter: (v) => '${v.round()}%',
+                          series: [
+                            ChartSeries(
+                              name: l10n.lungsScenarioQuit,
+                              color: HalenColors.emerald,
+                              values: [for (final p in quit) p.percentOfPeak],
+                            ),
+                            ChartSeries(
+                              name: l10n.lungsScenarioKeep,
+                              color: HalenColors.amberCta,
+                              values: [for (final p in keep) p.percentOfPeak],
+                            ),
+                            ChartSeries(
+                              name: l10n.lungsScenarioNever,
+                              color: HalenColors.textSecondaryLight,
+                              dashed: true,
+                              values: [for (final p in never) p.percentOfPeak],
+                            ),
+                          ],
+                          xLabels: keep.isEmpty
+                              ? const []
+                              : [
+                                  '${l10n.lungsAxisAge} ${keep.first.age}',
+                                  '${keep[keep.length ~/ 2].age}',
+                                  '${keep.last.age}',
+                                ],
+                          semanticsLabel:
+                              '${l10n.lungsScenarioQuit} vs ${l10n.lungsScenarioKeep}',
+                        );
+                      },
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ],
         const SizedBox(height: HalenSpace.x4),
         Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(HalenSpace.x5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          margin: const EdgeInsets.only(bottom: 16),
+          child: Padding(
+            padding: const EdgeInsets.all(HalenSpace.x5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

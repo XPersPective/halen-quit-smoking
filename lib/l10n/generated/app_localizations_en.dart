@@ -2679,33 +2679,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startupFailUnknown => 'No further detail was reported.';
 
   @override
-  String get smokedHeadline0 =>
-      'That one is done. The next one does not have to be.';
+  String get smokedHeadline0 => 'Recorded. Your nicotine level has peaked.';
 
   @override
-  String get smokedHeadline1 => 'A little sad, and still on the way.';
+  String get smokedHeadline1 =>
+      'Cigarette logged. Carbon monoxide clearance has reset.';
 
   @override
-  String get smokedHeadline2 => 'Your body starts clearing this one right now.';
+  String get smokedHeadline2 => 'Record updated. Stay focused on your rhythm.';
 
   @override
-  String get smokedHeadline3 => 'Not a failure. The next hour is yours.';
+  String get smokedHeadline3 =>
+      'Logged. Delaying the next one is in your hands.';
 
   @override
   String get smokedAdvice0 =>
-      'When the next urge comes, wait five minutes before deciding. Most urges pass inside that.';
+      'Drink a large glass of cold water now to neutralize nicotine taste and stimulate the vagus nerve.';
 
   @override
   String get smokedAdvice1 =>
-      'Drink a glass of water now and get up for a minute. Changing what your hands and feet are doing weakens the next urge.';
+      'Get up and take a short walk. Changing your environment weakens the next urge.';
 
   @override
   String get smokedAdvice2 =>
-      'Each cigarette you skip lets the carbon monoxide in your blood fall further. Try to make this the last one today.';
+      'Take a deep diaphragm breath. Give yourself at least an hour before the next one.';
 
   @override
   String get smokedAdvice3 =>
-      'Stopping is the single best thing you can do for your health. You do not have to do it today, but every skipped one counts.';
+      'Your body takes about 8 hours to clear this nicotine. Hydrate to support your metabolism.';
 
   @override
   String get splashContinue => 'Continue';
@@ -2947,4 +2948,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get envFiltersLabel => 'Filters';
+
+  @override
+  String get callQuitlineA171 => 'Turkey Quitline (ALO 171)';
+
+  @override
+  String get callYedam115 => 'Green Crescent Helpline (YEDAM 115)';
+
+  @override
+  String get callQuitlineUs => 'US Quitline (1-800-QUIT-NOW)';
+
+  @override
+  String get callQuitlineUk => 'UK NHS Smokefree (0300 123 1044)';
+
+  @override
+  String get callQuitlineDe => 'Germany BZgA Quitline (0800 8 313131)';
+
+  @override
+  String get callQuitlineFr => 'France Tabac Info (39 89)';
+
+  @override
+  String get nutritionGuideTitle => 'Anti-Craving Nutrition Guide';
+
+  @override
+  String get nutritionGuideSubtitle =>
+      'Vitamin C, alkaline foods and hydration support';
+
+  @override
+  String get planCardTitle => 'Active Plan & Rhythm';
+
+  @override
+  String get planCardSwitch => 'Manage / Switch Plan';
+
+  @override
+  String planCardTarget(int count) {
+    return 'Today\'s Target: $count cigarettes';
+  }
+
+  @override
+  String get planCardNextInterval => 'Next Target Interval';
+
+  @override
+  String get economyHistoricalTitle => 'Lifetime Smoking Expenditure';
+
+  @override
+  String get economyHistoricalSubtitle =>
+      'Estimated total money spent on cigarettes historically';
+
+  @override
+  String get economyTimeFilter1m => '1 Month';
+
+  @override
+  String get economyTimeFilter1y => '1 Year';
+
+  @override
+  String get economyTimeFilterAll => 'All Time (Halen)';
+
+  @override
+  String get economyTimeFilterLifetime => 'Lifetime History';
+
+  @override
+  String get progressScoreExplainer =>
+      'Adherence Score (out of 100): Reflects adherence to daily quotas, spacing between cigarettes, and resisted urges.';
+
+  @override
+  String get mindPressureExplainer =>
+      'Nicotine Withdrawal Pressure: Simulation of biological withdrawal pressure from nicotinic receptors. Peaks are temporary (~5-10 min).';
 }

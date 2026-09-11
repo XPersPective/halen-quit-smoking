@@ -1451,14 +1451,14 @@
   "startupFailDetailTitle": "Technical detail",
   "startupFailCopy": "Copy the detail",
   "startupFailUnknown": "No further detail was reported.",
-  "smokedHeadline0": "That one is done. The next one does not have to be.",
-  "smokedHeadline1": "A little sad, and still on the way.",
-  "smokedHeadline2": "Your body starts clearing this one right now.",
-  "smokedHeadline3": "Not a failure. The next hour is yours.",
-  "smokedAdvice0": "When the next urge comes, wait five minutes before deciding. Most urges pass inside that.",
-  "smokedAdvice1": "Drink a glass of water now and get up for a minute. Changing what your hands and feet are doing weakens the next urge.",
-  "smokedAdvice2": "Each cigarette you skip lets the carbon monoxide in your blood fall further. Try to make this the last one today.",
-  "smokedAdvice3": "Stopping is the single best thing you can do for your health. You do not have to do it today, but every skipped one counts.",
+  "smokedHeadline0": "Recorded. Your nicotine level has peaked.",
+  "smokedHeadline1": "Cigarette logged. Carbon monoxide clearance has reset.",
+  "smokedHeadline2": "Record updated. Stay focused on your rhythm.",
+  "smokedHeadline3": "Logged. Delaying the next one is in your hands.",
+  "smokedAdvice0": "Drink a large glass of cold water now to neutralize nicotine taste and stimulate the vagus nerve.",
+  "smokedAdvice1": "Get up and take a short walk. Changing your environment weakens the next urge.",
+  "smokedAdvice2": "Take a deep diaphragm breath. Give yourself at least an hour before the next one.",
+  "smokedAdvice3": "Your body takes about 8 hours to clear this nicotine. Hydrate to support your metabolism.",
   "splashContinue": "Continue",
   "packTitle": "My pack",
   "packLabelLine": "Label: {tar} mg tar, {nicotine} mg nicotine per cigarette",
@@ -1627,5 +1627,32 @@
   "measureDrop": "drops",
   "tarThisWeekShort": "now",
   "envTreesLabel": "Trees",
-  "envFiltersLabel": "Filters"
+  "envFiltersLabel": "Filters",
+  "callQuitlineA171": "Turkey Quitline (ALO 171)",
+  "callYedam115": "Green Crescent Helpline (YEDAM 115)",
+  "callQuitlineUs": "US Quitline (1-800-QUIT-NOW)",
+  "callQuitlineUk": "UK NHS Smokefree (0300 123 1044)",
+  "callQuitlineDe": "Germany BZgA Quitline (0800 8 313131)",
+  "callQuitlineFr": "France Tabac Info (39 89)",
+  "nutritionGuideTitle": "Anti-Craving Nutrition Guide",
+  "nutritionGuideSubtitle": "Vitamin C, alkaline foods and hydration support",
+  "planCardTitle": "Active Plan & Rhythm",
+  "planCardSwitch": "Manage / Switch Plan",
+  "planCardTarget": "Today's Target: {count} cigarettes",
+  "@planCardTarget": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "planCardNextInterval": "Next Target Interval",
+  "economyHistoricalTitle": "Lifetime Smoking Expenditure",
+  "economyHistoricalSubtitle": "Estimated total money spent on cigarettes historically",
+  "economyTimeFilter1m": "1 Month",
+  "economyTimeFilter1y": "1 Year",
+  "economyTimeFilterAll": "All Time (Halen)",
+  "economyTimeFilterLifetime": "Lifetime History",
+  "progressScoreExplainer": "Adherence Score (out of 100): Reflects adherence to daily quotas, spacing between cigarettes, and resisted urges.",
+  "mindPressureExplainer": "Nicotine Withdrawal Pressure: Simulation of biological withdrawal pressure from nicotinic receptors. Peaks are temporary (~5-10 min)."
 }

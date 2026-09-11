@@ -198,10 +198,11 @@ class _NumberFieldState extends State<_NumberField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _controller,
-      keyboardType: TextInputType.number,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(labelText: widget.label),
-      // Empty means "not shared" and is written back as null, so clearing a
-      // value really does remove it from the index.
+      onChanged: (text) => widget.onChanged(
+        text.trim().isEmpty ? null : double.tryParse(text.replaceAll(',', '.')),
+      ),
       onSubmitted: (text) => widget.onChanged(
         text.trim().isEmpty ? null : double.tryParse(text.replaceAll(',', '.')),
       ),

@@ -23,6 +23,7 @@ abstract final class Routes {
   static const sources = '/sources';
   static const earAcupressure = '/ear-acupressure';
   static const glossary = '/glossary';
+  static const nutritionGuide = '/nutrition-guide';
 
   // The quit attempt (premium brief §C).
   static const quitPlan = '/quit-plan';

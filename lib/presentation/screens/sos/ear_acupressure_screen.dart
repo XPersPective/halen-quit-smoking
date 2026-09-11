@@ -31,6 +31,7 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
 
   int _elapsed = 0;
   bool _running = false;
+  int _selectedPoint = 0;
   Timer? _ticker;
 
   int get _currentPoint => (_elapsed ~/ _secondsPerPoint).clamp(0, _pointCount - 1);
@@ -38,17 +39,56 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
       _secondsPerPoint - (_elapsed % _secondsPerPoint);
   bool get _finished => _elapsed >= _secondsPerPoint * _pointCount;
 
+  static const _pointInfo = [
+    (
+      title: 'Shen Men (Ruh Kapısı)',
+      location: 'Kulağın üst üçgen çukuru (triangular fossa)',
+      effect: 'Parasempatik sinir sistemini uyarır; kriz anındaki anksiyete, panik ve stres hormonlarını (kortizol) yatıştırır.',
+      instruction: 'İşaret parmağınızla çukura hafifçe bastırıp küçük dairesel hareketler yapın. 4 sn nefes alırken bası uygulayın, 6 sn verirken gevşetin.',
+    ),
+    (
+      title: 'Sempatik / Otonom Nokta',
+      location: 'İç kıvrımın (helix kökünün) üst sınırı',
+      effect: 'Vazokonstriksiyonu (damar daralmasını) çözer, nikotin düşüşüyle hızlanan nabzı ve bedensel gerginliği dengeler.',
+      instruction: 'Parmak ucunuzla kıkırdak kenarına nazikçe bastırın. Nabzınızı dinleyin ve omuzlarınızı serbest bırakın.',
+    ),
+    (
+      title: 'Böbrek Noktası (Kidney)',
+      location: 'Concha çukurunun üst iç bölgesi',
+      effect: 'Korku ve irade yorgunluğunu hafifletir; böbreklerin toksin ve katran atım metabolizmasını destekler.',
+      instruction: 'Başparmağınız kulağın arkasında destek olsun, işaret parmağınızla concha çukurunun üstüne ritmik hafif bası yapın.',
+    ),
+    (
+      title: 'Karaciğer Noktası (Liver)',
+      location: 'Concha çukurunun orta-arka bölgesi',
+      effect: 'Yoksunluk kaynaklı öfke, asabiyet, tahammülsüzlük ve dürtüsel sigara yakma arzusunu yatıştırır.',
+      instruction: 'Concha\'nın arka duvarına dairesel masaj uygulayın. Bu bölge gergin olduğunda hafif hassas olabilir; acıtmadan uygulayın.',
+    ),
+    (
+      title: 'Akciğer Noktası (Lung)',
+      location: 'Concha kavitesinin merkez ve alt bölgesi',
+      effect: 'Solunum yollarındaki hava açlığı spazmını gevşetir, nefesi derinleştirir ve rahatlatır.',
+      instruction: 'Kulak deliğinin hemen yukarısına ve arkasına parmağınızı yerleştirin. Her nefes verişte basıyı hafifçe artırın.',
+    ),
+  ];
+
   void _start() {
     _ticker?.cancel();
     setState(() {
       _elapsed = 0;
       _running = true;
+      _selectedPoint = 0;
     });
     _ticker = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!mounted) {
         return;
       }
-      setState(() => _elapsed += 1);
+      setState(() {
+        _elapsed += 1;
+        if (_running) {
+          _selectedPoint = _currentPoint;
+        }
+      });
       if (_finished) {
         timer.cancel();
         setState(() => _running = false);
@@ -75,6 +115,8 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final names = _pointNames(l10n);
+    final displayIndex = _running ? _currentPoint : _selectedPoint;
+    final activeInfo = _pointInfo[displayIndex];
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.earGuideTitle)),
@@ -84,8 +126,8 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
           children: [
             Center(
               child: SizedBox(
-                height: 240,
-                width: 180,
+                height: 220,
+                width: 170,
                 child: Semantics(
                   label: _running
                       ? l10n.earGuideStep(
@@ -96,7 +138,7 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
                   excludeSemantics: true,
                   child: CustomPaint(
                     painter: _EarPainter(
-                      activePoint: _running ? _currentPoint : -1,
+                      activePoint: displayIndex,
                       isLight: theme.brightness == Brightness.light,
                     ),
                     size: Size.infinite,
@@ -104,11 +146,87 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: HalenSpace.x5),
+            const SizedBox(height: HalenSpace.x4),
+
+            // Clinical Point Insight Card
+            Card(
+              color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.6),
+              child: Padding(
+                padding: const EdgeInsets.all(HalenSpace.x4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: HalenColors.emerald.withValues(alpha: 0.18),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            'Nokta ${displayIndex + 1}/5',
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: HalenColors.emerald,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: HalenSpace.x2),
+                        Expanded(
+                          child: Text(
+                            activeInfo.title,
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: HalenSpace.x2),
+                    Text(
+                      'Konum: ${activeInfo.location}',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    const SizedBox(height: HalenSpace.x2),
+                    Text(
+                      activeInfo.effect,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: HalenSpace.x2),
+                    Container(
+                      padding: const EdgeInsets.all(HalenSpace.x2),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.surface,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.touch_app_outlined, size: 16),
+                          const SizedBox(width: HalenSpace.x2),
+                          Expanded(
+                            child: Text(
+                              activeInfo.instruction,
+                              style: theme.textTheme.labelSmall,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: HalenSpace.x4),
+
             for (var i = 0; i < _pointCount; i++)
               _PointRow(
                 index: i,
                 name: names[i],
+                isSelected: i == displayIndex,
                 state: !_running && !_finished
                     ? _PointState.idle
                     : i < _currentPoint || _finished
@@ -117,6 +235,11 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
                             ? _PointState.active
                             : _PointState.idle,
                 secondsLeft: _secondsLeftOnPoint,
+                onTap: () {
+                  if (!_running) {
+                    setState(() => _selectedPoint = i);
+                  }
+                },
               ),
             const SizedBox(height: HalenSpace.x5),
             if (_finished)
@@ -153,50 +276,64 @@ class _PointRow extends StatelessWidget {
     required this.name,
     required this.state,
     required this.secondsLeft,
+    required this.isSelected,
+    required this.onTap,
   });
 
   final int index;
   final String name;
   final _PointState state;
   final int secondsLeft;
+  final bool isSelected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final active = state == _PointState.active;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: HalenSpace.x1),
-      child: Row(
-        children: [
-          Container(
-            width: 24,
-            height: 24,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: switch (state) {
-                _PointState.done =>
-                  HalenColors.emerald.withValues(alpha: 0.25),
-                _PointState.active =>
-                  HalenColors.petrol.withValues(alpha: 0.25),
-                _PointState.idle => theme.dividerColor.withValues(alpha: 0.4),
-              },
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(10),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: HalenSpace.x1, horizontal: 4),
+        child: Row(
+          children: [
+            Container(
+              width: 24,
+              height: 24,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: switch (state) {
+                  _PointState.done =>
+                    HalenColors.emerald.withValues(alpha: 0.25),
+                  _PointState.active =>
+                    HalenColors.petrol.withValues(alpha: 0.25),
+                  _PointState.idle => isSelected
+                      ? theme.colorScheme.primary.withValues(alpha: 0.25)
+                      : theme.dividerColor.withValues(alpha: 0.4),
+                },
+              ),
+              child: state == _PointState.done
+                  ? const Icon(Icons.check_rounded, size: 14)
+                  : Text('${index + 1}', style: theme.textTheme.labelSmall),
             ),
-            child: state == _PointState.done
-                ? const Icon(Icons.check_rounded, size: 14)
-                : Text('${index + 1}', style: theme.textTheme.labelSmall),
-          ),
-          const SizedBox(width: HalenSpace.x3),
-          Expanded(
-            child: Text(
-              active ? l10n.earGuideStep(name, secondsLeft) : name,
-              style: active
-                  ? theme.textTheme.titleSmall
-                  : theme.textTheme.bodyMedium,
+            const SizedBox(width: HalenSpace.x3),
+            Expanded(
+              child: Text(
+                active ? l10n.earGuideStep(name, secondsLeft) : name,
+                style: active
+                    ? theme.textTheme.titleSmall
+                    : theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      ),
+              ),
             ),
-          ),
-        ],
+            if (isSelected && !active)
+              const Icon(Icons.info_outline, size: 16),
+          ],
+        ),
       ),
     );
   }

@@ -4747,49 +4747,49 @@ abstract class AppLocalizations {
   /// No description provided for @smokedHeadline0.
   ///
   /// In en, this message translates to:
-  /// **'That one is done. The next one does not have to be.'**
+  /// **'Recorded. Your nicotine level has peaked.'**
   String get smokedHeadline0;
 
   /// No description provided for @smokedHeadline1.
   ///
   /// In en, this message translates to:
-  /// **'A little sad, and still on the way.'**
+  /// **'Cigarette logged. Carbon monoxide clearance has reset.'**
   String get smokedHeadline1;
 
   /// No description provided for @smokedHeadline2.
   ///
   /// In en, this message translates to:
-  /// **'Your body starts clearing this one right now.'**
+  /// **'Record updated. Stay focused on your rhythm.'**
   String get smokedHeadline2;
 
   /// No description provided for @smokedHeadline3.
   ///
   /// In en, this message translates to:
-  /// **'Not a failure. The next hour is yours.'**
+  /// **'Logged. Delaying the next one is in your hands.'**
   String get smokedHeadline3;
 
   /// No description provided for @smokedAdvice0.
   ///
   /// In en, this message translates to:
-  /// **'When the next urge comes, wait five minutes before deciding. Most urges pass inside that.'**
+  /// **'Drink a large glass of cold water now to neutralize nicotine taste and stimulate the vagus nerve.'**
   String get smokedAdvice0;
 
   /// No description provided for @smokedAdvice1.
   ///
   /// In en, this message translates to:
-  /// **'Drink a glass of water now and get up for a minute. Changing what your hands and feet are doing weakens the next urge.'**
+  /// **'Get up and take a short walk. Changing your environment weakens the next urge.'**
   String get smokedAdvice1;
 
   /// No description provided for @smokedAdvice2.
   ///
   /// In en, this message translates to:
-  /// **'Each cigarette you skip lets the carbon monoxide in your blood fall further. Try to make this the last one today.'**
+  /// **'Take a deep diaphragm breath. Give yourself at least an hour before the next one.'**
   String get smokedAdvice2;
 
   /// No description provided for @smokedAdvice3.
   ///
   /// In en, this message translates to:
-  /// **'Stopping is the single best thing you can do for your health. You do not have to do it today, but every skipped one counts.'**
+  /// **'Your body takes about 8 hours to clear this nicotine. Hydrate to support your metabolism.'**
   String get smokedAdvice3;
 
   /// No description provided for @splashContinue.
@@ -5181,6 +5181,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Filters'**
   String get envFiltersLabel;
+
+  /// No description provided for @callQuitlineA171.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkey Quitline (ALO 171)'**
+  String get callQuitlineA171;
+
+  /// No description provided for @callYedam115.
+  ///
+  /// In en, this message translates to:
+  /// **'Green Crescent Helpline (YEDAM 115)'**
+  String get callYedam115;
+
+  /// No description provided for @callQuitlineUs.
+  ///
+  /// In en, this message translates to:
+  /// **'US Quitline (1-800-QUIT-NOW)'**
+  String get callQuitlineUs;
+
+  /// No description provided for @callQuitlineUk.
+  ///
+  /// In en, this message translates to:
+  /// **'UK NHS Smokefree (0300 123 1044)'**
+  String get callQuitlineUk;
+
+  /// No description provided for @callQuitlineDe.
+  ///
+  /// In en, this message translates to:
+  /// **'Germany BZgA Quitline (0800 8 313131)'**
+  String get callQuitlineDe;
+
+  /// No description provided for @callQuitlineFr.
+  ///
+  /// In en, this message translates to:
+  /// **'France Tabac Info (39 89)'**
+  String get callQuitlineFr;
+
+  /// No description provided for @nutritionGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Anti-Craving Nutrition Guide'**
+  String get nutritionGuideTitle;
+
+  /// No description provided for @nutritionGuideSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin C, alkaline foods and hydration support'**
+  String get nutritionGuideSubtitle;
+
+  /// No description provided for @planCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Plan & Rhythm'**
+  String get planCardTitle;
+
+  /// No description provided for @planCardSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage / Switch Plan'**
+  String get planCardSwitch;
+
+  /// No description provided for @planCardTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Target: {count} cigarettes'**
+  String planCardTarget(int count);
+
+  /// No description provided for @planCardNextInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Target Interval'**
+  String get planCardNextInterval;
+
+  /// No description provided for @economyHistoricalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime Smoking Expenditure'**
+  String get economyHistoricalTitle;
+
+  /// No description provided for @economyHistoricalSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated total money spent on cigarettes historically'**
+  String get economyHistoricalSubtitle;
+
+  /// No description provided for @economyTimeFilter1m.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Month'**
+  String get economyTimeFilter1m;
+
+  /// No description provided for @economyTimeFilter1y.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Year'**
+  String get economyTimeFilter1y;
+
+  /// No description provided for @economyTimeFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All Time (Halen)'**
+  String get economyTimeFilterAll;
+
+  /// No description provided for @economyTimeFilterLifetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime History'**
+  String get economyTimeFilterLifetime;
+
+  /// No description provided for @progressScoreExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Adherence Score (out of 100): Reflects adherence to daily quotas, spacing between cigarettes, and resisted urges.'**
+  String get progressScoreExplainer;
+
+  /// No description provided for @mindPressureExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Nicotine Withdrawal Pressure: Simulation of biological withdrawal pressure from nicotinic receptors. Peaks are temporary (~5-10 min).'**
+  String get mindPressureExplainer;
 }
 
 class _AppLocalizationsDelegate

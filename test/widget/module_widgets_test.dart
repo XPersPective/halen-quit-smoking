@@ -240,7 +240,7 @@ void main() {
     await pumpModuleWidget(
       tester,
       db: db,
-      child: const BodyScreen(initialTab: 1),
+      child: const BodyScreen(initialTab: 0),
       scrollable: false,
     );
     // The map pulses forever by design, so settle is not an option.

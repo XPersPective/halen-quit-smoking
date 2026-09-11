@@ -338,18 +338,34 @@ class OrganGlyph extends StatelessWidget {
     required this.color,
     this.size = const Size(120, 120),
     this.glow = false,
+    this.animate = true,
   });
 
   final String organKey;
   final Color color;
   final Size size;
   final bool glow;
+  final bool animate;
 
   @override
   Widget build(BuildContext context) {
     final unit = OrganShapes.pathFor(organKey);
     if (unit == null) {
       return const SizedBox.shrink();
+    }
+    if (!animate) {
+      return CustomPaint(
+        size: size,
+        painter: _OrganPainter(
+          unit: unit,
+          color: color,
+          fillAlpha: 0.22,
+          strokeAlpha: 0.95,
+          strokeWidth: 2,
+          glow: glow,
+          scale: 1.0,
+        ),
+      );
     }
     // Everything reads the same four-second clock; organScale folds the
     // heart's faster rhythm out of it, so a beat and a breath stay locked to

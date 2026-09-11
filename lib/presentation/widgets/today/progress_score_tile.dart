@@ -65,10 +65,12 @@ class ProgressScoreTile extends ConsumerWidget {
                 Text(l10n.progressScoreTitle, style: theme.textTheme.titleMedium),
                 const SizedBox(height: HalenSpace.x1),
                 Text(l10n.progressWindowLabel, style: theme.textTheme.bodySmall),
-                const SizedBox(height: HalenSpace.x3),
+                const SizedBox(height: HalenSpace.x2),
                 Text(
-                  l10n.progressBehaviourNote,
-                  style: theme.textTheme.bodySmall,
+                  l10n.progressScoreExplainer,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),

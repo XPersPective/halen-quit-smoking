@@ -68,6 +68,9 @@ final bodyLoadModelProvider = Provider<BodyLoadModel>((ref) {
   final profile = ref.watch(smokingProfileProvider).value;
   return BodyLoadModel(
     metabolism: profile?.metabolism ?? MetabolismSpeed.normal,
+    weightKg: profile?.weightKg,
+    tarPerCigarette: profile?.tarMgPerCigarette ?? 10.0,
+    nicotinePerCigarette: profile?.nicotineMgPerCigarette ?? 0.8,
   );
 });
 

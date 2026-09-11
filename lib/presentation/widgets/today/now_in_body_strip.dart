@@ -141,12 +141,27 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
                   color: DataRole.oxygen.of(context),
                 ),
               ),
+            ],
+          ),
+          const SizedBox(height: HalenSpace.x3),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: HalenStat(
+                  label: '${l10n.loadTar} (Bugün)',
+                  value: '${snapshot.tarMgToday} mg',
+                  caption: '≈ ${snapshot.tarDropsToday.toStringAsFixed(1)} damla',
+                  color: const Color(0xFF8D6E63),
+                ),
+              ),
               Expanded(
                 child: HalenStat(
                   label: l10n.nowInBodyLast,
                   value: snapshot.sinceLast == null
                       ? l10n.nowInBodyNever
                       : formatShortDuration(snapshot.sinceLast!, locale),
+                  caption: 'Temizlenme sürüyor',
                   color: theme.colorScheme.onSurface,
                 ),
               ),
@@ -177,7 +192,10 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
           const SizedBox(height: HalenSpace.x3),
           Text(l10n.bodyLoadMeaning, style: theme.textTheme.bodySmall),
           const SizedBox(height: HalenSpace.x1),
-          Text(l10n.nicotineMgBasis, style: theme.textTheme.bodySmall),
+          Text(
+            '${l10n.nicotineMgBasis} · ${snapshot.weightKg != null ? '${snapshot.weightKg!.round()} kg ağırlık · ' : ''}Paket: ${snapshot.tarPerCigarette.toStringAsFixed(0)} mg katran, ${snapshot.nicotinePerCigarette.toStringAsFixed(1)} mg nikotin.',
+            style: theme.textTheme.bodySmall,
+          ),
         ],
       ),
     );

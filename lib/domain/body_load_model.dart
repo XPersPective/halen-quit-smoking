@@ -84,6 +84,11 @@ class BodyLoadSnapshot {
     required this.nicotinePercentOfPeak,
     required this.coPercentOfPeak,
     required this.values,
+    this.tarMgToday = 0,
+    this.tarDropsToday = 0.0,
+    this.weightKg,
+    this.tarPerCigarette = 10.0,
+    this.nicotinePerCigarette = 0.8,
   });
 
   /// Time since the last recorded cigarette; null when there is none.
@@ -98,6 +103,21 @@ class BodyLoadSnapshot {
   /// Normalized current value per curve (0–100).
   final Map<LoadKind, int> values;
 
+  /// Today's cumulative inhaled tar in milligrams.
+  final int tarMgToday;
+
+  /// Today's cumulative tar expressed in physical drops (~50 mg per drop).
+  final double tarDropsToday;
+
+  /// User's body weight in kg, if entered.
+  final double? weightKg;
+
+  /// Tar per cigarette from pack, or standard legal default (10 mg).
+  final double tarPerCigarette;
+
+  /// Nicotine per cigarette from pack, or standard default (0.8 mg).
+  final double nicotinePerCigarette;
+
   /// How much the CO load has fallen from its 24 h peak (0–100).
   int get coDropPercent => 100 - coPercentOfPeak;
 }
@@ -107,6 +127,9 @@ class BodyLoadModel {
   const BodyLoadModel({
     this.absorptionPerCigarette = 1.2,
     this.metabolism = MetabolismSpeed.normal,
+    this.weightKg,
+    this.tarPerCigarette = 10.0,
+    this.nicotinePerCigarette = 0.8,
   });
 
   /// Assumed systemic absorption per cigarette, in model units (mg).
@@ -114,6 +137,22 @@ class BodyLoadModel {
 
   /// User-chosen clearance calibration for the acute nicotine curve.
   final MetabolismSpeed metabolism;
+
+  /// User body weight in kg for volume of distribution scaling (Vd ~ 2.6 L/kg).
+  final double? weightKg;
+
+  /// Yield of tar per cigarette in mg from pack (default 10 mg).
+  final double tarPerCigarette;
+
+  /// Yield of nicotine per cigarette in mg from pack (default 0.8 mg).
+  final double nicotinePerCigarette;
+
+  /// Effective absorption scaled by body weight distribution volume and pack yields.
+  double get effectiveAbsorption {
+    final weightScale = weightKg != null && weightKg! > 30 ? (70.0 / weightKg!) : 1.0;
+    final packScale = (nicotinePerCigarette / 0.8).clamp(0.4, 2.0);
+    return (absorptionPerCigarette * packScale * weightScale).clamp(0.4, 2.5);
+  }
 
   double halfLifeHoursFor(LoadKind kind) => kind == LoadKind.nicotineAcute
       ? metabolism.acuteHalfLifeHours
@@ -123,13 +162,18 @@ class BodyLoadModel {
   /// Arbitrary units proportional to the absorbed dose — never displayed.
   double rawAt(LoadKind kind, DateTime at, List<DateTime> events) {
     final halfLife = halfLifeHoursFor(kind);
+    final dose = kind == LoadKind.nicotineAcute
+        ? effectiveAbsorption
+        : kind == LoadKind.tarCumulative
+            ? tarPerCigarette
+            : absorptionPerCigarette;
     var c = 0.0;
     for (final ts in events) {
       final deltaHours = at.difference(ts).inMicroseconds / 3.6e9;
       if (deltaHours < 0) {
         continue; // Future dose — not yet in the body.
       }
-      c += absorptionPerCigarette * math.pow(0.5, deltaHours / halfLife);
+      c += dose * math.pow(0.5, deltaHours / halfLife);
     }
     return c;
   }
@@ -185,10 +229,20 @@ class BodyLoadModel {
   /// "What is in me right now" summary for the Body Load card header.
   BodyLoadSnapshot snapshot(DateTime now, List<DateTime> events) {
     final past = events.where((e) => !e.isAfter(now)).toList()..sort();
+    final todayStart = DateTime(now.year, now.month, now.day);
+    final todayCount = past.where((e) => !e.isBefore(todayStart)).length;
+    final tarMg = (todayCount * tarPerCigarette).round();
+    final tarDrops = tarMg / 50.0; // ~50 mg tar condensate per standard drop
+
     return BodyLoadSnapshot(
       sinceLast: past.isEmpty ? null : now.difference(past.last),
       nicotinePercentOfPeak: normalizedNow(LoadKind.nicotineAcute, now, past),
       coPercentOfPeak: normalizedNow(LoadKind.carbonMonoxide, now, past),
+      tarMgToday: tarMg,
+      tarDropsToday: tarDrops,
+      weightKg: weightKg,
+      tarPerCigarette: tarPerCigarette,
+      nicotinePerCigarette: nicotinePerCigarette,
       values: {
         for (final kind in LoadKind.values) kind: normalizedNow(kind, now, past),
       },

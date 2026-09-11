@@ -68,6 +68,13 @@ class MindStateCard extends ConsumerWidget {
               label,
               style: theme.textTheme.headlineSmall?.copyWith(color: color),
             ),
+            const SizedBox(height: HalenSpace.x2),
+            Text(
+              l10n.mindPressureExplainer,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
             const SizedBox(height: HalenSpace.x3),
 
             // The typical 28-day course, with the user's own position on it.
