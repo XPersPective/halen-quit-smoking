@@ -571,13 +571,13 @@ abstract class AppLocalizations {
   /// No description provided for @ctaSmoked.
   ///
   /// In en, this message translates to:
-  /// **'I SMOKED'**
+  /// **'I smoked one'**
   String get ctaSmoked;
 
   /// No description provided for @ctaResisted.
   ///
   /// In en, this message translates to:
-  /// **'I resisted a craving'**
+  /// **'I resisted it'**
   String get ctaResisted;
 
   /// No description provided for @resistedTodayCount.
@@ -2317,7 +2317,7 @@ abstract class AppLocalizations {
   /// No description provided for @bodyLoadCoDrop.
   ///
   /// In en, this message translates to:
-  /// **'Oxygen debt down {percent}%.'**
+  /// **'Carbon monoxide in your blood is {percent}% below its peak.'**
   String bodyLoadCoDrop(int percent);
 
   /// No description provided for @loadNicotineAcute.
@@ -2329,19 +2329,19 @@ abstract class AppLocalizations {
   /// No description provided for @loadNicotineBaseline.
   ///
   /// In en, this message translates to:
-  /// **'All-day baseline'**
+  /// **'Nicotine built up in your body'**
   String get loadNicotineBaseline;
 
   /// No description provided for @loadCarbonMonoxide.
   ///
   /// In en, this message translates to:
-  /// **'Oxygen debt'**
+  /// **'Carbon monoxide in your blood'**
   String get loadCarbonMonoxide;
 
   /// No description provided for @loadTar.
   ///
   /// In en, this message translates to:
-  /// **'Particle load'**
+  /// **'Tar build-up'**
   String get loadTar;
 
   /// No description provided for @loadBandLow.
@@ -2701,7 +2701,7 @@ abstract class AppLocalizations {
   /// No description provided for @lungsMistLabel.
   ///
   /// In en, this message translates to:
-  /// **'Relative particle load'**
+  /// **'Tar build-up, compared with your usual'**
   String get lungsMistLabel;
 
   /// No description provided for @organMapTitle.
@@ -3007,7 +3007,7 @@ abstract class AppLocalizations {
   /// No description provided for @componentNicotineBaselineFall.
   ///
   /// In en, this message translates to:
-  /// **'Nicotine baseline fall'**
+  /// **'Fall in built-up nicotine'**
   String get componentNicotineBaselineFall;
 
   /// No description provided for @componentCumulativeExposure.
@@ -3289,7 +3289,7 @@ abstract class AppLocalizations {
   /// No description provided for @howBodyLoadBody.
   ///
   /// In en, this message translates to:
-  /// **'Each curve is C(t) = sum of dose x 2^(-elapsed / half-life), fed only by the times you logged. Half-lives: nicotine 2 h, all-day baseline 16 h (cotinine proxy), carbon monoxide 4.5 h, particle load 30 days (representative).'**
+  /// **'Each curve is C(t) = sum of dose x 2^(-time since / half-life), fed only by the times you logged. Half-lives: nicotine 2 h, nicotine built up in your body 16 h (the cotinine it turns into), carbon monoxide 4.5 h, tar build-up 30 days (representative).'**
   String get howBodyLoadBody;
 
   /// No description provided for @howBodyLoadLimits.
@@ -3943,8 +3943,8 @@ abstract class AppLocalizations {
   /// No description provided for @organImpactRelative.
   ///
   /// In en, this message translates to:
-  /// **'About {times}x likelier than in someone who never smoked'**
-  String organImpactRelative(String times);
+  /// **'Risk about {percent}% higher than in someone who never smoked'**
+  String organImpactRelative(int percent);
 
   /// No description provided for @organNotYou.
   ///
@@ -4261,14 +4261,14 @@ abstract class AppLocalizations {
   /// No description provided for @medicinesRatioPlacebo.
   ///
   /// In en, this message translates to:
-  /// **'{ratio}x the quit rate of a dummy treatment, across trials'**
-  String medicinesRatioPlacebo(String ratio);
+  /// **'Raises the chance of quitting by about {percent}% compared with a dummy treatment, across trials'**
+  String medicinesRatioPlacebo(int percent);
 
   /// No description provided for @medicinesRatioSingle.
   ///
   /// In en, this message translates to:
-  /// **'{ratio}x the quit rate of one form used alone, across trials'**
-  String medicinesRatioSingle(String ratio);
+  /// **'Raises the chance of quitting by about {percent}% compared with one form alone, across trials'**
+  String medicinesRatioSingle(int percent);
 
   /// No description provided for @medicinesCombinationSuggestion.
   ///
@@ -4591,19 +4591,19 @@ abstract class AppLocalizations {
   /// No description provided for @statusPageOxygen.
   ///
   /// In en, this message translates to:
-  /// **'Oxygen debt'**
+  /// **'Carbon monoxide in your blood'**
   String get statusPageOxygen;
 
   /// No description provided for @statusPageBaseline.
   ///
   /// In en, this message translates to:
-  /// **'All-day baseline'**
+  /// **'Nicotine built up in your body'**
   String get statusPageBaseline;
 
   /// No description provided for @statusPageParticles.
   ///
   /// In en, this message translates to:
-  /// **'Particle load'**
+  /// **'Tar build-up'**
   String get statusPageParticles;
 
   /// No description provided for @statusPageProgress.
@@ -4743,6 +4743,444 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No further detail was reported.'**
   String get startupFailUnknown;
+
+  /// No description provided for @smokedHeadline0.
+  ///
+  /// In en, this message translates to:
+  /// **'That one is done. The next one does not have to be.'**
+  String get smokedHeadline0;
+
+  /// No description provided for @smokedHeadline1.
+  ///
+  /// In en, this message translates to:
+  /// **'A little sad, and still on the way.'**
+  String get smokedHeadline1;
+
+  /// No description provided for @smokedHeadline2.
+  ///
+  /// In en, this message translates to:
+  /// **'Your body starts clearing this one right now.'**
+  String get smokedHeadline2;
+
+  /// No description provided for @smokedHeadline3.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a failure. The next hour is yours.'**
+  String get smokedHeadline3;
+
+  /// No description provided for @smokedAdvice0.
+  ///
+  /// In en, this message translates to:
+  /// **'When the next urge comes, wait five minutes before deciding. Most urges pass inside that.'**
+  String get smokedAdvice0;
+
+  /// No description provided for @smokedAdvice1.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink a glass of water now and get up for a minute. Changing what your hands and feet are doing weakens the next urge.'**
+  String get smokedAdvice1;
+
+  /// No description provided for @smokedAdvice2.
+  ///
+  /// In en, this message translates to:
+  /// **'Each cigarette you skip lets the carbon monoxide in your blood fall further. Try to make this the last one today.'**
+  String get smokedAdvice2;
+
+  /// No description provided for @smokedAdvice3.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopping is the single best thing you can do for your health. You do not have to do it today, but every skipped one counts.'**
+  String get smokedAdvice3;
+
+  /// No description provided for @splashContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get splashContinue;
+
+  /// No description provided for @packTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My pack'**
+  String get packTitle;
+
+  /// No description provided for @packLabelLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Label: {tar} mg tar, {nicotine} mg nicotine per cigarette'**
+  String packLabelLine(String tar, String nicotine);
+
+  /// No description provided for @packLabelDefaulted.
+  ///
+  /// In en, this message translates to:
+  /// **'Using the legal maximum until you enter your pack\'s own values.'**
+  String get packLabelDefaulted;
+
+  /// No description provided for @packTar.
+  ///
+  /// In en, this message translates to:
+  /// **'Tar per cigarette (mg)'**
+  String get packTar;
+
+  /// No description provided for @packNicotine.
+  ///
+  /// In en, this message translates to:
+  /// **'Nicotine per cigarette (mg)'**
+  String get packNicotine;
+
+  /// No description provided for @packLabelHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Printed on the side of the pack. Leave empty to use the legal maximum (10 mg tar, 1 mg nicotine).'**
+  String get packLabelHint;
+
+  /// No description provided for @purchasesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My pack purchases'**
+  String get purchasesTitle;
+
+  /// No description provided for @purchasesAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a purchase'**
+  String get purchasesAdd;
+
+  /// No description provided for @purchasesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No purchases yet. Add the packs you buy and you will see what the habit really costs, month by month.'**
+  String get purchasesEmpty;
+
+  /// No description provided for @purchasesThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Spent this month'**
+  String get purchasesThisMonth;
+
+  /// No description provided for @purchasesLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last month'**
+  String get purchasesLastMonth;
+
+  /// No description provided for @purchasesEvery.
+  ///
+  /// In en, this message translates to:
+  /// **'One pack every {days} days on average'**
+  String purchasesEvery(String days);
+
+  /// No description provided for @purchasesMonthlyRate.
+  ///
+  /// In en, this message translates to:
+  /// **'At this rate, about {amount} a month'**
+  String purchasesMonthlyRate(String amount);
+
+  /// No description provided for @purchasesChartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending per month'**
+  String get purchasesChartTitle;
+
+  /// No description provided for @purchasesChartMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'One bar per month: what went on cigarettes. The solid bar is this month.'**
+  String get purchasesChartMeaning;
+
+  /// No description provided for @purchasesChartAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'amount spent'**
+  String get purchasesChartAxis;
+
+  /// No description provided for @purchasesHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get purchasesHistory;
+
+  /// No description provided for @purchasesDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase removed'**
+  String get purchasesDeleted;
+
+  /// No description provided for @purchasesDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get purchasesDate;
+
+  /// No description provided for @purchasesPacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Packs'**
+  String get purchasesPacks;
+
+  /// No description provided for @purchasesPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price per pack'**
+  String get purchasesPrice;
+
+  /// No description provided for @purchasesPackSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Cigarettes'**
+  String get purchasesPackSize;
+
+  /// No description provided for @purchasesBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand (optional)'**
+  String get purchasesBrand;
+
+  /// No description provided for @purchasesUpdatesPack.
+  ///
+  /// In en, this message translates to:
+  /// **'This becomes your current pack, so every cost figure in the app follows what you actually paid.'**
+  String get purchasesUpdatesPack;
+
+  /// No description provided for @tarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tar you took in'**
+  String get tarTitle;
+
+  /// No description provided for @tarThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get tarThisWeek;
+
+  /// No description provided for @tarThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get tarThisMonth;
+
+  /// No description provided for @tarPicture.
+  ///
+  /// In en, this message translates to:
+  /// **'about {count} {measure}'**
+  String tarPicture(String count, String measure);
+
+  /// No description provided for @measureTeaSpoon.
+  ///
+  /// In en, this message translates to:
+  /// **'tea spoons'**
+  String get measureTeaSpoon;
+
+  /// No description provided for @measureDessertSpoon.
+  ///
+  /// In en, this message translates to:
+  /// **'dessert spoons'**
+  String get measureDessertSpoon;
+
+  /// No description provided for @measureTableSpoon.
+  ///
+  /// In en, this message translates to:
+  /// **'table spoons'**
+  String get measureTableSpoon;
+
+  /// No description provided for @measureWaterGlass.
+  ///
+  /// In en, this message translates to:
+  /// **'glasses of water'**
+  String get measureWaterGlass;
+
+  /// No description provided for @tarGrams.
+  ///
+  /// In en, this message translates to:
+  /// **'{grams} g'**
+  String tarGrams(String grams);
+
+  /// No description provided for @tarChartMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Tar brought into your lungs each week, from your own count and your pack label.'**
+  String get tarChartMeaning;
+
+  /// No description provided for @tarChartAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'grams of tar per week'**
+  String get tarChartAxis;
+
+  /// No description provided for @tarWeekShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} wk'**
+  String tarWeekShort(int n);
+
+  /// No description provided for @tarBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'Worked out from {tar} mg tar per cigarette on the label. This is a floor: people inhale more deeply than the test machine, so real intake is usually higher.'**
+  String tarBasis(String tar);
+
+  /// No description provided for @tarSpoonNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoons by volume, taking tar at about 1 g per millilitre. A Turkish tea spoon holds about 2.5 mL.'**
+  String get tarSpoonNote;
+
+  /// No description provided for @nicotineMgAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'estimated nicotine still in your body, mg — a model, not a measurement'**
+  String get nicotineMgAxis;
+
+  /// No description provided for @nicotineMgBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'About 1.2 mg of nicotine is absorbed per cigarette, and half of it leaves the body every 2 hours (Benowitz).'**
+  String get nicotineMgBasis;
+
+  /// No description provided for @mgValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} mg'**
+  String mgValue(String value);
+
+  /// No description provided for @organExposureTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This organ, last 24 hours'**
+  String get organExposureTitle;
+
+  /// No description provided for @organExposureNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Right now: {percent}% of its peak today'**
+  String organExposureNow(int percent);
+
+  /// No description provided for @organExposureMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Each spike is a cigarette reaching this organ; the fall is your body clearing it. The flatter the line, the more rest the organ gets.'**
+  String get organExposureMeaning;
+
+  /// No description provided for @organExposureLoads.
+  ///
+  /// In en, this message translates to:
+  /// **'Driven by: {loads}'**
+  String organExposureLoads(String loads);
+
+  /// No description provided for @organSinceLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Since your last cigarette: {time}'**
+  String organSinceLast(String time);
+
+  /// No description provided for @organAcuteHeart.
+  ///
+  /// In en, this message translates to:
+  /// **'After a cigarette the heart beats about 10-20 times a minute faster and blood pressure rises, for roughly 20-30 minutes.'**
+  String get organAcuteHeart;
+
+  /// No description provided for @organAcuteVessels.
+  ///
+  /// In en, this message translates to:
+  /// **'Nicotine narrows blood vessels within minutes, and each cigarette keeps them narrowed for about an hour.'**
+  String get organAcuteVessels;
+
+  /// No description provided for @organAcuteLungs.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoke slows the tiny hairs that sweep the airways clean, and tar settles in the lungs with every cigarette.'**
+  String get organAcuteLungs;
+
+  /// No description provided for @organAcuteBrain.
+  ///
+  /// In en, this message translates to:
+  /// **'Nicotine reaches the brain in 10-20 seconds; as it falls over the next hours, it comes back as the next craving.'**
+  String get organAcuteBrain;
+
+  /// No description provided for @organAcuteBlood.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbon monoxide takes the place of oxygen in the blood; half of it clears in about 4-5 hours.'**
+  String get organAcuteBlood;
+
+  /// No description provided for @organAcuteGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'The harmful substances in smoke travel in the blood to every organ; exposure grows with every cigarette.'**
+  String get organAcuteGeneral;
+
+  /// No description provided for @envTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What your planet got back'**
+  String get envTitle;
+
+  /// No description provided for @envTrees.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} trees not cut down'**
+  String envTrees(String count);
+
+  /// No description provided for @envButts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} filters kept out of nature'**
+  String envButts(int count);
+
+  /// No description provided for @envBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'WHO estimates about one tree is lost for every 300 cigarettes made, mostly to dry tobacco leaves and make paper. Cigarette filters are plastic (cellulose acetate) and are the most littered item on Earth.'**
+  String get envBasis;
+
+  /// No description provided for @envPlantTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Plant a real tree'**
+  String get envPlantTitle;
+
+  /// No description provided for @envPlantBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A small part of what you have saved can plant a real sapling. Halen takes no money and earns nothing from this; the buttons open the organisations directly.'**
+  String get envPlantBody;
+
+  /// No description provided for @envSavedCovers.
+  ///
+  /// In en, this message translates to:
+  /// **'What you saved so far would plant about {count} saplings.'**
+  String envSavedCovers(int count);
+
+  /// No description provided for @envOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the link.'**
+  String get envOpenFailed;
+
+  /// No description provided for @measureDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'drops'**
+  String get measureDrop;
+
+  /// No description provided for @tarThisWeekShort.
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get tarThisWeekShort;
+
+  /// No description provided for @envTreesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Trees'**
+  String get envTreesLabel;
+
+  /// No description provided for @envFiltersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get envFiltersLabel;
 }
 
 class _AppLocalizationsDelegate

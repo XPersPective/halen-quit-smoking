@@ -18,6 +18,8 @@ import 'package:halen/presentation/widgets/craving_window_card.dart';
 import 'package:halen/presentation/widgets/entrance.dart';
 import 'package:halen/presentation/widgets/indices_card.dart';
 import 'package:halen/presentation/widgets/stats_charts.dart';
+import 'package:halen/presentation/widgets/environment_card.dart';
+import 'package:halen/presentation/widgets/tar_intake_card.dart';
 import '../../../core/design/tokens.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {
@@ -397,6 +399,13 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                     error: (e, _) => Text(l10n.commonErrorTitle),
                     data: (report) => TriggerBreakdownCard(triggers: report),
                   ),
+            // Items 4 and 10 go after everything that was already here:
+            // added above, they pushed the chart tabs ~7,000 px further down
+            // on a small phone with large text.
+            const SizedBox(height: HalenSpace.x6),
+            const TarIntakeCard(),
+            const SizedBox(height: HalenSpace.x4),
+            const EnvironmentCard(),
             const SizedBox(height: HalenSpace.x4),
             TextButton.icon(
               onPressed: () =>

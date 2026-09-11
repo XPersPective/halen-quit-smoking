@@ -75,6 +75,7 @@ void main() {
       await screenshot('today');
       await tester.tap(find.text(l10n.navStats));
       await tester.pumpAndSettle();
+
       expect(tester.takeException(), isNull);
       await screenshot('stats');
       // The savings hero and the trend chart push the chips below the fold
@@ -82,10 +83,18 @@ void main() {
       // build them. Scroll the OUTER list explicitly: some of the charts are
       // horizontally scrollable, so once a tab is open `Scrollable.first` is
       // no longer reliably the page.
-      final page = find.descendant(
-        of: find.byType(StatsScreen),
-        matching: find.byType(Scrollable),
-      ).first;
+      // The page's own vertical list, named by axis. "The first Scrollable
+      // under Stats" is ambiguous now that the tabs are a horizontal
+      // PageView: a horizontal scroller dragged at its edge hands the drag
+      // to the pager and swipes the whole tab away mid-test.
+      final page = find
+          .descendant(
+            of: find.byType(StatsScreen),
+            matching: find.byWidgetPredicate(
+              (w) => w is Scrollable && w.axisDirection == AxisDirection.down,
+            ),
+          )
+          .first;
       await tester.scrollUntilVisible(
         find.widgetWithText(ChoiceChip, l10n.statsTabHourly),
         200,

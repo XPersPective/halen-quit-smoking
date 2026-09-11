@@ -22,7 +22,13 @@ void main() {
       (tester) async {
     await pumpHalenApp(tester, database: db);
 
-    // Splash auto-routes to onboarding on a fresh install.
+    // First launch now waits on the welcome screen until the person taps
+    // Start; it used to route away on its own first frame.
+    await tester.pumpAndSettle();
+    // The Start button sits below the fold on the test surface.
+    await tester.ensureVisible(find.byType(FilledButton).last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(FilledButton).last);
     await tester.pumpAndSettle();
     expect(find.text('How old are you?'), findsOneWidget);
 
@@ -100,6 +106,11 @@ void main() {
 
   testWidgets('under-18 path creates no smoking profile', (tester) async {
     await pumpHalenApp(tester, database: db);
+    await tester.pumpAndSettle();
+    // The Start button sits below the fold on the test surface.
+    await tester.ensureVisible(find.byType(FilledButton).last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(FilledButton).last);
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Under 18'));

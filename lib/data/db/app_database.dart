@@ -10,6 +10,7 @@ import 'daos/content_dao.dart';
 import 'daos/craving_dao.dart';
 import 'daos/cessation_dao.dart';
 import 'daos/module_dao.dart';
+import 'daos/pack_purchase_dao.dart';
 import 'daos/plan_dao.dart';
 import 'daos/profile_dao.dart';
 import 'daos/purchase_dao.dart';
@@ -44,6 +45,7 @@ part 'app_database.g.dart';
     CessationPlanTable,
     CopingPlanTable,
     MoodScreen,
+    PackPurchaseTable,
   ],
   daos: [
     ProfileDao,
@@ -57,6 +59,7 @@ part 'app_database.g.dart';
     TimelineDao,
     ModuleDao,
     CessationDao,
+    PackPurchaseDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -65,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.e);
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -114,6 +117,15 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(cessationPlanTable);
             await m.createTable(copingPlanTable);
             await m.createTable(moodScreen);
+          }
+          if (from < 6) {
+            // v6 — purchase history and the pack label values. Additive.
+            await m.addColumn(smokingProfile, smokingProfile.tarMgPerCigarette);
+            await m.addColumn(
+              smokingProfile,
+              smokingProfile.nicotineMgPerCigarette,
+            );
+            await m.createTable(packPurchaseTable);
           }
         },
       );

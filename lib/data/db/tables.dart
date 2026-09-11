@@ -43,6 +43,11 @@ class SmokingProfile extends Table {
   IntColumn get hsi => integer().nullable()();
   TextColumn get metabolism => textEnum<MetabolismSpeed>()
       .withDefault(const Constant('normal'))();
+
+  // The pack label's machine yields per cigarette (item 4). Optional: when
+  // absent, the legal maximum is used and the screen says so.
+  RealColumn get tarMgPerCigarette => real().nullable()();
+  RealColumn get nicotineMgPerCigarette => real().nullable()();
 }
 
 @DataClassName('CigaretteEventRow')
@@ -327,4 +332,18 @@ class MoodScreen extends Table {
   IntColumn get lowInterest => integer()();
   IntColumn get lowMood => integer()();
   IntColumn get total => integer()();
+}
+
+
+/// A pack purchase, as it happened (items 2 and 3). Price and brand are per
+/// purchase, not per profile, because people do not buy one pack at one price
+/// forever.
+@DataClassName('PackPurchaseRow')
+class PackPurchaseTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  DateTimeColumn get ts => dateTime()();
+  IntColumn get packs => integer().withDefault(const Constant(1))();
+  RealColumn get pricePerPack => real()();
+  IntColumn get packSize => integer().withDefault(const Constant(20))();
+  TextColumn get brand => text().nullable()();
 }

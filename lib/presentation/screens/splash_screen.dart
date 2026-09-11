@@ -17,6 +17,9 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  /// Null while we find out; true only on a first launch.
+  bool? _firstLaunch;
+
   @override
   void initState() {
     super.initState();
@@ -28,16 +31,30 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     if (!mounted) {
       return;
     }
-    Navigator.pushReplacementNamed(
-      context,
-      onboarded ? Routes.today : Routes.onboarding,
-    );
+    if (onboarded) {
+      // A returning user has read the privacy promise and the medical note
+      // already, and both live in Settings. Showing them on every launch is
+      // the kind of delay that makes an app feel slow, so we go straight in.
+      Navigator.pushReplacementNamed(context, Routes.today);
+      return;
+    }
+    // First launch: stay put. This screen used to route away on its own
+    // first frame, so the privacy promise, the medical note and the
+    // notification question flashed past unread — and its own Start button
+    // was unreachable. The person moves on when they tap it.
+    setState(() => _firstLaunch = true);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    if (_firstLaunch != true) {
+      // A plain frame in the app's own ground while we check. The native
+      // launch window is the same colour, so this reads as one continuous
+      // start rather than a flash of text.
+      return const Scaffold(body: SizedBox.shrink());
+    }
     return Scaffold(
       body: SafeArea(
         child: Center(

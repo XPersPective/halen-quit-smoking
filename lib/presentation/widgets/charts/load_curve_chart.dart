@@ -35,6 +35,8 @@ class LoadCurveChart extends StatelessWidget {
     required this.locale,
     required this.semanticsLabel,
     this.height = 168,
+    this.peakValue,
+    this.unitFormatter,
   });
 
   /// Normalized 0–100 samples across the window.
@@ -60,6 +62,13 @@ class LoadCurveChart extends StatelessWidget {
 
   final String semanticsLabel;
   final double height;
+
+  /// The real quantity at 100% of this window (item 12). With
+  /// [unitFormatter], the axis prints that quantity — "0.9 mg" — instead of
+  /// a percentage. Exact, because the normalised curve is linear in the raw
+  /// one: 50% of the plot is half of [peakValue].
+  final double? peakValue;
+  final String Function(double)? unitFormatter;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +96,8 @@ class LoadCurveChart extends StatelessWidget {
                 color: color,
                 timeLabels: timeLabels,
                 locale: locale,
+                peakValue: peakValue,
+                unitFormatter: unitFormatter,
                 labelStyle: (theme.textTheme.labelSmall ??
                       const TextStyle(fontSize: 11))
                   .asNumber,
@@ -110,6 +121,8 @@ class _LoadCurvePainter extends CustomPainter {
     required this.timeLabels,
     required this.locale,
     required this.labelStyle,
+    this.peakValue,
+    this.unitFormatter,
     required this.gridColor,
   });
 
@@ -120,6 +133,8 @@ class _LoadCurvePainter extends CustomPainter {
   final List<String> timeLabels;
   final String locale;
   final TextStyle labelStyle;
+  final double? peakValue;
+  final String Function(double)? unitFormatter;
   final Color gridColor;
 
   /// Room under the plot for the cigarette ticks and the time labels.
@@ -141,8 +156,8 @@ class _LoadCurvePainter extends CustomPainter {
     // canvas — otherwise the marker is sliced in half by the card.
     final plot = Rect.fromLTRB(
       _labelGutter,
-      6,
-      size.width - 6,
+      HalenSpace.x3,
+      size.width - HalenSpace.x4,
       size.height - _tickLane,
     );
     final start = samples.first.at;
@@ -167,7 +182,9 @@ class _LoadCurvePainter extends CustomPainter {
       canvas.drawLine(Offset(plot.left, y), Offset(plot.right, y), gridPaint);
       _text(
         canvas,
-        formatPercent(value, locale),
+        unitFormatter != null && peakValue != null
+            ? unitFormatter!(peakValue! * value / 100)
+            : formatPercent(value, locale),
         Offset(0, y - 7),
         _labelGutter - 6,
       );
@@ -232,9 +249,11 @@ class _LoadCurvePainter extends CustomPainter {
 
     // Time labels under the tick lane: without them the X axis is as mute
     // as an unlabelled Y axis was.
-    for (var i = 0; i < timeLabels.length && i < 3; i++) {
-      final align = [0.0, 0.5, 1.0][i];
-      final width = 64.0;
+    // Evenly spaced, any count: five ticks (24, 18, 12, 6 hours, now) say
+    // far more about when than the old three did.
+    for (var i = 0; i < timeLabels.length; i++) {
+      final align = timeLabels.length == 1 ? 1.0 : i / (timeLabels.length - 1);
+      final width = timeLabels.length > 3 ? 46.0 : 64.0;
       final x = (plot.left + plot.width * align - width * align)
           .clamp(0.0, size.width - width);
       _text(

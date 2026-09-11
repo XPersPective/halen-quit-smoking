@@ -198,6 +198,76 @@ güncelliği.
   satırı), etik lint'e eklenen S5 iddia kalıpları ve "her göstergenin
   formülü yayımlanmış olmalı" kabul testi.
 
+## [1.3.0] — cihaz geri bildirimi (15 madde)
+
+Gerçek bir telefonda kullanıldıktan sonra gelen 15 maddelik geri bildirim.
+
+### Anlaşılır dil
+- **"Oksijen borcu" → "Kandaki karbonmonoksit"**, "Gün boyu zemin" →
+  "Vücutta birikmiş nikotin", "Partikül yükü" → "Katran birikimi". Bunlar
+  modelin kendi terimleriydi ve arayüze sızmıştı (madde 6).
+- Nefes egzersizindeki **"İçer" → "Nefes al"**, "Dışa" → "Nefes ver" —
+  "İçer" Türkçede "içeriyor" gibi okunuyordu (madde 7).
+- Organ riskleri ve ilaç etkileri **"1,2 kat" yerine yüzde**: göreli risk
+  2,0 artık "yaklaşık %100 daha yüksek". Aynı bulgu, daha iyi okunan biçim
+  (madde 11).
+
+### Karşılama ekranı (madde 1)
+- İlk açılışta ekran artık **bekliyor**. Eskiden kendi ilk karesinde
+  yönlendiriyordu: gizlilik sözü, tıbbi not ve bildirim sorusu okunmadan
+  geçiyordu ve "Başla" butonuna hiç ulaşılamıyordu.
+- Sonraki açılışlarda **hiç gösterilmiyor** — aynı metinler Ayarlar'da var;
+  her açılışta göstermek sadece yavaşlık.
+
+### Paket ve harcama (madde 2, 3)
+- **Ayarlar → Paketim:** fiyat, paket boyutu, marka ve etiketteki katran /
+  nikotin değerleri artık düzenlenebiliyor (eskiden yalnızca onboarding'de).
+- **Paket alımlarım:** tarih, adet, fiyat, marka ile alım kaydı; bu ay / geçen
+  ay harcama, ortalama kaç günde bir paket, bu hızla aylık maliyet ve son 6 ayın
+  harcama grafiği. Son alım güncel paketin olur — maliyet hesapları gerçekten
+  ödenen fiyatı takip eder. Şema v6.
+
+### Bilimsel miktarlar (madde 4, 12)
+- **Aldığın katran:** kendi sayın × paket etiketindeki katran (yoksa AB/TR
+  yasal üst sınırı 10 mg). Haftalık gram, 8 haftalık grafik ve somut benzetme:
+  günde bir paket ≈ **haftada yarım çay kaşığı**. Kaşık hacimce, yoğunluk
+  varsayımı (~1 g/mL) ekranda yazılı. Etiket makine ölçümüdür; insanlar daha
+  derin çektiği için bu bir **alt sınır** ve ekran bunu söylüyor.
+- **Nikotin ekseni artık miligram:** "vücudunda kalan tahmini nikotin (mg)".
+  Model zaten mg cinsindendi (sigara başına ~1,2 mg emilim, 2 saat yarı ömür —
+  Benowitz); eksen yalnızca yüzde gösteriyordu. Zaman ekseni 3 yerine 5 tik
+  (24/18/12/6 sa, şimdi).
+
+### Organlar (madde 5)
+- Her organın **kendi 24 saatlik maruziyet eğrisi**, senin sigaralarından:
+  kalp ← nikotin + karbonmonoksit, damarlar ← nikotin, akciğer ← katran + CO…
+  Hangi yükün organı etkilediği ekranda yazıyor.
+- Organ çizimi o anki yüke göre **yeşilden koyu kahverengiye** kararıyor.
+  Bilerek rahatsız edici; yine de kırmızı değil.
+- Her organ için sigaradan sonraki dakika/saatlerde ne olduğu (ör. kalp:
+  dakikada 10-20 atım fazla, 20-30 dk).
+
+### Butonlar ve "içtim" anı (madde 8, 9)
+- **"İçmedim, atlattım" artık birincil**: dolu, ana renk, filiz ikonu.
+  **"Bir sigara içtim"** hâlâ tek dokunuş ama sessiz: çerçeveli, soluk, duman
+  ikonu. Eskiden amber büyük harf "İÇTİM" ekrandaki en davetkâr düğmeydi.
+- "İçtim" sonrası: sönen bir kor, sonra aynı yerden çıkan bir filiz —
+  önce üzüntü, sonra umut. Dönen, somut bir öneriyle biten mesajlar.
+
+### Çevre (madde 10)
+- Önlenen her sigara kaynaklı karşılığına çevriliyor: **~300 sigara = 1 ağaç**
+  (DSÖ 2017), 1 sigara = doğaya karışmayan 1 izmarit. Biriken paranın kaç
+  fidana yeteceği ve doğrudan TEMA Vakfı, OGM ve One Tree Planted
+  bağlantıları. Halen para almaz, aracılık etmez.
+- Uygulamanın kendi adına fidan diktiği bir ortaklık iş kararıdır (sözleşme,
+  ödeme); taklit edilmedi.
+
+### Diğer
+- **İlerleme puanı ana ekranda** (madde 14).
+- **Grafiklerde iç boşluk**: çizgi ve "bugün" noktası artık kart kenarına
+  yapışmıyor (madde 13).
+- **Sekmeler arasında kaydırma** (madde 15); her sekme durumunu koruyor.
+
 ## [1.2.1] — 2026-09-10
 
 ### Düzeltildi (Fixed)

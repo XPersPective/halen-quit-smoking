@@ -20,6 +20,29 @@ class ShellScreen extends StatefulWidget {
 class _ShellScreenState extends State<ShellScreen> {
   int _index = 0;
 
+  // Item 15: the tabs are pages, so a horizontal swipe moves between them as
+  // well as the bar does. The bar and the pages drive each other.
+  final PageController _pages = PageController();
+
+  @override
+  void dispose() {
+    _pages.dispose();
+    super.dispose();
+  }
+
+  void _go(int index) {
+    setState(() => _index = index);
+    if (MediaQuery.of(context).disableAnimations) {
+      _pages.jumpToPage(index);
+    } else {
+      _pages.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 280),
+        curve: Curves.easeOutCubic,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -35,21 +58,24 @@ class _ShellScreenState extends State<ShellScreen> {
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
-          child: IndexedStack(
-            index: _index,
+          child: PageView(
+            controller: _pages,
+            onPageChanged: (i) => setState(() => _index = i),
+            // Each tab keeps its scroll position and state when swiped away,
+            // the way IndexedStack did.
             children: const [
-              TodayScreen(),
-              StatsScreen(),
-              PlanScreen(),
-              ArticlesScreen(),
-              SosScreen(),
+              _KeepAlive(child: TodayScreen()),
+              _KeepAlive(child: StatsScreen()),
+              _KeepAlive(child: PlanScreen()),
+              _KeepAlive(child: ArticlesScreen()),
+              _KeepAlive(child: SosScreen()),
             ],
           ),
         ),
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
-        onDestinationSelected: (i) => setState(() => _index = i),
+        onDestinationSelected: _go,
         destinations: [
           for (final d in destinations)
             NavigationDestination(
@@ -76,5 +102,27 @@ class ShellSettingsButton extends StatelessWidget {
       icon: const Icon(Icons.settings_outlined),
       onPressed: () => Navigator.pushNamed(context, Routes.settings),
     );
+  }
+}
+
+
+class _KeepAlive extends StatefulWidget {
+  const _KeepAlive({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_KeepAlive> createState() => _KeepAliveState();
+}
+
+class _KeepAliveState extends State<_KeepAlive>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
   }
 }

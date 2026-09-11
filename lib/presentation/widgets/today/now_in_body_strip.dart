@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -86,6 +87,20 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
       _now,
       past,
     );
+    // Item 12: the nicotine axis in milligrams. The model's raw curve is in
+    // mg of absorbed nicotine still in the body, so the peak of this window
+    // gives the axis its real scale.
+    final rawNicotine = model.rawCurve(
+      LoadKind.nicotineAcute,
+      windowStart,
+      _now,
+      past,
+    );
+    final peakMg = rawNicotine.isEmpty ? 0.0 : rawNicotine.reduce(math.max);
+    final nowMg = model.rawAt(LoadKind.nicotineAcute, _now, past);
+    String mg(double v) =>
+        l10n.mgValue(v < 10 ? v.toStringAsFixed(1) : v.toStringAsFixed(0));
+
     final ghosts = [
       for (final c in cravings)
         if (c.outcome == CravingOutcome.resisted && c.ts.isAfter(windowStart))
@@ -113,7 +128,7 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
               Expanded(
                 child: HalenStat(
                   label: l10n.loadNicotineAcute,
-                  value: formatPercent(snapshot.nicotinePercentOfPeak, locale),
+                  value: mg(nowMg),
                   caption: band(snapshot.nicotinePercentOfPeak),
                   color: DataRole.nicotine.of(context),
                 ),
@@ -143,13 +158,17 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
             events: windowEvents,
             ghostEvents: ghosts,
             color: DataRole.nicotine.of(context),
-            axisCaption: l10n.loadAxisCaption,
+            axisCaption: l10n.nicotineMgAxis,
+            peakValue: peakMg,
+            unitFormatter: mg,
             timeLabels: [
               l10n.loadAxisHoursAgo(24),
+              l10n.loadAxisHoursAgo(18),
               l10n.loadAxisHoursAgo(12),
+              l10n.loadAxisHoursAgo(6),
               l10n.loadAxisNow,
             ],
-            height: 132,
+            height: 150,
             locale: locale,
             semanticsLabel: '${l10n.loadNicotineAcute}: '
                 '${formatPercent(snapshot.nicotinePercentOfPeak, locale)} — '
@@ -157,6 +176,8 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
           ),
           const SizedBox(height: HalenSpace.x3),
           Text(l10n.bodyLoadMeaning, style: theme.textTheme.bodySmall),
+          const SizedBox(height: HalenSpace.x1),
+          Text(l10n.nicotineMgBasis, style: theme.textTheme.bodySmall),
         ],
       ),
     );

@@ -211,7 +211,8 @@ void main() {
     expect(find.text(l10n.loadNicotineAcute), findsOneWidget);
     expect(find.text(l10n.loadCarbonMonoxide), findsOneWidget);
     expect(find.text(l10n.nowInBodyLast), findsOneWidget);
-    expect(find.text(l10n.loadAxisCaption), findsOneWidget);
+    // Item 12: the nicotine axis is in milligrams now.
+    expect(find.text(l10n.nicotineMgAxis), findsOneWidget);
 
     // A percentage is shown, and it is written the way English writes one.
     expect(find.textContaining(RegExp(r'^\d+%$')), findsWidgets);

@@ -271,10 +271,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nicotineMiniLabel => 'Estimated nicotine exposure (model)';
 
   @override
-  String get ctaSmoked => 'I SMOKED';
+  String get ctaSmoked => 'I smoked one';
 
   @override
-  String get ctaResisted => 'I resisted a craving';
+  String get ctaResisted => 'I resisted it';
 
   @override
   String resistedTodayCount(int n) {
@@ -1285,20 +1285,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String bodyLoadCoDrop(int percent) {
-    return 'Oxygen debt down $percent%.';
+    return 'Carbon monoxide in your blood is $percent% below its peak.';
   }
 
   @override
   String get loadNicotineAcute => 'Nicotine now';
 
   @override
-  String get loadNicotineBaseline => 'All-day baseline';
+  String get loadNicotineBaseline => 'Nicotine built up in your body';
 
   @override
-  String get loadCarbonMonoxide => 'Oxygen debt';
+  String get loadCarbonMonoxide => 'Carbon monoxide in your blood';
 
   @override
-  String get loadTar => 'Particle load';
+  String get loadTar => 'Tar build-up';
 
   @override
   String get loadBandLow => 'Low';
@@ -1498,7 +1498,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lungsAxisAge => 'Age';
 
   @override
-  String get lungsMistLabel => 'Relative particle load';
+  String get lungsMistLabel => 'Tar build-up, compared with your usual';
 
   @override
   String get organMapTitle => 'Body map';
@@ -1666,7 +1666,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get componentLoggingConsistency => 'Logging consistency';
 
   @override
-  String get componentNicotineBaselineFall => 'Nicotine baseline fall';
+  String get componentNicotineBaselineFall => 'Fall in built-up nicotine';
 
   @override
   String get componentCumulativeExposure => 'Cumulative exposure';
@@ -1831,7 +1831,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get howBodyLoadBody =>
-      'Each curve is C(t) = sum of dose x 2^(-elapsed / half-life), fed only by the times you logged. Half-lives: nicotine 2 h, all-day baseline 16 h (cotinine proxy), carbon monoxide 4.5 h, particle load 30 days (representative).';
+      'Each curve is C(t) = sum of dose x 2^(-time since / half-life), fed only by the times you logged. Half-lives: nicotine 2 h, nicotine built up in your body 16 h (the cotinine it turns into), carbon monoxide 4.5 h, tar build-up 30 days (representative).';
 
   @override
   String get howBodyLoadLimits =>
@@ -2226,8 +2226,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String organImpactRelative(String times) {
-    return 'About ${times}x likelier than in someone who never smoked';
+  String organImpactRelative(int percent) {
+    return 'Risk about $percent% higher than in someone who never smoked';
   }
 
   @override
@@ -2407,13 +2407,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get medicinesCommonMistake => 'The usual mistake';
 
   @override
-  String medicinesRatioPlacebo(String ratio) {
-    return '${ratio}x the quit rate of a dummy treatment, across trials';
+  String medicinesRatioPlacebo(int percent) {
+    return 'Raises the chance of quitting by about $percent% compared with a dummy treatment, across trials';
   }
 
   @override
-  String medicinesRatioSingle(String ratio) {
-    return '${ratio}x the quit rate of one form used alone, across trials';
+  String medicinesRatioSingle(int percent) {
+    return 'Raises the chance of quitting by about $percent% compared with one form alone, across trials';
   }
 
   @override
@@ -2599,13 +2599,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusPageNicotine => 'Nicotine';
 
   @override
-  String get statusPageOxygen => 'Oxygen debt';
+  String get statusPageOxygen => 'Carbon monoxide in your blood';
 
   @override
-  String get statusPageBaseline => 'All-day baseline';
+  String get statusPageBaseline => 'Nicotine built up in your body';
 
   @override
-  String get statusPageParticles => 'Particle load';
+  String get statusPageParticles => 'Tar build-up';
 
   @override
   String get statusPageProgress => 'Progress score';
@@ -2677,4 +2677,274 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get startupFailUnknown => 'No further detail was reported.';
+
+  @override
+  String get smokedHeadline0 =>
+      'That one is done. The next one does not have to be.';
+
+  @override
+  String get smokedHeadline1 => 'A little sad, and still on the way.';
+
+  @override
+  String get smokedHeadline2 => 'Your body starts clearing this one right now.';
+
+  @override
+  String get smokedHeadline3 => 'Not a failure. The next hour is yours.';
+
+  @override
+  String get smokedAdvice0 =>
+      'When the next urge comes, wait five minutes before deciding. Most urges pass inside that.';
+
+  @override
+  String get smokedAdvice1 =>
+      'Drink a glass of water now and get up for a minute. Changing what your hands and feet are doing weakens the next urge.';
+
+  @override
+  String get smokedAdvice2 =>
+      'Each cigarette you skip lets the carbon monoxide in your blood fall further. Try to make this the last one today.';
+
+  @override
+  String get smokedAdvice3 =>
+      'Stopping is the single best thing you can do for your health. You do not have to do it today, but every skipped one counts.';
+
+  @override
+  String get splashContinue => 'Continue';
+
+  @override
+  String get packTitle => 'My pack';
+
+  @override
+  String packLabelLine(String tar, String nicotine) {
+    return 'Label: $tar mg tar, $nicotine mg nicotine per cigarette';
+  }
+
+  @override
+  String get packLabelDefaulted =>
+      'Using the legal maximum until you enter your pack\'s own values.';
+
+  @override
+  String get packTar => 'Tar per cigarette (mg)';
+
+  @override
+  String get packNicotine => 'Nicotine per cigarette (mg)';
+
+  @override
+  String get packLabelHint =>
+      'Printed on the side of the pack. Leave empty to use the legal maximum (10 mg tar, 1 mg nicotine).';
+
+  @override
+  String get purchasesTitle => 'My pack purchases';
+
+  @override
+  String get purchasesAdd => 'Add a purchase';
+
+  @override
+  String get purchasesEmpty =>
+      'No purchases yet. Add the packs you buy and you will see what the habit really costs, month by month.';
+
+  @override
+  String get purchasesThisMonth => 'Spent this month';
+
+  @override
+  String get purchasesLastMonth => 'Last month';
+
+  @override
+  String purchasesEvery(String days) {
+    return 'One pack every $days days on average';
+  }
+
+  @override
+  String purchasesMonthlyRate(String amount) {
+    return 'At this rate, about $amount a month';
+  }
+
+  @override
+  String get purchasesChartTitle => 'Spending per month';
+
+  @override
+  String get purchasesChartMeaning =>
+      'One bar per month: what went on cigarettes. The solid bar is this month.';
+
+  @override
+  String get purchasesChartAxis => 'amount spent';
+
+  @override
+  String get purchasesHistory => 'History';
+
+  @override
+  String get purchasesDeleted => 'Purchase removed';
+
+  @override
+  String get purchasesDate => 'Date';
+
+  @override
+  String get purchasesPacks => 'Packs';
+
+  @override
+  String get purchasesPrice => 'Price per pack';
+
+  @override
+  String get purchasesPackSize => 'Cigarettes';
+
+  @override
+  String get purchasesBrand => 'Brand (optional)';
+
+  @override
+  String get purchasesUpdatesPack =>
+      'This becomes your current pack, so every cost figure in the app follows what you actually paid.';
+
+  @override
+  String get tarTitle => 'Tar you took in';
+
+  @override
+  String get tarThisWeek => 'This week';
+
+  @override
+  String get tarThisMonth => 'Last 30 days';
+
+  @override
+  String tarPicture(String count, String measure) {
+    return 'about $count $measure';
+  }
+
+  @override
+  String get measureTeaSpoon => 'tea spoons';
+
+  @override
+  String get measureDessertSpoon => 'dessert spoons';
+
+  @override
+  String get measureTableSpoon => 'table spoons';
+
+  @override
+  String get measureWaterGlass => 'glasses of water';
+
+  @override
+  String tarGrams(String grams) {
+    return '$grams g';
+  }
+
+  @override
+  String get tarChartMeaning =>
+      'Tar brought into your lungs each week, from your own count and your pack label.';
+
+  @override
+  String get tarChartAxis => 'grams of tar per week';
+
+  @override
+  String tarWeekShort(int n) {
+    return '$n wk';
+  }
+
+  @override
+  String tarBasis(String tar) {
+    return 'Worked out from $tar mg tar per cigarette on the label. This is a floor: people inhale more deeply than the test machine, so real intake is usually higher.';
+  }
+
+  @override
+  String get tarSpoonNote =>
+      'Spoons by volume, taking tar at about 1 g per millilitre. A Turkish tea spoon holds about 2.5 mL.';
+
+  @override
+  String get nicotineMgAxis =>
+      'estimated nicotine still in your body, mg — a model, not a measurement';
+
+  @override
+  String get nicotineMgBasis =>
+      'About 1.2 mg of nicotine is absorbed per cigarette, and half of it leaves the body every 2 hours (Benowitz).';
+
+  @override
+  String mgValue(String value) {
+    return '$value mg';
+  }
+
+  @override
+  String get organExposureTitle => 'This organ, last 24 hours';
+
+  @override
+  String organExposureNow(int percent) {
+    return 'Right now: $percent% of its peak today';
+  }
+
+  @override
+  String get organExposureMeaning =>
+      'Each spike is a cigarette reaching this organ; the fall is your body clearing it. The flatter the line, the more rest the organ gets.';
+
+  @override
+  String organExposureLoads(String loads) {
+    return 'Driven by: $loads';
+  }
+
+  @override
+  String organSinceLast(String time) {
+    return 'Since your last cigarette: $time';
+  }
+
+  @override
+  String get organAcuteHeart =>
+      'After a cigarette the heart beats about 10-20 times a minute faster and blood pressure rises, for roughly 20-30 minutes.';
+
+  @override
+  String get organAcuteVessels =>
+      'Nicotine narrows blood vessels within minutes, and each cigarette keeps them narrowed for about an hour.';
+
+  @override
+  String get organAcuteLungs =>
+      'Smoke slows the tiny hairs that sweep the airways clean, and tar settles in the lungs with every cigarette.';
+
+  @override
+  String get organAcuteBrain =>
+      'Nicotine reaches the brain in 10-20 seconds; as it falls over the next hours, it comes back as the next craving.';
+
+  @override
+  String get organAcuteBlood =>
+      'Carbon monoxide takes the place of oxygen in the blood; half of it clears in about 4-5 hours.';
+
+  @override
+  String get organAcuteGeneral =>
+      'The harmful substances in smoke travel in the blood to every organ; exposure grows with every cigarette.';
+
+  @override
+  String get envTitle => 'What your planet got back';
+
+  @override
+  String envTrees(String count) {
+    return '$count trees not cut down';
+  }
+
+  @override
+  String envButts(int count) {
+    return '$count filters kept out of nature';
+  }
+
+  @override
+  String get envBasis =>
+      'WHO estimates about one tree is lost for every 300 cigarettes made, mostly to dry tobacco leaves and make paper. Cigarette filters are plastic (cellulose acetate) and are the most littered item on Earth.';
+
+  @override
+  String get envPlantTitle => 'Plant a real tree';
+
+  @override
+  String get envPlantBody =>
+      'A small part of what you have saved can plant a real sapling. Halen takes no money and earns nothing from this; the buttons open the organisations directly.';
+
+  @override
+  String envSavedCovers(int count) {
+    return 'What you saved so far would plant about $count saplings.';
+  }
+
+  @override
+  String get envOpenFailed => 'Could not open the link.';
+
+  @override
+  String get measureDrop => 'drops';
+
+  @override
+  String get tarThisWeekShort => 'now';
+
+  @override
+  String get envTreesLabel => 'Trees';
+
+  @override
+  String get envFiltersLabel => 'Filters';
 }

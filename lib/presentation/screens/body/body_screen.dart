@@ -12,6 +12,7 @@ import '../../../domain/lung_model.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/body_map_view.dart';
 import '../../widgets/organ_shapes.dart';
+import '../../widgets/organ_exposure_card.dart';
 import '../../widgets/charts/halen_line_chart.dart';
 import '../../widgets/lung_view.dart';
 import '../../../core/design/tokens.dart';
@@ -291,10 +292,17 @@ class _OrganDetail extends StatelessWidget {
     final caption = impact.attributable != null
         ? l10n.organImpactAttributable((impact.attributable! * 100).round())
         : impact.relativeRisk != null
-        ? l10n.organImpactRelative(impact.relativeRisk!.toStringAsFixed(1))
+        ? l10n.organImpactRelative(((impact.relativeRisk! - 1) * 100).round())
         : '';
 
-    return Card(
+    // Item 5: this person's own exposure leads, the population figure
+    // follows. The first is about them; the second is about everyone.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        OrganExposureCard(organKey: organ.key),
+        const SizedBox(height: HalenSpace.x4),
+        Card(
       margin: const EdgeInsets.only(bottom: 16),
       child: Padding(
         padding: const EdgeInsets.all(HalenSpace.x5),
@@ -385,6 +393,8 @@ class _OrganDetail extends StatelessWidget {
           ],
         ),
       ),
+        ),
+      ],
     );
   }
 }

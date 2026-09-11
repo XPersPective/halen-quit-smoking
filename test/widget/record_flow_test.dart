@@ -23,14 +23,16 @@ void main() {
     await tester.pumpAndSettle();
 
     // Splash auto-routes to Today for an onboarded profile.
-    expect(find.text('I SMOKED'), findsOneWidget);
+    expect(find.text('I smoked one'), findsOneWidget);
 
     // One tap logs the cigarette. The feedback sheet (module report §12)
     // comes first — a quietening, never a gate: the record is already saved
     // behind it and it is dismissed with a single tap.
-    await tester.tap(find.text('I SMOKED'));
+    await tester.tap(find.text('I smoked one'));
     await tester.pumpAndSettle();
-    expect(find.text('Not a failure. A data point.'), findsOneWidget);
+    // The sheet leads with a sad-but-hopeful line now (item 9); it rotates
+    // by the day's count, and this is the first cigarette of the day.
+    expect(find.text('A little sad, and still on the way.'), findsOneWidget);
     await tester.tap(find.widgetWithText(FilledButton, 'Done'));
     await tester.pumpAndSettle();
 
@@ -62,7 +64,7 @@ void main() {
     await pumpHalenApp(tester, database: db);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.textContaining('I resisted a craving'));
+    await tester.tap(find.textContaining('I resisted it'));
     await tester.pumpAndSettle();
 
     // The ride-out feedback opens; dismissing it returns to Today.

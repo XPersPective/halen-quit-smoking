@@ -270,10 +270,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get nicotineMiniLabel => 'Tahmini nikotin maruziyeti (model)';
 
   @override
-  String get ctaSmoked => 'İÇTİM';
+  String get ctaSmoked => 'Bir sigara içtim';
 
   @override
-  String get ctaResisted => 'İstek atlattım';
+  String get ctaResisted => 'İçmedim, atlattım';
 
   @override
   String resistedTodayCount(int n) {
@@ -584,13 +584,13 @@ class AppLocalizationsTr extends AppLocalizations {
       'İsteği bir dalga gibi izle: yükselir, zirve yapar, düşer. Onunla savaşmak zorunda değilsin.';
 
   @override
-  String get sosBreathingIn => 'İçer';
+  String get sosBreathingIn => 'Nefes al';
 
   @override
-  String get sosBreathingHold => 'Tut';
+  String get sosBreathingHold => 'Nefesini tut';
 
   @override
-  String get sosBreathingOut => 'Dışa';
+  String get sosBreathingOut => 'Nefes ver';
 
   @override
   String get sosBreathingFinished => 'Bir dakika tamam.';
@@ -1279,20 +1279,20 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String bodyLoadCoDrop(int percent) {
-    return 'Oksijen borcun %$percent azaldı.';
+    return 'Kandaki karbonmonoksit zirvesinin %$percent altında.';
   }
 
   @override
   String get loadNicotineAcute => 'Nikotin şimdi';
 
   @override
-  String get loadNicotineBaseline => 'Gün boyu zemin';
+  String get loadNicotineBaseline => 'Vücutta birikmiş nikotin';
 
   @override
-  String get loadCarbonMonoxide => 'Oksijen borcu';
+  String get loadCarbonMonoxide => 'Kandaki karbonmonoksit';
 
   @override
-  String get loadTar => 'Partikül yükü';
+  String get loadTar => 'Katran birikimi';
 
   @override
   String get loadBandLow => 'Düşük';
@@ -1492,7 +1492,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lungsAxisAge => 'Yaş';
 
   @override
-  String get lungsMistLabel => 'Göreli partikül yükü';
+  String get lungsMistLabel => 'Katran birikimi, alışık olduğun düzeye göre';
 
   @override
   String get organMapTitle => 'Organ haritası';
@@ -1659,7 +1659,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get componentLoggingConsistency => 'Kayıt tutarlılığı';
 
   @override
-  String get componentNicotineBaselineFall => 'Nikotin zemininin düşüşü';
+  String get componentNicotineBaselineFall => 'Birikmiş nikotinin azalması';
 
   @override
   String get componentCumulativeExposure => 'Kümülatif maruziyet';
@@ -1824,7 +1824,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get howBodyLoadBody =>
-      'Her eğri C(t) = Σ doz × 2^(−geçen süre / yarı ömür) formülüdür ve yalnızca senin kaydettiğin saatlerden beslenir. Yarı ömürler: nikotin 2 sa, gün boyu zemin 16 sa (kotinin karşılığı), karbonmonoksit 4,5 sa, partikül yükü 30 gün (temsilî).';
+      'Her eğri C(t) = Σ doz × 2^(−geçen süre / yarı ömür) formülüdür ve yalnızca senin kaydettiğin saatlerden beslenir. Yarı ömürler: nikotin 2 sa, vücutta birikmiş nikotin 16 sa (dönüştüğü kotinin), karbonmonoksit 4,5 sa, katran birikimi 30 gün (temsilî).';
 
   @override
   String get howBodyLoadLimits =>
@@ -2219,8 +2219,8 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String organImpactRelative(String times) {
-    return 'Hiç içmemiş birine göre yaklaşık $times kat';
+  String organImpactRelative(int percent) {
+    return 'Hiç içmemiş birine göre risk yaklaşık %$percent daha yüksek';
   }
 
   @override
@@ -2399,13 +2399,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get medicinesCommonMistake => 'En sık yapılan hata';
 
   @override
-  String medicinesRatioPlacebo(String ratio) {
-    return 'Denemelerde, sahte tedaviye göre bırakma oranı $ratio kat';
+  String medicinesRatioPlacebo(int percent) {
+    return 'Denemelerde bırakma şansını sahte tedaviye göre yaklaşık %$percent artırıyor';
   }
 
   @override
-  String medicinesRatioSingle(String ratio) {
-    return 'Denemelerde, tek form kullanmaya göre bırakma oranı $ratio kat';
+  String medicinesRatioSingle(int percent) {
+    return 'Denemelerde bırakma şansını tek form kullanmaya göre yaklaşık %$percent artırıyor';
   }
 
   @override
@@ -2591,13 +2591,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get statusPageNicotine => 'Nikotin';
 
   @override
-  String get statusPageOxygen => 'Oksijen borcu';
+  String get statusPageOxygen => 'Kandaki karbonmonoksit';
 
   @override
-  String get statusPageBaseline => 'Gün boyu zemin';
+  String get statusPageBaseline => 'Vücutta birikmiş nikotin';
 
   @override
-  String get statusPageParticles => 'Partikül yükü';
+  String get statusPageParticles => 'Katran birikimi';
 
   @override
   String get statusPageProgress => 'İlerleme puanı';
@@ -2669,4 +2669,274 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get startupFailUnknown => 'Başka ayrıntı bildirilmedi.';
+
+  @override
+  String get smokedHeadline0 => 'Bu geçti. Bir sonrakinin olması gerekmiyor.';
+
+  @override
+  String get smokedHeadline1 => 'Biraz üzücü, ama hâlâ yoldasın.';
+
+  @override
+  String get smokedHeadline2 => 'Vücudun bunu şu an temizlemeye başladı.';
+
+  @override
+  String get smokedHeadline3 =>
+      'Başarısızlık değil. Önümüzdeki bir saat senin.';
+
+  @override
+  String get smokedAdvice0 =>
+      'Bir sonraki istek geldiğinde karar vermeden beş dakika bekle. Çoğu istek o süre içinde geçer.';
+
+  @override
+  String get smokedAdvice1 =>
+      'Şimdi bir bardak su iç ve bir dakika kalk. Ellerinin ve ayaklarının ne yaptığını değiştirmek bir sonraki isteği zayıflatır.';
+
+  @override
+  String get smokedAdvice2 =>
+      'Atladığın her sigara kandaki karbonmonoksiti biraz daha düşürür. Bunu bugünün son sigarası yapmayı dene.';
+
+  @override
+  String get smokedAdvice3 =>
+      'Bırakmak sağlığın için yapabileceğin en iyi tek şey. Bugün yapmak zorunda değilsin ama atladığın her biri sayılıyor.';
+
+  @override
+  String get splashContinue => 'Devam et';
+
+  @override
+  String get packTitle => 'Paketim';
+
+  @override
+  String packLabelLine(String tar, String nicotine) {
+    return 'Etiket: sigara başına $tar mg katran, $nicotine mg nikotin';
+  }
+
+  @override
+  String get packLabelDefaulted =>
+      'Kendi paketinin değerlerini girene kadar yasal üst sınır kullanılıyor.';
+
+  @override
+  String get packTar => 'Sigara başına katran (mg)';
+
+  @override
+  String get packNicotine => 'Sigara başına nikotin (mg)';
+
+  @override
+  String get packLabelHint =>
+      'Paketin yan yüzünde yazar. Boş bırakırsan yasal üst sınır kullanılır (10 mg katran, 1 mg nikotin).';
+
+  @override
+  String get purchasesTitle => 'Paket alımlarım';
+
+  @override
+  String get purchasesAdd => 'Alım ekle';
+
+  @override
+  String get purchasesEmpty =>
+      'Henüz alım yok. Aldığın paketleri ekle; alışkanlığın gerçekte ne tuttuğunu ay ay göreceksin.';
+
+  @override
+  String get purchasesThisMonth => 'Bu ay harcanan';
+
+  @override
+  String get purchasesLastMonth => 'Geçen ay';
+
+  @override
+  String purchasesEvery(String days) {
+    return 'Ortalama $days günde bir paket';
+  }
+
+  @override
+  String purchasesMonthlyRate(String amount) {
+    return 'Bu hızla ayda yaklaşık $amount';
+  }
+
+  @override
+  String get purchasesChartTitle => 'Aylık harcama';
+
+  @override
+  String get purchasesChartMeaning =>
+      'Her çubuk bir ay: sigaraya giden para. Koyu çubuk bu ay.';
+
+  @override
+  String get purchasesChartAxis => 'harcanan tutar';
+
+  @override
+  String get purchasesHistory => 'Geçmiş';
+
+  @override
+  String get purchasesDeleted => 'Alım silindi';
+
+  @override
+  String get purchasesDate => 'Tarih';
+
+  @override
+  String get purchasesPacks => 'Paket adedi';
+
+  @override
+  String get purchasesPrice => 'Paket fiyatı';
+
+  @override
+  String get purchasesPackSize => 'Adet';
+
+  @override
+  String get purchasesBrand => 'Marka (isteğe bağlı)';
+
+  @override
+  String get purchasesUpdatesPack =>
+      'Bu senin güncel paketin olur; uygulamadaki her maliyet hesabı gerçekten ödediğini takip eder.';
+
+  @override
+  String get tarTitle => 'Aldığın katran';
+
+  @override
+  String get tarThisWeek => 'Bu hafta';
+
+  @override
+  String get tarThisMonth => 'Son 30 gün';
+
+  @override
+  String tarPicture(String count, String measure) {
+    return 'yaklaşık $count $measure';
+  }
+
+  @override
+  String get measureTeaSpoon => 'çay kaşığı';
+
+  @override
+  String get measureDessertSpoon => 'tatlı kaşığı';
+
+  @override
+  String get measureTableSpoon => 'yemek kaşığı';
+
+  @override
+  String get measureWaterGlass => 'su bardağı';
+
+  @override
+  String tarGrams(String grams) {
+    return '$grams g';
+  }
+
+  @override
+  String get tarChartMeaning =>
+      'Her hafta ciğerlerine giren katran; kendi sayından ve paket etiketinden.';
+
+  @override
+  String get tarChartAxis => 'haftalık katran (gram)';
+
+  @override
+  String tarWeekShort(int n) {
+    return '$n hf';
+  }
+
+  @override
+  String tarBasis(String tar) {
+    return 'Etiketteki sigara başına $tar mg katran üzerinden hesaplandı. Bu bir alt sınır: insanlar test makinesinden daha derin çeker, gerçekte alınan genelde daha fazladır.';
+  }
+
+  @override
+  String get tarSpoonNote =>
+      'Kaşıklar hacimce; katranın mililitresi yaklaşık 1 g kabul edildi. Bir çay kaşığı yaklaşık 2,5 mL alır.';
+
+  @override
+  String get nicotineMgAxis =>
+      'vücudunda kalan tahmini nikotin, mg — model, ölçüm değil';
+
+  @override
+  String get nicotineMgBasis =>
+      'Sigara başına yaklaşık 1,2 mg nikotin emilir; bunun yarısı her 2 saatte vücuttan atılır (Benowitz).';
+
+  @override
+  String mgValue(String value) {
+    return '$value mg';
+  }
+
+  @override
+  String get organExposureTitle => 'Bu organ, son 24 saat';
+
+  @override
+  String organExposureNow(int percent) {
+    return 'Şu an: bugünkü zirvesinin %$percent\'si';
+  }
+
+  @override
+  String get organExposureMeaning =>
+      'Her tepe bu organa ulaşan bir sigara; iniş vücudunun onu temizlemesi. Çizgi ne kadar düzse organ o kadar dinlenir.';
+
+  @override
+  String organExposureLoads(String loads) {
+    return 'Etkileyen: $loads';
+  }
+
+  @override
+  String organSinceLast(String time) {
+    return 'Son sigaradan bu yana: $time';
+  }
+
+  @override
+  String get organAcuteHeart =>
+      'Bir sigaradan sonra kalp dakikada yaklaşık 10-20 atım daha hızlı atar ve tansiyon yükselir; bu 20-30 dakika kadar sürer.';
+
+  @override
+  String get organAcuteVessels =>
+      'Nikotin damarları dakikalar içinde daraltır; her sigara onları yaklaşık bir saat dar tutar.';
+
+  @override
+  String get organAcuteLungs =>
+      'Duman, hava yollarını temizleyen minik tüyleri yavaşlatır; katran her sigarayla ciğerlere çöker.';
+
+  @override
+  String get organAcuteBrain =>
+      'Nikotin beyne 10-20 saniyede ulaşır; sonraki saatlerde düşerken bir sonraki istek olarak geri döner.';
+
+  @override
+  String get organAcuteBlood =>
+      'Karbonmonoksit kanda oksijenin yerini alır; yarısı yaklaşık 4-5 saatte temizlenir.';
+
+  @override
+  String get organAcuteGeneral =>
+      'Dumandaki zararlı maddeler kanla her organa taşınır; maruziyet her sigarayla artar.';
+
+  @override
+  String get envTitle => 'Doğaya kazandırdığın';
+
+  @override
+  String envTrees(String count) {
+    return '$count ağaç kesilmekten kurtuldu';
+  }
+
+  @override
+  String envButts(int count) {
+    return '$count izmarit doğaya karışmadı';
+  }
+
+  @override
+  String get envBasis =>
+      'DSÖ\'ye göre üretilen her 300 sigara için yaklaşık bir ağaç kaybediliyor; çoğu tütün kurutmak ve kâğıt yapmak için. Sigara filtreleri plastiktir (selüloz asetat) ve dünyada en çok atılan çöptür.';
+
+  @override
+  String get envPlantTitle => 'Gerçek bir fidan dik';
+
+  @override
+  String get envPlantBody =>
+      'Biriktirdiğin paranın küçük bir kısmıyla gerçek bir fidan diktirebilirsin. Halen bundan para almaz ve kazanç sağlamaz; butonlar doğrudan kuruluşu açar.';
+
+  @override
+  String envSavedCovers(int count) {
+    return 'Şimdiye kadar biriktirdiğinle yaklaşık $count fidan dikilebilir.';
+  }
+
+  @override
+  String get envOpenFailed => 'Bağlantı açılamadı.';
+
+  @override
+  String get measureDrop => 'damla';
+
+  @override
+  String get tarThisWeekShort => 'bu hf';
+
+  @override
+  String get envTreesLabel => 'Ağaç';
+
+  @override
+  String get envFiltersLabel => 'İzmarit';
 }

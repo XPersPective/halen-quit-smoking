@@ -23,6 +23,7 @@ import 'package:halen/presentation/widgets/cessation/quit_date_strip.dart';
 import 'package:halen/presentation/widgets/cessation/slip_coach_card.dart';
 import 'package:halen/presentation/widgets/today/log_feedback.dart';
 import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
+import 'package:halen/presentation/widgets/today/progress_score_tile.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 import 'package:halen/presentation/widgets/today/today_log_sheet.dart';
 import 'package:halen/presentation/widgets/today_widgets.dart';
@@ -113,16 +114,21 @@ class _TodayBody extends ConsumerWidget {
       context,
       kind: LogFeedbackKind.smoked,
       pauseSeconds: settings.preLogPauseSeconds,
-      headline: l10n.logSmokedNeutral(
-        events.length,
-        baseline.toStringAsFixed(baseline % 1 == 0 ? 0 : 1),
-      ),
-      detail: l10n.logNotAFailure,
-      footnote: state.nextSuggestion == null
-          ? null
-          : l10n.logNextTarget(
-              TimeOfDay.fromDateTime(state.nextSuggestion!).format(context),
-            ),
+      // Item 9: sad, then hope, then one concrete thing to do. The line
+      // rotates so the same sentence is not read ten times a day; the plain
+      // count moves to the footnote rather than leading.
+      headline: _smokedHeadline(l10n, events.length),
+      detail: _smokedAdvice(l10n, events.length),
+      footnote: [
+        l10n.logSmokedNeutral(
+          events.length,
+          baseline.toStringAsFixed(baseline % 1 == 0 ? 0 : 1),
+        ),
+        if (state.nextSuggestion != null)
+          l10n.logNextTarget(
+            TimeOfDay.fromDateTime(state.nextSuggestion!).format(context),
+          ),
+      ].join('  ·  '),
       onUndo: () async {
         await db.recordDao.deleteEvent(id);
         await ref.read(recordRepositoryProvider).recomputeDailySummary(now);
@@ -160,6 +166,22 @@ class _TodayBody extends ConsumerWidget {
       celebrate: resisted % 10 == 0,
     );
   }
+
+  String _smokedHeadline(AppLocalizations l10n, int count) =>
+      switch (count % 4) {
+        0 => l10n.smokedHeadline0,
+        1 => l10n.smokedHeadline1,
+        2 => l10n.smokedHeadline2,
+        _ => l10n.smokedHeadline3,
+      };
+
+  String _smokedAdvice(AppLocalizations l10n, int count) =>
+      switch (count % 4) {
+        0 => l10n.smokedAdvice0,
+        1 => l10n.smokedAdvice1,
+        2 => l10n.smokedAdvice2,
+        _ => l10n.smokedAdvice3,
+      };
 
   String _lastCigaretteText(AppLocalizations l10n, DateTime? last) {
     if (last == null) {
@@ -348,41 +370,50 @@ class _TodayBody extends ConsumerWidget {
           ),
           const SizedBox(height: HalenSpace.x4),
 
-          // ——— Primary CTA ———
+          // ——— The two actions ———
+          // Item 8, the psychology of the pair. The win comes first: filled,
+          // in the primary colour, with a growing-leaf icon. The cigarette is
+          // still one tap — a log that is hard to make is a log people stop
+          // making — but it is quiet: outlined, desaturated, a smoke icon,
+          // and never the brightest thing on the screen. It used to be the
+          // amber all-caps "I SMOKED", which made it the most inviting
+          // control in the app.
           FilledButton.icon(
-            onPressed: state.dayCompleted
-                ? null
-                : () => _logCigarette(context, ref),
-            style: FilledButton.styleFrom(
-              backgroundColor: colors.tertiary,
-              foregroundColor: colors.onTertiary,
-              minimumSize: const Size.fromHeight(60),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            icon: const Icon(Icons.add_rounded, size: 26),
-            label: Text(l10n.ctaSmoked),
-          ),
-          const SizedBox(height: HalenSpace.x2),
-          OutlinedButton.icon(
             onPressed: () => _logResisted(context, ref),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: theme.colorScheme.onSurface,
-              minimumSize: const Size.fromHeight(52),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+            style: FilledButton.styleFrom(
+              backgroundColor: colors.primary,
+              foregroundColor: colors.onPrimary,
+              minimumSize: const Size.fromHeight(60),
+              shape: const RoundedRectangleBorder(
+                borderRadius: HalenRadius.mediumAll,
               ),
             ),
-            icon: const Icon(
-              Icons.front_hand_rounded,
-              size: 20,
-              color: HalenColors.emerald,
-            ),
+            icon: const Icon(Icons.spa_rounded, size: 24),
             label: Text(
               '${l10n.ctaResisted} · ${l10n.resistedTodayCount(state.resistedToday)}',
               textAlign: TextAlign.center,
             ),
+          ),
+          const SizedBox(height: HalenSpace.x3),
+          OutlinedButton.icon(
+            // Never locked. This used to disable itself once the day's target
+            // was reached, so every cigarette over budget went unrecorded —
+            // and the nicotine, tar, organ and cost figures all undercounted
+            // on exactly the days that mattered most. Over budget is a
+            // recalculation, not a closed door.
+            onPressed: () => _logCigarette(context, ref),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: colors.onSurfaceVariant,
+              backgroundColor:
+                  colors.surfaceContainerHighest.withValues(alpha: 0.6),
+              side: BorderSide(color: colors.outline),
+              minimumSize: const Size.fromHeight(52),
+              shape: const RoundedRectangleBorder(
+                borderRadius: HalenRadius.mediumAll,
+              ),
+            ),
+            icon: const Icon(Icons.smoking_rooms_rounded, size: 20),
+            label: Text(l10n.ctaSmoked),
           ),
           const SizedBox(height: HalenSpace.x8),
 
@@ -399,6 +430,10 @@ class _TodayBody extends ConsumerWidget {
           // equally important, which means none of them do.
           HalenSectionHeader(title: l10n.todaySectionState),
           const SizedBox(height: HalenSpace.x3),
+          // Item 14: the one number that answers "am I getting better?"
+          // leads the section instead of living below the fold on Grafikler.
+          const Entrance(child: ProgressScoreTile()),
+          const SizedBox(height: HalenSpace.x4),
           // §1 — the question people open the app with, answered before
           // anything else: how much is still in me, and how long has it been.
           const Entrance(child: NowInBodyStrip()),

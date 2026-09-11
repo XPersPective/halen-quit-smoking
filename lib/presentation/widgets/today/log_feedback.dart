@@ -79,7 +79,7 @@ class _LogFeedbackSheetState extends State<_LogFeedbackSheet>
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: widget.kind == LogFeedbackKind.smoked
-        ? const Duration(milliseconds: 900)
+        ? const Duration(milliseconds: 1800)
         : const Duration(milliseconds: 1200),
   );
 
@@ -128,33 +128,46 @@ class _LogFeedbackSheetState extends State<_LogFeedbackSheet>
             Center(
               child: AnimatedBuilder(
                 animation: _controller,
-                builder: (context, child) {
-                  // Smoked: the ring contracts and desaturates.
-                  // Skipped: it opens out — one breath in.
+                builder: (context, _) {
                   final t = reduceMotion ? 1.0 : _controller.value;
-                  final scale = smoked ? 1.0 - 0.12 * t : 0.82 + 0.22 * t;
-                  final opacity = smoked ? 1.0 - 0.45 * t : 0.35 + 0.65 * t;
+                  if (smoked) {
+                    // Item 9: an ember going out, and a sprout coming up where
+                    // it was. Sad first, then hope — the order is the message,
+                    // so it is drawn as one continuous motion.
+                    return SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: CustomPaint(
+                        painter: _EmberToSprout(
+                          t: t,
+                          ember: HalenColors.textSecondaryLight,
+                          sprout: HalenColors.emerald,
+                        ),
+                      ),
+                    );
+                  }
+                  // Skipped: the ring opens out — one breath in.
                   return Transform.scale(
-                    scale: scale,
-                    child: Opacity(opacity: opacity, child: child),
+                    scale: 0.82 + 0.22 * t,
+                    child: Opacity(
+                      opacity: 0.35 + 0.65 * t,
+                      child: Container(
+                        width: 96,
+                        height: 96,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: accent.withValues(alpha: 0.14),
+                          border: Border.all(color: accent, width: 2),
+                        ),
+                        child: Icon(
+                          Icons.air_rounded,
+                          color: accent,
+                          size: 34,
+                        ),
+                      ),
+                    ),
                   );
                 },
-                child: Container(
-                  width: 96,
-                  height: 96,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: accent.withValues(alpha: 0.14),
-                    border: Border.all(color: accent, width: 2),
-                  ),
-                  child: Icon(
-                    smoked
-                        ? Icons.nightlight_round
-                        : Icons.air_rounded,
-                    color: accent,
-                    size: 34,
-                  ),
-                ),
               ),
             ),
             const SizedBox(height: HalenSpace.x6),
@@ -211,4 +224,94 @@ class _LogFeedbackSheetState extends State<_LogFeedbackSheet>
       ),
     );
   }
+}
+
+
+/// An ember going out, then a sprout growing from the same spot.
+///
+/// The first half is the loss: the glow dims and its thread of smoke thins
+/// away. The second half is the point: a stem draws itself upward and two
+/// leaves open. No faces, no cartoon, no confetti — the brief was sad but
+/// hopeful, and not childish.
+class _EmberToSprout extends CustomPainter {
+  _EmberToSprout({required this.t, required this.ember, required this.sprout});
+
+  final double t;
+  final Color ember;
+  final Color sprout;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final base = Offset(size.width / 2, size.height * 0.78);
+
+    // Phase 1 (0 to 0.5): the ember dims and its smoke thins.
+    final fade = (1 - t / 0.5).clamp(0.0, 1.0);
+    if (fade > 0) {
+      canvas.drawCircle(
+        base,
+        9 + 5 * fade,
+        Paint()
+          ..color = ember.withValues(alpha: 0.18 * fade)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
+      );
+      canvas.drawCircle(
+        base,
+        6,
+        Paint()..color = ember.withValues(alpha: fade),
+      );
+      final smoke = Path()
+        ..moveTo(base.dx, base.dy - 8)
+        ..cubicTo(
+          base.dx - 10, base.dy - 26,
+          base.dx + 10, base.dy - 40,
+          base.dx - 2, base.dy - 58 - 10 * (1 - fade),
+        );
+      canvas.drawPath(
+        smoke,
+        Paint()
+          ..color = ember.withValues(alpha: 0.5 * fade)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.6
+          ..strokeCap = StrokeCap.round,
+      );
+    }
+
+    // Phase 2 (0.45 to 1): a stem grows and two leaves open.
+    final grow = ((t - 0.45) / 0.55).clamp(0.0, 1.0);
+    if (grow <= 0) {
+      return;
+    }
+    canvas.drawLine(
+      base,
+      Offset(base.dx, base.dy - 58 * grow),
+      Paint()
+        ..color = sprout
+        ..strokeWidth = 3
+        ..strokeCap = StrokeCap.round,
+    );
+    final leaf = ((grow - 0.4) / 0.6).clamp(0.0, 1.0);
+    if (leaf <= 0) {
+      return;
+    }
+    final fill = Paint()..color = sprout.withValues(alpha: 0.85);
+    for (final side in const [-1.0, 1.0]) {
+      final anchor = Offset(base.dx, base.dy - 40 * grow);
+      final tip = anchor.translate(side * 22 * leaf, -14 * leaf);
+      final path = Path()
+        ..moveTo(anchor.dx, anchor.dy)
+        ..quadraticBezierTo(
+          anchor.dx + side * 18 * leaf, anchor.dy + 4 * leaf,
+          tip.dx, tip.dy,
+        )
+        ..quadraticBezierTo(
+          anchor.dx + side * 4 * leaf, anchor.dy - 14 * leaf,
+          anchor.dx, anchor.dy,
+        )
+        ..close();
+      canvas.drawPath(path, fill);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_EmberToSprout old) => old.t != t;
 }

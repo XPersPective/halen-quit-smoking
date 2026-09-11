@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:halen/data/db/app_database.dart';
 
+import 'package:halen/presentation/screens/today/today_screen.dart';
+
 import '../helpers/pump_app.dart';
 
 void main() {
@@ -25,7 +27,14 @@ void main() {
     await tester.scrollUntilVisible(
       find.byIcon(Icons.favorite_border_rounded),
       300,
-      scrollable: find.byType(Scrollable).first,
+      // The tabs are a horizontal PageView now, so Scrollable.first is the
+      // pager — dragging it swipes to the next tab. Scroll Today's own list.
+      scrollable: find
+          .descendant(
+            of: find.byType(TodayScreen),
+            matching: find.byType(Scrollable),
+          )
+          .first,
     );
     // scrollUntilVisible stops as soon as the target is technically on
     // screen, which can leave it half under the edge — and a tap there
@@ -59,8 +68,19 @@ void main() {
     await tester.scrollUntilVisible(
       find.byType(ExpansionTile),
       300,
-      scrollable: find.byType(Scrollable).first,
+      // Today's own list, not the tab PageView that is now Scrollable.first.
+      scrollable: find
+          .descendant(
+            of: find.byType(TodayScreen),
+            matching: find.byType(Scrollable),
+          )
+          .first,
     );
+    // scrollUntilVisible stops the moment the tile is on screen at all, which
+    // can leave its header under the edge; a tap there silently misses and
+    // the section never opens. Centre it first.
+    await tester.ensureVisible(find.byType(ExpansionTile).first);
+    await tester.pumpAndSettle();
     await tester.tap(find.byType(ExpansionTile).first);
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.text('How is this estimate calculated?'));

@@ -129,8 +129,8 @@
   "nextTargetReady": "Next target: you are inside your planned window",
   "nextTargetDayDone": "Daily plan completed — well done",
   "nicotineMiniLabel": "Estimated nicotine exposure (model)",
-  "ctaSmoked": "I SMOKED",
-  "ctaResisted": "I resisted a craving",
+  "ctaSmoked": "I smoked one",
+  "ctaResisted": "I resisted it",
   "resistedTodayCount": "{n} today",
   "@resistedTodayCount": {
     "placeholders": {
@@ -715,7 +715,7 @@
       }
     }
   },
-  "bodyLoadCoDrop": "Oxygen debt down {percent}%.",
+  "bodyLoadCoDrop": "Carbon monoxide in your blood is {percent}% below its peak.",
   "@bodyLoadCoDrop": {
     "placeholders": {
       "percent": {
@@ -724,9 +724,9 @@
     }
   },
   "loadNicotineAcute": "Nicotine now",
-  "loadNicotineBaseline": "All-day baseline",
-  "loadCarbonMonoxide": "Oxygen debt",
-  "loadTar": "Particle load",
+  "loadNicotineBaseline": "Nicotine built up in your body",
+  "loadCarbonMonoxide": "Carbon monoxide in your blood",
+  "loadTar": "Tar build-up",
   "loadBandLow": "Low",
   "loadBandMedium": "Medium",
   "loadBandHigh": "High",
@@ -817,7 +817,7 @@
   "lungsScenarioQuit": "Quit today",
   "lungsTypicalLabel": "Typical for your age group",
   "lungsAxisAge": "Age",
-  "lungsMistLabel": "Relative particle load",
+  "lungsMistLabel": "Tar build-up, compared with your usual",
   "organMapTitle": "Body map",
   "organHarmTitle": "What smoking does",
   "organRecoveryTitle": "What happens when you stop",
@@ -906,7 +906,7 @@
   "componentConsumptionTrend": "Consumption trend",
   "componentCravingCoping": "Craving coping",
   "componentLoggingConsistency": "Logging consistency",
-  "componentNicotineBaselineFall": "Nicotine baseline fall",
+  "componentNicotineBaselineFall": "Fall in built-up nicotine",
   "componentCumulativeExposure": "Cumulative exposure",
   "componentCurrentIntensity": "Current intensity",
   "componentDependenceDepth": "Dependence depth",
@@ -1018,7 +1018,7 @@
     }
   },
   "howBodyLoadTitle": "Body load curves",
-  "howBodyLoadBody": "Each curve is C(t) = sum of dose x 2^(-elapsed / half-life), fed only by the times you logged. Half-lives: nicotine 2 h, all-day baseline 16 h (cotinine proxy), carbon monoxide 4.5 h, particle load 30 days (representative).",
+  "howBodyLoadBody": "Each curve is C(t) = sum of dose x 2^(-time since / half-life), fed only by the times you logged. Half-lives: nicotine 2 h, nicotine built up in your body 16 h (the cotinine it turns into), carbon monoxide 4.5 h, tar build-up 30 days (representative).",
   "howBodyLoadLimits": "No phone can measure nicotine, tar or carbon monoxide in a body. Values are shown normalized to 0–100 against your own peak, never in ng/mL or milligrams, and clearance speed varies between people.",
   "howCravingTitle": "Craving window",
   "howCravingBody": "Risk = 0.45 x how deep your nicotine trough is, + 0.35 x how busy this hour is in your own history, + 0.20 x how often records in this hour carry a trigger. Hour-based signals stay switched off until you have about 21 entries.",
@@ -1251,11 +1251,11 @@
       }
     }
   },
-  "organImpactRelative": "About {times}x likelier than in someone who never smoked",
+  "organImpactRelative": "Risk about {percent}% higher than in someone who never smoked",
   "@organImpactRelative": {
     "placeholders": {
-      "times": {
-        "type": "String"
+      "percent": {
+        "type": "int"
       }
     }
   },
@@ -1342,19 +1342,19 @@
   "medicinesHowItWorks": "How it works",
   "medicinesTypicalUse": "How it is used",
   "medicinesCommonMistake": "The usual mistake",
-  "medicinesRatioPlacebo": "{ratio}x the quit rate of a dummy treatment, across trials",
+  "medicinesRatioPlacebo": "Raises the chance of quitting by about {percent}% compared with a dummy treatment, across trials",
   "@medicinesRatioPlacebo": {
     "placeholders": {
-      "ratio": {
-        "type": "String"
+      "percent": {
+        "type": "int"
       }
     }
   },
-  "medicinesRatioSingle": "{ratio}x the quit rate of one form used alone, across trials",
+  "medicinesRatioSingle": "Raises the chance of quitting by about {percent}% compared with one form alone, across trials",
   "@medicinesRatioSingle": {
     "placeholders": {
-      "ratio": {
-        "type": "String"
+      "percent": {
+        "type": "int"
       }
     }
   },
@@ -1425,9 +1425,9 @@
   "statusSwipeHint": "Swipe for the next one",
   "statusOpen": "See all your numbers",
   "statusPageNicotine": "Nicotine",
-  "statusPageOxygen": "Oxygen debt",
-  "statusPageBaseline": "All-day baseline",
-  "statusPageParticles": "Particle load",
+  "statusPageOxygen": "Carbon monoxide in your blood",
+  "statusPageBaseline": "Nicotine built up in your body",
+  "statusPageParticles": "Tar build-up",
   "statusPageProgress": "Progress score",
   "statusPageHarm": "Harm load",
   "statusPageMoney": "Money",
@@ -1450,5 +1450,182 @@
   "startupFailRetry": "Try again",
   "startupFailDetailTitle": "Technical detail",
   "startupFailCopy": "Copy the detail",
-  "startupFailUnknown": "No further detail was reported."
+  "startupFailUnknown": "No further detail was reported.",
+  "smokedHeadline0": "That one is done. The next one does not have to be.",
+  "smokedHeadline1": "A little sad, and still on the way.",
+  "smokedHeadline2": "Your body starts clearing this one right now.",
+  "smokedHeadline3": "Not a failure. The next hour is yours.",
+  "smokedAdvice0": "When the next urge comes, wait five minutes before deciding. Most urges pass inside that.",
+  "smokedAdvice1": "Drink a glass of water now and get up for a minute. Changing what your hands and feet are doing weakens the next urge.",
+  "smokedAdvice2": "Each cigarette you skip lets the carbon monoxide in your blood fall further. Try to make this the last one today.",
+  "smokedAdvice3": "Stopping is the single best thing you can do for your health. You do not have to do it today, but every skipped one counts.",
+  "splashContinue": "Continue",
+  "packTitle": "My pack",
+  "packLabelLine": "Label: {tar} mg tar, {nicotine} mg nicotine per cigarette",
+  "@packLabelLine": {
+    "placeholders": {
+      "tar": {
+        "type": "String"
+      },
+      "nicotine": {
+        "type": "String"
+      }
+    }
+  },
+  "packLabelDefaulted": "Using the legal maximum until you enter your pack's own values.",
+  "packTar": "Tar per cigarette (mg)",
+  "packNicotine": "Nicotine per cigarette (mg)",
+  "packLabelHint": "Printed on the side of the pack. Leave empty to use the legal maximum (10 mg tar, 1 mg nicotine).",
+  "purchasesTitle": "My pack purchases",
+  "purchasesAdd": "Add a purchase",
+  "purchasesEmpty": "No purchases yet. Add the packs you buy and you will see what the habit really costs, month by month.",
+  "purchasesThisMonth": "Spent this month",
+  "purchasesLastMonth": "Last month",
+  "purchasesEvery": "One pack every {days} days on average",
+  "@purchasesEvery": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "purchasesMonthlyRate": "At this rate, about {amount} a month",
+  "@purchasesMonthlyRate": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "purchasesChartTitle": "Spending per month",
+  "purchasesChartMeaning": "One bar per month: what went on cigarettes. The solid bar is this month.",
+  "purchasesChartAxis": "amount spent",
+  "purchasesHistory": "History",
+  "purchasesDeleted": "Purchase removed",
+  "purchasesDate": "Date",
+  "purchasesPacks": "Packs",
+  "purchasesPrice": "Price per pack",
+  "purchasesPackSize": "Cigarettes",
+  "purchasesBrand": "Brand (optional)",
+  "purchasesUpdatesPack": "This becomes your current pack, so every cost figure in the app follows what you actually paid.",
+  "tarTitle": "Tar you took in",
+  "tarThisWeek": "This week",
+  "tarThisMonth": "Last 30 days",
+  "tarPicture": "about {count} {measure}",
+  "@tarPicture": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "measure": {
+        "type": "String"
+      }
+    }
+  },
+  "measureTeaSpoon": "tea spoons",
+  "measureDessertSpoon": "dessert spoons",
+  "measureTableSpoon": "table spoons",
+  "measureWaterGlass": "glasses of water",
+  "tarGrams": "{grams} g",
+  "@tarGrams": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "tarChartMeaning": "Tar brought into your lungs each week, from your own count and your pack label.",
+  "tarChartAxis": "grams of tar per week",
+  "tarWeekShort": "{n} wk",
+  "@tarWeekShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tarBasis": "Worked out from {tar} mg tar per cigarette on the label. This is a floor: people inhale more deeply than the test machine, so real intake is usually higher.",
+  "@tarBasis": {
+    "placeholders": {
+      "tar": {
+        "type": "String"
+      }
+    }
+  },
+  "tarSpoonNote": "Spoons by volume, taking tar at about 1 g per millilitre. A Turkish tea spoon holds about 2.5 mL.",
+  "nicotineMgAxis": "estimated nicotine still in your body, mg — a model, not a measurement",
+  "nicotineMgBasis": "About 1.2 mg of nicotine is absorbed per cigarette, and half of it leaves the body every 2 hours (Benowitz).",
+  "mgValue": "{value} mg",
+  "@mgValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "organExposureTitle": "This organ, last 24 hours",
+  "organExposureNow": "Right now: {percent}% of its peak today",
+  "@organExposureNow": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "organExposureMeaning": "Each spike is a cigarette reaching this organ; the fall is your body clearing it. The flatter the line, the more rest the organ gets.",
+  "organExposureLoads": "Driven by: {loads}",
+  "@organExposureLoads": {
+    "placeholders": {
+      "loads": {
+        "type": "String"
+      }
+    }
+  },
+  "organSinceLast": "Since your last cigarette: {time}",
+  "@organSinceLast": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "organAcuteHeart": "After a cigarette the heart beats about 10-20 times a minute faster and blood pressure rises, for roughly 20-30 minutes.",
+  "organAcuteVessels": "Nicotine narrows blood vessels within minutes, and each cigarette keeps them narrowed for about an hour.",
+  "organAcuteLungs": "Smoke slows the tiny hairs that sweep the airways clean, and tar settles in the lungs with every cigarette.",
+  "organAcuteBrain": "Nicotine reaches the brain in 10-20 seconds; as it falls over the next hours, it comes back as the next craving.",
+  "organAcuteBlood": "Carbon monoxide takes the place of oxygen in the blood; half of it clears in about 4-5 hours.",
+  "organAcuteGeneral": "The harmful substances in smoke travel in the blood to every organ; exposure grows with every cigarette.",
+  "envTitle": "What your planet got back",
+  "envTrees": "{count} trees not cut down",
+  "@envTrees": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "envButts": "{count} filters kept out of nature",
+  "@envButts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "envBasis": "WHO estimates about one tree is lost for every 300 cigarettes made, mostly to dry tobacco leaves and make paper. Cigarette filters are plastic (cellulose acetate) and are the most littered item on Earth.",
+  "envPlantTitle": "Plant a real tree",
+  "envPlantBody": "A small part of what you have saved can plant a real sapling. Halen takes no money and earns nothing from this; the buttons open the organisations directly.",
+  "envSavedCovers": "What you saved so far would plant about {count} saplings.",
+  "@envSavedCovers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "envOpenFailed": "Could not open the link.",
+  "measureDrop": "drops",
+  "tarThisWeekShort": "now",
+  "envTreesLabel": "Trees",
+  "envFiltersLabel": "Filters"
 }

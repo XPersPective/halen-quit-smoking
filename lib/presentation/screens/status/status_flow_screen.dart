@@ -12,6 +12,7 @@ import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/charts/halen_line_chart.dart';
 import '../../widgets/charts/load_curve_chart.dart';
 import '../../widgets/design/halen_components.dart';
+import '../../widgets/tar_intake_card.dart';
 
 /// Every number, one per page, swipeable (premium brief §A.10).
 ///
@@ -77,6 +78,7 @@ class _StatusFlowScreenState extends ConsumerState<StatusFlowScreen> {
         _LoadPage(kind: LoadKind.tarCumulative),
         _IndexPage(harm: false),
         _IndexPage(harm: true),
+        _CardPage(child: TarIntakeCard()),
       ];
 }
 
@@ -329,4 +331,15 @@ class _IndexPage extends ConsumerWidget {
       ),
     );
   }
+}
+
+
+/// A page that is a whole card on its own (item 4, the tar page).
+class _CardPage extends StatelessWidget {
+  const _CardPage({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => child;
 }

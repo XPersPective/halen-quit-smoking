@@ -25,7 +25,10 @@ import 'package:halen/presentation/screens/stats/stats_screen.dart';
 import 'package:halen/presentation/screens/timeline/health_timeline_screen.dart';
 import 'package:halen/presentation/screens/today/today_screen.dart';
 import 'package:halen/presentation/screens/status/status_flow_screen.dart';
+import 'package:halen/presentation/screens/purchases/purchases_screen.dart';
+import 'package:halen/presentation/widgets/environment_card.dart';
 import 'package:halen/presentation/widgets/indices_card.dart';
+import 'package:halen/presentation/widgets/tar_intake_card.dart';
 import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
 
 import '../helpers/design_font.dart';
@@ -107,6 +110,21 @@ void main() {
     }
   });
 
+  // A few months of pack purchases, so the purchase history captures with a
+  // real chart instead of its empty state.
+  setUp(() async {
+    final now = DateTime.now();
+    for (final days in [2, 6, 10, 15, 21, 33, 40, 55, 70, 90, 110, 140]) {
+      await db.packPurchaseDao.add(
+        at: now.subtract(Duration(days: days)),
+        packs: 1,
+        pricePerPack: 100,
+        packSize: 20,
+        brand: 'Marka',
+      );
+    }
+  });
+
   Future<void> shot(
     WidgetTester tester,
     String name,
@@ -121,7 +139,9 @@ void main() {
       tester,
       db: db,
       child: screen,
-      scrollable: screen is IndicesCard,
+      scrollable: screen is IndicesCard ||
+          screen is TarIntakeCard ||
+          screen is EnvironmentCard,
       brightness: brightness,
       // Any screen that reads the entitlement reaches for the store, and a
       // billing client cannot exist in a test binding. Without this the plan
@@ -213,6 +233,16 @@ void main() {
     (t) => shot(t, '07-saglik-zaman-cizelgesi', const HealthTimelineScreen()),
   );
   testWidgets('paywall', (t) => shot(t, '08-paywall', const PaywallScreen()));
+
+  testWidgets(
+    'purchases',
+    (t) => shot(t, '40-paket-alimlari', const PurchasesScreen()),
+  );
+  testWidgets('tar intake', (t) => shot(t, '41-katran', const TarIntakeCard()));
+  testWidgets(
+    'environment',
+    (t) => shot(t, '42-cevre', const EnvironmentCard()),
+  );
 
   testWidgets(
     'onboarding result',

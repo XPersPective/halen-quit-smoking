@@ -117,10 +117,12 @@ class _MedicineTileState extends State<_MedicineTile> {
 
     // The comparator travels with the number. A risk ratio on its own is a
     // marketing figure; "compared to a dummy treatment" is a finding.
-    final ratio = entry.riskRatio.toStringAsFixed(2);
+    // A ratio of 1.55 is shown as "about 55% higher": people read
+    // multipliers badly and percentages well, and it is the same finding.
+    final percent = ((entry.riskRatio - 1) * 100).round();
     final ratioLine = entry.comparesToSingleNrt
-        ? l10n.medicinesRatioSingle(ratio)
-        : l10n.medicinesRatioPlacebo(ratio);
+        ? l10n.medicinesRatioSingle(percent)
+        : l10n.medicinesRatioPlacebo(percent);
 
     return HalenCard(
       onTap: () => setState(() => _open = !_open),

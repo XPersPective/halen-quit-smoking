@@ -121,8 +121,8 @@ void main() {
     expect(find.text(l10n.medicinesDisclaimer), findsOneWidget);
 
     // The effect size is always shown with what it is compared against.
-    expect(find.text(l10n.medicinesRatioPlacebo('1.55')), findsWidgets);
-    expect(find.text(l10n.medicinesRatioSingle('1.25')), findsOneWidget);
+    expect(find.text(l10n.medicinesRatioPlacebo(55)), findsWidgets);
+    expect(find.text(l10n.medicinesRatioSingle(25)), findsOneWidget);
 
     // HSI 5 and 20 a day: the combination suggestion applies.
     expect(find.text(l10n.medicinesCombinationSuggestion), findsOneWidget);

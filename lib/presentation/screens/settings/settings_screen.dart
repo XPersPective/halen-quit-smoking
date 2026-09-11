@@ -15,6 +15,7 @@ import 'package:halen/data/db/app_database.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/model_settings_section.dart';
+import 'package:halen/presentation/widgets/pack_settings_section.dart';
 import '../../../core/design/tokens.dart';
 
 /// Reads a JSON backup chosen by the user (file picker stays local-only).
@@ -140,6 +141,10 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 title: Text(l10n.settingsHaptics),
               ),
+              const SizedBox(height: HalenSpace.x4),
+              // Item 2: the pack is editable after onboarding at last, and
+              // purchases are one tap away.
+              const PackSettingsSection(),
               const SizedBox(height: HalenSpace.x4),
               // Module report §1/§12/§14 — the dials the models expose to the
               // user, each optional and each explained.

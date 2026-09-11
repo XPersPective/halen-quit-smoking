@@ -196,15 +196,32 @@ class HalenLineChart extends StatelessWidget {
                 ),
                 borderData: FlBorderData(show: false),
                 titlesData: FlTitlesData(
-                  topTitles: const AxisTitles(),
-                  rightTitles: const AxisTitles(),
+                  // Item 13: blank reserved lanes on the top and right
+                  // edges. fl_chart has no inner padding of its own, so the
+                  // line and the "today" dot ran straight into the card
+                  // edge; a blank title lane is how it gets room to breathe
+                  // without a wrapper that fights its layout.
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: HalenSpace.x3,
+                      getTitlesWidget: _noTitle,
+                    ),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: HalenSpace.x4,
+                      getTitlesWidget: _noTitle,
+                    ),
+                  ),
                   leftTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: yLabelWidth,
                       interval: math.max((hi - lo) / 2, 1),
                       getTitlesWidget: (value, meta) => Padding(
-                        padding: const EdgeInsets.only(right: 6),
+                        padding: const EdgeInsets.only(right: HalenSpace.x2),
                         child: Text(
                           format(value),
                           style: theme.textTheme.labelSmall,
@@ -221,7 +238,7 @@ class HalenLineChart extends StatelessWidget {
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: xLabels.isNotEmpty,
-                      reservedSize: 26,
+                      reservedSize: HalenSpace.x8,
                       interval: xLabels.length <= 1
                           ? length.toDouble()
                           : (length - 1) / (xLabels.length - 1),
@@ -237,7 +254,7 @@ class HalenLineChart extends StatelessWidget {
                           return const SizedBox.shrink();
                         }
                         return Padding(
-                          padding: const EdgeInsets.only(top: 6),
+                          padding: const EdgeInsets.only(top: HalenSpace.x2),
                           child: Text(
                             xLabels[index],
                             style: theme.textTheme.labelSmall,
@@ -426,3 +443,7 @@ class ChartCard extends StatelessWidget {
     );
   }
 }
+
+
+/// A blank axis title, used to reserve padding lanes on a chart's edges.
+Widget _noTitle(double value, TitleMeta meta) => const SizedBox.shrink();

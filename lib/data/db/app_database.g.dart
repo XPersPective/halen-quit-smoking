@@ -484,6 +484,29 @@ class $SmokingProfileTable extends SmokingProfile
     requiredDuringInsert: false,
     defaultValue: const Constant('normal'),
   ).withConverter<MetabolismSpeed>($SmokingProfileTable.$convertermetabolism);
+  static const VerificationMeta _tarMgPerCigaretteMeta = const VerificationMeta(
+    'tarMgPerCigarette',
+  );
+  @override
+  late final GeneratedColumn<double> tarMgPerCigarette =
+      GeneratedColumn<double>(
+        'tar_mg_per_cigarette',
+        aliasedName,
+        true,
+        type: DriftSqlType.double,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _nicotineMgPerCigaretteMeta =
+      const VerificationMeta('nicotineMgPerCigarette');
+  @override
+  late final GeneratedColumn<double> nicotineMgPerCigarette =
+      GeneratedColumn<double>(
+        'nicotine_mg_per_cigarette',
+        aliasedName,
+        true,
+        type: DriftSqlType.double,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -502,6 +525,8 @@ class $SmokingProfileTable extends SmokingProfile
     smokingYears,
     hsi,
     metabolism,
+    tarMgPerCigarette,
+    nicotineMgPerCigarette,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -593,6 +618,24 @@ class $SmokingProfileTable extends SmokingProfile
         hsi.isAcceptableOrUnknown(data['hsi']!, _hsiMeta),
       );
     }
+    if (data.containsKey('tar_mg_per_cigarette')) {
+      context.handle(
+        _tarMgPerCigaretteMeta,
+        tarMgPerCigarette.isAcceptableOrUnknown(
+          data['tar_mg_per_cigarette']!,
+          _tarMgPerCigaretteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('nicotine_mg_per_cigarette')) {
+      context.handle(
+        _nicotineMgPerCigaretteMeta,
+        nicotineMgPerCigarette.isAcceptableOrUnknown(
+          data['nicotine_mg_per_cigarette']!,
+          _nicotineMgPerCigaretteMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -676,6 +719,14 @@ class $SmokingProfileTable extends SmokingProfile
           data['${effectivePrefix}metabolism'],
         )!,
       ),
+      tarMgPerCigarette: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}tar_mg_per_cigarette'],
+      ),
+      nicotineMgPerCigarette: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}nicotine_mg_per_cigarette'],
+      ),
     );
   }
 
@@ -718,6 +769,8 @@ class SmokingProfileRow extends DataClass
   final double? smokingYears;
   final int? hsi;
   final MetabolismSpeed metabolism;
+  final double? tarMgPerCigarette;
+  final double? nicotineMgPerCigarette;
   const SmokingProfileRow({
     required this.id,
     required this.baselineCpd,
@@ -735,6 +788,8 @@ class SmokingProfileRow extends DataClass
     this.smokingYears,
     this.hsi,
     required this.metabolism,
+    this.tarMgPerCigarette,
+    this.nicotineMgPerCigarette,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -787,6 +842,14 @@ class SmokingProfileRow extends DataClass
         $SmokingProfileTable.$convertermetabolism.toSql(metabolism),
       );
     }
+    if (!nullToAbsent || tarMgPerCigarette != null) {
+      map['tar_mg_per_cigarette'] = Variable<double>(tarMgPerCigarette);
+    }
+    if (!nullToAbsent || nicotineMgPerCigarette != null) {
+      map['nicotine_mg_per_cigarette'] = Variable<double>(
+        nicotineMgPerCigarette,
+      );
+    }
     return map;
   }
 
@@ -818,6 +881,12 @@ class SmokingProfileRow extends DataClass
           : Value(smokingYears),
       hsi: hsi == null && nullToAbsent ? const Value.absent() : Value(hsi),
       metabolism: Value(metabolism),
+      tarMgPerCigarette: tarMgPerCigarette == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tarMgPerCigarette),
+      nicotineMgPerCigarette: nicotineMgPerCigarette == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nicotineMgPerCigarette),
     );
   }
 
@@ -853,6 +922,12 @@ class SmokingProfileRow extends DataClass
       metabolism: $SmokingProfileTable.$convertermetabolism.fromJson(
         serializer.fromJson<String>(json['metabolism']),
       ),
+      tarMgPerCigarette: serializer.fromJson<double?>(
+        json['tarMgPerCigarette'],
+      ),
+      nicotineMgPerCigarette: serializer.fromJson<double?>(
+        json['nicotineMgPerCigarette'],
+      ),
     );
   }
   @override
@@ -885,6 +960,10 @@ class SmokingProfileRow extends DataClass
       'metabolism': serializer.toJson<String>(
         $SmokingProfileTable.$convertermetabolism.toJson(metabolism),
       ),
+      'tarMgPerCigarette': serializer.toJson<double?>(tarMgPerCigarette),
+      'nicotineMgPerCigarette': serializer.toJson<double?>(
+        nicotineMgPerCigarette,
+      ),
     };
   }
 
@@ -905,6 +984,8 @@ class SmokingProfileRow extends DataClass
     Value<double?> smokingYears = const Value.absent(),
     Value<int?> hsi = const Value.absent(),
     MetabolismSpeed? metabolism,
+    Value<double?> tarMgPerCigarette = const Value.absent(),
+    Value<double?> nicotineMgPerCigarette = const Value.absent(),
   }) => SmokingProfileRow(
     id: id ?? this.id,
     baselineCpd: baselineCpd ?? this.baselineCpd,
@@ -922,6 +1003,12 @@ class SmokingProfileRow extends DataClass
     smokingYears: smokingYears.present ? smokingYears.value : this.smokingYears,
     hsi: hsi.present ? hsi.value : this.hsi,
     metabolism: metabolism ?? this.metabolism,
+    tarMgPerCigarette: tarMgPerCigarette.present
+        ? tarMgPerCigarette.value
+        : this.tarMgPerCigarette,
+    nicotineMgPerCigarette: nicotineMgPerCigarette.present
+        ? nicotineMgPerCigarette.value
+        : this.nicotineMgPerCigarette,
   );
   SmokingProfileRow copyWithCompanion(SmokingProfileCompanion data) {
     return SmokingProfileRow(
@@ -951,6 +1038,12 @@ class SmokingProfileRow extends DataClass
       metabolism: data.metabolism.present
           ? data.metabolism.value
           : this.metabolism,
+      tarMgPerCigarette: data.tarMgPerCigarette.present
+          ? data.tarMgPerCigarette.value
+          : this.tarMgPerCigarette,
+      nicotineMgPerCigarette: data.nicotineMgPerCigarette.present
+          ? data.nicotineMgPerCigarette.value
+          : this.nicotineMgPerCigarette,
     );
   }
 
@@ -972,7 +1065,9 @@ class SmokingProfileRow extends DataClass
           ..write('sex: $sex, ')
           ..write('smokingYears: $smokingYears, ')
           ..write('hsi: $hsi, ')
-          ..write('metabolism: $metabolism')
+          ..write('metabolism: $metabolism, ')
+          ..write('tarMgPerCigarette: $tarMgPerCigarette, ')
+          ..write('nicotineMgPerCigarette: $nicotineMgPerCigarette')
           ..write(')'))
         .toString();
   }
@@ -995,6 +1090,8 @@ class SmokingProfileRow extends DataClass
     smokingYears,
     hsi,
     metabolism,
+    tarMgPerCigarette,
+    nicotineMgPerCigarette,
   );
   @override
   bool operator ==(Object other) =>
@@ -1015,7 +1112,9 @@ class SmokingProfileRow extends DataClass
           other.sex == this.sex &&
           other.smokingYears == this.smokingYears &&
           other.hsi == this.hsi &&
-          other.metabolism == this.metabolism);
+          other.metabolism == this.metabolism &&
+          other.tarMgPerCigarette == this.tarMgPerCigarette &&
+          other.nicotineMgPerCigarette == this.nicotineMgPerCigarette);
 }
 
 class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
@@ -1035,6 +1134,8 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
   final Value<double?> smokingYears;
   final Value<int?> hsi;
   final Value<MetabolismSpeed> metabolism;
+  final Value<double?> tarMgPerCigarette;
+  final Value<double?> nicotineMgPerCigarette;
   const SmokingProfileCompanion({
     this.id = const Value.absent(),
     this.baselineCpd = const Value.absent(),
@@ -1052,6 +1153,8 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     this.smokingYears = const Value.absent(),
     this.hsi = const Value.absent(),
     this.metabolism = const Value.absent(),
+    this.tarMgPerCigarette = const Value.absent(),
+    this.nicotineMgPerCigarette = const Value.absent(),
   });
   SmokingProfileCompanion.insert({
     this.id = const Value.absent(),
@@ -1070,6 +1173,8 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     this.smokingYears = const Value.absent(),
     this.hsi = const Value.absent(),
     this.metabolism = const Value.absent(),
+    this.tarMgPerCigarette = const Value.absent(),
+    this.nicotineMgPerCigarette = const Value.absent(),
   }) : baselineCpd = Value(baselineCpd),
        ttfcBand = Value(ttfcBand),
        pricePerPack = Value(pricePerPack),
@@ -1093,6 +1198,8 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     Expression<double>? smokingYears,
     Expression<int>? hsi,
     Expression<String>? metabolism,
+    Expression<double>? tarMgPerCigarette,
+    Expression<double>? nicotineMgPerCigarette,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1111,6 +1218,9 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
       if (smokingYears != null) 'smoking_years': smokingYears,
       if (hsi != null) 'hsi': hsi,
       if (metabolism != null) 'metabolism': metabolism,
+      if (tarMgPerCigarette != null) 'tar_mg_per_cigarette': tarMgPerCigarette,
+      if (nicotineMgPerCigarette != null)
+        'nicotine_mg_per_cigarette': nicotineMgPerCigarette,
     });
   }
 
@@ -1131,6 +1241,8 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     Value<double?>? smokingYears,
     Value<int?>? hsi,
     Value<MetabolismSpeed>? metabolism,
+    Value<double?>? tarMgPerCigarette,
+    Value<double?>? nicotineMgPerCigarette,
   }) {
     return SmokingProfileCompanion(
       id: id ?? this.id,
@@ -1149,6 +1261,9 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
       smokingYears: smokingYears ?? this.smokingYears,
       hsi: hsi ?? this.hsi,
       metabolism: metabolism ?? this.metabolism,
+      tarMgPerCigarette: tarMgPerCigarette ?? this.tarMgPerCigarette,
+      nicotineMgPerCigarette:
+          nicotineMgPerCigarette ?? this.nicotineMgPerCigarette,
     );
   }
 
@@ -1213,6 +1328,14 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
         $SmokingProfileTable.$convertermetabolism.toSql(metabolism.value),
       );
     }
+    if (tarMgPerCigarette.present) {
+      map['tar_mg_per_cigarette'] = Variable<double>(tarMgPerCigarette.value);
+    }
+    if (nicotineMgPerCigarette.present) {
+      map['nicotine_mg_per_cigarette'] = Variable<double>(
+        nicotineMgPerCigarette.value,
+      );
+    }
     return map;
   }
 
@@ -1234,7 +1357,9 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
           ..write('sex: $sex, ')
           ..write('smokingYears: $smokingYears, ')
           ..write('hsi: $hsi, ')
-          ..write('metabolism: $metabolism')
+          ..write('metabolism: $metabolism, ')
+          ..write('tarMgPerCigarette: $tarMgPerCigarette, ')
+          ..write('nicotineMgPerCigarette: $nicotineMgPerCigarette')
           ..write(')'))
         .toString();
   }
@@ -8918,6 +9043,398 @@ class MoodScreenCompanion extends UpdateCompanion<MoodScreenRow> {
   }
 }
 
+class $PackPurchaseTableTable extends PackPurchaseTable
+    with TableInfo<$PackPurchaseTableTable, PackPurchaseRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PackPurchaseTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _tsMeta = const VerificationMeta('ts');
+  @override
+  late final GeneratedColumn<DateTime> ts = GeneratedColumn<DateTime>(
+    'ts',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _packsMeta = const VerificationMeta('packs');
+  @override
+  late final GeneratedColumn<int> packs = GeneratedColumn<int>(
+    'packs',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _pricePerPackMeta = const VerificationMeta(
+    'pricePerPack',
+  );
+  @override
+  late final GeneratedColumn<double> pricePerPack = GeneratedColumn<double>(
+    'price_per_pack',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _packSizeMeta = const VerificationMeta(
+    'packSize',
+  );
+  @override
+  late final GeneratedColumn<int> packSize = GeneratedColumn<int>(
+    'pack_size',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(20),
+  );
+  static const VerificationMeta _brandMeta = const VerificationMeta('brand');
+  @override
+  late final GeneratedColumn<String> brand = GeneratedColumn<String>(
+    'brand',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    ts,
+    packs,
+    pricePerPack,
+    packSize,
+    brand,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'pack_purchase_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PackPurchaseRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('ts')) {
+      context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
+    } else if (isInserting) {
+      context.missing(_tsMeta);
+    }
+    if (data.containsKey('packs')) {
+      context.handle(
+        _packsMeta,
+        packs.isAcceptableOrUnknown(data['packs']!, _packsMeta),
+      );
+    }
+    if (data.containsKey('price_per_pack')) {
+      context.handle(
+        _pricePerPackMeta,
+        pricePerPack.isAcceptableOrUnknown(
+          data['price_per_pack']!,
+          _pricePerPackMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_pricePerPackMeta);
+    }
+    if (data.containsKey('pack_size')) {
+      context.handle(
+        _packSizeMeta,
+        packSize.isAcceptableOrUnknown(data['pack_size']!, _packSizeMeta),
+      );
+    }
+    if (data.containsKey('brand')) {
+      context.handle(
+        _brandMeta,
+        brand.isAcceptableOrUnknown(data['brand']!, _brandMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PackPurchaseRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PackPurchaseRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      ts: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}ts'],
+      )!,
+      packs: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}packs'],
+      )!,
+      pricePerPack: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}price_per_pack'],
+      )!,
+      packSize: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}pack_size'],
+      )!,
+      brand: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}brand'],
+      ),
+    );
+  }
+
+  @override
+  $PackPurchaseTableTable createAlias(String alias) {
+    return $PackPurchaseTableTable(attachedDatabase, alias);
+  }
+}
+
+class PackPurchaseRow extends DataClass implements Insertable<PackPurchaseRow> {
+  final int id;
+  final DateTime ts;
+  final int packs;
+  final double pricePerPack;
+  final int packSize;
+  final String? brand;
+  const PackPurchaseRow({
+    required this.id,
+    required this.ts,
+    required this.packs,
+    required this.pricePerPack,
+    required this.packSize,
+    this.brand,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['ts'] = Variable<DateTime>(ts);
+    map['packs'] = Variable<int>(packs);
+    map['price_per_pack'] = Variable<double>(pricePerPack);
+    map['pack_size'] = Variable<int>(packSize);
+    if (!nullToAbsent || brand != null) {
+      map['brand'] = Variable<String>(brand);
+    }
+    return map;
+  }
+
+  PackPurchaseTableCompanion toCompanion(bool nullToAbsent) {
+    return PackPurchaseTableCompanion(
+      id: Value(id),
+      ts: Value(ts),
+      packs: Value(packs),
+      pricePerPack: Value(pricePerPack),
+      packSize: Value(packSize),
+      brand: brand == null && nullToAbsent
+          ? const Value.absent()
+          : Value(brand),
+    );
+  }
+
+  factory PackPurchaseRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PackPurchaseRow(
+      id: serializer.fromJson<int>(json['id']),
+      ts: serializer.fromJson<DateTime>(json['ts']),
+      packs: serializer.fromJson<int>(json['packs']),
+      pricePerPack: serializer.fromJson<double>(json['pricePerPack']),
+      packSize: serializer.fromJson<int>(json['packSize']),
+      brand: serializer.fromJson<String?>(json['brand']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'ts': serializer.toJson<DateTime>(ts),
+      'packs': serializer.toJson<int>(packs),
+      'pricePerPack': serializer.toJson<double>(pricePerPack),
+      'packSize': serializer.toJson<int>(packSize),
+      'brand': serializer.toJson<String?>(brand),
+    };
+  }
+
+  PackPurchaseRow copyWith({
+    int? id,
+    DateTime? ts,
+    int? packs,
+    double? pricePerPack,
+    int? packSize,
+    Value<String?> brand = const Value.absent(),
+  }) => PackPurchaseRow(
+    id: id ?? this.id,
+    ts: ts ?? this.ts,
+    packs: packs ?? this.packs,
+    pricePerPack: pricePerPack ?? this.pricePerPack,
+    packSize: packSize ?? this.packSize,
+    brand: brand.present ? brand.value : this.brand,
+  );
+  PackPurchaseRow copyWithCompanion(PackPurchaseTableCompanion data) {
+    return PackPurchaseRow(
+      id: data.id.present ? data.id.value : this.id,
+      ts: data.ts.present ? data.ts.value : this.ts,
+      packs: data.packs.present ? data.packs.value : this.packs,
+      pricePerPack: data.pricePerPack.present
+          ? data.pricePerPack.value
+          : this.pricePerPack,
+      packSize: data.packSize.present ? data.packSize.value : this.packSize,
+      brand: data.brand.present ? data.brand.value : this.brand,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PackPurchaseRow(')
+          ..write('id: $id, ')
+          ..write('ts: $ts, ')
+          ..write('packs: $packs, ')
+          ..write('pricePerPack: $pricePerPack, ')
+          ..write('packSize: $packSize, ')
+          ..write('brand: $brand')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, ts, packs, pricePerPack, packSize, brand);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PackPurchaseRow &&
+          other.id == this.id &&
+          other.ts == this.ts &&
+          other.packs == this.packs &&
+          other.pricePerPack == this.pricePerPack &&
+          other.packSize == this.packSize &&
+          other.brand == this.brand);
+}
+
+class PackPurchaseTableCompanion extends UpdateCompanion<PackPurchaseRow> {
+  final Value<int> id;
+  final Value<DateTime> ts;
+  final Value<int> packs;
+  final Value<double> pricePerPack;
+  final Value<int> packSize;
+  final Value<String?> brand;
+  const PackPurchaseTableCompanion({
+    this.id = const Value.absent(),
+    this.ts = const Value.absent(),
+    this.packs = const Value.absent(),
+    this.pricePerPack = const Value.absent(),
+    this.packSize = const Value.absent(),
+    this.brand = const Value.absent(),
+  });
+  PackPurchaseTableCompanion.insert({
+    this.id = const Value.absent(),
+    required DateTime ts,
+    this.packs = const Value.absent(),
+    required double pricePerPack,
+    this.packSize = const Value.absent(),
+    this.brand = const Value.absent(),
+  }) : ts = Value(ts),
+       pricePerPack = Value(pricePerPack);
+  static Insertable<PackPurchaseRow> custom({
+    Expression<int>? id,
+    Expression<DateTime>? ts,
+    Expression<int>? packs,
+    Expression<double>? pricePerPack,
+    Expression<int>? packSize,
+    Expression<String>? brand,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (ts != null) 'ts': ts,
+      if (packs != null) 'packs': packs,
+      if (pricePerPack != null) 'price_per_pack': pricePerPack,
+      if (packSize != null) 'pack_size': packSize,
+      if (brand != null) 'brand': brand,
+    });
+  }
+
+  PackPurchaseTableCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? ts,
+    Value<int>? packs,
+    Value<double>? pricePerPack,
+    Value<int>? packSize,
+    Value<String?>? brand,
+  }) {
+    return PackPurchaseTableCompanion(
+      id: id ?? this.id,
+      ts: ts ?? this.ts,
+      packs: packs ?? this.packs,
+      pricePerPack: pricePerPack ?? this.pricePerPack,
+      packSize: packSize ?? this.packSize,
+      brand: brand ?? this.brand,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (ts.present) {
+      map['ts'] = Variable<DateTime>(ts.value);
+    }
+    if (packs.present) {
+      map['packs'] = Variable<int>(packs.value);
+    }
+    if (pricePerPack.present) {
+      map['price_per_pack'] = Variable<double>(pricePerPack.value);
+    }
+    if (packSize.present) {
+      map['pack_size'] = Variable<int>(packSize.value);
+    }
+    if (brand.present) {
+      map['brand'] = Variable<String>(brand.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PackPurchaseTableCompanion(')
+          ..write('id: $id, ')
+          ..write('ts: $ts, ')
+          ..write('packs: $packs, ')
+          ..write('pricePerPack: $pricePerPack, ')
+          ..write('packSize: $packSize, ')
+          ..write('brand: $brand')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -8952,6 +9469,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     this,
   );
   late final $MoodScreenTable moodScreen = $MoodScreenTable(this);
+  late final $PackPurchaseTableTable packPurchaseTable =
+      $PackPurchaseTableTable(this);
   late final ProfileDao profileDao = ProfileDao(this as AppDatabase);
   late final RecordDao recordDao = RecordDao(this as AppDatabase);
   late final PlanDao planDao = PlanDao(this as AppDatabase);
@@ -8963,6 +9482,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final TimelineDao timelineDao = TimelineDao(this as AppDatabase);
   late final ModuleDao moduleDao = ModuleDao(this as AppDatabase);
   late final CessationDao cessationDao = CessationDao(this as AppDatabase);
+  late final PackPurchaseDao packPurchaseDao = PackPurchaseDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8989,6 +9511,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     cessationPlanTable,
     copingPlanTable,
     moodScreen,
+    packPurchaseTable,
   ];
 }
 
@@ -9195,6 +9718,8 @@ typedef $$SmokingProfileTableCreateCompanionBuilder =
       Value<double?> smokingYears,
       Value<int?> hsi,
       Value<MetabolismSpeed> metabolism,
+      Value<double?> tarMgPerCigarette,
+      Value<double?> nicotineMgPerCigarette,
     });
 typedef $$SmokingProfileTableUpdateCompanionBuilder =
     SmokingProfileCompanion Function({
@@ -9214,6 +9739,8 @@ typedef $$SmokingProfileTableUpdateCompanionBuilder =
       Value<double?> smokingYears,
       Value<int?> hsi,
       Value<MetabolismSpeed> metabolism,
+      Value<double?> tarMgPerCigarette,
+      Value<double?> nicotineMgPerCigarette,
     });
 
 class $$SmokingProfileTableFilterComposer
@@ -9309,6 +9836,16 @@ class $$SmokingProfileTableFilterComposer
     column: $table.metabolism,
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
+
+  ColumnFilters<double> get tarMgPerCigarette => $composableBuilder(
+    column: $table.tarMgPerCigarette,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get nicotineMgPerCigarette => $composableBuilder(
+    column: $table.nicotineMgPerCigarette,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SmokingProfileTableOrderingComposer
@@ -9399,6 +9936,16 @@ class $$SmokingProfileTableOrderingComposer
     column: $table.metabolism,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<double> get tarMgPerCigarette => $composableBuilder(
+    column: $table.tarMgPerCigarette,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get nicotineMgPerCigarette => $composableBuilder(
+    column: $table.nicotineMgPerCigarette,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SmokingProfileTableAnnotationComposer
@@ -9469,6 +10016,16 @@ class $$SmokingProfileTableAnnotationComposer
         column: $table.metabolism,
         builder: (column) => column,
       );
+
+  GeneratedColumn<double> get tarMgPerCigarette => $composableBuilder(
+    column: $table.tarMgPerCigarette,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get nicotineMgPerCigarette => $composableBuilder(
+    column: $table.nicotineMgPerCigarette,
+    builder: (column) => column,
+  );
 }
 
 class $$SmokingProfileTableTableManager
@@ -9524,6 +10081,8 @@ class $$SmokingProfileTableTableManager
                 Value<double?> smokingYears = const Value.absent(),
                 Value<int?> hsi = const Value.absent(),
                 Value<MetabolismSpeed> metabolism = const Value.absent(),
+                Value<double?> tarMgPerCigarette = const Value.absent(),
+                Value<double?> nicotineMgPerCigarette = const Value.absent(),
               }) => SmokingProfileCompanion(
                 id: id,
                 baselineCpd: baselineCpd,
@@ -9541,6 +10100,8 @@ class $$SmokingProfileTableTableManager
                 smokingYears: smokingYears,
                 hsi: hsi,
                 metabolism: metabolism,
+                tarMgPerCigarette: tarMgPerCigarette,
+                nicotineMgPerCigarette: nicotineMgPerCigarette,
               ),
           createCompanionCallback:
               ({
@@ -9560,6 +10121,8 @@ class $$SmokingProfileTableTableManager
                 Value<double?> smokingYears = const Value.absent(),
                 Value<int?> hsi = const Value.absent(),
                 Value<MetabolismSpeed> metabolism = const Value.absent(),
+                Value<double?> tarMgPerCigarette = const Value.absent(),
+                Value<double?> nicotineMgPerCigarette = const Value.absent(),
               }) => SmokingProfileCompanion.insert(
                 id: id,
                 baselineCpd: baselineCpd,
@@ -9577,6 +10140,8 @@ class $$SmokingProfileTableTableManager
                 smokingYears: smokingYears,
                 hsi: hsi,
                 metabolism: metabolism,
+                tarMgPerCigarette: tarMgPerCigarette,
+                nicotineMgPerCigarette: nicotineMgPerCigarette,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -13918,6 +14483,239 @@ typedef $$MoodScreenTableProcessedTableManager =
       MoodScreenRow,
       PrefetchHooks Function()
     >;
+typedef $$PackPurchaseTableTableCreateCompanionBuilder =
+    PackPurchaseTableCompanion Function({
+      Value<int> id,
+      required DateTime ts,
+      Value<int> packs,
+      required double pricePerPack,
+      Value<int> packSize,
+      Value<String?> brand,
+    });
+typedef $$PackPurchaseTableTableUpdateCompanionBuilder =
+    PackPurchaseTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> ts,
+      Value<int> packs,
+      Value<double> pricePerPack,
+      Value<int> packSize,
+      Value<String?> brand,
+    });
+
+class $$PackPurchaseTableTableFilterComposer
+    extends Composer<_$AppDatabase, $PackPurchaseTableTable> {
+  $$PackPurchaseTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get ts => $composableBuilder(
+    column: $table.ts,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get packs => $composableBuilder(
+    column: $table.packs,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get pricePerPack => $composableBuilder(
+    column: $table.pricePerPack,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get packSize => $composableBuilder(
+    column: $table.packSize,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get brand => $composableBuilder(
+    column: $table.brand,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PackPurchaseTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $PackPurchaseTableTable> {
+  $$PackPurchaseTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get ts => $composableBuilder(
+    column: $table.ts,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get packs => $composableBuilder(
+    column: $table.packs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get pricePerPack => $composableBuilder(
+    column: $table.pricePerPack,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get packSize => $composableBuilder(
+    column: $table.packSize,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get brand => $composableBuilder(
+    column: $table.brand,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PackPurchaseTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PackPurchaseTableTable> {
+  $$PackPurchaseTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get ts =>
+      $composableBuilder(column: $table.ts, builder: (column) => column);
+
+  GeneratedColumn<int> get packs =>
+      $composableBuilder(column: $table.packs, builder: (column) => column);
+
+  GeneratedColumn<double> get pricePerPack => $composableBuilder(
+    column: $table.pricePerPack,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get packSize =>
+      $composableBuilder(column: $table.packSize, builder: (column) => column);
+
+  GeneratedColumn<String> get brand =>
+      $composableBuilder(column: $table.brand, builder: (column) => column);
+}
+
+class $$PackPurchaseTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PackPurchaseTableTable,
+          PackPurchaseRow,
+          $$PackPurchaseTableTableFilterComposer,
+          $$PackPurchaseTableTableOrderingComposer,
+          $$PackPurchaseTableTableAnnotationComposer,
+          $$PackPurchaseTableTableCreateCompanionBuilder,
+          $$PackPurchaseTableTableUpdateCompanionBuilder,
+          (
+            PackPurchaseRow,
+            BaseReferences<
+              _$AppDatabase,
+              $PackPurchaseTableTable,
+              PackPurchaseRow
+            >,
+          ),
+          PackPurchaseRow,
+          PrefetchHooks Function()
+        > {
+  $$PackPurchaseTableTableTableManager(
+    _$AppDatabase db,
+    $PackPurchaseTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PackPurchaseTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PackPurchaseTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PackPurchaseTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> ts = const Value.absent(),
+                Value<int> packs = const Value.absent(),
+                Value<double> pricePerPack = const Value.absent(),
+                Value<int> packSize = const Value.absent(),
+                Value<String?> brand = const Value.absent(),
+              }) => PackPurchaseTableCompanion(
+                id: id,
+                ts: ts,
+                packs: packs,
+                pricePerPack: pricePerPack,
+                packSize: packSize,
+                brand: brand,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required DateTime ts,
+                Value<int> packs = const Value.absent(),
+                required double pricePerPack,
+                Value<int> packSize = const Value.absent(),
+                Value<String?> brand = const Value.absent(),
+              }) => PackPurchaseTableCompanion.insert(
+                id: id,
+                ts: ts,
+                packs: packs,
+                pricePerPack: pricePerPack,
+                packSize: packSize,
+                brand: brand,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$PackPurchaseTableTable, PackPurchaseRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $PackPurchaseTableTable,
+                    PackPurchaseRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PackPurchaseTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PackPurchaseTableTable,
+      PackPurchaseRow,
+      $$PackPurchaseTableTableFilterComposer,
+      $$PackPurchaseTableTableOrderingComposer,
+      $$PackPurchaseTableTableAnnotationComposer,
+      $$PackPurchaseTableTableCreateCompanionBuilder,
+      $$PackPurchaseTableTableUpdateCompanionBuilder,
+      (
+        PackPurchaseRow,
+        BaseReferences<_$AppDatabase, $PackPurchaseTableTable, PackPurchaseRow>,
+      ),
+      PackPurchaseRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -13964,4 +14762,6 @@ class $AppDatabaseManager {
       $$CopingPlanTableTableTableManager(_db, _db.copingPlanTable);
   $$MoodScreenTableTableManager get moodScreen =>
       $$MoodScreenTableTableManager(_db, _db.moodScreen);
+  $$PackPurchaseTableTableTableManager get packPurchaseTable =>
+      $$PackPurchaseTableTableTableManager(_db, _db.packPurchaseTable);
 }
