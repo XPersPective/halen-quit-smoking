@@ -87,8 +87,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get splashStart => 'Starten';
 
   @override
-  String obStepOf(int n) {
-    return 'Schritt $n von 7';
+  String obStepOf(int n, int total) {
+    return 'Schritt $n von $total';
   }
 
   @override
@@ -3109,4 +3109,22 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get mindPressureExplainer =>
       'Nikotinentzugsdruck: Simulation des biologischen Drucks der Nikotinrezeptoren. Spitzen sind vorübergehend (~5-10 Min.).';
+
+  @override
+  String get settingsLanguage => 'Sprache';
+
+  @override
+  String get languageSystem => 'Systemstandard';
+
+  @override
+  String get languageEn => 'English';
+
+  @override
+  String get languageTr => 'Türkçe';
+
+  @override
+  String get languageDe => 'Deutsch';
+
+  @override
+  String get commonDelete => 'Löschen';
 }

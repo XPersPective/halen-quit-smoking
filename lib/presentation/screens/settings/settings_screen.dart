@@ -122,8 +122,53 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                 ],
                 selected: {settings.theme},
-                onSelectionChanged: (selection) =>
-                    ref.read(themeOptionProvider.notifier).set(selection.first),
+                onSelectionChanged: (selection) {
+                  ref.read(themeOptionProvider.notifier).set(selection.first);
+                  updateSetting(
+                    ref,
+                    SettingsCompanion(theme: Value(selection.first)),
+                  );
+                },
+              ),
+              const SizedBox(height: HalenSpace.x4),
+              // UI language: system by default, with explicit overrides.
+              // Labels are the native names, untranslated by design.
+              Text(l10n.settingsLanguage, style: theme.textTheme.titleMedium),
+              RadioGroup<String>(
+                groupValue: settings.appLocale ?? 'system',
+                onChanged: (value) => updateSetting(
+                  ref,
+                  SettingsCompanion(
+                    appLocale:
+                        value == null || value == 'system'
+                            ? const Value(null)
+                            : Value(value),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    RadioListTile<String>(
+                      value: 'system',
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(l10n.languageSystem),
+                    ),
+                    RadioListTile<String>(
+                      value: 'en',
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(l10n.languageEn),
+                    ),
+                    RadioListTile<String>(
+                      value: 'tr',
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(l10n.languageTr),
+                    ),
+                    RadioListTile<String>(
+                      value: 'de',
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(l10n.languageDe),
+                    ),
+                  ],
+                ),
               ),
               SwitchListTile(
                 value: settings.reduceMotion,

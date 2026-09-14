@@ -84,7 +84,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.obStepOf(_step + 1)),
+        title: Text(l10n.obStepOf(_step + 1, _stepCount)),
         leading: BackButton(onPressed: _back),
       ),
       body: SafeArea(
@@ -93,7 +93,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 4, 24, 12),
               child: Semantics(
-                label: l10n.obStepOf(_step + 1),
+                label: l10n.obStepOf(_step + 1, _stepCount),
                 child: Row(
                   children: [
                     for (var i = 0; i < _stepCount; i++)

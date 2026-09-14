@@ -247,8 +247,8 @@ abstract class AppLocalizations {
   /// No description provided for @obStepOf.
   ///
   /// In en, this message translates to:
-  /// **'Step {n} of 7'**
-  String obStepOf(int n);
+  /// **'Step {n} of {total}'**
+  String obStepOf(int n, int total);
 
   /// No description provided for @obAgeTitle.
   ///
@@ -5445,6 +5445,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nicotine Withdrawal Pressure: Simulation of biological withdrawal pressure from nicotinic receptors. Peaks are temporary (~5-10 min).'**
   String get mindPressureExplainer;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// No description provided for @languageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get languageSystem;
+
+  /// No description provided for @languageEn.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEn;
+
+  /// No description provided for @languageTr.
+  ///
+  /// In en, this message translates to:
+  /// **'Türkçe'**
+  String get languageTr;
+
+  /// No description provided for @languageDe.
+  ///
+  /// In en, this message translates to:
+  /// **'Deutsch'**
+  String get languageDe;
+
+  /// No description provided for @commonDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get commonDelete;
 }
 
 class _AppLocalizationsDelegate

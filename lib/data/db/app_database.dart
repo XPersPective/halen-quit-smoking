@@ -68,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.e);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -126,6 +126,11 @@ class AppDatabase extends _$AppDatabase {
               smokingProfile.nicotineMgPerCigarette,
             );
             await m.createTable(packPurchaseTable);
+          }
+          if (from < 7) {
+            // v7 — the UI language override. Nullable, so existing rows keep
+            // following the system language.
+            await m.addColumn(settings, settings.appLocale);
           }
         },
       );

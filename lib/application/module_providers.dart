@@ -606,10 +606,9 @@ Future<void> applyRiskyWindowReminder(
     await service.cancelRiskyWindow();
     return;
   }
-  final user = await ref.read(userProfileProvider.future);
   await service.scheduleRiskyWindow(
     hour: windows.first.startHour,
-    texts: notificationTextsFor(user?.locale ?? 'en'),
+    texts: notificationTextsFor(ref.read(resolvedLocaleProvider)),
   );
 }
 

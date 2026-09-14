@@ -16,5 +16,9 @@ void main() {
     await tester.tap(find.byType(FilledButton).last);
     await tester.pumpAndSettle();
     expect(find.text('How old are you?'), findsOneWidget);
+
+    // The app root now watches the persisted settings (theme + language), so
+    // teardown must cancel the drift stream and flush its timers.
+    await disposeApp(tester);
   });
 }

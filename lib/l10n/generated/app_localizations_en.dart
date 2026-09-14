@@ -87,8 +87,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get splashStart => 'Start';
 
   @override
-  String obStepOf(int n) {
-    return 'Step $n of 7';
+  String obStepOf(int n, int total) {
+    return 'Step $n of $total';
   }
 
   @override
@@ -3097,4 +3097,22 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get mindPressureExplainer =>
       'Nicotine Withdrawal Pressure: Simulation of biological withdrawal pressure from nicotinic receptors. Peaks are temporary (~5-10 min).';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get languageSystem => 'System default';
+
+  @override
+  String get languageEn => 'English';
+
+  @override
+  String get languageTr => 'Türkçe';
+
+  @override
+  String get languageDe => 'Deutsch';
+
+  @override
+  String get commonDelete => 'Delete';
 }

@@ -134,10 +134,9 @@ class CessationController {
     if (settings.notifLevel == NotificationDensity.off) {
       return;
     }
-    final profile = await db.profileDao.getUserProfile();
     await service.scheduleQuitDay(
       quitDate: date,
-      texts: notificationTextsFor(profile?.locale ?? 'en'),
+      texts: notificationTextsFor(_ref.read(resolvedLocaleProvider)),
     );
   }
 

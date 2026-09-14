@@ -190,6 +190,10 @@ class Settings extends Table {
   BoolColumn get riskyWindowReminder =>
       boolean().withDefault(const Constant(false))();
 
+  /// UI language override: 'en', 'tr' or 'de'. Null = follow the system
+  /// language, the default.
+  TextColumn get appLocale => text().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

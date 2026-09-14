@@ -24,7 +24,7 @@
   "splashNotificationRationale": "Bildirimler planını hatırlatmak için kullanılır — spam asla. İstersen daha sonra da açabilirsin.",
   "splashEnableNotifications": "Bildirimlere izin ver",
   "splashStart": "Başla",
-  "obStepOf": "Adım {n}/7",
+  "obStepOf": "Adım {n}/{total}",
   "obAgeTitle": "Kaç yaşındasın?",
   "obAgeUnder18": "18 yaş altı",
   "obAge18to24": "18–24",
@@ -921,5 +921,21 @@
   "economyTimeFilterAll": "Tüm Süre (Halen)",
   "economyTimeFilterLifetime": "İçicilik Geçmişi",
   "progressScoreExplainer": "Hedefe Uyum Skoru (100 üzerinden): Hedef kotalara uyum, aralıkların açılması ve isteklere direnme başarısı.",
-  "mindPressureExplainer": "Nikotin Yoksunluk Basıncı: Beyindeki nikotinik reseptörlerin yarattığı biyolojik baskı simülasyonu. Krizler geçicidir (~5-10 dk)."
+  "mindPressureExplainer": "Nikotin Yoksunluk Basıncı: Beyindeki nikotinik reseptörlerin yarattığı biyolojik baskı simülasyonu. Krizler geçicidir (~5-10 dk).",
+  "settingsLanguage": "Dil",
+  "languageSystem": "Sistem varsayılanı",
+  "languageEn": "English",
+  "languageTr": "Türkçe",
+  "languageDe": "Deutsch",
+  "commonDelete": "Sil",
+  "@obStepOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

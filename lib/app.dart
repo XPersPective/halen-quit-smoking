@@ -6,6 +6,7 @@ import 'application/providers.dart';
 import 'application/plan_controller.dart';
 import 'application/quick_log_controller.dart';
 import 'application/settings_controller.dart';
+import 'application/settings_screen_controller.dart';
 import 'core/routes.dart';
 import 'core/theme.dart';
 import 'domain/entities.dart';
@@ -51,6 +52,7 @@ class HalenApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeOption = ref.watch(themeOptionProvider);
+    final localeOverride = ref.watch(storedLocaleProvider);
     return _LifecycleTracker(
       databaseFailed: databaseFailed,
       child: MaterialApp(
@@ -62,6 +64,23 @@ class HalenApp extends ConsumerWidget {
         ThemeOption.system => ThemeMode.system,
         ThemeOption.light => ThemeMode.light,
         ThemeOption.dark => ThemeMode.dark,
+      },
+      // Null = follow the system language; otherwise the user's explicit
+      // Settings choice.
+      locale: localeOverride == null ? null : Locale(localeOverride),
+      localeResolutionCallback: (deviceLocale, supported) {
+        // Flutter's default resolution falls back to supportedLocales.first —
+        // German, because gen-l10n sorts alphabetically. An unsupported
+        // system language (e.g. French) must land on English, the template
+        // language, instead.
+        if (deviceLocale != null) {
+          for (final supportedLocale in supported) {
+            if (supportedLocale.languageCode == deviceLocale.languageCode) {
+              return supportedLocale;
+            }
+          }
+        }
+        return const Locale('en');
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

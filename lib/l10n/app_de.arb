@@ -24,7 +24,7 @@
   "splashNotificationRationale": "Benachrichtigungen erinnern dich an deinen Plan — nie Spam. Du kannst sie auch später aktivieren.",
   "splashEnableNotifications": "Benachrichtigungen erlauben",
   "splashStart": "Starten",
-  "obStepOf": "Schritt {n} von 7",
+  "obStepOf": "Schritt {n} von {total}",
   "obAgeTitle": "Wie alt bist du?",
   "obAgeUnder18": "Unter 18",
   "obAge18to24": "18–24",
@@ -921,5 +921,21 @@
   "economyTimeFilterAll": "Gesamte Zeit (Halen)",
   "economyTimeFilterLifetime": "Rauchgeschichte",
   "progressScoreExplainer": "Zieltreue-Score (von 100): Einhaltung der Tagesquoten, Vergrößerung der Abstände und Widerstandskraft.",
-  "mindPressureExplainer": "Nikotinentzugsdruck: Simulation des biologischen Drucks der Nikotinrezeptoren. Spitzen sind vorübergehend (~5-10 Min.)."
+  "mindPressureExplainer": "Nikotinentzugsdruck: Simulation des biologischen Drucks der Nikotinrezeptoren. Spitzen sind vorübergehend (~5-10 Min.).",
+  "settingsLanguage": "Sprache",
+  "languageSystem": "Systemstandard",
+  "languageEn": "English",
+  "languageTr": "Türkçe",
+  "languageDe": "Deutsch",
+  "commonDelete": "Löschen",
+  "@obStepOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -87,8 +87,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get splashStart => 'Başla';
 
   @override
-  String obStepOf(int n) {
-    return 'Adım $n/7';
+  String obStepOf(int n, int total) {
+    return 'Adım $n/$total';
   }
 
   @override
@@ -3094,4 +3094,22 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get mindPressureExplainer =>
       'Nikotin Yoksunluk Basıncı: Beyindeki nikotinik reseptörlerin yarattığı biyolojik baskı simülasyonu. Krizler geçicidir (~5-10 dk).';
+
+  @override
+  String get settingsLanguage => 'Dil';
+
+  @override
+  String get languageSystem => 'Sistem varsayılanı';
+
+  @override
+  String get languageEn => 'English';
+
+  @override
+  String get languageTr => 'Türkçe';
+
+  @override
+  String get languageDe => 'Deutsch';
+
+  @override
+  String get commonDelete => 'Sil';
 }

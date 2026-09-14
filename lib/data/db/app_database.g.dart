@@ -5691,6 +5691,17 @@ class $SettingsTable extends Settings
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _appLocaleMeta = const VerificationMeta(
+    'appLocale',
+  );
+  @override
+  late final GeneratedColumn<String> appLocale = GeneratedColumn<String>(
+    'app_locale',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -5701,6 +5712,7 @@ class $SettingsTable extends Settings
     trialStartedAt,
     preLogPauseSeconds,
     riskyWindowReminder,
+    appLocale,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5759,6 +5771,12 @@ class $SettingsTable extends Settings
         ),
       );
     }
+    if (data.containsKey('app_locale')) {
+      context.handle(
+        _appLocaleMeta,
+        appLocale.isAcceptableOrUnknown(data['app_locale']!, _appLocaleMeta),
+      );
+    }
     return context;
   }
 
@@ -5804,6 +5822,10 @@ class $SettingsTable extends Settings
         DriftSqlType.bool,
         data['${effectivePrefix}risky_window_reminder'],
       )!,
+      appLocale: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}app_locale'],
+      ),
     );
   }
 
@@ -5837,6 +5859,10 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
   /// (module report §4.③). Off by default — the category's own reviews show
   /// what unrequested pushes do to a quit app's rating.
   final bool riskyWindowReminder;
+
+  /// UI language override: 'en', 'tr' or 'de'. Null = follow the system
+  /// language, the default.
+  final String? appLocale;
   const SettingsRow({
     required this.id,
     required this.notifLevel,
@@ -5846,6 +5872,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     this.trialStartedAt,
     required this.preLogPauseSeconds,
     required this.riskyWindowReminder,
+    this.appLocale,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5868,6 +5895,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     }
     map['pre_log_pause_seconds'] = Variable<int>(preLogPauseSeconds);
     map['risky_window_reminder'] = Variable<bool>(riskyWindowReminder);
+    if (!nullToAbsent || appLocale != null) {
+      map['app_locale'] = Variable<String>(appLocale);
+    }
     return map;
   }
 
@@ -5883,6 +5913,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           : Value(trialStartedAt),
       preLogPauseSeconds: Value(preLogPauseSeconds),
       riskyWindowReminder: Value(riskyWindowReminder),
+      appLocale: appLocale == null && nullToAbsent
+          ? const Value.absent()
+          : Value(appLocale),
     );
   }
 
@@ -5906,6 +5939,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       riskyWindowReminder: serializer.fromJson<bool>(
         json['riskyWindowReminder'],
       ),
+      appLocale: serializer.fromJson<String?>(json['appLocale']),
     );
   }
   @override
@@ -5924,6 +5958,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       'trialStartedAt': serializer.toJson<DateTime?>(trialStartedAt),
       'preLogPauseSeconds': serializer.toJson<int>(preLogPauseSeconds),
       'riskyWindowReminder': serializer.toJson<bool>(riskyWindowReminder),
+      'appLocale': serializer.toJson<String?>(appLocale),
     };
   }
 
@@ -5936,6 +5971,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     Value<DateTime?> trialStartedAt = const Value.absent(),
     int? preLogPauseSeconds,
     bool? riskyWindowReminder,
+    Value<String?> appLocale = const Value.absent(),
   }) => SettingsRow(
     id: id ?? this.id,
     notifLevel: notifLevel ?? this.notifLevel,
@@ -5947,6 +5983,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
         : this.trialStartedAt,
     preLogPauseSeconds: preLogPauseSeconds ?? this.preLogPauseSeconds,
     riskyWindowReminder: riskyWindowReminder ?? this.riskyWindowReminder,
+    appLocale: appLocale.present ? appLocale.value : this.appLocale,
   );
   SettingsRow copyWithCompanion(SettingsCompanion data) {
     return SettingsRow(
@@ -5968,6 +6005,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       riskyWindowReminder: data.riskyWindowReminder.present
           ? data.riskyWindowReminder.value
           : this.riskyWindowReminder,
+      appLocale: data.appLocale.present ? data.appLocale.value : this.appLocale,
     );
   }
 
@@ -5981,7 +6019,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ..write('haptics: $haptics, ')
           ..write('trialStartedAt: $trialStartedAt, ')
           ..write('preLogPauseSeconds: $preLogPauseSeconds, ')
-          ..write('riskyWindowReminder: $riskyWindowReminder')
+          ..write('riskyWindowReminder: $riskyWindowReminder, ')
+          ..write('appLocale: $appLocale')
           ..write(')'))
         .toString();
   }
@@ -5996,6 +6035,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     trialStartedAt,
     preLogPauseSeconds,
     riskyWindowReminder,
+    appLocale,
   );
   @override
   bool operator ==(Object other) =>
@@ -6008,7 +6048,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           other.haptics == this.haptics &&
           other.trialStartedAt == this.trialStartedAt &&
           other.preLogPauseSeconds == this.preLogPauseSeconds &&
-          other.riskyWindowReminder == this.riskyWindowReminder);
+          other.riskyWindowReminder == this.riskyWindowReminder &&
+          other.appLocale == this.appLocale);
 }
 
 class SettingsCompanion extends UpdateCompanion<SettingsRow> {
@@ -6020,6 +6061,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
   final Value<DateTime?> trialStartedAt;
   final Value<int> preLogPauseSeconds;
   final Value<bool> riskyWindowReminder;
+  final Value<String?> appLocale;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.notifLevel = const Value.absent(),
@@ -6029,6 +6071,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.trialStartedAt = const Value.absent(),
     this.preLogPauseSeconds = const Value.absent(),
     this.riskyWindowReminder = const Value.absent(),
+    this.appLocale = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -6039,6 +6082,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.trialStartedAt = const Value.absent(),
     this.preLogPauseSeconds = const Value.absent(),
     this.riskyWindowReminder = const Value.absent(),
+    this.appLocale = const Value.absent(),
   });
   static Insertable<SettingsRow> custom({
     Expression<int>? id,
@@ -6049,6 +6093,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Expression<DateTime>? trialStartedAt,
     Expression<int>? preLogPauseSeconds,
     Expression<bool>? riskyWindowReminder,
+    Expression<String>? appLocale,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -6061,6 +6106,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
         'pre_log_pause_seconds': preLogPauseSeconds,
       if (riskyWindowReminder != null)
         'risky_window_reminder': riskyWindowReminder,
+      if (appLocale != null) 'app_locale': appLocale,
     });
   }
 
@@ -6073,6 +6119,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Value<DateTime?>? trialStartedAt,
     Value<int>? preLogPauseSeconds,
     Value<bool>? riskyWindowReminder,
+    Value<String?>? appLocale,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -6083,6 +6130,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       trialStartedAt: trialStartedAt ?? this.trialStartedAt,
       preLogPauseSeconds: preLogPauseSeconds ?? this.preLogPauseSeconds,
       riskyWindowReminder: riskyWindowReminder ?? this.riskyWindowReminder,
+      appLocale: appLocale ?? this.appLocale,
     );
   }
 
@@ -6117,6 +6165,9 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     if (riskyWindowReminder.present) {
       map['risky_window_reminder'] = Variable<bool>(riskyWindowReminder.value);
     }
+    if (appLocale.present) {
+      map['app_locale'] = Variable<String>(appLocale.value);
+    }
     return map;
   }
 
@@ -6130,7 +6181,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
           ..write('haptics: $haptics, ')
           ..write('trialStartedAt: $trialStartedAt, ')
           ..write('preLogPauseSeconds: $preLogPauseSeconds, ')
-          ..write('riskyWindowReminder: $riskyWindowReminder')
+          ..write('riskyWindowReminder: $riskyWindowReminder, ')
+          ..write('appLocale: $appLocale')
           ..write(')'))
         .toString();
   }
@@ -12556,6 +12608,7 @@ typedef $$SettingsTableCreateCompanionBuilder = SettingsCompanion Function({
   Value<DateTime?> trialStartedAt,
   Value<int> preLogPauseSeconds,
   Value<bool> riskyWindowReminder,
+  Value<String?> appLocale,
 });
 typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<int> id,
@@ -12566,6 +12619,7 @@ typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<DateTime?> trialStartedAt,
   Value<int> preLogPauseSeconds,
   Value<bool> riskyWindowReminder,
+  Value<String?> appLocale,
 });
 
 class $$SettingsTableFilterComposer
@@ -12622,6 +12676,11 @@ class $$SettingsTableFilterComposer
     column: $table.riskyWindowReminder,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<String> get appLocale => $composableBuilder(
+    column: $table.appLocale,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SettingsTableOrderingComposer
@@ -12672,6 +12731,11 @@ class $$SettingsTableOrderingComposer
     column: $table.riskyWindowReminder,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get appLocale => $composableBuilder(
+    column: $table.appLocale,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -12717,6 +12781,9 @@ class $$SettingsTableAnnotationComposer
     column: $table.riskyWindowReminder,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get appLocale =>
+      $composableBuilder(column: $table.appLocale, builder: (column) => column);
 }
 
 class $$SettingsTableTableManager
@@ -12758,6 +12825,7 @@ class $$SettingsTableTableManager
                 Value<DateTime?> trialStartedAt = const Value.absent(),
                 Value<int> preLogPauseSeconds = const Value.absent(),
                 Value<bool> riskyWindowReminder = const Value.absent(),
+                Value<String?> appLocale = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 notifLevel: notifLevel,
@@ -12767,6 +12835,7 @@ class $$SettingsTableTableManager
                 trialStartedAt: trialStartedAt,
                 preLogPauseSeconds: preLogPauseSeconds,
                 riskyWindowReminder: riskyWindowReminder,
+                appLocale: appLocale,
               ),
           createCompanionCallback:
               ({
@@ -12778,6 +12847,7 @@ class $$SettingsTableTableManager
                 Value<DateTime?> trialStartedAt = const Value.absent(),
                 Value<int> preLogPauseSeconds = const Value.absent(),
                 Value<bool> riskyWindowReminder = const Value.absent(),
+                Value<String?> appLocale = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 notifLevel: notifLevel,
@@ -12787,6 +12857,7 @@ class $$SettingsTableTableManager
                 trialStartedAt: trialStartedAt,
                 preLogPauseSeconds: preLogPauseSeconds,
                 riskyWindowReminder: riskyWindowReminder,
+                appLocale: appLocale,
               ),
           withReferenceMapper: (p0) => p0
               .map(

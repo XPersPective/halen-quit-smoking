@@ -1,7 +1,7 @@
-import 'dart:ui';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/repositories/article_repository.dart';
+import 'settings_screen_controller.dart';
 
 final articleRepositoryProvider = Provider<ArticleRepository>((ref) {
   return const ArticleRepository();
@@ -21,10 +21,10 @@ class SelectedArticleCategoryNotifier extends Notifier<ArticleCategory?> {
   }
 }
 
-/// Active locale string (defaults to system locale or en/tr/de).
+/// Active locale string: the Settings language choice when set, otherwise
+/// the system language (en/tr/de), otherwise en.
 final currentLocaleProvider = Provider<String>((ref) {
-  final locale = PlatformDispatcher.instance.locale;
-  return locale.languageCode;
+  return ref.watch(resolvedLocaleProvider);
 });
 
 final articlesListProvider = Provider<List<Article>>((ref) {

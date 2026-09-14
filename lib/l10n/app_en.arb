@@ -24,10 +24,13 @@
   "splashNotificationRationale": "Notifications remind you of your plan — never spam. You can also enable them later.",
   "splashEnableNotifications": "Allow notifications",
   "splashStart": "Start",
-  "obStepOf": "Step {n} of 7",
+  "obStepOf": "Step {n} of {total}",
   "@obStepOf": {
     "placeholders": {
       "n": {
+        "type": "int"
+      },
+      "total": {
         "type": "int"
       }
     }
@@ -1685,5 +1688,11 @@
   "economyTimeFilterAll": "All Time (Halen)",
   "economyTimeFilterLifetime": "Lifetime History",
   "progressScoreExplainer": "Adherence Score (out of 100): Reflects adherence to daily quotas, spacing between cigarettes, and resisted urges.",
-  "mindPressureExplainer": "Nicotine Withdrawal Pressure: Simulation of biological withdrawal pressure from nicotinic receptors. Peaks are temporary (~5-10 min)."
+  "mindPressureExplainer": "Nicotine Withdrawal Pressure: Simulation of biological withdrawal pressure from nicotinic receptors. Peaks are temporary (~5-10 min).",
+  "settingsLanguage": "Language",
+  "languageSystem": "System default",
+  "languageEn": "English",
+  "languageTr": "Türkçe",
+  "languageDe": "Deutsch",
+  "commonDelete": "Delete"
 }
