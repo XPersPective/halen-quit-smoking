@@ -6,6 +6,7 @@ import 'package:halen/core/design/tokens.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/domain/cessation.dart';
 import 'package:halen/domain/entities.dart';
+import 'package:halen/domain/onboarding.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/screens/cessation/quit_plan_screen.dart'
     show quitReasonLabel;
@@ -22,6 +23,9 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final _pageController = PageController();
   int _step = 0;
+  final _priceForm = GlobalKey<FormState>();
+  final _brandForm = GlobalKey<FormState>();
+  bool _busy = false;
 
   // Eight now: the reason a person gives in their own words is the
   // motivational-interviewing step the flow was missing, and it is the one
@@ -35,48 +39,71 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   Future<void> _next() async {
-    final controller = ref.read(onboardingControllerProvider.notifier);
-    final answers = ref.read(onboardingControllerProvider);
+    if (_busy) return;
+    if (_step == 3 && !(_priceForm.currentState?.validate() ?? false)) return;
+    if (_step == 7 && !(_brandForm.currentState?.validate() ?? false)) return;
+    setState(() => _busy = true);
+    try {
+      final controller = ref.read(onboardingControllerProvider.notifier);
+      final answers = ref.read(onboardingControllerProvider);
 
-    if (_step == 0 && answers.ageBand == AgeBand.under18) {
-      // Report §39: no plan for under-18; youth resources instead.
-      await controller.submitUnder18();
+      if (_step == 0 && answers.ageBand == AgeBand.under18) {
+        // Report §39: no plan for under-18; youth resources instead.
+        await controller.submitUnder18();
+        if (!mounted) {
+          return;
+        }
+        Navigator.pushReplacementNamed(context, Routes.under18);
+        return;
+      }
+
+      if (_step < _stepCount - 1) {
+        await _pageController.nextPage(
+          duration: const Duration(milliseconds: 240),
+          curve: Curves.easeOutCubic,
+        );
+        if (!mounted) return;
+        setState(() => _step += 1);
+        return;
+      }
+
+      await controller.submit();
       if (!mounted) {
         return;
       }
-      Navigator.pushReplacementNamed(context, Routes.under18);
-      return;
+      // Straight to the payoff, not to an empty Today. The person has just
+      // spent a minute answering questions; the first thing they see has to
+      // be what those answers bought them (premium brief §A.1).
+      Navigator.pushReplacementNamed(context, Routes.onboardingResult);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.commonErrorTitle),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
     }
-
-    if (_step < _stepCount - 1) {
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 240),
-        curve: Curves.easeOutCubic,
-      );
-      setState(() => _step += 1);
-      return;
-    }
-
-    await controller.submit();
-    if (!mounted) {
-      return;
-    }
-    // Straight to the payoff, not to an empty Today. The person has just
-    // spent a minute answering questions; the first thing they see has to
-    // be what those answers bought them (premium brief §A.1).
-    Navigator.pushReplacementNamed(context, Routes.onboardingResult);
   }
 
-  void _back() {
+  Future<void> _back() async {
+    if (_busy) return;
     if (_step == 0) {
       Navigator.maybePop(context);
       return;
     }
-    _pageController.previousPage(
+    setState(() => _busy = true);
+    await _pageController.previousPage(
       duration: const Duration(milliseconds: 240),
       curve: Curves.easeOutCubic,
     );
-    setState(() => _step -= 1);
+    if (!mounted) return;
+    setState(() {
+      _step -= 1;
+      _busy = false;
+    });
   }
 
   @override
@@ -100,7 +127,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       Expanded(
                         child: Container(
                           height: 4,
-                          margin: const EdgeInsets.symmetric(horizontal: HalenSpace.x1),
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: HalenSpace.x1,
+                          ),
                           decoration: BoxDecoration(
                             color: i <= _step
                                 ? Theme.of(context).colorScheme.primary
@@ -117,15 +146,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               child: PageView(
                 controller: _pageController,
                 physics: const NeverScrollableScrollPhysics(),
-                children: const [
-                  _AgeStep(),
-                  _DailyCountStep(),
-                  _TtfcStep(),
-                  _PriceStep(),
-                  _TriggersStep(),
-                  _GoalStep(),
-                  _WhyStep(),
-                  _BrandStep(),
+                children: [
+                  const _AgeStep(),
+                  const _DailyCountStep(),
+                  const _TtfcStep(),
+                  Form(key: _priceForm, child: const _PriceStep()),
+                  const _TriggersStep(),
+                  const _GoalStep(),
+                  const _WhyStep(),
+                  Form(key: _brandForm, child: const _BrandStep()),
                 ],
               ),
             ),
@@ -143,7 +172,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   Expanded(
                     flex: 2,
                     child: FilledButton(
-                      onPressed: _next,
+                      onPressed: _busy ? null : _next,
                       style: FilledButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.tertiary,
                         foregroundColor: Theme.of(context)
@@ -312,7 +341,9 @@ class _PriceStepState extends ConsumerState<_PriceStep> {
     super.initState();
     final answers = ref.read(onboardingControllerProvider);
     _priceController = TextEditingController(
-      text: answers.pricePerPack.toStringAsFixed(2),
+      text: answers.pricePerPack > 0
+          ? answers.pricePerPack.toStringAsFixed(2)
+          : '',
     );
     _packSizeController = TextEditingController(
       text: answers.packSize.toString(),
@@ -335,26 +366,35 @@ class _PriceStepState extends ConsumerState<_PriceStep> {
       hint: l10n.obPriceHint,
       child: Column(
         children: [
-          TextField(
+          TextFormField(
             controller: _priceController,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (v) => OnboardingAnswers.parsePrice(v ?? '') == null
+                ? '${l10n.obPriceTitle} (0 < … ≤ 1,000,000)'
+                : null,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             decoration: InputDecoration(
               labelText: l10n.obPriceTitle,
               border: const OutlineInputBorder(),
             ),
             onChanged: (v) => controller.setPricePerPack(
-              double.tryParse(v.replaceAll(',', '.')) ?? 0,
+              OnboardingAnswers.parsePrice(v) ?? 0,
             ),
           ),
           const SizedBox(height: HalenSpace.x4),
-          TextField(
+          TextFormField(
             controller: _packSizeController,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (v) => OnboardingAnswers.parsePackSize(v ?? '') == null
+                ? '${l10n.obPackSizeLabel}: 1–100'
+                : null,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: l10n.obPackSizeLabel,
               border: const OutlineInputBorder(),
             ),
-            onChanged: (v) => controller.setPackSize(int.tryParse(v) ?? 20),
+            onChanged: (v) =>
+                controller.setPackSize(OnboardingAnswers.parsePackSize(v) ?? 0),
           ),
         ],
       ),
@@ -506,8 +546,14 @@ class _BrandStepState extends ConsumerState<_BrandStep> {
       hint: l10n.obBrandHint,
       child: Column(
         children: [
-          TextField(
+          TextFormField(
             controller: _brandController,
+            maxLength: 100,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (v) =>
+                (v?.trim().isEmpty ?? true) || v!.trim().length > 100
+                ? l10n.obBrandHint
+                : null,
             decoration: InputDecoration(
               labelText: l10n.obBrandTitle,
               border: const OutlineInputBorder(),

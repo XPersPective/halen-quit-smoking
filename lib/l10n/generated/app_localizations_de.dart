@@ -183,7 +183,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get obPriceHint =>
-      'Mit einem typischen Preis für dein Land vorbefüllt — trag deinen echten Preis ein.';
+      'Gib deinen tatsächlichen Packungspreis ein. Ein Preis ist erforderlich.';
 
   @override
   String get obPackSizeLabel => 'Zigaretten pro Schachtel';
@@ -245,11 +245,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get obGoalUndecidedHint => 'Beginne mit Reduktion — entscheide später';
 
   @override
-  String get obBrandTitle => 'Deine Marke (optional)';
+  String get obBrandTitle => 'Deine Zigarettenmarke';
 
   @override
   String get obBrandHint =>
-      'Nur für die Genauigkeit der Ersparnis. Kannst du überspringen.';
+      'Gib deine Marke ein (1–100 Zeichen). Du kannst sie später ändern.';
 
   @override
   String get obBrandSkip => 'Überspringen';

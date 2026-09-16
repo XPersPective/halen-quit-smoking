@@ -182,7 +182,7 @@ Yerel yeniden kurulum sınırını §2.4'te açık tut; dışa aktarmayı kaldı
 doğrulaması yerine geçmez. Kanıt: değiştirilmiş JSON ile süresi bitmiş denemenin
 yenilenmediği, normal kayıtların aktarıldığı ve bozuk import'un rollback testi.
 
-### H04 — Onboarding temel girdileri ve varsayılanlar [AÇIK]
+### H04 — Onboarding temel girdileri ve varsayılanlar [DEVAM]
 OnboardingAnswers/controller/repository/UI zincirini beraber düzenle. Günlük adet
 varsayılanı 20, paket adedi 20. Adet tam sayı; 1.2, negatif, sıfır, NaN, aşırı değer
 kabul edilmez, "1.2" sessizce 12'ye dönüştürülmez. Fiyat başlangıçta boş ve pozitif
@@ -190,6 +190,13 @@ sonlu sayı zorunlu; virgül/nokta yerel yazımı destekle. Yaş aralığı, ilk
 günlük ritim ve marka açık sorulur; boş/yalnız boşluk marka ileri geçirmez.
 Sayfa üzerinde kısa hata göster, uygulamayı çökertme. Marka sonradan değiştirilebilir.
 Kanıt: tüm adımlar geri/ileri, geçersiz klavye/yapıştırma girdisi, doğru kalıcılık testi.
+
+Uygulama kararı: mevcut sekiz adım korunur; fiyat ve marka adımlarında Flutter Form
+doğrulaması, repository sınırında aynı domain kuralları kullanılır. Günlük adet 1–60
+tam sayı slider (varsayılan20), paket 1–100 tam sayı, fiyat >0 ve <=1.000.000 sonlu
+yerel ondalık sayı; marka trim sonrası 1–100 karakter. Bunlar klinik sınırlar değil
+girdi/ürün sınırlarıdır. Geçersiz paket girdisi sessizce20 olmaz, boş marka önceki
+markayı geri getirmez. Boy/kilo/yıl ve ritim eklemesi H05 kapsamında henüz açık.
 
 ### H05 — Boy, kilo ve sigara yılı başlangıçta [AÇIK]
 Mevcut nullable SmokingProfile alanlarını tekrar kullan. Onboarding'de boy(cm),

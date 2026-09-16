@@ -181,7 +181,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get obPriceHint =>
-      'Ülken tipik fiyatıyla ön-dolu — gerçek fiyatınla güncelle.';
+      'Paket için ödediğin gerçek fiyatı gir. Fiyat zorunludur.';
 
   @override
   String get obPackSizeLabel => 'Paketteki sigara sayısı';
@@ -243,11 +243,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get obGoalUndecidedHint => 'Azaltarak başla, sonra karar ver';
 
   @override
-  String get obBrandTitle => 'Markan (opsiyonel)';
+  String get obBrandTitle => 'Sigara markan';
 
   @override
   String get obBrandHint =>
-      'Yalnızca tasarruf hesabının hassasiyeti için. Atlayabilirsin.';
+      'Markanı gir (1–100 karakter). Daha sonra değiştirebilirsin.';
 
   @override
   String get obBrandSkip => 'Atla';

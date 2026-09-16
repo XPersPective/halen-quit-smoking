@@ -421,7 +421,7 @@ abstract class AppLocalizations {
   /// No description provided for @obPriceHint.
   ///
   /// In en, this message translates to:
-  /// **'Pre-filled with a typical price in your country — edit it to your real price.'**
+  /// **'Enter the price you actually pay per pack. A price is required.'**
   String get obPriceHint;
 
   /// No description provided for @obPackSizeLabel.
@@ -541,13 +541,13 @@ abstract class AppLocalizations {
   /// No description provided for @obBrandTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your brand (optional)'**
+  /// **'Your cigarette brand'**
   String get obBrandTitle;
 
   /// No description provided for @obBrandHint.
   ///
   /// In en, this message translates to:
-  /// **'Only used for savings precision. You can skip this.'**
+  /// **'Enter your brand (1–100 characters). You can change it later.'**
   String get obBrandHint;
 
   /// No description provided for @obBrandSkip.

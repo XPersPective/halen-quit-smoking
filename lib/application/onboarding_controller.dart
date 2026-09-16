@@ -10,12 +10,11 @@ import 'providers.dart';
 class OnboardingController extends Notifier<OnboardingAnswers> {
   @override
   OnboardingAnswers build() {
-    final price = PackPriceDefaults.priceFor(countryCode());
     return OnboardingAnswers(
       ageBand: AgeBand.y25to34,
-      baselineCpd: 15,
+      baselineCpd: 20,
       ttfcBand: TtfcBand.five30,
-      pricePerPack: price,
+      pricePerPack: 0,
       packSize: 20,
       triggers: const {},
       targetMode: TargetMode.reduce,
@@ -51,21 +50,22 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
 
   void setTargetMode(TargetMode mode) => state = _copy(targetMode: mode);
 
-  void setBrandName(String? brand) => state = _copy(brandName: brand);
+  void setBrandName(String? brand) =>
+      state = _copy(brandName: brand?.trim() ?? '');
 
   /// Clearing the reason has to be possible, so this one replaces rather
   /// than merges — the usual `??` copy would make deselection impossible.
   void setQuitReason(QuitReason? reason) => state = OnboardingAnswers(
-        ageBand: state.ageBand,
-        baselineCpd: state.baselineCpd,
-        ttfcBand: state.ttfcBand,
-        pricePerPack: state.pricePerPack,
-        packSize: state.packSize,
-        triggers: state.triggers,
-        targetMode: state.targetMode,
-        brandName: state.brandName,
-        quitReason: reason,
-      );
+    ageBand: state.ageBand,
+    baselineCpd: state.baselineCpd,
+    ttfcBand: state.ttfcBand,
+    pricePerPack: state.pricePerPack,
+    packSize: state.packSize,
+    triggers: state.triggers,
+    targetMode: state.targetMode,
+    brandName: state.brandName,
+    quitReason: reason,
+  );
 
   Future<void> submit() async {
     final repo = ref.read(profileRepositoryProvider);
@@ -73,10 +73,7 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
     // The reason lives on the quit plan, not the smoking profile: it belongs
     // to the attempt, and the attempt is where it is read back from.
     if (state.quitReason != null) {
-      await ref
-          .read(databaseProvider)
-          .cessationDao
-          .setReason(state.quitReason);
+      await ref.read(databaseProvider).cessationDao.setReason(state.quitReason);
     }
   }
 
@@ -117,5 +114,5 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
 
 final onboardingControllerProvider =
     NotifierProvider<OnboardingController, OnboardingAnswers>(
-  OnboardingController.new,
-);
+      OnboardingController.new,
+    );

@@ -57,7 +57,7 @@ void main() {
         packSize: 20,
         triggers: {TriggerLabel.coffee, TriggerLabel.afterMeal},
         targetMode: TargetMode.reduce,
-        brandName: null,
+        brandName: 'Example',
       ),
       locale: 'tr',
     );
@@ -84,6 +84,7 @@ void main() {
         packSize: 20,
         triggers: {},
         targetMode: TargetMode.undecided,
+        brandName: 'Example',
       ),
     );
     await repo.updatePace(Pace.calm);

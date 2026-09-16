@@ -18,8 +18,9 @@ void main() {
     await db.close();
   });
 
-  testWidgets('onboarding walks 8 steps and creates the smoking profile',
-      (tester) async {
+  testWidgets('onboarding walks 8 steps and creates the smoking profile', (
+    tester,
+  ) async {
     await pumpHalenApp(tester, database: db);
 
     // First launch now waits on the welcome screen until the person taps
@@ -36,8 +37,10 @@ void main() {
     await _next(tester);
 
     // Step 2: daily count slider → Next.
-    expect(find.text('On average, how many cigarettes do you smoke per day?'),
-        findsOneWidget);
+    expect(
+      find.text('On average, how many cigarettes do you smoke per day?'),
+      findsOneWidget,
+    );
     await _next(tester);
 
     // Step 3: TTFC — pick "5–30 minutes".
@@ -45,8 +48,22 @@ void main() {
     await tester.pumpAndSettle();
     await _next(tester);
 
-    // Step 4: price pre-filled → Next.
+    // Step 4: price is required; invalid pack counts cannot advance.
     expect(find.text('How much does a pack cost?'), findsWidgets);
+    expect(
+      tester
+          .widget<TextFormField>(find.byType(TextFormField).first)
+          .controller!
+          .text,
+      isEmpty,
+    );
+    await _next(tester);
+    expect(find.text('Step 4 of 8'), findsOneWidget);
+    await tester.enterText(find.byType(TextFormField).first, '12,50');
+    await tester.enterText(find.byType(TextFormField).last, '1.2');
+    await _next(tester);
+    expect(find.text('Step 4 of 8'), findsOneWidget);
+    await tester.enterText(find.byType(TextFormField).last, '20');
     await _next(tester);
 
     // Step 5: triggers — pick coffee.
@@ -66,8 +83,12 @@ void main() {
 
     // Step 8: brand optional + disclaimer → finish. (Text appears twice:
     // as the step title and as the TextField label.)
-    expect(find.text('Your brand (optional)'), findsWidgets);
+    expect(find.text('Your cigarette brand'), findsWidgets);
     expect(find.textContaining('not medical advice'), findsOneWidget);
+    await tester.tap(find.widgetWithText(FilledButton, 'Set up my plan'));
+    await tester.pumpAndSettle();
+    expect(await db.profileDao.getSmokingProfile(), isNull);
+    await tester.enterText(find.byType(TextFormField), '   Example Brand   ');
     await tester.tap(find.widgetWithText(FilledButton, 'Set up my plan'));
     await tester.pumpAndSettle();
 
@@ -94,7 +115,10 @@ void main() {
 
     final profile = await db.profileDao.getSmokingProfile();
     expect(profile, isNotNull);
-    expect(profile!.baselineCpd, 15);
+    expect(profile!.baselineCpd, 20);
+    expect(profile.pricePerPack, 12.5);
+    expect(profile.packSize, 20);
+    expect(profile.brandName, 'Example Brand');
     expect(profile.ttfcBand, TtfcBand.five30);
     expect(profile.targetMode, TargetMode.reduce);
 

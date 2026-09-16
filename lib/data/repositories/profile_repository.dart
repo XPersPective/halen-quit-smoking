@@ -14,6 +14,9 @@ class ProfileRepository {
     OnboardingAnswers answers, {
     String locale = 'en',
   }) {
+    if (!answers.valid) {
+      throw const FormatException('Invalid onboarding answers');
+    }
     return _db.transaction(() async {
       await _db.profileDao.saveUserProfile(
         locale: locale,
@@ -28,7 +31,7 @@ class ProfileRepository {
           brandId: answers.brandName == null
               ? const Value.absent()
               : const Value('manual'),
-          brandName: Value(answers.brandName),
+          brandName: Value(answers.brandName!.trim()),
           targetMode: Value(answers.targetMode),
           pace: const Value(Pace.standard),
         ),
@@ -36,9 +39,9 @@ class ProfileRepository {
       // Seed the trigger table with the user's selection.
       await _db.delete(_db.trigger).go();
       for (final label in answers.triggers) {
-        await _db.into(_db.trigger).insert(
-              TriggerCompanion.insert(labelKey: label),
-            );
+        await _db
+            .into(_db.trigger)
+            .insert(TriggerCompanion.insert(labelKey: label));
       }
     });
   }
