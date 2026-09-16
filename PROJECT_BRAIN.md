@@ -2,7 +2,7 @@
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
 > **Status:** Üretim hedefi açık; başlangıç doğrulaması uygulandı, T4 kalanlarını tamamla.
-> **Phase:** BUILD · **Next:** T4 · **Updated:** 2026-09-16 · **Synced@:** db4a737
+> **Phase:** BUILD · **Next:** T4 · **Updated:** 2026-09-16 · **Synced@:** e361947
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -213,7 +213,6 @@ web/** # Flutter web iskeleti
 windows/** # Windows geliştirme host'u
 AGENTS.md # brain işaretçisi
 PROJECT_BRAIN.md # tek yetkili protokol/plan
-MIMARI.md # geçiş kaynağı; init sonrası kaldırılacak
 README.md # giriş/kurulum
 PRIVACY_POLICY.md # kullanıcı gizlilik metni
 LICENSE # mevcut kısa lisans bildirimi; T19 açık
@@ -366,6 +365,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-16 | DECISION | Init e361947 sonrası tek ADOPT kaynağı MIMARI.md kaldırıldı;26 açık/kısmi,0 tamamlandı taşındı | Eski belge Git geçmişinden geri alınabilir. README ve AGENTS brain'e yönlenir; ürün kapsamı daraltılmadı. |
 | 2026-09-16 | GOAL-CHANGE | Kullanıcı proje-devralma becerisinin kurallarını açıkça önceliklendirdi | Dosya adı/protokol MIMARI değil skill PROJECT_BRAIN olur; ürün hedefi korunur. |
 | 2026-09-16 | DECISION | MIMARI.md'den 26 açık/kısmi görev devralındı;0 tamamlandı kabul edildi | Eski H kimlikleri T1–T26'da izlenir; eski protokol kopyalanmadı, target ürün amacından yeniden türetildi. |
 | 2026-09-16 | AUDIT | A0:3 kod iddiası doğrulandı; AC1–AC7 görev eşlemesi, ilk5 görev devralma incelemesi yapıldı | Şema7, trial ayrımı, repository guard; brain check FAIL yok. Geçiş boyunca legacy uyarısı bekleniyor; init sonrası kaldırılır. |
@@ -375,7 +375,7 @@ Newest first.
 ## 7. HANDOFF
 
 T4 fiyat/marka/sayı doğrulama db4a737 WIP commit'inde;313 test ve analiz geçti.
-Önce brain check/A0/init, ardından yalnız ADOPT kaynağı MIMARI.md'yi kaldır ve README linklerini düzelt.
+Brain A0/init e361947 tamam; MIMARI kaldırıldı, tek plan bu belge. Sonraki iş T4 ritim/geri gezinme.
 T4 ritim/geri gezinme ve T5 boy/kilo/yıl tamamlanmadı; T2 OS izin durumu açık.
 Başka işlere ait geniş dirty tree korunuyor; yalnız incelenmiş task hunk'ları stage edilir.
 Son remote doğrulama7da72d7; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
