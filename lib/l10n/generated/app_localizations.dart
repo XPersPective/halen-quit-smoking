@@ -100,6 +100,72 @@ abstract class AppLocalizations {
     Locale('tr'),
   ];
 
+  /// No description provided for @quitlineRegion.
+  ///
+  /// In en, this message translates to:
+  /// **'Country/region for support'**
+  String get quitlineRegion;
+
+  /// No description provided for @quitlineHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Services are for the selected region, not emergencies. If your region is missing, ask a local health professional.'**
+  String get quitlineHint;
+
+  /// No description provided for @quitlineOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other region'**
+  String get quitlineOther;
+
+  /// No description provided for @quitlineUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the phone. Number:'**
+  String get quitlineUnavailable;
+
+  /// No description provided for @quitlineCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy number'**
+  String get quitlineCopy;
+
+  /// No description provided for @quitlineTR.
+  ///
+  /// In en, this message translates to:
+  /// **'Türkiye'**
+  String get quitlineTR;
+
+  /// No description provided for @quitlineUS.
+  ///
+  /// In en, this message translates to:
+  /// **'United States'**
+  String get quitlineUS;
+
+  /// No description provided for @quitlineDE.
+  ///
+  /// In en, this message translates to:
+  /// **'Germany'**
+  String get quitlineDE;
+
+  /// No description provided for @quitlineEngland.
+  ///
+  /// In en, this message translates to:
+  /// **'United Kingdom — England'**
+  String get quitlineEngland;
+
+  /// No description provided for @quitlineScotland.
+  ///
+  /// In en, this message translates to:
+  /// **'United Kingdom — Scotland'**
+  String get quitlineScotland;
+
+  /// No description provided for @quitlineWales.
+  ///
+  /// In en, this message translates to:
+  /// **'United Kingdom — Wales'**
+  String get quitlineWales;
+
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:

@@ -10,6 +10,41 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get quitlineRegion => 'Land/Region für Beratung';
+
+  @override
+  String get quitlineHint =>
+      'Die Dienste gelten für die gewählte Region, nicht für Notfälle. Fehlt deine Region, frage eine Fachkraft vor Ort.';
+
+  @override
+  String get quitlineOther => 'Andere Region';
+
+  @override
+  String get quitlineUnavailable =>
+      'Telefon konnte nicht geöffnet werden. Nummer:';
+
+  @override
+  String get quitlineCopy => 'Nummer kopieren';
+
+  @override
+  String get quitlineTR => 'Türkei';
+
+  @override
+  String get quitlineUS => 'USA';
+
+  @override
+  String get quitlineDE => 'Deutschland';
+
+  @override
+  String get quitlineEngland => 'Vereinigtes Königreich — England';
+
+  @override
+  String get quitlineScotland => 'Vereinigtes Königreich — Schottland';
+
+  @override
+  String get quitlineWales => 'Vereinigtes Königreich — Wales';
+
+  @override
   String get appName => 'Halen';
 
   @override

@@ -10,6 +10,40 @@ class AppLocalizationsTr extends AppLocalizations {
   AppLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
+  String get quitlineRegion => 'Destek alacağın ülke/bölge';
+
+  @override
+  String get quitlineHint =>
+      'Hatlar seçilen bölgede hizmet verir; acil yardım hattı değildir. Bölgen listede yoksa yerel sağlık uzmanına danış.';
+
+  @override
+  String get quitlineOther => 'Diğer bölge';
+
+  @override
+  String get quitlineUnavailable => 'Telefon açılamadı. Numara:';
+
+  @override
+  String get quitlineCopy => 'Numarayı kopyala';
+
+  @override
+  String get quitlineTR => 'Türkiye';
+
+  @override
+  String get quitlineUS => 'ABD';
+
+  @override
+  String get quitlineDE => 'Almanya';
+
+  @override
+  String get quitlineEngland => 'Birleşik Krallık — İngiltere';
+
+  @override
+  String get quitlineScotland => 'Birleşik Krallık — İskoçya';
+
+  @override
+  String get quitlineWales => 'Birleşik Krallık — Galler';
+
+  @override
   String get appName => 'Halen';
 
   @override

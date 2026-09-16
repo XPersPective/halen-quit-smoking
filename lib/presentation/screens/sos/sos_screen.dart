@@ -15,8 +15,7 @@ import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/design/halen_components.dart';
 import 'package:halen/presentation/widgets/sos_techniques_list.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
-import 'package:halen/core/theme.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:halen/presentation/widgets/quitline_card.dart';
 
 /// Screen 13: Craving SOS (report §15).
 ///
@@ -106,13 +105,6 @@ class _SosScreenState extends ConsumerState<SosScreen> {
           ),
         ),
       );
-    }
-  }
-
-  Future<void> _callPhone(String number) async {
-    final uri = Uri(scheme: 'tel', path: number);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
     }
   }
 
@@ -327,84 +319,7 @@ class _SosScreenState extends ConsumerState<SosScreen> {
               ),
             ),
             const SizedBox(height: HalenSpace.x3),
-            // Emergency Quitline Dials (1-Tap Call)
-            HalenCard(
-              emphasis: CardEmphasis.raised,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.support_agent_rounded, color: HalenColors.emerald),
-                      const SizedBox(width: HalenSpace.x3),
-                      Expanded(
-                        child: Text(
-                          l10n.helplineTitle,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: HalenSpace.x2),
-                  Text(l10n.helplineBody, style: theme.textTheme.bodyMedium),
-                  const SizedBox(height: HalenSpace.x4),
-                  FilledButton.icon(
-                    onPressed: () => _callPhone('171'),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: HalenColors.emerald,
-                      foregroundColor: Colors.white,
-                      minimumSize: const Size.fromHeight(48),
-                    ),
-                    icon: const Icon(Icons.call, size: 20),
-                    label: Text(l10n.callQuitlineA171),
-                  ),
-                  const SizedBox(height: HalenSpace.x2),
-                  OutlinedButton.icon(
-                    onPressed: () => _callPhone('115'),
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(44),
-                    ),
-                    icon: const Icon(Icons.phone_in_talk, size: 18),
-                    label: Text(l10n.callYedam115),
-                  ),
-                  const SizedBox(height: HalenSpace.x3),
-                  ExpansionTile(
-                    tilePadding: EdgeInsets.zero,
-                    shape: const Border(),
-                    collapsedShape: const Border(),
-                    title: Text(
-                      'Uluslararası Sigara Bırakma Hatları',
-                      style: theme.textTheme.labelMedium,
-                    ),
-                    children: [
-                      ListTile(
-                        dense: true,
-                        leading: const Icon(Icons.flag_outlined, size: 18),
-                        title: Text(l10n.callQuitlineUs),
-                        trailing: const Icon(Icons.call, size: 16),
-                        onTap: () => _callPhone('18007848669'),
-                      ),
-                      ListTile(
-                        dense: true,
-                        leading: const Icon(Icons.flag_outlined, size: 18),
-                        title: Text(l10n.callQuitlineUk),
-                        trailing: const Icon(Icons.call, size: 16),
-                        onTap: () => _callPhone('03001231044'),
-                      ),
-                      ListTile(
-                        dense: true,
-                        leading: const Icon(Icons.flag_outlined, size: 18),
-                        title: Text(l10n.callQuitlineDe),
-                        trailing: const Icon(Icons.call, size: 16),
-                        onTap: () => _callPhone('08008313131'),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            const QuitlineCard(),
             const SizedBox(height: HalenSpace.x6),
           ],
         ),

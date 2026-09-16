@@ -10,6 +10,40 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get quitlineRegion => 'Country/region for support';
+
+  @override
+  String get quitlineHint =>
+      'Services are for the selected region, not emergencies. If your region is missing, ask a local health professional.';
+
+  @override
+  String get quitlineOther => 'Other region';
+
+  @override
+  String get quitlineUnavailable => 'Could not open the phone. Number:';
+
+  @override
+  String get quitlineCopy => 'Copy number';
+
+  @override
+  String get quitlineTR => 'Türkiye';
+
+  @override
+  String get quitlineUS => 'United States';
+
+  @override
+  String get quitlineDE => 'Germany';
+
+  @override
+  String get quitlineEngland => 'United Kingdom — England';
+
+  @override
+  String get quitlineScotland => 'United Kingdom — Scotland';
+
+  @override
+  String get quitlineWales => 'United Kingdom — Wales';
+
+  @override
   String get appName => 'Halen';
 
   @override

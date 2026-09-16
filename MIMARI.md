@@ -144,7 +144,7 @@ iOS imzalı archive ve mağaza sandbox testleri yapılmadan yayın hazır sayıl
 
 Aşağıdaki maddelerin hepsi kapsam dahilidir; AÇIK bir satır uygulandı demek değildir.
 
-### H01 — Ülkeye uygun, yeşil destek hattı [AÇIK]
+### H01 — Ülkeye uygun, yeşil destek hattı [DEVAM; kod ve otomatik testler geçti]
 Sorun: İngilizce arayüzde Türkiye numarası öne çıkıyor. SOS, Ayarlar ve başlangıç
 ekranındaki tüm çağrıları bul; tek ülke kataloğunu kullan. TR ALO171/YEDAM115,
 US/UK/DE hizmetlerini resmi kaynaklarından doğrula, kaynak ve kontrol tarihini yaz.
@@ -152,6 +152,18 @@ US/UK/DE hizmetlerini resmi kaynaklarından doğrula, kaynak ve kontrol tarihini
 atma. Yeşil, en az 48dp dokunma alanı; hata/çevirici yok durumunda numara kopyalama.
 Kanıt: TR/EN/DE ve İngilizce+Türkiye/İngilizce+UK kombinasyon testi; gerçek cihazda
 çevirici açılır ama otomatik arama yapılmaz.
+
+Uygulama kararı: ortak QuitlineCard SOS/Ayarlar/18 yaş altı ekranında kullanılır.
+Seçim mevcut shared_preferences içinde yalnız destek bölgesi olarak tutulur;
+UI dilinden ülke türetilmez. Cihaz TR/US/DE önerilebilir, GB için İngiltere/İskoçya/
+Galler ayrımı kullanıcıya bırakılır. Desteklenmeyen bölgede yerel uzman yönlendirmesi
+gösterilir. 16 Eylül resmi kontrolleri: ALO171 (alo171.saglik.gov.tr), YEDAM115
+(yedam.org.tr/telefon-ile-danismanlik), CDC 1-800-784-8669
+(cdc.gov/tobacco/hcp/patient-care/quitlines-and-other-resources.html), BIÖG
+0800 8 31 31 31 (rauchfrei-info.de/unterstuetzung/telefonberatung/), NHS İngiltere
+0300 123 1044, İskoçya 0800 84 84 84, Galler 0800 085 2219
+(nhs.uk/live-well/quit-smoking/nhs-stop-smoking-services-help-you-quit/).
+Eski "UK NHS" tüm Birleşik Krallık için genellenmez; "Yeşilay 176" kaldırılır.
 
 ### H02 — Bildirim durumu ve geri gezilebilir karşılama [AÇIK]
 Splash/onboarding geçişlerini ve NotificationService çağrılarını incele. Yetki
@@ -377,6 +389,23 @@ import'u transaction içinde geri alınıyor. Önce yeni regresyon testi eski ko
 başarısız oldu, düzeltmeden sonra geçti. İki test DB'si ardışık kapatılıp açılarak
 bu dosyadaki Drift çoklu-instance uyarısı giderildi; global uyarı kapatılmadı.
 H03 UI yerleşimi ve gerçek cihaz import turu henüz doğrulanmadığından DEVAM.
+
+H01 kodu: ortak QuitlineCard, SOS/Ayarlar/18 yaş altı ekranlarında; dil ve ülke
+ayrı, kaydedilmiş bölge cihaz bölgesinden öncelikli, bilinmeyen bölge telefon
+uydurmuyor. Destek düğmeleri yeşil/48dp; tel başarısızsa numara ve kopyala korunur.
+H01'e ait 13 test: TR/EN/DE, US/DE/TR bölgesi, bölgesiz İngilizce, UK bölge seçimi,
+kalıcılık ve 320dp/%150 yazı/açık-koyu tema. Genel test turu: **310 test geçti**;
+flutter analyze --fatal-infos temiz. Diğer görsel test dosyalarında Drift çoklu
+instance uyarıları sürüyor (H23); test başarısı bunları çözmüş sayılmaz.
+Görsel yakalamada bazı düğme metinleri raster çıktıda aralıklı görünmedi; aynı test
+ayrı süreçte bazen doğru çıktı, ek frame ilerletmek de tüm çıktıları düzeltmedi.
+Bu nedenle screenshots/quitline-* dosyaları tanı amaçlıdır, onaylı golden/store
+görseli olarak commit edilmez. Widget ağaç/layout kontrolleri geçse de raster/native
+inceleme AÇIK; gerçek cihaz hatası veya tamamen çözüldü diye etiketlenmez.
+Gerçek Android/iOS çevirici testi henüz yok; H01 bu nedenle DOĞRULANDI değildir.
+H03/H22 önceki commit/push: b1c256634fd71c2966bbbbd1bdb77046fd61d189;
+HEAD ve origin/master hash'leri eşleşti. H01 yalnız kendi localization/index
+hunk'larıyla commit edilir; önceki About/metin değişiklikleri bu commit'e alınmaz.
 
 ## 5. Resmi kaynaklar
 

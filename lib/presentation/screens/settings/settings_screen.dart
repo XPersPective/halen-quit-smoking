@@ -16,6 +16,7 @@ import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/model_settings_section.dart';
 import 'package:halen/presentation/widgets/pack_settings_section.dart';
+import 'package:halen/presentation/widgets/quitline_card.dart';
 import '../../../core/design/tokens.dart';
 
 /// Reads a JSON backup chosen by the user (file picker stays local-only).
@@ -316,7 +317,7 @@ class SettingsScreen extends ConsumerWidget {
                       const SizedBox(height: HalenSpace.x1),
                       Text(l10n.settingsDisclaimer),
                       const SizedBox(height: HalenSpace.x2),
-                      Text(l10n.settingsHelplines),
+                      const QuitlineCard(),
                       const SizedBox(height: HalenSpace.x1),
                       Text(l10n.settingsPrivacy),
                     ],
