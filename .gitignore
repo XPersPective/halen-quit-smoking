@@ -1,6 +1,7 @@
 # Miscellaneous
 *.class
 *.lock
+!pubspec.lock
 *.log
 *.pyc
 *.swp
@@ -118,8 +119,10 @@ app.*.symbols
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
 
-# A stray release APK from an early build.
-Halen-v1.0.0-release.apk
+# Store/build artifacts are not source files.
+*.apk
+*.aab
+*.ipa
 
 # Built APKs. Kept out of git deliberately: an 80 MB binary per build turns a
 # source repository into an artefact store, and the CI/store pipeline is where

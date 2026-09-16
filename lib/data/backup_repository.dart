@@ -152,7 +152,6 @@ class BackupRepository {
         'theme': settings.theme.name,
         'reduceMotion': settings.reduceMotion,
         'haptics': settings.haptics,
-        'trialStartedAt': settings.trialStartedAt?.toIso8601String(),
       },
     };
   }
@@ -195,38 +194,52 @@ class BackupRepository {
       if (user != null) {
         await _db.profileDao.saveUserProfile(
           locale: user['locale'] as String? ?? 'en',
-          ageBand: enumByName(AgeBand.values, user['ageBand'] as String,),
+          ageBand: enumByName(AgeBand.values, user['ageBand'] as String),
         );
       }
       final profile = data['smokingProfile'] as Map<String, dynamic>?;
       if (profile != null) {
-        await _db.profileDao.saveSmokingProfile(SmokingProfileCompanion(
-          baselineCpd: Value(profile['baselineCpd'] as int),
-          ttfcBand: Value(enumByName(TtfcBand.values, profile['ttfcBand'] as String)),
-          pricePerPack: Value((profile['pricePerPack'] as num).toDouble()),
-          packSize: Value(profile['packSize'] as int),
-          brandId: Value(profile['brandId'] as String?),
-          brandName: Value(profile['brandName'] as String?),
-          targetMode: Value(enumByName(TargetMode.values, profile['targetMode'] as String)),
-          pace: Value(enumByName(Pace.values, profile['pace'] as String)),
-          startedAt: Value(
-              DateTime.parse(profile['startedAt'] as String)),
-        ));
+        await _db.profileDao.saveSmokingProfile(
+          SmokingProfileCompanion(
+            baselineCpd: Value(profile['baselineCpd'] as int),
+            ttfcBand: Value(
+              enumByName(TtfcBand.values, profile['ttfcBand'] as String),
+            ),
+            pricePerPack: Value((profile['pricePerPack'] as num).toDouble()),
+            packSize: Value(profile['packSize'] as int),
+            brandId: Value(profile['brandId'] as String?),
+            brandName: Value(profile['brandName'] as String?),
+            targetMode: Value(
+              enumByName(TargetMode.values, profile['targetMode'] as String),
+            ),
+            pace: Value(enumByName(Pace.values, profile['pace'] as String)),
+            startedAt: Value(DateTime.parse(profile['startedAt'] as String)),
+          ),
+        );
       }
 
       for (final e in (data['cigaretteEvents'] as List? ?? []).cast<Map>()) {
-        await _db.recordDao.insertEvent(CigaretteEventCompanion.insert(
-          ts: DateTime.parse(e['ts'] as String),
-          source: enumByName(RecordSource.values, e['source'] as String),
-          triggerLabel: Value(enumByNameOrNull(TriggerLabel.values, e['triggerLabel'] as String?)),
-          mood: Value(e['mood'] as String?),
-          context: Value(e['context'] as String?),
-          planDay: Value(e['planDay'] as String?),
-        ));
+        await _db.recordDao.insertEvent(
+          CigaretteEventCompanion.insert(
+            ts: DateTime.parse(e['ts'] as String),
+            source: enumByName(RecordSource.values, e['source'] as String),
+            triggerLabel: Value(
+              enumByNameOrNull(
+                TriggerLabel.values,
+                e['triggerLabel'] as String?,
+              ),
+            ),
+            mood: Value(e['mood'] as String?),
+            context: Value(e['context'] as String?),
+            planDay: Value(e['planDay'] as String?),
+          ),
+        );
       }
 
       for (final p in (data['cigaretteProducts'] as List? ?? []).cast<Map>()) {
-        await _db.into(_db.cigaretteProduct).insert(
+        await _db
+            .into(_db.cigaretteProduct)
+            .insert(
               CigaretteProductCompanion.insert(
                 barcode: p['barcode'] as String,
                 brand: p['brand'] as String,
@@ -241,75 +254,102 @@ class BackupRepository {
       }
 
       for (final p in (data['dailyPlans'] as List? ?? []).cast<Map>()) {
-        await _db.planDao.upsertPlan(DailyPlanCompanion.insert(
-          date: p['date'] as String,
-          targetCount: p['targetCount'] as int,
-          phase: enumByName(PlanPhase.values, p['phase'] as String),
-          tempo: enumByName(Pace.values, p['tempo'] as String),
-          windowsJson: Value(p['windowsJson'] as String? ?? '[]'),
-          quitDate: Value(p['quitDate'] as String?),
-        ));
+        await _db.planDao.upsertPlan(
+          DailyPlanCompanion.insert(
+            date: p['date'] as String,
+            targetCount: p['targetCount'] as int,
+            phase: enumByName(PlanPhase.values, p['phase'] as String),
+            tempo: enumByName(Pace.values, p['tempo'] as String),
+            windowsJson: Value(p['windowsJson'] as String? ?? '[]'),
+            quitDate: Value(p['quitDate'] as String?),
+          ),
+        );
       }
 
       for (final a in (data['planAdjustments'] as List? ?? []).cast<Map>()) {
-        await _db.planDao.insertAdjustment(PlanAdjustmentCompanion.insert(
-          date: a['date'] as String,
-          reason: enumByName(AdjustmentReason.values, a['reason'] as String),
-          fromCount: a['fromCount'] as int,
-          toCount: a['toCount'] as int,
-          messageKey: a['messageKey'] as String,
-        ));
+        await _db.planDao.insertAdjustment(
+          PlanAdjustmentCompanion.insert(
+            date: a['date'] as String,
+            reason: enumByName(AdjustmentReason.values, a['reason'] as String),
+            fromCount: a['fromCount'] as int,
+            toCount: a['toCount'] as int,
+            messageKey: a['messageKey'] as String,
+          ),
+        );
       }
 
       for (final t in (data['triggers'] as List? ?? []).cast<Map>()) {
-        await _db.into(_db.trigger).insert(
+        await _db
+            .into(_db.trigger)
+            .insert(
               TriggerCompanion.insert(
-                labelKey: enumByName(TriggerLabel.values, t['labelKey'] as String),
+                labelKey: enumByName(
+                  TriggerLabel.values,
+                  t['labelKey'] as String,
+                ),
                 custom: Value(t['custom'] as String?),
               ),
             );
       }
 
       for (final c in (data['cravingEvents'] as List? ?? []).cast<Map>()) {
-        await _db.cravingDao.insertCraving(CravingEventCompanion.insert(
-          ts: DateTime.parse(c['ts'] as String),
-          intensity: CravingIntensity.values[c['intensity'] as int],
-          triggerLabel: Value(enumByNameOrNull(TriggerLabel.values, c['triggerLabel'] as String?)),
-          outcome: enumByName(CravingOutcome.values, c['outcome'] as String),
-        ));
+        await _db.cravingDao.insertCraving(
+          CravingEventCompanion.insert(
+            ts: DateTime.parse(c['ts'] as String),
+            intensity: CravingIntensity.values[c['intensity'] as int],
+            triggerLabel: Value(
+              enumByNameOrNull(
+                TriggerLabel.values,
+                c['triggerLabel'] as String?,
+              ),
+            ),
+            outcome: enumByName(CravingOutcome.values, c['outcome'] as String),
+          ),
+        );
       }
 
       for (final s in (data['dailySummaries'] as List? ?? []).cast<Map>()) {
-        await _db.statsDao.upsertSummary(DailySummaryCompanion.insert(
-          date: s['date'] as String,
-          count: s['count'] as int,
-          planTarget: Value(s['planTarget'] as int?),
-          adherence: Value((s['adherence'] as num?)?.toDouble()),
-          savings: Value((s['savings'] as num?)?.toDouble() ?? 0),
-          avoidedCount: Value((s['avoidedCount'] as int?) ?? 0),
-          resistedCount: Value((s['resistedCount'] as int?) ?? 0),
-          firstTs: Value(_dateOrNull(s['firstTs'] as String?)),
-          lastTs: Value(_dateOrNull(s['lastTs'] as String?)),
-          minGapMinutes: Value(s['minGapMinutes'] as int?),
-        ));
+        await _db.statsDao.upsertSummary(
+          DailySummaryCompanion.insert(
+            date: s['date'] as String,
+            count: s['count'] as int,
+            planTarget: Value(s['planTarget'] as int?),
+            adherence: Value((s['adherence'] as num?)?.toDouble()),
+            savings: Value((s['savings'] as num?)?.toDouble() ?? 0),
+            avoidedCount: Value((s['avoidedCount'] as int?) ?? 0),
+            resistedCount: Value((s['resistedCount'] as int?) ?? 0),
+            firstTs: Value(_dateOrNull(s['firstTs'] as String?)),
+            lastTs: Value(_dateOrNull(s['lastTs'] as String?)),
+            minGapMinutes: Value(s['minGapMinutes'] as int?),
+          ),
+        );
       }
 
       final timeline = data['timeline'] as Map<String, dynamic>?;
       if (timeline != null) {
         await _db.timelineDao.setQuitTs(
-            _dateOrNull(timeline['quitTs'] as String?));
+          _dateOrNull(timeline['quitTs'] as String?),
+        );
       }
       final settings = data['settings'] as Map<String, dynamic>?;
       if (settings != null) {
-        await _db.settingsDao.updateSettings(SettingsCompanion(
-          notifLevel: Value(enumByName(
-              NotificationDensity.values, settings['notifLevel'] as String)),
-          theme: Value(enumByName(ThemeOption.values, settings['theme'] as String)),
-          reduceMotion: Value(settings['reduceMotion'] as bool? ?? false),
-          haptics: Value(settings['haptics'] as bool? ?? true),
-          trialStartedAt:
-              Value(_dateOrNull(settings['trialStartedAt'] as String?)),
-        ));
+        await _db.settingsDao.updateSettings(
+          SettingsCompanion(
+            notifLevel: Value(
+              enumByName(
+                NotificationDensity.values,
+                settings['notifLevel'] as String,
+              ),
+            ),
+            theme: Value(
+              enumByName(ThemeOption.values, settings['theme'] as String),
+            ),
+            reduceMotion: Value(settings['reduceMotion'] as bool? ?? false),
+            haptics: Value(settings['haptics'] as bool? ?? true),
+            // Trial and purchases belong to this installation/store, never JSON.
+            // Ignore legacy trialStartedAt fields, including malformed values.
+          ),
+        );
       }
     });
 
