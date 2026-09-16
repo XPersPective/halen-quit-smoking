@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** Üretim hedefi açık; başlangıç doğrulaması uygulandı, T4 kalanlarını tamamla.
-> **Phase:** BUILD · **Next:** T4 · **Updated:** 2026-09-16 · **Synced@:** e361947
+> **Status:** T4 ilk-adım geri dönüşü düzeldi; ritim girdisi ve mobil gezinme denetimi açık.
+> **Phase:** BUILD · **Next:** T4 · **Updated:** 2026-09-16 · **Synced@:** 2544080
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -182,13 +182,15 @@ Hedef doğrudan kullanıcı akışından türetilir:
 - `lib/data/db/app_database.dart:71`: schemaVersion7. Yeni paralel profil gereksiz.
 - `lib/domain/onboarding.dart:OnboardingAnswers`, `lib/data/repositories/profile_repository.dart`:
   sayı/marka sınırları ve transaction öncesi guard; mevcut8 adım fiyat/marka Form'u.
+  T4 geri dönüş düzeltmesi: welcome replacement ile kaldırıldığı için ilk adımda
+  pop yoksa welcome yeniden açılır; aynı Riverpod cevap durumu korunur.
 - `lib/data/backup_repository.dart`: trialStartedAt export/import kaldırıldı;5 test geçti.
   Yeni kişisel tabloların hepsi aktarılmıyor; veri silme kapsamı eksik olabilir.
 - `lib/presentation/widgets/quitline_card.dart`: kayıtlı bölge/cihaz bölgesi,TR/US/DE/UK
   alt bölgeleri;3 ekran ortak. Native arama ve aralıklı raster görünmezlik henüz açık.
 - `lib/data/purchase_service.dart`: mevcut store entegrasyonu restore/async güvenlik denetimi
   bekliyor; callback kriptografik doğrulama kanıtı değil. Tam reklam entegrasyonu yok.
-- 2026-09-16 güncel çalışma ağacı:313 test geçti; fatal-info analiz temiz.
+- 2026-09-16 güncel çalışma ağacı:314 test geçti; fatal-info analiz temiz.
   `test/widget/design_capture_test.dart` Drift çoklu-instance uyarıları var.
   Bu sonuçlar imzalı mobil build veya tüm AC'lerin kanıtı değildir.
 GAP: başlangıç izin/ritim/beden/geri akışı → T2,T4,T5,T6.
@@ -365,6 +367,8 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-16 | AUDIT | A1 + T4 alt-akış A2: ilk adım Back regresyonu önce0 welcome bularak başarısız, düzeltmeden sonra geçti; tam314 test ve analiz temiz | Splash replacement kök neden; Navigator root ise splash replacement, mevcut stack varsa pop.23 adetlik cevap geri dönüşte korundu. T4 bütünü kapanmadı. |
+| 2026-09-16 | DECISION | T4 ritim için mevcut PlanState.intervalMinutes akışı incelendi | TaperController.runDailyStep başlangıç değerini kullanıyor. Yeni kişisel ritim verisini doğrulanmış başlangıç olarak bağlamadan yalnız gösterim ekleme; T26 yedeğine de dahil et. |
 | 2026-09-16 | DECISION | Init e361947 sonrası tek ADOPT kaynağı MIMARI.md kaldırıldı;26 açık/kısmi,0 tamamlandı taşındı | Eski belge Git geçmişinden geri alınabilir. README ve AGENTS brain'e yönlenir; ürün kapsamı daraltılmadı. |
 | 2026-09-16 | GOAL-CHANGE | Kullanıcı proje-devralma becerisinin kurallarını açıkça önceliklendirdi | Dosya adı/protokol MIMARI değil skill PROJECT_BRAIN olur; ürün hedefi korunur. |
 | 2026-09-16 | DECISION | MIMARI.md'den 26 açık/kısmi görev devralındı;0 tamamlandı kabul edildi | Eski H kimlikleri T1–T26'da izlenir; eski protokol kopyalanmadı, target ürün amacından yeniden türetildi. |
@@ -374,10 +378,10 @@ Newest first.
 
 ## 7. HANDOFF
 
-T4 fiyat/marka/sayı doğrulama db4a737 WIP commit'inde;313 test ve analiz geçti.
-Brain A0/init e361947 tamam; MIMARI kaldırıldı, tek plan bu belge. Sonraki iş T4 ritim/geri gezinme.
-T4 ritim/geri gezinme ve T5 boy/kilo/yıl tamamlanmadı; T2 OS izin durumu açık.
+T4 fiyat/marka/sayı db4a737; ilk-adım Back düzeltmesi bu commit'te;314 test ve analiz geçti.
+Sonraki: T4 günlük ritim sorusunu controller→repository→PlanState/TaperController zincirine bağla, kötü girdi/kalıcılık testi ekle.
+T4 native sistem-geri/görsel kontrol, T5 boy/kilo/yıl ve T2 OS izin durumu açık; task kapatılmadı.
 Başka işlere ait geniş dirty tree korunuyor; yalnız incelenmiş task hunk'ları stage edilir.
-Son remote doğrulama7da72d7; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
+Son remote doğrulama2544080; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
 
 Mağaza taslağı geçmiş referansı: 7da72d7:MIMARI.md §6; T25 yeniden yazar, eski iddialar yayımlanmaz.

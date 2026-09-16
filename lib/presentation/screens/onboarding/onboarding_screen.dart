@@ -91,7 +91,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _back() async {
     if (_busy) return;
     if (_step == 0) {
-      Navigator.maybePop(context);
+      final navigator = Navigator.of(context);
+      if (navigator.canPop()) {
+        navigator.pop();
+      } else {
+        navigator.pushReplacementNamed(Routes.splash);
+      }
       return;
     }
     setState(() => _busy = true);

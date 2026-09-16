@@ -4,6 +4,8 @@ import 'package:halen/data/db/app_database.dart';
 import 'package:halen/data/db/connection.dart';
 import 'package:halen/domain/cessation.dart';
 import 'package:halen/domain/entities.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:halen/application/onboarding_controller.dart';
 
 import '../helpers/pump_app.dart';
 
@@ -16,6 +18,29 @@ void main() {
 
   tearDown(() async {
     await db.close();
+  });
+
+  testWidgets('first-step Back returns to welcome and preserves answers', (
+    tester,
+  ) async {
+    await pumpHalenApp(tester, database: db);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.widgetWithText(FilledButton, 'Start'));
+    await tester.tap(find.widgetWithText(FilledButton, 'Start'));
+    await tester.pumpAndSettle();
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(Scaffold).first),
+    );
+    container.read(onboardingControllerProvider.notifier).setBaseline(23);
+    await tester.tap(find.widgetWithText(OutlinedButton, 'Back'));
+    await tester.pumpAndSettle();
+    expect(find.text('Welcome to Halen'), findsOneWidget);
+    await tester.ensureVisible(find.widgetWithText(FilledButton, 'Start'));
+    await tester.tap(find.widgetWithText(FilledButton, 'Start'));
+    await tester.pumpAndSettle();
+    await _next(tester);
+    expect(find.text('23'), findsOneWidget);
+    await disposeApp(tester);
   });
 
   testWidgets('onboarding walks 8 steps and creates the smoking profile', (
