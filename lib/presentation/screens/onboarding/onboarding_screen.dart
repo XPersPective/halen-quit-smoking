@@ -114,87 +114,95 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.obStepOf(_step + 1, _stepCount)),
-        leading: BackButton(onPressed: _back),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 4, 24, 12),
-              child: Semantics(
-                label: l10n.obStepOf(_step + 1, _stepCount),
-                child: Row(
-                  children: [
-                    for (var i = 0; i < _stepCount; i++)
-                      Expanded(
-                        child: Container(
-                          height: 4,
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: HalenSpace.x1,
-                          ),
-                          decoration: BoxDecoration(
-                            color: i <= _step
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.outline,
-                            borderRadius: BorderRadius.circular(4),
+    return PopScope<void>(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _back();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.obStepOf(_step + 1, _stepCount)),
+          leading: BackButton(onPressed: _back),
+        ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 4, 24, 12),
+                child: Semantics(
+                  label: l10n.obStepOf(_step + 1, _stepCount),
+                  child: Row(
+                    children: [
+                      for (var i = 0; i < _stepCount; i++)
+                        Expanded(
+                          child: Container(
+                            height: 4,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: HalenSpace.x1,
+                            ),
+                            decoration: BoxDecoration(
+                              color: i <= _step
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.outline,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
                           ),
                         ),
-                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    const _AgeStep(),
+                    const _DailyCountStep(),
+                    const _TtfcStep(),
+                    Form(key: _priceForm, child: const _PriceStep()),
+                    const _TriggersStep(),
+                    const _GoalStep(),
+                    const _WhyStep(),
+                    Form(key: _brandForm, child: const _BrandStep()),
                   ],
                 ),
               ),
-            ),
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  const _AgeStep(),
-                  const _DailyCountStep(),
-                  const _TtfcStep(),
-                  Form(key: _priceForm, child: const _PriceStep()),
-                  const _TriggersStep(),
-                  const _GoalStep(),
-                  const _WhyStep(),
-                  Form(key: _brandForm, child: const _BrandStep()),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(HalenSpace.x4),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: _back,
-                      child: Text(l10n.commonBack),
-                    ),
-                  ),
-                  const SizedBox(width: HalenSpace.x4),
-                  Expanded(
-                    flex: 2,
-                    child: FilledButton(
-                      onPressed: _busy ? null : _next,
-                      style: FilledButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.tertiary,
-                        foregroundColor: Theme.of(context)
-                            .colorScheme
-                            .onTertiary,
-                      ),
-                      child: Text(
-                        _step == _stepCount - 1
-                            ? l10n.obFinish
-                            : l10n.commonNext,
+              Padding(
+                padding: const EdgeInsets.all(HalenSpace.x4),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: _back,
+                        child: Text(l10n.commonBack),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: HalenSpace.x4),
+                    Expanded(
+                      flex: 2,
+                      child: FilledButton(
+                        onPressed: _busy ? null : _next,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .tertiary,
+                          foregroundColor: Theme.of(context)
+                              .colorScheme
+                              .onTertiary,
+                        ),
+                        child: Text(
+                          _step == _stepCount - 1
+                              ? l10n.obFinish
+                              : l10n.commonNext,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

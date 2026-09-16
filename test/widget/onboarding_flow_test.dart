@@ -43,6 +43,33 @@ void main() {
     await disposeApp(tester);
   });
 
+  testWidgets('system Back follows steps and retains price before welcome', (
+    tester,
+  ) async {
+    await pumpHalenApp(tester, database: db);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.widgetWithText(FilledButton, 'Start'));
+    await tester.tap(find.widgetWithText(FilledButton, 'Start'));
+    await tester.pumpAndSettle();
+    for (var i = 0; i < 3; i++) {
+      await _next(tester);
+    }
+    await tester.enterText(find.byType(TextFormField).first, '12,50');
+    tester.testTextInput.hide();
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    expect(find.text('Step 3 of 8'), findsOneWidget);
+    await _next(tester);
+    expect(find.text('12,50'), findsOneWidget);
+    for (var i = 0; i < 4; i++) {
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+    }
+    expect(find.text('Welcome to Halen'), findsOneWidget);
+    expect(await db.profileDao.getSmokingProfile(), isNull);
+    await disposeApp(tester);
+  });
+
   testWidgets('onboarding walks 8 steps and creates the smoking profile', (
     tester,
   ) async {
