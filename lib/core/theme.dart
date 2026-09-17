@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'design/typography.dart';
 
@@ -168,6 +169,9 @@ class HalenTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       ),
       appBarTheme: AppBarTheme(
+        systemOverlayStyle: isLight
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light,
         backgroundColor: Colors.transparent,
         foregroundColor: isLight ? HalenColors.textLight : HalenColors.textDark,
         centerTitle: false,

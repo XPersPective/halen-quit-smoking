@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:halen/core/theme.dart';
+
+void main() {
+  testWidgets(
+    'transparent app bar keeps readable status icons in both themes',
+    (tester) async {
+      for (final brightness in [
+        Brightness.light,
+        Brightness.dark,
+        Brightness.light,
+      ]) {
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: brightness == Brightness.light
+                ? HalenTheme.light()
+                : HalenTheme.dark(),
+            home: Scaffold(appBar: AppBar(title: const Text('Halen'))),
+          ),
+        );
+        await tester.pumpAndSettle();
+        final overlay = tester
+            .widget<AnnotatedRegion<SystemUiOverlayStyle>>(
+              find.descendant(
+                of: find.byType(AppBar),
+                matching: find.byType(AnnotatedRegion<SystemUiOverlayStyle>),
+              ),
+            )
+            .value;
+        expect(
+          overlay.statusBarIconBrightness,
+          brightness == Brightness.light ? Brightness.dark : Brightness.light,
+        );
+        expect(overlay.statusBarBrightness, brightness);
+      }
+    },
+  );
+}

@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T23.2 Android mevcut/temiz profilde açıldı; temiz profilde ESP hatası yok, eski migration incelemesi açık.
-> **Phase:** BUILD · **Next:** T23.1 · **Updated:** 2026-09-17 · **Synced@:** e62194d
+> **Status:** T18.1 durum çubuğu kontrastı Android'de doğrulandı; bildirim etiketi ve koyu native tur açık.
+> **Phase:** BUILD · **Next:** T18.1 · **Updated:** 2026-09-17 · **Synced@:** 11b85d4
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -197,7 +197,7 @@ Hedef doğrudan kullanıcı akışından türetilir:
   alt bölgeleri;3 ekran ortak. Native arama ve aralıklı raster görünmezlik henüz açık.
 - `lib/data/purchase_service.dart`: mevcut store entegrasyonu restore/async güvenlik denetimi
   bekliyor; callback kriptografik doğrulama kanıtı değil. Tam reklam entegrasyonu yok.
-- 2026-09-17 güncel çalışma ağacı:324 test geçti; fatal-info analiz temiz.
+- 2026-09-17 güncel çalışma ağacı:325 test geçti; fatal-info analiz temiz.
   `test/widget/design_capture_test.dart` Drift çoklu-instance uyarıları var.
   Bu sonuçlar imzalı mobil build veya tüm AC'lerin kanıtı değildir.
 - 2026-09-17: `flutter run -d emulator-5554 --debug --no-resident` başarılı;
@@ -377,13 +377,14 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) BackupRepository eski tabloları aktarırken yeni mood/support/cessation/pack/settings alanlarını kapsamıyor; wipe de tüm kişisel tabloları silmiyor olabilir. Şema ile export/import/delete listesini satır satır eşleştir. Format migration/geri uyumluluk, referans bütünlüğü ve tüm kişisel verinin silinmesini kanıtla. Satın alma/trial yedek dışında kalır. Bozuk dosyada kısmi silme olmaz; backup'ın düz metin olduğu açıklanır. Kanıt: bütün yeni alanlarda round-trip, tüm kişisel tablo temizliği, rollback.
   - Done when: `flutter test test/data/backup_repository_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
 
-- [ ] T18.1 [M] Emülatörde görülen kontrast ve bildirim etiketi
+- [~] T18.1 [M] Emülatörde görülen kontrast ve bildirim etiketi (claimed 2026-09-17)
   - Where: `lib/core/theme.dart; lib/core/design/**; lib/presentation/screens/settings/settings_screen.dart; test/widget/design_layout_test.dart`
   - Do: Açık temada Grafikler/Plan/Rehber/SOS/Ayarlar durum çubuğunun beyaz ikonlarını ortak tema/overlay kökünde düzelt; Ayarlar bildirim yoğunluğu seçicisinde Türkçe Standart kelimesi iki satıra bölünmesin, büyük yazıda seçenekler erişilebilir kalsın. Mevcut tema çağrılarını bul, sayfa başına kopya stil ekleme.
   - Done when: TR/EN/DE küçük ekran ve 1.6× yazı testleri geçer; Android16 açık/koyu ekran görüntülerinde durum çubuğu okunur, Standart kırpılmaz/bölünmez ve seçim çalışır.
   - Note: from A1 native smoke 2026-09-17; yerel `.dart_tool/halen-graphs.png` ve `halen-settings.png`.
 
-- [~] T23.1 [H] Android güvenli depolama açılış hatasını veri kaybetmeden incele (claimed 2026-09-17)
+- [ ] T23.1 [H] Android güvenli depolama açılış hatasını veri kaybetmeden incele
+  - Note: 2026-09-17 güvenli ara; korumalar ve mevcut/temiz açılış kanıtlandı, eski sürüm migration matrisi açık. Hata susturmak için veri silinmez; gözlenen T18.1 görsel kusuruna geçildi.
   - Where: `lib/data/secure_key_store.dart; lib/data/db_opener.dart; android/app/src/main/res/xml/**; test/data/**`
   - Do: Güncel debug kurulumu sonrası FlutterSecureStorage EncryptedSharedPreferences initialization failed / Could not decrypt key / fallback günlüğünü kaynak sürümü ve eski kurulum durumuyla incele. Anahtar değerlerini/loglarını dışarı çıkarma; veriyi/keystore'u silerek hatayı gizleme. Mevcut DB anahtarını koruyan davranışı ve anahtar yoksa boş DB yaratmama gereksinimini doğrula; gerekirse küçük kök-neden düzeltmesi yap.
   - Done when: Eski kurulumdan yükseltme ve temiz kurulum ayrı emülatör senaryolarında kanıtlı; mevcut DB okunur, anahtar kaybı veri üstüne yazmaz; regresyon testi ve log incelemesi geçer. Fallback'in güvenli olduğu kanıtlanmadan kapatma.
@@ -399,6 +400,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-17 | AUDIT | T18.1 kontrast alt-akışı: ortak AppBarTheme systemOverlayStyle tema parlaklığına bağlandı; açık→koyu→açık widget testi, tam325 test ve fatal-info analiz temiz | Şeffaf AppBar'ın otomatik seçimi açık zeminde beyaz ikon üretiyordu. Android16 güncel debug kurulumu sonrası Grafikler açık tema koyu ikonları .dart_tool/halen-overlay2.png ile görüldü. Koyu native kontrol ve Standart etiketi henüz açık; görev kapanmadı. Eski kişisel kayıtlar değiştirilmedi, PNG Git dışında. |
 | 2026-09-17 | AUDIT | T23.1/T23.2 native karşılaştırma: aynı debug APK user0 ve yeni Halen-QA/user10 üzerinde açıldı | APK SHA256 235cde961fe531a13b823afc55df8c04124a115455e0419683f1e90bb20d0178. User0 PID2909 mevcut profil; user10 PID4062 temiz veride Welcome ve Step1→Android Back→Welcome PNG'lerle doğrulandı (.dart_tool/halen-clean3.png,halen-step1.png,halen-back.png). User10 günlüğü No data found in EncryptedSharedPreferences, decrypt/Flutter fatal hatası yok. Plugin10.3.2 initialize içindeki eski ESP yoklaması catch sonrası custom cipher deposuna devam ediyor; user0 eski ESP verisinin neden çözülemediği ve eski sürüm migration matrisi hâlâ açık. Hiçbir veri/key silinmedi, key içeriği okunmadı; işlem sonunda am get-current-user=0. Halen-QA10 sonraki testler için bırakıldı. Kod değişmedi; son tam324 test sonucu geçerli, bu tur tekrar koşulmadı. |
 | 2026-09-17 | AUDIT | T23.2 A2: yanlış key/bozuk DB testleri önce hata üretmediği için başarısız, eager sorgu sonrası geçti; hata ekranı testindeki home-/ assertion ve DB ayar erişimi düzeldi |3 gerçek SQLCipher dosya testi +1 widget testi; aynı şifreli dosyanın baytları korunur ve doğru key ile tekrar açılır. Tüm çağrılar main/db_opener; hata cleanup finally ile orijinal stack korunur. İkinci güvenlik self-review tamamlandı, tam324 test/fatal-info analiz temiz. İlk tam testin1622 öncesi süreç tutamacı kaybolduğu için sonuç varsayılmadı, tekrar çalıştırıldı. app.dart yalnız ilgili hunk'lar stage edildi; About değişiklikleri dışarıda. |
 | 2026-09-17 | AUDIT | T23.1 alt-düzeltme A2:5 secure-key testi, tam320 test, fatal-info analiz temiz; çağrıların tamamı ve ikinci güvenlik self-review yapıldı | resetOnError native kanala false gider; ilk kurulum 64-hex anahtarı bir kez yazar; mevcut DB null/boş key veya platform okuma hatası yazma/silme yapmaz. Android16 yeniden derleme/güncelleme/PID32307 mevcut profille Bugün açıldı; .dart_tool/halen-keyguard.png gözlendi. APK SHA256 acb3c7d6d4f201ad4b016eac1cf35157826c0993ee637125bc6762d93b6a8fee. ESP fallback hatası hâlâ var: T23.1 kapanmadı. Yeni bağımlılık, veri temizleme veya key çıktısı yok. |
@@ -416,10 +418,10 @@ Newest first.
 
 ## 7. HANDOFF
 
-T23.2 e62194d Android16 mevcut/temiz profilde açıldı; son tam324 test/analiz temiz, bu tur kod değişmedi.
-Sonraki: T23.1 eski ESP migration incelemesi; temiz user10'da decrypt hatası yok. Geçmiş key/DB silerek düzeltme yapma.
-Emülatör Halen-QA user10 test için hazır; Start→Step1→Back geçti. Aktif kullanıcı0'a geri dönüldü; iki profil korundu.
-T4 ritim/8 adımlı native tur, T18.1 görsel ve T5 beden girdileri açık;75 dirty dosya ve yerel PNG'ler korunuyor.
-Remotee62194d önceki doğrulama; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
+T18.1 ortak durum çubuğu kontrastı bu commit'te;325 test/analiz temiz, Android açık tema görüntüsü doğrulandı.
+Sonraki: T18.1 bildirim Standart etiketinin dar/geniş yazı düzeni ve koyu native kontrast testi.
+Halen-QA user10 test için hazır; aktif kullanıcı0. Kişisel kayıtlar/PNG Git'e girmez; .dart_tool/halen-overlay2.png yerel kanıt.
+T23.1 eski ESP migration, T4 ritim/8 adımlı native tur ve T5 beden girdileri açık; diğer dirty dosyalar korunuyor.
+Remote11b85d4 önceki doğrulama; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
 
 Mağaza taslağı geçmiş referansı: 7da72d7:MIMARI.md §6; T25 yeniden yazar, eski iddialar yayımlanmaz.
