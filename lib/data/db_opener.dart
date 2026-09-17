@@ -25,7 +25,9 @@ Future<AppDatabase> openHalenDatabase() async {
   final dbFile = File('${dir.path}/halen.db');
   await BackupExclusion.excludeFromBackup(dir.path);
 
-  final key = await SecureKeyStore().getOrCreateKey();
+  final key = await SecureKeyStore().getOrCreateKey(
+    databaseExists: await dbFile.exists(),
+  );
   final executor = openEncryptedDatabase(dbFile, key);
   return AppDatabase(executor);
 }
