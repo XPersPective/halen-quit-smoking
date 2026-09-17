@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T4 sistem geri tuşu adımlara bağlandı; ritim girdisi ve gerçek cihaz denetimi açık.
-> **Phase:** BUILD · **Next:** T4 · **Updated:** 2026-09-16 · **Synced@:** 23b3ff2
+> **Status:** Android16 emülatörde güncel debug açıldı; ilk görsel/gezinme turu yapıldı, bulgular T18.1/T23.1.
+> **Phase:** BUILD · **Next:** T4 · **Updated:** 2026-09-17 · **Synced@:** 752c45b
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -194,6 +194,11 @@ Hedef doğrudan kullanıcı akışından türetilir:
 - 2026-09-16 güncel çalışma ağacı:315 test geçti; fatal-info analiz temiz.
   `test/widget/design_capture_test.dart` Drift çoklu-instance uyarıları var.
   Bu sonuçlar imzalı mobil build veya tüm AC'lerin kanıtı değildir.
+- 2026-09-17: `flutter run -d emulator-5554 --debug --no-resident` başarılı;
+  Android16/API36 x64,1080×1920 üzerinde mevcut profil silinmeden açıldı.
+  Bugün/Grafikler/Plan/Rehber/SOS/Ayarlar ekranları gözlendi; SOS→Ayarlar→Android Back
+  ikinci kontrollü denemede SOS sekmesini korudu. İlk turdaki beklenmeyen Grafikler dönüşü
+  tekrar üretilemedi; tüm gezinme doğrulandı sayılmaz. Onboarding native turu henüz yapılmadı.
 GAP: başlangıç izin/ritim/beden/geri akışı → T2,T4,T5,T6.
 GAP: görsel ve kullanıcı akışı kapsamı → T1,T7–T18.
 GAP: yedek, hukuk, ödeme, reklam ve release kanıtı → T3,T19–T26.
@@ -362,12 +367,25 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) BackupRepository eski tabloları aktarırken yeni mood/support/cessation/pack/settings alanlarını kapsamıyor; wipe de tüm kişisel tabloları silmiyor olabilir. Şema ile export/import/delete listesini satır satır eşleştir. Format migration/geri uyumluluk, referans bütünlüğü ve tüm kişisel verinin silinmesini kanıtla. Satın alma/trial yedek dışında kalır. Bozuk dosyada kısmi silme olmaz; backup'ın düz metin olduğu açıklanır. Kanıt: bütün yeni alanlarda round-trip, tüm kişisel tablo temizliği, rollback.
   - Done when: `flutter test test/data/backup_repository_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
 
+- [ ] T18.1 [M] Emülatörde görülen kontrast ve bildirim etiketi
+  - Where: `lib/core/theme.dart; lib/core/design/**; lib/presentation/screens/settings/settings_screen.dart; test/widget/design_layout_test.dart`
+  - Do: Açık temada Grafikler/Plan/Rehber/SOS/Ayarlar durum çubuğunun beyaz ikonlarını ortak tema/overlay kökünde düzelt; Ayarlar bildirim yoğunluğu seçicisinde Türkçe Standart kelimesi iki satıra bölünmesin, büyük yazıda seçenekler erişilebilir kalsın. Mevcut tema çağrılarını bul, sayfa başına kopya stil ekleme.
+  - Done when: TR/EN/DE küçük ekran ve 1.6× yazı testleri geçer; Android16 açık/koyu ekran görüntülerinde durum çubuğu okunur, Standart kırpılmaz/bölünmez ve seçim çalışır.
+  - Note: from A1 native smoke 2026-09-17; yerel `.dart_tool/halen-graphs.png` ve `halen-settings.png`.
+
+- [ ] T23.1 [H] Android güvenli depolama açılış hatasını veri kaybetmeden incele
+  - Where: `lib/data/secure_key_store.dart; lib/data/db_opener.dart; android/app/src/main/res/xml/**; test/data/**`
+  - Do: Güncel debug kurulumu sonrası FlutterSecureStorage EncryptedSharedPreferences initialization failed / Could not decrypt key / fallback günlüğünü kaynak sürümü ve eski kurulum durumuyla incele. Anahtar değerlerini/loglarını dışarı çıkarma; veriyi/keystore'u silerek hatayı gizleme. Mevcut DB anahtarını koruyan davranışı ve anahtar yoksa boş DB yaratmama gereksinimini doğrula; gerekirse küçük kök-neden düzeltmesi yap.
+  - Done when: Eski kurulumdan yükseltme ve temiz kurulum ayrı emülatör senaryolarında kanıtlı; mevcut DB okunur, anahtar kaybı veri üstüne yazmaz; regresyon testi ve log incelemesi geçer. Fallback'in güvenli olduğu kanıtlanmadan kapatma.
+  - Note: from A1 native smoke 2026-09-17; PID31443 açılış günlüğü. Hata sonrası mevcut profil görüntülendi, bunun sebebi henüz belirlenmedi.
+
 ## 6. DECISION LOG
 
 Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-17 | AUDIT | T23 native smoke: Android16 API36 emulator-5554, güncel dirty tree debug derlendi/kuruldu;6 ekran gözlemi, SOS→Ayarlar→Back kontrollü dönüş geçti | APK SHA256 275bffa68b2351cd4857bbde8dab96fabedbfae0554182bffaec5f53a1a6bc4a. PID31443 filtresinde Flutter exception/RenderFlex/fatal crash gözlenmedi; secure-storage hata/fallback T23.1, durum çubuğu/Standart etiketi T18.1. home_widget KGP uyarısı T23'te açık. Geçici PNG'ler .dart_tool/halen-{smoke,graphs,plan,guide,sos,settings}.png; mevcut profil içeriği Git'e eklenmedi. Bu emülatör turu tüm özellikler/iOS/yayın kanıtı değildir. |
 | 2026-09-16 | AUDIT | A1:314 test geçti; T4 sistem-geri alt-akışı A2: regresyon önce Step3 bulunamadığı için başarısız, PopScope sonrası geçti; tam315 test ve fatal-info analiz temiz | OS geri olayı ekran _back metoduna bağlı değildi. Test fiyat adımı→TTFC→fiyat metni korunumu→welcome ve profil oluşmamasını doğrular. Diff yalnız bu akış/test/brain; T4 açık, native iOS swipe ve Android cihaz kanıtı henüz yok. |
 | 2026-09-16 | AUDIT | A1 + T4 alt-akış A2: ilk adım Back regresyonu önce0 welcome bularak başarısız, düzeltmeden sonra geçti; tam314 test ve analiz temiz | Splash replacement kök neden; Navigator root ise splash replacement, mevcut stack varsa pop.23 adetlik cevap geri dönüşte korundu. T4 bütünü kapanmadı. |
 | 2026-09-16 | DECISION | T4 ritim için mevcut PlanState.intervalMinutes akışı incelendi | TaperController.runDailyStep başlangıç değerini kullanıyor. Yeni kişisel ritim verisini doğrulanmış başlangıç olarak bağlamadan yalnız gösterim ekleme; T26 yedeğine de dahil et. |
@@ -380,10 +398,10 @@ Newest first.
 
 ## 7. HANDOFF
 
-T4 fiyat/marka/sayı db4a737; ilk-adım Back23b3ff2; sistem-geri bu commit'te;315 test ve analiz geçti.
-Sonraki: T4 günlük ritim sorusunu controller→repository→PlanState/TaperController zincirine bağla, kötü girdi/kalıcılık testi ekle.
-T4 native sistem-geri/görsel kontrol, T5 boy/kilo/yıl ve T2 OS izin durumu açık; task kapatılmadı.
-Başka işlere ait geniş dirty tree korunuyor; yalnız incelenmiş task hunk'ları stage edilir.
-Son remote doğrulama23b3ff2; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
+T4 sistem-geri752c45b; son otomatik315 test/analiz temiz.17 Eylül mevcut dirty tree debug Android16 emülatörde açıldı.
+Sonraki: T4 günlük ritim girdisi/kalıcılık; mevcut profil silinmediğinden native onboarding henüz doğrulanmadı.
+Native6 ekran + SOS→Ayarlar→Back gözlendi; T18.1 görsel ve T23.1 güvenli depolama bulguları açık.
+75 dosyalık diğer dirty tree korunuyor; test PNG'leri .dart_tool altında yerel, kişisel içerik Git'e eklenmez.
+Remote752c45b doğrulandı; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
 
 Mağaza taslağı geçmiş referansı: 7da72d7:MIMARI.md §6; T25 yeniden yazar, eski iddialar yayımlanmaz.
