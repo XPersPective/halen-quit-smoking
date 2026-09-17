@@ -29,5 +29,17 @@ Future<AppDatabase> openHalenDatabase() async {
     databaseExists: await dbFile.exists(),
   );
   final executor = openEncryptedDatabase(dbFile, key);
-  return AppDatabase(executor);
+  final database = AppDatabase(executor);
+  try {
+    // Drift opens lazily. Read encrypted schema pages now so main's startup
+    // error handler sees key, corruption and migration failures.
+    await database.customSelect('SELECT count(*) FROM sqlite_master').get();
+    return database;
+  } catch (error, stack) {
+    try {
+      await database.close();
+    } finally {
+      Error.throwWithStackTrace(error, stack);
+    }
+  }
 }

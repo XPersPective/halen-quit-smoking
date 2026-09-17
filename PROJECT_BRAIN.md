@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T23.1 anahtar kaybı koruması test edildi; Android mevcut profil açılıyor, eski ESP hatası hâlâ açık.
-> **Phase:** BUILD · **Next:** T23.1 · **Updated:** 2026-09-17 · **Synced@:** cef24fe
+> **Status:** T23.2 gerçek DB açılışı ve hata ekranı düzeltildi; T23.1 eski ESP hatası hâlâ açık.
+> **Phase:** BUILD · **Next:** T23.1 · **Updated:** 2026-09-17 · **Synced@:** 37c6149
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -189,12 +189,15 @@ Hedef doğrudan kullanıcı akışından türetilir:
   Yeni kişisel tabloların hepsi aktarılmıyor; veri silme kapsamı eksik olabilir.
 - `lib/data/secure_key_store.dart`: Android resetOnError=false; db_opener dosya varlığını
   zorunlu databaseExists argümanıyla iletir. Mevcut DB için eksik/boş anahtar yeni anahtar
-  yazmadan StateError verir; native okuma hatası yayılır.5 kanal testi; T23.2 lazy açılış açık.
+  yazmadan StateError verir; native okuma hatası yayılır.5 kanal testi.
+- `lib/data/db_opener.dart`: dönüşten önce sqlite_master okunur; bozuk DB/yanlış key
+  hatası main'e ulaşır, başarısız bağlantı kapatılır. `lib/app.dart` hata ekranında DB
+  ayarlarını okumaz ve home ile / rotasını çakıştırmaz.3 gerçek SQLCipher +1 widget testi.
 - `lib/presentation/widgets/quitline_card.dart`: kayıtlı bölge/cihaz bölgesi,TR/US/DE/UK
   alt bölgeleri;3 ekran ortak. Native arama ve aralıklı raster görünmezlik henüz açık.
 - `lib/data/purchase_service.dart`: mevcut store entegrasyonu restore/async güvenlik denetimi
   bekliyor; callback kriptografik doğrulama kanıtı değil. Tam reklam entegrasyonu yok.
-- 2026-09-17 güncel çalışma ağacı:320 test geçti; fatal-info analiz temiz.
+- 2026-09-17 güncel çalışma ağacı:324 test geçti; fatal-info analiz temiz.
   `test/widget/design_capture_test.dart` Drift çoklu-instance uyarıları var.
   Bu sonuçlar imzalı mobil build veya tüm AC'lerin kanıtı değildir.
 - 2026-09-17: `flutter run -d emulator-5554 --debug --no-resident` başarılı;
@@ -383,11 +386,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: Eski kurulumdan yükseltme ve temiz kurulum ayrı emülatör senaryolarında kanıtlı; mevcut DB okunur, anahtar kaybı veri üstüne yazmaz; regresyon testi ve log incelemesi geçer. Fallback'in güvenli olduğu kanıtlanmadan kapatma.
   - Note: from A1 native smoke 2026-09-17; PID31443 açılış günlüğü. Hata sonrası mevcut profil görüntülendi, bunun sebebi henüz belirlenmedi.
 
-- [ ] T23.2 [H] Veritabanı açılışını hata ekranından önce gerçekten doğrula
-  - Where: `lib/data/db_opener.dart; lib/data/db/connection.dart; lib/main.dart; test/data/**`
-  - Do: openHalenDatabase yalnız lazy AppDatabase oluşturuyor; ilk gerçek SQL sorgusu main try/catch sonrasında çalışabiliyor. Anahtar/şema/SQLCipher açılış hatası normal ekranlara ulaşmadan yakalansın; başarısız executor kapatılsın, orijinal hata kaybolmasın. Mevcut hata ekranını yeniden kullan.
-  - Done when: Yanlış anahtar ve bozuk DB testinde startup hata yolu çalışır, dosya değişmez; geçerli DB ve temiz kurulum açılır; test/analiz geçer.
-  - Note: from T23.1 kod incelemesi; mevcut AppDatabase(executor) dönüşü başarı kanıtı değil.
+- [x] T23.2 [H] Veritabanı açılışını hata ekranından önce gerçekten doğrula (2026-09-17, GPT-5)
+  - Done when: `flutter test test/data/db_opener_test.dart test/widget/startup_failure_test.dart` yanlış anahtar/bozuk dosyada açılış hatasını, değişmeyen dosya baytlarını, geçerli/temiz DB ve DB okumayan hata ekranını kanıtlar; tam324 test ve analiz geçti.
+  - Note: T23.1 içindeki açılış güvenliği alt-işi. Yerel SQLCipher dosyalarıyla red→green; Android eski ESP migration sorunu bununla kapanmaz.
 
 ## 6. DECISION LOG
 
@@ -395,6 +396,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-17 | AUDIT | T23.2 A2: yanlış key/bozuk DB testleri önce hata üretmediği için başarısız, eager sorgu sonrası geçti; hata ekranı testindeki home-/ assertion ve DB ayar erişimi düzeldi |3 gerçek SQLCipher dosya testi +1 widget testi; aynı şifreli dosyanın baytları korunur ve doğru key ile tekrar açılır. Tüm çağrılar main/db_opener; hata cleanup finally ile orijinal stack korunur. İkinci güvenlik self-review tamamlandı, tam324 test/fatal-info analiz temiz. İlk tam testin1622 öncesi süreç tutamacı kaybolduğu için sonuç varsayılmadı, tekrar çalıştırıldı. app.dart yalnız ilgili hunk'lar stage edildi; About değişiklikleri dışarıda. |
 | 2026-09-17 | AUDIT | T23.1 alt-düzeltme A2:5 secure-key testi, tam320 test, fatal-info analiz temiz; çağrıların tamamı ve ikinci güvenlik self-review yapıldı | resetOnError native kanala false gider; ilk kurulum 64-hex anahtarı bir kez yazar; mevcut DB null/boş key veya platform okuma hatası yazma/silme yapmaz. Android16 yeniden derleme/güncelleme/PID32307 mevcut profille Bugün açıldı; .dart_tool/halen-keyguard.png gözlendi. APK SHA256 acb3c7d6d4f201ad4b016eac1cf35157826c0993ee637125bc6762d93b6a8fee. ESP fallback hatası hâlâ var: T23.1 kapanmadı. Yeni bağımlılık, veri temizleme veya key çıktısı yok. |
 | 2026-09-17 | DECISION | T4 güvenli ara, T23.1 veri güvenliği önce | flutter_secure_storage10.3.2 AndroidOptions resetOnError varsayılan true; yerel paket kaynağı otomatik veri silme davranışını belgeliyor. Açılışta mevcut DB varsa eksik anahtara yenisini yazmamak gerekiyor. ESP fallback Java catch ayrı davranış; bu koruma eski ESP hatasını çözdü diye raporlanmaz. Lazy DB açılışı ayrı T23.2. |
 | 2026-09-17 | AUDIT | T23 native smoke: Android16 API36 emulator-5554, güncel dirty tree debug derlendi/kuruldu;6 ekran gözlemi, SOS→Ayarlar→Back kontrollü dönüş geçti | APK SHA256 275bffa68b2351cd4857bbde8dab96fabedbfae0554182bffaec5f53a1a6bc4a. PID31443 filtresinde Flutter exception/RenderFlex/fatal crash gözlenmedi; secure-storage hata/fallback T23.1, durum çubuğu/Standart etiketi T18.1. home_widget KGP uyarısı T23'te açık. Geçici PNG'ler .dart_tool/halen-{smoke,graphs,plan,guide,sos,settings}.png; mevcut profil içeriği Git'e eklenmedi. Bu emülatör turu tüm özellikler/iOS/yayın kanıtı değildir. |
@@ -410,10 +412,10 @@ Newest first.
 
 ## 7. HANDOFF
 
-T23.1 anahtar kaybı koruması bu commit'te;5 yeni test, tam320 test/analiz temiz; Android16 güncelleme sonrası mevcut profil açıldı.
-Sonraki: ESP fallback kaynak/migration incelemesi ve veri silmeden izole temiz kurulum; T23.2 lazy DB açılışı ayrıca açık.
+T23.1 key koruması37c6149; T23.2 DB açılış/hata ekranı bu commit'te; tam324 test/analiz temiz.
+Sonraki: T23.1 ESP fallback kaynak/migration incelemesi ve veri silmeden izole temiz kurulum. Yeni T23.2 kodu emülatöre henüz kurulmadı.
 T4 ritim girdisi/native onboarding güvenli arada; T18.1 görsel bulgular ve T5 beden girdileri açık.
 Diğer75 dirty dosya korunuyor; kişisel içerikli PNG/key/DB Git'e eklenmez. Yerel görüntü .dart_tool/halen-keyguard.png.
-Remotecef24fe önceki doğrulama; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
+Remote37c6149 önceki doğrulama; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
 
 Mağaza taslağı geçmiş referansı: 7da72d7:MIMARI.md §6; T25 yeniden yazar, eski iddialar yayımlanmaz.

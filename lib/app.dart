@@ -51,8 +51,10 @@ class HalenApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeOption = ref.watch(themeOptionProvider);
-    final localeOverride = ref.watch(storedLocaleProvider);
+    final themeOption = databaseFailed
+        ? ThemeOption.system
+        : ref.watch(themeOptionProvider);
+    final localeOverride = databaseFailed ? null : ref.watch(storedLocaleProvider);
     return _LifecycleTracker(
       databaseFailed: databaseFailed,
       child: MaterialApp(
@@ -94,7 +96,7 @@ class HalenApp extends ConsumerWidget {
             )
           : null,
       initialRoute: databaseFailed ? null : Routes.splash,
-      routes: {
+      routes: databaseFailed ? const {} : {
         Routes.splash: (_) => const SplashScreen(),
         Routes.onboarding: (_) => const OnboardingScreen(),
         Routes.onboardingResult: (_) => const OnboardingResultScreen(),
