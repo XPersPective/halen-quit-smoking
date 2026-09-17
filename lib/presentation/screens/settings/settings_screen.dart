@@ -44,6 +44,12 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final settingsAsync = ref.watch(settingsProvider);
+    final densityLabels = {
+      NotificationDensity.calm: l10n.notifDensityCalm,
+      NotificationDensity.standard: l10n.notifDensityStandard,
+      NotificationDensity.intense: l10n.notifDensityIntense,
+      NotificationDensity.off: l10n.notifDensityOff,
+    };
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
@@ -57,46 +63,37 @@ class SettingsScreen extends ConsumerWidget {
               Text(l10n.settingsNotifications,
                   style: theme.textTheme.titleMedium),
               const SizedBox(height: HalenSpace.x2),
-              SegmentedButton<NotificationDensity>(
-                segments: [
-                  ButtonSegment(
-                    value: NotificationDensity.calm,
-                    label: Text(l10n.notifDensityCalm),
-                  ),
-                  ButtonSegment(
-                    value: NotificationDensity.standard,
-                    label: Text(l10n.notifDensityStandard),
-                  ),
-                  ButtonSegment(
-                    value: NotificationDensity.intense,
-                    label: Text(l10n.notifDensityIntense),
-                  ),
-                  ButtonSegment(
-                    value: NotificationDensity.off,
-                    label: Text(l10n.notifDensityOff),
-                  ),
+              Wrap(
+                spacing: HalenSpace.x2,
+                runSpacing: HalenSpace.x2,
+                children: [
+                  for (final entry in densityLabels.entries)
+                    ChoiceChip(
+                      label: Text(entry.value),
+                      selected: settings.notifLevel == entry.key,
+                      onSelected: (selected) async {
+                        if (!selected) return;
+                        final density = entry.key;
+                        final localeCode =
+                            Localizations.localeOf(context).languageCode;
+                        await updateSetting(
+                          ref,
+                          SettingsCompanion(notifLevel: Value(density)),
+                        );
+                        if (density != NotificationDensity.off) {
+                          await ref
+                              .read(notificationServiceProvider)
+                              .requestPermission();
+                        }
+                        await ref
+                            .read(notificationServiceProvider)
+                            .applyDensity(
+                              density,
+                              texts: notificationTextsFor(localeCode),
+                            );
+                      },
+                    ),
                 ],
-                selected: {settings.notifLevel},
-                onSelectionChanged: (selection) async {
-                  final density = selection.first;
-                  final localeCode =
-                      Localizations.localeOf(context).languageCode;
-                  await updateSetting(
-                    ref,
-                    SettingsCompanion(notifLevel: Value(density)),
-                  );
-                  if (density != NotificationDensity.off) {
-                    await ref
-                        .read(notificationServiceProvider)
-                        .requestPermission();
-                  }
-                  await ref
-                      .read(notificationServiceProvider)
-                      .applyDensity(
-                        density,
-                        texts: notificationTextsFor(localeCode),
-                      );
-                },
               ),
               // Planned-time reminders default OFF (report §20: spam risk).
               SwitchListTile(

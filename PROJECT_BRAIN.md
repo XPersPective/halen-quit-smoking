@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T18.1 durum çubuğu kontrastı Android'de doğrulandı; bildirim etiketi ve koyu native tur açık.
-> **Phase:** BUILD · **Next:** T18.1 · **Updated:** 2026-09-17 · **Synced@:** 11b85d4
+> **Status:** T18.1 bildirim etiketleri üç dil/büyük yazıda düzeltildi; yeni düzen ve koyu tema native kontrolü açık.
+> **Phase:** BUILD · **Next:** T18.1 · **Updated:** 2026-09-17 · **Synced@:** ba277ab
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -197,7 +197,9 @@ Hedef doğrudan kullanıcı akışından türetilir:
   alt bölgeleri;3 ekran ortak. Native arama ve aralıklı raster görünmezlik henüz açık.
 - `lib/data/purchase_service.dart`: mevcut store entegrasyonu restore/async güvenlik denetimi
   bekliyor; callback kriptografik doğrulama kanıtı değil. Tam reklam entegrasyonu yok.
-- 2026-09-17 güncel çalışma ağacı:325 test geçti; fatal-info analiz temiz.
+- `settings_screen.dart`: bildirim yoğunluğu Wrap/ChoiceChip; dar alanda sözcük bölmek
+  yerine seçenek alt satıra geçer, aynı kaydetme/NotificationService akışı korunur.
+- 2026-09-17 güncel çalışma ağacı:331 test geçti; fatal-info analiz temiz.
   `test/widget/design_capture_test.dart` Drift çoklu-instance uyarıları var.
   Bu sonuçlar imzalı mobil build veya tüm AC'lerin kanıtı değildir.
 - 2026-09-17: `flutter run -d emulator-5554 --debug --no-resident` başarılı;
@@ -400,6 +402,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-17 | AUDIT | T18.1 bildirim düzeni alt-akışı: TR/EN/DE ×1.0/1.6 yazı,320dp üzerinde6 test geçti; tam331 test ve fatal-info analiz temiz | RenderParagraph seçim kutusu her etiket için tek satır kanıtı; Kapalı seçimi DB ve sahte NotificationService'de doğrulandı. Sabit dört sütun yerine Wrap/ChoiceChip kullanıldı; yeni bağımlılık yok. appAbout hunk'ı commit dışında. Native yeni seçim düzeni/koyu kontrast hâlâ açık, görev kapatılmadı. |
 | 2026-09-17 | AUDIT | T18.1 kontrast alt-akışı: ortak AppBarTheme systemOverlayStyle tema parlaklığına bağlandı; açık→koyu→açık widget testi, tam325 test ve fatal-info analiz temiz | Şeffaf AppBar'ın otomatik seçimi açık zeminde beyaz ikon üretiyordu. Android16 güncel debug kurulumu sonrası Grafikler açık tema koyu ikonları .dart_tool/halen-overlay2.png ile görüldü. Koyu native kontrol ve Standart etiketi henüz açık; görev kapanmadı. Eski kişisel kayıtlar değiştirilmedi, PNG Git dışında. |
 | 2026-09-17 | AUDIT | T23.1/T23.2 native karşılaştırma: aynı debug APK user0 ve yeni Halen-QA/user10 üzerinde açıldı | APK SHA256 235cde961fe531a13b823afc55df8c04124a115455e0419683f1e90bb20d0178. User0 PID2909 mevcut profil; user10 PID4062 temiz veride Welcome ve Step1→Android Back→Welcome PNG'lerle doğrulandı (.dart_tool/halen-clean3.png,halen-step1.png,halen-back.png). User10 günlüğü No data found in EncryptedSharedPreferences, decrypt/Flutter fatal hatası yok. Plugin10.3.2 initialize içindeki eski ESP yoklaması catch sonrası custom cipher deposuna devam ediyor; user0 eski ESP verisinin neden çözülemediği ve eski sürüm migration matrisi hâlâ açık. Hiçbir veri/key silinmedi, key içeriği okunmadı; işlem sonunda am get-current-user=0. Halen-QA10 sonraki testler için bırakıldı. Kod değişmedi; son tam324 test sonucu geçerli, bu tur tekrar koşulmadı. |
 | 2026-09-17 | AUDIT | T23.2 A2: yanlış key/bozuk DB testleri önce hata üretmediği için başarısız, eager sorgu sonrası geçti; hata ekranı testindeki home-/ assertion ve DB ayar erişimi düzeldi |3 gerçek SQLCipher dosya testi +1 widget testi; aynı şifreli dosyanın baytları korunur ve doğru key ile tekrar açılır. Tüm çağrılar main/db_opener; hata cleanup finally ile orijinal stack korunur. İkinci güvenlik self-review tamamlandı, tam324 test/fatal-info analiz temiz. İlk tam testin1622 öncesi süreç tutamacı kaybolduğu için sonuç varsayılmadı, tekrar çalıştırıldı. app.dart yalnız ilgili hunk'lar stage edildi; About değişiklikleri dışarıda. |
@@ -418,10 +421,10 @@ Newest first.
 
 ## 7. HANDOFF
 
-T18.1 ortak durum çubuğu kontrastı bu commit'te;325 test/analiz temiz, Android açık tema görüntüsü doğrulandı.
-Sonraki: T18.1 bildirim Standart etiketinin dar/geniş yazı düzeni ve koyu native kontrast testi.
+T18.1 durum çubuğu ba277ab; bildirim seçenekleri bu commit'te;331 test/analiz temiz. Yeni seçim düzeni henüz emülatöre kurulmadı.
+Sonraki: güncel debug kur/Android açık-koyu Ayarlar ve bildirim seçenekleri native görsel/seçim doğrulaması; sonra T18.1 kapat.
 Halen-QA user10 test için hazır; aktif kullanıcı0. Kişisel kayıtlar/PNG Git'e girmez; .dart_tool/halen-overlay2.png yerel kanıt.
 T23.1 eski ESP migration, T4 ritim/8 adımlı native tur ve T5 beden girdileri açık; diğer dirty dosyalar korunuyor.
-Remote11b85d4 önceki doğrulama; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
+Remoteba277ab önceki doğrulama; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
 
 Mağaza taslağı geçmiş referansı: 7da72d7:MIMARI.md §6; T25 yeniden yazar, eski iddialar yayımlanmaz.
