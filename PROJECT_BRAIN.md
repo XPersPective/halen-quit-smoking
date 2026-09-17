@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T23.2 gerçek DB açılışı ve hata ekranı düzeltildi; T23.1 eski ESP hatası hâlâ açık.
-> **Phase:** BUILD · **Next:** T23.1 · **Updated:** 2026-09-17 · **Synced@:** 37c6149
+> **Status:** T23.2 Android mevcut/temiz profilde açıldı; temiz profilde ESP hatası yok, eski migration incelemesi açık.
+> **Phase:** BUILD · **Next:** T23.1 · **Updated:** 2026-09-17 · **Synced@:** e62194d
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -205,6 +205,9 @@ Hedef doğrudan kullanıcı akışından türetilir:
   Bugün/Grafikler/Plan/Rehber/SOS/Ayarlar ekranları gözlendi; SOS→Ayarlar→Android Back
   ikinci kontrollü denemede SOS sekmesini korudu. İlk turdaki beklenmeyen Grafikler dönüşü
   tekrar üretilemedi; tüm gezinme doğrulandı sayılmaz. Onboarding native turu henüz yapılmadı.
+  Sonraki native doğrulama: e62194d+mevcut dirty tree aynı Android16'da user0 mevcut
+  profille Bugün, izole Halen-QA/user10 temiz veride Welcome açıldı. User10'da
+  Start→Step1→KEYCODE_BACK→Welcome gözlendi;8 adımlık tam tur hâlâ açık.
 GAP: başlangıç izin/ritim/beden/geri akışı → T2,T4,T5,T6.
 GAP: görsel ve kullanıcı akışı kapsamı → T1,T7–T18.
 GAP: yedek, hukuk, ödeme, reklam ve release kanıtı → T3,T19–T26.
@@ -396,6 +399,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-17 | AUDIT | T23.1/T23.2 native karşılaştırma: aynı debug APK user0 ve yeni Halen-QA/user10 üzerinde açıldı | APK SHA256 235cde961fe531a13b823afc55df8c04124a115455e0419683f1e90bb20d0178. User0 PID2909 mevcut profil; user10 PID4062 temiz veride Welcome ve Step1→Android Back→Welcome PNG'lerle doğrulandı (.dart_tool/halen-clean3.png,halen-step1.png,halen-back.png). User10 günlüğü No data found in EncryptedSharedPreferences, decrypt/Flutter fatal hatası yok. Plugin10.3.2 initialize içindeki eski ESP yoklaması catch sonrası custom cipher deposuna devam ediyor; user0 eski ESP verisinin neden çözülemediği ve eski sürüm migration matrisi hâlâ açık. Hiçbir veri/key silinmedi, key içeriği okunmadı; işlem sonunda am get-current-user=0. Halen-QA10 sonraki testler için bırakıldı. Kod değişmedi; son tam324 test sonucu geçerli, bu tur tekrar koşulmadı. |
 | 2026-09-17 | AUDIT | T23.2 A2: yanlış key/bozuk DB testleri önce hata üretmediği için başarısız, eager sorgu sonrası geçti; hata ekranı testindeki home-/ assertion ve DB ayar erişimi düzeldi |3 gerçek SQLCipher dosya testi +1 widget testi; aynı şifreli dosyanın baytları korunur ve doğru key ile tekrar açılır. Tüm çağrılar main/db_opener; hata cleanup finally ile orijinal stack korunur. İkinci güvenlik self-review tamamlandı, tam324 test/fatal-info analiz temiz. İlk tam testin1622 öncesi süreç tutamacı kaybolduğu için sonuç varsayılmadı, tekrar çalıştırıldı. app.dart yalnız ilgili hunk'lar stage edildi; About değişiklikleri dışarıda. |
 | 2026-09-17 | AUDIT | T23.1 alt-düzeltme A2:5 secure-key testi, tam320 test, fatal-info analiz temiz; çağrıların tamamı ve ikinci güvenlik self-review yapıldı | resetOnError native kanala false gider; ilk kurulum 64-hex anahtarı bir kez yazar; mevcut DB null/boş key veya platform okuma hatası yazma/silme yapmaz. Android16 yeniden derleme/güncelleme/PID32307 mevcut profille Bugün açıldı; .dart_tool/halen-keyguard.png gözlendi. APK SHA256 acb3c7d6d4f201ad4b016eac1cf35157826c0993ee637125bc6762d93b6a8fee. ESP fallback hatası hâlâ var: T23.1 kapanmadı. Yeni bağımlılık, veri temizleme veya key çıktısı yok. |
 | 2026-09-17 | DECISION | T4 güvenli ara, T23.1 veri güvenliği önce | flutter_secure_storage10.3.2 AndroidOptions resetOnError varsayılan true; yerel paket kaynağı otomatik veri silme davranışını belgeliyor. Açılışta mevcut DB varsa eksik anahtara yenisini yazmamak gerekiyor. ESP fallback Java catch ayrı davranış; bu koruma eski ESP hatasını çözdü diye raporlanmaz. Lazy DB açılışı ayrı T23.2. |
@@ -412,10 +416,10 @@ Newest first.
 
 ## 7. HANDOFF
 
-T23.1 key koruması37c6149; T23.2 DB açılış/hata ekranı bu commit'te; tam324 test/analiz temiz.
-Sonraki: T23.1 ESP fallback kaynak/migration incelemesi ve veri silmeden izole temiz kurulum. Yeni T23.2 kodu emülatöre henüz kurulmadı.
-T4 ritim girdisi/native onboarding güvenli arada; T18.1 görsel bulgular ve T5 beden girdileri açık.
-Diğer75 dirty dosya korunuyor; kişisel içerikli PNG/key/DB Git'e eklenmez. Yerel görüntü .dart_tool/halen-keyguard.png.
-Remote37c6149 önceki doğrulama; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
+T23.2 e62194d Android16 mevcut/temiz profilde açıldı; son tam324 test/analiz temiz, bu tur kod değişmedi.
+Sonraki: T23.1 eski ESP migration incelemesi; temiz user10'da decrypt hatası yok. Geçmiş key/DB silerek düzeltme yapma.
+Emülatör Halen-QA user10 test için hazır; Start→Step1→Back geçti. Aktif kullanıcı0'a geri dönüldü; iki profil korundu.
+T4 ritim/8 adımlı native tur, T18.1 görsel ve T5 beden girdileri açık;75 dirty dosya ve yerel PNG'ler korunuyor.
+Remotee62194d önceki doğrulama; iOS/ödeme/reklam hesap kapıları T20–T25, hedef BUILD.
 
 Mağaza taslağı geçmiş referansı: 7da72d7:MIMARI.md §6; T25 yeniden yazar, eski iddialar yayımlanmaz.
