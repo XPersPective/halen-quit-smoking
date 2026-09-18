@@ -15,6 +15,7 @@ import 'package:halen/data/db/app_database.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/model_settings_section.dart';
+import 'package:halen/presentation/widgets/notification_permission_card.dart';
 import 'package:halen/presentation/widgets/pack_settings_section.dart';
 import 'package:halen/presentation/widgets/quitline_card.dart';
 import '../../../core/design/tokens.dart';
@@ -63,6 +64,10 @@ class SettingsScreen extends ConsumerWidget {
               Text(l10n.settingsNotifications,
                   style: theme.textTheme.titleMedium),
               const SizedBox(height: HalenSpace.x2),
+              // OS truth first: granted/denied + settings shortcut, re-read
+              // on every resume (brain T2).
+              const NotificationPermissionCard(),
+              const SizedBox(height: HalenSpace.x3),
               Wrap(
                 spacing: HalenSpace.x2,
                 runSpacing: HalenSpace.x2,
@@ -100,6 +105,32 @@ class SettingsScreen extends ConsumerWidget {
                 value: false,
                 onChanged: null,
                 title: Text(l10n.notifPlanReminder),
+              ),
+              // The trial nudge is a marketing reminder, so it has its own
+              // preference — never implied by the density choice (brain T2).
+              SwitchListTile(
+                value: settings.trialNudge,
+                title: Text(l10n.notifTrialNudge),
+                subtitle: Text(l10n.notifTrialNudgeHint),
+                onChanged: (on) async {
+                  final service = ref.read(notificationServiceProvider);
+                  final texts = notificationTextsFor(
+                    Localizations.localeOf(context).languageCode,
+                  );
+                  await updateSetting(
+                    ref,
+                    SettingsCompanion(trialNudge: Value(on)),
+                  );
+                  final startedAt = settings.trialStartedAt;
+                  if (on && startedAt != null) {
+                    await service.scheduleTrialReminder(
+                      trialStartedAt: startedAt,
+                      texts: texts,
+                    );
+                  } else {
+                    await service.cancelTrialReminder();
+                  }
+                },
               ),
               const SizedBox(height: HalenSpace.x4),
               Text(l10n.settingsAppearance,

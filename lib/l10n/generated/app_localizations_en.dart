@@ -760,6 +760,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifPlanReminder => 'Planned time approaching';
 
   @override
+  String get notifPermissionOn => 'Notifications are on';
+
+  @override
+  String get notifPermissionOffExplainer =>
+      'Notifications are off, so no reminders will arrive. You can allow them here or use the app without them — nothing else changes.';
+
+  @override
+  String get notifOpenSystemSettings => 'Open system settings';
+
+  @override
+  String get notifTrialNudge => 'Trial reminder';
+
+  @override
+  String get notifTrialNudgeHint =>
+      'One gentle note on day 5, before the trial ends. Off unless you ask for it.';
+
+  @override
   String get notifQuitSupport => 'Quit-day support (first 72 hours)';
 
   @override
@@ -994,7 +1011,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallTimelineReminderDesc =>
-      'A gentle reminder to review your options before the trial ends.';
+      'Optional: one gentle reminder on day 5 if you turn on \"Trial reminder\" in Settings.';
 
   @override
   String get paywallTimelineBilling => 'Day 7';

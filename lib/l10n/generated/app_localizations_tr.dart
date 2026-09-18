@@ -757,6 +757,23 @@ class AppLocalizationsTr extends AppLocalizations {
   String get notifPlanReminder => 'Planlanan saat yaklaşıyor';
 
   @override
+  String get notifPermissionOn => 'Bildirimler açık';
+
+  @override
+  String get notifPermissionOffExplainer =>
+      'Bildirimler kapalı; hatırlatma gelmez. Buradan izin verebilirsin ya da uygulamayı bildirimsiz kullanabilirsin — başka hiçbir şey değişmez.';
+
+  @override
+  String get notifOpenSystemSettings => 'Sistem ayarlarını aç';
+
+  @override
+  String get notifTrialNudge => 'Deneme hatırlatması';
+
+  @override
+  String get notifTrialNudgeHint =>
+      'Deneme bitmeden, 5. günde tek bir nazik hatırlatma. Sen istemedikçe kapalı.';
+
+  @override
   String get notifQuitSupport => 'Bırakma günü desteği (ilk 72 saat)';
 
   @override
@@ -991,7 +1008,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallTimelineReminderDesc =>
-      'Deneme bitmeden seçeneklerini değerlendirebilmen için nazik hatırlatma.';
+      'İsteğe bağlı: Ayarlar\'dan \"Deneme hatırlatması\"nı açarsan 5. günde tek bir nazik hatırlatma.';
 
   @override
   String get paywallTimelineBilling => '7. Gün';

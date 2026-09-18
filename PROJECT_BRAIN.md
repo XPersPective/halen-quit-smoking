@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T1 destek hattı doğrulandı; mevcut katalog/üç-ekran kullanımı yeterli bulundu, Yeşilay176 kalıntısı ve bayat yorum temizlendi.
-> **Phase:** BUILD · **Next:** T2 · **Updated:** 2026-09-18 · **Synced@:** 7d3078a
+> **Status:** T2 kapandı: bildirim durumu OS'den okunur (splash+Ayarlar ortak kart), deneme hatırlatması ayrı tercih (şema v8, varsayılan kapalı), Android16 izin/revoke/ayarlar kanıtı alındı.
+> **Phase:** BUILD · **Next:** T3 · **Updated:** 2026-09-18 · **Synced@:** e6df594
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -179,14 +179,20 @@ Hedef doğrudan kullanıcı akışından türetilir:
 
 ## 3. CURRENT ARCHITECTURE
 
-- `lib/data/db/app_database.dart:71`: schemaVersion7. Yeni paralel profil gereksiz.
+- `lib/data/db/app_database.dart:71`: schemaVersion8 (v8: `settings.trialNudge`). Yeni paralel profil gereksiz.
 - `lib/domain/onboarding.dart:OnboardingAnswers`, `lib/data/repositories/profile_repository.dart`:
   sayı/marka sınırları ve transaction öncesi guard; mevcut8 adım fiyat/marka Form'u.
   T4 geri dönüş düzeltmesi: welcome replacement ile kaldırıldığı için ilk adımda
   pop yoksa welcome yeniden açılır; aynı Riverpod cevap durumu korunur.
   PopScope sistem-geri olayını aynı _back akışına bağlar; fiyat metni adım dönüşünde korunur.
 - `lib/data/backup_repository.dart`: trialStartedAt export/import kaldırıldı;5 test geçti.
-  Yeni kişisel tabloların hepsi aktarılmıyor; veri silme kapsamı eksik olabilir.
+  Yeni kişisel tabloların hepsi aktarılmıyor (bkz. T26: trialNudge dahil v8 alanı da
+  kapsam dışında olabilir); veri silme kapsamı eksik olabilir.
+- `lib/data/notification_service.dart`: isPermissionGranted OS'den okur
+  (areNotificationsEnabled/checkPermissions), openSystemSettings plugin'in
+  openAppNotificationSettings'i; `presentation/widgets/notification_permission_card.dart`
+  splash ve Ayarlar'da ortak, resume'da yeniden okur. Day-5 trial nudge yalnız
+  ayrı `trialNudge` tercihiyle (varsayılan false); premium'da iptal edilir.
 - `lib/data/secure_key_store.dart`: Android resetOnError=false; db_opener dosya varlığını
   zorunlu databaseExists argümanıyla iletir. Mevcut DB için eksik/boş anahtar yeni anahtar
   yazmadan StateError verir; native okuma hatası yayılır.5 kanal testi.
@@ -255,10 +261,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter test test/widget/quitline_card_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → 13 widget testi (TR/EN/DE, UK alt bölge, bilinmeyen bölge, 320dp×1.5×tema); Android16'da SOS/Ayarlar kartı Diğer→Türkiye, ALO171→dialer'da 171 önyüklü, arama yok (CALL izni manifest'te yok). Ölü settingsHelplines (Yeşilay176) üç dilden kaldırıldı; numara kaynakları koda 2026-09-16 tarihiyle yazıldı.
 
-- [ ] T2 [M] Bildirim durumu ve geri gezilebilir karşılama (eski H02)
-  - Where: `lib/presentation/screens/splash_screen.dart; lib/data/notification_service.dart; lib/presentation/screens/onboarding/onboarding_screen.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Splash/onboarding geçişlerini ve NotificationService çağrılarını incele. Yetki durumunu ilk açılış ve ayarlardan dönüşte OS'den al. İzin varsa onaylı görünüm, ret varsa açıklama ve ayar kısa yolu; ileri/geri çalışır, girilmiş bilgiler korunur. Ücretsiz izin isteği ve premium pazarlama birbirine bağlanmaz. Pazarlama hatırlatması için ayrı kullanıcı tercihi gerekir; deneme bitiş bildirimi otomatik reklam izni sayılmaz. Kanıt: izin verilmiş/reddedilmiş/sonradan kaldırılmış senaryoları; Android/iOS cihaz.
+- [x] T2 [M] Bildirim durumu ve geri gezilebilir karşılama (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → Şema v8 `settings.trialNudge` (varsayılan false); day-5 nudge yalnız bu tercihle. `NotificationPermissionCard` splash+Ayarlar ortak; areNotificationsEnabled/checkPermissions + openAppNotificationSettings ile. 4 yeni test; geri akışı T4'ün PopScope testleri ve 2026-09-17 native kanıtında. iOS izin diyaloğu kanıtı T25.
 
 - [ ] T3 [H] JSON ile deneme sıfırlama açığını kapat (eski H03)
   - Where: `lib/data/backup_repository.dart; test/data/backup_repository_test.dart`
@@ -401,6 +406,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T2 A2 + native kanıt: şema v8 (trialNudge default false), permission card splash+Ayarlar, 4 yeni widget testi; tam336 test + fatal-info analiz temiz | APK SHA256 4ae85e81a217bbc47f7d3d42ad2cc7d63dbd97dce135920e1462278be2fce6d6. Android16 user0: izin açıkken kart "Bildirimler açık"; pm revoke (süreç ölür, Bugün'e döner) → Ayarlar'da kapalı açıklaması + izin + kısayol; "Sistem ayarlarını aç" → com.android.settings/.Settings$AppNotificationSettingsActivity; "Bildirimlere izin ver" → OS diyaloğu → Allow → kart açık. Splash ilk açılış varyantı widget testleriyle; geri akışı T4 PopScope testleri. Projeksiyon-not: user10 SystemUI bu imajda UI automator'ı takıyor (null root node), user10 kaldırılamadı — zararsız bırakıldı. settings_screen staged sürümünden About tile hunk'ı (T19) ayrı tutuldu. |
 | 2026-09-18 | AUDIT | T1 A2:13 quitline widget testi ve tam332 test geçti; Android16'da SOS/Ayarlar'daki ortak kart Diğer bölgede numarasız, Türkiye seçiminde ALO171+YEDAM115; arama düğmesi Google Dialer'ı 171 önyüklü açtı, mCalls boş | settingsHelplines (Yeşilay176 içeren ölü dize) üç ARB'den silindi, gen-l10n yenilendi (başka görevlerin ARB ekleri generated'a senkronlandı; buildable ve analiz temiz). Manifest'te CALL izni yok; _call yalnız tel: intent'i. Yeşil 0xFF166534 ve 48dp doğrulama testleri mevcut. Dialer kanıtı .dart_tool/t1/dialer.png (Git dışı). iOS çevirici kanıtı T25'e ait. |
 | 2026-09-18 | AUDIT | A1 devralma + T18.1 native kapatma: brain check FAIL yok; T23.2 örneği (e62194d diff'i erken şema okuma+temiz kapanış) doğrulandı; tam332 test ve fatal-info analiz temiz; Android16 user0 açık/koyu beş sekme + Ayarlar durum çubuğu pikselle doğrulandı, Standart tek chip, seçim çalıştı | Debug APK SHA256 5e17b1ed965eabc282b680b9cd5504d1ea2172bd4b3566007246676b815c0bc8, mevcut profil korunarak kuruldu. Açık tema: bg~244/ikon~98 tüm ekranlarda; koyu: bg~18/ikon~255. Kanıt PNG'leri .dart_tool/t181/ (Git dışı). Yoğun seçimi OS bildirim izni diyaloğu açtı, Allow sonrası seçim kalıcı; Standart geri seçildi. Seçili ChoiceChip etiketi artık onPrimary (lib/core/theme.dart). Ayarlar'dan About girişi gibi T19 dirty hunk'ları bu commit dışında bırakıldı. |
 | 2026-09-17 | AUDIT | T18.1 bildirim düzeni alt-akışı: TR/EN/DE ×1.0/1.6 yazı,320dp üzerinde6 test geçti; tam331 test ve fatal-info analiz temiz | RenderParagraph seçim kutusu her etiket için tek satır kanıtı; Kapalı seçimi DB ve sahte NotificationService'de doğrulandı. Sabit dört sütun yerine Wrap/ChoiceChip kullanıldı; yeni bağımlılık yok. appAbout hunk'ı commit dışında. Native yeni seçim düzeni/koyu kontrast hâlâ açık, görev kapatılmadı. |
@@ -422,7 +428,7 @@ Newest first.
 
 ## 7. HANDOFF
 
-T1 kapandı; sıradaki T2 (bildirim durumu, splash/onboarding geri gezinme). Emülatörde quitlineRegion=Türkiye kaldı, bildirim izni Allow.
-T4 ritim girdisi + 8 adımlı native onboarding turu, T5 beden girdileri, T23.1 eski ESP migration açık duruyor.
-Untracked about_screen + diğer dirty dosyalar (T2/T7/T17/T19/T21 rotaları) korunuyor; generated l10n güncel.
-APK 5e17b1ed (T18.1 öncesi dirty) user0'da; T1 sonrası yeniden derleme gerekirse yap. iOS/native ödeme kanıtları T20–T25.
+T2 kapandı (şema v8). Sıradaki T3 (yedek trial açığı) — zaten büyük ölçüde başka oturumda yapıldı, doğrulama beklemede.
+Emülatör yeniden başlatıldı; user10 (Halen-QA) SystemUI'si UI automator ile çalışmıyor, kaldırılamadı; onboarding native turları user0 alternatifi bulmadan yapılamaz.
+Untracked about_screen + dirty dosyalar (T4/T7/T17/T19+) korunuyor; settings_screen commit'te About tile yok.
+Açık: T3–T17, T19–T26, T23.1. iOS ve mağaza hesabı kapıları aynen geçerli.

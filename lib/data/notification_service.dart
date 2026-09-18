@@ -24,6 +24,8 @@ class NotificationTexts {
     required this.milestoneBody,
     required this.riskyWindowTitle,
     required this.riskyWindowBody,
+    this.trialTitle,
+    this.trialBody,
   });
 
   final String summaryTitle;
@@ -38,6 +40,10 @@ class NotificationTexts {
   final String milestoneBody;
   final String riskyWindowTitle;
   final String riskyWindowBody;
+
+  /// Day-5 trial nudge; nullable because only the trial path schedules it.
+  final String? trialTitle;
+  final String? trialBody;
 }
 
 /// Local notification scheduling (report §20).
@@ -100,6 +106,38 @@ class NotificationService {
       return await ios.requestPermissions(alert: true, sound: true) ?? false;
     }
     return false;
+  }
+
+  /// The OS's answer to "may this app notify?" — not our stored preference.
+  /// False on desktop/test and whenever the platform cannot tell us.
+  Future<bool> isPermissionGranted() async {
+    if (!mobilePlatform) {
+      return false;
+    }
+    await init();
+    final android =
+        _plugin.resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
+    if (android != null) {
+      return await android.areNotificationsEnabled() ?? false;
+    }
+    final ios = _plugin.resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>();
+    if (ios != null) {
+      final options = await ios.checkPermissions();
+      return options?.isEnabled ?? false;
+    }
+    return false;
+  }
+
+  /// The app's own notification page in the OS settings — the only place a
+  /// denied permission can be regained on modern iOS.
+  Future<void> openSystemSettings() async {
+    if (!mobilePlatform) {
+      return;
+    }
+    await init();
+    await _plugin.openAppNotificationSettings();
   }
 
   /// User opt-in for exact-time reminders (Android: Settings deep link via
@@ -327,6 +365,55 @@ class NotificationService {
   Future<void> cancelQuitDay() async {
     await init();
     await _plugin.cancel(id: _quitDayId);
+  }
+
+  /// Own id so buying a plan can cancel the nudge without touching others.
+  static const _trialReminderId = 9101;
+
+  /// Day-5 nudge time: 10:00 on the 5th calendar day of the trial, or null
+  /// when that moment is already past. Pure so the arithmetic is testable.
+  static DateTime? trialReminderDate(DateTime trialStartedAt, DateTime now) {
+    final day5 = trialStartedAt.add(const Duration(days: 5));
+    final when = DateTime(day5.year, day5.month, day5.day, 10);
+    return when.isAfter(now) ? when : null;
+  }
+
+  /// Day-5 trial nudge (the paywall timeline promises it): one shot on the
+  /// 5th calendar day of the trial at 10:00 local. Guarded so provider code
+  /// can call it unconditionally — desktop/test environments have no plugin.
+  Future<void> scheduleTrialReminder({
+    required DateTime trialStartedAt,
+    required NotificationTexts texts,
+  }) async {
+    if (!mobilePlatform || texts.trialTitle == null || texts.trialBody == null) {
+      return;
+    }
+    final when = trialReminderDate(
+      trialStartedAt,
+      DateTime.now(),
+    );
+    if (when == null) {
+      return;
+    }
+    await init();
+    await _plugin.cancel(id: _trialReminderId);
+    await _plugin.zonedSchedule(
+      id: _trialReminderId,
+      title: texts.trialTitle,
+      body: texts.trialBody,
+      scheduledDate: tz.TZDateTime.from(when, tz.local),
+      notificationDetails: _details(_supportChannel),
+      androidScheduleMode: _scheduleMode,
+      payload: 'trial',
+    );
+  }
+
+  Future<void> cancelTrialReminder() async {
+    if (!mobilePlatform) {
+      return;
+    }
+    await init();
+    await _plugin.cancel(id: _trialReminderId);
   }
 
   /// (5) Milestone notification (event-based, on quit-day milestones).

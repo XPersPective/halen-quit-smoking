@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:halen/application/providers.dart';
-import 'package:halen/application/settings_screen_controller.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
-import 'package:halen/presentation/widgets/choice_card.dart';
+import 'package:halen/presentation/widgets/notification_permission_card.dart';
 import '../../core/design/tokens.dart';
 
 /// Screen 1: splash / permission rationale / privacy promise (report §12).
@@ -123,30 +122,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 const SizedBox(height: HalenSpace.x6),
                 // Notification rationale + allow button (report §20: the
                 // explanation is always shown before the runtime request).
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(HalenSpace.x4),
-                    child: Column(
-                      children: [
-                        Text(l10n.splashNotificationRationale),
-                        const SizedBox(height: HalenSpace.x3),
-                        ChoiceCard(
-                          title: l10n.splashEnableNotifications,
-                          selected: false,
-                          onTap: () {
-                            final container = ProviderScope.containerOf(
-                              context,
-                              listen: false,
-                            );
-                            container
-                                .read(notificationServiceProvider)
-                                .requestPermission();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Notification status from the OS, with rationale, the ask
+                // and the settings shortcut (brain T2). Refusal never blocks
+                // starting and the card re-reads the OS state on resume.
+                const NotificationPermissionCard(),
                 const SizedBox(height: HalenSpace.x8),
                 FilledButton(
                   onPressed: () =>

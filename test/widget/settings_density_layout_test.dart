@@ -11,6 +11,12 @@ import '../helpers/pump_app.dart';
 
 class _Notifications extends NotificationService {
   NotificationDensity? applied;
+
+  /// Granted keeps the permission card to one row, so this fixed-height
+  /// layout test still sees the density chips it measures.
+  @override
+  Future<bool> isPermissionGranted() async => true;
+
   @override
   Future<void> applyDensity(
     NotificationDensity density, {

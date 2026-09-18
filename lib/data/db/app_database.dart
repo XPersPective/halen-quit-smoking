@@ -68,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.e);
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -131,6 +131,11 @@ class AppDatabase extends _$AppDatabase {
             // v7 — the UI language override. Nullable, so existing rows keep
             // following the system language.
             await m.addColumn(settings, settings.appLocale);
+          }
+          if (from < 8) {
+            // v8 — separate opt-in for the day-5 trial nudge (brain T2).
+            // Default false: the trial clock never grants marketing consent.
+            await m.addColumn(settings, settings.trialNudge);
           }
         },
       );

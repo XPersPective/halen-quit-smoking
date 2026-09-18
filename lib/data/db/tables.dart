@@ -194,6 +194,11 @@ class Settings extends Table {
   /// language, the default.
   TextColumn get appLocale => text().nullable()();
 
+  /// Opt-in day-5 trial nudge (brain T2). A marketing reminder needs its own
+  /// user preference; the default notification density never implies it.
+  BoolColumn get trialNudge =>
+      boolean().withDefault(const Constant(false))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

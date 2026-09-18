@@ -5702,6 +5702,21 @@ class $SettingsTable extends Settings
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _trialNudgeMeta = const VerificationMeta(
+    'trialNudge',
+  );
+  @override
+  late final GeneratedColumn<bool> trialNudge = GeneratedColumn<bool>(
+    'trial_nudge',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("trial_nudge" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -5713,6 +5728,7 @@ class $SettingsTable extends Settings
     preLogPauseSeconds,
     riskyWindowReminder,
     appLocale,
+    trialNudge,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5777,6 +5793,12 @@ class $SettingsTable extends Settings
         appLocale.isAcceptableOrUnknown(data['app_locale']!, _appLocaleMeta),
       );
     }
+    if (data.containsKey('trial_nudge')) {
+      context.handle(
+        _trialNudgeMeta,
+        trialNudge.isAcceptableOrUnknown(data['trial_nudge']!, _trialNudgeMeta),
+      );
+    }
     return context;
   }
 
@@ -5826,6 +5848,10 @@ class $SettingsTable extends Settings
         DriftSqlType.string,
         data['${effectivePrefix}app_locale'],
       ),
+      trialNudge: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}trial_nudge'],
+      )!,
     );
   }
 
@@ -5863,6 +5889,10 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
   /// UI language override: 'en', 'tr' or 'de'. Null = follow the system
   /// language, the default.
   final String? appLocale;
+
+  /// Opt-in day-5 trial nudge (brain T2). A marketing reminder needs its own
+  /// user preference; the default notification density never implies it.
+  final bool trialNudge;
   const SettingsRow({
     required this.id,
     required this.notifLevel,
@@ -5873,6 +5903,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     required this.preLogPauseSeconds,
     required this.riskyWindowReminder,
     this.appLocale,
+    required this.trialNudge,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5898,6 +5929,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     if (!nullToAbsent || appLocale != null) {
       map['app_locale'] = Variable<String>(appLocale);
     }
+    map['trial_nudge'] = Variable<bool>(trialNudge);
     return map;
   }
 
@@ -5916,6 +5948,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       appLocale: appLocale == null && nullToAbsent
           ? const Value.absent()
           : Value(appLocale),
+      trialNudge: Value(trialNudge),
     );
   }
 
@@ -5940,6 +5973,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
         json['riskyWindowReminder'],
       ),
       appLocale: serializer.fromJson<String?>(json['appLocale']),
+      trialNudge: serializer.fromJson<bool>(json['trialNudge']),
     );
   }
   @override
@@ -5959,6 +5993,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       'preLogPauseSeconds': serializer.toJson<int>(preLogPauseSeconds),
       'riskyWindowReminder': serializer.toJson<bool>(riskyWindowReminder),
       'appLocale': serializer.toJson<String?>(appLocale),
+      'trialNudge': serializer.toJson<bool>(trialNudge),
     };
   }
 
@@ -5972,6 +6007,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     int? preLogPauseSeconds,
     bool? riskyWindowReminder,
     Value<String?> appLocale = const Value.absent(),
+    bool? trialNudge,
   }) => SettingsRow(
     id: id ?? this.id,
     notifLevel: notifLevel ?? this.notifLevel,
@@ -5984,6 +6020,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     preLogPauseSeconds: preLogPauseSeconds ?? this.preLogPauseSeconds,
     riskyWindowReminder: riskyWindowReminder ?? this.riskyWindowReminder,
     appLocale: appLocale.present ? appLocale.value : this.appLocale,
+    trialNudge: trialNudge ?? this.trialNudge,
   );
   SettingsRow copyWithCompanion(SettingsCompanion data) {
     return SettingsRow(
@@ -6006,6 +6043,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ? data.riskyWindowReminder.value
           : this.riskyWindowReminder,
       appLocale: data.appLocale.present ? data.appLocale.value : this.appLocale,
+      trialNudge: data.trialNudge.present
+          ? data.trialNudge.value
+          : this.trialNudge,
     );
   }
 
@@ -6020,7 +6060,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ..write('trialStartedAt: $trialStartedAt, ')
           ..write('preLogPauseSeconds: $preLogPauseSeconds, ')
           ..write('riskyWindowReminder: $riskyWindowReminder, ')
-          ..write('appLocale: $appLocale')
+          ..write('appLocale: $appLocale, ')
+          ..write('trialNudge: $trialNudge')
           ..write(')'))
         .toString();
   }
@@ -6036,6 +6077,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     preLogPauseSeconds,
     riskyWindowReminder,
     appLocale,
+    trialNudge,
   );
   @override
   bool operator ==(Object other) =>
@@ -6049,7 +6091,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           other.trialStartedAt == this.trialStartedAt &&
           other.preLogPauseSeconds == this.preLogPauseSeconds &&
           other.riskyWindowReminder == this.riskyWindowReminder &&
-          other.appLocale == this.appLocale);
+          other.appLocale == this.appLocale &&
+          other.trialNudge == this.trialNudge);
 }
 
 class SettingsCompanion extends UpdateCompanion<SettingsRow> {
@@ -6062,6 +6105,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
   final Value<int> preLogPauseSeconds;
   final Value<bool> riskyWindowReminder;
   final Value<String?> appLocale;
+  final Value<bool> trialNudge;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.notifLevel = const Value.absent(),
@@ -6072,6 +6116,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.preLogPauseSeconds = const Value.absent(),
     this.riskyWindowReminder = const Value.absent(),
     this.appLocale = const Value.absent(),
+    this.trialNudge = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -6083,6 +6128,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.preLogPauseSeconds = const Value.absent(),
     this.riskyWindowReminder = const Value.absent(),
     this.appLocale = const Value.absent(),
+    this.trialNudge = const Value.absent(),
   });
   static Insertable<SettingsRow> custom({
     Expression<int>? id,
@@ -6094,6 +6140,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Expression<int>? preLogPauseSeconds,
     Expression<bool>? riskyWindowReminder,
     Expression<String>? appLocale,
+    Expression<bool>? trialNudge,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -6107,6 +6154,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       if (riskyWindowReminder != null)
         'risky_window_reminder': riskyWindowReminder,
       if (appLocale != null) 'app_locale': appLocale,
+      if (trialNudge != null) 'trial_nudge': trialNudge,
     });
   }
 
@@ -6120,6 +6168,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Value<int>? preLogPauseSeconds,
     Value<bool>? riskyWindowReminder,
     Value<String?>? appLocale,
+    Value<bool>? trialNudge,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -6131,6 +6180,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       preLogPauseSeconds: preLogPauseSeconds ?? this.preLogPauseSeconds,
       riskyWindowReminder: riskyWindowReminder ?? this.riskyWindowReminder,
       appLocale: appLocale ?? this.appLocale,
+      trialNudge: trialNudge ?? this.trialNudge,
     );
   }
 
@@ -6168,6 +6218,9 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     if (appLocale.present) {
       map['app_locale'] = Variable<String>(appLocale.value);
     }
+    if (trialNudge.present) {
+      map['trial_nudge'] = Variable<bool>(trialNudge.value);
+    }
     return map;
   }
 
@@ -6182,7 +6235,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
           ..write('trialStartedAt: $trialStartedAt, ')
           ..write('preLogPauseSeconds: $preLogPauseSeconds, ')
           ..write('riskyWindowReminder: $riskyWindowReminder, ')
-          ..write('appLocale: $appLocale')
+          ..write('appLocale: $appLocale, ')
+          ..write('trialNudge: $trialNudge')
           ..write(')'))
         .toString();
   }
@@ -12609,6 +12663,7 @@ typedef $$SettingsTableCreateCompanionBuilder = SettingsCompanion Function({
   Value<int> preLogPauseSeconds,
   Value<bool> riskyWindowReminder,
   Value<String?> appLocale,
+  Value<bool> trialNudge,
 });
 typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<int> id,
@@ -12620,6 +12675,7 @@ typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<int> preLogPauseSeconds,
   Value<bool> riskyWindowReminder,
   Value<String?> appLocale,
+  Value<bool> trialNudge,
 });
 
 class $$SettingsTableFilterComposer
@@ -12681,6 +12737,11 @@ class $$SettingsTableFilterComposer
     column: $table.appLocale,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<bool> get trialNudge => $composableBuilder(
+    column: $table.trialNudge,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SettingsTableOrderingComposer
@@ -12736,6 +12797,11 @@ class $$SettingsTableOrderingComposer
     column: $table.appLocale,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get trialNudge => $composableBuilder(
+    column: $table.trialNudge,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -12784,6 +12850,11 @@ class $$SettingsTableAnnotationComposer
 
   GeneratedColumn<String> get appLocale =>
       $composableBuilder(column: $table.appLocale, builder: (column) => column);
+
+  GeneratedColumn<bool> get trialNudge => $composableBuilder(
+    column: $table.trialNudge,
+    builder: (column) => column,
+  );
 }
 
 class $$SettingsTableTableManager
@@ -12826,6 +12897,7 @@ class $$SettingsTableTableManager
                 Value<int> preLogPauseSeconds = const Value.absent(),
                 Value<bool> riskyWindowReminder = const Value.absent(),
                 Value<String?> appLocale = const Value.absent(),
+                Value<bool> trialNudge = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 notifLevel: notifLevel,
@@ -12836,6 +12908,7 @@ class $$SettingsTableTableManager
                 preLogPauseSeconds: preLogPauseSeconds,
                 riskyWindowReminder: riskyWindowReminder,
                 appLocale: appLocale,
+                trialNudge: trialNudge,
               ),
           createCompanionCallback:
               ({
@@ -12848,6 +12921,7 @@ class $$SettingsTableTableManager
                 Value<int> preLogPauseSeconds = const Value.absent(),
                 Value<bool> riskyWindowReminder = const Value.absent(),
                 Value<String?> appLocale = const Value.absent(),
+                Value<bool> trialNudge = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 notifLevel: notifLevel,
@@ -12858,6 +12932,7 @@ class $$SettingsTableTableManager
                 preLogPauseSeconds: preLogPauseSeconds,
                 riskyWindowReminder: riskyWindowReminder,
                 appLocale: appLocale,
+                trialNudge: trialNudge,
               ),
           withReferenceMapper: (p0) => p0
               .map(

@@ -1420,6 +1420,36 @@ abstract class AppLocalizations {
   /// **'Planned time approaching'**
   String get notifPlanReminder;
 
+  /// No description provided for @notifPermissionOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are on'**
+  String get notifPermissionOn;
+
+  /// No description provided for @notifPermissionOffExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off, so no reminders will arrive. You can allow them here or use the app without them — nothing else changes.'**
+  String get notifPermissionOffExplainer;
+
+  /// No description provided for @notifOpenSystemSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open system settings'**
+  String get notifOpenSystemSettings;
+
+  /// No description provided for @notifTrialNudge.
+  ///
+  /// In en, this message translates to:
+  /// **'Trial reminder'**
+  String get notifTrialNudge;
+
+  /// No description provided for @notifTrialNudgeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One gentle note on day 5, before the trial ends. Off unless you ask for it.'**
+  String get notifTrialNudgeHint;
+
   /// No description provided for @notifQuitSupport.
   ///
   /// In en, this message translates to:
@@ -1831,7 +1861,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallTimelineReminderDesc.
   ///
   /// In en, this message translates to:
-  /// **'A gentle reminder to review your options before the trial ends.'**
+  /// **'Optional: one gentle reminder on day 5 if you turn on \"Trial reminder\" in Settings.'**
   String get paywallTimelineReminderDesc;
 
   /// No description provided for @paywallTimelineBilling.

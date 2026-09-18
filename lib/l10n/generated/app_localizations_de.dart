@@ -764,6 +764,23 @@ class AppLocalizationsDe extends AppLocalizations {
   String get notifPlanReminder => 'Geplante Zeit naht';
 
   @override
+  String get notifPermissionOn => 'Benachrichtigungen sind aktiv';
+
+  @override
+  String get notifPermissionOffExplainer =>
+      'Benachrichtigungen sind aus, also kommen keine Erinnerungen. Du kannst sie hier erlauben oder die App ohne sie nutzen — sonst ändert sich nichts.';
+
+  @override
+  String get notifOpenSystemSettings => 'Systemeinstellungen öffnen';
+
+  @override
+  String get notifTrialNudge => 'Testphasen-Erinnerung';
+
+  @override
+  String get notifTrialNudgeHint =>
+      'Ein sanfter Hinweis an Tag 5, bevor die Testphase endet. Aus, solange du es nicht willst.';
+
+  @override
   String get notifQuitSupport => 'Stopp-Tag-Unterstützung (erste 72 Stunden)';
 
   @override
@@ -998,7 +1015,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallTimelineReminderDesc =>
-      'Eine sanfte Erinnerung, bevor die Testphase endet.';
+      'Optional: eine sanfte Erinnerung an Tag 5, wenn du in den Einstellungen «Testphasen-Erinnerung» aktivierst.';
 
   @override
   String get paywallTimelineBilling => 'Tag 7';
