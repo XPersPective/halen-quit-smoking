@@ -739,6 +739,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Ein neuer Gesundheits-Schwellenwert ist erreicht.';
 
   @override
+  String get notifTrialTitle => 'Deine Testphase endet bald';
+
+  @override
+  String get notifTrialBody =>
+      'Deine Halen-Premium-Testphase endet in zwei Tagen. Die Planwahl liegt ganz bei dir; es wird nichts automatisch abgebucht.';
+
+  @override
   String get notifChannelReminders => 'Erinnerungen';
 
   @override
@@ -817,19 +824,19 @@ class AppLocalizationsDe extends AppLocalizations {
       'Wirklich alles löschen? Das kann nicht rückgängig gemacht werden.';
 
   @override
-  String get settingsPurchase => 'Halen Lifetime';
+  String get settingsPurchase => 'Halen Premium';
 
   @override
-  String get purchaseCopy => 'Einmalig · Lebenslang · Kein Abo';
+  String get purchaseCopy => 'Flexible Pläne · Lebenslange Option';
 
   @override
-  String get purchaseCta => 'Einmal kaufen';
+  String get purchaseCta => 'Premium-Plan auswählen';
 
   @override
   String get purchaseRestore => 'Kauf wiederherstellen';
 
   @override
-  String get purchaseOwned => 'Du besitzt Halen Lifetime.';
+  String get purchaseOwned => 'Dein Halen-Premium-Zugang ist aktiv.';
 
   @override
   String get purchasePending =>
@@ -848,15 +855,53 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsAbout => 'Über';
 
   @override
+  String get aboutTitle => 'Über Halen';
+
+  @override
+  String get aboutSourceShort => 'GPLv3-Copyleft-Open-Source';
+
+  @override
+  String get aboutIntro =>
+      'Halen unterstützt das Aufhören oder Reduzieren ruhig, evidenzbewusst und mit Fokus auf Privatsphäre.';
+
+  @override
+  String get aboutOpenSourceTitle => 'Warum öffentlicher Quelltext?';
+
+  @override
+  String get aboutOpenSourceBody =>
+      'Der Quelltext wird unter GPLv3 oder später veröffentlicht, damit Menschen ihn prüfen, daraus lernen und ihn gemeinsam verbessern können. Die GPL verbietet die kommerzielle Nutzung nicht, verlangt aber, dass verteilte Änderungen dieselben Freiheiten und den Quelltext zugänglich halten. Einzelheiten stehen im Lizenztext.';
+
+  @override
+  String get aboutPrivacyTitle => 'Deine Daten';
+
+  @override
+  String get aboutPrivacyBody =>
+      'Es gibt kein Konto, keinen Server und keine Analyse. Deine Einträge bleiben in einer verschlüsselten lokalen Datenbank auf diesem Gerät; Export und Löschung findest du in den Einstellungen.';
+
+  @override
+  String get aboutSourceCode => 'Quelltext ansehen';
+
+  @override
+  String get aboutLicense => 'Lizenz lesen';
+
+  @override
+  String get aboutPrivacyPolicy => 'Datenschutzerklärung lesen';
+
+  @override
+  String get aboutSupport => 'Support und Feedback';
+
+  @override
+  String get articleSourceHeading => 'Evidenz und Quelle';
+
+  @override
+  String get aboutOpenLinkError => 'Der Link konnte nicht geöffnet werden.';
+
+  @override
   String get settingsDisclaimerTitle => 'Gesundheitshinweis';
 
   @override
   String get settingsDisclaimer =>
       'Diese App ist keine medizinische Beratung; zur Behandlung der Nikotinabhängigkeit wende dich an eine Fachkraft. Bei Schwangerschaft, Herzerkrankung oder psychiatrischen Erkrankungen hole bitte zuerst fachlichen Rat ein.';
-
-  @override
-  String get settingsHelplines =>
-      'Hilfsangebote: DE BZgA · UK NHS · US 1-800-QUIT-NOW · TR Yeşilay 176';
 
   @override
   String get settingsPrivacy =>
@@ -919,7 +964,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String planTierAnnualSub(String price) {
-    return '7 Tage kostenlos testen, danach $price/Jahr';
+    return 'Jahresplan · $price/Jahr · Store-Bedingungen beim Kauf';
   }
 
   @override
@@ -942,25 +987,28 @@ class AppLocalizationsDe extends AppLocalizations {
   String get paywallTimelineToday => 'Heute';
 
   @override
+  String get paywallTimelineTitle => 'Deine 7-tägige Halen-Premium-Testphase';
+
+  @override
   String get paywallTimelineTodayDesc =>
-      '7 Tage kostenloser Vollzugriff starten, 0 € berechnet.';
+      'Vollzugriff startet ohne Karte und ohne automatische Abbuchung.';
 
   @override
   String get paywallTimelineReminder => 'Tag 5';
 
   @override
   String get paywallTimelineReminderDesc =>
-      'Sanfte Erinnerung an das bevorstehende Testende.';
+      'Eine sanfte Erinnerung, bevor die Testphase endet.';
 
   @override
   String get paywallTimelineBilling => 'Tag 7';
 
   @override
   String get paywallTimelineBillingDesc =>
-      'Abo beginnt, davor jederzeit kündbar.';
+      'Die Testphase endet; wähle einen Plan im Store. Es wird nichts automatisch berechnet.';
 
   @override
-  String get paywallCtaTrial => '7 Tage kostenlos testen & starten';
+  String get paywallCtaTrial => 'Jahresplan wählen';
 
   @override
   String get paywallCtaSubscribe => 'Jetzt abonnieren';
@@ -972,18 +1020,33 @@ class AppLocalizationsDe extends AppLocalizations {
   String get paywallTerms => 'Nutzungsbedingungen (EULA)';
 
   @override
+  String get paywallTermsBody =>
+      'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play-Nutzungsbedingungen:\nhttps://play.google.com/about/play-terms/\n\nPreis-, Test-, Verlängerungs- und Kündigungsbedingungen werden vor dem Kauf im Bestätigungsbildschirm des jeweiligen Stores angezeigt. Abonnements verlängern sich automatisch, sofern sie nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt werden; die Verwaltung erfolgt in den Kontoeinstellungen des App Store bzw. Google Play.';
+
+  @override
   String get paywallPrivacy => 'Datenschutzerklärung';
+
+  @override
+  String get paywallPrivacyBody =>
+      'Halen sendet keine personenbezogenen Daten, Rauchprotokolle oder Daten zur Verlangensunterstützung an externe Server. Die Datenbank wird auf diesem Gerät mit SQLCipher verschlüsselt; Export und Löschung findest du in den Einstellungen.';
 
   @override
   String get paywallLegalDisclaimer =>
       'Das Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Verwaltung in den Kontoeinstellungen.';
 
   @override
-  String get paywallRestoreSuccess => 'Käufe erfolgreich wiederhergestellt.';
+  String get paywallPlansTitle => 'Premium-Pläne';
+
+  @override
+  String get paywallPriceUnavailable => 'Store-Preis nicht verfügbar';
+
+  @override
+  String get paywallRestoreSuccess =>
+      'Wiederherstellungsanfrage gesendet. Wenn dein Store-Konto einen aktiven Kauf hat, erscheint der Zugang gleich.';
 
   @override
   String get paywallRestoreNone =>
-      'Keine aktiven Käufe zum Wiederherstellen gefunden.';
+      'Der Store konnte nicht erreicht werden; versuche es später erneut.';
 
   @override
   String get timelineTitle => 'Gesundheits-Zeitleiste';
@@ -1406,7 +1469,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String bodyLoadCoDrop(int percent) {
-    return 'Kohlenmonoxid im Blut liegt $percent % unter dem Höchstwert.';
+    return 'Die modellierte Kohlenmonoxidlast liegt $percent % unter ihrem Höchstwert.';
   }
 
   @override
@@ -2253,7 +2316,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get bodyLoadMeaning =>
-      'Jede Spitze ist eine Zigarette; der Abfall danach ist der Abbau. Grüne Marken sind Spitzen, die nie entstanden.';
+      'Jede Spitze ist eine protokollierte Zigarette; die fallende Linie ist Modellabbau, keine Messung. Grüne Marken sind nie entstandene Spitzen.';
 
   @override
   String get loadAxisCaption =>
@@ -2516,7 +2579,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get medicinesLead =>
-      'Sie verdoppeln die Erfolgschance eines Versuchs etwa. Es ist die wirksamste verfügbare Hilfe — und die meisten probieren sie nie.';
+      'Medikamente und Beratung können die Chance auf einen Rauchstopp deutlich erhöhen. Welche Option passt, hängt von deiner Gesundheit und fachlicher Beratung ab.';
 
   @override
   String get medicinesOtc => 'In der Apotheke erhältlich';
@@ -2808,11 +2871,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get startupFailUnknown => 'Kein weiteres Detail gemeldet.';
 
   @override
-  String get smokedHeadline0 => 'Erfasst. Dein Nikotinspiegel ist gestiegen.';
+  String get smokedHeadline0 =>
+      'Erfasst. Das Nikotinmodell wurde neu berechnet.';
 
   @override
   String get smokedHeadline1 =>
-      'Zigarette protokolliert. Der Kohlenmonoxid-Abbau beginnt von vorn.';
+      'Zigarette protokolliert. Das Kohlenmonoxidmodell wurde neu berechnet.';
 
   @override
   String get smokedHeadline2 =>
@@ -2824,7 +2888,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get smokedAdvice0 =>
-      'Trinke jetzt ein großes Glas kaltes Wasser, um den Geschmack zu neutralisieren.';
+      'Wenn es hilft, trink kaltes Wasser in kleinen Schlucken; es beschäftigt Mund und Hände, während der Drang nachlässt.';
 
   @override
   String get smokedAdvice1 =>
@@ -2836,7 +2900,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get smokedAdvice3 =>
-      'Dein Körper braucht etwa 8 Stunden für den Nikotinabbau. Trinke ausreichend Wasser.';
+      'Es gibt keine feste Abbauzeit für jede Person. Die modellierte Nikotinkurve fällt über Stunden; Wasser beschleunigt diese Biologie nicht.';
 
   @override
   String get splashContinue => 'Weiter';
@@ -2977,19 +3041,6 @@ class AppLocalizationsDe extends AppLocalizations {
       'Löffel nach Volumen, Teer mit etwa 1 g pro Milliliter gerechnet. Ein Teelöffel fasst etwa 2,5 mL.';
 
   @override
-  String get nicotineMgAxis =>
-      'geschätztes Nikotin noch im Körper, mg — ein Modell, keine Messung';
-
-  @override
-  String get nicotineMgBasis =>
-      'Pro Zigarette werden etwa 1,2 mg Nikotin aufgenommen; die Hälfte davon verlässt den Körper alle 2 Stunden (Benowitz).';
-
-  @override
-  String mgValue(String value) {
-    return '$value mg';
-  }
-
-  @override
   String get organExposureTitle => 'Dieses Organ, letzte 24 Stunden';
 
   @override
@@ -2999,7 +3050,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get organExposureMeaning =>
-      'Jede Spitze ist eine Zigarette, die dieses Organ erreicht; der Abfall ist dein Körper, der sie abbaut. Je flacher die Linie, desto mehr Ruhe.';
+      'Jede Spitze ist eine protokollierte Zigarette als Eingang in ein relatives Modell; der Abfall ist Modellabbau, keine Organmessung.';
 
   @override
   String organExposureLoads(String loads) {
@@ -3013,27 +3064,27 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get organAcuteHeart =>
-      'Nach einer Zigarette schlägt das Herz etwa 10-20 Mal pro Minute schneller und der Blutdruck steigt, für rund 20-30 Minuten.';
+      'Rauchen kann Herzfrequenz und Blutdruck erhöhen; Ausmaß und Dauer unterscheiden sich.';
 
   @override
   String get organAcuteVessels =>
-      'Nikotin verengt die Gefäße binnen Minuten, jede Zigarette hält sie etwa eine Stunde verengt.';
+      'Nikotin kann Blutgefäße verengen; Zeitpunkt und Dauer unterscheiden sich.';
 
   @override
   String get organAcuteLungs =>
-      'Rauch bremst die feinen Härchen, die die Atemwege reinigen, und Teer lagert sich mit jeder Zigarette in der Lunge ab.';
+      'Rauch kann die feinen Härchen der Atemwege beeinträchtigen; die App kann Teer in deiner Lunge nicht schätzen.';
 
   @override
   String get organAcuteBrain =>
-      'Nikotin erreicht das Gehirn in 10-20 Sekunden; wenn es in den nächsten Stunden sinkt, kommt es als nächstes Verlangen zurück.';
+      'Inhaltiertes Nikotin erreicht das Gehirn schnell; sinkende Spiegel und gelernte Auslöser können neues Verlangen begünstigen.';
 
   @override
   String get organAcuteBlood =>
-      'Kohlenmonoxid verdrängt den Sauerstoff im Blut; die Hälfte ist nach etwa 4-5 Stunden abgebaut.';
+      'Kohlenmonoxid verringert die Sauerstofftransportkapazität; nach dem Aufhören sinkt der Wert meist, der Zeitraum ist individuell.';
 
   @override
   String get organAcuteGeneral =>
-      'Die Schadstoffe im Rauch gelangen mit dem Blut in jedes Organ; die Belastung wächst mit jeder Zigarette.';
+      'Rauch enthält Schadstoffe, die viele Organe erreichen können; dies ist eine Erklärung auf Bevölkerungsebene, keine persönliche Messung.';
 
   @override
   String get envTitle => 'Was die Umwelt zurückbekommt';
@@ -3162,4 +3213,176 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get commonDelete => 'Löschen';
+
+  @override
+  String get todayLogFirstOfDay => 'Erste des Tages';
+
+  @override
+  String todayLogGapHours(int h, int m) {
+    return '+$h Std $m Min später';
+  }
+
+  @override
+  String todayLogGapMinutes(int m) {
+    return '+$m Min später';
+  }
+
+  @override
+  String get loadTarToday => 'Teer (heute)';
+
+  @override
+  String get nowInBodyCleaning => 'Abbau läuft';
+
+  @override
+  String get sosInternationalLines => 'Internationale Rauchstopp-Hotlines';
+
+  @override
+  String get economyPastSpentNote =>
+      'Dieses Geld ist bereits ausgegeben. Mit Halen aufzuhören sorgt dafür, dass dein Vermögen — und deine Lebenszeit — in den kommenden Jahren in deiner Tasche bleibt.';
+
+  @override
+  String economyYearsLabel(String years) {
+    return '$years J. / Zigaretten';
+  }
+
+  @override
+  String economyCigaretteCount(String count) {
+    return '$count Zigaretten';
+  }
+
+  @override
+  String earPointOf(int n) {
+    return 'Punkt $n/5';
+  }
+
+  @override
+  String earPointLocation(String location) {
+    return 'Position: $location';
+  }
+
+  @override
+  String get earPointShenMenTitle => 'Shen Men (Geistestor)';
+
+  @override
+  String get earPointShenMenLocation =>
+      'Obere Dreieckgrube (Fossa triangularis) des Ohrs';
+
+  @override
+  String get earPointShenMenEffect =>
+      'Stimuliert das parasympathische Nervensystem; beruhigt Angst, Panik und Stresshormone (Kortisol) in einem Craving.';
+
+  @override
+  String get earPointShenMenInstruction =>
+      'Mit dem Zeigefinger sanft in die Vertiefung drücken und kleine kreisende Bewegungen ausführen. Beim Einatmen 4 Sek. Druck aufbauen, beim Ausatmen 6 Sek. lösen.';
+
+  @override
+  String get earPointAutonomicTitle => 'Sympathikus-/Autonomer Punkt';
+
+  @override
+  String get earPointAutonomicLocation =>
+      'Oberer Rand der inneren Falte (Helixwurzel)';
+
+  @override
+  String get earPointAutonomicEffect =>
+      'Löst die Vasokonstriktion (Gefäßverengung) und stabilisiert den durch den Nikotinabfall beschleunigten Puls und die körperliche Anspannung.';
+
+  @override
+  String get earPointAutonomicInstruction =>
+      'Mit der Fingerkuppe sanft auf den Knorpelrand drücken. Auf den Puls achten und die Schultern locker lassen.';
+
+  @override
+  String get earPointKidneyTitle => 'Nierenpunkt';
+
+  @override
+  String get earPointKidneyLocation => 'Oberer innerer Bereich der Conchahöhle';
+
+  @override
+  String get earPointKidneyEffect =>
+      'Lindert Angst und Erschöpfung der Willenskraft; unterstützt den Stoffwechsel der Nieren beim Ausleiten von Toxinen und Teer.';
+
+  @override
+  String get earPointKidneyInstruction =>
+      'Den Daumen als Stütze hinter das Ohr legen und mit dem Zeigefinger rhythmisch leicht auf die obere Conchahöhle drücken.';
+
+  @override
+  String get earPointLiverTitle => 'Leberpunkt';
+
+  @override
+  String get earPointLiverLocation =>
+      'Mittlerer hinterer Bereich der Conchahöhle';
+
+  @override
+  String get earPointLiverEffect =>
+      'Beruhigt entzugsbedingte Wut, Gereiztheit, Ungeduld und den impulsiven Drang, eine Zigarette anzuzünden.';
+
+  @override
+  String get earPointLiverInstruction =>
+      'Die hintere Wand der Concha kreisförmig massieren. Die Stelle kann bei Anspannung leicht empfindlich sein; niemals bis zum Schmerz drücken.';
+
+  @override
+  String get earPointLungTitle => 'Lungenpunkt';
+
+  @override
+  String get earPointLungLocation =>
+      'Mitte und unterer Bereich der Conchahöhle';
+
+  @override
+  String get earPointLungEffect =>
+      'Löst den Krampf des Luftbedürfnisses in den Atemwegen; vertieft und erleichtert die Atmung.';
+
+  @override
+  String get earPointLungInstruction =>
+      'Den Finger direkt oberhalb und hinter dem Gehörgang platzieren. Mit jedem Ausatmen den Druck leicht erhöhen.';
+
+  @override
+  String nutritionClinicalBase(String basis) {
+    return 'Klinische Grundlage: $basis';
+  }
+
+  @override
+  String get nutritionPillar1Title => '1. Eiskaltes Wasser (Vagus-Stimulation)';
+
+  @override
+  String get nutritionPillar1Basis =>
+      'Stimulation der oropharyngealen Thermorezeptoren und Aktivierung des Vagotonus.';
+
+  @override
+  String get nutritionPillar1Body =>
+      'Wenn ein Craving kommt, trinke ein Glas eiskaltes Wasser durch einen Strohhalm, Schluck für Schluck.\n\n• Kaltes Wasser irritiert die nikotinischen Sinnesrezeptoren in Rachen und Mund.\n• Es aktiviert das parasympathische System (Nervus vagus) und senkt erhöhten Puls und Angst innerhalb von Minuten.\n• Es ersetzt Hand-Mund-Bewegungen und füllt die psychomotorische Leere.';
+
+  @override
+  String get nutritionPillar2Title =>
+      '2. Basische Lebensmittel (Urin-pH und Nikotin-Clearance)';
+
+  @override
+  String get nutritionPillar2Basis =>
+      'Saurer Urin beschleunigt die Nikotin-Elimination, während ein basischer pH die Nikotinspiegel gleichmäßiger hält (Beckett & Rowland, 1965).';
+
+  @override
+  String get nutritionPillar2Body =>
+      'Wenn der Körper sauer ist, scheiden die Nieren Nikotin schnell aus dem Blut aus — das verursacht heftige, plötzliche Entzugskrisen.\n\n• Gurkenscheiben, Staudensellerie, rohe Mandeln, Karotten und grünes Blattgemüse verschieben den Urin ins Basische.\n• So fällt der Nikotinspiegel sanft statt abrupt, und Cravings werden seltener.\n• Gurken- oder Karottenstäbchen griffbereit zu haben, ist ein perfekter Kau-Reflex im Craving-Moment.';
+
+  @override
+  String get nutritionPillar3Title =>
+      '3. Vitamin-C-Unterstützung (Antioxidans-Schild)';
+
+  @override
+  String get nutritionPillar3Basis =>
+      'Freie Radikale im Tabakrauch verbrauchen die Plasmaspeicher an Ascorbinsäure (Vitamin C) um 30–50 %.';
+
+  @override
+  String get nutritionPillar3Body =>
+      'Der Nikotinentzug erzeugt eine akute Stressreaktion, und die Nebennieren verbrauchen große Mengen Vitamin C.\n\n• Frisch gepresstes lauwarmes Zitronenwasser, Kiwi, Erdbeeren, Orangen und rote Paprika füllen die Vitamin-C-Speicher schnell auf.\n• Über die Kortisol-Regulation lindert es die Erschöpfung und Gereiztheit des Entzugs.';
+
+  @override
+  String get nutritionPillar4Title =>
+      '4. Koffein- und Zucker-Warnung (Die kritische Falle)';
+
+  @override
+  String get nutritionPillar4Basis =>
+      'Tabakrauch stimuliert das Leberenzym CYP1A2, das Koffein schnell abbaut; nach dem Aufhören verlangsamt sich die Koffein-Clearance um etwa 50 %.';
+
+  @override
+  String get nutritionPillar4Body =>
+      'Wenn du reduzierst oder aufhörst:\n\n• Kaffee bleibt doppelt so lange im Blut! Deine gewohnte Menge kann jetzt Herzrasen, Zittern und Panik verursachen. Die meisten halten das für einen Nikotin-Craving — es ist eine Koffein-Überladung. Reduziere deinen Kaffeekonsum um 50 %.\n• Einfache Zucker (Schokolade, Sirup-Süßigkeiten) erzeugen steile Blutzuckerspitzen und -abstürze (reaktive Hypoglykämie), was den Dopamin-Hunger und das Rauchverlangen anheizt. Greife stattdessen zu ballaststoffreichen Snacks.';
 }

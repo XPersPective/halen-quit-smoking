@@ -735,6 +735,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'A new health milestone is in. Check your timeline.';
 
   @override
+  String get notifTrialTitle => 'Your trial ends soon';
+
+  @override
+  String get notifTrialBody =>
+      'Your Halen Premium trial ends in two days. Choosing a plan is entirely up to you; nothing is charged automatically.';
+
+  @override
   String get notifChannelReminders => 'Reminders';
 
   @override
@@ -812,19 +819,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteAllConfirm => 'Delete everything? This cannot be undone.';
 
   @override
-  String get settingsPurchase => 'Halen Lifetime';
+  String get settingsPurchase => 'Halen Premium';
 
   @override
-  String get purchaseCopy => 'One-time · Lifetime · No subscription';
+  String get purchaseCopy => 'Flexible plans · Lifetime option';
 
   @override
-  String get purchaseCta => 'Buy once';
+  String get purchaseCta => 'Choose a Premium plan';
 
   @override
   String get purchaseRestore => 'Restore purchase';
 
   @override
-  String get purchaseOwned => 'You own Halen Lifetime.';
+  String get purchaseOwned => 'Halen Premium access is active.';
 
   @override
   String get purchasePending =>
@@ -843,15 +850,53 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsAbout => 'About';
 
   @override
+  String get aboutTitle => 'About Halen';
+
+  @override
+  String get aboutSourceShort => 'GPLv3 copyleft open source';
+
+  @override
+  String get aboutIntro =>
+      'Halen is built to support quitting or cutting down with a calm, evidence-aware and privacy-first experience.';
+
+  @override
+  String get aboutOpenSourceTitle => 'Why public source?';
+
+  @override
+  String get aboutOpenSourceBody =>
+      'The source is published under GPLv3-or-later so people can inspect it, learn from it and improve it together. GPL does not prohibit commercial use; it requires distributed modifications to preserve the same freedoms and source access. See the license text for details.';
+
+  @override
+  String get aboutPrivacyTitle => 'Your data';
+
+  @override
+  String get aboutPrivacyBody =>
+      'There is no account, server or analytics. Your records stay in an encrypted local database on this device; export and deletion are available in Settings.';
+
+  @override
+  String get aboutSourceCode => 'Inspect the source code';
+
+  @override
+  String get aboutLicense => 'Read the license';
+
+  @override
+  String get aboutPrivacyPolicy => 'Read the privacy policy';
+
+  @override
+  String get aboutSupport => 'Support and feedback';
+
+  @override
+  String get articleSourceHeading => 'Evidence and source';
+
+  @override
+  String get aboutOpenLinkError => 'The link could not be opened.';
+
+  @override
   String get settingsDisclaimerTitle => 'Health notice';
 
   @override
   String get settingsDisclaimer =>
       'This app is not medical advice; for the treatment of nicotine dependence consult a health professional. If you are pregnant, or have a heart condition or a psychiatric condition, seek expert advice first.';
-
-  @override
-  String get settingsHelplines =>
-      'Support lines: TR Yeşilay 176 · US 1-800-QUIT-NOW · UK NHS · DE BZgA';
 
   @override
   String get settingsPrivacy =>
@@ -914,7 +959,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String planTierAnnualSub(String price) {
-    return '7-day free trial, then $price/year';
+    return 'Annual plan · $price/year · store terms shown at checkout';
   }
 
   @override
@@ -938,25 +983,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paywallTimelineToday => 'Today';
 
   @override
+  String get paywallTimelineTitle => 'Your 7-day Halen Premium trial';
+
+  @override
   String get paywallTimelineTodayDesc =>
-      '7-day full access trial begins, \$0 charged.';
+      'Full access begins with no card and no automatic charge.';
 
   @override
   String get paywallTimelineReminder => 'Day 5';
 
   @override
   String get paywallTimelineReminderDesc =>
-      'Gentle reminder before your trial ends.';
+      'A gentle reminder to review your options before the trial ends.';
 
   @override
   String get paywallTimelineBilling => 'Day 7';
 
   @override
   String get paywallTimelineBillingDesc =>
-      'Subscription begins, cancel anytime prior.';
+      'The trial ends; choose a plan in the store. Nothing is charged automatically.';
 
   @override
-  String get paywallCtaTrial => 'Start 7-Day Free Trial';
+  String get paywallCtaTrial => 'Choose annual plan';
 
   @override
   String get paywallCtaSubscribe => 'Subscribe Now';
@@ -968,17 +1016,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paywallTerms => 'Terms of Use (EULA)';
 
   @override
+  String get paywallTermsBody =>
+      'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play Terms of Service:\nhttps://play.google.com/about/play-terms/\n\nPrice, trial, renewal and cancellation terms are shown on the relevant store confirmation screen before purchase. Subscriptions renew automatically unless cancelled at least 24 hours before the current period ends, and are managed in your App Store / Google Play account settings.';
+
+  @override
   String get paywallPrivacy => 'Privacy Policy';
+
+  @override
+  String get paywallPrivacyBody =>
+      'Halen does not send personal data, smoking records or craving-support data to external servers. The database is encrypted with SQLCipher on this device; export and deletion are available in Settings.';
 
   @override
   String get paywallLegalDisclaimer =>
       'Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Manage in your App Store / Google Play account settings.';
 
   @override
-  String get paywallRestoreSuccess => 'Purchases restored successfully.';
+  String get paywallPlansTitle => 'Premium plans';
 
   @override
-  String get paywallRestoreNone => 'No active purchases found to restore.';
+  String get paywallPriceUnavailable => 'Store price unavailable';
+
+  @override
+  String get paywallRestoreSuccess =>
+      'Restore request sent. If your store account has an active purchase, access will appear shortly.';
+
+  @override
+  String get paywallRestoreNone =>
+      'The store could not be reached; try again later.';
 
   @override
   String get timelineTitle => 'Health timeline';
@@ -1402,7 +1466,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String bodyLoadCoDrop(int percent) {
-    return 'Carbon monoxide in your blood is $percent% below its peak.';
+    return 'The modelled carbon-monoxide load is $percent% below its peak.';
   }
 
   @override
@@ -2243,7 +2307,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bodyLoadMeaning =>
-      'Each spike is a cigarette; the fall after it is your body clearing it. Green marks are the spikes that never happened.';
+      'Each spike is a logged cigarette; the falling line is model decay, not a measurement. Green marks are spikes that never happened.';
 
   @override
   String get loadAxisCaption =>
@@ -2506,7 +2570,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get medicinesLead =>
-      'These roughly double the chance an attempt succeeds. It is the most effective help available, and most people never try it.';
+      'Medication and counselling can substantially improve the chance of quitting. Which option is suitable depends on your health and a clinician\'s advice.';
 
   @override
   String get medicinesOtc => 'Available at a pharmacy';
@@ -2796,11 +2860,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startupFailUnknown => 'No further detail was reported.';
 
   @override
-  String get smokedHeadline0 => 'Recorded. Your nicotine level has peaked.';
+  String get smokedHeadline0 =>
+      'Recorded. The nicotine model has been recalculated.';
 
   @override
   String get smokedHeadline1 =>
-      'Cigarette logged. Carbon monoxide clearance has reset.';
+      'Cigarette logged. The carbon-monoxide model has been recalculated.';
 
   @override
   String get smokedHeadline2 => 'Record updated. Stay focused on your rhythm.';
@@ -2811,7 +2876,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get smokedAdvice0 =>
-      'Drink a large glass of cold water now to neutralize nicotine taste and stimulate the vagus nerve.';
+      'If it helps, sip cold water; it can keep your mouth and hands occupied while the urge settles.';
 
   @override
   String get smokedAdvice1 =>
@@ -2823,7 +2888,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get smokedAdvice3 =>
-      'Your body takes about 8 hours to clear this nicotine. Hydrate to support your metabolism.';
+      'There is no fixed personal clearance time. The modelled nicotine curve falls over hours; water does not speed that biology.';
 
   @override
   String get splashContinue => 'Continue';
@@ -2964,19 +3029,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Spoons by volume, taking tar at about 1 g per millilitre. A Turkish tea spoon holds about 2.5 mL.';
 
   @override
-  String get nicotineMgAxis =>
-      'estimated nicotine still in your body, mg — a model, not a measurement';
-
-  @override
-  String get nicotineMgBasis =>
-      'About 1.2 mg of nicotine is absorbed per cigarette, and half of it leaves the body every 2 hours (Benowitz).';
-
-  @override
-  String mgValue(String value) {
-    return '$value mg';
-  }
-
-  @override
   String get organExposureTitle => 'This organ, last 24 hours';
 
   @override
@@ -2986,7 +3038,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get organExposureMeaning =>
-      'Each spike is a cigarette reaching this organ; the fall is your body clearing it. The flatter the line, the more rest the organ gets.';
+      'Each spike is a logged cigarette input to a relative model; the fall is model decay, not an organ measurement.';
 
   @override
   String organExposureLoads(String loads) {
@@ -3000,27 +3052,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get organAcuteHeart =>
-      'After a cigarette the heart beats about 10-20 times a minute faster and blood pressure rises, for roughly 20-30 minutes.';
+      'Smoking can raise heart rate and blood pressure; the size and duration vary by person.';
 
   @override
   String get organAcuteVessels =>
-      'Nicotine narrows blood vessels within minutes, and each cigarette keeps them narrowed for about an hour.';
+      'Nicotine can narrow blood vessels; the timing and duration vary by person.';
 
   @override
   String get organAcuteLungs =>
-      'Smoke slows the tiny hairs that sweep the airways clean, and tar settles in the lungs with every cigarette.';
+      'Smoke can impair the tiny hairs that clear the airways; the app cannot estimate how much tar remains in your lungs.';
 
   @override
   String get organAcuteBrain =>
-      'Nicotine reaches the brain in 10-20 seconds; as it falls over the next hours, it comes back as the next craving.';
+      'Inhaled nicotine reaches the brain quickly; falling levels and learned triggers can contribute to another craving.';
 
   @override
   String get organAcuteBlood =>
-      'Carbon monoxide takes the place of oxygen in the blood; half of it clears in about 4-5 hours.';
+      'Carbon monoxide reduces oxygen-carrying capacity; levels generally fall after stopping, with timing varying by person.';
 
   @override
   String get organAcuteGeneral =>
-      'The harmful substances in smoke travel in the blood to every organ; exposure grows with every cigarette.';
+      'Smoke contains harmful substances that can reach many organs; this is a population-level explanation, not a personal exposure measurement.';
 
   @override
   String get envTitle => 'What your planet got back';
@@ -3149,4 +3201,174 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonDelete => 'Delete';
+
+  @override
+  String get todayLogFirstOfDay => 'First of the day';
+
+  @override
+  String todayLogGapHours(int h, int m) {
+    return '+$h h $m min later';
+  }
+
+  @override
+  String todayLogGapMinutes(int m) {
+    return '+$m min later';
+  }
+
+  @override
+  String get loadTarToday => 'Tar (today)';
+
+  @override
+  String get nowInBodyCleaning => 'Clearing ongoing';
+
+  @override
+  String get sosInternationalLines => 'International quitlines';
+
+  @override
+  String get economyPastSpentNote =>
+      'This money is already gone. Quitting with Halen is what keeps your wealth — and your lifespan — in your pocket in the years ahead.';
+
+  @override
+  String economyYearsLabel(String years) {
+    return '$years yrs / cigarettes';
+  }
+
+  @override
+  String economyCigaretteCount(String count) {
+    return '$count cigarettes';
+  }
+
+  @override
+  String earPointOf(int n) {
+    return 'Point $n/5';
+  }
+
+  @override
+  String earPointLocation(String location) {
+    return 'Location: $location';
+  }
+
+  @override
+  String get earPointShenMenTitle => 'Shen Men (Spirit Gate)';
+
+  @override
+  String get earPointShenMenLocation => 'Upper triangular fossa of the ear';
+
+  @override
+  String get earPointShenMenEffect =>
+      'Stimulates the parasympathetic nervous system; calms the anxiety, panic and stress hormones (cortisol) of a craving.';
+
+  @override
+  String get earPointShenMenInstruction =>
+      'Press gently into the hollow with your index finger and make small circular motions. Apply pressure for 4 s while inhaling, release for 6 s while exhaling.';
+
+  @override
+  String get earPointAutonomicTitle => 'Sympathetic / Autonomic Point';
+
+  @override
+  String get earPointAutonomicLocation =>
+      'Upper edge of the inner ridge (root of the helix)';
+
+  @override
+  String get earPointAutonomicEffect =>
+      'Releases vasoconstriction (narrowed vessels) and steadies the racing pulse and bodily tension that follow a nicotine drop.';
+
+  @override
+  String get earPointAutonomicInstruction =>
+      'Press gently on the cartilage edge with a fingertip. Listen to your pulse and let your shoulders drop.';
+
+  @override
+  String get earPointKidneyTitle => 'Kidney Point';
+
+  @override
+  String get earPointKidneyLocation => 'Upper inner area of the concha hollow';
+
+  @override
+  String get earPointKidneyEffect =>
+      'Eases fear and willpower fatigue; supports the kidneys\' metabolism of clearing toxins and tar.';
+
+  @override
+  String get earPointKidneyInstruction =>
+      'Rest your thumb behind the ear for support and press lightly and rhythmically on the upper concha hollow with your index finger.';
+
+  @override
+  String get earPointLiverTitle => 'Liver Point';
+
+  @override
+  String get earPointLiverLocation => 'Middle-rear area of the concha hollow';
+
+  @override
+  String get earPointLiverEffect =>
+      'Soothes withdrawal-driven anger, irritability, intolerance and the impulsive urge to light a cigarette.';
+
+  @override
+  String get earPointLiverInstruction =>
+      'Massage the rear wall of the concha in circles. The area can feel slightly tender when tense; never press to the point of pain.';
+
+  @override
+  String get earPointLungTitle => 'Lung Point';
+
+  @override
+  String get earPointLungLocation =>
+      'Centre and lower area of the concha cavity';
+
+  @override
+  String get earPointLungEffect =>
+      'Relaxes the air-hunger spasm in the airways; deepens and eases the breath.';
+
+  @override
+  String get earPointLungInstruction =>
+      'Place your finger just above and behind the ear canal. Increase the pressure slightly with each exhale.';
+
+  @override
+  String nutritionClinicalBase(String basis) {
+    return 'Clinical basis: $basis';
+  }
+
+  @override
+  String get nutritionPillar1Title => '1. Ice-Cold Water (Vagal Stimulation)';
+
+  @override
+  String get nutritionPillar1Basis =>
+      'Stimulation of oropharyngeal thermoreceptors and activation of vagal tone.';
+
+  @override
+  String get nutritionPillar1Body =>
+      'When a craving hits, drink a glass of ice-cold water through a straw, sip by sip.\n\n• Cold water distracts the nicotinic sensory receptors in the throat and mouth.\n• It activates the parasympathetic system (vagus nerve), lowering a rising heart rate and anxiety within minutes.\n• It substitutes for hand-and-mouth movement, filling the psychomotor void.';
+
+  @override
+  String get nutritionPillar2Title =>
+      '2. Alkaline Foods (Urine pH and Nicotine Clearance)';
+
+  @override
+  String get nutritionPillar2Basis =>
+      'Acidic urine speeds up nicotine elimination, while an alkaline pH keeps nicotine levels steadier (Beckett & Rowland, 1965).';
+
+  @override
+  String get nutritionPillar2Body =>
+      'When the body is acidic, the kidneys flush nicotine out of the blood quickly, causing sharp, sudden withdrawal crises.\n\n• Cucumber slices, celery sticks, raw almonds, carrots and leafy greens shift the urine towards alkaline.\n• Blood nicotine then falls on a gentle slope instead of a cliff, and cravings become rarer.\n• Keeping cucumber or carrot sticks on hand is a perfect chewing reflex at the moment of a craving.';
+
+  @override
+  String get nutritionPillar3Title =>
+      '3. Vitamin C Support (Antioxidant Shield)';
+
+  @override
+  String get nutritionPillar3Basis =>
+      'Free radicals in tobacco smoke deplete plasma ascorbic acid (vitamin C) stores by 30–50%.';
+
+  @override
+  String get nutritionPillar3Body =>
+      'Nicotine withdrawal creates an acute stress response, and the adrenal glands burn through large amounts of vitamin C.\n\n• Freshly squeezed lukewarm lemon water, kiwi, strawberries, oranges and red peppers quickly replenish vitamin C stores.\n• By supporting cortisol regulation, it eases the exhaustion and irritability withdrawal causes.';
+
+  @override
+  String get nutritionPillar4Title =>
+      '4. Caffeine and Refined Sugar Warning (The Critical Trap)';
+
+  @override
+  String get nutritionPillar4Basis =>
+      'Tobacco smoke stimulates the liver enzyme CYP1A2, which breaks caffeine down quickly; when you quit, caffeine clearance slows by about 50%.';
+
+  @override
+  String get nutritionPillar4Body =>
+      'When you cut down or quit:\n\n• Coffee stays in the blood twice as long! Your usual amount can now cause palpitations, trembling and panic. Most people mistake this for a nicotine craving — it is a caffeine overload. Cut your coffee by 50%.\n• Simple sugars (chocolate, syrupy sweets) create sharp spikes and crashes in blood sugar (reactive hypoglycaemia), feeding dopamine hunger and cigarette cravings. Choose fibre-rich snacks instead.';
 }

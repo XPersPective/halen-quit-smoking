@@ -1372,6 +1372,18 @@ abstract class AppLocalizations {
   /// **'A new health milestone is in. Check your timeline.'**
   String get notifMilestoneBody;
 
+  /// No description provided for @notifTrialTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your trial ends soon'**
+  String get notifTrialTitle;
+
+  /// No description provided for @notifTrialBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Halen Premium trial ends in two days. Choosing a plan is entirely up to you; nothing is charged automatically.'**
+  String get notifTrialBody;
+
   /// No description provided for @notifChannelReminders.
   ///
   /// In en, this message translates to:
@@ -1519,19 +1531,19 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPurchase.
   ///
   /// In en, this message translates to:
-  /// **'Halen Lifetime'**
+  /// **'Halen Premium'**
   String get settingsPurchase;
 
   /// No description provided for @purchaseCopy.
   ///
   /// In en, this message translates to:
-  /// **'One-time · Lifetime · No subscription'**
+  /// **'Flexible plans · Lifetime option'**
   String get purchaseCopy;
 
   /// No description provided for @purchaseCta.
   ///
   /// In en, this message translates to:
-  /// **'Buy once'**
+  /// **'Choose a Premium plan'**
   String get purchaseCta;
 
   /// No description provided for @purchaseRestore.
@@ -1543,7 +1555,7 @@ abstract class AppLocalizations {
   /// No description provided for @purchaseOwned.
   ///
   /// In en, this message translates to:
-  /// **'You own Halen Lifetime.'**
+  /// **'Halen Premium access is active.'**
   String get purchaseOwned;
 
   /// No description provided for @purchasePending.
@@ -1570,6 +1582,84 @@ abstract class AppLocalizations {
   /// **'About'**
   String get settingsAbout;
 
+  /// No description provided for @aboutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About Halen'**
+  String get aboutTitle;
+
+  /// No description provided for @aboutSourceShort.
+  ///
+  /// In en, this message translates to:
+  /// **'GPLv3 copyleft open source'**
+  String get aboutSourceShort;
+
+  /// No description provided for @aboutIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Halen is built to support quitting or cutting down with a calm, evidence-aware and privacy-first experience.'**
+  String get aboutIntro;
+
+  /// No description provided for @aboutOpenSourceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Why public source?'**
+  String get aboutOpenSourceTitle;
+
+  /// No description provided for @aboutOpenSourceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The source is published under GPLv3-or-later so people can inspect it, learn from it and improve it together. GPL does not prohibit commercial use; it requires distributed modifications to preserve the same freedoms and source access. See the license text for details.'**
+  String get aboutOpenSourceBody;
+
+  /// No description provided for @aboutPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data'**
+  String get aboutPrivacyTitle;
+
+  /// No description provided for @aboutPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no account, server or analytics. Your records stay in an encrypted local database on this device; export and deletion are available in Settings.'**
+  String get aboutPrivacyBody;
+
+  /// No description provided for @aboutSourceCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Inspect the source code'**
+  String get aboutSourceCode;
+
+  /// No description provided for @aboutLicense.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the license'**
+  String get aboutLicense;
+
+  /// No description provided for @aboutPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the privacy policy'**
+  String get aboutPrivacyPolicy;
+
+  /// No description provided for @aboutSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Support and feedback'**
+  String get aboutSupport;
+
+  /// No description provided for @articleSourceHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Evidence and source'**
+  String get articleSourceHeading;
+
+  /// No description provided for @aboutOpenLinkError.
+  ///
+  /// In en, this message translates to:
+  /// **'The link could not be opened.'**
+  String get aboutOpenLinkError;
+
   /// No description provided for @settingsDisclaimerTitle.
   ///
   /// In en, this message translates to:
@@ -1581,12 +1671,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This app is not medical advice; for the treatment of nicotine dependence consult a health professional. If you are pregnant, or have a heart condition or a psychiatric condition, seek expert advice first.'**
   String get settingsDisclaimer;
-
-  /// No description provided for @settingsHelplines.
-  ///
-  /// In en, this message translates to:
-  /// **'Support lines: TR Yeşilay 176 · US 1-800-QUIT-NOW · UK NHS · DE BZgA'**
-  String get settingsHelplines;
 
   /// No description provided for @settingsPrivacy.
   ///
@@ -1687,7 +1771,7 @@ abstract class AppLocalizations {
   /// No description provided for @planTierAnnualSub.
   ///
   /// In en, this message translates to:
-  /// **'7-day free trial, then {price}/year'**
+  /// **'Annual plan · {price}/year · store terms shown at checkout'**
   String planTierAnnualSub(String price);
 
   /// No description provided for @planTierMonthly.
@@ -1726,10 +1810,16 @@ abstract class AppLocalizations {
   /// **'Today'**
   String get paywallTimelineToday;
 
+  /// No description provided for @paywallTimelineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your 7-day Halen Premium trial'**
+  String get paywallTimelineTitle;
+
   /// No description provided for @paywallTimelineTodayDesc.
   ///
   /// In en, this message translates to:
-  /// **'7-day full access trial begins, \$0 charged.'**
+  /// **'Full access begins with no card and no automatic charge.'**
   String get paywallTimelineTodayDesc;
 
   /// No description provided for @paywallTimelineReminder.
@@ -1741,7 +1831,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallTimelineReminderDesc.
   ///
   /// In en, this message translates to:
-  /// **'Gentle reminder before your trial ends.'**
+  /// **'A gentle reminder to review your options before the trial ends.'**
   String get paywallTimelineReminderDesc;
 
   /// No description provided for @paywallTimelineBilling.
@@ -1753,13 +1843,13 @@ abstract class AppLocalizations {
   /// No description provided for @paywallTimelineBillingDesc.
   ///
   /// In en, this message translates to:
-  /// **'Subscription begins, cancel anytime prior.'**
+  /// **'The trial ends; choose a plan in the store. Nothing is charged automatically.'**
   String get paywallTimelineBillingDesc;
 
   /// No description provided for @paywallCtaTrial.
   ///
   /// In en, this message translates to:
-  /// **'Start 7-Day Free Trial'**
+  /// **'Choose annual plan'**
   String get paywallCtaTrial;
 
   /// No description provided for @paywallCtaSubscribe.
@@ -1780,11 +1870,23 @@ abstract class AppLocalizations {
   /// **'Terms of Use (EULA)'**
   String get paywallTerms;
 
+  /// No description provided for @paywallTermsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play Terms of Service:\nhttps://play.google.com/about/play-terms/\n\nPrice, trial, renewal and cancellation terms are shown on the relevant store confirmation screen before purchase. Subscriptions renew automatically unless cancelled at least 24 hours before the current period ends, and are managed in your App Store / Google Play account settings.'**
+  String get paywallTermsBody;
+
   /// No description provided for @paywallPrivacy.
   ///
   /// In en, this message translates to:
   /// **'Privacy Policy'**
   String get paywallPrivacy;
+
+  /// No description provided for @paywallPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Halen does not send personal data, smoking records or craving-support data to external servers. The database is encrypted with SQLCipher on this device; export and deletion are available in Settings.'**
+  String get paywallPrivacyBody;
 
   /// No description provided for @paywallLegalDisclaimer.
   ///
@@ -1792,16 +1894,28 @@ abstract class AppLocalizations {
   /// **'Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Manage in your App Store / Google Play account settings.'**
   String get paywallLegalDisclaimer;
 
+  /// No description provided for @paywallPlansTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium plans'**
+  String get paywallPlansTitle;
+
+  /// No description provided for @paywallPriceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Store price unavailable'**
+  String get paywallPriceUnavailable;
+
   /// No description provided for @paywallRestoreSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Purchases restored successfully.'**
+  /// **'Restore request sent. If your store account has an active purchase, access will appear shortly.'**
   String get paywallRestoreSuccess;
 
   /// No description provided for @paywallRestoreNone.
   ///
   /// In en, this message translates to:
-  /// **'No active purchases found to restore.'**
+  /// **'The store could not be reached; try again later.'**
   String get paywallRestoreNone;
 
   /// No description provided for @timelineTitle.
@@ -2527,7 +2641,7 @@ abstract class AppLocalizations {
   /// No description provided for @bodyLoadCoDrop.
   ///
   /// In en, this message translates to:
-  /// **'Carbon monoxide in your blood is {percent}% below its peak.'**
+  /// **'The modelled carbon-monoxide load is {percent}% below its peak.'**
   String bodyLoadCoDrop(int percent);
 
   /// No description provided for @loadNicotineAcute.
@@ -3991,7 +4105,7 @@ abstract class AppLocalizations {
   /// No description provided for @bodyLoadMeaning.
   ///
   /// In en, this message translates to:
-  /// **'Each spike is a cigarette; the fall after it is your body clearing it. Green marks are the spikes that never happened.'**
+  /// **'Each spike is a logged cigarette; the falling line is model decay, not a measurement. Green marks are spikes that never happened.'**
   String get bodyLoadMeaning;
 
   /// No description provided for @loadAxisCaption.
@@ -4435,7 +4549,7 @@ abstract class AppLocalizations {
   /// No description provided for @medicinesLead.
   ///
   /// In en, this message translates to:
-  /// **'These roughly double the chance an attempt succeeds. It is the most effective help available, and most people never try it.'**
+  /// **'Medication and counselling can substantially improve the chance of quitting. Which option is suitable depends on your health and a clinician\'s advice.'**
   String get medicinesLead;
 
   /// No description provided for @medicinesOtc.
@@ -4957,13 +5071,13 @@ abstract class AppLocalizations {
   /// No description provided for @smokedHeadline0.
   ///
   /// In en, this message translates to:
-  /// **'Recorded. Your nicotine level has peaked.'**
+  /// **'Recorded. The nicotine model has been recalculated.'**
   String get smokedHeadline0;
 
   /// No description provided for @smokedHeadline1.
   ///
   /// In en, this message translates to:
-  /// **'Cigarette logged. Carbon monoxide clearance has reset.'**
+  /// **'Cigarette logged. The carbon-monoxide model has been recalculated.'**
   String get smokedHeadline1;
 
   /// No description provided for @smokedHeadline2.
@@ -4981,7 +5095,7 @@ abstract class AppLocalizations {
   /// No description provided for @smokedAdvice0.
   ///
   /// In en, this message translates to:
-  /// **'Drink a large glass of cold water now to neutralize nicotine taste and stimulate the vagus nerve.'**
+  /// **'If it helps, sip cold water; it can keep your mouth and hands occupied while the urge settles.'**
   String get smokedAdvice0;
 
   /// No description provided for @smokedAdvice1.
@@ -4999,7 +5113,7 @@ abstract class AppLocalizations {
   /// No description provided for @smokedAdvice3.
   ///
   /// In en, this message translates to:
-  /// **'Your body takes about 8 hours to clear this nicotine. Hydrate to support your metabolism.'**
+  /// **'There is no fixed personal clearance time. The modelled nicotine curve falls over hours; water does not speed that biology.'**
   String get smokedAdvice3;
 
   /// No description provided for @splashContinue.
@@ -5236,24 +5350,6 @@ abstract class AppLocalizations {
   /// **'Spoons by volume, taking tar at about 1 g per millilitre. A Turkish tea spoon holds about 2.5 mL.'**
   String get tarSpoonNote;
 
-  /// No description provided for @nicotineMgAxis.
-  ///
-  /// In en, this message translates to:
-  /// **'estimated nicotine still in your body, mg — a model, not a measurement'**
-  String get nicotineMgAxis;
-
-  /// No description provided for @nicotineMgBasis.
-  ///
-  /// In en, this message translates to:
-  /// **'About 1.2 mg of nicotine is absorbed per cigarette, and half of it leaves the body every 2 hours (Benowitz).'**
-  String get nicotineMgBasis;
-
-  /// No description provided for @mgValue.
-  ///
-  /// In en, this message translates to:
-  /// **'{value} mg'**
-  String mgValue(String value);
-
   /// No description provided for @organExposureTitle.
   ///
   /// In en, this message translates to:
@@ -5269,7 +5365,7 @@ abstract class AppLocalizations {
   /// No description provided for @organExposureMeaning.
   ///
   /// In en, this message translates to:
-  /// **'Each spike is a cigarette reaching this organ; the fall is your body clearing it. The flatter the line, the more rest the organ gets.'**
+  /// **'Each spike is a logged cigarette input to a relative model; the fall is model decay, not an organ measurement.'**
   String get organExposureMeaning;
 
   /// No description provided for @organExposureLoads.
@@ -5287,37 +5383,37 @@ abstract class AppLocalizations {
   /// No description provided for @organAcuteHeart.
   ///
   /// In en, this message translates to:
-  /// **'After a cigarette the heart beats about 10-20 times a minute faster and blood pressure rises, for roughly 20-30 minutes.'**
+  /// **'Smoking can raise heart rate and blood pressure; the size and duration vary by person.'**
   String get organAcuteHeart;
 
   /// No description provided for @organAcuteVessels.
   ///
   /// In en, this message translates to:
-  /// **'Nicotine narrows blood vessels within minutes, and each cigarette keeps them narrowed for about an hour.'**
+  /// **'Nicotine can narrow blood vessels; the timing and duration vary by person.'**
   String get organAcuteVessels;
 
   /// No description provided for @organAcuteLungs.
   ///
   /// In en, this message translates to:
-  /// **'Smoke slows the tiny hairs that sweep the airways clean, and tar settles in the lungs with every cigarette.'**
+  /// **'Smoke can impair the tiny hairs that clear the airways; the app cannot estimate how much tar remains in your lungs.'**
   String get organAcuteLungs;
 
   /// No description provided for @organAcuteBrain.
   ///
   /// In en, this message translates to:
-  /// **'Nicotine reaches the brain in 10-20 seconds; as it falls over the next hours, it comes back as the next craving.'**
+  /// **'Inhaled nicotine reaches the brain quickly; falling levels and learned triggers can contribute to another craving.'**
   String get organAcuteBrain;
 
   /// No description provided for @organAcuteBlood.
   ///
   /// In en, this message translates to:
-  /// **'Carbon monoxide takes the place of oxygen in the blood; half of it clears in about 4-5 hours.'**
+  /// **'Carbon monoxide reduces oxygen-carrying capacity; levels generally fall after stopping, with timing varying by person.'**
   String get organAcuteBlood;
 
   /// No description provided for @organAcuteGeneral.
   ///
   /// In en, this message translates to:
-  /// **'The harmful substances in smoke travel in the blood to every organ; exposure grows with every cigarette.'**
+  /// **'Smoke contains harmful substances that can reach many organs; this is a population-level explanation, not a personal exposure measurement.'**
   String get organAcuteGeneral;
 
   /// No description provided for @envTitle.
@@ -5547,6 +5643,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get commonDelete;
+
+  /// No description provided for @todayLogFirstOfDay.
+  ///
+  /// In en, this message translates to:
+  /// **'First of the day'**
+  String get todayLogFirstOfDay;
+
+  /// No description provided for @todayLogGapHours.
+  ///
+  /// In en, this message translates to:
+  /// **'+{h} h {m} min later'**
+  String todayLogGapHours(int h, int m);
+
+  /// No description provided for @todayLogGapMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'+{m} min later'**
+  String todayLogGapMinutes(int m);
+
+  /// No description provided for @loadTarToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tar (today)'**
+  String get loadTarToday;
+
+  /// No description provided for @nowInBodyCleaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing ongoing'**
+  String get nowInBodyCleaning;
+
+  /// No description provided for @sosInternationalLines.
+  ///
+  /// In en, this message translates to:
+  /// **'International quitlines'**
+  String get sosInternationalLines;
+
+  /// No description provided for @economyPastSpentNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This money is already gone. Quitting with Halen is what keeps your wealth — and your lifespan — in your pocket in the years ahead.'**
+  String get economyPastSpentNote;
+
+  /// No description provided for @economyYearsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{years} yrs / cigarettes'**
+  String economyYearsLabel(String years);
+
+  /// No description provided for @economyCigaretteCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} cigarettes'**
+  String economyCigaretteCount(String count);
+
+  /// No description provided for @earPointOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Point {n}/5'**
+  String earPointOf(int n);
+
+  /// No description provided for @earPointLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location: {location}'**
+  String earPointLocation(String location);
+
+  /// No description provided for @earPointShenMenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shen Men (Spirit Gate)'**
+  String get earPointShenMenTitle;
+
+  /// No description provided for @earPointShenMenLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper triangular fossa of the ear'**
+  String get earPointShenMenLocation;
+
+  /// No description provided for @earPointShenMenEffect.
+  ///
+  /// In en, this message translates to:
+  /// **'Stimulates the parasympathetic nervous system; calms the anxiety, panic and stress hormones (cortisol) of a craving.'**
+  String get earPointShenMenEffect;
+
+  /// No description provided for @earPointShenMenInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Press gently into the hollow with your index finger and make small circular motions. Apply pressure for 4 s while inhaling, release for 6 s while exhaling.'**
+  String get earPointShenMenInstruction;
+
+  /// No description provided for @earPointAutonomicTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sympathetic / Autonomic Point'**
+  String get earPointAutonomicTitle;
+
+  /// No description provided for @earPointAutonomicLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper edge of the inner ridge (root of the helix)'**
+  String get earPointAutonomicLocation;
+
+  /// No description provided for @earPointAutonomicEffect.
+  ///
+  /// In en, this message translates to:
+  /// **'Releases vasoconstriction (narrowed vessels) and steadies the racing pulse and bodily tension that follow a nicotine drop.'**
+  String get earPointAutonomicEffect;
+
+  /// No description provided for @earPointAutonomicInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Press gently on the cartilage edge with a fingertip. Listen to your pulse and let your shoulders drop.'**
+  String get earPointAutonomicInstruction;
+
+  /// No description provided for @earPointKidneyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Kidney Point'**
+  String get earPointKidneyTitle;
+
+  /// No description provided for @earPointKidneyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper inner area of the concha hollow'**
+  String get earPointKidneyLocation;
+
+  /// No description provided for @earPointKidneyEffect.
+  ///
+  /// In en, this message translates to:
+  /// **'Eases fear and willpower fatigue; supports the kidneys\' metabolism of clearing toxins and tar.'**
+  String get earPointKidneyEffect;
+
+  /// No description provided for @earPointKidneyInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest your thumb behind the ear for support and press lightly and rhythmically on the upper concha hollow with your index finger.'**
+  String get earPointKidneyInstruction;
+
+  /// No description provided for @earPointLiverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Liver Point'**
+  String get earPointLiverTitle;
+
+  /// No description provided for @earPointLiverLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Middle-rear area of the concha hollow'**
+  String get earPointLiverLocation;
+
+  /// No description provided for @earPointLiverEffect.
+  ///
+  /// In en, this message translates to:
+  /// **'Soothes withdrawal-driven anger, irritability, intolerance and the impulsive urge to light a cigarette.'**
+  String get earPointLiverEffect;
+
+  /// No description provided for @earPointLiverInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Massage the rear wall of the concha in circles. The area can feel slightly tender when tense; never press to the point of pain.'**
+  String get earPointLiverInstruction;
+
+  /// No description provided for @earPointLungTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lung Point'**
+  String get earPointLungTitle;
+
+  /// No description provided for @earPointLungLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Centre and lower area of the concha cavity'**
+  String get earPointLungLocation;
+
+  /// No description provided for @earPointLungEffect.
+  ///
+  /// In en, this message translates to:
+  /// **'Relaxes the air-hunger spasm in the airways; deepens and eases the breath.'**
+  String get earPointLungEffect;
+
+  /// No description provided for @earPointLungInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Place your finger just above and behind the ear canal. Increase the pressure slightly with each exhale.'**
+  String get earPointLungInstruction;
+
+  /// No description provided for @nutritionClinicalBase.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinical basis: {basis}'**
+  String nutritionClinicalBase(String basis);
+
+  /// No description provided for @nutritionPillar1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Ice-Cold Water (Vagal Stimulation)'**
+  String get nutritionPillar1Title;
+
+  /// No description provided for @nutritionPillar1Basis.
+  ///
+  /// In en, this message translates to:
+  /// **'Stimulation of oropharyngeal thermoreceptors and activation of vagal tone.'**
+  String get nutritionPillar1Basis;
+
+  /// No description provided for @nutritionPillar1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'When a craving hits, drink a glass of ice-cold water through a straw, sip by sip.\n\n• Cold water distracts the nicotinic sensory receptors in the throat and mouth.\n• It activates the parasympathetic system (vagus nerve), lowering a rising heart rate and anxiety within minutes.\n• It substitutes for hand-and-mouth movement, filling the psychomotor void.'**
+  String get nutritionPillar1Body;
+
+  /// No description provided for @nutritionPillar2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Alkaline Foods (Urine pH and Nicotine Clearance)'**
+  String get nutritionPillar2Title;
+
+  /// No description provided for @nutritionPillar2Basis.
+  ///
+  /// In en, this message translates to:
+  /// **'Acidic urine speeds up nicotine elimination, while an alkaline pH keeps nicotine levels steadier (Beckett & Rowland, 1965).'**
+  String get nutritionPillar2Basis;
+
+  /// No description provided for @nutritionPillar2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'When the body is acidic, the kidneys flush nicotine out of the blood quickly, causing sharp, sudden withdrawal crises.\n\n• Cucumber slices, celery sticks, raw almonds, carrots and leafy greens shift the urine towards alkaline.\n• Blood nicotine then falls on a gentle slope instead of a cliff, and cravings become rarer.\n• Keeping cucumber or carrot sticks on hand is a perfect chewing reflex at the moment of a craving.'**
+  String get nutritionPillar2Body;
+
+  /// No description provided for @nutritionPillar3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Vitamin C Support (Antioxidant Shield)'**
+  String get nutritionPillar3Title;
+
+  /// No description provided for @nutritionPillar3Basis.
+  ///
+  /// In en, this message translates to:
+  /// **'Free radicals in tobacco smoke deplete plasma ascorbic acid (vitamin C) stores by 30–50%.'**
+  String get nutritionPillar3Basis;
+
+  /// No description provided for @nutritionPillar3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Nicotine withdrawal creates an acute stress response, and the adrenal glands burn through large amounts of vitamin C.\n\n• Freshly squeezed lukewarm lemon water, kiwi, strawberries, oranges and red peppers quickly replenish vitamin C stores.\n• By supporting cortisol regulation, it eases the exhaustion and irritability withdrawal causes.'**
+  String get nutritionPillar3Body;
+
+  /// No description provided for @nutritionPillar4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'4. Caffeine and Refined Sugar Warning (The Critical Trap)'**
+  String get nutritionPillar4Title;
+
+  /// No description provided for @nutritionPillar4Basis.
+  ///
+  /// In en, this message translates to:
+  /// **'Tobacco smoke stimulates the liver enzyme CYP1A2, which breaks caffeine down quickly; when you quit, caffeine clearance slows by about 50%.'**
+  String get nutritionPillar4Basis;
+
+  /// No description provided for @nutritionPillar4Body.
+  ///
+  /// In en, this message translates to:
+  /// **'When you cut down or quit:\n\n• Coffee stays in the blood twice as long! Your usual amount can now cause palpitations, trembling and panic. Most people mistake this for a nicotine craving — it is a caffeine overload. Cut your coffee by 50%.\n• Simple sugars (chocolate, syrupy sweets) create sharp spikes and crashes in blood sugar (reactive hypoglycaemia), feeding dopamine hunger and cigarette cravings. Choose fibre-rich snacks instead.'**
+  String get nutritionPillar4Body;
 }
 
 class _AppLocalizationsDelegate

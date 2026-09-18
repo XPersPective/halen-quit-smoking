@@ -6,7 +6,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/design/tokens.dart';
 import '../../l10n/generated/app_localizations.dart';
 
-/// Regional support, not emergency services. Official sources: MIMARI.md H01.
+/// Regional support, not emergency services. Sources checked 2026-09-16:
+/// alo171.saglik.gov.tr, yedam.org.tr, cdc.gov (1-800-784-8669),
+/// rauchfrei-info.de, nhs.uk (England 0300 123 1044, Scotland 0800 84 84 84,
+/// Wales 0800 085 2219). Old "Yeşilay 176" lines are removed.
 class QuitlineCard extends StatefulWidget {
   const QuitlineCard({super.key});
 

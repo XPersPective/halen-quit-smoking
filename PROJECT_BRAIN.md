@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T18.1 kapandı: Android16 açık/koyu beş ekranda durum çubuğu okunur; Standart tek chip, seçim native doğrulandı.
-> **Phase:** BUILD · **Next:** T1 · **Updated:** 2026-09-18 · **Synced@:** 79ec286
+> **Status:** T1 destek hattı doğrulandı; mevcut katalog/üç-ekran kullanımı yeterli bulundu, Yeşilay176 kalıntısı ve bayat yorum temizlendi.
+> **Phase:** BUILD · **Next:** T2 · **Updated:** 2026-09-18 · **Synced@:** 7d3078a
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -194,7 +194,8 @@ Hedef doğrudan kullanıcı akışından türetilir:
   hatası main'e ulaşır, başarısız bağlantı kapatılır. `lib/app.dart` hata ekranında DB
   ayarlarını okumaz ve home ile / rotasını çakıştırmaz.3 gerçek SQLCipher +1 widget testi.
 - `lib/presentation/widgets/quitline_card.dart`: kayıtlı bölge/cihaz bölgesi,TR/US/DE/UK
-  alt bölgeleri;3 ekran ortak. Native arama ve aralıklı raster görünmezlik henüz açık.
+  alt bölgeleri;3 ekran ortak; numaralar yalnız çağrı düğmelerinde ve kopyalamada.
+  Android16 dialer kanıtı 2026-09-18; iOS arama akışı kanıtı açık (T25).
 - `lib/data/purchase_service.dart`: mevcut store entegrasyonu restore/async güvenlik denetimi
   bekliyor; callback kriptografik doğrulama kanıtı değil. Tam reklam entegrasyonu yok.
 - `settings_screen.dart`: bildirim yoğunluğu Wrap/ChoiceChip; dar alanda sözcük bölmek
@@ -213,7 +214,7 @@ Hedef doğrudan kullanıcı akışından türetilir:
   profille Bugün, izole Halen-QA/user10 temiz veride Welcome açıldı. User10'da
   Start→Step1→KEYCODE_BACK→Welcome gözlendi;8 adımlık tam tur hâlâ açık.
 GAP: başlangıç izin/ritim/beden/geri akışı → T2,T4,T5,T6.
-GAP: görsel ve kullanıcı akışı kapsamı → T1,T7–T18.
+GAP: görsel ve kullanıcı akışı kapsamı → T7–T18.
 GAP: yedek, hukuk, ödeme, reklam ve release kanıtı → T3,T19–T26.
 
 ## 4. FILE MAP
@@ -250,10 +251,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
 
 ## 5. TASKS
 
-- [ ] T1 [M] Ülkeye uygun, yeşil destek hattı (eski H01)
-  - Where: `lib/presentation/widgets/quitline_card.dart; test/widget/quitline_card_test.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Sorun: İngilizce arayüzde Türkiye numarası öne çıkıyor. SOS, Ayarlar ve başlangıç ekranındaki tüm çağrıları bul; tek ülke kataloğunu kullan. TR ALO171/YEDAM115, US/UK/DE hizmetlerini resmi kaynaklarından doğrula, kaynak ve kontrol tarihini yaz. Ülke değiştirme kısa yolu ve yerel ülke etiketi sun; bilinmeyen ülkeye yanlış telefon atma. Yeşil, en az 48dp dokunma alanı; hata/çevirici yok durumunda numara kopyalama. Kanıt: TR/EN/DE ve İngilizce+Türkiye/İngilizce+UK kombinasyon testi; gerçek cihazda çevirici açılır ama otomatik arama yapılmaz.  Uygulama kararı: ortak QuitlineCard SOS/Ayarlar/18 yaş altı ekranında kullanılır. Seçim mevcut shared_preferences içinde yalnız destek bölgesi olarak tutulur; UI dilinden ülke türetilmez. Cihaz TR/US/DE önerilebilir, GB için İngiltere/İskoçya/ Galler ayrımı kullanıcıya bırakılır. Desteklenmeyen bölgede yerel uzman yönlendirmesi gösterilir. 16 Eylül resmi kontrolleri: ALO171 (alo171.saglik.gov.tr), YEDAM115 (yedam.org.tr/telefon-ile-danismanlik), CDC 1-800-784-8669 (cdc.gov/tobacco/hcp/patient-care/quitlines-and-other-resources.html), BIÖG 0800 8 31 31 31 (rauchfrei-info.de/unterstuetzung/telefonberatung/), NHS İngiltere 0300 123 1044, İskoçya 0800 84 84 84, Galler 0800 085 2219 (nhs.uk/live-well/quit-smoking/nhs-stop-smoking-services-help-you-quit/). Eski "UK NHS" tüm Birleşik Krallık için genellenmez; "Yeşilay 176" kaldırılır.
+- [x] T1 [M] Ülkeye uygun, yeşil destek hattı (2026-09-18, Kimi K3)
   - Done when: `flutter test test/widget/quitline_card_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → 13 widget testi (TR/EN/DE, UK alt bölge, bilinmeyen bölge, 320dp×1.5×tema); Android16'da SOS/Ayarlar kartı Diğer→Türkiye, ALO171→dialer'da 171 önyüklü, arama yok (CALL izni manifest'te yok). Ölü settingsHelplines (Yeşilay176) üç dilden kaldırıldı; numara kaynakları koda 2026-09-16 tarihiyle yazıldı.
 
 - [ ] T2 [M] Bildirim durumu ve geri gezilebilir karşılama (eski H02)
   - Where: `lib/presentation/screens/splash_screen.dart; lib/data/notification_service.dart; lib/presentation/screens/onboarding/onboarding_screen.dart`
@@ -401,6 +401,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T1 A2:13 quitline widget testi ve tam332 test geçti; Android16'da SOS/Ayarlar'daki ortak kart Diğer bölgede numarasız, Türkiye seçiminde ALO171+YEDAM115; arama düğmesi Google Dialer'ı 171 önyüklü açtı, mCalls boş | settingsHelplines (Yeşilay176 içeren ölü dize) üç ARB'den silindi, gen-l10n yenilendi (başka görevlerin ARB ekleri generated'a senkronlandı; buildable ve analiz temiz). Manifest'te CALL izni yok; _call yalnız tel: intent'i. Yeşil 0xFF166534 ve 48dp doğrulama testleri mevcut. Dialer kanıtı .dart_tool/t1/dialer.png (Git dışı). iOS çevirici kanıtı T25'e ait. |
 | 2026-09-18 | AUDIT | A1 devralma + T18.1 native kapatma: brain check FAIL yok; T23.2 örneği (e62194d diff'i erken şema okuma+temiz kapanış) doğrulandı; tam332 test ve fatal-info analiz temiz; Android16 user0 açık/koyu beş sekme + Ayarlar durum çubuğu pikselle doğrulandı, Standart tek chip, seçim çalıştı | Debug APK SHA256 5e17b1ed965eabc282b680b9cd5504d1ea2172bd4b3566007246676b815c0bc8, mevcut profil korunarak kuruldu. Açık tema: bg~244/ikon~98 tüm ekranlarda; koyu: bg~18/ikon~255. Kanıt PNG'leri .dart_tool/t181/ (Git dışı). Yoğun seçimi OS bildirim izni diyaloğu açtı, Allow sonrası seçim kalıcı; Standart geri seçildi. Seçili ChoiceChip etiketi artık onPrimary (lib/core/theme.dart). Ayarlar'dan About girişi gibi T19 dirty hunk'ları bu commit dışında bırakıldı. |
 | 2026-09-17 | AUDIT | T18.1 bildirim düzeni alt-akışı: TR/EN/DE ×1.0/1.6 yazı,320dp üzerinde6 test geçti; tam331 test ve fatal-info analiz temiz | RenderParagraph seçim kutusu her etiket için tek satır kanıtı; Kapalı seçimi DB ve sahte NotificationService'de doğrulandı. Sabit dört sütun yerine Wrap/ChoiceChip kullanıldı; yeni bağımlılık yok. appAbout hunk'ı commit dışında. Native yeni seçim düzeni/koyu kontrast hâlâ açık, görev kapatılmadı. |
 | 2026-09-17 | AUDIT | T18.1 kontrast alt-akışı: ortak AppBarTheme systemOverlayStyle tema parlaklığına bağlandı; açık→koyu→açık widget testi, tam325 test ve fatal-info analiz temiz | Şeffaf AppBar'ın otomatik seçimi açık zeminde beyaz ikon üretiyordu. Android16 güncel debug kurulumu sonrası Grafikler açık tema koyu ikonları .dart_tool/halen-overlay2.png ile görüldü. Koyu native kontrol ve Standart etiketi henüz açık; görev kapanmadı. Eski kişisel kayıtlar değiştirilmedi, PNG Git dışında. |
@@ -421,7 +422,7 @@ Newest first.
 
 ## 7. HANDOFF
 
-T18.1 kapandı; son commit öncesi ağaç T18.1 kanıtıyla temiz. Emulator: light tema, bildirim izni Allow, yoğunluk Standart.
-Sonraki görev T1 (destek hattı). T1 dışında açık: T2–T26, T23.1. T4 ritim girdisi ve 8 adımlı native tur hâlâ eksik.
-About route/tile + untracked about_screen ve diğer dirty dosyalar (T19 vb.) commit dışında korunuyor; APK 5e17b1ed user0'da kurulu.
-Halen-QA user10 temiz-profil testleri için hazır; .dart_tool/t181 PNG'leri Git dışı. iOS/ödeme/reklam hesap kapıları T20–T25.
+T1 kapandı; sıradaki T2 (bildirim durumu, splash/onboarding geri gezinme). Emülatörde quitlineRegion=Türkiye kaldı, bildirim izni Allow.
+T4 ritim girdisi + 8 adımlı native onboarding turu, T5 beden girdileri, T23.1 eski ESP migration açık duruyor.
+Untracked about_screen + diğer dirty dosyalar (T2/T7/T17/T19/T21 rotaları) korunuyor; generated l10n güncel.
+APK 5e17b1ed (T18.1 öncesi dirty) user0'da; T1 sonrası yeniden derleme gerekirse yap. iOS/native ödeme kanıtları T20–T25.

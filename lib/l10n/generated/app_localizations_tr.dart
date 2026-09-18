@@ -732,6 +732,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get notifMilestoneBody => 'Sağlık çizelgende yeni bir eşik açıldı.';
 
   @override
+  String get notifTrialTitle => 'Denemen yakında bitiyor';
+
+  @override
+  String get notifTrialBody =>
+      'Halen Premium denemen iki gün içinde bitiyor. Bir plan seçmek tamamen sende; otomatik ücret alınmaz.';
+
+  @override
   String get notifChannelReminders => 'Hatırlatmalar';
 
   @override
@@ -809,19 +816,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deleteAllConfirm => 'Her şey silinsin mi? Bu işlem geri alınamaz.';
 
   @override
-  String get settingsPurchase => 'Halen Lifetime';
+  String get settingsPurchase => 'Halen Premium';
 
   @override
-  String get purchaseCopy => 'Tek seferlik · Ömür boyu · Abonelik yok';
+  String get purchaseCopy => 'Esnek planlar · Ömür boyu seçenek';
 
   @override
-  String get purchaseCta => 'Tek seferlik satın al';
+  String get purchaseCta => 'Premium planı seç';
 
   @override
   String get purchaseRestore => 'Satın almayı geri yükle';
 
   @override
-  String get purchaseOwned => 'Halen Lifetime\'a sahipsin.';
+  String get purchaseOwned => 'Halen Premium erişimin açık.';
 
   @override
   String get purchasePending =>
@@ -840,15 +847,53 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsAbout => 'Hakkında';
 
   @override
+  String get aboutTitle => 'Halen hakkında';
+
+  @override
+  String get aboutSourceShort => 'GPLv3 copyleft açık kaynak';
+
+  @override
+  String get aboutIntro =>
+      'Halen, sigarayı bırakma veya azaltma sürecini sakin, kanıta dayalı ve mahremiyet odaklı biçimde desteklemek için geliştirilmiştir.';
+
+  @override
+  String get aboutOpenSourceTitle => 'Neden kaynak kodu açık?';
+
+  @override
+  String get aboutOpenSourceBody =>
+      'Bu proje incelenebilsin, öğrenilebilsin ve topluluk tarafından iyileştirilebilsin diye GPLv3-or-later altında yayımlanır. GPL ticari kullanımı yasaklamaz; dağıtılan değişikliklerin aynı özgürlükleri ve kaynak kodunu korumasını ister. Ayrıntılar lisans metnindedir.';
+
+  @override
+  String get aboutPrivacyTitle => 'Verilerin';
+
+  @override
+  String get aboutPrivacyBody =>
+      'Hesap, sunucu ve analitik yoktur. Kayıtların cihazında şifreli yerel veritabanında tutulur; dışa aktarma ve silme seçenekleri Ayarlar\'dadır.';
+
+  @override
+  String get aboutSourceCode => 'Kaynak kodunu incele';
+
+  @override
+  String get aboutLicense => 'Lisansı oku';
+
+  @override
+  String get aboutPrivacyPolicy => 'Gizlilik politikasını oku';
+
+  @override
+  String get aboutSupport => 'Destek ve geri bildirim';
+
+  @override
+  String get articleSourceHeading => 'Bilimsel dayanak ve kaynak';
+
+  @override
+  String get aboutOpenLinkError => 'Bağlantı açılamadı.';
+
+  @override
   String get settingsDisclaimerTitle => 'Sağlık notu';
 
   @override
   String get settingsDisclaimer =>
       'Bu uygulama tıbbi tavsiye değildir; nikotin bağımlılığının tedavisi için bir sağlık profesyoneline başvurun. Hamilelik, kalp rahatsızlığı ve psikiyatrik durumlarda önce uzman görüşü alın.';
-
-  @override
-  String get settingsHelplines =>
-      'Destek hatları: TR Yeşilay 176 · ABD 1-800-QUIT-NOW · UK NHS · DE BZgA';
 
   @override
   String get settingsPrivacy =>
@@ -911,7 +956,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String planTierAnnualSub(String price) {
-    return '7 gün ücretsiz dene, ardından $price/yıl';
+    return 'Yıllık plan · $price/yıl · mağaza koşulları ödeme ekranında gösterilir';
   }
 
   @override
@@ -935,25 +980,28 @@ class AppLocalizationsTr extends AppLocalizations {
   String get paywallTimelineToday => 'Bugün';
 
   @override
+  String get paywallTimelineTitle => '7 günlük Halen Premium denemen';
+
+  @override
   String get paywallTimelineTodayDesc =>
-      '7 günlük tam deneme başlar, ücret alınmaz.';
+      'Tam erişim kart olmadan başlar; otomatik ücret alınmaz.';
 
   @override
   String get paywallTimelineReminder => '5. Gün';
 
   @override
   String get paywallTimelineReminderDesc =>
-      'Denemenin bitişiyle ilgili nazik hatırlatma.';
+      'Deneme bitmeden seçeneklerini değerlendirebilmen için nazik hatırlatma.';
 
   @override
   String get paywallTimelineBilling => '7. Gün';
 
   @override
   String get paywallTimelineBillingDesc =>
-      'Abonelik başlar, öncesinde dilediğin an iptal edebilirsin.';
+      'Deneme biter; mağazada bir plan seçersin. Otomatik ücret alınmaz.';
 
   @override
-  String get paywallCtaTrial => '7 Gün Ücretsiz Dene & Başla';
+  String get paywallCtaTrial => 'Yıllık planı seç';
 
   @override
   String get paywallCtaSubscribe => 'Hemen Başla';
@@ -965,19 +1013,33 @@ class AppLocalizationsTr extends AppLocalizations {
   String get paywallTerms => 'Kullanım Koşulları (EULA)';
 
   @override
+  String get paywallTermsBody =>
+      'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play Hizmet Şartları:\nhttps://play.google.com/about/play-terms/\n\nFiyat, deneme, yenileme ve iptal koşulları satın alma sırasında ilgili mağazanın onay ekranında gösterilir. Abonelikler, dönem bitiminden en az 24 saat önce iptal edilmezse otomatik yenilenir ve App Store / Google Play hesap ayarlarından yönetilir.';
+
+  @override
   String get paywallPrivacy => 'Gizlilik Politikası';
+
+  @override
+  String get paywallPrivacyBody =>
+      'Halen, kişisel verileri, sigara kayıtlarını veya kriz verilerini harici sunuculara göndermez. Veritabanı cihazında SQLCipher ile şifreli olarak saklanır; dışa aktarma ve silme seçenekleri Ayarlar\'dadır.';
 
   @override
   String get paywallLegalDisclaimer =>
       'Abonelik, cari dönemin bitiminden en az 24 saat önce iptal edilmediği sürece otomatik yenilenir. Satın alımlarınızı App Store / Google Play hesap ayarlarınızdan dilediğiniz an yönetebilirsiniz.';
 
   @override
+  String get paywallPlansTitle => 'Premium planlar';
+
+  @override
+  String get paywallPriceUnavailable => 'Mağaza fiyatı alınamadı';
+
+  @override
   String get paywallRestoreSuccess =>
-      'Satın alımlarınız başarıyla geri yüklendi.';
+      'Geri yükleme isteği gönderildi. Mağaza hesabında aktif satın alım varsa erişim kısa süre içinde görünür.';
 
   @override
   String get paywallRestoreNone =>
-      'Geri yüklenecek aktif bir satın alım bulunamadı.';
+      'Mağazaya bağlanılamadı; daha sonra tekrar deneyin.';
 
   @override
   String get timelineTitle => 'Sağlık çizelgesi';
@@ -1398,7 +1460,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String bodyLoadCoDrop(int percent) {
-    return 'Kandaki karbonmonoksit zirvesinin %$percent altında.';
+    return 'Model karbonmonoksit yükü tepe değerinin %$percent altında.';
   }
 
   @override
@@ -2239,7 +2301,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get bodyLoadMeaning =>
-      'Her diş bir sigara; sonrasındaki düşüş vücudunun onu temizlemesi. Yeşil işaretler hiç oluşmayan dişler.';
+      'Her tepe kaydedilmiş bir sigaranın girdisidir; düşen çizgi modelin sönümüdür, ölçüm değildir. Yeşil işaretler hiç oluşmayan tepelerdir.';
 
   @override
   String get loadAxisCaption =>
@@ -2500,7 +2562,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get medicinesLead =>
-      'Bunlar bir denemenin tutma ihtimalini kabaca ikiye katlar. Elde edilebilecek en etkili yardım bu ve çoğu kişi hiç denemiyor.';
+      'İlaçlar ve danışmanlık bırakma olasılığını belirgin biçimde artırabilir. Hangi seçeneğin uygun olduğu sağlık durumuna ve hekim görüşüne bağlıdır.';
 
   @override
   String get medicinesOtc => 'Eczaneden alınabilir';
@@ -2791,11 +2853,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get smokedHeadline0 =>
-      'Kayıt alındı. Vücudundaki nikotin seviyesi yükseldi.';
+      'Kayıt alındı. Nikotin modeli yeniden hesaplandı.';
 
   @override
   String get smokedHeadline1 =>
-      'Sigara kaydedildi. Karbonmonoksit temizliği yeniden başladı.';
+      'Sigara kaydedildi. Karbonmonoksit modeli yeniden hesaplandı.';
 
   @override
   String get smokedHeadline2 =>
@@ -2807,7 +2869,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get smokedAdvice0 =>
-      'Şimdi büyük bir bardak soğuk su iç. Su, ağızdaki nikotini nötrler ve vagus sinirini uyarır.';
+      'İstersen soğuk suyu yudumla; istek yatışırken ağzını ve ellerini meşgul edebilir.';
 
   @override
   String get smokedAdvice1 =>
@@ -2819,7 +2881,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get smokedAdvice3 =>
-      'Vücudunun bu nikotini temizlemesi yaklaşık 8 saat sürecek. Bol sıvı alarak vücudunun arınmasını destekle.';
+      'Kişiye özgü sabit bir temizlenme süresi yoktur. Modellenen nikotin eğrisi saatler içinde düşer; su bu biyolojiyi hızlandırmaz.';
 
   @override
   String get splashContinue => 'Devam et';
@@ -2960,19 +3022,6 @@ class AppLocalizationsTr extends AppLocalizations {
       'Kaşıklar hacimce; katranın mililitresi yaklaşık 1 g kabul edildi. Bir çay kaşığı yaklaşık 2,5 mL alır.';
 
   @override
-  String get nicotineMgAxis =>
-      'vücudunda kalan tahmini nikotin, mg — model, ölçüm değil';
-
-  @override
-  String get nicotineMgBasis =>
-      'Sigara başına yaklaşık 1,2 mg nikotin emilir; bunun yarısı her 2 saatte vücuttan atılır (Benowitz).';
-
-  @override
-  String mgValue(String value) {
-    return '$value mg';
-  }
-
-  @override
   String get organExposureTitle => 'Bu organ, son 24 saat';
 
   @override
@@ -2982,7 +3031,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get organExposureMeaning =>
-      'Her tepe bu organa ulaşan bir sigara; iniş vücudunun onu temizlemesi. Çizgi ne kadar düzse organ o kadar dinlenir.';
+      'Her tepe, göreli modele giren kaydedilmiş bir sigaradır; iniş model sönümüdür, organ ölçümü değildir.';
 
   @override
   String organExposureLoads(String loads) {
@@ -2996,27 +3045,27 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get organAcuteHeart =>
-      'Bir sigaradan sonra kalp dakikada yaklaşık 10-20 atım daha hızlı atar ve tansiyon yükselir; bu 20-30 dakika kadar sürer.';
+      'Sigara kalp hızını ve tansiyonu yükseltebilir; etkisinin boyutu ve süresi kişiye göre değişir.';
 
   @override
   String get organAcuteVessels =>
-      'Nikotin damarları dakikalar içinde daraltır; her sigara onları yaklaşık bir saat dar tutar.';
+      'Nikotin damarları daraltabilir; zamanlaması ve süresi kişiye göre değişir.';
 
   @override
   String get organAcuteLungs =>
-      'Duman, hava yollarını temizleyen minik tüyleri yavaşlatır; katran her sigarayla ciğerlere çöker.';
+      'Duman, hava yollarını temizleyen küçük tüylerin çalışmasını bozabilir; uygulama akciğerlerinde kalan katranı tahmin edemez.';
 
   @override
   String get organAcuteBrain =>
-      'Nikotin beyne 10-20 saniyede ulaşır; sonraki saatlerde düşerken bir sonraki istek olarak geri döner.';
+      'Solunan nikotin beyne hızlı ulaşır; düşen düzeyler ve öğrenilmiş tetikleyiciler yeni bir isteğe katkıda bulunabilir.';
 
   @override
   String get organAcuteBlood =>
-      'Karbonmonoksit kanda oksijenin yerini alır; yarısı yaklaşık 4-5 saatte temizlenir.';
+      'Karbonmonoksit oksijen taşıma kapasitesini azaltır; bıraktıktan sonra düzeyi genellikle düşer, zaman kişiye göre değişir.';
 
   @override
   String get organAcuteGeneral =>
-      'Dumandaki zararlı maddeler kanla her organa taşınır; maruziyet her sigarayla artar.';
+      'Duman, birçok organa ulaşabilen zararlı maddeler içerir; bu kişisel maruziyet ölçümü değil, popülasyon düzeyinde bir açıklamadır.';
 
   @override
   String get envTitle => 'Doğaya kazandırdığın';
@@ -3146,4 +3195,175 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get commonDelete => 'Sil';
+
+  @override
+  String get todayLogFirstOfDay => 'Günün ilki';
+
+  @override
+  String todayLogGapHours(int h, int m) {
+    return '+$h sa $m dk sonra';
+  }
+
+  @override
+  String todayLogGapMinutes(int m) {
+    return '+$m dk sonra';
+  }
+
+  @override
+  String get loadTarToday => 'Katran (Bugün)';
+
+  @override
+  String get nowInBodyCleaning => 'Temizlenme sürüyor';
+
+  @override
+  String get sosInternationalLines => 'Uluslararası Sigara Bırakma Hatları';
+
+  @override
+  String get economyPastSpentNote =>
+      'Geçmişte harcanan bu meblağ geride kaldı; ancak Halen ile sigarayı bırakarak önündeki yıllarda servetinin ve ömrünün cebinde kalmasını sağlayabilirsin.';
+
+  @override
+  String economyYearsLabel(String years) {
+    return '$years yıl / sigara';
+  }
+
+  @override
+  String economyCigaretteCount(String count) {
+    return '$count adet';
+  }
+
+  @override
+  String earPointOf(int n) {
+    return 'Nokta $n/5';
+  }
+
+  @override
+  String earPointLocation(String location) {
+    return 'Konum: $location';
+  }
+
+  @override
+  String get earPointShenMenTitle => 'Shen Men (Ruh Kapısı)';
+
+  @override
+  String get earPointShenMenLocation =>
+      'Kulağın üst üçgen çukuru (triangular fossa)';
+
+  @override
+  String get earPointShenMenEffect =>
+      'Parasempatik sinir sistemini uyarır; kriz anındaki anksiyete, panik ve stres hormonlarını (kortizol) yatıştırır.';
+
+  @override
+  String get earPointShenMenInstruction =>
+      'İşaret parmağınızla çukura hafifçe bastırıp küçük dairesel hareketler yapın. 4 sn nefes alırken bası uygulayın, 6 sn verirken gevşetin.';
+
+  @override
+  String get earPointAutonomicTitle => 'Sempatik / Otonom Nokta';
+
+  @override
+  String get earPointAutonomicLocation =>
+      'İç kıvrımın (helix kökünün) üst sınırı';
+
+  @override
+  String get earPointAutonomicEffect =>
+      'Vazokonstriksiyonu (damar daralmasını) çözer, nikotin düşüşüyle hızlanan nabzı ve bedensel gerginliği dengeler.';
+
+  @override
+  String get earPointAutonomicInstruction =>
+      'Parmak ucunuzla kıkırdak kenarına nazikçe bastırın. Nabzınızı dinleyin ve omuzlarınızı serbest bırakın.';
+
+  @override
+  String get earPointKidneyTitle => 'Böbrek Noktası (Kidney)';
+
+  @override
+  String get earPointKidneyLocation => 'Concha çukurunun üst iç bölgesi';
+
+  @override
+  String get earPointKidneyEffect =>
+      'Korku ve irade yorgunluğunu hafifletir; böbreklerin toksin ve katran atım metabolizmasını destekler.';
+
+  @override
+  String get earPointKidneyInstruction =>
+      'Başparmağınız kulağın arkasında destek olsun, işaret parmağınızla concha çukurunun üstüne ritmik hafif bası yapın.';
+
+  @override
+  String get earPointLiverTitle => 'Karaciğer Noktası (Liver)';
+
+  @override
+  String get earPointLiverLocation => 'Concha çukurunun orta-arka bölgesi';
+
+  @override
+  String get earPointLiverEffect =>
+      'Yoksunluk kaynaklı öfke, asabiyet, tahammülsüzlük ve dürtüsel sigara yakma arzusunu yatıştırır.';
+
+  @override
+  String get earPointLiverInstruction =>
+      'Concha\'nın arka duvarına dairesel masaj uygulayın. Bu bölge gergin olduğunda hafif hassas olabilir; acıtmadan uygulayın.';
+
+  @override
+  String get earPointLungTitle => 'Akciğer Noktası (Lung)';
+
+  @override
+  String get earPointLungLocation => 'Concha kavitesinin merkez ve alt bölgesi';
+
+  @override
+  String get earPointLungEffect =>
+      'Solunum yollarındaki hava açlığı spazmını gevşetir, nefesi derinleştirir ve rahatlatır.';
+
+  @override
+  String get earPointLungInstruction =>
+      'Kulak deliğinin hemen yukarısına ve arkasına parmağınızı yerleştirin. Her nefes verişte basıyı hafifçe artırın.';
+
+  @override
+  String nutritionClinicalBase(String basis) {
+    return 'Klinik Temel: $basis';
+  }
+
+  @override
+  String get nutritionPillar1Title =>
+      '1. Buz Gibi Su & Maden Suyu (Vagus Uyarımı)';
+
+  @override
+  String get nutritionPillar1Basis =>
+      'Orofaringeal termoreseptörlerin uyarılması ve vagal tonus aktivasyonu.';
+
+  @override
+  String get nutritionPillar1Body =>
+      'Bir sigara isteği geldiğinde, bir bardak buz gibi suyu pipetle veya yudum yudum için.\n\n• Soğuk su, boğaz ve ağızdaki nikotinik duyusal reseptörleri şaşırtır.\n• Parasempatik sistemi (vagus siniri) aktive ederek yükselen kalp atımını ve anksiyeteyi dakikalar içinde düşürür.\n• El ve ağız hareketini ikame ederek psikomotor boşluğu doldurur.';
+
+  @override
+  String get nutritionPillar2Title =>
+      '2. Alkali Besinler (İdrar pH ve Nikotin Klirensi)';
+
+  @override
+  String get nutritionPillar2Basis =>
+      'Asidik idrar nikotin eliminasyonunu hızlandırırken, alkali pH nikotin seviyesini daha dengeli tutar (Beckett & Rowland, 1965).';
+
+  @override
+  String get nutritionPillar2Body =>
+      'Vücut asidik olduğunda böbrekler nikotini kandan hızla atar ve bu durum şiddetli, ani yoksunluk krizlerine yol açar.\n\n• Salatalık dilimleri, kereviz sapı, çiğ badem, havuç ve yeşil yapraklı sebzeler idrarı alkaliye kaydırır.\n• Bu sayede kandaki nikotin seviyesi sert bir uçurum yerine yumuşak bir eğriyle düşer ve krizler seyrekleşir.\n• Yanınızda salatalık veya havuç çubukları bulundurmak kriz anında mükemmel bir çiğneme refleksidir.';
+
+  @override
+  String get nutritionPillar3Title =>
+      '3. C Vitamini Takviyesi (Antioksidan Kalkanı)';
+
+  @override
+  String get nutritionPillar3Basis =>
+      'Sigara dumanındaki serbest radikaller plazma askorbik asit (C vitamini) depolarını %30-50 tüketir.';
+
+  @override
+  String get nutritionPillar3Body =>
+      'Nikotin yoksunluğu vücutta akut bir stres tepkisi yaratır ve adrenal bezler yüksek miktarda C vitamini harcar.\n\n• Taze sıkılmış limonlu ılık su, kivi, çilek, portakal ve kırmızı biber C vitamini depolarını hızla tazeler.\n• Kortizol regülasyonunu destekleyerek yoksunluğun yarattığı tükenmişlik ve asabiyeti hafifletir.';
+
+  @override
+  String get nutritionPillar4Title =>
+      '4. Kafein ve Rafine Şeker Uyarısı (Kritik Tuzak)';
+
+  @override
+  String get nutritionPillar4Basis =>
+      'Tütün dumanı karaciğerdeki CYP1A2 enzimini uyararak kafeini hızla parçalar; sigara bırakıldığında kafein klerensi %50 yavaşlar.';
+
+  @override
+  String get nutritionPillar4Body =>
+      'Sigarayı azalttığınızda veya bıraktığınızda:\n\n• Kahve kanda iki kat daha uzun süre kalır! Normalde içtiğiniz kahve miktarı artık sizde taşikardi (çarpıntı), titreme ve panik yaratır. Çoğu kişi bu durumu nikotin krizi sanır; oysa aşırı kafein yüklenmesidir. Kahve tüketiminizi %50 azaltın.\n• Basit şekerler (çikolata, şerbetli tatlılar) kan şekerinde ani zirveler ve çöküşler (reaktif hipoglisemi) oluşturarak dopamin açlığını ve sigara krizini azdırır. Şeker yerine lifli atıştırmalıklar tercih edin.';
 }
