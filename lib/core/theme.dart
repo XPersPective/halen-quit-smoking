@@ -204,15 +204,18 @@ class HalenTheme {
         shape: const StadiumBorder(),
         side: BorderSide.none,
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        // No explicit color here — M3 resolves selected vs unselected label
-        // colors with proper contrast against the selected fill.
-        //
-        // The style is derived from the text theme rather than written from
-        // scratch: a bare TextStyle drops the family and the type scale, so
-        // chip labels stopped matching the rest of the app (and rendered as
-        // boxes in the visual captures, which is how this was spotted).
+        // Our selected fill is primary, not M3's default container; its label
+        // must use onPrimary. Preserve typography while resolving state.
         labelStyle: base.textTheme.labelLarge?.copyWith(
           fontWeight: FontWeight.w600,
+          color: WidgetStateColor.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return colorScheme.onSurface.withValues(alpha: 0.38);
+            }
+            return states.contains(WidgetState.selected)
+                ? colorScheme.onPrimary
+                : colorScheme.onSurface;
+          }),
         ),
         selectedColor: colorScheme.primary,
         backgroundColor: colorScheme.surfaceContainerHighest,
