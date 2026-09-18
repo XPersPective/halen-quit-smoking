@@ -140,7 +140,9 @@ void main() {
         ),
       );
       final backup = await repo.exportToJson();
-      (backup['cigaretteEvents'] as List).add({'ts': 'invalid'});
+      // Forge the FIRST event: without the transaction the wipe commits,
+      // the forged row throws before any re-insert, and nothing comes back.
+      (backup['cigaretteEvents'] as List).insert(0, {'ts': 'invalid'});
       await expectLater(repo.importFromJson(backup), throwsFormatException);
       expect(await db.select(db.cigaretteEvent).get(), hasLength(1));
       expect((await db.settingsDao.getSettings()).trialStartedAt, startedAt);

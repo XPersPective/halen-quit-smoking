@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T2 kapandı: bildirim durumu OS'den okunur (splash+Ayarlar ortak kart), deneme hatırlatması ayrı tercih (şema v8, varsayılan kapalı), Android16 izin/revoke/ayarlar kanıtı alındı.
-> **Phase:** BUILD · **Next:** T3 · **Updated:** 2026-09-18 · **Synced@:** e6df594
+> **Status:** T3 kapandı: yedek→trial açığı kapalı (bağımsız gözden geçirme onaylı), rollback testi transaction'sız çökerken kırmızı verecek biçimde sertleştirildi.
+> **Phase:** BUILD · **Next:** T4 · **Updated:** 2026-09-18 · **Synced@:** a9d8447
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -265,10 +265,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → Şema v8 `settings.trialNudge` (varsayılan false); day-5 nudge yalnız bu tercihle. `NotificationPermissionCard` splash+Ayarlar ortak; areNotificationsEnabled/checkPermissions + openAppNotificationSettings ile. 4 yeni test; geri akışı T4'ün PopScope testleri ve 2026-09-17 native kanıtında. iOS izin diyaloğu kanıtı T25.
 
-- [ ] T3 [H] JSON ile deneme sıfırlama açığını kapat (eski H03)
-  - Where: `lib/data/backup_repository.dart; test/data/backup_repository_test.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) BackupRepository settings.trialStartedAt alanını export/import'tan çıkar. Eski yedekte varsa yok say; mevcut deneme ve store cache değişmez. Onboarding'e JSON eylemi koyma, Ayarlar > Verilerim altında veri taşıma olarak sun. Null/gelecek/eski trial tarihi ve sahte entitlement içeren import premium açamaz. Yerel yeniden kurulum sınırını §2 reklam/izin sözleşmesi'te açık tut; dışa aktarmayı kaldırmak lisans doğrulaması yerine geçmez. Kanıt: değiştirilmiş JSON ile süresi bitmiş denemenin yenilenmediği, normal kayıtların aktarıldığı ve bozuk import'un rollback testi.
+- [x] T3 [H] JSON ile deneme sıfırlama açığını kapat (2026-09-18, Kimi K3)
   - Done when: `flutter test test/data/backup_repository_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → b1c2566'daki izolasyon bağımsız gözden geçirmede doğrulandı (export 4 settings alanı yazar, import trial/satın alma yazmaz, forge reddi tek transaction); rollback testi sertleştirildi (forge ilk kayıt — transaction'sız çalıştırmada kırmızı kanıtlandı). Bakiye kapsam bulguları T26'ya işlendi.
 
 - [ ] T4 [M] Onboarding temel girdileri ve varsayılanlar (eski H04)
   - Note: 2026-09-17 güvenli ara: emülatörde bulunan veri güvenliği riski T23.1 önce; ritim girdisi henüz eklenmedi.
@@ -384,6 +383,7 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
 - [ ] T26 [H] Yedek kapsamı ve veri silme bütünlüğü (eski H26)
   - Where: `lib/data/backup_repository.dart; lib/data/db/tables.dart; test/data/backup_repository_test.dart`
   - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) BackupRepository eski tabloları aktarırken yeni mood/support/cessation/pack/settings alanlarını kapsamıyor; wipe de tüm kişisel tabloları silmiyor olabilir. Şema ile export/import/delete listesini satır satır eşleştir. Format migration/geri uyumluluk, referans bütünlüğü ve tüm kişisel verinin silinmesini kanıtla. Satın alma/trial yedek dışında kalır. Bozuk dosyada kısmi silme olmaz; backup'ın düz metin olduğu açıklanır. Kanıt: bütün yeni alanlarda round-trip, tüm kişisel tablo temizliği, rollback.
+  - T3 inceleme bulguları (2026-09-18, dış gözden geçirme): (a) `_wipeUserData` yalnız 9 tabloyu siliyor; MoodLog, SupportLog, IndexSnapshot, PlanState, SavingsGoal, CessationPlan, CopingPlan, MoodScreen, PackPurchase ve timeline.acknowledgedMilestones kalıyor. (b) `acknowledgedMilestones` export ediliyor ama import never geri yazmıyor. (c) `setQuitTs` UPDATE-based; temiz cihazda satır yoksa import sessizce kaybolur — import öncesi `getState()` ile satırı yarat veya insert-or-replace yap. (d) "round-trips all user data" testi adının vaat ettiği kadarını kapsamıyor (plans/adjustments/triggers/products/timeline/settings assert'leri yok).
   - Done when: `flutter test test/data/backup_repository_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
 
 - [x] T18.1 [M] Emülatörde görülen kontrast ve bildirim etiketi (2026-09-18, Kimi K3)
@@ -406,6 +406,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T3 A2: bağımsız taze-bağlam gözden geçirme 1/2/5/6. iddiayı doğruladı; rollback testini transaction'sız çalıştırmada kırmızı-gösterir biçimde güçlendirdim; 5 backup testi + tam336 test temiz | Gözden geçirme bulguları (wipe kapsamı, milestones round-trip kaybı, quitTs insert-öncesi boşluk, zayıf round-trip adı) T26'nın Do'suna eklendi. Red-green kanıtı: `_wipeUserData` transaction dışına taşınınca test başarısız oldu, geri alınca yeşil. Kod davranışı değişmedi. |
 | 2026-09-18 | AUDIT | T2 A2 + native kanıt: şema v8 (trialNudge default false), permission card splash+Ayarlar, 4 yeni widget testi; tam336 test + fatal-info analiz temiz | APK SHA256 4ae85e81a217bbc47f7d3d42ad2cc7d63dbd97dce135920e1462278be2fce6d6. Android16 user0: izin açıkken kart "Bildirimler açık"; pm revoke (süreç ölür, Bugün'e döner) → Ayarlar'da kapalı açıklaması + izin + kısayol; "Sistem ayarlarını aç" → com.android.settings/.Settings$AppNotificationSettingsActivity; "Bildirimlere izin ver" → OS diyaloğu → Allow → kart açık. Splash ilk açılış varyantı widget testleriyle; geri akışı T4 PopScope testleri. Projeksiyon-not: user10 SystemUI bu imajda UI automator'ı takıyor (null root node), user10 kaldırılamadı — zararsız bırakıldı. settings_screen staged sürümünden About tile hunk'ı (T19) ayrı tutuldu. |
 | 2026-09-18 | AUDIT | T1 A2:13 quitline widget testi ve tam332 test geçti; Android16'da SOS/Ayarlar'daki ortak kart Diğer bölgede numarasız, Türkiye seçiminde ALO171+YEDAM115; arama düğmesi Google Dialer'ı 171 önyüklü açtı, mCalls boş | settingsHelplines (Yeşilay176 içeren ölü dize) üç ARB'den silindi, gen-l10n yenilendi (başka görevlerin ARB ekleri generated'a senkronlandı; buildable ve analiz temiz). Manifest'te CALL izni yok; _call yalnız tel: intent'i. Yeşil 0xFF166534 ve 48dp doğrulama testleri mevcut. Dialer kanıtı .dart_tool/t1/dialer.png (Git dışı). iOS çevirici kanıtı T25'e ait. |
 | 2026-09-18 | AUDIT | A1 devralma + T18.1 native kapatma: brain check FAIL yok; T23.2 örneği (e62194d diff'i erken şema okuma+temiz kapanış) doğrulandı; tam332 test ve fatal-info analiz temiz; Android16 user0 açık/koyu beş sekme + Ayarlar durum çubuğu pikselle doğrulandı, Standart tek chip, seçim çalıştı | Debug APK SHA256 5e17b1ed965eabc282b680b9cd5504d1ea2172bd4b3566007246676b815c0bc8, mevcut profil korunarak kuruldu. Açık tema: bg~244/ikon~98 tüm ekranlarda; koyu: bg~18/ikon~255. Kanıt PNG'leri .dart_tool/t181/ (Git dışı). Yoğun seçimi OS bildirim izni diyaloğu açtı, Allow sonrası seçim kalıcı; Standart geri seçildi. Seçili ChoiceChip etiketi artık onPrimary (lib/core/theme.dart). Ayarlar'dan About girişi gibi T19 dirty hunk'ları bu commit dışında bırakıldı. |
@@ -428,7 +429,7 @@ Newest first.
 
 ## 7. HANDOFF
 
-T2 kapandı (şema v8). Sıradaki T3 (yedek trial açığı) — zaten büyük ölçüde başka oturumda yapıldı, doğrulama beklemede.
-Emülatör yeniden başlatıldı; user10 (Halen-QA) SystemUI'si UI automator ile çalışmıyor, kaldırılamadı; onboarding native turları user0 alternatifi bulmadan yapılamaz.
-Untracked about_screen + dirty dosyalar (T4/T7/T17/T19+) korunuyor; settings_screen commit'te About tile yok.
-Açık: T3–T17, T19–T26, T23.1. iOS ve mağaza hesabı kapıları aynen geçerli.
+T3 kapandı; sıradaki T4 (onboarding girdileri — ritim eksiği en belirgin kalan). Ayrıca T4'ün 8 adımlı native onboarding turu hâlâ kanıt bekliyor.
+T26 görev tanımı T3 gözden geçirme bulgularıyla genişledi; trialNudge v8 alanını da unutma.
+Emülatör user0'da çalışır; user10 SystemUI kırık (silinemedi, zararsız). Untracked about_screen + dirty T19/T7/T17/T21 dosyaları korunuyor.
+iOS ve mağaza hesabı kapıları T20–T25.
