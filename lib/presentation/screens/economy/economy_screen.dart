@@ -10,6 +10,7 @@ import '../../../application/stats_providers.dart';
 import '../../../core/dates.dart';
 import '../../../core/theme.dart';
 import '../../../domain/economy.dart';
+import '../../../domain/input_bounds.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/charts/halen_line_chart.dart';
 import '../../../core/design/tokens.dart';
@@ -193,8 +194,15 @@ class _EconomyScreenState extends ConsumerState<EconomyScreen> {
               children: [
                 Expanded(
                   child: _Amount(
-                    label: '${smokingYears.toStringAsFixed(smokingYears % 1 == 0 ? 0 : 1)} yıl / sigara',
-                    value: '${NumberFormat.decimalPattern(locale).format(lifetimeCigarettes)} adet',
+                    label: l10n.economyYearsLabel(
+                      smokingYears.toStringAsFixed(
+                        smokingYears % 1 == 0 ? 0 : 1,
+                      ),
+                    ),
+                    value: l10n.economyCigaretteCount(
+                      NumberFormat.decimalPattern(locale)
+                          .format(lifetimeCigarettes),
+                    ),
                     color: HalenColors.textSecondaryLight,
                   ),
                 ),
@@ -218,7 +226,7 @@ class _EconomyScreenState extends ConsumerState<EconomyScreen> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Text(
-                'Geçmişte harcanan bu meblağ geride kaldı; ancak Halen ile sigarayı bırakarak önündeki yıllarda servetinin ve ömrünün cebinde kalmasını sağlayabilirsin.',
+                l10n.economyPastSpentNote,
                 style: theme.textTheme.bodyMedium,
               ),
             ),
@@ -499,54 +507,112 @@ class _GoalSectionState extends ConsumerState<_GoalSection> {
 
   Future<void> _editGoal() async {
     final l10n = AppLocalizations.of(context)!;
-    final labelController = TextEditingController(
-      text: widget.goal?.label ?? '',
+    final picked = await showEconomyGoalDialog(
+      context,
+      l10n,
+      initialLabel: widget.goal?.label,
+      initialAmount: widget.goal?.amount,
     );
-    final amountController = TextEditingController(
-      text: widget.goal?.amount.toStringAsFixed(0) ?? '',
-    );
-    final saved = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.economyGoalTitle),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: labelController,
-              decoration: InputDecoration(labelText: l10n.economyGoalLabel),
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(height: HalenSpace.x3),
-            TextField(
-              controller: amountController,
-              decoration: InputDecoration(labelText: l10n.economyGoalAmount),
-              keyboardType: TextInputType.number,
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.commonCancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(l10n.commonSave),
-          ),
-        ],
-      ),
-    );
-    if (saved != true) {
+    if (picked == null) {
       return;
     }
-    final amount = double.tryParse(amountController.text.replaceAll(',', '.'));
-    if (amount == null || amount <= 0 || labelController.text.trim().isEmpty) {
-      return;
-    }
-    await ref
-        .read(databaseProvider)
-        .moduleDao
-        .setSavingsGoal(label: labelController.text.trim(), amount: amount);
+    final (label, amount) = picked;
+    await ref.read(databaseProvider).moduleDao.setSavingsGoal(
+          label: label,
+          amount: amount,
+        );
   }
 }
+
+/// Validated savings-goal dialog (brain T6): keeps the dialog open with an
+/// error hint until label is non-blank (≤100 chars) and amount is a finite,
+/// positive number within the money bound. Never partial-writes.
+Future<(String, double)?> showEconomyGoalDialog(
+  BuildContext context,
+  AppLocalizations l10n, {
+  String? initialLabel,
+  double? initialAmount,
+}) async {
+  final labelController =
+      TextEditingController(text: initialLabel ?? '');
+  final amountController = TextEditingController(
+    text: initialAmount == null ? '' : initialAmount.toStringAsFixed(0),
+  );
+  final saved = await showDialog<bool>(
+    context: context,
+    builder: (dialogContext) => StatefulBuilder(
+      builder: (context, setLocal) {
+        final label = InputBounds.name(labelController.text);
+        final amount = double.tryParse(
+          amountController.text.trim().replaceAll(',', '.'),
+        );
+        final ok = label != null && InputBounds.money(amount);
+        final touched = labelController.text.isNotEmpty ||
+            amountController.text.isNotEmpty;
+        return AlertDialog(
+          title: Text(l10n.economyGoalTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: labelController,
+                maxLength: 100,
+                decoration: InputDecoration(
+                  labelText: l10n.economyGoalLabel,
+                  counterText: '',
+                ),
+                textInputAction: TextInputAction.next,
+                onChanged: (_) => setLocal(() {}),
+              ),
+              const SizedBox(height: HalenSpace.x3),
+              TextField(
+                controller: amountController,
+                decoration:
+                    InputDecoration(labelText: l10n.economyGoalAmount),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                onChanged: (_) => setLocal(() {}),
+              ),
+              if (touched && !ok) ...[
+                const SizedBox(height: HalenSpace.x3),
+                Text(
+                  l10n.commonErrorTitle,
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ],
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: Text(l10n.commonCancel),
+            ),
+            FilledButton(
+              onPressed:
+                  ok ? () => Navigator.of(dialogContext).pop(true) : null,
+              child: Text(l10n.commonSave),
+            ),
+          ],
+        );
+      },
+    ),
+  );
+  final label = InputBounds.name(labelController.text);
+  final amount =
+      double.tryParse(amountController.text.trim().replaceAll(',', '.'));
+  // Keep the controllers alive until the dialog has fully left the tree, then
+  // dispose — matches the pack-edit dialog's lifecycle.
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    labelController.dispose();
+    amountController.dispose();
+  });
+  if (saved != true) {
+    return null;
+  }
+  if (label == null || !InputBounds.money(amount)) {
+    return null; // never write what the guard rejected
+  }
+  return (label, amount!);
+}
+

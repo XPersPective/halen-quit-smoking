@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../application/module_providers.dart';
 import '../../../application/pack_providers.dart';
+import '../../../domain/input_bounds.dart';
 import '../../../core/design/data_palette.dart';
 import '../../../core/design/tokens.dart';
 import '../../../data/db/app_database.dart';
@@ -226,17 +227,25 @@ class _AddPurchaseSheetState extends ConsumerState<_AddPurchaseSheet> {
   }
 
   Future<void> _save() async {
-    final price = double.tryParse(_price.text.replaceAll(',', '.'));
-    final size = int.tryParse(_size.text);
-    if (price == null || price <= 0 || size == null || size <= 0) {
+    final price = double.tryParse(_price.text.trim().replaceAll(',', '.'));
+    final size = int.tryParse(_size.text.trim());
+    final ok = InputBounds.money(price) && InputBounds.packSize(size);
+    if (!ok) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.commonErrorTitle,
+          ),
+        ),
+      );
       return;
     }
     await ref.read(packControllerProvider).addPurchase(
           at: _at,
           packs: _packs,
-          pricePerPack: price,
-          packSize: size,
-          brand: _brand.text,
+          pricePerPack: price!,
+          packSize: size!,
+          brand: InputBounds.name(_brand.text),
         );
     if (mounted) {
       Navigator.of(context).pop();

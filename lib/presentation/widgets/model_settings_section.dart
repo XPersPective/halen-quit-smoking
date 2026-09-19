@@ -7,6 +7,7 @@ import '../../application/providers.dart';
 import '../../data/db/app_database.dart';
 import '../../domain/body_load_model.dart';
 import '../../domain/economy.dart';
+import '../../domain/input_bounds.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../core/design/tokens.dart';
 
@@ -123,6 +124,8 @@ class _ModelSettingsSectionState extends ConsumerState<ModelSettingsSection> {
               child: _NumberField(
                 label: l10n.settingsHeight,
                 value: profile?.heightCm,
+                min: InputBounds.heightMin,
+                max: InputBounds.heightMax,
                 onChanged: (v) =>
                     _updateProfile(SmokingProfileCompanion(heightCm: Value(v))),
               ),
@@ -132,6 +135,8 @@ class _ModelSettingsSectionState extends ConsumerState<ModelSettingsSection> {
               child: _NumberField(
                 label: l10n.settingsWeight,
                 value: profile?.weightKg,
+                min: InputBounds.weightMin,
+                max: InputBounds.weightMax,
                 onChanged: (v) =>
                     _updateProfile(SmokingProfileCompanion(weightKg: Value(v))),
               ),
@@ -142,6 +147,8 @@ class _ModelSettingsSectionState extends ConsumerState<ModelSettingsSection> {
         _NumberField(
           label: l10n.settingsSmokingYears,
           value: profile?.smokingYears,
+          min: 0,
+          max: InputBounds.smokingYearsMax,
           onChanged: (v) => _updateProfile(
             SmokingProfileCompanion(smokingYears: Value(v)),
           ),
@@ -173,11 +180,15 @@ class _NumberField extends StatefulWidget {
     required this.label,
     required this.value,
     required this.onChanged,
+    this.min,
+    this.max,
   });
 
   final String label;
   final double? value;
   final ValueChanged<double?> onChanged;
+  final double? min;
+  final double? max;
 
   @override
   State<_NumberField> createState() => _NumberFieldState();
@@ -185,7 +196,11 @@ class _NumberField extends StatefulWidget {
 
 class _NumberFieldState extends State<_NumberField> {
   late final TextEditingController _controller = TextEditingController(
-    text: widget.value == null ? '' : widget.value!.toStringAsFixed(0),
+    text: widget.value == null
+        ? ''
+        : (widget.value! == widget.value!.roundToDouble()
+            ? widget.value!.toStringAsFixed(0)
+            : widget.value!.toString()),
   );
 
   @override
@@ -194,18 +209,47 @@ class _NumberFieldState extends State<_NumberField> {
     super.dispose();
   }
 
+  /// Honest propagation: blank means "not shared" (null outward), a bad
+  /// or out-of-range value never reaches the profile. The inline error only
+  /// helps fix it — the write is the source of truth.
+  void _emit(String text) {
+    final trimmed = text.trim();
+    if (trimmed.isEmpty) {
+      widget.onChanged(null);
+      setState(() {});
+      return;
+    }
+    final v = double.tryParse(trimmed.replaceAll(',', '.'));
+    final ok = v != null &&
+        v.isFinite &&
+        (widget.min == null || v >= widget.min!) &&
+        (widget.max == null || v <= widget.max!);
+    if (ok) {
+      widget.onChanged(v);
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    final text = _controller.text.trim();
+    String? error;
+    if (text.isNotEmpty) {
+      final v = double.tryParse(text.replaceAll(',', '.'));
+      if (v == null || !v.isFinite) {
+        error = widget.label;
+      } else if (widget.min != null && v < widget.min!) {
+        error = '${widget.label}: ≥${widget.min!.toStringAsFixed(0)}';
+      } else if (widget.max != null && v > widget.max!) {
+        error = '${widget.label}: ≤${widget.max!.toStringAsFixed(0)}';
+      }
+    }
     return TextField(
       controller: _controller,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      decoration: InputDecoration(labelText: widget.label),
-      onChanged: (text) => widget.onChanged(
-        text.trim().isEmpty ? null : double.tryParse(text.replaceAll(',', '.')),
-      ),
-      onSubmitted: (text) => widget.onChanged(
-        text.trim().isEmpty ? null : double.tryParse(text.replaceAll(',', '.')),
-      ),
+      decoration: InputDecoration(labelText: widget.label, errorText: error),
+      onChanged: _emit,
+      onSubmitted: _emit,
     );
   }
 }

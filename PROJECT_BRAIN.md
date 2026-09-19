@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T5 kapandı: onboarding 10. adımda beden bilgisi (boy/kilo/yıl, isteğe bağlı) profile akar; yaş bandıyla çelişen yıl reddedilir.
-> **Phase:** BUILD · **Next:** T6 · **Updated:** 2026-09-18 · **Synced@:** 7c98104
+> **Status:** T6 kapandı: tüm girdi yüzeyleri (onboarding, Ayarlar model/paket/ekonomi hedefi, satın alma) tek InputBounds disiplininde; hata gösterimi + 349 test temiz.
+> **Phase:** BUILD · **Next:** T7 · **Updated:** 2026-09-18 · **Synced@:** e24d558
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -279,10 +279,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → Onboarding 10. adım `_BodyStep`: boy 100–230, kilo 30–300, yıl 0..`OnboardingAnswers.maxPlausibleSmokingYears(ageBand)`; boş=null kalır (sahte ortalama yok). Akış OnboardingAnswers→ProfileRepository→SmokingProfile mevcut nullable alanlarına; ayarlar üzerinden düzenleme model_settings_section ile zaten var. Yaş bandı çelişkisi ve uç değerler domain testleriyle.
 
-- [ ] T6 [H] Bütün girişleri denetle (eski H06)
-  - Where: `lib/presentation/**; lib/data/backup_repository.dart; lib/application/pack_providers.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) TextField/TextFormField, slider, backup, deep link, widget ve DB girişlerini envanterle. Adet=int, para=pozitif sonlu, hedef adı=trim/uzunluk sınırı, tarih/geçmiş=anlamlı aralık. Bütçe, paket satın alma, birikim hedefi ve model ayarları aynı domain kurallarını kullanır. Negatif/future kayıt ve duplicate event davranışı belirlenir. Kanıt: her güven sınırına en az bir kötü veri regresyonu; işlem rollback ve hata metni.
+- [x] T6 [H] Bütün girişleri denetle (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → `lib/domain/input_bounds.dart` ortak sınır seti; [H] bağımsız review bulguları kapatıldı: a) settings paket diyaloğu validated record döndürür (re-parse yok), b) typed-garbage opsiyonel alanda artık Save'i durdurur (eskiden sessiz null yazıyordu), c) economy/pack diyalogları controller sızıntısı kapatıldı, d) pack testi alan-tek-tek kırmızı-olur şekilde sertleşti. Onboarding zaten T4/T5 ile bağlı. Quit-plan/coping gibi serbest metin yüzeyleri trim/uzunlukla InputBounds.name kapsamında.
 
 - [ ] T7 [M] Premium rozeti ve gerçek widget özelleştirmesi (eski H07)
   - Where: `lib/presentation/screens/today/today_screen.dart; lib/data/widget_service.dart; ios/HalenWidget/**; android/app/src/main/kotlin/**`
@@ -405,6 +404,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T6 A2 (bağımsız gözden geçirme, general-purpose sub-agent): pack/model/economy/purchases yüzeyleri tek sınır setinde birleşti, 5 widget + 5 domain testi eklendi, tam349 test temiz | Review bulguları (input_bounds katında thunk duplication, economy controller leak, garbage→null session silme, save-after-reparse) tamamen kapatıldı. Settings pack diyaloğu artık PackEditResult döndürüyor. deep-link/widget yüzeyleri kodda sabit/uygulama-üretimli, kullanıcıdan yaşam yolu almıyor: temiz. |
 | 2026-09-18 | AUDIT | T5 A2: 10. adım beden verisi, `maxPlausibleSmokingYears` yaş-beli güvenliği, body parse blank/null ayrımı; 2 yeni domain testi + akış testi persist assertion; tam339 test ve analiz temiz | T5 tek başına şema değişikliği yapmadı (boy/kilo/yıl v2 kolonları). iOS/native ayrı değil — widget akışı yeterli ve yazılı kanıt görev tanımında native istemiyor. |
 | 2026-09-18 | AUDIT | T3 A2: bağımsız taze-bağlam gözden geçirme 1/2/5/6. iddiayı doğruladı; rollback testini transaction'sız çalıştırmada kırmızı-gösterir biçimde güçlendirdim; 5 backup testi + tam336 test temiz | Gözden geçirme bulguları (wipe kapsamı, milestones round-trip kaybı, quitTs insert-öncesi boşluk, zayıf round-trip adı) T26'nın Do'suna eklendi. Red-green kanıtı: `_wipeUserData` transaction dışına taşınınca test başarısız oldu, geri alınca yeşil. Kod davranışı değişmedi. |
 | 2026-09-18 | AUDIT | T4 A2: şema v9 ritim alanı, 9. adım UI, taper seed zinciri, domain+akış testleri; tam337 test ve fatal-info analiz temiz | Şema 8→9 additive; declaredRhythmMinutes 20/45/90/150 bant ortası veya null. flow testi tüm 9 adımı geri/ileri+fiyat korunumuyla yürür; domain testi 10–720 sınırını kurar. APK SHA256 1c6d88f0ce55fa1f9afc17f9ff239f2b77d9ffc3caf8e5f101bd8eb7cb22f950: native tur karşılama→Adım5'e kadar (ritim sorusu .dart_tool/t4/step4-rhythm.png, 30–60 seçimi, fiyat "12,50" Form doğrulaması) geçti; sonra harici cihaz kullanıcısı akışı kesti (aynı emülatörde başka uygulamalar odak alıyor), adım 6–9 native tamamlanamadı. |
@@ -430,7 +430,6 @@ Newest first.
 
 ## 7. HANDOFF
 
-T5 kapandı (onboarding artık 10 adım). Sıradaki T6 (giriş envanteri denetimi).
-CİHAZ UYARISI devam: emulator-5554'te harici aktör başka uygulamalar açabiliyor; native tur gereken görevlerde önce odak doğrula.
-Sonraki büyük açıklar: T6, T7, T8 (görsel), arkasından T20+ kapıları.
-iOS ve mağaza hesabı kapıları T20–T25.
+T6 kapandı (tüm giriş yüzeyleri denetimden geçti). Sıradaki T7 (premium rozeti + widget özelleştirme).
+Emülatör uyarısı sürmekte (harici aktör var); native doğrulama odak-kontrollü yapılmalı.
+Bilinen açık başlıklar: T7..T17 görsel/UX + T19..T26 mağaza/reklam/iOS, T23.1 migration.

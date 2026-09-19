@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../application/module_providers.dart';
 import '../../application/pack_providers.dart';
 import '../../core/design/tokens.dart';
+import '../../domain/input_bounds.dart';
 import '../../domain/tar_intake.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../screens/purchases/purchases_screen.dart';
@@ -87,7 +88,6 @@ class PackSettingsSection extends ConsumerWidget {
       v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(1);
 
   Future<void> _edit(BuildContext context, WidgetRef ref) async {
-    final l10n = AppLocalizations.of(context)!;
     final profile = ref.read(smokingProfileProvider).value;
     if (profile == null) {
       return;
@@ -103,87 +103,150 @@ class PackSettingsSection extends ConsumerWidget {
           ? ''
           : _fmt(profile.nicotineMgPerCigarette!),
     );
-    double? parse(TextEditingController c) =>
-        double.tryParse(c.text.trim().replaceAll(',', '.'));
-
-    final saved = await showDialog<bool>(
+    final saved = await showDialog<PackEditResult?>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l10n.packTitle),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: brand,
-                decoration: InputDecoration(labelText: l10n.purchasesBrand),
-              ),
-              const SizedBox(height: HalenSpace.x3),
-              TextField(
-                controller: price,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(labelText: l10n.purchasesPrice),
-              ),
-              const SizedBox(height: HalenSpace.x3),
-              TextField(
-                controller: size,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: l10n.purchasesPackSize),
-              ),
-              const SizedBox(height: HalenSpace.x3),
-              TextField(
-                controller: tar,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: l10n.packTar,
-                  hintText: _fmt(LabelLimits.tarMg),
+      builder: (dialogContext) {
+        final l10n = AppLocalizations.of(dialogContext)!;
+        return StatefulBuilder(
+          builder: (context, setLocal) {
+            // Blank optional chemistry reads as "unsure" (null is legal),
+            // but typed garbage must disable Save — never silently vanish.
+            double? numOrNull(String raw) => raw.trim().isEmpty
+                ? null
+                : double.tryParse(raw.trim().replaceAll(',', '.'));
+            final p = numOrNull(price.text);
+            final sz = int.tryParse(size.text.trim());
+            final t = numOrNull(tar.text);
+            final n = numOrNull(nicotine.text);
+            bool typedBad(String raw) =>
+                raw.trim().isNotEmpty && numOrNull(raw) == null;
+            final b = InputBounds.name(brand.text);
+            final ok = InputBounds.money(p) &&
+                InputBounds.packSize(sz) &&
+                InputBounds.tarMg(t) &&
+                InputBounds.nicotineMg(n) &&
+                !typedBad(price.text) &&
+                !typedBad(tar.text) &&
+                !typedBad(nicotine.text) &&
+                RegExp(r'^[0-9]+$').hasMatch(size.text.trim());
+            return AlertDialog(
+              title: Text(l10n.packTitle),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: brand,
+                      maxLength: 100,
+                      decoration: InputDecoration(
+                        labelText: l10n.purchasesBrand,
+                        counterText: '',
+                      ),
+                      onChanged: (_) => setLocal(() {}),
+                    ),
+                    const SizedBox(height: HalenSpace.x3),
+                    _numField(price, l10n.purchasesPrice, setLocal),
+                    const SizedBox(height: HalenSpace.x3),
+                    _numField(size, l10n.purchasesPackSize, setLocal,
+                        integer: true),
+                    const SizedBox(height: HalenSpace.x3),
+                    _numField(tar, l10n.packTar, setLocal,
+                        hint: _fmt(LabelLimits.tarMg)),
+                    const SizedBox(height: HalenSpace.x3),
+                    _numField(nicotine, l10n.packNicotine, setLocal,
+                        hint: _fmt(LabelLimits.nicotineMg)),
+                    const SizedBox(height: HalenSpace.x3),
+                    Text(l10n.packLabelHint),
+                    if (!ok) ...[
+                      const SizedBox(height: HalenSpace.x3),
+                      Text(
+                        l10n.commonErrorTitle,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ),
-              const SizedBox(height: HalenSpace.x3),
-              TextField(
-                controller: nicotine,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: l10n.packNicotine,
-                  hintText: _fmt(LabelLimits.nicotineMg),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(false),
+                  child: Text(l10n.commonCancel),
                 ),
-              ),
-              const SizedBox(height: HalenSpace.x3),
-              Text(l10n.packLabelHint),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: Text(l10n.commonCancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: Text(l10n.commonSave),
-          ),
-        ],
-      ),
+                FilledButton(
+                  onPressed: ok
+                      ? () => Navigator.of(dialogContext).pop(
+                            PackEditResult(
+                              pricePerPack: p!,
+                              packSize: sz!,
+                              brand: b,
+                              tarMgPerCigarette: t,
+                              nicotineMgPerCigarette: n,
+                            ),
+                          )
+                      : null,
+                  child: Text(l10n.commonSave),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
 
-    if (saved == true) {
-      final newPrice = parse(price);
-      final newSize = int.tryParse(size.text.trim());
-      if (newPrice != null && newPrice > 0 && newSize != null && newSize > 0) {
-        await ref.read(packControllerProvider).updatePack(
-              pricePerPack: newPrice,
-              packSize: newSize,
-              brand: brand.text,
-              tarMgPerCigarette: parse(tar),
-              nicotineMgPerCigarette: parse(nicotine),
-            );
+    if (saved != null) {
+      await ref.read(packControllerProvider).updatePack(
+            pricePerPack: saved.pricePerPack,
+            packSize: saved.packSize,
+            brand: saved.brand,
+            tarMgPerCigarette: saved.tarMgPerCigarette,
+            nicotineMgPerCigarette: saved.nicotineMgPerCigarette,
+          );
+    }
+    // Defer disposal until the dismissed dialog has fully left the tree:
+    // its tap targets still rebuild during the exit animation.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      for (final c in [price, size, brand, tar, nicotine]) {
+        c.dispose();
       }
-    }
-    for (final c in [price, size, brand, tar, nicotine]) {
-      c.dispose();
-    }
+    });
   }
+
+
+  Widget _numField(
+    TextEditingController c,
+    String label,
+    StateSetter setLocal, {
+    bool integer = false,
+    String? hint,
+  }) {
+    return TextField(
+      controller: c,
+      keyboardType: integer
+          ? TextInputType.number
+          : const TextInputType.numberWithOptions(decimal: true),
+      decoration: InputDecoration(labelText: label, hintText: hint),
+      onChanged: (_) => setLocal(() {}),
+    );
+  }
+}
+
+/// What the pack-edit dialog returns once every field passes
+/// [InputBounds]; the save path writes exactly these values, it never
+/// re-parses text that could have shifted after the pop.
+class PackEditResult {
+  const PackEditResult({
+    required this.pricePerPack,
+    required this.packSize,
+    required this.brand,
+    required this.tarMgPerCigarette,
+    required this.nicotineMgPerCigarette,
+  });
+
+  final double pricePerPack;
+  final int packSize;
+  final String? brand;
+  final double? tarMgPerCigarette;
+  final double? nicotineMgPerCigarette;
 }
