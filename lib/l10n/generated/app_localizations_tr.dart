@@ -177,6 +177,29 @@ class AppLocalizationsTr extends AppLocalizations {
   String get obTtfcOver60 => '60 dakikadan sonra';
 
   @override
+  String get obRhythmTitle =>
+      'Her gün iki sigara arasında ortalama ne kadar süre geçiyor?';
+
+  @override
+  String get obRhythmHint =>
+      'Cevabın azaltma planının başlangıç aralığını hazırlar; plan sonra gerçek kayıtlarından öğrenir. Emin değilsen bunu seçebilirsin.';
+
+  @override
+  String get obRhythmUnder30 => '30 dakikadan az';
+
+  @override
+  String get obRhythm3060 => '30–60 dakika';
+
+  @override
+  String get obRhythm60120 => '1–2 saat';
+
+  @override
+  String get obRhythmOver120 => '2 saatten fazla';
+
+  @override
+  String get obRhythmUnsure => 'Emin değilim';
+
+  @override
   String get obPriceTitle => 'Paket fiyatı ne kadar?';
 
   @override

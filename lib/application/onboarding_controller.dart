@@ -40,6 +40,21 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
 
   void setPackSize(int size) => state = _copy(packSize: size);
 
+  /// Declared rhythm: band minutes, or null for "not sure". Re-selecting an
+  /// already picked band clears it back to null.
+  void setRhythmMinutes(int? minutes) => state = OnboardingAnswers(
+        ageBand: state.ageBand,
+        baselineCpd: state.baselineCpd,
+        ttfcBand: state.ttfcBand,
+        pricePerPack: state.pricePerPack,
+        packSize: state.packSize,
+        triggers: state.triggers,
+        targetMode: state.targetMode,
+        brandName: state.brandName,
+        quitReason: state.quitReason,
+        rhythmMinutes: state.rhythmMinutes == minutes ? null : minutes,
+      );
+
   void toggleTrigger(TriggerLabel label) {
     final current = {...state.triggers};
     if (!current.add(label)) {
@@ -64,8 +79,9 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
     triggers: state.triggers,
     targetMode: state.targetMode,
     brandName: state.brandName,
-    quitReason: reason,
-  );
+      quitReason: reason,
+      rhythmMinutes: state.rhythmMinutes,
+    );
 
   Future<void> submit() async {
     final repo = ref.read(profileRepositoryProvider);
@@ -105,6 +121,7 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
       targetMode: targetMode ?? current.targetMode,
       brandName: brandName ?? current.brandName,
       quitReason: current.quitReason,
+      rhythmMinutes: current.rhythmMinutes,
     );
   }
 

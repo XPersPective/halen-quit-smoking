@@ -12,7 +12,7 @@ import 'package:halen/presentation/screens/cessation/quit_plan_screen.dart'
     show quitReasonLabel;
 import 'package:halen/presentation/widgets/choice_card.dart';
 
-/// Screens 2–9: the eight-step onboarding (<90 s, no account, report §11).
+/// Screens 2–10: the nine-step onboarding (<90 s, no account, report §11).
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -27,10 +27,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final _brandForm = GlobalKey<FormState>();
   bool _busy = false;
 
-  // Eight now: the reason a person gives in their own words is the
-  // motivational-interviewing step the flow was missing, and it is the one
-  // the app plays back at the moment of a craving (premium brief §C.7).
-  static const _stepCount = 8;
+  // Nine now: the declared daily rhythm is asked explicitly (brain T4) and
+  // seeds the taper's first interval instead of the app guessing alone.
+  static const _stepCount = 9;
 
   @override
   void dispose() {
@@ -40,8 +39,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   Future<void> _next() async {
     if (_busy) return;
-    if (_step == 3 && !(_priceForm.currentState?.validate() ?? false)) return;
-    if (_step == 7 && !(_brandForm.currentState?.validate() ?? false)) return;
+    if (_step == 4 && !(_priceForm.currentState?.validate() ?? false)) return;
+    if (_step == 8 && !(_brandForm.currentState?.validate() ?? false)) return;
     setState(() => _busy = true);
     try {
       final controller = ref.read(onboardingControllerProvider.notifier);
@@ -160,6 +159,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     const _AgeStep(),
                     const _DailyCountStep(),
                     const _TtfcStep(),
+                    const _RhythmStep(),
                     Form(key: _priceForm, child: const _PriceStep()),
                     const _TriggersStep(),
                     const _GoalStep(),
@@ -330,6 +330,45 @@ class _TtfcStep extends ConsumerWidget {
                 title: entry.value,
                 selected: answers.ttfcBand == entry.key,
                 onTap: () => controller.setTtfc(entry.key),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Step 4: the declared daily rhythm (brain T4). Band midpoints become the
+/// taper's first interval; "not sure" stays honestly null.
+class _RhythmStep extends ConsumerWidget {
+  const _RhythmStep();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final answers = ref.watch(onboardingControllerProvider);
+    final controller = ref.read(onboardingControllerProvider.notifier);
+    final options = <(int?, String)>[
+      (20, l10n.obRhythmUnder30),
+      (45, l10n.obRhythm3060),
+      (90, l10n.obRhythm60120),
+      (150, l10n.obRhythmOver120),
+      (null, l10n.obRhythmUnsure),
+    ];
+    return _StepScaffold(
+      title: l10n.obRhythmTitle,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(l10n.obRhythmHint, style: Theme.of(context).textTheme.bodySmall),
+          const SizedBox(height: HalenSpace.x3),
+          for (final option in options)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: ChoiceCard(
+                title: option.$2,
+                selected: answers.rhythmMinutes == option.$1,
+                onTap: () => controller.setRhythmMinutes(option.$1),
               ),
             ),
         ],

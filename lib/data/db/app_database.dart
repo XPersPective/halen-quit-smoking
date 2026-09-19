@@ -68,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.e);
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -136,6 +136,13 @@ class AppDatabase extends _$AppDatabase {
             // v8 — separate opt-in for the day-5 trial nudge (brain T2).
             // Default false: the trial clock never grants marketing consent.
             await m.addColumn(settings, settings.trialNudge);
+          }
+          if (from < 9) {
+            // v9 — the onboarding-declared smoking rhythm (brain T4).
+            await m.addColumn(
+              smokingProfile,
+              smokingProfile.declaredRhythmMinutes,
+            );
           }
         },
       );

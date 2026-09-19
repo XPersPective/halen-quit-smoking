@@ -412,6 +412,48 @@ abstract class AppLocalizations {
   /// **'After 60 minutes'**
   String get obTtfcOver60;
 
+  /// No description provided for @obRhythmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How much time passes between cigarettes on a usual day?'**
+  String get obRhythmTitle;
+
+  /// No description provided for @obRhythmHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answer seeds the reduction plan\'s starting interval; the plan then learns from your real logs. Not sure is a fine answer.'**
+  String get obRhythmHint;
+
+  /// No description provided for @obRhythmUnder30.
+  ///
+  /// In en, this message translates to:
+  /// **'Under 30 minutes'**
+  String get obRhythmUnder30;
+
+  /// No description provided for @obRhythm3060.
+  ///
+  /// In en, this message translates to:
+  /// **'30–60 minutes'**
+  String get obRhythm3060;
+
+  /// No description provided for @obRhythm60120.
+  ///
+  /// In en, this message translates to:
+  /// **'1–2 hours'**
+  String get obRhythm60120;
+
+  /// No description provided for @obRhythmOver120.
+  ///
+  /// In en, this message translates to:
+  /// **'Over 2 hours'**
+  String get obRhythmOver120;
+
+  /// No description provided for @obRhythmUnsure.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sure'**
+  String get obRhythmUnsure;
+
   /// No description provided for @obPriceTitle.
   ///
   /// In en, this message translates to:

@@ -160,10 +160,13 @@ class TaperController {
   /// conservative hour when there is not enough history to know it.
   Future<int> _seedInterval(DateTime now) async {
     final achieved = await _achievedIntervals(now, days: 7);
-    if (achieved.isEmpty) {
-      return 60;
+    if (achieved.isNotEmpty) {
+      return (achieved.reduce((a, b) => a + b) / achieved.length).round();
     }
-    return (achieved.reduce((a, b) => a + b) / achieved.length).round();
+    // Before any real log exists the plan starts from what the user said in
+    // onboarding; without it the generic 60-minute default stands.
+    final profile = await _db.profileDao.getSmokingProfile();
+    return profile?.declaredRhythmMinutes ?? 60;
   }
 }
 

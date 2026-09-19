@@ -14,6 +14,7 @@ class OnboardingAnswers {
     required this.targetMode,
     this.brandName,
     this.quitReason,
+    this.rhythmMinutes,
   });
 
   final AgeBand ageBand;
@@ -24,6 +25,10 @@ class OnboardingAnswers {
   final Set<TriggerLabel> triggers;
   final TargetMode targetMode;
   final String? brandName;
+
+  /// Declared typical gap between cigarettes, in minutes. Null is the
+  /// honest "not sure"; it seeds (never locks) the taper's first interval.
+  final int? rhythmMinutes;
 
   /// Why they are doing this, in their own words. Optional — the app never
   /// blocks on it (premium brief §C.7).
@@ -38,7 +43,9 @@ class OnboardingAnswers {
       pricePerPack > 0 &&
       pricePerPack <= 1000000 &&
       (brandName?.trim().isNotEmpty ?? false) &&
-      brandName!.trim().length <= 100;
+      brandName!.trim().length <= 100 &&
+      (rhythmMinutes == null ||
+          (rhythmMinutes! >= 10 && rhythmMinutes! <= 720));
 
   /// Decimal input, not scientific notation, NaN, infinity or digit stripping.
   static double? parsePrice(String value) {

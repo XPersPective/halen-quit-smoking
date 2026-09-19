@@ -178,6 +178,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get obTtfcOver60 => 'After 60 minutes';
 
   @override
+  String get obRhythmTitle =>
+      'How much time passes between cigarettes on a usual day?';
+
+  @override
+  String get obRhythmHint =>
+      'Your answer seeds the reduction plan\'s starting interval; the plan then learns from your real logs. Not sure is a fine answer.';
+
+  @override
+  String get obRhythmUnder30 => 'Under 30 minutes';
+
+  @override
+  String get obRhythm3060 => '30–60 minutes';
+
+  @override
+  String get obRhythm60120 => '1–2 hours';
+
+  @override
+  String get obRhythmOver120 => 'Over 2 hours';
+
+  @override
+  String get obRhythmUnsure => 'Not sure';
+
+  @override
   String get obPriceTitle => 'How much does a pack cost?';
 
   @override

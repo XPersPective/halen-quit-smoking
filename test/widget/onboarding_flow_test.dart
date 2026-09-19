@@ -51,17 +51,17 @@ void main() {
     await tester.ensureVisible(find.widgetWithText(FilledButton, 'Start'));
     await tester.tap(find.widgetWithText(FilledButton, 'Start'));
     await tester.pumpAndSettle();
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 4; i++) {
       await _next(tester);
     }
     await tester.enterText(find.byType(TextFormField).first, '12,50');
     tester.testTextInput.hide();
     await tester.binding.handlePopRoute();
     await tester.pumpAndSettle();
-    expect(find.text('Step 3 of 8'), findsOneWidget);
+    expect(find.text('Step 4 of 9'), findsOneWidget);
     await _next(tester);
     expect(find.text('12,50'), findsOneWidget);
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 5; i++) {
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
     }
@@ -100,7 +100,13 @@ void main() {
     await tester.pumpAndSettle();
     await _next(tester);
 
-    // Step 4: price is required; invalid pack counts cannot advance.
+    // Step 4: declared rhythm — pick the 30–60 minute band (→ 45 min seed).
+    expect(find.textContaining('time passes between cigarettes'), findsOneWidget);
+    await tester.tap(find.text('30–60 minutes'));
+    await tester.pumpAndSettle();
+    await _next(tester);
+
+    // Step 5: price is required; invalid pack counts cannot advance.
     expect(find.text('How much does a pack cost?'), findsWidgets);
     expect(
       tester
@@ -110,30 +116,30 @@ void main() {
       isEmpty,
     );
     await _next(tester);
-    expect(find.text('Step 4 of 8'), findsOneWidget);
+    expect(find.text('Step 5 of 9'), findsOneWidget);
     await tester.enterText(find.byType(TextFormField).first, '12,50');
     await tester.enterText(find.byType(TextFormField).last, '1.2');
     await _next(tester);
-    expect(find.text('Step 4 of 8'), findsOneWidget);
+    expect(find.text('Step 5 of 9'), findsOneWidget);
     await tester.enterText(find.byType(TextFormField).last, '20');
     await _next(tester);
 
-    // Step 5: triggers — pick coffee.
+    // Step 6: triggers — pick coffee.
     await tester.tap(find.text('Coffee'));
     await tester.pumpAndSettle();
     await _next(tester);
 
-    // Step 6: goal — keep the recommended "Reduce, then quit".
+    // Step 7: goal — keep the recommended "Reduce, then quit".
     expect(find.text('What is your goal?'), findsOneWidget);
     await _next(tester);
 
-    // Step 7: why — the reason in their own words, stored on the quit plan.
+    // Step 8: why — the reason in their own words, stored on the quit plan.
     expect(find.text('Why do you want to stop?'), findsOneWidget);
     await tester.tap(find.text('For my children'));
     await tester.pumpAndSettle();
     await _next(tester);
 
-    // Step 8: brand optional + disclaimer → finish. (Text appears twice:
+    // Step 9: brand optional + disclaimer → finish. (Text appears twice:
     // as the step title and as the TextField label.)
     expect(find.text('Your cigarette brand'), findsWidgets);
     expect(find.textContaining('not medical advice'), findsOneWidget);
@@ -168,6 +174,7 @@ void main() {
     final profile = await db.profileDao.getSmokingProfile();
     expect(profile, isNotNull);
     expect(profile!.baselineCpd, 20);
+    expect(profile.declaredRhythmMinutes, 45);
     expect(profile.pricePerPack, 12.5);
     expect(profile.packSize, 20);
     expect(profile.brandName, 'Example Brand');

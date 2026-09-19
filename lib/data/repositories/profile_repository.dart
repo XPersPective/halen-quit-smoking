@@ -32,8 +32,9 @@ class ProfileRepository {
               ? const Value.absent()
               : const Value('manual'),
           brandName: Value(answers.brandName!.trim()),
-          targetMode: Value(answers.targetMode),
-          pace: const Value(Pace.standard),
+            targetMode: Value(answers.targetMode),
+            pace: const Value(Pace.standard),
+            declaredRhythmMinutes: Value(answers.rhythmMinutes),
         ),
       );
       // Seed the trigger table with the user's selection.

@@ -179,6 +179,29 @@ class AppLocalizationsDe extends AppLocalizations {
   String get obTtfcOver60 => 'Nach 60 Minuten';
 
   @override
+  String get obRhythmTitle =>
+      'Wie viel Zeit vergeht an einem normalen Tag zwischen zwei Zigaretten?';
+
+  @override
+  String get obRhythmHint =>
+      'Deine Antwort legt das Startintervall des Reduktionsplans fest; danach lernt der Plan aus deinen echten Einträgen. „Nicht sicher“ ist völlig okay.';
+
+  @override
+  String get obRhythmUnder30 => 'Weniger als 30 Minuten';
+
+  @override
+  String get obRhythm3060 => '30–60 Minuten';
+
+  @override
+  String get obRhythm60120 => '1–2 Stunden';
+
+  @override
+  String get obRhythmOver120 => 'Mehr als 2 Stunden';
+
+  @override
+  String get obRhythmUnsure => 'Nicht sicher';
+
+  @override
   String get obPriceTitle => 'Was kostet eine Schachtel?';
 
   @override

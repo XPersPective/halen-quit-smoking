@@ -48,6 +48,11 @@ class SmokingProfile extends Table {
   // absent, the legal maximum is used and the screen says so.
   RealColumn get tarMgPerCigarette => real().nullable()();
   RealColumn get nicotineMgPerCigarette => real().nullable()();
+
+  /// What the user said in onboarding is their typical gap between
+  /// cigarettes (brain T4). Only a taper seed — the plan still learns from
+  /// real logs. Null = "not sure" or older profiles.
+  IntColumn get declaredRhythmMinutes => integer().nullable()();
 }
 
 @DataClassName('CigaretteEventRow')

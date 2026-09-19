@@ -507,6 +507,16 @@ class $SmokingProfileTable extends SmokingProfile
         type: DriftSqlType.double,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _declaredRhythmMinutesMeta =
+      const VerificationMeta('declaredRhythmMinutes');
+  @override
+  late final GeneratedColumn<int> declaredRhythmMinutes = GeneratedColumn<int>(
+    'declared_rhythm_minutes',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -527,6 +537,7 @@ class $SmokingProfileTable extends SmokingProfile
     metabolism,
     tarMgPerCigarette,
     nicotineMgPerCigarette,
+    declaredRhythmMinutes,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -636,6 +647,15 @@ class $SmokingProfileTable extends SmokingProfile
         ),
       );
     }
+    if (data.containsKey('declared_rhythm_minutes')) {
+      context.handle(
+        _declaredRhythmMinutesMeta,
+        declaredRhythmMinutes.isAcceptableOrUnknown(
+          data['declared_rhythm_minutes']!,
+          _declaredRhythmMinutesMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -727,6 +747,10 @@ class $SmokingProfileTable extends SmokingProfile
         DriftSqlType.double,
         data['${effectivePrefix}nicotine_mg_per_cigarette'],
       ),
+      declaredRhythmMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}declared_rhythm_minutes'],
+      ),
     );
   }
 
@@ -771,6 +795,11 @@ class SmokingProfileRow extends DataClass
   final MetabolismSpeed metabolism;
   final double? tarMgPerCigarette;
   final double? nicotineMgPerCigarette;
+
+  /// What the user said in onboarding is their typical gap between
+  /// cigarettes (brain T4). Only a taper seed — the plan still learns from
+  /// real logs. Null = "not sure" or older profiles.
+  final int? declaredRhythmMinutes;
   const SmokingProfileRow({
     required this.id,
     required this.baselineCpd,
@@ -790,6 +819,7 @@ class SmokingProfileRow extends DataClass
     required this.metabolism,
     this.tarMgPerCigarette,
     this.nicotineMgPerCigarette,
+    this.declaredRhythmMinutes,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -850,6 +880,9 @@ class SmokingProfileRow extends DataClass
         nicotineMgPerCigarette,
       );
     }
+    if (!nullToAbsent || declaredRhythmMinutes != null) {
+      map['declared_rhythm_minutes'] = Variable<int>(declaredRhythmMinutes);
+    }
     return map;
   }
 
@@ -887,6 +920,9 @@ class SmokingProfileRow extends DataClass
       nicotineMgPerCigarette: nicotineMgPerCigarette == null && nullToAbsent
           ? const Value.absent()
           : Value(nicotineMgPerCigarette),
+      declaredRhythmMinutes: declaredRhythmMinutes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(declaredRhythmMinutes),
     );
   }
 
@@ -928,6 +964,9 @@ class SmokingProfileRow extends DataClass
       nicotineMgPerCigarette: serializer.fromJson<double?>(
         json['nicotineMgPerCigarette'],
       ),
+      declaredRhythmMinutes: serializer.fromJson<int?>(
+        json['declaredRhythmMinutes'],
+      ),
     );
   }
   @override
@@ -964,6 +1003,7 @@ class SmokingProfileRow extends DataClass
       'nicotineMgPerCigarette': serializer.toJson<double?>(
         nicotineMgPerCigarette,
       ),
+      'declaredRhythmMinutes': serializer.toJson<int?>(declaredRhythmMinutes),
     };
   }
 
@@ -986,6 +1026,7 @@ class SmokingProfileRow extends DataClass
     MetabolismSpeed? metabolism,
     Value<double?> tarMgPerCigarette = const Value.absent(),
     Value<double?> nicotineMgPerCigarette = const Value.absent(),
+    Value<int?> declaredRhythmMinutes = const Value.absent(),
   }) => SmokingProfileRow(
     id: id ?? this.id,
     baselineCpd: baselineCpd ?? this.baselineCpd,
@@ -1009,6 +1050,9 @@ class SmokingProfileRow extends DataClass
     nicotineMgPerCigarette: nicotineMgPerCigarette.present
         ? nicotineMgPerCigarette.value
         : this.nicotineMgPerCigarette,
+    declaredRhythmMinutes: declaredRhythmMinutes.present
+        ? declaredRhythmMinutes.value
+        : this.declaredRhythmMinutes,
   );
   SmokingProfileRow copyWithCompanion(SmokingProfileCompanion data) {
     return SmokingProfileRow(
@@ -1044,6 +1088,9 @@ class SmokingProfileRow extends DataClass
       nicotineMgPerCigarette: data.nicotineMgPerCigarette.present
           ? data.nicotineMgPerCigarette.value
           : this.nicotineMgPerCigarette,
+      declaredRhythmMinutes: data.declaredRhythmMinutes.present
+          ? data.declaredRhythmMinutes.value
+          : this.declaredRhythmMinutes,
     );
   }
 
@@ -1067,7 +1114,8 @@ class SmokingProfileRow extends DataClass
           ..write('hsi: $hsi, ')
           ..write('metabolism: $metabolism, ')
           ..write('tarMgPerCigarette: $tarMgPerCigarette, ')
-          ..write('nicotineMgPerCigarette: $nicotineMgPerCigarette')
+          ..write('nicotineMgPerCigarette: $nicotineMgPerCigarette, ')
+          ..write('declaredRhythmMinutes: $declaredRhythmMinutes')
           ..write(')'))
         .toString();
   }
@@ -1092,6 +1140,7 @@ class SmokingProfileRow extends DataClass
     metabolism,
     tarMgPerCigarette,
     nicotineMgPerCigarette,
+    declaredRhythmMinutes,
   );
   @override
   bool operator ==(Object other) =>
@@ -1114,7 +1163,8 @@ class SmokingProfileRow extends DataClass
           other.hsi == this.hsi &&
           other.metabolism == this.metabolism &&
           other.tarMgPerCigarette == this.tarMgPerCigarette &&
-          other.nicotineMgPerCigarette == this.nicotineMgPerCigarette);
+          other.nicotineMgPerCigarette == this.nicotineMgPerCigarette &&
+          other.declaredRhythmMinutes == this.declaredRhythmMinutes);
 }
 
 class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
@@ -1136,6 +1186,7 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
   final Value<MetabolismSpeed> metabolism;
   final Value<double?> tarMgPerCigarette;
   final Value<double?> nicotineMgPerCigarette;
+  final Value<int?> declaredRhythmMinutes;
   const SmokingProfileCompanion({
     this.id = const Value.absent(),
     this.baselineCpd = const Value.absent(),
@@ -1155,6 +1206,7 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     this.metabolism = const Value.absent(),
     this.tarMgPerCigarette = const Value.absent(),
     this.nicotineMgPerCigarette = const Value.absent(),
+    this.declaredRhythmMinutes = const Value.absent(),
   });
   SmokingProfileCompanion.insert({
     this.id = const Value.absent(),
@@ -1175,6 +1227,7 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     this.metabolism = const Value.absent(),
     this.tarMgPerCigarette = const Value.absent(),
     this.nicotineMgPerCigarette = const Value.absent(),
+    this.declaredRhythmMinutes = const Value.absent(),
   }) : baselineCpd = Value(baselineCpd),
        ttfcBand = Value(ttfcBand),
        pricePerPack = Value(pricePerPack),
@@ -1200,6 +1253,7 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     Expression<String>? metabolism,
     Expression<double>? tarMgPerCigarette,
     Expression<double>? nicotineMgPerCigarette,
+    Expression<int>? declaredRhythmMinutes,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1221,6 +1275,8 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
       if (tarMgPerCigarette != null) 'tar_mg_per_cigarette': tarMgPerCigarette,
       if (nicotineMgPerCigarette != null)
         'nicotine_mg_per_cigarette': nicotineMgPerCigarette,
+      if (declaredRhythmMinutes != null)
+        'declared_rhythm_minutes': declaredRhythmMinutes,
     });
   }
 
@@ -1243,6 +1299,7 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
     Value<MetabolismSpeed>? metabolism,
     Value<double?>? tarMgPerCigarette,
     Value<double?>? nicotineMgPerCigarette,
+    Value<int?>? declaredRhythmMinutes,
   }) {
     return SmokingProfileCompanion(
       id: id ?? this.id,
@@ -1264,6 +1321,8 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
       tarMgPerCigarette: tarMgPerCigarette ?? this.tarMgPerCigarette,
       nicotineMgPerCigarette:
           nicotineMgPerCigarette ?? this.nicotineMgPerCigarette,
+      declaredRhythmMinutes:
+          declaredRhythmMinutes ?? this.declaredRhythmMinutes,
     );
   }
 
@@ -1336,6 +1395,11 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
         nicotineMgPerCigarette.value,
       );
     }
+    if (declaredRhythmMinutes.present) {
+      map['declared_rhythm_minutes'] = Variable<int>(
+        declaredRhythmMinutes.value,
+      );
+    }
     return map;
   }
 
@@ -1359,7 +1423,8 @@ class SmokingProfileCompanion extends UpdateCompanion<SmokingProfileRow> {
           ..write('hsi: $hsi, ')
           ..write('metabolism: $metabolism, ')
           ..write('tarMgPerCigarette: $tarMgPerCigarette, ')
-          ..write('nicotineMgPerCigarette: $nicotineMgPerCigarette')
+          ..write('nicotineMgPerCigarette: $nicotineMgPerCigarette, ')
+          ..write('declaredRhythmMinutes: $declaredRhythmMinutes')
           ..write(')'))
         .toString();
   }
@@ -9826,6 +9891,7 @@ typedef $$SmokingProfileTableCreateCompanionBuilder =
       Value<MetabolismSpeed> metabolism,
       Value<double?> tarMgPerCigarette,
       Value<double?> nicotineMgPerCigarette,
+      Value<int?> declaredRhythmMinutes,
     });
 typedef $$SmokingProfileTableUpdateCompanionBuilder =
     SmokingProfileCompanion Function({
@@ -9847,6 +9913,7 @@ typedef $$SmokingProfileTableUpdateCompanionBuilder =
       Value<MetabolismSpeed> metabolism,
       Value<double?> tarMgPerCigarette,
       Value<double?> nicotineMgPerCigarette,
+      Value<int?> declaredRhythmMinutes,
     });
 
 class $$SmokingProfileTableFilterComposer
@@ -9952,6 +10019,11 @@ class $$SmokingProfileTableFilterComposer
     column: $table.nicotineMgPerCigarette,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<int> get declaredRhythmMinutes => $composableBuilder(
+    column: $table.declaredRhythmMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SmokingProfileTableOrderingComposer
@@ -10052,6 +10124,11 @@ class $$SmokingProfileTableOrderingComposer
     column: $table.nicotineMgPerCigarette,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get declaredRhythmMinutes => $composableBuilder(
+    column: $table.declaredRhythmMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SmokingProfileTableAnnotationComposer
@@ -10132,6 +10209,11 @@ class $$SmokingProfileTableAnnotationComposer
     column: $table.nicotineMgPerCigarette,
     builder: (column) => column,
   );
+
+  GeneratedColumn<int> get declaredRhythmMinutes => $composableBuilder(
+    column: $table.declaredRhythmMinutes,
+    builder: (column) => column,
+  );
 }
 
 class $$SmokingProfileTableTableManager
@@ -10189,6 +10271,7 @@ class $$SmokingProfileTableTableManager
                 Value<MetabolismSpeed> metabolism = const Value.absent(),
                 Value<double?> tarMgPerCigarette = const Value.absent(),
                 Value<double?> nicotineMgPerCigarette = const Value.absent(),
+                Value<int?> declaredRhythmMinutes = const Value.absent(),
               }) => SmokingProfileCompanion(
                 id: id,
                 baselineCpd: baselineCpd,
@@ -10208,6 +10291,7 @@ class $$SmokingProfileTableTableManager
                 metabolism: metabolism,
                 tarMgPerCigarette: tarMgPerCigarette,
                 nicotineMgPerCigarette: nicotineMgPerCigarette,
+                declaredRhythmMinutes: declaredRhythmMinutes,
               ),
           createCompanionCallback:
               ({
@@ -10229,6 +10313,7 @@ class $$SmokingProfileTableTableManager
                 Value<MetabolismSpeed> metabolism = const Value.absent(),
                 Value<double?> tarMgPerCigarette = const Value.absent(),
                 Value<double?> nicotineMgPerCigarette = const Value.absent(),
+                Value<int?> declaredRhythmMinutes = const Value.absent(),
               }) => SmokingProfileCompanion.insert(
                 id: id,
                 baselineCpd: baselineCpd,
@@ -10248,6 +10333,7 @@ class $$SmokingProfileTableTableManager
                 metabolism: metabolism,
                 tarMgPerCigarette: tarMgPerCigarette,
                 nicotineMgPerCigarette: nicotineMgPerCigarette,
+                declaredRhythmMinutes: declaredRhythmMinutes,
               ),
           withReferenceMapper: (p0) => p0
               .map(

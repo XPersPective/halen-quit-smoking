@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T3 kapandı: yedek→trial açığı kapalı (bağımsız gözden geçirme onaylı), rollback testi transaction'sız çökerken kırmızı verecek biçimde sertleştirildi.
-> **Phase:** BUILD · **Next:** T4 · **Updated:** 2026-09-18 · **Synced@:** a9d8447
+> **Status:** T4 kapandı: ritim sorusu 9. adım olarak eklendi, taper seed'i kullanıcı beyanından başlar; 337 test temiz.
+> **Phase:** BUILD · **Next:** T5 · **Updated:** 2026-09-18 · **Synced@:** fbdb6d6
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -179,9 +179,11 @@ Hedef doğrudan kullanıcı akışından türetilir:
 
 ## 3. CURRENT ARCHITECTURE
 
-- `lib/data/db/app_database.dart:71`: schemaVersion8 (v8: `settings.trialNudge`). Yeni paralel profil gereksiz.
+- `lib/data/db/app_database.dart:71`: schemaVersion9 (v8 trialNudge, v9
+  smokingProfile.declaredRhythmMinutes). Yeni paralel profil gereksiz.
 - `lib/domain/onboarding.dart:OnboardingAnswers`, `lib/data/repositories/profile_repository.dart`:
-  sayı/marka sınırları ve transaction öncesi guard; mevcut8 adım fiyat/marka Form'u.
+  sayı/marka/ritim sınırları ve transaction öncesi guard; 9 adım (ritim 4. adım,
+  bant orta noktası 20/45/90/150, "Emin değilim"=null).
   T4 geri dönüş düzeltmesi: welcome replacement ile kaldırıldığı için ilk adımda
   pop yoksa welcome yeniden açılır; aynı Riverpod cevap durumu korunur.
   PopScope sistem-geri olayını aynı _back akışına bağlar; fiyat metni adım dönüşünde korunur.
@@ -219,7 +221,7 @@ Hedef doğrudan kullanıcı akışından türetilir:
   Sonraki native doğrulama: e62194d+mevcut dirty tree aynı Android16'da user0 mevcut
   profille Bugün, izole Halen-QA/user10 temiz veride Welcome açıldı. User10'da
   Start→Step1→KEYCODE_BACK→Welcome gözlendi;8 adımlık tam tur hâlâ açık.
-GAP: başlangıç izin/ritim/beden/geri akışı → T2,T4,T5,T6.
+GAP: başlangıç beden girdileri ve giriş denetimi → T5,T6.
 GAP: görsel ve kullanıcı akışı kapsamı → T7–T18.
 GAP: yedek, hukuk, ödeme, reklam ve release kanıtı → T3,T19–T26.
 
@@ -269,11 +271,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter test test/data/backup_repository_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → b1c2566'daki izolasyon bağımsız gözden geçirmede doğrulandı (export 4 settings alanı yazar, import trial/satın alma yazmaz, forge reddi tek transaction); rollback testi sertleştirildi (forge ilk kayıt — transaction'sız çalıştırmada kırmızı kanıtlandı). Bakiye kapsam bulguları T26'ya işlendi.
 
-- [ ] T4 [M] Onboarding temel girdileri ve varsayılanlar (eski H04)
-  - Note: 2026-09-17 güvenli ara: emülatörde bulunan veri güvenliği riski T23.1 önce; ritim girdisi henüz eklenmedi.
-  - Where: `lib/domain/onboarding.dart; lib/application/onboarding_controller.dart; lib/data/repositories/profile_repository.dart; lib/presentation/screens/onboarding/onboarding_screen.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) OnboardingAnswers/controller/repository/UI zincirini beraber düzenle. Günlük adet varsayılanı 20, paket adedi 20. Adet tam sayı; 1.2, negatif, sıfır, NaN, aşırı değer kabul edilmez, "1.2" sessizce 12'ye dönüştürülmez. Fiyat başlangıçta boş ve pozitif sonlu sayı zorunlu; virgül/nokta yerel yazımı destekle. Yaş aralığı, ilk sigaraya süre, günlük ritim ve marka açık sorulur; boş/yalnız boşluk marka ileri geçirmez. Sayfa üzerinde kısa hata göster, uygulamayı çökertme. Marka sonradan değiştirilebilir. Kanıt: tüm adımlar geri/ileri, geçersiz klavye/yapıştırma girdisi, doğru kalıcılık testi.  Uygulama kararı: mevcut sekiz adım korunur; fiyat ve marka adımlarında Flutter Form doğrulaması, repository sınırında aynı domain kuralları kullanılır. Günlük adet 1–60 tam sayı slider (varsayılan20), paket 1–100 tam sayı, fiyat >0 ve <=1.000.000 sonlu yerel ondalık sayı; marka trim sonrası 1–100 karakter. Bunlar klinik sınırlar değil girdi/ürün sınırlarıdır. Geçersiz paket girdisi sessizce20 olmaz, boş marka önceki markayı geri getirmez. Boy/kilo/yıl ve ritim eklemesi T5 kapsamında henüz açık.
+- [x] T4 [M] Onboarding temel girdileri ve varsayılanlar (2026-09-18, Kimi K3)
   - Done when: `flutter test test/domain/onboarding_input_test.dart test/data/onboarding_validation_test.dart test/widget/onboarding_flow_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → 9 adım: ritim adımı TTFC ile fiyat arasında; şema v9 `smokingProfile.declaredRhythmMinutes` (null = "emin değilim"); `TaperController._seedInterval` kayıt yokken beyandan beslenir (yoksa 60). Widget turu 9 adım + domain sınır testi; native tur 1–5. adıma kadar yürüdü (ritim seçimi ve fiyat doğrulaması cihazda kanıtlı), eşzamanlı harici cihaz kullanımı yüzünden kesildi — bkz §6 2026-09-18.
 
 - [ ] T5 [M] Boy, kilo ve sigara yılı başlangıçta (eski H05)
   - Where: `lib/domain/onboarding.dart; lib/data/db/tables.dart; lib/presentation/widgets/model_settings_section.dart`
@@ -383,7 +383,7 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
 - [ ] T26 [H] Yedek kapsamı ve veri silme bütünlüğü (eski H26)
   - Where: `lib/data/backup_repository.dart; lib/data/db/tables.dart; test/data/backup_repository_test.dart`
   - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) BackupRepository eski tabloları aktarırken yeni mood/support/cessation/pack/settings alanlarını kapsamıyor; wipe de tüm kişisel tabloları silmiyor olabilir. Şema ile export/import/delete listesini satır satır eşleştir. Format migration/geri uyumluluk, referans bütünlüğü ve tüm kişisel verinin silinmesini kanıtla. Satın alma/trial yedek dışında kalır. Bozuk dosyada kısmi silme olmaz; backup'ın düz metin olduğu açıklanır. Kanıt: bütün yeni alanlarda round-trip, tüm kişisel tablo temizliği, rollback.
-  - T3 inceleme bulguları (2026-09-18, dış gözden geçirme): (a) `_wipeUserData` yalnız 9 tabloyu siliyor; MoodLog, SupportLog, IndexSnapshot, PlanState, SavingsGoal, CessationPlan, CopingPlan, MoodScreen, PackPurchase ve timeline.acknowledgedMilestones kalıyor. (b) `acknowledgedMilestones` export ediliyor ama import never geri yazmıyor. (c) `setQuitTs` UPDATE-based; temiz cihazda satır yoksa import sessizce kaybolur — import öncesi `getState()` ile satırı yarat veya insert-or-replace yap. (d) "round-trips all user data" testi adının vaat ettiği kadarını kapsamıyor (plans/adjustments/triggers/products/timeline/settings assert'leri yok).
+  - T3 inceleme bulguları (2026-09-18, dış gözden geçirme): (a) `_wipeUserData` yalnız 9 tabloyu siliyor; MoodLog, SupportLog, IndexSnapshot, PlanState, SavingsGoal, CessationPlan, CopingPlan, MoodScreen, PackPurchase ve timeline.acknowledgedMilestones kalıyor. (b) `acknowledgedMilestones` export ediliyor ama import never geri yazmıyor. (c) `setQuitTs` UPDATE-based; temiz cihazda satır yoksa import sessizce kaybolur — import öncesi `getState()` ile satırı yarat veya insert-or-replace yap. (d) "round-trips all user data" testi adının vaat ettiği kadarını kapsamıyor (plans/adjustments/triggers/products/timeline/settings assert'leri yok). (e) 2026-09-18'den itibaren kapsam listesine ekle: settings.trialNudge (v8) ve smokingProfile.declaredRhythmMinutes (v9).
   - Done when: `flutter test test/data/backup_repository_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
 
 - [x] T18.1 [M] Emülatörde görülen kontrast ve bildirim etiketi (2026-09-18, Kimi K3)
@@ -407,6 +407,7 @@ Newest first.
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
 | 2026-09-18 | AUDIT | T3 A2: bağımsız taze-bağlam gözden geçirme 1/2/5/6. iddiayı doğruladı; rollback testini transaction'sız çalıştırmada kırmızı-gösterir biçimde güçlendirdim; 5 backup testi + tam336 test temiz | Gözden geçirme bulguları (wipe kapsamı, milestones round-trip kaybı, quitTs insert-öncesi boşluk, zayıf round-trip adı) T26'nın Do'suna eklendi. Red-green kanıtı: `_wipeUserData` transaction dışına taşınınca test başarısız oldu, geri alınca yeşil. Kod davranışı değişmedi. |
+| 2026-09-18 | AUDIT | T4 A2: şema v9 ritim alanı, 9. adım UI, taper seed zinciri, domain+akış testleri; tam337 test ve fatal-info analiz temiz | Şema 8→9 additive; declaredRhythmMinutes 20/45/90/150 bant ortası veya null. flow testi tüm 9 adımı geri/ileri+fiyat korunumuyla yürür; domain testi 10–720 sınırını kurar. APK SHA256 1c6d88f0ce55fa1f9afc17f9ff239f2b77d9ffc3caf8e5f101bd8eb7cb22f950: native tur karşılama→Adım5'e kadar (ritim sorusu .dart_tool/t4/step4-rhythm.png, 30–60 seçimi, fiyat "12,50" Form doğrulaması) geçti; sonra harici cihaz kullanıcısı akışı kesti (aynı emülatörde başka uygulamalar odak alıyor), adım 6–9 native tamamlanamadı. |
 | 2026-09-18 | AUDIT | T2 A2 + native kanıt: şema v8 (trialNudge default false), permission card splash+Ayarlar, 4 yeni widget testi; tam336 test + fatal-info analiz temiz | APK SHA256 4ae85e81a217bbc47f7d3d42ad2cc7d63dbd97dce135920e1462278be2fce6d6. Android16 user0: izin açıkken kart "Bildirimler açık"; pm revoke (süreç ölür, Bugün'e döner) → Ayarlar'da kapalı açıklaması + izin + kısayol; "Sistem ayarlarını aç" → com.android.settings/.Settings$AppNotificationSettingsActivity; "Bildirimlere izin ver" → OS diyaloğu → Allow → kart açık. Splash ilk açılış varyantı widget testleriyle; geri akışı T4 PopScope testleri. Projeksiyon-not: user10 SystemUI bu imajda UI automator'ı takıyor (null root node), user10 kaldırılamadı — zararsız bırakıldı. settings_screen staged sürümünden About tile hunk'ı (T19) ayrı tutuldu. |
 | 2026-09-18 | AUDIT | T1 A2:13 quitline widget testi ve tam332 test geçti; Android16'da SOS/Ayarlar'daki ortak kart Diğer bölgede numarasız, Türkiye seçiminde ALO171+YEDAM115; arama düğmesi Google Dialer'ı 171 önyüklü açtı, mCalls boş | settingsHelplines (Yeşilay176 içeren ölü dize) üç ARB'den silindi, gen-l10n yenilendi (başka görevlerin ARB ekleri generated'a senkronlandı; buildable ve analiz temiz). Manifest'te CALL izni yok; _call yalnız tel: intent'i. Yeşil 0xFF166534 ve 48dp doğrulama testleri mevcut. Dialer kanıtı .dart_tool/t1/dialer.png (Git dışı). iOS çevirici kanıtı T25'e ait. |
 | 2026-09-18 | AUDIT | A1 devralma + T18.1 native kapatma: brain check FAIL yok; T23.2 örneği (e62194d diff'i erken şema okuma+temiz kapanış) doğrulandı; tam332 test ve fatal-info analiz temiz; Android16 user0 açık/koyu beş sekme + Ayarlar durum çubuğu pikselle doğrulandı, Standart tek chip, seçim çalıştı | Debug APK SHA256 5e17b1ed965eabc282b680b9cd5504d1ea2172bd4b3566007246676b815c0bc8, mevcut profil korunarak kuruldu. Açık tema: bg~244/ikon~98 tüm ekranlarda; koyu: bg~18/ikon~255. Kanıt PNG'leri .dart_tool/t181/ (Git dışı). Yoğun seçimi OS bildirim izni diyaloğu açtı, Allow sonrası seçim kalıcı; Standart geri seçildi. Seçili ChoiceChip etiketi artık onPrimary (lib/core/theme.dart). Ayarlar'dan About girişi gibi T19 dirty hunk'ları bu commit dışında bırakıldı. |
@@ -429,7 +430,7 @@ Newest first.
 
 ## 7. HANDOFF
 
-T3 kapandı; sıradaki T4 (onboarding girdileri — ritim eksiği en belirgin kalan). Ayrıca T4'ün 8 adımlı native onboarding turu hâlâ kanıt bekliyor.
-T26 görev tanımı T3 gözden geçirme bulgularıyla genişledi; trialNudge v8 alanını da unutma.
-Emülatör user0'da çalışır; user10 SystemUI kırık (silinemedi, zararsız). Untracked about_screen + dirty T19/T7/T17/T21 dosyaları korunuyor.
+T4 kapandı (şema v9). Sıradaki T5 (boy/kilo/sigara yılı onboarding + model zinciri).
+CİHAZ UYARISI: emulator-5554'te harici bir aktör başka uygulamalar açıyor (napp_core, com.crazypenguin.full); T4 native turu adım 5'te kesildi. Native turlar odak kontrollü yapılmalı.
+T26 kapsamına v8 trialNudge + v9 declaredRhythmMinutes eklendi. Untracked about_screen + dirty T19/T7/T17/T21 dosyaları korunuyor; user0 profili uygulamanın kendi "Tüm verileri sil" özelliğiyle temizlendi (splash ortak izin kartı da doğrulandı).
 iOS ve mağaza hesabı kapıları T20–T25.
