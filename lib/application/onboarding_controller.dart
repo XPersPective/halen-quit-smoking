@@ -53,6 +53,9 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
         brandName: state.brandName,
         quitReason: state.quitReason,
         rhythmMinutes: state.rhythmMinutes == minutes ? null : minutes,
+        heightCm: state.heightCm,
+        weightKg: state.weightKg,
+        smokingYears: state.smokingYears,
       );
 
   void toggleTrigger(TriggerLabel label) {
@@ -64,6 +67,24 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
   }
 
   void setTargetMode(TargetMode mode) => state = _copy(targetMode: mode);
+
+  /// Body fields stay null when blank — never a made-up average (brain T5).
+  void setBodyData({double? heightCm, double? weightKg, double? smokingYears}) =>
+      state = OnboardingAnswers(
+        ageBand: state.ageBand,
+        baselineCpd: state.baselineCpd,
+        ttfcBand: state.ttfcBand,
+        pricePerPack: state.pricePerPack,
+        packSize: state.packSize,
+        triggers: state.triggers,
+        targetMode: state.targetMode,
+        brandName: state.brandName,
+        quitReason: state.quitReason,
+        rhythmMinutes: state.rhythmMinutes,
+        heightCm: heightCm,
+        weightKg: weightKg,
+        smokingYears: smokingYears,
+      );
 
   void setBrandName(String? brand) =>
       state = _copy(brandName: brand?.trim() ?? '');
@@ -81,6 +102,9 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
     brandName: state.brandName,
       quitReason: reason,
       rhythmMinutes: state.rhythmMinutes,
+      heightCm: state.heightCm,
+      weightKg: state.weightKg,
+      smokingYears: state.smokingYears,
     );
 
   Future<void> submit() async {
@@ -122,6 +146,9 @@ class OnboardingController extends Notifier<OnboardingAnswers> {
       brandName: brandName ?? current.brandName,
       quitReason: current.quitReason,
       rhythmMinutes: current.rhythmMinutes,
+      heightCm: current.heightCm,
+      weightKg: current.weightKg,
+      smokingYears: current.smokingYears,
     );
   }
 

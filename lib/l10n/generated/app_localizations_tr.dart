@@ -200,6 +200,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get obRhythmUnsure => 'Emin değilim';
 
   @override
+  String get obBodyTitle => 'Birkaç beden bilgisi (isteğe bağlı)';
+
+  @override
+  String get obBodyHint =>
+      'Boy, kilo ve kaç yıldır içtiğin yalnızca zarar yükü indeksini keskinleştirir. Boş da bırakabilirsin — senin yerine sahte bir ortalama uydurulmaz.';
+
+  @override
+  String get obHeightCm => 'Boy (cm)';
+
+  @override
+  String get obWeightKg => 'Kilo (kg)';
+
+  @override
+  String get obSmokingYears => 'Sigara içilen yıl';
+
+  @override
   String get obPriceTitle => 'Paket fiyatı ne kadar?';
 
   @override

@@ -48,4 +48,50 @@ void main() {
     expect(baseAnswers(rhythm: 5).valid, isFalse);
     expect(baseAnswers(rhythm: 721).valid, isFalse);
   });
+
+  test('body fields: blank is valid, typed values stay in domain bounds', () {
+    expect(OnboardingAnswers.bodyFieldOk('', min: 100, max: 230), isTrue);
+    expect(OnboardingAnswers.bodyFieldOk('170', min: 100, max: 230), isTrue);
+    expect(OnboardingAnswers.bodyFieldOk('45,5', min: 30, max: 300), isTrue);
+    for (final bad in ['', 'abc']) {
+      assert(OnboardingAnswers.parseBodyField(bad, min: 1, max: 2) == null);
+    }
+    expect(OnboardingAnswers.bodyFieldOk('95', min: 100, max: 230), isFalse);
+    expect(OnboardingAnswers.bodyFieldOk('1.5.5', min: 1, max: 2), isFalse);
+    expect(OnboardingAnswers.bodyFieldOk('NaN', min: 1, max: 2), isFalse);
+  });
+
+  test('smoking years cannot exceed the age band', () {
+    expect(baseAnswers(rhythm: null).valid, isTrue);
+    expect(
+      OnboardingAnswers(
+        ageBand: AgeBand.y25to34,
+        baselineCpd: 15,
+        ttfcBand: TtfcBand.five30,
+        pricePerPack: 100,
+        packSize: 20,
+        triggers: const {},
+        targetMode: TargetMode.reduce,
+        brandName: 'X',
+        smokingYears: 40,
+      ).valid,
+      isFalse,
+    );
+    expect(
+      OnboardingAnswers(
+        ageBand: AgeBand.y25to34,
+        baselineCpd: 15,
+        ttfcBand: TtfcBand.five30,
+        pricePerPack: 100,
+        packSize: 20,
+        triggers: const {},
+        targetMode: TargetMode.reduce,
+        brandName: 'X',
+        smokingYears: 20,
+        heightCm: 172,
+        weightKg: 70,
+      ).valid,
+      isTrue,
+    );
+  });
 }

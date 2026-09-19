@@ -201,6 +201,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get obRhythmUnsure => 'Not sure';
 
   @override
+  String get obBodyTitle => 'A few body details (optional)';
+
+  @override
+  String get obBodyHint =>
+      'Height, weight and how long you\'ve smoked only sharpen the severity index. Leave blank and nothing breaks — a made-up average is never invented for you.';
+
+  @override
+  String get obHeightCm => 'Height (cm)';
+
+  @override
+  String get obWeightKg => 'Weight (kg)';
+
+  @override
+  String get obSmokingYears => 'Years of smoking';
+
+  @override
   String get obPriceTitle => 'How much does a pack cost?';
 
   @override

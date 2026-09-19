@@ -51,17 +51,17 @@ void main() {
     await tester.ensureVisible(find.widgetWithText(FilledButton, 'Start'));
     await tester.tap(find.widgetWithText(FilledButton, 'Start'));
     await tester.pumpAndSettle();
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 5; i++) {
       await _next(tester);
     }
     await tester.enterText(find.byType(TextFormField).first, '12,50');
     tester.testTextInput.hide();
     await tester.binding.handlePopRoute();
     await tester.pumpAndSettle();
-    expect(find.text('Step 4 of 9'), findsOneWidget);
+    expect(find.text('Step 5 of 10'), findsOneWidget);
     await _next(tester);
     expect(find.text('12,50'), findsOneWidget);
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 6; i++) {
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
     }
@@ -70,7 +70,7 @@ void main() {
     await disposeApp(tester);
   });
 
-  testWidgets('onboarding walks 8 steps and creates the smoking profile', (
+  testWidgets('onboarding walks 10 steps and creates the smoking profile', (
     tester,
   ) async {
     await pumpHalenApp(tester, database: db);
@@ -106,7 +106,17 @@ void main() {
     await tester.pumpAndSettle();
     await _next(tester);
 
-    // Step 5: price is required; invalid pack counts cannot advance.
+    // Step 5: optional body data — invalid typed values block Next, blanks pass.
+    expect(find.text('A few body details (optional)'), findsOneWidget);
+    await tester.enterText(find.byType(TextFormField).at(2), '40');
+    await _next(tester);
+    // 40 years contradicts the default 25–34 age band (max 21) — blocked.
+    expect(find.text('Step 5 of 10'), findsOneWidget);
+    await tester.enterText(find.byType(TextFormField).at(2), '10');
+    await tester.enterText(find.byType(TextFormField).first, '170');
+    await _next(tester);
+
+    // Step 6: price is required; invalid pack counts cannot advance.
     expect(find.text('How much does a pack cost?'), findsWidgets);
     expect(
       tester
@@ -116,11 +126,11 @@ void main() {
       isEmpty,
     );
     await _next(tester);
-    expect(find.text('Step 5 of 9'), findsOneWidget);
+    expect(find.text('Step 6 of 10'), findsOneWidget);
     await tester.enterText(find.byType(TextFormField).first, '12,50');
     await tester.enterText(find.byType(TextFormField).last, '1.2');
     await _next(tester);
-    expect(find.text('Step 5 of 9'), findsOneWidget);
+    expect(find.text('Step 6 of 10'), findsOneWidget);
     await tester.enterText(find.byType(TextFormField).last, '20');
     await _next(tester);
 
@@ -175,6 +185,8 @@ void main() {
     expect(profile, isNotNull);
     expect(profile!.baselineCpd, 20);
     expect(profile.declaredRhythmMinutes, 45);
+    expect(profile.heightCm, 170);
+    expect(profile.smokingYears, 10);
     expect(profile.pricePerPack, 12.5);
     expect(profile.packSize, 20);
     expect(profile.brandName, 'Example Brand');

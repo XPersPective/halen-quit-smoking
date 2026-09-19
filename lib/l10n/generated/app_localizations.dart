@@ -454,6 +454,36 @@ abstract class AppLocalizations {
   /// **'Not sure'**
   String get obRhythmUnsure;
 
+  /// No description provided for @obBodyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A few body details (optional)'**
+  String get obBodyTitle;
+
+  /// No description provided for @obBodyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Height, weight and how long you\'ve smoked only sharpen the severity index. Leave blank and nothing breaks — a made-up average is never invented for you.'**
+  String get obBodyHint;
+
+  /// No description provided for @obHeightCm.
+  ///
+  /// In en, this message translates to:
+  /// **'Height (cm)'**
+  String get obHeightCm;
+
+  /// No description provided for @obWeightKg.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight (kg)'**
+  String get obWeightKg;
+
+  /// No description provided for @obSmokingYears.
+  ///
+  /// In en, this message translates to:
+  /// **'Years of smoking'**
+  String get obSmokingYears;
+
   /// No description provided for @obPriceTitle.
   ///
   /// In en, this message translates to:

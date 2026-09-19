@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T4 kapandı: ritim sorusu 9. adım olarak eklendi, taper seed'i kullanıcı beyanından başlar; 337 test temiz.
-> **Phase:** BUILD · **Next:** T5 · **Updated:** 2026-09-18 · **Synced@:** fbdb6d6
+> **Status:** T5 kapandı: onboarding 10. adımda beden bilgisi (boy/kilo/yıl, isteğe bağlı) profile akar; yaş bandıyla çelişen yıl reddedilir.
+> **Phase:** BUILD · **Next:** T6 · **Updated:** 2026-09-18 · **Synced@:** 7c98104
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -275,10 +275,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter test test/domain/onboarding_input_test.dart test/data/onboarding_validation_test.dart test/widget/onboarding_flow_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → 9 adım: ritim adımı TTFC ile fiyat arasında; şema v9 `smokingProfile.declaredRhythmMinutes` (null = "emin değilim"); `TaperController._seedInterval` kayıt yokken beyandan beslenir (yoksa 60). Widget turu 9 adım + domain sınır testi; native tur 1–5. adıma kadar yürüdü (ritim seçimi ve fiyat doğrulaması cihazda kanıtlı), eşzamanlı harici cihaz kullanımı yüzünden kesildi — bkz §6 2026-09-18.
 
-- [ ] T5 [M] Boy, kilo ve sigara yılı başlangıçta (eski H05)
-  - Where: `lib/domain/onboarding.dart; lib/data/db/tables.dart; lib/presentation/widgets/model_settings_section.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Mevcut nullable SmokingProfile alanlarını tekrar kullan. Onboarding'de boy(cm), kilo(kg), sigara yılı ve kullanıldığı amaç göster. Yaşla çelişen süre, sonlu olmayan sayı ve makul aralık dışı değer reddedilir. "Bilmiyorum/paylaşmak istemiyorum" nullable kalır, sahte ortalama kullanıcı verisi gibi saklanmaz. Ayarlardan düzenleme ilgili modeli yeniler. Doğum tarihi/rehber gibi gereksiz hassas veri ekleme. Kanıt: migration, onboarding→profil→model zinciri; bilinmeyen değer ve sınır testi.
+- [x] T5 [M] Boy, kilo ve sigara yılı başlangıçta (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → Onboarding 10. adım `_BodyStep`: boy 100–230, kilo 30–300, yıl 0..`OnboardingAnswers.maxPlausibleSmokingYears(ageBand)`; boş=null kalır (sahte ortalama yok). Akış OnboardingAnswers→ProfileRepository→SmokingProfile mevcut nullable alanlarına; ayarlar üzerinden düzenleme model_settings_section ile zaten var. Yaş bandı çelişkisi ve uç değerler domain testleriyle.
 
 - [ ] T6 [H] Bütün girişleri denetle (eski H06)
   - Where: `lib/presentation/**; lib/data/backup_repository.dart; lib/application/pack_providers.dart`
@@ -406,6 +405,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T5 A2: 10. adım beden verisi, `maxPlausibleSmokingYears` yaş-beli güvenliği, body parse blank/null ayrımı; 2 yeni domain testi + akış testi persist assertion; tam339 test ve analiz temiz | T5 tek başına şema değişikliği yapmadı (boy/kilo/yıl v2 kolonları). iOS/native ayrı değil — widget akışı yeterli ve yazılı kanıt görev tanımında native istemiyor. |
 | 2026-09-18 | AUDIT | T3 A2: bağımsız taze-bağlam gözden geçirme 1/2/5/6. iddiayı doğruladı; rollback testini transaction'sız çalıştırmada kırmızı-gösterir biçimde güçlendirdim; 5 backup testi + tam336 test temiz | Gözden geçirme bulguları (wipe kapsamı, milestones round-trip kaybı, quitTs insert-öncesi boşluk, zayıf round-trip adı) T26'nın Do'suna eklendi. Red-green kanıtı: `_wipeUserData` transaction dışına taşınınca test başarısız oldu, geri alınca yeşil. Kod davranışı değişmedi. |
 | 2026-09-18 | AUDIT | T4 A2: şema v9 ritim alanı, 9. adım UI, taper seed zinciri, domain+akış testleri; tam337 test ve fatal-info analiz temiz | Şema 8→9 additive; declaredRhythmMinutes 20/45/90/150 bant ortası veya null. flow testi tüm 9 adımı geri/ileri+fiyat korunumuyla yürür; domain testi 10–720 sınırını kurar. APK SHA256 1c6d88f0ce55fa1f9afc17f9ff239f2b77d9ffc3caf8e5f101bd8eb7cb22f950: native tur karşılama→Adım5'e kadar (ritim sorusu .dart_tool/t4/step4-rhythm.png, 30–60 seçimi, fiyat "12,50" Form doğrulaması) geçti; sonra harici cihaz kullanıcısı akışı kesti (aynı emülatörde başka uygulamalar odak alıyor), adım 6–9 native tamamlanamadı. |
 | 2026-09-18 | AUDIT | T2 A2 + native kanıt: şema v8 (trialNudge default false), permission card splash+Ayarlar, 4 yeni widget testi; tam336 test + fatal-info analiz temiz | APK SHA256 4ae85e81a217bbc47f7d3d42ad2cc7d63dbd97dce135920e1462278be2fce6d6. Android16 user0: izin açıkken kart "Bildirimler açık"; pm revoke (süreç ölür, Bugün'e döner) → Ayarlar'da kapalı açıklaması + izin + kısayol; "Sistem ayarlarını aç" → com.android.settings/.Settings$AppNotificationSettingsActivity; "Bildirimlere izin ver" → OS diyaloğu → Allow → kart açık. Splash ilk açılış varyantı widget testleriyle; geri akışı T4 PopScope testleri. Projeksiyon-not: user10 SystemUI bu imajda UI automator'ı takıyor (null root node), user10 kaldırılamadı — zararsız bırakıldı. settings_screen staged sürümünden About tile hunk'ı (T19) ayrı tutuldu. |
@@ -430,7 +430,7 @@ Newest first.
 
 ## 7. HANDOFF
 
-T4 kapandı (şema v9). Sıradaki T5 (boy/kilo/sigara yılı onboarding + model zinciri).
-CİHAZ UYARISI: emulator-5554'te harici bir aktör başka uygulamalar açıyor (napp_core, com.crazypenguin.full); T4 native turu adım 5'te kesildi. Native turlar odak kontrollü yapılmalı.
-T26 kapsamına v8 trialNudge + v9 declaredRhythmMinutes eklendi. Untracked about_screen + dirty T19/T7/T17/T21 dosyaları korunuyor; user0 profili uygulamanın kendi "Tüm verileri sil" özelliğiyle temizlendi (splash ortak izin kartı da doğrulandı).
+T5 kapandı (onboarding artık 10 adım). Sıradaki T6 (giriş envanteri denetimi).
+CİHAZ UYARISI devam: emulator-5554'te harici aktör başka uygulamalar açabiliyor; native tur gereken görevlerde önce odak doğrula.
+Sonraki büyük açıklar: T6, T7, T8 (görsel), arkasından T20+ kapıları.
 iOS ve mağaza hesabı kapıları T20–T25.

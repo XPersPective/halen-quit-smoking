@@ -12,7 +12,7 @@ import 'package:halen/presentation/screens/cessation/quit_plan_screen.dart'
     show quitReasonLabel;
 import 'package:halen/presentation/widgets/choice_card.dart';
 
-/// Screens 2–10: the nine-step onboarding (<90 s, no account, report §11).
+/// Screens 2–10: the ten-step onboarding (<90 s, no account, report §11).
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -25,11 +25,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   int _step = 0;
   final _priceForm = GlobalKey<FormState>();
   final _brandForm = GlobalKey<FormState>();
+  final _bodyForm = GlobalKey<FormState>();
   bool _busy = false;
 
-  // Nine now: the declared daily rhythm is asked explicitly (brain T4) and
-  // seeds the taper's first interval instead of the app guessing alone.
-  static const _stepCount = 9;
+  // Ten: age, daily count, TTFC, declared rhythm, optional body data
+  // (height/weight/years — brain T5), price/pack, triggers, goal, why, brand.
+  static const _stepCount = 10;
 
   @override
   void dispose() {
@@ -39,8 +40,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   Future<void> _next() async {
     if (_busy) return;
-    if (_step == 4 && !(_priceForm.currentState?.validate() ?? false)) return;
-    if (_step == 8 && !(_brandForm.currentState?.validate() ?? false)) return;
+    if (_step == 4 && !(_bodyForm.currentState?.validate() ?? false)) return;
+    if (_step == 5 && !(_priceForm.currentState?.validate() ?? false)) return;
+    if (_step == 9 && !(_brandForm.currentState?.validate() ?? false)) return;
     setState(() => _busy = true);
     try {
       final controller = ref.read(onboardingControllerProvider.notifier);
@@ -160,6 +162,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     const _DailyCountStep(),
                     const _TtfcStep(),
                     const _RhythmStep(),
+                    Form(key: _bodyForm, child: const _BodyStep()),
                     Form(key: _priceForm, child: const _PriceStep()),
                     const _TriggersStep(),
                     const _GoalStep(),
@@ -372,6 +375,98 @@ class _RhythmStep extends ConsumerWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _BodyStep extends ConsumerStatefulWidget {
+  const _BodyStep();
+
+  @override
+  ConsumerState<_BodyStep> createState() => _BodyStepState();
+}
+
+/// Step 5: optional body data (brain T5). Blank stays blank; typed values
+/// must pass domain bounds, and years cannot exceed the person's own
+/// lifetime (age band).
+class _BodyStepState extends ConsumerState<_BodyStep> {
+  final _height = TextEditingController();
+  final _weight = TextEditingController();
+  final _years = TextEditingController();
+
+  @override
+  void dispose() {
+    _height.dispose();
+    _weight.dispose();
+    _years.dispose();
+    super.dispose();
+  }
+
+  void _sync() {
+    ref.read(onboardingControllerProvider.notifier).setBodyData(
+          heightCm: OnboardingAnswers.parseBodyField(
+            _height.text,
+            min: 100,
+            max: 230,
+          ),
+          weightKg: OnboardingAnswers.parseBodyField(
+            _weight.text,
+            min: 30,
+            max: 300,
+          ),
+          smokingYears: OnboardingAnswers.parseBodyField(
+            _years.text,
+            min: 0,
+            max: 99,
+          ),
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final answers = ref.watch(onboardingControllerProvider);
+    final maxYears = OnboardingAnswers.maxPlausibleSmokingYears(
+      answers.ageBand,
+    );
+    return _StepScaffold(
+      title: l10n.obBodyTitle,
+      hint: l10n.obBodyHint,
+      child: Column(
+        children: [
+          _field(_height, l10n.obHeightCm, '100–230',
+              ok: () => OnboardingAnswers.bodyFieldOk(
+                  _height.text, min: 100, max: 230)),
+          const SizedBox(height: HalenSpace.x4),
+          _field(_weight, l10n.obWeightKg, '30–300',
+              ok: () => OnboardingAnswers.bodyFieldOk(
+                  _weight.text, min: 30, max: 300)),
+          const SizedBox(height: HalenSpace.x4),
+          _field(_years, l10n.obSmokingYears, '0–${maxYears.round()}',
+              ok: () => OnboardingAnswers.bodyFieldOk(
+                  _years.text, min: 0, max: maxYears)),
+        ],
+      ),
+    );
+  }
+
+  Widget _field(
+    TextEditingController controller,
+    String label,
+    String range, {
+    required bool Function() ok,
+  }) {
+    return TextFormField(
+      controller: controller,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      validator: (_) => ok() ? null : '$label: $range',
+      onChanged: (_) => _sync(),
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: range,
+        border: const OutlineInputBorder(),
       ),
     );
   }

@@ -15,6 +15,9 @@ class OnboardingAnswers {
     this.brandName,
     this.quitReason,
     this.rhythmMinutes,
+    this.heightCm,
+    this.weightKg,
+    this.smokingYears,
   });
 
   final AgeBand ageBand;
@@ -29,6 +32,12 @@ class OnboardingAnswers {
   /// Declared typical gap between cigarettes, in minutes. Null is the
   /// honest "not sure"; it seeds (never locks) the taper's first interval.
   final int? rhythmMinutes;
+
+  /// Optional body context for the harm-load index (brain T5): sharpening
+  /// only — nothing is gated on them, and "not shared" stays null forever.
+  final double? heightCm;
+  final double? weightKg;
+  final double? smokingYears;
 
   /// Why they are doing this, in their own words. Optional — the app never
   /// blocks on it (premium brief §C.7).
@@ -45,7 +54,48 @@ class OnboardingAnswers {
       (brandName?.trim().isNotEmpty ?? false) &&
       brandName!.trim().length <= 100 &&
       (rhythmMinutes == null ||
-          (rhythmMinutes! >= 10 && rhythmMinutes! <= 720));
+          (rhythmMinutes! >= 10 && rhythmMinutes! <= 720)) &&
+      (heightCm == null ||
+          (heightCm!.isFinite && heightCm! >= 100 && heightCm! <= 230)) &&
+      (weightKg == null ||
+          (weightKg!.isFinite && weightKg! >= 30 && weightKg! <= 300)) &&
+      (smokingYears == null ||
+          (smokingYears!.isFinite &&
+              smokingYears! >= 0 &&
+              smokingYears! <= maxPlausibleSmokingYears(ageBand)));
+
+  /// A smoking history cannot exceed the person's lifetime; we read the age
+  /// band's upper edge and assume nobody started before 13. `y55plus` has no
+  /// real ceiling, so use a generous 80 years — this is a sanity guard, not
+  /// a clinical limit.
+  static double maxPlausibleSmokingYears(AgeBand band) => switch (band) {
+    AgeBand.under18 => 4,
+    AgeBand.y18to24 => 11,
+    AgeBand.y25to34 => 21,
+    AgeBand.y35to44 => 31,
+    AgeBand.y45to54 => 41,
+    AgeBand.y55plus => 80,
+  };
+
+  /// Optional body fields: blank is legal (means "not shared"), typed text
+  /// must be a clean decimal inside [min, max]. Two-step API because the UI
+  /// must tell "empty" apart from "invalid".
+  static bool bodyFieldOk(String raw, {required double min, required double max}) {
+    final text = raw.trim();
+    if (text.isEmpty) return true;
+    return parseBodyField(text, min: min, max: max) != null;
+  }
+
+  /// Blank → null (unspecified); invalid → null as well, so always check
+  /// [bodyFieldOk] first in the form validator.
+  static double? parseBodyField(String raw, {required double min, required double max}) {
+    final text = raw.trim();
+    if (text.isEmpty) return null;
+    if (!RegExp(r'^\d{1,3}(?:[.,]\d{1,2})?$').hasMatch(text)) return null;
+    final v = double.tryParse(text.replaceAll(',', '.'));
+    if (v == null || !v.isFinite || v < min || v > max) return null;
+    return v;
+  }
 
   /// Decimal input, not scientific notation, NaN, infinity or digit stripping.
   static double? parsePrice(String value) {

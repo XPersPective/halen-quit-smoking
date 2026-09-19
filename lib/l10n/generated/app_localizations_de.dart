@@ -202,6 +202,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get obRhythmUnsure => 'Nicht sicher';
 
   @override
+  String get obBodyTitle => 'Ein paar Körperangaben (optional)';
+
+  @override
+  String get obBodyHint =>
+      'Größe, Gewicht und Anzahl der Raucherjahre schärfen nur den Belastungsindex. Einfach leer lassen geht — dir wird kein erfundener Durchschnitt untergeschoben.';
+
+  @override
+  String get obHeightCm => 'Größe (cm)';
+
+  @override
+  String get obWeightKg => 'Gewicht (kg)';
+
+  @override
+  String get obSmokingYears => 'Raucherjahre';
+
+  @override
   String get obPriceTitle => 'Was kostet eine Schachtel?';
 
   @override

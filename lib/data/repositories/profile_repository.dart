@@ -35,6 +35,9 @@ class ProfileRepository {
             targetMode: Value(answers.targetMode),
             pace: const Value(Pace.standard),
             declaredRhythmMinutes: Value(answers.rhythmMinutes),
+            heightCm: Value(answers.heightCm),
+            weightKg: Value(answers.weightKg),
+            smokingYears: Value(answers.smokingYears),
         ),
       );
       // Seed the trigger table with the user's selection.
