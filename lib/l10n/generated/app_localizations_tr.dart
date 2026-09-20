@@ -1708,6 +1708,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get mindBandTough => 'Zorlu';
 
   @override
+  String get mindNoDataYet =>
+      'Henüz veri yok — bu eğri genel eğilimdir. Kendi hissini bildikçe senin eğrin olur.';
+
+  @override
+  String get moodSaved =>
+      'Kaydedildi. Teşekkürler — tahmin böylece kişiselleşir.';
+
+  @override
   String get mindOnlyYouKnow =>
       'Bu bir tahmin. Nasıl hissettiğini yalnızca sen bilirsin.';
 

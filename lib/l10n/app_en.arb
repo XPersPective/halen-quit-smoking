@@ -885,6 +885,8 @@
   "mindBandCalm": "Calm",
   "mindBandUnderPressure": "Under pressure",
   "mindBandTough": "Tough",
+  "mindNoDataYet": "No data yet — this curve is the typical pattern. Record how you feel and it becomes yours.",
+  "moodSaved": "Saved. Thank you — this is how the guess becomes personal.",
   "mindOnlyYouKnow": "This is a guess. Only you know how you feel.",
   "mindHowDoYouFeel": "How do you feel right now?",
   "mindAccuracy": "My guess matched how you felt {percent}% of the time.",

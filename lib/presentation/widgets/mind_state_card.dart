@@ -26,18 +26,26 @@ class MindStateCard extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final state = ref.watch(mindStateProvider).value;
+    // T12: with zero self-reports the band is a population guess, not the
+    // user's state — say so instead of printing "calm" as if measured.
+    final hasReports =
+        (ref.watch(mindHistoryProvider).value ?? const []).isNotEmpty;
 
     final band = state?.band ?? PressureBand.calm;
-    final label = switch (band) {
-      PressureBand.calm => l10n.mindBandCalm,
-      PressureBand.underPressure => l10n.mindBandUnderPressure,
-      PressureBand.tough => l10n.mindBandTough,
-    };
-    final color = switch (band) {
-      PressureBand.calm => HalenColors.emerald,
-      PressureBand.underPressure => HalenColors.amberCta,
-      PressureBand.tough => HalenColors.coral,
-    };
+    final label = !hasReports
+        ? l10n.mindNoDataYet
+        : switch (band) {
+            PressureBand.calm => l10n.mindBandCalm,
+            PressureBand.underPressure => l10n.mindBandUnderPressure,
+            PressureBand.tough => l10n.mindBandTough,
+          };
+    final color = !hasReports
+        ? theme.colorScheme.onSurfaceVariant
+        : switch (band) {
+            PressureBand.calm => HalenColors.emerald,
+            PressureBand.underPressure => HalenColors.amberCta,
+            PressureBand.tough => HalenColors.coral,
+          };
 
     return Card(
       child: Padding(
@@ -96,10 +104,17 @@ class MindStateCard extends ConsumerWidget {
                   (2, l10n.mindBandTough),
                 ])
                   OutlinedButton(
-                    onPressed: () => ref.read(moodReportProvider)(
-                      entry.$1,
-                      state?.value ?? 0,
-                    ),
+                    onPressed: () {
+                      ref.read(moodReportProvider)(
+                        entry.$1,
+                        state?.value ?? 0,
+                      );
+                      // T12: the record is confirmed out loud — and the
+                      // card flips from "no data" to the personal band.
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(l10n.moodSaved)),
+                      );
+                    },
                     child: Text(entry.$2),
                   ),
               ],

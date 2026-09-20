@@ -3088,6 +3088,18 @@ abstract class AppLocalizations {
   /// **'Tough'**
   String get mindBandTough;
 
+  /// No description provided for @mindNoDataYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No data yet — this curve is the typical pattern. Record how you feel and it becomes yours.'**
+  String get mindNoDataYet;
+
+  /// No description provided for @moodSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved. Thank you — this is how the guess becomes personal.'**
+  String get moodSaved;
+
   /// No description provided for @mindOnlyYouKnow.
   ///
   /// In en, this message translates to:

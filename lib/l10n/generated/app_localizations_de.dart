@@ -1718,6 +1718,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mindBandTough => 'Hart';
 
   @override
+  String get mindNoDataYet =>
+      'Noch keine Daten — diese Kurve zeigt den üblichen Verlauf. Wenn du dein Gefühl einträgst, wird sie zu deiner.';
+
+  @override
+  String get moodSaved =>
+      'Gespeichert. Danke — so wird die Schätzung persönlich.';
+
+  @override
   String get mindOnlyYouKnow =>
       'Das ist eine Schätzung. Nur du weißt, wie du dich fühlst.';
 

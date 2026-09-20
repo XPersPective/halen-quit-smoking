@@ -1714,6 +1714,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mindBandTough => 'Tough';
 
   @override
+  String get mindNoDataYet =>
+      'No data yet — this curve is the typical pattern. Record how you feel and it becomes yours.';
+
+  @override
+  String get moodSaved =>
+      'Saved. Thank you — this is how the guess becomes personal.';
+
+  @override
   String get mindOnlyYouKnow => 'This is a guess. Only you know how you feel.';
 
   @override

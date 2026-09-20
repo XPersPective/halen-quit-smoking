@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T11 kapandı: sağlık çizelgesi Bugün'den Liste girişi + organ detayından bağlantı; tarihsiz önizleme + tarih seçimi (gelecek tarih red); otomatik-ilerleme ve topluluk-düzeyi notları eklendi.
-> **Phase:** BUILD · **Next:** T12 · **Updated:** 2026-09-18 · **Synced@:** 4ced36c
+> **Status:** T12 kapandı: his kartı veri-yokken bant iddia etmez, kayıt onaylı ve kalıcı; tahmin (kesikli) vs beyan (düz) grafiği zaten ayrık.
+> **Phase:** BUILD · **Next:** T13 · **Updated:** 2026-09-18 · **Synced@:** 7b95149
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -303,10 +303,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → Bugün'de timelineTitle ListTile (önceden vardı), organ detayına timeline bağlantısı eklendi. Çizelge ekranına: tarih-siz "Bırakma tarihini seç" (showDatePicker, lastDate=bugün → gelecek seçilemez; setQuitTs öncesi getState ile lazy satır garantisi — T3-review bulgu c), timelineAutoNote (takvim≠checkbox) ve timelineNotPersonal (topluluk düzeyi) notları. 3 test: kilitli önizleme, tarih sonrası reached/current, dao round-trip.
 
-- [ ] T12 [M] Psikolojik durum ve his günlüğü (eski H12)
-  - Where: `lib/presentation/screens/status/status_flow_screen.dart; lib/application/module_providers.dart; lib/data/db/**`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Kartın amacı bir cümle: kendi kaydettiğin hisleri izlemek ve zor saatleri görmek. "Nasıl hissediyorsun?" kayıt eylemi, kayıt sonrası onay ve geçmiş çizgisi bulunur. Sakin/zorlayıcı bantların anlamı ve tahmin girdileri açıklanır; tahmin ve beyan ayrı stil/etiketle çizilir. Veri yokken kesin durum veya tanı üretme. Kanıt: his kaydı kalıcı, yeniden açınca görünür; sıfır kayıt, hata ve büyük yazı.
+- [x] T12 [M] Psikolojik durum ve his günlüğü (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → MindStateCard: kullanıcı kaydı yoksa başlık `mindNoDataYet` (bant iddiası yok); kayıt → moodSaved snackbar + MoodLog satırı; yeniden açışta kişisel bant. Tahmin/beyan ayrımı _AccuracyChart'ta kesikli/düz serilerle zaten var; sakin/zorlayıcı bant anlamı mindPressureExplainer'da. 2 test (kalıcılık + yeniden açış).
 
 - [ ] T13 [M] Grafik standardı, puan ve yük açıklaması (eski H13)
   - Where: `lib/presentation/widgets/charts/**; lib/domain/progress_index.dart; lib/domain/harm_load.dart`
@@ -399,6 +398,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T12 A2: 2 widget testi + tam370 test temiz; sıfır-kayıt iddiası giderildi | Test notu: drift stream-provider unmount zero-duration timer'ı — tek test içinde ikinci pumpWidget yerine test ikiye bölündü (T23'teki bilinen uyarı ailesi). |
 | 2026-09-18 | AUDIT | T11 A2: 3 yeni test + organ detay bağlantısı; tam368 test temiz; mevcut module_widgets testiyle çakışma (çift başlık) giderildi | Erişilebilir zaman etiketleri: her kart başlığı metin olarak sorgulanabilir (20 dakika … 1 yıl). Gelecek tarih: picker lastDate=now ile yapısal olarak engel. |
 | 2026-09-18 | AUDIT | T10 A2: kokpit testleri (5) + tam365 test temiz; 320dp RenderFlex taşması kökten giderildi | Kanıt zinciri: erişilebilir ad kartları (text+InkWell), 320/420/900×420 taşmasız, Heart→Routes.body+arguments. brain.py derin-A1 örneği (T8/T9/T18.1) bu oturumda kanıtla kapatılmıştı; ek audit satırı gerekmedi. |
 | 2026-09-18 | AUDIT | T9 A2: repo seviyesinde çift-dokunuş tekilleştirme, mercan CTA, 4 dedupe testi + tam360 test temiz | Native kanıt (APK user0): "Bir sigara içtim" düğmesine arka arkaya iki dokunuş → tek kayıt, geri bildirim sayfası "Bugün: 1. Ortalaman: 15." gösterdi. Undo dokunuşu harici aktör müdahalesi yüzünden tamamlanamadı (widget testi undo'yu kapsıyor). Emülatör yeniden başlatıldı; harici uygulama (N AI Science Lab) yine öne geçti. |
@@ -430,5 +430,5 @@ Newest first.
 
 ## 7. HANDOFF
 
-T11 kapandı; sıradaki T12 (psikolojik durum ve his günlüğü).
-Kalan: T12–T18, T19–T26, T23.1. Emülatör harici aktör riski sürüyor.
+T12 kapandı; sıradaki T13 (grafik standardı: başlık/birim/dönem/kaynak/nasıl-hesaplandı denetimi).
+Kalan: T13–T18, T19–T26, T23.1.

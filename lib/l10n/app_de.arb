@@ -529,6 +529,8 @@
   "mindBandCalm": "Ruhig",
   "mindBandUnderPressure": "Unter Druck",
   "mindBandTough": "Hart",
+  "mindNoDataYet": "Noch keine Daten — diese Kurve zeigt den üblichen Verlauf. Wenn du dein Gefühl einträgst, wird sie zu deiner.",
+  "moodSaved": "Gespeichert. Danke — so wird die Schätzung persönlich.",
   "mindOnlyYouKnow": "Das ist eine Schätzung. Nur du weißt, wie du dich fühlst.",
   "mindHowDoYouFeel": "Wie fühlst du dich gerade?",
   "mindAccuracy": "Meine Schätzung traf zu {percent}% zu.",

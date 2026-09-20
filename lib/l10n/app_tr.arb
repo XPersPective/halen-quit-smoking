@@ -529,6 +529,8 @@
   "mindBandCalm": "Sakin",
   "mindBandUnderPressure": "Basınç altında",
   "mindBandTough": "Zorlu",
+  "mindNoDataYet": "Henüz veri yok — bu eğri genel eğilimdir. Kendi hissini bildikçe senin eğrin olur.",
+  "moodSaved": "Kaydedildi. Teşekkürler — tahmin böylece kişiselleşir.",
   "mindOnlyYouKnow": "Bu bir tahmin. Nasıl hissettiğini yalnızca sen bilirsin.",
   "mindHowDoYouFeel": "Şu an nasıl hissediyorsun?",
   "mindAccuracy": "Tahminim, hislerinle %{percent} oranında örtüştü.",
