@@ -307,7 +307,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String todayRingLabel(int smoked, int target) {
-    return 'Today $smoked of $target';
+    return 'Today $smoked logged / target $target';
   }
 
   @override
@@ -1489,7 +1489,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dailyBudgetCaption => 'Logged / daily target';
 
   @override
-  String get todayOverview => 'Your day, at a glance';
+  String get todayOverview => 'Your progress today';
 
   @override
   String get todaySupportTitle => 'Take a breathing break';

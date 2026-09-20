@@ -102,7 +102,7 @@
   "obDataNote": "These answers only shape your plan and never leave your device.",
   "obFinish": "Set up my plan",
   "todayTitle": "Today",
-  "todayRingLabel": "Today {smoked} of {target}",
+  "todayRingLabel": "Today {smoked} logged / target {target}",
   "@todayRingLabel": {
     "placeholders": {
       "smoked": {
@@ -773,7 +773,7 @@
   "todayFocusTitle": "More space.\nMore you.",
   "todayFocusNote": "Every pause is a step forward.",
   "dailyBudgetCaption": "Logged / daily target",
-  "todayOverview": "Your day, at a glance",
+  "todayOverview": "Your progress today",
   "todaySupportTitle": "Take a breathing break",
   "todaySupportNote": "A quiet moment, whenever you need it.",
   "statsIntro": "Small steps. A clearer picture.",

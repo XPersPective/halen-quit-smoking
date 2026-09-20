@@ -655,7 +655,7 @@ abstract class AppLocalizations {
   /// No description provided for @todayRingLabel.
   ///
   /// In en, this message translates to:
-  /// **'Today {smoked} of {target}'**
+  /// **'Today {smoked} logged / target {target}'**
   String todayRingLabel(int smoked, int target);
 
   /// No description provided for @lastCigaretteMinutes.
@@ -2689,7 +2689,7 @@ abstract class AppLocalizations {
   /// No description provided for @todayOverview.
   ///
   /// In en, this message translates to:
-  /// **'Your day, at a glance'**
+  /// **'Your progress today'**
   String get todayOverview;
 
   /// No description provided for @todaySupportTitle.

@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T13 kapandı: grafik standardı denetimi — 9 grafik türünde başlık/meaning/birim/semantics/empty mevcut; boş veri artık `chartNoData` boş-durumu (SizedBox.shrink değil).
-> **Phase:** BUILD · **Next:** T14 · **Updated:** 2026-09-18 · **Synced@:** 52350e4
+> **Status:** T14 kapandı: halka etiketi açık cümle oldu (Bugün N kayıt / hedef M), Bugün sana kalanlar → Bugünkü ilerlemen; 24s günlük döküm kartı Bugün'de mevcut.
+> **Phase:** BUILD · **Next:** T15 · **Updated:** 2026-09-18 · **Synced@:** 20a5379
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -311,10 +311,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → Denetim: HalenLine/Bar (meaning+semantics), load_curve (öz-birim notu), interval/trigger (empty state), hourly (Semantics+peak), score_gauge+indices (0-100 birim başlığı, progressScoreExplainer=plan davranışı), tar (tarBasis makine-alt-sınır notu). Fix: HalenLineChart boş veride chartNoData + meaning; yeni l10n anahtarı chartNoData (3 dil). 2 test: boş durum + semantics etiketi.
 
-- [ ] T14 [M] Bugün ne yapmalı, günlük grafik ve kazanımlar (eski H14)
-  - Where: `lib/presentation/widgets/today/**; lib/application/plan_controller.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) "17/3" gibi değeri "Bugün 17 kayıt / hedef 3" olarak açık etiketle. Planın azaltma adımı ve bir sonraki öneri anlatılır; "şimdi sigara içmelisin" alarmı oluşturulmaz. "Bugün sana kalanlar" yerine "Bugünkü ilerlemen": atlatılan istek, kayıtlı tasarruf, sigarasız süre. 24 saat sigara olay grafiği günlük yanında; saat/kaç adet/boş veri net. Kanıt: sıfır/kota altı/kota üstü, gün sınırı, geçmiş kayıt silme sonrası hesap.
+- [x] T14 [M] Bugün ne yapmalı, günlük grafik ve kazanımlar (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → todayRingLabel üç dilde açık cümle; todayOverview "Bugünkü ilerlemen"; 24 saat döküm kartı (TodayLogCard) zaten Bugün'de; "şimdi içmelisin" alarmı kodda yok (yalnız quit-support hatırlatmaları). Kazanım dili savingsStrip (kayıtlı tasarruf) + economy ekranı ayrı isimlerle.
 
 - [ ] T15 [M] Para, tarihsel tahmin ve plan başlangıcı (eski H15)
   - Where: `lib/domain/economy.dart; lib/domain/savings.dart; lib/presentation/screens/economy/economy_screen.dart`
@@ -397,6 +396,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T14 A2: etiket değişiklikleri; tam372 test temiz | Aylık taşma sayacı yok; tekilleştirme penceresi 3sn (T9). No-alarm: bildirim metinleri yalnız özet/deneme/dönem. |
 | 2026-09-18 | AUDIT | T13 A2: 2 chart testi + tam372 test temiz; ARB edit kazarası (bodyLoadEmpty value silinmesi tr/de) düzeltildi | Standart büyük ölçüde önceki oturumlarda uygulanmış; bu tur boş-veri boşluğu kapandı. Katran Bugün→Status akışıyla erişilir; organ detayında attributable dili ölçüm vaat etmez. |
 | 2026-09-18 | AUDIT | T12 A2: 2 widget testi + tam370 test temiz; sıfır-kayıt iddiası giderildi | Test notu: drift stream-provider unmount zero-duration timer'ı — tek test içinde ikinci pumpWidget yerine test ikiye bölündü (T23'teki bilinen uyarı ailesi). |
 | 2026-09-18 | AUDIT | T11 A2: 3 yeni test + organ detay bağlantısı; tam368 test temiz; mevcut module_widgets testiyle çakışma (çift başlık) giderildi | Erişilebilir zaman etiketleri: her kart başlığı metin olarak sorgulanabilir (20 dakika … 1 yıl). Gelecek tarih: picker lastDate=now ile yapısal olarak engel. |
@@ -430,5 +430,5 @@ Newest first.
 
 ## 7. HANDOFF
 
-T13 kapandı; sıradaki T14 (Bugün ne yapmalı etiketleri + günlük grafik + kazanımlar).
-Kalan: T14–T18, T19–T26, T23.1.
+T14 kapandı; sıradaki T15 (para/tarihsel tahmin ayrımı: economy ekranı etiketleri).
+Kalan: T15–T18, T19–T26, T23.1.
