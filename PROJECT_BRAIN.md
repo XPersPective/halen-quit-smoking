@@ -379,6 +379,7 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
 
 - [!] T23.1 [H] Android güvenli depolama açılış hatasını veri kaybetmeden incele — migration matrisi eski-dep pin'i gerektiriyor
   - Note: 2026-09-17 güvenli ara; korumalar ve mevcut/temiz açılış kanıtlandı, eski sürüm migration matrisi açık. Hata susturmak için veri silinmez; gözlenen T18.1 görsel kusuruna geçildi.
+  - Note: 2026-09-21 upgrade-kanıtı: eski build (0d3b262) emulator-5554'te storage+anahtar oluşturdu; yeni build `install -r` ile üstüne kuruldu; 0 decrypt hatası, uygulama fonksiyonel (.dart_tool/t231/after-upgrade.png). KALAN: cihaz odağını ele geçiren Chatimus otomasyonu yüzünden tam migration matrisi (çoklu eski sürüm) koşulamadı; worktree derlenir durumda bırakıldı.
   - Where: `lib/data/secure_key_store.dart; lib/data/db_opener.dart; android/app/src/main/res/xml/**; test/data/**`
   - Do: Güncel debug kurulumu sonrası FlutterSecureStorage EncryptedSharedPreferences initialization failed / Could not decrypt key / fallback günlüğünü kaynak sürümü ve eski kurulum durumuyla incele. Anahtar değerlerini/loglarını dışarı çıkarma; veriyi/keystore'u silerek hatayı gizleme. Mevcut DB anahtarını koruyan davranışı ve anahtar yoksa boş DB yaratmama gereksinimini doğrula; gerekirse küçük kök-neden düzeltmesi yap.
   - Done when: Eski kurulumdan yükseltme ve temiz kurulum ayrı emülatör senaryolarında kanıtlı; mevcut DB okunur, anahtar kaybı veri üstüne yazmaz; regresyon testi ve log incelemesi geçer. Fallback'in güvenli olduğu kanıtlanmadan kapatma.
