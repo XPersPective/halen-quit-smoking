@@ -38,6 +38,11 @@ class PurchaseDao extends DatabaseAccessor<AppDatabase> {
     return row != null;
   }
 
+  /// Removes cached rows before a successful full ownership refresh.
+  /// A failed store query must not call this: the last verified state is the
+  /// only safe offline grace period the app has.
+  Future<void> clear() => delete(attachedDatabase.purchaseEntitlement).go();
+
   /// Most recent entitlement row (any state) for refresh decisions.
   Future<PurchaseEntitlementRow?> latest() {
     return (select(attachedDatabase.purchaseEntitlement)
@@ -46,9 +51,20 @@ class PurchaseDao extends DatabaseAccessor<AppDatabase> {
   }
 
   Future<void> upsertEntitlement(PurchaseEntitlementCompanion row) {
-    return into(attachedDatabase.purchaseEntitlement).insert(
-      row,
-      mode: InsertMode.insertOrReplace,
-    );
+    if (!row.store.present || !row.productId.present) {
+      throw ArgumentError('Store and productId are required for an entitlement');
+    }
+    return transaction(() async {
+      final table = attachedDatabase.purchaseEntitlement;
+      await (delete(table)
+            ..where(
+              (item) =>
+                  item.store.equals(row.store.value) &
+                  item.productId.equals(row.productId.value),
+            ))
+          .go();
+      await into(table).insert(row);
+    });
   }
+
 }

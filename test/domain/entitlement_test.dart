@@ -12,8 +12,8 @@ void main() {
         now: trialStart.add(const Duration(days: 30)),
       );
       expect(access.premium, isTrue);
-      expect(access.lifetimeOwned, isTrue);
-      expect(access.source, PremiumSource.lifetime);
+      expect(access.storeOwned, isTrue);
+      expect(access.source, PremiumSource.store);
     });
 
     test('trial is active within 7 days of first launch', () {
