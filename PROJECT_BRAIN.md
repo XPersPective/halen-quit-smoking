@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T10 kapandı: MiniOrganCockpit 320dp taşması giderildi (LayoutBuilder genişlik + esnek başlık); 4 kaynaklı organ kartı, tümü bağlantısı ve detay başlığı test edildi.
-> **Phase:** BUILD · **Next:** T11 · **Updated:** 2026-09-18 · **Synced@:** 13d0076
+> **Status:** T11 kapandı: sağlık çizelgesi Bugün'den Liste girişi + organ detayından bağlantı; tarihsiz önizleme + tarih seçimi (gelecek tarih red); otomatik-ilerleme ve topluluk-düzeyi notları eklendi.
+> **Phase:** BUILD · **Next:** T12 · **Updated:** 2026-09-18 · **Synced@:** 4ced36c
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -299,10 +299,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → MiniOrganCockpit zaten Bugün'de 2×N kart (4 organ, Aç→Routes.body, kart→organ detayı); katalog 13 OrganEntry kaynak bağlantılı. Fix: sabit (width-72)/2 yerine LayoutBuilder genişliği + başlık düğmesi Flexible — 320dp'teki 54px taşma testle kanıtlandı. 5 widget testi: erişilebilir adlar, 320/420/landscape, kart→organ argümanı.
 
-- [ ] T11 [M] Organ içerikleri ve sağlık çizelgesinin konumu (eski H11)
-  - Where: `lib/domain/health_timeline.dart; lib/presentation/screens/timeline/**; lib/presentation/screens/settings/settings_screen.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Sağlık çizelgesini Bugün ve vücut ayrıntısından görünür aç; Hakkında altında saklama. Bırakma zamanından otomatik geçen süre olduğunu, kutuların tamamlanma checkbox'ı olmadığını anlat. Henüz bırakma tarihi yoksa tarih seçimi ve genel bilgi önizlemesi. Genel iyileşme bilgisi kişisel organ sonucu değildir. Kanıt: tarihi yok/gelecek/geçmiş, kayıt sonrası değişim, erişilebilir zaman noktası etiketleri.
+- [x] T11 [M] Organ içerikleri ve sağlık çizelgesinin konumu (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → Bugün'de timelineTitle ListTile (önceden vardı), organ detayına timeline bağlantısı eklendi. Çizelge ekranına: tarih-siz "Bırakma tarihini seç" (showDatePicker, lastDate=bugün → gelecek seçilemez; setQuitTs öncesi getState ile lazy satır garantisi — T3-review bulgu c), timelineAutoNote (takvim≠checkbox) ve timelineNotPersonal (topluluk düzeyi) notları. 3 test: kilitli önizleme, tarih sonrası reached/current, dao round-trip.
 
 - [ ] T12 [M] Psikolojik durum ve his günlüğü (eski H12)
   - Where: `lib/presentation/screens/status/status_flow_screen.dart; lib/application/module_providers.dart; lib/data/db/**`
@@ -400,6 +399,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T11 A2: 3 yeni test + organ detay bağlantısı; tam368 test temiz; mevcut module_widgets testiyle çakışma (çift başlık) giderildi | Erişilebilir zaman etiketleri: her kart başlığı metin olarak sorgulanabilir (20 dakika … 1 yıl). Gelecek tarih: picker lastDate=now ile yapısal olarak engel. |
 | 2026-09-18 | AUDIT | T10 A2: kokpit testleri (5) + tam365 test temiz; 320dp RenderFlex taşması kökten giderildi | Kanıt zinciri: erişilebilir ad kartları (text+InkWell), 320/420/900×420 taşmasız, Heart→Routes.body+arguments. brain.py derin-A1 örneği (T8/T9/T18.1) bu oturumda kanıtla kapatılmıştı; ek audit satırı gerekmedi. |
 | 2026-09-18 | AUDIT | T9 A2: repo seviyesinde çift-dokunuş tekilleştirme, mercan CTA, 4 dedupe testi + tam360 test temiz | Native kanıt (APK user0): "Bir sigara içtim" düğmesine arka arkaya iki dokunuş → tek kayıt, geri bildirim sayfası "Bugün: 1. Ortalaman: 15." gösterdi. Undo dokunuşu harici aktör müdahalesi yüzünden tamamlanamadı (widget testi undo'yu kapsıyor). Emülatör yeniden başlatıldı; harici uygulama (N AI Science Lab) yine öne geçti. |
 | 2026-09-18 | AUDIT | T8 A2: başlık ikon+Halen+Bugün alt-satırı; T8 test paketi TR/EN/DE 320dp×1.6 overflow ile kırmızı-önce-yeşil (rozet Flexible sonrası), tam356 test temiz | Yerel native kanıt: .dart_tool/t8/. Simge launcher ile aynı dosya; paket kimliği unchanged (com.crazypenguin.halenquitsmoking korunuyor). PremiumBadge artık daralamaya kayar başlık boğmaz. |
@@ -430,6 +430,5 @@ Newest first.
 
 ## 7. HANDOFF
 
-T10 kapandı; sıradaki T11 (sağlık çizelgesi konumu: Bugün/vücut detayından görünür).
-Emülatör harici aktör nedeniyle riskli; kalan UX görevleri widget testleriyle yürütülüyor.
-Kalan: T11–T18, T19–T26, T23.1.
+T11 kapandı; sıradaki T12 (psikolojik durum ve his günlüğü).
+Kalan: T12–T18, T19–T26, T23.1. Emülatör harici aktör riski sürüyor.

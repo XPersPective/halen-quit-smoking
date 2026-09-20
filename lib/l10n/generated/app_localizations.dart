@@ -2092,6 +2092,24 @@ abstract class AppLocalizations {
   /// **'In general, among people who quit smoking…'**
   String get timelineGeneralPattern;
 
+  /// No description provided for @timelineAutoNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress advances on its own from your quit date — the boxes are a calendar, not checkboxes.'**
+  String get timelineAutoNote;
+
+  /// No description provided for @timelineNotPersonal.
+  ///
+  /// In en, this message translates to:
+  /// **'Population-level findings. They describe typical recovery, not the state of your own organs.'**
+  String get timelineNotPersonal;
+
+  /// No description provided for @timelineSetQuitDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your quit date'**
+  String get timelineSetQuitDate;
+
   /// No description provided for @timelineMilestone20min.
   ///
   /// In en, this message translates to:

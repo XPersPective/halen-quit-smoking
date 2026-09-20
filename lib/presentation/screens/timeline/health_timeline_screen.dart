@@ -58,6 +58,36 @@ class HealthTimelineScreen extends ConsumerWidget {
                 Text(l10n.timelineGeneralPattern,
                     style: theme.textTheme.bodyLarge),
                 const SizedBox(height: HalenSpace.x2),
+                // Brain T11: the progress is automatic — read off the quit
+                // date, never ticked by hand — and population-level.
+                Text(l10n.timelineAutoNote, style: theme.textTheme.bodySmall),
+                Text(l10n.timelineNotPersonal,
+                    style: theme.textTheme.bodySmall),
+                const SizedBox(height: HalenSpace.x2),
+                if (quitTs == null)
+                  FilledButton.icon(
+                    onPressed: () async {
+                      final now = DateTime.now();
+                      final picked = await showDatePicker(
+                        context: context,
+                        initialDate: now,
+                        firstDate: DateTime(now.year - 20),
+                        lastDate: now, // a quit date cannot be in the future
+                      );
+                      if (picked == null) return;
+                      // Ensure the single state row exists before the
+                      // UPDATE-style write (T3-review finding c).
+                      await ref.read(databaseProvider).timelineDao.getState();
+                      final day = DateTime(picked.year, picked.month,
+                          picked.day, 12);
+                      await ref
+                          .read(databaseProvider)
+                          .timelineDao
+                          .setQuitTs(day);
+                    },
+                    icon: const Icon(Icons.event_outlined),
+                    label: Text(l10n.timelineSetQuitDate),
+                  ),
                 if (locked)
                   Card(
                     color: theme.colorScheme.surfaceContainerHighest,

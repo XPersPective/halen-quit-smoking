@@ -1136,6 +1136,17 @@ class AppLocalizationsTr extends AppLocalizations {
   String get timelineGeneralPattern => 'Genel olarak, sigarayı bırakanlarda…';
 
   @override
+  String get timelineAutoNote =>
+      'İlerleme bırakma tarihinden kendiliğinden akar — kutular bir takvimdir, işaretlenecek kutucuk değildir.';
+
+  @override
+  String get timelineNotPersonal =>
+      'Bu bulgular topluluk düzeyindedir: tipik iyileşmeyi anlatır, kendi organlarının durumu değildir.';
+
+  @override
+  String get timelineSetQuitDate => 'Bırakma tarihini seç';
+
+  @override
   String get timelineMilestone20min => '20 dakika';
 
   @override

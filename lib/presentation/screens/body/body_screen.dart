@@ -367,6 +367,16 @@ class _OrganDetail extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: HalenSpace.x3),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, Routes.healthTimeline),
+                  icon: const Icon(Icons.timeline_rounded, size: 16),
+                  iconAlignment: IconAlignment.end,
+                  label: Text(l10n.timelineTitle),
+                ),
+              ),
               OrganRecoveryTimeline(
                 anchors: organ.recoveryTimeline,
                 locale: locale,

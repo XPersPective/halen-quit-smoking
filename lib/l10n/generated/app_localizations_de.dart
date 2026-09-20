@@ -1144,6 +1144,17 @@ class AppLocalizationsDe extends AppLocalizations {
       'Im Allgemeinen gilt bei Menschen, die mit dem Rauchen aufhören…';
 
   @override
+  String get timelineAutoNote =>
+      'Der Fortschritt läuft automatisch ab dem Aufgabedatum — die Felder sind ein Kalender, keine Checkboxen.';
+
+  @override
+  String get timelineNotPersonal =>
+      'Diese Befunde gelten auf Populationsebene: Sie beschreiben eine typische Erholung, nicht den Zustand deiner Organe.';
+
+  @override
+  String get timelineSetQuitDate => 'Aufgabedatum festlegen';
+
+  @override
   String get timelineMilestone20min => '20 Minuten';
 
   @override

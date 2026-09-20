@@ -1140,6 +1140,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'In general, among people who quit smoking…';
 
   @override
+  String get timelineAutoNote =>
+      'Progress advances on its own from your quit date — the boxes are a calendar, not checkboxes.';
+
+  @override
+  String get timelineNotPersonal =>
+      'Population-level findings. They describe typical recovery, not the state of your own organs.';
+
+  @override
+  String get timelineSetQuitDate => 'Set your quit date';
+
+  @override
   String get timelineMilestone20min => '20 minutes';
 
   @override
