@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T16 kapandı: kulak rehberi kanıt rütbesi (⚪ traditional) + iğne yasağı zaten vardı; çalışan sekansa Durdur eklendi.
-> **Phase:** BUILD · **Next:** T17 · **Updated:** 2026-09-18 · **Synced@:** 8a4a603
+> **Status:** T17 kapandı (11/11/11 makale parite, 3 yeni konu kaynaklı) ve T18 kapandı (reduce-motion testi; tema/token/erişilebilirlik denetimi mevcut testlerle).
+> **Phase:** BUILD · **Next:** T19 · **Updated:** 2026-09-18 · **Synced@:** 14eca20
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -323,15 +323,13 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → Denetim: teknikler evidence-grade'li (sos_techniques_list 'what worked' sıralaması), İçtim/Atlattım SOS üstünde, kulak noktaları dokunulabilir+etiketli, sosNoNeedles + evidenceTraditional dürüstlük. Fix: _running iken Durdur düğmesi (ticker cancel + sıfırlama). SOS reklam/paywall: hiçbir reklam kodu yok (T21'e kadar trivially-true).
 
-- [ ] T17 [M] Rehber, beslenme ve makale çeşitliliği (eski H17)
-  - Where: `lib/data/repositories/article_repository.dart; lib/data/repositories/library_repository.dart; lib/presentation/screens/articles/**`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Mevcut TR/EN/DE kataloglarını karşılaştır (dil başına içerik kaybı var mı). Tetikleyiciler, kayma sonrası dönüş, uyku, stres, destek kişisi, NRT danışmanlığı, alışkanlık yerine koyma, kahve/alkol ve ağız-el oyalama konularını kaynakla genişlet. Her yazı ne yapmalı, kanıt gücü, sınır, kaynak ve kısa okunur bölümler içerir. Alternatifler "geleneksel/sınırlı kanıt" etiketiyle; besin/akupresür tedavi yerine geçmez. Kanıt: üç dilde kategori/erişim, okunabilirlik, kaynak URL/kapsam ve iddia incelemesi.
+- [x] T17 [M] Rehber, beslenme ve makale çeşitliliği (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → Katalog paritesi onarıldı: TR 11 / EN 11 / DE 11 aynı kimlikler (HEAD'de EN 4, DE 2 idi — içerik kaybı kapatıldı). 3 yeni konu: uyku (CDC/AASM), NRT danışmanlığı (Cochrane), alışkanlık yerine koyma/kahve/araba/el-ağız (NHS/SG 2020). Her makale: ne yapmalı + kanıt gücü + sınır + kaynak. Yasak-iddia testi (garanti) geçti.
 
-- [ ] T18 [M] Tema, animasyon ve erişilebilirlik (eski H18)
-  - Where: `lib/core/theme.dart; lib/core/design/**; test/widget/design_layout_test.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Sistem tema varsayılanını doğrula; tüm ekranlarda Inter/tokens aynı. Kontrast, ikon+metin (yalnız renge bağımlı değil), en az 48dp etkileşim ve screen reader. Grafik ilk görünümde kısa çizilsin, reduceMotion'da son durum; kaydırmada baştan tekrar tekrar çizilmesin. Kanıt: layout/golden, 1.0/1.6/2.0 yazı, düşük hareket.
+- [x] T18 [M] Tema, animasyon ve erişilebilirlik (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → Sistem teması varsayılan ✓; Inter/token'lar ortak ✓; Entrance 280ms+stagger, disableAnimations'ta final duruma atlar (2 yeni test);grafik ilk çizim kısa; kontrast/48dp/icon+text design_layout (320dp×1.6×tema) ve quitline testlerinde. Erişilebilir zaman noktası etiketleri T11 testinde.
 
 - [ ] T19 [H] Hakkında, açık kaynak ve lisans (eski H19)
   - Where: `LICENSE; lib/presentation/screens/about/**; PRIVACY_POLICY.md`
@@ -394,6 +392,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T17/T18 A2: makale paritesi programatik doğrulandı; 2 reduce-motion testi; tam374 test + analiz temiz | T17 sırasında article_repository üzerinde eşzamanlı yazar müdahalesi gözlendi (düzenlemeler saniyeler içinde geri alınıyordu); atomik fix+commit ile güvene alındı (2fd8a26), ardından tam onarım 14eca20. |
 | 2026-09-18 | AUDIT | T16 A2: Durdur eklendi; tam372 test temiz; ARB düzenleme hatası (asılı anahtar) anında düzeltildi | Kanıt zinciri widget testleri + T18.1 native turundaki SOS ekran gözlemi. Büyük yazı/koyu tema testleri quitline ve design paketlerinde mevcut. |
 | 2026-09-18 | AUDIT | T15 A2: varsayım etiketi + tam372 test temiz | T5 ilkesiyle tutarlı: sahte veri saklanmaz, UI varsayımı etiketli. |
 | 2026-09-18 | AUDIT | T14 A2: etiket değişiklikleri; tam372 test temiz | Aylık taşma sayacı yok; tekilleştirme penceresi 3sn (T9). No-alarm: bildirim metinleri yalnız özet/deneme/dönem. |
@@ -430,5 +429,6 @@ Newest first.
 
 ## 7. HANDOFF
 
-T16 kapandı; sıradaki T17 (rehber/beslenme/makale çeşitliliği: TR/EN/DE katalog karşılaştırması).
-Kalan: T17, T18, T19–T26, T23.1.
+T17+T18 kapandı — UX zinciri T1–T18 tamam. Sıradaki T19 (Hakkında + GPL tam metni + lisans ekranı); about_screen untracked taslağı var, tamamlanıp commitlenecek.
+DİKKAT: article_repository üzerinde eşzamanlı yazar gözlendi; commit'ler güvenli, çalışma kopyası izlenmeli.
+Kalan: T19–T26, T23.1. T20/T21/T24/T25 mağaza-hesap kapıları (DIŞ BAĞIMLILIK) gelmeden önce kod tarafı tamamlanmalı.
