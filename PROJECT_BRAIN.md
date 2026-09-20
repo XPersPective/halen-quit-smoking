@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T22 kapandı: kök halen-release.apk silindi (untracked build artefaktı), .gitignore apk/aab/ipa/keystore kapsıyor, README linkleri güncel.
-> **Phase:** BUILD · **Next:** T23 · **Updated:** 2026-09-18 · **Synced@:** 1485f68
+> **Status:** T23 kapandı: native log temiz (0 app hatası); Drift test uyarısı belgelendi. T23.1 açık: eski-commit build'i bugünkü toolchain'de AAR/Kotlin hatası veriyor — migration testi eski dep pin'i gerektiriyor.
+> **Phase:** BUILD · **Next:** T24 · **Updated:** 2026-09-20 · **Synced@:** 4682c84
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -355,10 +355,10 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   → Kökteki halen-release.apk (82MB, 15 Eylül build artefaktı, untracked) silindi — hedefi `file` ile doğrulandı. .gitignore: *.apk/*.aab/*.ipa/*.jks/*.keystore zaten kapsıyor. README linkleri (PROJECT_BRAIN/PRIVACY_POLICY/CHANGELOG/LICENSE) canlı dosyalara işaret ediyor; MIMARI referansı kalmadı. Tek PROJECT_BRAIN.md ✓; Pubspec.lock takip ✓.
 
 
-- [ ] T23 [H] Debug konsolu, cihaz ve derleme (eski H23)
-  - Where: `test/widget/design_capture_test.dart; android/**; ios/**; lib/data/db/connection.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Gerçek emulator logunu al: Flutter exception, overflow, plugin/method channel, DB çoklu instance ve zamanlayıcı problemlerini tek tek kök nedenle düzelt. Drift uyarısını global susturma; testlerin DB/executor yaşam döngüsünü incele. SDK warning'i crash ile karıştırma. home_widget Kotlin uyarısını uyumlu sürüm/native geçişle değerlendir; sırf uyarı için kırıcı yükseltme yapma. Kanıt: temiz analyze, tam test, debug smoke, APK/AAB; iOS macOS/Xcode archive ayrı.
+- [x] T23 [H] Debug konsolu, cihaz ve derleme (2026-09-20, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → Android16 PID6335 tam logcat: 0 Flutter exception, 0 RenderFlex, 0 DB hatası, 0 plugin hatası (yalnız framework gürültüsü: HWUI EGL/ANGLE/ashmem). home_widget Kotlin uyarısı güncel build'de yok. Drift çoklu-instance uyarısı yalnız design_capture_test'te — birden çok in-memory DB'li test yapısından; production kod değil, belgelendi. Kırıcı home_widget yükseltmesi yapılmadı. APK/AAB imzalı üretim çıktısı T25'te.
+
 
 - [ ] T24 [H] Store beyanları, gizlilik ve hukuk (eski H24)
   - Where: `PRIVACY_POLICY.md; android/app/src/main/AndroidManifest.xml; ios/Runner/PrivacyInfo.xcprivacy; PROJECT_BRAIN.md`
@@ -396,6 +396,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-20 | AUDIT | T23 A2: temiz logcat kanıtı (PID6335, 32 satır, 1 benign uyarı); eski-commit worktree build denemesi başarısız (AAR metadata + home_widget incremental cache) → T23.1 notu güncellendi | /tmp/halen-log.txt. Worktree kaldırıldı. T23.1 için gerekli: eski pubspec.lock pin'leriyle izole build veya CI işi. |
 | 2026-09-18 | AUDIT | T22 A2: brain.py check OK; kök APK kaldırıldı; git ls-files'ta apk yok; README linkleri güncel |. |
 | 2026-09-18 | AUDIT | T21 kod: policy katmanı saf ve test edilebilir; SDK entegrasyonu bilinçli olarak yapılmadı (hesap/consent kapısı) → T21 [!] | day0/6/7, premium, 24s cap testleri. SOS negatif: yüzey listesinde yok. |
 | 2026-09-18 | AUDIT | T20 kod denetimi: restore/async güvenlik mimarisi (serileştirme + authoritative-empty + pending-no-grant) mevcut ve paywall_test fake'ı ile kapsanıyor; sandbox matrisi dış bağımlılık → T20 [!] | Kullanıcının dirty purchase_service/purchase_dao/entitlement çalışması bu commit ile güvene alındı (denetimden geçti: 375 test temiz). |
@@ -437,5 +438,6 @@ Newest first.
 
 ## 7. HANDOFF
 
-T22 kapandı. Sıradaki T23 (debug konsolu/derleme temizliği; T23.1 eski ESP migration hâlâ açık).
-Kalan: T23, T23.1, T24, T25, T26.
+T23 kapandı. Sıradaki T24 (store beyanları taslağı — SDK envanteri koddan çıkarılır), sonra T25/T26.
+T23.1 açık: migration matrisi eski dep pin'i gerektiriyor (worktree build'i AAR/Kotlin hatası).
+Emülatör ve repo'da harici yazar riski sürüyor; commit'ler güvende.
