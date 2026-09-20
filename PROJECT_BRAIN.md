@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T14, T15 kapandı: ekonomi ekranı geçmiş/hedef ayrımı net; yıl bilinmiyorsa ömür-boyu tahmin 10-yıl varsayımıyla AMA açık etiketle.
-> **Phase:** BUILD · **Next:** T16 · **Updated:** 2026-09-18 · **Synced@:** 27dc7d5
+> **Status:** T16 kapandı: kulak rehberi kanıt rütbesi (⚪ traditional) + iğne yasağı zaten vardı; çalışan sekansa Durdur eklendi.
+> **Phase:** BUILD · **Next:** T17 · **Updated:** 2026-09-18 · **Synced@:** 8a4a603
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -319,10 +319,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → Ekonomi: 1Ay/1Yıl/Tümü/Ömür filtreleri; tahmin/yaklaşım etiketleri zaten vardı (tahmini toplam, economyExactNote, economyPastSpentNote). Fix: smokingYears null iken sahte 10-yıl varsayımı artık amber `economyYearsAssumed` notuyla beyan ediliyor (değer depolanmıyor). Eksik gün economyExactNote kapsamında; ilk gün sıfır (avoidedTotal 0'dan).
 
-- [ ] T16 [M] Kriz araçları ve görsel kulak rehberi (eski H16)
-  - Where: `lib/presentation/screens/sos/**; lib/presentation/widgets/sos_techniques_list.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) SOS içinde erteleme, nefes, yürüyüş, el/ağız oyalama ve mevcut kulak akupresürü görünür; "Nasıl geçti?/İçtim/Atlattım" erişimi kolay. Noktalar okunur kulak görselinde dokunulabilir ve metinle eşleşir. İğne kullanımı öğretme; akupresürün bırakma etkinliği belirsizse açıkça belirt. Organ tedavisi/nikotin temizleme etkisi uydurma. Kanıt: nokta seçimi, büyük yazı/koyu tema, süreyi durdurma, SOS reklam/paywall yok.
+- [x] T16 [M] Kriz araçları ve görsel kulak rehberi (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → Denetim: teknikler evidence-grade'li (sos_techniques_list 'what worked' sıralaması), İçtim/Atlattım SOS üstünde, kulak noktaları dokunulabilir+etiketli, sosNoNeedles + evidenceTraditional dürüstlük. Fix: _running iken Durdur düğmesi (ticker cancel + sıfırlama). SOS reklam/paywall: hiçbir reklam kodu yok (T21'e kadar trivially-true).
 
 - [ ] T17 [M] Rehber, beslenme ve makale çeşitliliği (eski H17)
   - Where: `lib/data/repositories/article_repository.dart; lib/data/repositories/library_repository.dart; lib/presentation/screens/articles/**`
@@ -395,6 +394,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T16 A2: Durdur eklendi; tam372 test temiz; ARB düzenleme hatası (asılı anahtar) anında düzeltildi | Kanıt zinciri widget testleri + T18.1 native turundaki SOS ekran gözlemi. Büyük yazı/koyu tema testleri quitline ve design paketlerinde mevcut. |
 | 2026-09-18 | AUDIT | T15 A2: varsayım etiketi + tam372 test temiz | T5 ilkesiyle tutarlı: sahte veri saklanmaz, UI varsayımı etiketli. |
 | 2026-09-18 | AUDIT | T14 A2: etiket değişiklikleri; tam372 test temiz | Aylık taşma sayacı yok; tekilleştirme penceresi 3sn (T9). No-alarm: bildirim metinleri yalnız özet/deneme/dönem. |
 | 2026-09-18 | AUDIT | T13 A2: 2 chart testi + tam372 test temiz; ARB edit kazarası (bodyLoadEmpty value silinmesi tr/de) düzeltildi | Standart büyük ölçüde önceki oturumlarda uygulanmış; bu tur boş-veri boşluğu kapandı. Katran Bugün→Status akışıyla erişilir; organ detayında attributable dili ölçüm vaat etmez. |
@@ -430,5 +430,5 @@ Newest first.
 
 ## 7. HANDOFF
 
-T15 kapandı; sıradaki T16 (kriz araçları + görsel kulak rehberi).
-Kalan: T16–T18, T19–T26, T23.1.
+T16 kapandı; sıradaki T17 (rehber/beslenme/makale çeşitliliği: TR/EN/DE katalog karşılaştırması).
+Kalan: T17, T18, T19–T26, T23.1.

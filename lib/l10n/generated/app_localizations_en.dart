@@ -1863,6 +1863,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sosNoNeedles => 'Fingers only — never needles.';
 
   @override
+  String get earGuideStop => 'Stop';
+
+  @override
   String get progressScoreTitle => 'Progress Score';
 
   @override

@@ -1867,6 +1867,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get sosNoNeedles => 'Nur Finger — niemals Nadeln.';
 
   @override
+  String get earGuideStop => 'Stopp';
+
+  @override
   String get progressScoreTitle => 'Fortschrittswert';
 
   @override

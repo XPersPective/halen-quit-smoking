@@ -39,38 +39,39 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
       _secondsPerPoint - (_elapsed % _secondsPerPoint);
   bool get _finished => _elapsed >= _secondsPerPoint * _pointCount;
 
-  static const _pointInfo = [
-    (
-      title: 'Shen Men (Ruh Kapısı)',
-      location: 'Kulağın üst üçgen çukuru (triangular fossa)',
-      effect: 'Parasempatik sinir sistemini uyarır; kriz anındaki anksiyete, panik ve stres hormonlarını (kortizol) yatıştırır.',
-      instruction: 'İşaret parmağınızla çukura hafifçe bastırıp küçük dairesel hareketler yapın. 4 sn nefes alırken bası uygulayın, 6 sn verirken gevşetin.',
-    ),
-    (
-      title: 'Sempatik / Otonom Nokta',
-      location: 'İç kıvrımın (helix kökünün) üst sınırı',
-      effect: 'Vazokonstriksiyonu (damar daralmasını) çözer, nikotin düşüşüyle hızlanan nabzı ve bedensel gerginliği dengeler.',
-      instruction: 'Parmak ucunuzla kıkırdak kenarına nazikçe bastırın. Nabzınızı dinleyin ve omuzlarınızı serbest bırakın.',
-    ),
-    (
-      title: 'Böbrek Noktası (Kidney)',
-      location: 'Concha çukurunun üst iç bölgesi',
-      effect: 'Korku ve irade yorgunluğunu hafifletir; böbreklerin toksin ve katran atım metabolizmasını destekler.',
-      instruction: 'Başparmağınız kulağın arkasında destek olsun, işaret parmağınızla concha çukurunun üstüne ritmik hafif bası yapın.',
-    ),
-    (
-      title: 'Karaciğer Noktası (Liver)',
-      location: 'Concha çukurunun orta-arka bölgesi',
-      effect: 'Yoksunluk kaynaklı öfke, asabiyet, tahammülsüzlük ve dürtüsel sigara yakma arzusunu yatıştırır.',
-      instruction: 'Concha\'nın arka duvarına dairesel masaj uygulayın. Bu bölge gergin olduğunda hafif hassas olabilir; acıtmadan uygulayın.',
-    ),
-    (
-      title: 'Akciğer Noktası (Lung)',
-      location: 'Concha kavitesinin merkez ve alt bölgesi',
-      effect: 'Solunum yollarındaki hava açlığı spazmını gevşetir, nefesi derinleştirir ve rahatlatır.',
-      instruction: 'Kulak deliğinin hemen yukarısına ve arkasına parmağınızı yerleştirin. Her nefes verişte basıyı hafifçe artırın.',
-    ),
-  ];
+  List<({String title, String location, String effect, String instruction})>
+      _pointInfo(AppLocalizations l10n) => [
+        (
+          title: l10n.earPointShenMenTitle,
+          location: l10n.earPointShenMenLocation,
+          effect: l10n.earPointShenMenEffect,
+          instruction: l10n.earPointShenMenInstruction,
+        ),
+        (
+          title: l10n.earPointAutonomicTitle,
+          location: l10n.earPointAutonomicLocation,
+          effect: l10n.earPointAutonomicEffect,
+          instruction: l10n.earPointAutonomicInstruction,
+        ),
+        (
+          title: l10n.earPointKidneyTitle,
+          location: l10n.earPointKidneyLocation,
+          effect: l10n.earPointKidneyEffect,
+          instruction: l10n.earPointKidneyInstruction,
+        ),
+        (
+          title: l10n.earPointLiverTitle,
+          location: l10n.earPointLiverLocation,
+          effect: l10n.earPointLiverEffect,
+          instruction: l10n.earPointLiverInstruction,
+        ),
+        (
+          title: l10n.earPointLungTitle,
+          location: l10n.earPointLungLocation,
+          effect: l10n.earPointLungEffect,
+          instruction: l10n.earPointLungInstruction,
+        ),
+      ];
 
   void _start() {
     _ticker?.cancel();
@@ -115,8 +116,9 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final names = _pointNames(l10n);
+    final pointInfo = _pointInfo(l10n);
     final displayIndex = _running ? _currentPoint : _selectedPoint;
-    final activeInfo = _pointInfo[displayIndex];
+    final activeInfo = pointInfo[displayIndex];
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.earGuideTitle)),
@@ -165,7 +167,7 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            'Nokta ${displayIndex + 1}/5',
+                            l10n.earPointOf(displayIndex + 1),
                             style: theme.textTheme.labelSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: HalenColors.emerald,
@@ -185,7 +187,7 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
                     ),
                     const SizedBox(height: HalenSpace.x2),
                     Text(
-                      'Konum: ${activeInfo.location}',
+                      l10n.earPointLocation(activeInfo.location),
                       style: theme.textTheme.bodySmall?.copyWith(
                         fontStyle: FontStyle.italic,
                       ),
@@ -244,11 +246,25 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
             const SizedBox(height: HalenSpace.x5),
             if (_finished)
               Text(l10n.earGuideFinished, style: theme.textTheme.titleMedium)
-            else
+            else ...[
               FilledButton(
                 onPressed: _running ? null : _start,
                 child: Text(l10n.earGuideStart),
               ),
+              // T16: a running sequence must be stoppable — crises don't
+              // always wait for a 2-minute script to finish.
+              if (_running)
+                TextButton(
+                  onPressed: () {
+                    _ticker?.cancel();
+                    setState(() {
+                      _running = false;
+                      _elapsed = 0;
+                    });
+                  },
+                  child: Text(l10n.earGuideStop),
+                ),
+            ],
             const SizedBox(height: HalenSpace.x5),
             Text(
               l10n.sosNoNeedles,

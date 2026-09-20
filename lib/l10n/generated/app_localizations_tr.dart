@@ -1858,6 +1858,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sosNoNeedles => 'Sadece parmakla — asla iğne değil.';
 
   @override
+  String get earGuideStop => 'Durdur';
+
+  @override
   String get progressScoreTitle => 'İlerleme Puanı';
 
   @override

@@ -3358,6 +3358,12 @@ abstract class AppLocalizations {
   /// **'Fingers only — never needles.'**
   String get sosNoNeedles;
 
+  /// No description provided for @earGuideStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get earGuideStop;
+
   /// No description provided for @progressScoreTitle.
   ///
   /// In en, this message translates to:

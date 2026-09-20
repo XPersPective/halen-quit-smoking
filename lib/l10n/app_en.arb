@@ -954,6 +954,7 @@
   "sosEarPointLiver": "Liver",
   "sosEarPointLung": "Lung",
   "sosNoNeedles": "Fingers only — never needles.",
+  "earGuideStop": "Stop",
   "progressScoreTitle": "Progress Score",
   "progressWindowLabel": "last 14 days",
   "progressBandStarting": "Starting",
