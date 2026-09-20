@@ -16,6 +16,7 @@ import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/model_settings_section.dart';
 import 'package:halen/presentation/widgets/notification_permission_card.dart';
+import 'package:halen/presentation/widgets/widget_settings_section.dart';
 import 'package:halen/presentation/widgets/pack_settings_section.dart';
 import 'package:halen/presentation/widgets/quitline_card.dart';
 import '../../../core/design/tokens.dart';
@@ -226,6 +227,10 @@ class SettingsScreen extends ConsumerWidget {
                 preLogPauseSeconds: settings.preLogPauseSeconds,
                 riskyWindowReminder: settings.riskyWindowReminder,
               ),
+              const SizedBox(height: HalenSpace.x4),
+              // Widget customisation is real: both choices land in the native
+              // widget store, not just in the DB (brain T7).
+              const WidgetSettingsSection(),
               const SizedBox(height: HalenSpace.x4),
               ListTile(
                 contentPadding: EdgeInsets.zero,

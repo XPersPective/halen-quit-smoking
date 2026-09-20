@@ -1558,6 +1558,48 @@ abstract class AppLocalizations {
   /// **'Appearance'**
   String get settingsAppearance;
 
+  /// No description provided for @premiumBadgeOwned.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium'**
+  String get premiumBadgeOwned;
+
+  /// No description provided for @premiumBadgeFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium'**
+  String get premiumBadgeFree;
+
+  /// No description provided for @premiumBadgeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium options'**
+  String get premiumBadgeTooltip;
+
+  /// No description provided for @settingsWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Home screen widget'**
+  String get settingsWidget;
+
+  /// No description provided for @widgetHowToAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Android: long-press the home screen → Widgets → Halen. iOS: Edit Home Screen → + → Halen.'**
+  String get widgetHowToAdd;
+
+  /// No description provided for @widgetShowLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Show time since last cigarette'**
+  String get widgetShowLast;
+
+  /// No description provided for @widgetTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Widget theme'**
+  String get widgetTheme;
+
   /// No description provided for @themeSystem.
   ///
   /// In en, this message translates to:

@@ -839,6 +839,28 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsAppearance => 'Erscheinungsbild';
 
   @override
+  String get premiumBadgeOwned => 'Premium';
+
+  @override
+  String get premiumBadgeFree => 'Premium';
+
+  @override
+  String get premiumBadgeTooltip => 'Premium-Optionen';
+
+  @override
+  String get settingsWidget => 'Startbildschirm-Widget';
+
+  @override
+  String get widgetHowToAdd =>
+      'Android: Startbildschirm lange gedrückt halten → Widgets → Halen. iOS: Startbildschirm bearbeiten → + → Halen.';
+
+  @override
+  String get widgetShowLast => 'Zeit seit der letzten Zigarette anzeigen';
+
+  @override
+  String get widgetTheme => 'Widget-Darstellung';
+
+  @override
   String get themeSystem => 'System';
 
   @override

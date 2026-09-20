@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T6 kapandı: tüm girdi yüzeyleri (onboarding, Ayarlar model/paket/ekonomi hedefi, satın alma) tek InputBounds disiplininde; hata gösterimi + 349 test temiz.
-> **Phase:** BUILD · **Next:** T7 · **Updated:** 2026-09-18 · **Synced@:** e24d558
+> **Status:** T7 kapandı: Today rozeti (deneme/premium/ücretsiz) + Widget ayarları native store'a yazıyor; Android launcher widget'ı koyu tema kanıtlı.
+> **Phase:** BUILD · **Next:** T8 · **Updated:** 2026-09-18 · **Synced@:** cd46eec
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -283,10 +283,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → `lib/domain/input_bounds.dart` ortak sınır seti; [H] bağımsız review bulguları kapatıldı: a) settings paket diyaloğu validated record döndürür (re-parse yok), b) typed-garbage opsiyonel alanda artık Save'i durdurur (eskiden sessiz null yazıyordu), c) economy/pack diyalogları controller sızıntısı kapatıldı, d) pack testi alan-tek-tek kırmızı-olur şekilde sertleşti. Onboarding zaten T4/T5 ile bağlı. Quit-plan/coping gibi serbest metin yüzeyleri trim/uzunlukla InputBounds.name kapsamında.
 
-- [ ] T7 [M] Premium rozeti ve gerçek widget özelleştirmesi (eski H07)
-  - Where: `lib/presentation/screens/today/today_screen.dart; lib/data/widget_service.dart; ios/HalenWidget/**; android/app/src/main/kotlin/**`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Bugün üst barında Ayarlar yanında tıklanabilir Premium/Deneme rozeti; kalan gün, 7 gün sonrasında hangi özelliklerin değişeceği ve ömür boyu adsiz seçenek görünür. Widget için Ayarlar > Widget'lar: ekleme yönergesi, mevcut native boyut önizlemesi, desteklenen gösterge/tema seçimleri ve kaydet; ilk günden denemede kullanılabilir. Android provider ve iOS WidgetKit/App Group'a aynı ayar yazılır; desteklenmeyen seçenek pazarlanmaz. Kanıt: seçim kalıcılığı/deneme kapısı, gerçek launcher/WidgetKit görüntüsü.
+- [x] T7 [M] Premium rozeti ve gerçek widget özelleştirmesi (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → `PremiumBadge` (ücretsiz/deneme/sahip etiketi → paywall), şema v10 widget tercihleri (son-sigara gizleme + tema), `WidgetService.applyWidgetPrefs` native store'a yazar. Android provider prefs dosya/anahtar hatası düzeltildi (HomeWidgetPreferences, öneksiz anahtarlar); widget koyu tema launcher'da kanıtlı. iOS Swift renkleri de theme-key okuyor. 4 widget testi + format testi.
 
 - [ ] T8 [M] Marka ve ana başlık (eski H08)
   - Where: `lib/presentation/screens/today/today_screen.dart; lib/core/design/**`
@@ -404,6 +403,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T7 A2: şema v10 + rozet/settings/native zincir; tam349…353 test temiz; emulator-5554 launcher'da widget eklendi (Halen 3×1), widgetTheme=dark → preview #1E4D45/#F5A623 pikselleri (.dart_tool/t7/widget-band.png) ve run-as prefs listesi kanıt | run-as okuması: widgetShowLast=false, widgetTheme=dark, todaySummary=0/17. Android provider önceden yanlış dosya/anahtar okuyordu (HomeWidgetPrefs + flutter. prefix) — T7 doğrularken bulundu ve düzeltildi. |
 | 2026-09-18 | AUDIT | T6 A2 (bağımsız gözden geçirme, general-purpose sub-agent): pack/model/economy/purchases yüzeyleri tek sınır setinde birleşti, 5 widget + 5 domain testi eklendi, tam349 test temiz | Review bulguları (input_bounds katında thunk duplication, economy controller leak, garbage→null session silme, save-after-reparse) tamamen kapatıldı. Settings pack diyaloğu artık PackEditResult döndürüyor. deep-link/widget yüzeyleri kodda sabit/uygulama-üretimli, kullanıcıdan yaşam yolu almıyor: temiz. |
 | 2026-09-18 | AUDIT | T5 A2: 10. adım beden verisi, `maxPlausibleSmokingYears` yaş-beli güvenliği, body parse blank/null ayrımı; 2 yeni domain testi + akış testi persist assertion; tam339 test ve analiz temiz | T5 tek başına şema değişikliği yapmadı (boy/kilo/yıl v2 kolonları). iOS/native ayrı değil — widget akışı yeterli ve yazılı kanıt görev tanımında native istemiyor. |
 | 2026-09-18 | AUDIT | T3 A2: bağımsız taze-bağlam gözden geçirme 1/2/5/6. iddiayı doğruladı; rollback testini transaction'sız çalıştırmada kırmızı-gösterir biçimde güçlendirdim; 5 backup testi + tam336 test temiz | Gözden geçirme bulguları (wipe kapsamı, milestones round-trip kaybı, quitTs insert-öncesi boşluk, zayıf round-trip adı) T26'nın Do'suna eklendi. Red-green kanıtı: `_wipeUserData` transaction dışına taşınınca test başarısız oldu, geri alınca yeşil. Kod davranışı değişmedi. |
@@ -430,6 +430,6 @@ Newest first.
 
 ## 7. HANDOFF
 
-T6 kapandı (tüm giriş yüzeyleri denetimden geçti). Sıradaki T7 (premium rozeti + widget özelleştirme).
-Emülatör uyarısı sürmekte (harici aktör var); native doğrulama odak-kontrollü yapılmalı.
-Bilinen açık başlıklar: T7..T17 görsel/UX + T19..T26 mağaza/reklam/iOS, T23.1 migration.
+T7 kapandı; sıradaki T8 (marka + ana başlık: ikon + ürün adı üst bar).
+Widget ayarları canlı native store'a yazıyor; launcher widget'ı koyu tema ile duruyor. Emülatörde widget eklendi (kaldırmak istersen ana ekranda uzun bas → kaldır).
+Açıklar: T8–T18 görsel/UX, T19–T26; onboarding native son 4 adım T4'te kesildi (cihaz kontrolü), iOS mağaza kapıları T20+.

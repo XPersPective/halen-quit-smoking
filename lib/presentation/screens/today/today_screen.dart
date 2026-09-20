@@ -28,6 +28,7 @@ import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
 import 'package:halen/presentation/widgets/today/progress_score_tile.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 import 'package:halen/presentation/widgets/today/today_log_sheet.dart';
+import 'package:halen/presentation/widgets/premium_badge.dart';
 import 'package:halen/presentation/widgets/today_widgets.dart';
 
 /// Screen 9: BUGÜN — the main daily screen (report §12).
@@ -250,6 +251,8 @@ class _TodayBody extends ConsumerWidget {
                   ],
                 ),
               ),
+              const PremiumBadge(),
+              const SizedBox(width: 2),
               const ShellSettingsButton(),
             ],
           ),

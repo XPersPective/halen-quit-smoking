@@ -204,6 +204,13 @@ class Settings extends Table {
   BoolColumn get trialNudge =>
       boolean().withDefault(const Constant(false))();
 
+  /// Home-widget customisation (brain T7): hide the "last cigarette" part and
+  /// pick a widget theme independent of the app's theme.
+  BoolColumn get widgetShowLastCigarette =>
+      boolean().withDefault(const Constant(true))();
+  TextColumn get widgetTheme => text()
+      .withDefault(const Constant('system'))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

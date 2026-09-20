@@ -17,6 +17,12 @@ enum HalenShared {
     static var summary: String {
         defaults?.string(forKey: "todaySummary") ?? "--/--"
     }
+
+    /// T7: widget look chosen in the app's Settings ("system" | "light" |
+    /// "dark"), shared in the same App Group store.
+    static var theme: String {
+        defaults?.string(forKey: "widgetTheme") ?? "system"
+    }
 }
 
 // MARK: - Quick-log App Intent (iOS 17+ interactivity, report §27)
@@ -83,10 +89,10 @@ struct HalenWidgetView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Halen")
                 .font(.caption)
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(HalenStyle.header)
             Text(entry.summary)
                 .font(.system(.title2, design: .rounded).bold())
-                .foregroundStyle(.white)
+                .foregroundStyle(HalenStyle.body)
             // iOS 17+ interactive button — logs without opening the app.
             if #available(iOS 17.0, *) {
                 Button(intent: LogCigaretteIntent(source: "widget")) {
@@ -100,7 +106,7 @@ struct HalenWidgetView: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-        .containerBackground(Color(red: 0.12, green: 0.30, blue: 0.27), for: .widget)
+        .containerBackground(HalenStyle.background, for: .widget)
     }
 }
 
@@ -143,5 +149,28 @@ struct HalenWidgetBundle: WidgetBundle {
         if #available(iOSApplicationExtension 18.0, *) {
             LogCigaretteControl()
         }
+    }
+}
+
+// MARK: - Themed colors (T7)
+
+enum HalenStyle {
+    static var dark: Bool {
+        switch HalenShared.theme {
+        case "dark": return true
+        case "light": return false
+        default:
+            return UITraitCollection.current.userInterfaceStyle == .dark
+        }
+    }
+    static var background: Color {
+        dark ? Color(red: 0.118, green: 0.302, blue: 0.271)   // #1E4D45
+             : Color(red: 0.965, green: 0.957, blue: 0.933)   // #F6F4EE
+    }
+    static var header: Color {
+        dark ? .white.opacity(0.8) : Color(red: 0.11, green: 0.11, blue: 0.09, opacity: 0.7)
+    }
+    static var body: Color {
+        dark ? .white : Color(red: 0.11, green: 0.11, blue: 0.09)
     }
 }

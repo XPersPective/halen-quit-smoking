@@ -835,6 +835,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsAppearance => 'Appearance';
 
   @override
+  String get premiumBadgeOwned => 'Premium';
+
+  @override
+  String get premiumBadgeFree => 'Premium';
+
+  @override
+  String get premiumBadgeTooltip => 'Premium options';
+
+  @override
+  String get settingsWidget => 'Home screen widget';
+
+  @override
+  String get widgetHowToAdd =>
+      'Android: long-press the home screen → Widgets → Halen. iOS: Edit Home Screen → + → Halen.';
+
+  @override
+  String get widgetShowLast => 'Show time since last cigarette';
+
+  @override
+  String get widgetTheme => 'Widget theme';
+
+  @override
   String get themeSystem => 'System';
 
   @override

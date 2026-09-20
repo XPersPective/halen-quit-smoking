@@ -5782,6 +5782,33 @@ class $SettingsTable extends Settings
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _widgetShowLastCigaretteMeta =
+      const VerificationMeta('widgetShowLastCigarette');
+  @override
+  late final GeneratedColumn<bool> widgetShowLastCigarette =
+      GeneratedColumn<bool>(
+        'widget_show_last_cigarette',
+        aliasedName,
+        false,
+        type: DriftSqlType.bool,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("widget_show_last_cigarette" IN (0, 1))',
+        ),
+        defaultValue: const Constant(true),
+      );
+  static const VerificationMeta _widgetThemeMeta = const VerificationMeta(
+    'widgetTheme',
+  );
+  @override
+  late final GeneratedColumn<String> widgetTheme = GeneratedColumn<String>(
+    'widget_theme',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('system'),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -5794,6 +5821,8 @@ class $SettingsTable extends Settings
     riskyWindowReminder,
     appLocale,
     trialNudge,
+    widgetShowLastCigarette,
+    widgetTheme,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5864,6 +5893,24 @@ class $SettingsTable extends Settings
         trialNudge.isAcceptableOrUnknown(data['trial_nudge']!, _trialNudgeMeta),
       );
     }
+    if (data.containsKey('widget_show_last_cigarette')) {
+      context.handle(
+        _widgetShowLastCigaretteMeta,
+        widgetShowLastCigarette.isAcceptableOrUnknown(
+          data['widget_show_last_cigarette']!,
+          _widgetShowLastCigaretteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('widget_theme')) {
+      context.handle(
+        _widgetThemeMeta,
+        widgetTheme.isAcceptableOrUnknown(
+          data['widget_theme']!,
+          _widgetThemeMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -5917,6 +5964,14 @@ class $SettingsTable extends Settings
         DriftSqlType.bool,
         data['${effectivePrefix}trial_nudge'],
       )!,
+      widgetShowLastCigarette: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}widget_show_last_cigarette'],
+      )!,
+      widgetTheme: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}widget_theme'],
+      )!,
     );
   }
 
@@ -5958,6 +6013,11 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
   /// Opt-in day-5 trial nudge (brain T2). A marketing reminder needs its own
   /// user preference; the default notification density never implies it.
   final bool trialNudge;
+
+  /// Home-widget customisation (brain T7): hide the "last cigarette" part and
+  /// pick a widget theme independent of the app's theme.
+  final bool widgetShowLastCigarette;
+  final String widgetTheme;
   const SettingsRow({
     required this.id,
     required this.notifLevel,
@@ -5969,6 +6029,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     required this.riskyWindowReminder,
     this.appLocale,
     required this.trialNudge,
+    required this.widgetShowLastCigarette,
+    required this.widgetTheme,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5995,6 +6057,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       map['app_locale'] = Variable<String>(appLocale);
     }
     map['trial_nudge'] = Variable<bool>(trialNudge);
+    map['widget_show_last_cigarette'] = Variable<bool>(widgetShowLastCigarette);
+    map['widget_theme'] = Variable<String>(widgetTheme);
     return map;
   }
 
@@ -6014,6 +6078,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ? const Value.absent()
           : Value(appLocale),
       trialNudge: Value(trialNudge),
+      widgetShowLastCigarette: Value(widgetShowLastCigarette),
+      widgetTheme: Value(widgetTheme),
     );
   }
 
@@ -6039,6 +6105,10 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       ),
       appLocale: serializer.fromJson<String?>(json['appLocale']),
       trialNudge: serializer.fromJson<bool>(json['trialNudge']),
+      widgetShowLastCigarette: serializer.fromJson<bool>(
+        json['widgetShowLastCigarette'],
+      ),
+      widgetTheme: serializer.fromJson<String>(json['widgetTheme']),
     );
   }
   @override
@@ -6059,6 +6129,10 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       'riskyWindowReminder': serializer.toJson<bool>(riskyWindowReminder),
       'appLocale': serializer.toJson<String?>(appLocale),
       'trialNudge': serializer.toJson<bool>(trialNudge),
+      'widgetShowLastCigarette': serializer.toJson<bool>(
+        widgetShowLastCigarette,
+      ),
+      'widgetTheme': serializer.toJson<String>(widgetTheme),
     };
   }
 
@@ -6073,6 +6147,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     bool? riskyWindowReminder,
     Value<String?> appLocale = const Value.absent(),
     bool? trialNudge,
+    bool? widgetShowLastCigarette,
+    String? widgetTheme,
   }) => SettingsRow(
     id: id ?? this.id,
     notifLevel: notifLevel ?? this.notifLevel,
@@ -6086,6 +6162,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     riskyWindowReminder: riskyWindowReminder ?? this.riskyWindowReminder,
     appLocale: appLocale.present ? appLocale.value : this.appLocale,
     trialNudge: trialNudge ?? this.trialNudge,
+    widgetShowLastCigarette:
+        widgetShowLastCigarette ?? this.widgetShowLastCigarette,
+    widgetTheme: widgetTheme ?? this.widgetTheme,
   );
   SettingsRow copyWithCompanion(SettingsCompanion data) {
     return SettingsRow(
@@ -6111,6 +6190,12 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       trialNudge: data.trialNudge.present
           ? data.trialNudge.value
           : this.trialNudge,
+      widgetShowLastCigarette: data.widgetShowLastCigarette.present
+          ? data.widgetShowLastCigarette.value
+          : this.widgetShowLastCigarette,
+      widgetTheme: data.widgetTheme.present
+          ? data.widgetTheme.value
+          : this.widgetTheme,
     );
   }
 
@@ -6126,7 +6211,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ..write('preLogPauseSeconds: $preLogPauseSeconds, ')
           ..write('riskyWindowReminder: $riskyWindowReminder, ')
           ..write('appLocale: $appLocale, ')
-          ..write('trialNudge: $trialNudge')
+          ..write('trialNudge: $trialNudge, ')
+          ..write('widgetShowLastCigarette: $widgetShowLastCigarette, ')
+          ..write('widgetTheme: $widgetTheme')
           ..write(')'))
         .toString();
   }
@@ -6143,6 +6230,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     riskyWindowReminder,
     appLocale,
     trialNudge,
+    widgetShowLastCigarette,
+    widgetTheme,
   );
   @override
   bool operator ==(Object other) =>
@@ -6157,7 +6246,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           other.preLogPauseSeconds == this.preLogPauseSeconds &&
           other.riskyWindowReminder == this.riskyWindowReminder &&
           other.appLocale == this.appLocale &&
-          other.trialNudge == this.trialNudge);
+          other.trialNudge == this.trialNudge &&
+          other.widgetShowLastCigarette == this.widgetShowLastCigarette &&
+          other.widgetTheme == this.widgetTheme);
 }
 
 class SettingsCompanion extends UpdateCompanion<SettingsRow> {
@@ -6171,6 +6262,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
   final Value<bool> riskyWindowReminder;
   final Value<String?> appLocale;
   final Value<bool> trialNudge;
+  final Value<bool> widgetShowLastCigarette;
+  final Value<String> widgetTheme;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.notifLevel = const Value.absent(),
@@ -6182,6 +6275,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.riskyWindowReminder = const Value.absent(),
     this.appLocale = const Value.absent(),
     this.trialNudge = const Value.absent(),
+    this.widgetShowLastCigarette = const Value.absent(),
+    this.widgetTheme = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -6194,6 +6289,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.riskyWindowReminder = const Value.absent(),
     this.appLocale = const Value.absent(),
     this.trialNudge = const Value.absent(),
+    this.widgetShowLastCigarette = const Value.absent(),
+    this.widgetTheme = const Value.absent(),
   });
   static Insertable<SettingsRow> custom({
     Expression<int>? id,
@@ -6206,6 +6303,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Expression<bool>? riskyWindowReminder,
     Expression<String>? appLocale,
     Expression<bool>? trialNudge,
+    Expression<bool>? widgetShowLastCigarette,
+    Expression<String>? widgetTheme,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -6220,6 +6319,9 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
         'risky_window_reminder': riskyWindowReminder,
       if (appLocale != null) 'app_locale': appLocale,
       if (trialNudge != null) 'trial_nudge': trialNudge,
+      if (widgetShowLastCigarette != null)
+        'widget_show_last_cigarette': widgetShowLastCigarette,
+      if (widgetTheme != null) 'widget_theme': widgetTheme,
     });
   }
 
@@ -6234,6 +6336,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Value<bool>? riskyWindowReminder,
     Value<String?>? appLocale,
     Value<bool>? trialNudge,
+    Value<bool>? widgetShowLastCigarette,
+    Value<String>? widgetTheme,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -6246,6 +6350,9 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       riskyWindowReminder: riskyWindowReminder ?? this.riskyWindowReminder,
       appLocale: appLocale ?? this.appLocale,
       trialNudge: trialNudge ?? this.trialNudge,
+      widgetShowLastCigarette:
+          widgetShowLastCigarette ?? this.widgetShowLastCigarette,
+      widgetTheme: widgetTheme ?? this.widgetTheme,
     );
   }
 
@@ -6286,6 +6393,14 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     if (trialNudge.present) {
       map['trial_nudge'] = Variable<bool>(trialNudge.value);
     }
+    if (widgetShowLastCigarette.present) {
+      map['widget_show_last_cigarette'] = Variable<bool>(
+        widgetShowLastCigarette.value,
+      );
+    }
+    if (widgetTheme.present) {
+      map['widget_theme'] = Variable<String>(widgetTheme.value);
+    }
     return map;
   }
 
@@ -6301,7 +6416,9 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
           ..write('preLogPauseSeconds: $preLogPauseSeconds, ')
           ..write('riskyWindowReminder: $riskyWindowReminder, ')
           ..write('appLocale: $appLocale, ')
-          ..write('trialNudge: $trialNudge')
+          ..write('trialNudge: $trialNudge, ')
+          ..write('widgetShowLastCigarette: $widgetShowLastCigarette, ')
+          ..write('widgetTheme: $widgetTheme')
           ..write(')'))
         .toString();
   }
@@ -12750,6 +12867,8 @@ typedef $$SettingsTableCreateCompanionBuilder = SettingsCompanion Function({
   Value<bool> riskyWindowReminder,
   Value<String?> appLocale,
   Value<bool> trialNudge,
+  Value<bool> widgetShowLastCigarette,
+  Value<String> widgetTheme,
 });
 typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<int> id,
@@ -12762,6 +12881,8 @@ typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<bool> riskyWindowReminder,
   Value<String?> appLocale,
   Value<bool> trialNudge,
+  Value<bool> widgetShowLastCigarette,
+  Value<String> widgetTheme,
 });
 
 class $$SettingsTableFilterComposer
@@ -12828,6 +12949,16 @@ class $$SettingsTableFilterComposer
     column: $table.trialNudge,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<bool> get widgetShowLastCigarette => $composableBuilder(
+    column: $table.widgetShowLastCigarette,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get widgetTheme => $composableBuilder(
+    column: $table.widgetTheme,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SettingsTableOrderingComposer
@@ -12888,6 +13019,16 @@ class $$SettingsTableOrderingComposer
     column: $table.trialNudge,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get widgetShowLastCigarette => $composableBuilder(
+    column: $table.widgetShowLastCigarette,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get widgetTheme => $composableBuilder(
+    column: $table.widgetTheme,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -12941,6 +13082,16 @@ class $$SettingsTableAnnotationComposer
     column: $table.trialNudge,
     builder: (column) => column,
   );
+
+  GeneratedColumn<bool> get widgetShowLastCigarette => $composableBuilder(
+    column: $table.widgetShowLastCigarette,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get widgetTheme => $composableBuilder(
+    column: $table.widgetTheme,
+    builder: (column) => column,
+  );
 }
 
 class $$SettingsTableTableManager
@@ -12984,6 +13135,8 @@ class $$SettingsTableTableManager
                 Value<bool> riskyWindowReminder = const Value.absent(),
                 Value<String?> appLocale = const Value.absent(),
                 Value<bool> trialNudge = const Value.absent(),
+                Value<bool> widgetShowLastCigarette = const Value.absent(),
+                Value<String> widgetTheme = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 notifLevel: notifLevel,
@@ -12995,6 +13148,8 @@ class $$SettingsTableTableManager
                 riskyWindowReminder: riskyWindowReminder,
                 appLocale: appLocale,
                 trialNudge: trialNudge,
+                widgetShowLastCigarette: widgetShowLastCigarette,
+                widgetTheme: widgetTheme,
               ),
           createCompanionCallback:
               ({
@@ -13008,6 +13163,8 @@ class $$SettingsTableTableManager
                 Value<bool> riskyWindowReminder = const Value.absent(),
                 Value<String?> appLocale = const Value.absent(),
                 Value<bool> trialNudge = const Value.absent(),
+                Value<bool> widgetShowLastCigarette = const Value.absent(),
+                Value<String> widgetTheme = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 notifLevel: notifLevel,
@@ -13019,6 +13176,8 @@ class $$SettingsTableTableManager
                 riskyWindowReminder: riskyWindowReminder,
                 appLocale: appLocale,
                 trialNudge: trialNudge,
+                widgetShowLastCigarette: widgetShowLastCigarette,
+                widgetTheme: widgetTheme,
               ),
           withReferenceMapper: (p0) => p0
               .map(

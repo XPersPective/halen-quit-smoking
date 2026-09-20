@@ -58,24 +58,74 @@ class WidgetService {
 
     final count = events.length;
     final target = plan?.targetCount ?? profile?.baselineCpd ?? 0;
-    final last = events.isEmpty ? null : events.last.ts;
-    final lastPart =
-        last == null ? '' : ' · ${_durationLabel(now.difference(last))}';
+    await _pushSummary(count: count, target: target, last: events.isEmpty ? null : events.last.ts, now: now);
+  }
 
+  /// Assembles what the widget shows. Plain so tests pin it down (brain T7).
+  Future<void> _pushSummary({
+    required int count,
+    required int target,
+    required DateTime? last,
+    required DateTime now,
+  }) async {
+    final settings = await _db.settingsDao.getSettings();
     await _push(
       count: count,
       target: target,
-      label: '$count/$target$lastPart',
+      label: formatSummary(
+        count: count,
+        target: target,
+        last: last,
+        now: now,
+        showLast: settings.widgetShowLastCigarette,
+      ),
     );
   }
 
-  String _durationLabel(Duration d) {
+  /// "4/8 · 1h 12m" — with the privacy toggle off, just "4/8".
+  static String formatSummary({
+    required int count,
+    required int target,
+    required DateTime? last,
+    required DateTime now,
+    required bool showLast,
+  }) {
+    final lastPart = (last == null || !showLast)
+        ? ''
+        : ' · ${_durationLabelS(now.difference(last))}';
+    return '$count/$target$lastPart';
+  }
+
+  static String _durationLabelS(Duration d) {
     final h = d.inHours;
-    final m = d.inMinutes % 60;
     if (h <= 0) {
       return '${d.inMinutes}m';
     }
-    return '${h}h ${m}m';
+    return '${h}h ${d.inMinutes % 60}m';
+  }
+
+  /// Customisation is written into the widget stores at choice time, so the
+  /// home screen re-renders without waiting for the next record (brain T7).
+  Future<void> applyWidgetPrefs() async {
+    if (!mobilePlatform) return;
+    final settings = await _db.settingsDao.getSettings();
+    try {
+      await HomeWidget.saveWidgetData<bool>(
+        'widgetShowLast',
+        settings.widgetShowLastCigarette,
+      );
+      await HomeWidget.saveWidgetData<String>(
+        'widgetTheme',
+        settings.widgetTheme,
+      );
+      await HomeWidget.updateWidget(
+        androidName: 'HalenWidgetProvider',
+        iOSName: 'HalenWidget',
+      );
+    } catch (_) {
+      // Platform channel unavailable in tests/dev — ignore.
+    }
+    await refresh();
   }
 
   Future<void> _push({

@@ -832,6 +832,28 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsAppearance => 'Görünüm';
 
   @override
+  String get premiumBadgeOwned => 'Premium';
+
+  @override
+  String get premiumBadgeFree => 'Premium';
+
+  @override
+  String get premiumBadgeTooltip => 'Premium seçenekler';
+
+  @override
+  String get settingsWidget => 'Ana ekran widget\'ı';
+
+  @override
+  String get widgetHowToAdd =>
+      'Android: ana ekrana uzun bas → Widget\'lar → Halen. iOS: Ana ekranı düzenle → + → Halen.';
+
+  @override
+  String get widgetShowLast => 'Son sigaradan geçen süreyi göster';
+
+  @override
+  String get widgetTheme => 'Widget teması';
+
+  @override
   String get themeSystem => 'Sistem';
 
   @override
