@@ -764,7 +764,7 @@ class ArticleRepository {
       keyTakeaways: [
         'Bereits nach 20 Minuten sinken Puls und Blutdruck.',
         'Nach 1 Jahr ist das Risiko für koronare Herzkrankheit etwa halb so hoch wie bei Rauchenden.',
-        'Die Zeitachse beschreibt Durchschnittswerte einer Population, keine individuelle Garantie.',
+        'Die Zeitachse beschreibt Durchschnittswerte einer Population; sie ist keine individuelle Zusicherung.',
       ],
       sections: [
         ArticleSection(
