@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T25 [!]: mağaza metinleri gerçek özelliklerden yazıldı (store/LISTING.md, üç dil); imzalı paket+cihaz final turu hesap/cihaz kapısında. T24 [!], T19.1 [!].
-> **Phase:** BUILD · **Next:** T26 · **Updated:** 2026-09-20 · **Synced@:** cb31be6
+> **Status:** T26 kapandı: yedek/silme tüm kişisel tabloları kapsıyor. Kod tarafı biten görevler bitti; kalan eşikler [!] (T19.1 repo-public, T20 sandbox, T21 SDK+consent, T23.1 eski-dep pin, T24 konsol girişi, T25 imzalı paket+cihaz turu).
+> **Phase:** BUILD · **Next:** T19.1 (kullanıcı: repo public) · **Updated:** 2026-09-20 · **Synced@:** cb31be6
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -370,16 +370,14 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   → store/LISTING.md: TR/EN/DE başlık (≤30), kısa açıklama (≤80), tam açıklama — yalnız doğrulanmış özellikler (T1–T19 çıktıları); cihazda doğrulanmamış iddia yok; yasak-iddia listesi test altında. KALAN (DIŞ BAĞIMLILIK): imzalı release paketi hash'leri (keystore kullanıcıda), gerçek cihazda yeni-kullanıcı→trial→free→purchase→restore turu (Android+iOS), screenshots/ gerçek cihaz PNG'leriyle yenileme.
 
 
-- [ ] T26 [H] Yedek kapsamı ve veri silme bütünlüğü (eski H26)
-  - Where: `lib/data/backup_repository.dart; lib/data/db/tables.dart; test/data/backup_repository_test.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) BackupRepository eski tabloları aktarırken yeni mood/support/cessation/pack/settings alanlarını kapsamıyor; wipe de tüm kişisel tabloları silmiyor olabilir. Şema ile export/import/delete listesini satır satır eşleştir. Format migration/geri uyumluluk, referans bütünlüğü ve tüm kişisel verinin silinmesini kanıtla. Satın alma/trial yedek dışında kalır. Bozuk dosyada kısmi silme olmaz; backup'ın düz metin olduğu açıklanır. Kanıt: bütün yeni alanlarda round-trip, tüm kişisel tablo temizliği, rollback.
-  - T3 inceleme bulguları (2026-09-18, dış gözden geçirme): (a) `_wipeUserData` yalnız 9 tabloyu siliyor; MoodLog, SupportLog, IndexSnapshot, PlanState, SavingsGoal, CessationPlan, CopingPlan, MoodScreen, PackPurchase ve timeline.acknowledgedMilestones kalıyor. (b) `acknowledgedMilestones` export ediliyor ama import never geri yazmıyor. (c) `setQuitTs` UPDATE-based; temiz cihazda satır yoksa import sessizce kaybolur — import öncesi `getState()` ile satırı yarat veya insert-or-replace yap. (d) "round-trips all user data" testi adının vaat ettiği kadarını kapsamıyor (plans/adjustments/triggers/products/timeline/settings assert'leri yok). (e) 2026-09-18'den itibaren kapsam listesine ekle: settings.trialNudge (v8) ve smokingProfile.declaredRhythmMinutes (v9).
+- [x] T26 [H] Yedek kapsamı ve veri silme bütünlüğü (2026-09-20, Kimi K3)
   - Done when: `flutter test test/data/backup_repository_test.dart` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → Export/import artık TÜM kişisel tabloları kapsıyor: moodLog, supportLog, indexSnapshot, planState, savingsGoal, cessationPlan, copingPlan, moodScreen, packPurchase + timeline (quitTs ve acknowledgedMilestones; import öncesi getState ile lazy satır garantisi) + settings v8/v10 alanları (trialNudge, widgetTheme, widgetShowLastCigarette, appLocale) + profil body/rhythm alanları. _wipeUserData 9 yeni tabloyu da siliyor; acknowledgedMilestones sıfırlanıyor; purchaseEntitlement bilinçli olarak korunuyor (mağaza hesabına ait). T3-review bulguları (a)-(e) kapandı. 4 yeni test (round-trip, wipe, profil alanları, trial-dışı kalma).
 
 - [x] T18.1 [M] Emülatörde görülen kontrast ve bildirim etiketi (2026-09-18, Kimi K3)
   - Done when: TR/EN/DE küçük ekran ve 1.6× yazı testleri geçer; Android16 açık/koyu ekran görüntülerinde durum çubuğu okunur, Standart kırpılmaz/bölünmez ve seçim çalışır.
 
-- [ ] T23.1 [H] Android güvenli depolama açılış hatasını veri kaybetmeden incele
+- [!] T23.1 [H] Android güvenli depolama açılış hatasını veri kaybetmeden incele — migration matrisi eski-dep pin'i gerektiriyor
   - Note: 2026-09-17 güvenli ara; korumalar ve mevcut/temiz açılış kanıtlandı, eski sürüm migration matrisi açık. Hata susturmak için veri silinmez; gözlenen T18.1 görsel kusuruna geçildi.
   - Where: `lib/data/secure_key_store.dart; lib/data/db_opener.dart; android/app/src/main/res/xml/**; test/data/**`
   - Do: Güncel debug kurulumu sonrası FlutterSecureStorage EncryptedSharedPreferences initialization failed / Could not decrypt key / fallback günlüğünü kaynak sürümü ve eski kurulum durumuyla incele. Anahtar değerlerini/loglarını dışarı çıkarma; veriyi/keystore'u silerek hatayı gizleme. Mevcut DB anahtarını koruyan davranışı ve anahtar yoksa boş DB yaratmama gereksinimini doğrula; gerekirse küçük kök-neden düzeltmesi yap.
@@ -396,6 +394,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-20 | AUDIT | T26 A2: export/import/wipe tüm kişisel tablolara genişletildi; 4 yeni test; tam384 test + analiz temiz | T3-review bulguları (a) wipe kapsamı, (b) milestones round-trip, (c) quitTs fresh-device satır yokluğu, (d) round-trip test adı iddiası, (e) v8/v9/v10 alanları — tamamı kapandı. Backup düz metin; PRIVACY_POLICY bunu söylüyor. |
 | 2026-09-20 | AUDIT | T24 A2: bildirim izin envanteri manifest'ten, xcprivacy mevcut, beyan taslağı yazıldı | Hukuki beyan iddiası yok; taslak olarak etiketli. Kullanıcı konsol girişine kadar [!]. |
 | 2026-09-20 | AUDIT | T23 A2: temiz logcat kanıtı (PID6335, 32 satır, 1 benign uyarı); eski-commit worktree build denemesi başarısız (AAR metadata + home_widget incremental cache) → T23.1 notu güncellendi | /tmp/halen-log.txt. Worktree kaldırıldı. T23.1 için gerekli: eski pubspec.lock pin'leriyle izole build veya CI işi. |
 | 2026-09-18 | AUDIT | T22 A2: brain.py check OK; kök APK kaldırıldı; git ls-files'ta apk yok; README linkleri güncel |. |
@@ -439,5 +438,7 @@ Newest first.
 
 ## 7. HANDOFF
 
-T25 [!] (imzalı paket + cihaz turu hesap/keystore kapısında; LISTING.md hazır). Sıradaki T26 (yedek kapsamı — tam kod yapılabilir).
-T23.1 açık; T19.1/T24 [!] kullanıcı eylemleri.
+T1–T22 kod tarafı TAMAM (T20/T21/T24/T25 kod kısmı bitti, mağaza/hesap eşikleri [!]). T26 kapandı.
+[!] EŞİKLER: T19.1 repo public (kullanıcı); T20 sandbox matrisi (hesap); T21 SDK+consent (hesap); T23.1 migration matrisi (eski dep pin/CI kararı); T24 konsol formları + hukuk okuması; T25 imzalı paket hash + gerçek cihaz final turu.
+Eşikler açılınca: A4 final audit (§0.4) → Phase DONE. T4 native turunun adım 6–9'u ve undo native kanıtı da o zaman tamamlanacak.
+Harici yazar uyarısı: article_repository üzerinde eşzamanlı düzenleme gözlendi; commit'ler güvenli.

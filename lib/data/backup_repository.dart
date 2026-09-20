@@ -5,6 +5,9 @@ import 'package:drift/drift.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../domain/entities.dart';
+import '../domain/plan_kinds.dart';
+import '../domain/cessation.dart';
+import '../domain/soft_taper.dart';
 import 'db/app_database.dart';
 
 /// User-initiated JSON export/import (report §23/§26): the honest answer to
@@ -46,6 +49,17 @@ class BackupRepository {
     final summaries = await _db.select(_db.dailySummary).get();
     final timeline = await _db.timelineDao.getState();
     final settings = await _db.settingsDao.getSettings();
+    // T26: the newer personal tables ride along — a backup that loses the
+    // user's mood history or plans is not a backup.
+    final moodLogs = await _db.select(_db.moodLog).get();
+    final supportLogs = await _db.select(_db.supportLog).get();
+    final indexSnapshots = await _db.select(_db.indexSnapshot).get();
+    final planState = await _db.select(_db.planState).get();
+    final savingsGoal = await _db.select(_db.savingsGoalTable).get();
+    final cessationPlan = await _db.select(_db.cessationPlanTable).get();
+    final copingPlans = await _db.select(_db.copingPlanTable).get();
+    final moodScreens = await _db.select(_db.moodScreen).get();
+    final packPurchases = await _db.select(_db.packPurchaseTable).get();
 
     return {
       'format': 'halen-backup',
@@ -70,6 +84,10 @@ class BackupRepository {
               'targetMode': profile.targetMode.name,
               'pace': profile.pace.name,
               'startedAt': profile.startedAt.toIso8601String(),
+              'declaredRhythmMinutes': profile.declaredRhythmMinutes,
+              'heightCm': profile.heightCm,
+              'weightKg': profile.weightKg,
+              'smokingYears': profile.smokingYears,
             },
       'cigaretteEvents': [
         for (final e in events)
@@ -143,6 +161,71 @@ class BackupRepository {
             'minGapMinutes': s.minGapMinutes,
           },
       ],
+      'moodLogs': [
+        for (final m in moodLogs)
+          {
+            'ts': m.ts.toIso8601String(),
+            'reportedBand': m.reportedBand,
+            'estimated': m.estimated,
+            'prompted': m.prompted,
+          },
+      ],
+      'supportLogs': [
+        for (final l in supportLogs)
+          {'date': l.date, 'cardKey': l.cardKey, 'done': l.done},
+      ],
+      'indexSnapshots': [
+        for (final i in indexSnapshots)
+          {'date': i.date, 'progressScore': i.progressScore, 'harmLoad': i.harmLoad},
+      ],
+      'planState': planState.isEmpty
+          ? null
+          : {
+              'kind': planState.first.kind.name,
+              'startedAt': planState.first.startedAt.toIso8601String(),
+              'intervalMinutes': planState.first.intervalMinutes,
+              'targetIntervalMinutes': planState.first.targetIntervalMinutes,
+              'daysAtStep': planState.first.daysAtStep,
+              'taperMode': planState.first.taperMode.name,
+              'switchHistoryJson': planState.first.switchHistoryJson,
+              'lastStepDate': planState.first.lastStepDate,
+              'lastStepDecision': planState.first.lastStepDecision?.name,
+            },
+      'savingsGoal': savingsGoal.isEmpty
+          ? null
+          : {'label': savingsGoal.first.label, 'amount': savingsGoal.first.amount},
+      'cessationPlan': cessationPlan.isEmpty
+          ? null
+          : {
+              'quitDate': cessationPlan.first.quitDate,
+              'quitDateMoves': cessationPlan.first.quitDateMoves,
+              'reason': cessationPlan.first.reason?.name,
+              'supportPerson': cessationPlan.first.supportPerson,
+              'notAPuffAccepted': cessationPlan.first.notAPuffAccepted,
+            },
+      'copingPlans': [
+        for (final c in copingPlans)
+          {
+            'trigger': c.trigger.name,
+            'plan': c.plan,
+            'rehearsed': c.rehearsed,
+            'updatedAt': c.updatedAt.toIso8601String(),
+          },
+      ],
+      'moodScreens': [
+        for (final m in moodScreens)
+          {'ts': m.ts.toIso8601String(), 'lowInterest': m.lowInterest, 'lowMood': m.lowMood, 'total': m.total},
+      ],
+      'packPurchases': [
+        for (final p in packPurchases)
+          {
+            'ts': p.ts.toIso8601String(),
+            'packs': p.packs,
+            'pricePerPack': p.pricePerPack,
+            'packSize': p.packSize,
+            'brand': p.brand,
+          },
+      ],
       'timeline': {
         'quitTs': timeline.quitTs?.toIso8601String(),
         'acknowledgedMilestones': timeline.acknowledgedMilestones,
@@ -152,6 +235,10 @@ class BackupRepository {
         'theme': settings.theme.name,
         'reduceMotion': settings.reduceMotion,
         'haptics': settings.haptics,
+        'appLocale': settings.appLocale,
+        'trialNudge': settings.trialNudge,
+        'widgetShowLastCigarette': settings.widgetShowLastCigarette,
+        'widgetTheme': settings.widgetTheme,
       },
     };
   }
@@ -214,6 +301,11 @@ class BackupRepository {
             ),
             pace: Value(enumByName(Pace.values, profile['pace'] as String)),
             startedAt: Value(DateTime.parse(profile['startedAt'] as String)),
+            declaredRhythmMinutes:
+                Value(profile['declaredRhythmMinutes'] as int?),
+            heightCm: Value((profile['heightCm'] as num?)?.toDouble()),
+            weightKg: Value((profile['weightKg'] as num?)?.toDouble()),
+            smokingYears: Value((profile['smokingYears'] as num?)?.toDouble()),
           ),
         );
       }
@@ -325,10 +417,149 @@ class BackupRepository {
         );
       }
 
+      // T26: the newer personal tables ride along in both directions.
+      for (final m in (data['moodLogs'] as List? ?? []).cast<Map>()) {
+        await _db.into(_db.moodLog).insert(
+              MoodLogCompanion.insert(
+                ts: DateTime.parse(m['ts'] as String),
+                reportedBand: m['reportedBand'] as int,
+                estimated: (m['estimated'] as num).toDouble(),
+                prompted: Value(m['prompted'] as bool? ?? false),
+              ),
+            );
+      }
+      for (final l in (data['supportLogs'] as List? ?? []).cast<Map>()) {
+        await _db.into(_db.supportLog).insert(
+              SupportLogCompanion.insert(
+                date: l['date'] as String,
+                cardKey: l['cardKey'] as String,
+                done: Value(l['done'] as bool? ?? true),
+              ),
+              mode: InsertMode.insertOrReplace,
+            );
+      }
+      for (final i in (data['indexSnapshots'] as List? ?? []).cast<Map>()) {
+        await _db.into(_db.indexSnapshot).insert(
+              IndexSnapshotCompanion.insert(
+                date: i['date'] as String,
+                progressScore: i['progressScore'] as int,
+                harmLoad: i['harmLoad'] as int,
+              ),
+              mode: InsertMode.insertOrReplace,
+            );
+      }
+      final planState = data['planState'] as Map<String, dynamic>?;
+      if (planState != null) {
+        await _db.into(_db.planState).insert(
+              PlanStateCompanion.insert(
+                startedAt: DateTime.parse(planState['startedAt'] as String),
+                kind: Value(
+                  enumByName(
+                    PlanKind.values,
+                    planState['kind'] as String,
+                  ),
+                ),
+                intervalMinutes: Value(planState['intervalMinutes'] as int?),
+                targetIntervalMinutes:
+                    Value(planState['targetIntervalMinutes'] as int?),
+                daysAtStep: Value(planState['daysAtStep'] as int? ?? 0),
+                taperMode: Value(
+                  enumByName(
+                    TaperMode.values,
+                    (planState['taperMode'] as String?) ?? 'gentle',
+                  ),
+                ),
+                switchHistoryJson: Value(
+                  (planState['switchHistoryJson'] as String?) ?? '[]',
+                ),
+                lastStepDate: Value(planState['lastStepDate'] as String?),
+                lastStepDecision: Value(
+                  enumByNameOrNull(
+                    TaperDecision.values,
+                    planState['lastStepDecision'] as String?,
+                  ),
+                ),
+              ),
+              mode: InsertMode.insertOrReplace,
+            );
+      }
+      final savingsGoal = data['savingsGoal'] as Map<String, dynamic>?;
+      if (savingsGoal != null) {
+        await _db.into(_db.savingsGoalTable).insert(
+              SavingsGoalTableCompanion.insert(
+                label: savingsGoal['label'] as String,
+                amount: (savingsGoal['amount'] as num).toDouble(),
+              ),
+              mode: InsertMode.insertOrReplace,
+            );
+      }
+      final cessationPlan = data['cessationPlan'] as Map<String, dynamic>?;
+      if (cessationPlan != null) {
+        await _db.into(_db.cessationPlanTable).insert(
+              CessationPlanTableCompanion.insert(
+                quitDate: Value(cessationPlan['quitDate'] as String?),
+                quitDateMoves:
+                    Value(cessationPlan['quitDateMoves'] as int? ?? 0),
+                reason: Value(
+                  enumByNameOrNull(
+                    QuitReason.values,
+                    cessationPlan['reason'] as String?,
+                  ),
+                ),
+                supportPerson:
+                    Value(cessationPlan['supportPerson'] as String?),
+                notAPuffAccepted: Value(
+                  cessationPlan['notAPuffAccepted'] as bool? ?? false,
+                ),
+              ),
+              mode: InsertMode.insertOrReplace,
+            );
+      }
+      for (final c in (data['copingPlans'] as List? ?? []).cast<Map>()) {
+        await _db.into(_db.copingPlanTable).insert(
+              CopingPlanTableCompanion.insert(
+                trigger: enumByName(
+                  TriggerLabel.values,
+                  c['trigger'] as String,
+                ),
+                plan: c['plan'] as String,
+                rehearsed: Value(c['rehearsed'] as bool? ?? false),
+                updatedAt: DateTime.parse(c['updatedAt'] as String),
+              ),
+              mode: InsertMode.insertOrReplace,
+            );
+      }
+      for (final m in (data['moodScreens'] as List? ?? []).cast<Map>()) {
+        await _db.into(_db.moodScreen).insert(
+              MoodScreenCompanion.insert(
+                ts: DateTime.parse(m['ts'] as String),
+                lowInterest: m['lowInterest'] as int,
+                lowMood: m['lowMood'] as int,
+                total: m['total'] as int,
+              ),
+            );
+      }
+      for (final p in (data['packPurchases'] as List? ?? []).cast<Map>()) {
+        await _db.into(_db.packPurchaseTable).insert(
+              PackPurchaseTableCompanion.insert(
+                ts: DateTime.parse(p['ts'] as String),
+                pricePerPack: (p['pricePerPack'] as num).toDouble(),
+                packs: Value(p['packs'] as int? ?? 1),
+                packSize: Value(p['packSize'] as int? ?? 20),
+                brand: Value(p['brand'] as String?),
+              ),
+            );
+      }
       final timeline = data['timeline'] as Map<String, dynamic>?;
       if (timeline != null) {
+        // A fresh device has no state row yet: create it before the UPDATE-
+        // style setQuitTs, or the imported quit date would vanish silently.
+        await _db.timelineDao.getState();
         await _db.timelineDao.setQuitTs(
           _dateOrNull(timeline['quitTs'] as String?),
+        );
+        await _db.timelineDao.setAcknowledgedMilestones(
+          (timeline['acknowledgedMilestones'] as String?) ?? '[]',
         );
       }
       final settings = data['settings'] as Map<String, dynamic>?;
@@ -346,6 +577,12 @@ class BackupRepository {
             ),
             reduceMotion: Value(settings['reduceMotion'] as bool? ?? false),
             haptics: Value(settings['haptics'] as bool? ?? true),
+            appLocale: Value(settings['appLocale'] as String?),
+            trialNudge: Value(settings['trialNudge'] as bool? ?? false),
+            widgetShowLastCigarette:
+                Value(settings['widgetShowLastCigarette'] as bool? ?? true),
+            widgetTheme:
+                Value((settings['widgetTheme'] as String?) ?? 'system'),
             // Trial and purchases belong to this installation/store, never JSON.
             // Ignore legacy trialStartedAt fields, including malformed values.
           ),
@@ -361,7 +598,10 @@ class BackupRepository {
   Future<void> wipeAllUserData() async {
     await _db.transaction(() async {
       await _wipeUserData();
+      await _db.timelineDao.getState();
       await _db.timelineDao.setQuitTs(null);
+      // The milestone checkboxes belong to the quit attempt and go with it.
+      await _db.timelineDao.setAcknowledgedMilestones('[]');
     });
   }
 
@@ -375,6 +615,18 @@ class BackupRepository {
     await (_db.delete(_db.dailySummary)).go();
     await (_db.delete(_db.smokingProfile)).go();
     await (_db.delete(_db.userProfile)).go();
+    // T26: every personal table, not only the original nine. Purchase
+    // entitlements stay: they belong to the store account, not to this
+    // local data set.
+    await (_db.delete(_db.moodLog)).go();
+    await (_db.delete(_db.supportLog)).go();
+    await (_db.delete(_db.indexSnapshot)).go();
+    await (_db.delete(_db.planState)).go();
+    await (_db.delete(_db.savingsGoalTable)).go();
+    await (_db.delete(_db.cessationPlanTable)).go();
+    await (_db.delete(_db.copingPlanTable)).go();
+    await (_db.delete(_db.moodScreen)).go();
+    await (_db.delete(_db.packPurchaseTable)).go();
   }
 
   DateTime? _dateOrNull(String? iso) =>
