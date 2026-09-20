@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T21 [!]: saf ad-policy katmanı (banner/app-open, 24s cap, deneme/premium negatif) kodda + 5 test; SDK entegrasyonu hesap kapısı bekliyor.
-> **Phase:** BUILD · **Next:** T22 · **Updated:** 2026-09-18 · **Synced@:** 910036e
+> **Status:** T22 kapandı: kök halen-release.apk silindi (untracked build artefaktı), .gitignore apk/aab/ipa/keystore kapsıyor, README linkleri güncel.
+> **Phase:** BUILD · **Next:** T23 · **Updated:** 2026-09-18 · **Synced@:** 1485f68
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -350,10 +350,10 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   → `lib/domain/ad_policy.dart`: banner yalnız deneme bitmiş ücretsiz kullanıcının uygun yüzeylerinde (today/stats/guide); SOS/ödeme/sağlık detay/widget yüzey olarak bile tanımlı değil; app-open ≤1/24s; ağ yok → arayüz normal akış (entegrasyon yok). 5 policy testi (gün0/gün6/gün7/premium/cap). KALAN (DIŞ BAĞIMLILIK): gerçek SDK lisans incelemesi, consent (UMP), test birimleri, hesap kimlikleri.
 
 
-- [ ] T22 [M] Belgeler ve üretim çıktısı temizliği (eski H22)
-  - Where: `.gitignore; README.md; PROJECT_BRAIN.md; halen-release.apk`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Kökte tek PROJECT_BRAIN.md; skill A0 ve init commit sonrası yalnız scan ADOPT çıktısındaki eski MIMARI.md silinir. README linklerini düzelt. Store açıklamaları ekte; gizlilik kullanıcı belgesi kalır. Kökteki APK'yı yalnız hedefi doğrulayarak kaldır; build/ normal üretim klasörü kalır, Git'e girmez. *.apk/*.aab/*.ipa, imza sırları ve geçici çıktılar ignore edilir. Pubspec.lock uygulamanın tekrarlanabilir derlemesi için takip edilir. Kanıt: git status/check-ignore/ls-files; eski belge yollarına kırık link yok.
-  - Done when: `python C:/Users/rubicon/.agents/skills/project-brain/scripts/brain.py check .` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+- [x] T22 [M] Belgeler ve üretim çıktısı temizliği (2026-09-18, Kimi K3)
+  - Done when: `python C:/Users/rubicon/.agents/skills/project-brain/scripts/brain.py check .` geçer; yukarıdaki Kanıt senaryoları gözlenmiş sonuçla kaydedilir.
+  → Kökteki halen-release.apk (82MB, 15 Eylül build artefaktı, untracked) silindi — hedefi `file` ile doğrulandı. .gitignore: *.apk/*.aab/*.ipa/*.jks/*.keystore zaten kapsıyor. README linkleri (PROJECT_BRAIN/PRIVACY_POLICY/CHANGELOG/LICENSE) canlı dosyalara işaret ediyor; MIMARI referansı kalmadı. Tek PROJECT_BRAIN.md ✓; Pubspec.lock takip ✓.
+
 
 - [ ] T23 [H] Debug konsolu, cihaz ve derleme (eski H23)
   - Where: `test/widget/design_capture_test.dart; android/**; ios/**; lib/data/db/connection.dart`
@@ -396,6 +396,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T22 A2: brain.py check OK; kök APK kaldırıldı; git ls-files'ta apk yok; README linkleri güncel |. |
 | 2026-09-18 | AUDIT | T21 kod: policy katmanı saf ve test edilebilir; SDK entegrasyonu bilinçli olarak yapılmadı (hesap/consent kapısı) → T21 [!] | day0/6/7, premium, 24s cap testleri. SOS negatif: yüzey listesinde yok. |
 | 2026-09-18 | AUDIT | T20 kod denetimi: restore/async güvenlik mimarisi (serileştirme + authoritative-empty + pending-no-grant) mevcut ve paywall_test fake'ı ile kapsanıyor; sandbox matrisi dış bağımlılık → T20 [!] | Kullanıcının dirty purchase_service/purchase_dao/entitlement çalışması bu commit ile güvene alındı (denetimden geçti: 375 test temiz). |
 | 2026-09-18 | AUDIT | T19 A2: LICENSE=GPL-3.0 tam metin; about testi 5 girdiyi doğrular; anonim URL denetimi 404 → T19.1 [!] | Kullanıcı kararına bağlı tek eşik: repo görünürlüğü. Kod/hukuk metni tarafı tamam. |
@@ -436,5 +437,5 @@ Newest first.
 
 ## 7. HANDOFF
 
-T21 [!] (SDK/consent hesap kapısı). Sıradaki T22 (belgeler + üretim çıktısı temizliği: kök APK, .gitignore, README).
-Kalan: T22, T23 (+T23.1), T24, T25, T26 — bunların çoğu kod/arsiv tarafı; mağaza hesabı yalnız T20.1/T21 gerçek-kanıt ve T25 final turunda.
+T22 kapandı. Sıradaki T23 (debug konsolu/derleme temizliği; T23.1 eski ESP migration hâlâ açık).
+Kalan: T23, T23.1, T24, T25, T26.
