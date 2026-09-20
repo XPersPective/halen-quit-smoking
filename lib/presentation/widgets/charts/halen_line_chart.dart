@@ -4,7 +4,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme.dart';
+import '../design/halen_components.dart';
 import '../../../core/design/tokens.dart';
+import '../../../l10n/generated/app_localizations.dart';
 
 /// One named series on a [HalenLineChart].
 class ChartSeries {
@@ -107,7 +109,23 @@ class HalenLineChart extends StatelessWidget {
 
     final all = [for (final s in series) ...s.values];
     if (all.isEmpty || series.first.values.length < 2) {
-      return const SizedBox.shrink();
+      // Chart standard (brain T13): an explicit empty state — never a fake
+      // flat line and never a silent blank.
+      return Semantics(
+        label: semanticsLabel,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(meaning, style: Theme.of(context).textTheme.bodyMedium),
+            const SizedBox(height: 8),
+            HalenEmptyState(
+              icon: Icons.show_chart_rounded,
+              message: AppLocalizations.of(context)!.chartNoData,
+            ),
+          ],
+        ),
+      );
     }
     // Padding is for auto-scaled axes only: when a caller states 0-100 it
     // means 0-100, and inventing -12 and 112 ticks made the axis unreadable.

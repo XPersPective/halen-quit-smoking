@@ -2866,6 +2866,12 @@ abstract class AppLocalizations {
   /// **'Log a few cigarettes and your own rhythm appears here.'**
   String get bodyLoadEmpty;
 
+  /// No description provided for @chartNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data for this chart yet.'**
+  String get chartNoData;
+
   /// No description provided for @ghostPeakLabel.
   ///
   /// In en, this message translates to:

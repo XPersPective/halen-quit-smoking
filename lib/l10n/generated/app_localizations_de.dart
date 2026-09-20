@@ -1592,7 +1592,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get bodyLoadEmpty =>
-      'Erfasse ein paar Zigaretten, dann erscheint dein Rhythmus hier.';
+      'Protokolliere ein paar Zigaretten, und dein eigener Rhythmus erscheint hier.';
+
+  @override
+  String get chartNoData => 'Noch keine Daten für diese Grafik.';
 
   @override
   String get ghostPeakLabel => 'Eine Spitze, die nie entstand';

@@ -824,6 +824,7 @@
   "bodyLoadTarNote": "Tar cannot be measured in a body. This compares your exposure with your own baseline.",
   "bodyLoadCoNote": "Carbon monoxide clears fastest — it is the first thing that changes when you stop.",
   "bodyLoadEmpty": "Log a few cigarettes and your own rhythm appears here.",
+  "chartNoData": "No data for this chart yet.",
   "ghostPeakLabel": "A peak that never happened",
   "metabolismTitle": "Clearance pace",
   "metabolismNote": "Nicotine clears at different speeds in different people. Pick what matches how you feel — this only calibrates the curve, it measures nothing.",

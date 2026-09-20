@@ -1583,7 +1583,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get bodyLoadEmpty =>
-      'Birkaç sigara kaydet, kendi ritmin burada belirsin.';
+      'Birkaç sigara kaydet; kendi ritmin burada belirir.';
+
+  @override
+  String get chartNoData => 'Bu grafik için henüz veri yok.';
 
   @override
   String get ghostPeakLabel => 'Oluşmayan tepe';

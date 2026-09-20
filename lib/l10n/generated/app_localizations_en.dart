@@ -1592,6 +1592,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Log a few cigarettes and your own rhythm appears here.';
 
   @override
+  String get chartNoData => 'No data for this chart yet.';
+
+  @override
   String get ghostPeakLabel => 'A peak that never happened';
 
   @override

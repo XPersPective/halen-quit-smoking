@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T12 kapandı: his kartı veri-yokken bant iddia etmez, kayıt onaylı ve kalıcı; tahmin (kesikli) vs beyan (düz) grafiği zaten ayrık.
-> **Phase:** BUILD · **Next:** T13 · **Updated:** 2026-09-18 · **Synced@:** 7b95149
+> **Status:** T13 kapandı: grafik standardı denetimi — 9 grafik türünde başlık/meaning/birim/semantics/empty mevcut; boş veri artık `chartNoData` boş-durumu (SizedBox.shrink değil).
+> **Phase:** BUILD · **Next:** T14 · **Updated:** 2026-09-18 · **Synced@:** 52350e4
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -307,10 +307,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → MindStateCard: kullanıcı kaydı yoksa başlık `mindNoDataYet` (bant iddiası yok); kayıt → moodSaved snackbar + MoodLog satırı; yeniden açışta kişisel bant. Tahmin/beyan ayrımı _AccuracyChart'ta kesikli/düz serilerle zaten var; sakin/zorlayıcı bant anlamı mindPressureExplainer'da. 2 test (kalıcılık + yeniden açış).
 
-- [ ] T13 [M] Grafik standardı, puan ve yük açıklaması (eski H13)
-  - Where: `lib/presentation/widgets/charts/**; lib/domain/progress_index.dart; lib/domain/harm_load.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Her grafikte başlık, metrik, birim, dönem, kaynak türü, veri yok durumu, nasıl hesaplandı ve ayrıntı eylemi denetlenir. İlerleme=plan davranışı (78/100); yük=göreli model indeksi. Siyah kalın küçük başlık ile dev alt değer tutarsızlığını ortak tokens ile gider. Katran ana özetten erişilir; ciğerde ölçülen oran vaat edilmez. Kanıt: chart/semantics testleri; aynı başlık/ölçek standardı TR/EN/DE ve iki tema.
+- [x] T13 [M] Grafik standardı, puan ve yük açıklaması (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → Denetim: HalenLine/Bar (meaning+semantics), load_curve (öz-birim notu), interval/trigger (empty state), hourly (Semantics+peak), score_gauge+indices (0-100 birim başlığı, progressScoreExplainer=plan davranışı), tar (tarBasis makine-alt-sınır notu). Fix: HalenLineChart boş veride chartNoData + meaning; yeni l10n anahtarı chartNoData (3 dil). 2 test: boş durum + semantics etiketi.
 
 - [ ] T14 [M] Bugün ne yapmalı, günlük grafik ve kazanımlar (eski H14)
   - Where: `lib/presentation/widgets/today/**; lib/application/plan_controller.dart`
@@ -398,6 +397,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T13 A2: 2 chart testi + tam372 test temiz; ARB edit kazarası (bodyLoadEmpty value silinmesi tr/de) düzeltildi | Standart büyük ölçüde önceki oturumlarda uygulanmış; bu tur boş-veri boşluğu kapandı. Katran Bugün→Status akışıyla erişilir; organ detayında attributable dili ölçüm vaat etmez. |
 | 2026-09-18 | AUDIT | T12 A2: 2 widget testi + tam370 test temiz; sıfır-kayıt iddiası giderildi | Test notu: drift stream-provider unmount zero-duration timer'ı — tek test içinde ikinci pumpWidget yerine test ikiye bölündü (T23'teki bilinen uyarı ailesi). |
 | 2026-09-18 | AUDIT | T11 A2: 3 yeni test + organ detay bağlantısı; tam368 test temiz; mevcut module_widgets testiyle çakışma (çift başlık) giderildi | Erişilebilir zaman etiketleri: her kart başlığı metin olarak sorgulanabilir (20 dakika … 1 yıl). Gelecek tarih: picker lastDate=now ile yapısal olarak engel. |
 | 2026-09-18 | AUDIT | T10 A2: kokpit testleri (5) + tam365 test temiz; 320dp RenderFlex taşması kökten giderildi | Kanıt zinciri: erişilebilir ad kartları (text+InkWell), 320/420/900×420 taşmasız, Heart→Routes.body+arguments. brain.py derin-A1 örneği (T8/T9/T18.1) bu oturumda kanıtla kapatılmıştı; ek audit satırı gerekmedi. |
@@ -430,5 +430,5 @@ Newest first.
 
 ## 7. HANDOFF
 
-T12 kapandı; sıradaki T13 (grafik standardı: başlık/birim/dönem/kaynak/nasıl-hesaplandı denetimi).
-Kalan: T13–T18, T19–T26, T23.1.
+T13 kapandı; sıradaki T14 (Bugün ne yapmalı etiketleri + günlük grafik + kazanımlar).
+Kalan: T14–T18, T19–T26, T23.1.
