@@ -10,6 +10,7 @@ abstract final class Routes {
   static const stats = '/stats';
   static const cravingSos = '/craving-sos';
   static const settings = '/settings';
+  static const about = '/about';
   static const paywall = '/paywall';
   static const healthTimeline = '/health-timeline';
   static const howCalculated = '/how-calculated';

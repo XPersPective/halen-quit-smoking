@@ -14,6 +14,7 @@ import 'l10n/generated/app_localizations.dart';
 import 'presentation/screens/articles/article_reader_screen.dart';
 import 'presentation/screens/articles/articles_screen.dart';
 import 'presentation/screens/articles/sources_screen.dart';
+import 'presentation/screens/about/about_screen.dart';
 import 'presentation/screens/body/body_screen.dart';
 import 'presentation/screens/cessation/medicines_screen.dart';
 import 'presentation/screens/cessation/quit_day_screen.dart';
@@ -103,6 +104,7 @@ class HalenApp extends ConsumerWidget {
         Routes.under18: (_) => const Under18Screen(),
         Routes.today: (_) => const ShellScreen(),
         Routes.settings: (_) => const SettingsScreen(),
+        Routes.about: (_) => const AboutScreen(),
         Routes.paywall: (_) => const PaywallScreen(),
         Routes.articles: (_) => const ArticlesScreen(),
         Routes.economy: (_) => const EconomyScreen(),

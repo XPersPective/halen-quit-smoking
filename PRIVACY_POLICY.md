@@ -5,15 +5,18 @@
 ## Türkçe
 
 ### Özet
-Halen hesap istemez, sunucu kullanmaz, analiz/reklam SDK'sı içermez. Tüm
-verileriniz yalnızca cihazınızda saklanır ve şifrelidir. Uygulama ilk açılışta
-hiçbir ağ çağrısı yapmaz; tek istisna, "Halen Lifetime" tek seferlik
-satın almasının mağaza (App Store / Google Play) üzerinden doğrulanmasıdır.
+Halen hesap istemez ve kendi uygulama sunucusunu kullanmaz. Bu kaynak sürümünde
+analiz/reklam SDK'sı bulunmaz. Tüm verileriniz yalnızca cihazınızda saklanır ve
+şifrelidir. Uygulama kendi verilerinizi ilk açılışta ağa göndermez; Premium
+ürünlerin fiyatı, satın alma durumu, abonelik yenilemesi ve restore işlemleri
+App Store / Google Play tarafından yürütülür.
 
 ### Toplanan veri: hiçbiri
 - Sigara/istek kayıtları, profil cevaplarınız (yaş grubu, günlük sayı, paket
   fiyatı vb.), plan ve tasarruf hesapları **yalnızca cihazınızda** tutulur.
-- Analiz, çökme bildirimi, reklam SDK'sı yoktur.
+- Analiz, çökme bildirimi ve reklam SDK'sı yoktur. Gelecekte reklam SDK'sı
+  etkinleştirilirse bu politika, sağlayıcı ve consent akışı yayınlanmadan önce
+  güncellenir; sağlık/nikotin verisi reklam hedeflemesine gönderilmez.
 - Konum, kişiler, mikrofon, kamera (bu sürümde barkod tarama yok) kullanılmaz.
 
 ### Depolama ve şifreleme
@@ -34,23 +37,25 @@ onayınıza sunulur.
 Veriler cihazınızda ve yalnızca sizin kontrolünüzde olduğundan: erişim,
 düzeltme, silme (Ayarlar → Tüm verileri sil) ve taşınabilirlik (JSON dışa
 aktarım) haklarınız uygulama içinde doğrudan kullanılabilir durumdadır.
-İşleme hakkındaki sorularınız için: **privacy@halenquitsmoking.com**
+İşleme hakkındaki sorularınız ve destek için: [GitHub Issues](https://github.com/XPersPective/halen-quit-smoking/issues)
 
 ---
 
 ## English
 
 ### Summary
-Halen requires no account, uses no server, and contains no analytics or ad
-SDKs. All of your data stays on your device, encrypted. The app performs no
-network calls on first launch; the single exception is verifying the one-time
-"Halen Lifetime" purchase with the store (App Store / Google Play).
+Halen requires no account and has no application server. This source build
+contains no analytics or ad SDKs. Your data stays on your device, encrypted.
+Premium product pricing, purchase state, subscription renewal and restore are
+handled by the App Store / Google Play.
 
 ### Data collected: none
 - Cigarette/craving logs, your onboarding answers (age band, daily count,
   pack price, etc.), plan and savings calculations are stored **on your
   device only**.
-- No analytics, no crash reporting, no ad SDKs.
+- No analytics, crash reporting or ad SDKs. If an ad SDK is enabled in a future
+  release, this policy and the consent flow are updated before publication;
+  health/nicotine data is not used for ad targeting.
 - No location, contacts, microphone, or camera (no barcode scanning in this
   version).
 
@@ -70,24 +75,26 @@ scheduled on-device; their content does not come from a server. On Android
 ### Your rights (GDPR)
 Because your data lives on your device under your control: access,
 rectification, erasure (Settings → Delete all data) and portability (JSON
-export) are available directly in the app. Questions: **privacy@halenquitsmoking.com**
+export) are available directly in the app. Questions and support: [GitHub Issues](https://github.com/XPersPective/halen-quit-smoking/issues)
 
 ---
 
 ## Deutsch
 
 ### Zusammenfassung
-Halen verlangt kein Konto, nutzt keinen Server und enthält keine Analyse- oder
-Werbung-SDKs. Alle Daten bleiben verschlüsselt auf deinem Gerät. Die App
-macht beim ersten Start keine Netzwerkaufrufe; einzige Ausnahme ist die
-Prüfung des Einmalkaufs „Halen Lifetime" über den Store (App Store /
-Google Play).
+Halen verlangt kein Konto und hat keinen eigenen App-Server. Diese Quellversion
+enthält keine Analyse- oder Werbe-SDKs. Alle Daten bleiben verschlüsselt auf
+deinem Gerät. Premium-Preise, Käufe, Verlängerungen und Wiederherstellungen
+werden vom App Store bzw. Google Play abgewickelt.
 
 ### Gesammelte Daten: keine
 - Klick-/Craving-Einträge, deine Antworten im Onboarding (Altersgruppe,
   Tagesmenge, Packungspreis usw.), Plan- und Sparberechnungen bleiben
   **ausschließlich auf deinem Gerät**.
-- Keine Analyse-, Absturz- oder Werbe-SDKs.
+- Keine Analyse-, Absturz- oder Werbe-SDKs. Wird ein Werbe-SDK in einer späteren
+  Version aktiviert, werden diese Erklärung und der Consent-Ablauf vor der
+  Veröffentlichung aktualisiert; Gesundheits-/Nikotinwerte werden nicht für
+  Werbezielgruppen verwendet.
 - Kein Standort, keine Kontakte, kein Mikrofon, keine Kamera (in dieser
   Version kein Barcode-Scanning).
 
@@ -108,4 +115,4 @@ dem Gerät geplant; ihre Inhalte kommen nicht von einem Server. Unter Android
 Da deine Daten auf deinem Gerät unter deiner Kontrolle liegen: Auskunft,
 Berichtigung, Löschung (Einstellungen → Alle Daten löschen) und
 Datenübertragbarkeit (JSON-Export) sind direkt in der App möglich.
-Fragen: **privacy@halenquitsmoking.com**
+Fragen und Support: [GitHub Issues](https://github.com/XPersPective/halen-quit-smoking/issues)

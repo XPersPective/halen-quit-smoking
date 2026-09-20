@@ -969,6 +969,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get aboutSupport => 'Support und Feedback';
 
   @override
+  String get aboutThirdPartyLicenses => 'Drittanbieter-Lizenzen';
+
+  @override
   String get articleSourceHeading => 'Evidenz und Quelle';
 
   @override

@@ -961,6 +961,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get aboutSupport => 'Destek ve geri bildirim';
 
   @override
+  String get aboutThirdPartyLicenses => 'Üçüncü taraf lisansları';
+
+  @override
   String get articleSourceHeading => 'Bilimsel dayanak ve kaynak';
 
   @override

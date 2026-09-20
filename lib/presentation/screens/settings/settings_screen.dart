@@ -326,6 +326,12 @@ class SettingsScreen extends ConsumerWidget {
               const SizedBox(height: HalenSpace.x4),
               Text(l10n.settingsAbout, style: theme.textTheme.titleMedium),
               ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: Text(l10n.aboutTitle),
+                subtitle: Text(l10n.aboutSourceShort),
+                onTap: () => Navigator.pushNamed(context, Routes.about),
+              ),
+              ListTile(
                 leading: const Icon(Icons.workspace_premium_outlined),
                 title: Text(l10n.settingsPurchase),
                 subtitle: Text(l10n.purchaseCopy),

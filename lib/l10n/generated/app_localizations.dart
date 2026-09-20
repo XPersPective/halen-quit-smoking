@@ -1792,6 +1792,12 @@ abstract class AppLocalizations {
   /// **'Support and feedback'**
   String get aboutSupport;
 
+  /// No description provided for @aboutThirdPartyLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Third-party licenses'**
+  String get aboutThirdPartyLicenses;
+
   /// No description provided for @articleSourceHeading.
   ///
   /// In en, this message translates to:

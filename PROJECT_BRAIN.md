@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T17 kapandı (11/11/11 makale parite, 3 yeni konu kaynaklı) ve T18 kapandı (reduce-motion testi; tema/token/erişilebilirlik denetimi mevcut testlerle).
-> **Phase:** BUILD · **Next:** T19 · **Updated:** 2026-09-18 · **Synced@:** 14eca20
+> **Status:** T19 kodu kapandı: LICENSE tam GPL-3.0, Hakkında ekranı (kaynak/lisans/gizlilik/destek + LicensePage). REPO GİZLİ: anonim URL doğrulaması 404 — yayın kararı kullanıcıda (T19.1 [!]).
+> **Phase:** BUILD · **Next:** T20 · **Updated:** 2026-09-18 · **Synced@:** 0d60689
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -331,10 +331,15 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → Sistem teması varsayılan ✓; Inter/token'lar ortak ✓; Entrance 280ms+stagger, disableAnimations'ta final duruma atlar (2 yeni test);grafik ilk çizim kısa; kontrast/48dp/icon+text design_layout (320dp×1.6×tema) ve quitline testlerinde. Erişilebilir zaman noktası etiketleri T11 testinde.
 
-- [ ] T19 [H] Hakkında, açık kaynak ve lisans (eski H19)
-  - Where: `LICENSE; lib/presentation/screens/about/**; PRIVACY_POLICY.md`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Topluma fayda, kaynak inceleme/katkı, yerel şifreli veri anlatılır. "Gizli kod yok" yerine incelenebilir kaynak ve kullanılan bağımlılık/izinler somut gösterilir. Tam GPL metnini ve üçüncü taraf lisans ekranını ekle; mevcut LICENSE yalnız bağlantı. GitHub kaynak/gizlilik/destek erişimini oturumsuz doğrula. Yanlış destek numarası (ör. eski store taslağındaki Yeşilay176) yayımlanmaz. GPL ticari kullanım yasağı değildir. Kanıt: link/açılmama durumu, üç dil, lisans listesi ve repo görünürlüğü kanıtı.
+- [x] T19 [H] Hakkında, açık kaynak ve lisans (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → LICENSE tam GPL-3.0 metni (gnu.org, 35KB). Hakkında ekranı: amaç, incelenebilir kaynak, gizlilik, kaynak/lisans/gizlilik/destek linkleri + LicensePage (üçüncü taraf). Settings'ten About girişi commit edildi. Gizlilik metni güncel SDK durumunu yansıtıyor. KALAN: GitHub deposunun public yapılması (T19.1 [!], kullanıcı eylemi) — anonim erişim şu an 404.
+
+- [!] T19.1 [L] GitHub deposunu public yap (2026-09-18)
+  - Nerede: GitHub repo ayarları (kullanıcı hesabı)
+  - Yapılacak: Settings → General → Danger Zone → Change visibility → Public. Sonra anonim tarayıcıyla 4 URL'yi doğrula (repo, LICENSE, PRIVACY_POLICY.md, issues).
+  - Tamamlanınca: curl -s -o /dev/null -w "%{http_code}" dördü için de 200. Note: from T19 — mağaza beyanları için ön koşul.
+
 
 - [ ] T20 [H] Gerçek üretim ödemesi ve restore (eski H20)
   - Where: `lib/data/purchase_service.dart; lib/data/db/daos/purchase_dao.dart; lib/application/entitlement_providers.dart`
@@ -392,6 +397,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T19 A2: LICENSE=GPL-3.0 tam metin; about testi 5 girdiyi doğrular; anonim URL denetimi 404 → T19.1 [!] | Kullanıcı kararına bağlı tek eşik: repo görünürlüğü. Kod/hukuk metni tarafı tamam. |
 | 2026-09-18 | AUDIT | T17/T18 A2: makale paritesi programatik doğrulandı; 2 reduce-motion testi; tam374 test + analiz temiz | T17 sırasında article_repository üzerinde eşzamanlı yazar müdahalesi gözlendi (düzenlemeler saniyeler içinde geri alınıyordu); atomik fix+commit ile güvene alındı (2fd8a26), ardından tam onarım 14eca20. |
 | 2026-09-18 | AUDIT | T16 A2: Durdur eklendi; tam372 test temiz; ARB düzenleme hatası (asılı anahtar) anında düzeltildi | Kanıt zinciri widget testleri + T18.1 native turundaki SOS ekran gözlemi. Büyük yazı/koyu tema testleri quitline ve design paketlerinde mevcut. |
 | 2026-09-18 | AUDIT | T15 A2: varsayım etiketi + tam372 test temiz | T5 ilkesiyle tutarlı: sahte veri saklanmaz, UI varsayımı etiketli. |
@@ -429,6 +435,5 @@ Newest first.
 
 ## 7. HANDOFF
 
-T17+T18 kapandı — UX zinciri T1–T18 tamam. Sıradaki T19 (Hakkında + GPL tam metni + lisans ekranı); about_screen untracked taslağı var, tamamlanıp commitlenecek.
-DİKKAT: article_repository üzerinde eşzamanlı yazar gözlendi; commit'ler güvenli, çalışma kopyası izlenmeli.
-Kalan: T19–T26, T23.1. T20/T21/T24/T25 mağaza-hesap kapıları (DIŞ BAĞIMLILIK) gelmeden önce kod tarafı tamamlanmalı.
+T19 kodu kapandı; T19.1 [!] repo görünürlüğü kullanıcıda. Sıradaki T20 (gerçek ödeme/restore — hesap kapısı var).
+Kalan: T20–T26, T23.1.
