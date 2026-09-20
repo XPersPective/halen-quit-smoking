@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T20 [!]: kod tarafı denetlendi ve commitle (serileştirme, authoritative-empty, pending-grants-nothing, immediate-ack); sandbox matrisi mağaza hesabı bekliyor.
-> **Phase:** BUILD · **Next:** T21 · **Updated:** 2026-09-18 · **Synced@:** cb31be6
+> **Status:** T21 [!]: saf ad-policy katmanı (banner/app-open, 24s cap, deneme/premium negatif) kodda + 5 test; SDK entegrasyonu hesap kapısı bekliyor.
+> **Phase:** BUILD · **Next:** T22 · **Updated:** 2026-09-18 · **Synced@:** 910036e
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -345,10 +345,10 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → Kod denetimi tamam: purchase_stream yazımları _purchaseWork ile serileştiriliyor (restore await-edilebilir); Android queryPastPurchases başarılı-boş sonuç cache'i temizliyor (refund/abonelik sonu demote), hata durumunda son doğrulanmış cache korunuyor; pending hiçbir yetki vermiyor; satın alma anında acknowledge (3-gün-auto-refund); iOS restore idempotent ve restore satırları replaceEntitlements ile yazılıyor; UI yerel bool'a güvenmiyor. abonelik: annual/monthly/lifetime productIds. KALAN (DIŞ BAĞIMLILIK): gerçek Play/App Store hesabı + sandbox matrisi (eşzamanlı restore, hata sonrası tekrar, pending, refund, abonelik sonu, reinstall).
 
-- [ ] T21 [H] Banner, app-open ve deneme sonrası reklamsız satın alma (eski H21)
-  - Where: `lib/domain/entitlement.dart; pubspec.yaml; lib/presentation/screens/today/today_screen.dart; android/app/src/main/AndroidManifest.xml; ios/Runner/Info.plist`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) §2 reklam/izin sözleşmesi kurallarıyla önce saf eligibility/frequency politikası; ardından gerçek SDK lisans incelemesi, consent, test birimleri, kullanıcı reklam ayarları ve raporlama. Ağ yok/reklam yok durumu içerikte boş dev alan bırakmaz. Reklamdan dönünce kayıt kaybolmaz. Deneme/premium sırasında istek bile atılmaz. Kanıt: gün0/gün6/gün7, OS dönüşü, günlük cap, arka plan, SOS ve premium negatif testleri; gerçek SDK incelemesi ve hesap kimlikleri yayın öncesi gereklidir.
+- [!] T21 [H] Banner, app-open ve deneme sonrası reklamsız satın alma — politika kodda, SDK bekliyor (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → `lib/domain/ad_policy.dart`: banner yalnız deneme bitmiş ücretsiz kullanıcının uygun yüzeylerinde (today/stats/guide); SOS/ödeme/sağlık detay/widget yüzey olarak bile tanımlı değil; app-open ≤1/24s; ağ yok → arayüz normal akış (entegrasyon yok). 5 policy testi (gün0/gün6/gün7/premium/cap). KALAN (DIŞ BAĞIMLILIK): gerçek SDK lisans incelemesi, consent (UMP), test birimleri, hesap kimlikleri.
+
 
 - [ ] T22 [M] Belgeler ve üretim çıktısı temizliği (eski H22)
   - Where: `.gitignore; README.md; PROJECT_BRAIN.md; halen-release.apk`
@@ -396,6 +396,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T21 kod: policy katmanı saf ve test edilebilir; SDK entegrasyonu bilinçli olarak yapılmadı (hesap/consent kapısı) → T21 [!] | day0/6/7, premium, 24s cap testleri. SOS negatif: yüzey listesinde yok. |
 | 2026-09-18 | AUDIT | T20 kod denetimi: restore/async güvenlik mimarisi (serileştirme + authoritative-empty + pending-no-grant) mevcut ve paywall_test fake'ı ile kapsanıyor; sandbox matrisi dış bağımlılık → T20 [!] | Kullanıcının dirty purchase_service/purchase_dao/entitlement çalışması bu commit ile güvene alındı (denetimden geçti: 375 test temiz). |
 | 2026-09-18 | AUDIT | T19 A2: LICENSE=GPL-3.0 tam metin; about testi 5 girdiyi doğrular; anonim URL denetimi 404 → T19.1 [!] | Kullanıcı kararına bağlı tek eşik: repo görünürlüğü. Kod/hukuk metni tarafı tamam. |
 | 2026-09-18 | AUDIT | T17/T18 A2: makale paritesi programatik doğrulandı; 2 reduce-motion testi; tam374 test + analiz temiz | T17 sırasında article_repository üzerinde eşzamanlı yazar müdahalesi gözlendi (düzenlemeler saniyeler içinde geri alınıyordu); atomik fix+commit ile güvene alındı (2fd8a26), ardından tam onarım 14eca20. |
@@ -435,5 +436,5 @@ Newest first.
 
 ## 7. HANDOFF
 
-T20 [!] (sandbox bekliyor). Sıradaki T21 (reklam eligibility/frequency politikası — kod tarafı).
-Kalan: T21–T26, T23.1. T20/T21 gerçek SDK kanıtları hesap kapıları.
+T21 [!] (SDK/consent hesap kapısı). Sıradaki T22 (belgeler + üretim çıktısı temizliği: kök APK, .gitignore, README).
+Kalan: T22, T23 (+T23.1), T24, T25, T26 — bunların çoğu kod/arsiv tarafı; mağaza hesabı yalnız T20.1/T21 gerçek-kanıt ve T25 final turunda.
