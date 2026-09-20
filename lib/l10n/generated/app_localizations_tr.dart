@@ -3255,6 +3255,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'İçicilik Hayatında Harcanan Toplam Para';
 
   @override
+  String get economyYearsAssumed =>
+      'Sigara yıllarını paylaşmadın; bu tahmin 10 yıl varsayımıyla hesaplandı. Ayarlar → Beden verisi\'nden gerçek değeri girebilirsin.';
+
+  @override
   String get economyHistoricalSubtitle =>
       'Geçmişte sigaraya ödenen tahmini toplam bedel';
 

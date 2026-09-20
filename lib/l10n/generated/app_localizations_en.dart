@@ -3261,6 +3261,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get economyHistoricalTitle => 'Lifetime Smoking Expenditure';
 
   @override
+  String get economyYearsAssumed =>
+      'You didn\'t share your smoking years, so this estimate assumes 10. Add the real value in Settings → Body data to sharpen it.';
+
+  @override
   String get economyHistoricalSubtitle =>
       'Estimated total money spent on cigarettes historically';
 

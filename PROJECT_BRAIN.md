@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T14 kapandı: halka etiketi açık cümle oldu (Bugün N kayıt / hedef M), Bugün sana kalanlar → Bugünkü ilerlemen; 24s günlük döküm kartı Bugün'de mevcut.
-> **Phase:** BUILD · **Next:** T15 · **Updated:** 2026-09-18 · **Synced@:** 20a5379
+> **Status:** T14, T15 kapandı: ekonomi ekranı geçmiş/hedef ayrımı net; yıl bilinmiyorsa ömür-boyu tahmin 10-yıl varsayımıyla AMA açık etiketle.
+> **Phase:** BUILD · **Next:** T16 · **Updated:** 2026-09-18 · **Synced@:** 27dc7d5
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -315,10 +315,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → todayRingLabel üç dilde açık cümle; todayOverview "Bugünkü ilerlemen"; 24 saat döküm kartı (TodayLogCard) zaten Bugün'de; "şimdi içmelisin" alarmı kodda yok (yalnız quit-support hatırlatmaları). Kazanım dili savingsStrip (kayıtlı tasarruf) + economy ekranı ayrı isimlerle.
 
-- [ ] T15 [M] Para, tarihsel tahmin ve plan başlangıcı (eski H15)
-  - Where: `lib/domain/economy.dart; lib/domain/savings.dart; lib/presentation/screens/economy/economy_screen.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Harcama, tasarruf, hedef ve geçmiş tahmini ayrı isim/birimle göster. 1 ay/1 yıl/tümü, bugünden geriye aralık. Kayıttan önceki dönem maliyeti güncel fiyatla yaklaşık olduğu etiketiyle; enflasyona göre gerçek tarihsel ödeme diye sunma. Eksik gün=bilinmiyor. Başlangıç tarihine çizgi/etiket; önceki dönem tahmini çizgi, kayıt sonrası gerçek veri. Kanıt: ilk gün sıfır sahte kazanç, eksik günler, fiyat değişimi, geleceğe taşan kayıt, yıl/ay/gün sınırı ve tasarruf hedefi doğrulaması.
+- [x] T15 [M] Para, tarihsel tahmin ve plan başlangıcı (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → Ekonomi: 1Ay/1Yıl/Tümü/Ömür filtreleri; tahmin/yaklaşım etiketleri zaten vardı (tahmini toplam, economyExactNote, economyPastSpentNote). Fix: smokingYears null iken sahte 10-yıl varsayımı artık amber `economyYearsAssumed` notuyla beyan ediliyor (değer depolanmıyor). Eksik gün economyExactNote kapsamında; ilk gün sıfır (avoidedTotal 0'dan).
 
 - [ ] T16 [M] Kriz araçları ve görsel kulak rehberi (eski H16)
   - Where: `lib/presentation/screens/sos/**; lib/presentation/widgets/sos_techniques_list.dart`
@@ -396,6 +395,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T15 A2: varsayım etiketi + tam372 test temiz | T5 ilkesiyle tutarlı: sahte veri saklanmaz, UI varsayımı etiketli. |
 | 2026-09-18 | AUDIT | T14 A2: etiket değişiklikleri; tam372 test temiz | Aylık taşma sayacı yok; tekilleştirme penceresi 3sn (T9). No-alarm: bildirim metinleri yalnız özet/deneme/dönem. |
 | 2026-09-18 | AUDIT | T13 A2: 2 chart testi + tam372 test temiz; ARB edit kazarası (bodyLoadEmpty value silinmesi tr/de) düzeltildi | Standart büyük ölçüde önceki oturumlarda uygulanmış; bu tur boş-veri boşluğu kapandı. Katran Bugün→Status akışıyla erişilir; organ detayında attributable dili ölçüm vaat etmez. |
 | 2026-09-18 | AUDIT | T12 A2: 2 widget testi + tam370 test temiz; sıfır-kayıt iddiası giderildi | Test notu: drift stream-provider unmount zero-duration timer'ı — tek test içinde ikinci pumpWidget yerine test ikiye bölündü (T23'teki bilinen uyarı ailesi). |
@@ -430,5 +430,5 @@ Newest first.
 
 ## 7. HANDOFF
 
-T14 kapandı; sıradaki T15 (para/tarihsel tahmin ayrımı: economy ekranı etiketleri).
-Kalan: T15–T18, T19–T26, T23.1.
+T15 kapandı; sıradaki T16 (kriz araçları + görsel kulak rehberi).
+Kalan: T16–T18, T19–T26, T23.1.

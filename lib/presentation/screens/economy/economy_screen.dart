@@ -128,8 +128,12 @@ class _EconomyScreenState extends ConsumerState<EconomyScreen> {
       math.max(0, (baseline - currentCpd).round()),
     );
 
-    // Lifetime historical calculation
-    final smokingYears = (profile.smokingYears ?? 10.0).clamp(0.5, 70.0);
+    // Lifetime historical calculation. When the user never shared their
+    // smoking years the estimate runs on a *labelled* 10-year assumption —
+    // nothing fake is stored, the note says exactly what was assumed (T15).
+    final declaredYears = profile.smokingYears;
+    final assumedYears = declaredYears == null;
+    final smokingYears = (declaredYears ?? 10.0).clamp(0.5, 70.0);
     final lifetimeCigarettes = (smokingYears * 365.25 * profile.baselineCpd).round();
     final lifetimeSpent = (lifetimeCigarettes / profile.packSize) * profile.pricePerPack;
     final lifetimeTimeLost = economy.timeLost(lifetimeCigarettes);
@@ -176,6 +180,15 @@ class _EconomyScreenState extends ConsumerState<EconomyScreen> {
               ),
             ),
             const SizedBox(height: HalenSpace.x1),
+            if (assumedYears) ...[
+              Text(
+                l10n.economyYearsAssumed,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: HalenColors.amberCta,
+                ),
+              ),
+              const SizedBox(height: HalenSpace.x2),
+            ],
             Text(
               l10n.economyHistoricalSubtitle,
               style: theme.textTheme.bodyMedium?.copyWith(

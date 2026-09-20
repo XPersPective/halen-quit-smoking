@@ -5746,6 +5746,12 @@ abstract class AppLocalizations {
   /// **'Lifetime Smoking Expenditure'**
   String get economyHistoricalTitle;
 
+  /// No description provided for @economyYearsAssumed.
+  ///
+  /// In en, this message translates to:
+  /// **'You didn\'t share your smoking years, so this estimate assumes 10. Add the real value in Settings → Body data to sharpen it.'**
+  String get economyYearsAssumed;
+
   /// No description provided for @economyHistoricalSubtitle.
   ///
   /// In en, this message translates to:

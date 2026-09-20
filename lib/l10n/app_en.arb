@@ -1732,6 +1732,7 @@
   },
   "planCardNextInterval": "Next Target Interval",
   "economyHistoricalTitle": "Lifetime Smoking Expenditure",
+  "economyYearsAssumed": "You didn't share your smoking years, so this estimate assumes 10. Add the real value in Settings → Body data to sharpen it.",
   "economyHistoricalSubtitle": "Estimated total money spent on cigarettes historically",
   "economyTimeFilter1m": "1 Month",
   "economyTimeFilter1y": "1 Year",

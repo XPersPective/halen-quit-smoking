@@ -972,6 +972,7 @@
   "planCardTarget": "Heutiges Ziel: {count} Zigaretten",
   "planCardNextInterval": "Nächstes empfohlenes Intervall",
   "economyHistoricalTitle": "Lebenslange Ausgaben fürs Rauchen",
+  "economyYearsAssumed": "Du hast deine Raucherjahre nicht angegeben; diese Schätzung rechnet mit 10 Jahren. Den echten Wert kannst du unter Einstellungen → Körperdaten eintragen.",
   "economyHistoricalSubtitle": "Geschätzte Gesamtausgaben für Zigaretten in der Vergangenheit",
   "economyTimeFilter1m": "1 Monat",
   "economyTimeFilter1y": "1 Jahr",

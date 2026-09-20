@@ -3273,6 +3273,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get economyHistoricalTitle => 'Lebenslange Ausgaben fürs Rauchen';
 
   @override
+  String get economyYearsAssumed =>
+      'Du hast deine Raucherjahre nicht angegeben; diese Schätzung rechnet mit 10 Jahren. Den echten Wert kannst du unter Einstellungen → Körperdaten eintragen.';
+
+  @override
   String get economyHistoricalSubtitle =>
       'Geschätzte Gesamtausgaben für Zigaretten in der Vergangenheit';
 

@@ -972,6 +972,7 @@
   "planCardTarget": "Bugünkü Hedef: {count} sigara",
   "planCardNextInterval": "Sonraki Önerilen Aralık",
   "economyHistoricalTitle": "İçicilik Hayatında Harcanan Toplam Para",
+  "economyYearsAssumed": "Sigara yıllarını paylaşmadın; bu tahmin 10 yıl varsayımıyla hesaplandı. Ayarlar → Beden verisi'nden gerçek değeri girebilirsin.",
   "economyHistoricalSubtitle": "Geçmişte sigaraya ödenen tahmini toplam bedel",
   "economyTimeFilter1m": "1 Ay",
   "economyTimeFilter1y": "1 Yıl",
