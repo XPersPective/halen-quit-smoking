@@ -43,6 +43,8 @@ class MiniOrganCockpit extends ConsumerWidget {
                   children: [
                     Text(
                       l10n.organMapTitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
@@ -50,6 +52,8 @@ class MiniOrganCockpit extends ConsumerWidget {
                     const SizedBox(height: HalenSpace.x1),
                     Text(
                       l10n.organRecoveryTitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: HalenColors.emerald,
                         fontWeight: FontWeight.w600,
@@ -58,11 +62,17 @@ class MiniOrganCockpit extends ConsumerWidget {
                   ],
                 ),
               ),
-              TextButton.icon(
-                onPressed: () => Navigator.of(context).pushNamed(Routes.body),
-                icon: const Icon(Icons.arrow_forward_rounded, size: 16),
-                iconAlignment: IconAlignment.end,
-                label: Text(l10n.statusOpen),
+              Flexible(
+                child: TextButton.icon(
+                  onPressed: () => Navigator.of(context).pushNamed(Routes.body),
+                  icon: const Icon(Icons.arrow_forward_rounded, size: 16),
+                  iconAlignment: IconAlignment.end,
+                  label: Text(
+                    l10n.statusOpen,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ),
             ],
           ),
@@ -82,8 +92,9 @@ class MiniOrganCockpit extends ConsumerWidget {
                       arguments: organ.key,
                     ),
                     borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                    width: (MediaQuery.of(context).size.width - 72) / 2,
+                    child: LayoutBuilder(
+                    builder: (context, card) => Container(
+                    width: (card.maxWidth - HalenSpace.x3) / 2,
                     padding: const EdgeInsets.all(HalenSpace.x3),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.surfaceContainerHighest
@@ -129,6 +140,7 @@ class MiniOrganCockpit extends ConsumerWidget {
                           ),
                         ),
                       ],
+                    ),
                     ),
                   ),
                 ),

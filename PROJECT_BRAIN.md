@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T9 kapandı: mercan yüksek-kontrast kayıt düğmesi, repository seviyesinde çift-dokunuş tekilleştirme (3 sn), kutlama yalnız direnç kilometre taşında.
-> **Phase:** BUILD · **Next:** T10 · **Updated:** 2026-09-18 · **Synced@:** a3d3e51
+> **Status:** T10 kapandı: MiniOrganCockpit 320dp taşması giderildi (LayoutBuilder genişlik + esnek başlık); 4 kaynaklı organ kartı, tümü bağlantısı ve detay başlığı test edildi.
+> **Phase:** BUILD · **Next:** T11 · **Updated:** 2026-09-18 · **Synced@:** 13d0076
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -295,10 +295,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → `RecordRepository.logCigarette/logCraving` 3 sn tekilleştirme penceresi (abs zaman farkı; geri-datılmış çakışma da kapsar). Today CTA mercan FilledButton (beyaz metin, başarı rengi yok, kutlama yok — kutlama yalnız direnç %10 kilometre taşında). 4 dedupe testi; native: çift dokunuş → tek kayıt + "Bugün: 1. Ortalaman: 15." geri bildirimi gözlendi.
 
-- [ ] T10 [M] Organ haritasının boşluğunu gider (eski H10)
-  - Where: `lib/data/repositories/library_repository.dart; lib/presentation/screens/body/**`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Önce mevcut organ kataloğu ve ana ekran filtrelerini say; veri varsa yeniden ekleme. Ana ekrana dengeli 2×4 veya yatay kayar organ özeti, erişilebilir isimler ve tümü bağlantısı. Büyük ekranda boş sütun bırakma; küçükte taşma olmadan kaydır. Akciğer/kalp/damar/beyin/cilt vb. yalnız kaynaklı organları göster, seçince adı üstte. Kanıt: 320/390/420dp, landscape, büyük yazı, seçilen organ ayrıntısı ekran görüntüsü.
+- [x] T10 [M] Organ haritasının boşluğunu gider (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → MiniOrganCockpit zaten Bugün'de 2×N kart (4 organ, Aç→Routes.body, kart→organ detayı); katalog 13 OrganEntry kaynak bağlantılı. Fix: sabit (width-72)/2 yerine LayoutBuilder genişliği + başlık düğmesi Flexible — 320dp'teki 54px taşma testle kanıtlandı. 5 widget testi: erişilebilir adlar, 320/420/landscape, kart→organ argümanı.
 
 - [ ] T11 [M] Organ içerikleri ve sağlık çizelgesinin konumu (eski H11)
   - Where: `lib/domain/health_timeline.dart; lib/presentation/screens/timeline/**; lib/presentation/screens/settings/settings_screen.dart`
@@ -401,6 +400,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T10 A2: kokpit testleri (5) + tam365 test temiz; 320dp RenderFlex taşması kökten giderildi | Kanıt zinciri: erişilebilir ad kartları (text+InkWell), 320/420/900×420 taşmasız, Heart→Routes.body+arguments. brain.py derin-A1 örneği (T8/T9/T18.1) bu oturumda kanıtla kapatılmıştı; ek audit satırı gerekmedi. |
 | 2026-09-18 | AUDIT | T9 A2: repo seviyesinde çift-dokunuş tekilleştirme, mercan CTA, 4 dedupe testi + tam360 test temiz | Native kanıt (APK user0): "Bir sigara içtim" düğmesine arka arkaya iki dokunuş → tek kayıt, geri bildirim sayfası "Bugün: 1. Ortalaman: 15." gösterdi. Undo dokunuşu harici aktör müdahalesi yüzünden tamamlanamadı (widget testi undo'yu kapsıyor). Emülatör yeniden başlatıldı; harici uygulama (N AI Science Lab) yine öne geçti. |
 | 2026-09-18 | AUDIT | T8 A2: başlık ikon+Halen+Bugün alt-satırı; T8 test paketi TR/EN/DE 320dp×1.6 overflow ile kırmızı-önce-yeşil (rozet Flexible sonrası), tam356 test temiz | Yerel native kanıt: .dart_tool/t8/. Simge launcher ile aynı dosya; paket kimliği unchanged (com.crazypenguin.halenquitsmoking korunuyor). PremiumBadge artık daralamaya kayar başlık boğmaz. |
 | 2026-09-18 | AUDIT | T7 A2: şema v10 + rozet/settings/native zincir; tam349…353 test temiz; emulator-5554 launcher'da widget eklendi (Halen 3×1), widgetTheme=dark → preview #1E4D45/#F5A623 pikselleri (.dart_tool/t7/widget-band.png) ve run-as prefs listesi kanıt | run-as okuması: widgetShowLast=false, widgetTheme=dark, todaySummary=0/17. Android provider önceden yanlış dosya/anahtar okuyordu (HomeWidgetPrefs + flutter. prefix) — T7 doğrularken bulundu ve düzeltildi. |
@@ -430,6 +430,6 @@ Newest first.
 
 ## 7. HANDOFF
 
-T9 kapandı; sıradaki T10 (organ haritası boşluğu). Emülatör şu an harici aktörün uygulamasında; native işler öncesi odak doğrula.
-T4 native turunun son 4 adımı hâlâ cihazda yapılmadı (kesintiler). Undo native kanıtı da eksik.
-Kalan: T10–T18 UX, T19–T26 kapılar, T23.1.
+T10 kapandı; sıradaki T11 (sağlık çizelgesi konumu: Bugün/vücut detayından görünür).
+Emülatör harici aktör nedeniyle riskli; kalan UX görevleri widget testleriyle yürütülüyor.
+Kalan: T11–T18, T19–T26, T23.1.
