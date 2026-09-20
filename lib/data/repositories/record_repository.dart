@@ -11,6 +11,11 @@ class RecordRepository {
 
   final AppDatabase _db;
 
+  /// A finger can bounce, a quick tile can fire twice while the sheet is
+  /// still closing. The same source within this window is the same
+  /// cigarette (brain T9) — we return the existing row, no phantom count.
+  static const duplicateWindow = Duration(seconds: 3);
+
   Future<int> logCigarette({
     required RecordSource source,
     TriggerLabel? triggerLabel,
@@ -20,6 +25,14 @@ class RecordRepository {
   }) {
     final ts = at ?? DateTime.now();
     return _db.transaction(() async {
+      final last = await (_db.select(_db.cigaretteEvent)
+            ..orderBy([(e) => OrderingTerm.desc(e.ts)])
+            ..limit(1))
+          .getSingleOrNull();
+      if (last != null &&
+          (ts.difference(last.ts)).abs() < duplicateWindow) {
+        return last.id;
+      }
       final id = await _db.recordDao.insertEvent(
         CigaretteEventCompanion.insert(
           ts: ts,
@@ -58,6 +71,13 @@ class RecordRepository {
   }) {
     final ts = at ?? DateTime.now();
     return _db.transaction(() async {
+      final last = await (_db.select(_db.cravingEvent)
+            ..orderBy([(e) => OrderingTerm.desc(e.ts)])
+            ..limit(1))
+          .getSingleOrNull();
+      if (last != null && (ts.difference(last.ts)).abs() < duplicateWindow) {
+        return last.id;
+      }
       final id = await _db.cravingDao.insertCraving(
         CravingEventCompanion.insert(
           ts: ts,

@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T8 kapandı: Today başlığı artık ikon + Halen adı + küçük alt başlık; 320dp×1.6 taşmıyor (rozet ellipsise kayar).
-> **Phase:** BUILD · **Next:** T9 · **Updated:** 2026-09-18 · **Synced@:** b115eb2
+> **Status:** T9 kapandı: mercan yüksek-kontrast kayıt düğmesi, repository seviyesinde çift-dokunuş tekilleştirme (3 sn), kutlama yalnız direnç kilometre taşında.
+> **Phase:** BUILD · **Next:** T10 · **Updated:** 2026-09-18 · **Synced@:** a3d3e51
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -291,10 +291,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → assets/app_icon.png (launcher'la aynı) + başlık; rozet Flexible+ellipsis ile dar ekranda taşmaz. TR/EN/DE 320dp×1.6 test + Native Android görsel tespit (.dart_tool/t8). T7'nin widget testleri değişilmeden geçti.
 
-- [ ] T9 [M] Sigara kayıt düğmesi ve geri bildirim (eski H09)
-  - Where: `lib/application/record_providers.dart; lib/presentation/screens/today/today_screen.dart; lib/presentation/screens/sos/sos_screen.dart`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Bugün ve SOS kayıt yollarını izle. Kontrastlı mercan düğme; sigara kaydında fidan, başarı rengi veya kutlama yok. Kayıt/geri al/tek sonraki adım net; art arda dokunuş duplicate kayıt üretmez. Olumsuz renk kullanıcıyı suçlayan içerik gerektirmez. Kanıt: kayıt/undo/SOS/çift tıklama; yalnız olumlu başarının kutlama tetiklediği test.
+- [x] T9 [M] Sigara kayıt düğmesi ve geri bildirim (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → `RecordRepository.logCigarette/logCraving` 3 sn tekilleştirme penceresi (abs zaman farkı; geri-datılmış çakışma da kapsar). Today CTA mercan FilledButton (beyaz metin, başarı rengi yok, kutlama yok — kutlama yalnız direnç %10 kilometre taşında). 4 dedupe testi; native: çift dokunuş → tek kayıt + "Bugün: 1. Ortalaman: 15." geri bildirimi gözlendi.
 
 - [ ] T10 [M] Organ haritasının boşluğunu gider (eski H10)
   - Where: `lib/data/repositories/library_repository.dart; lib/presentation/screens/body/**`
@@ -402,6 +401,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T9 A2: repo seviyesinde çift-dokunuş tekilleştirme, mercan CTA, 4 dedupe testi + tam360 test temiz | Native kanıt (APK user0): "Bir sigara içtim" düğmesine arka arkaya iki dokunuş → tek kayıt, geri bildirim sayfası "Bugün: 1. Ortalaman: 15." gösterdi. Undo dokunuşu harici aktör müdahalesi yüzünden tamamlanamadı (widget testi undo'yu kapsıyor). Emülatör yeniden başlatıldı; harici uygulama (N AI Science Lab) yine öne geçti. |
 | 2026-09-18 | AUDIT | T8 A2: başlık ikon+Halen+Bugün alt-satırı; T8 test paketi TR/EN/DE 320dp×1.6 overflow ile kırmızı-önce-yeşil (rozet Flexible sonrası), tam356 test temiz | Yerel native kanıt: .dart_tool/t8/. Simge launcher ile aynı dosya; paket kimliği unchanged (com.crazypenguin.halenquitsmoking korunuyor). PremiumBadge artık daralamaya kayar başlık boğmaz. |
 | 2026-09-18 | AUDIT | T7 A2: şema v10 + rozet/settings/native zincir; tam349…353 test temiz; emulator-5554 launcher'da widget eklendi (Halen 3×1), widgetTheme=dark → preview #1E4D45/#F5A623 pikselleri (.dart_tool/t7/widget-band.png) ve run-as prefs listesi kanıt | run-as okuması: widgetShowLast=false, widgetTheme=dark, todaySummary=0/17. Android provider önceden yanlış dosya/anahtar okuyordu (HomeWidgetPrefs + flutter. prefix) — T7 doğrularken bulundu ve düzeltildi. |
 | 2026-09-18 | AUDIT | T6 A2 (bağımsız gözden geçirme, general-purpose sub-agent): pack/model/economy/purchases yüzeyleri tek sınır setinde birleşti, 5 widget + 5 domain testi eklendi, tam349 test temiz | Review bulguları (input_bounds katında thunk duplication, economy controller leak, garbage→null session silme, save-after-reparse) tamamen kapatıldı. Settings pack diyaloğu artık PackEditResult döndürüyor. deep-link/widget yüzeyleri kodda sabit/uygulama-üretimli, kullanıcıdan yaşam yolu almıyor: temiz. |
@@ -430,6 +430,6 @@ Newest first.
 
 ## 7. HANDOFF
 
-T8 kapandı; sıradaki T9 (sigara kayıt düğmesi + geri bildirim — mercan, duplicate guard).
-Emülatör dark-modda kalabilir; pixel kanıtları 2400px native çözünürlükte.
-Büyük açık blok: T9–T18 UX zinciri; sonra mağaza/hukuk kapıları T19–T26.
+T9 kapandı; sıradaki T10 (organ haritası boşluğu). Emülatör şu an harici aktörün uygulamasında; native işler öncesi odak doğrula.
+T4 native turunun son 4 adımı hâlâ cihazda yapılmadı (kesintiler). Undo native kanıtı da eksik.
+Kalan: T10–T18 UX, T19–T26 kapılar, T23.1.

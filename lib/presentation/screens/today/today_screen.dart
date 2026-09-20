@@ -498,11 +498,11 @@ class _TodayBody extends ConsumerWidget {
             // on exactly the days that mattered most. Over budget is a
             // recalculation, not a closed door.
             onPressed: () => _logCigarette(context, ref),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: colors.onSurfaceVariant,
-              backgroundColor:
-                  colors.surfaceContainerHighest.withValues(alpha: 0.6),
-              side: BorderSide(color: colors.outline),
+            // T9: coral, contrast-checked, but no success colour and no
+            // celebration — logging a cigarette is a recalculation.
+            style: FilledButton.styleFrom(
+              backgroundColor: HalenColors.coral,
+              foregroundColor: Colors.white,
               minimumSize: const Size.fromHeight(52),
               shape: const RoundedRectangleBorder(
                 borderRadius: HalenRadius.mediumAll,
