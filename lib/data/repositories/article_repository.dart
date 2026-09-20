@@ -536,7 +536,7 @@ class ArticleRepository {
         ),
         ArticleSection(
           heading: 'What Helps',
-          content: 'Cutting caffeine after noon is a good start: nicotine lengthens caffeine's half-life, so after quitting caffeine hits harder. A fixed wake time and a calm, screen-free pre-bed routine make it easier to fall asleep.',
+          content: 'Cutting caffeine after noon is a good start: nicotine lengthens the half-life of caffeine, so after quitting caffeine hits harder. A fixed wake time and a calm, screen-free pre-bed routine make it easier to fall asleep.',
         ),
       ],
     ),
