@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T24 [!]: store beyan taslağı store/DECLARATIONS.md olarak kod envanterinden üretildi; yayın-karar eşikleri kullanıcıda (repo public, hesaplar).
-> **Phase:** BUILD · **Next:** T25 · **Updated:** 2026-09-20 · **Synced@:** 4682c84
+> **Status:** T25 [!]: mağaza metinleri gerçek özelliklerden yazıldı (store/LISTING.md, üç dil); imzalı paket+cihaz final turu hesap/cihaz kapısında. T24 [!], T19.1 [!].
+> **Phase:** BUILD · **Next:** T26 · **Updated:** 2026-09-20 · **Synced@:** cb31be6
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -365,10 +365,10 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   → `store/DECLARATIONS.md`: Android izin envanteri (4 bildirim-amaçlı izin), iOS PrivacyInfo.xcprivacy (tracking yok, collected yok, CA92.1), Apple App Privacy + Google Data Safety taslağı, 18+ hedef notu, URL ön koşulu (T19.1). Analiz/reklam SDK'sı yok beyanı pubspec+manifest denetimiyle destekli. KALAN (DIŞ BAĞIMLILIK): konsol formlarına girilmesi, hukuk nihai okuması, T21 SDK eklenirse beyan yenilemesi.
 
 
-- [ ] T25 [H] Mağaza metinleri, final turu ve teslim (eski H25)
-  - Where: `PROJECT_BRAIN.md; screenshots/**; store/**`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Ekteki taslakları gerçek özelliklerle yeniden yaz; 30 karakter sınırı ve anahtar kelime limitleri kontrol edilir. Kilit ekranı/özelleştirme gibi cihazda doğrulanmamış özelliği mevcutmuş gibi pazarlama. Üç dilde gerçek ekran görüntüleri üret. T1–T24 gereksinimlerini tek tek kanıtla, yeni kullanıcı→trial→free→purchase→restore ve ret/offline/reset/import akışlarını Android/iOS'ta gez. Her açık dış kapıyı raporla. İmzalı paketlerin hash/sürümü, test kanıtı, commit/push hash'i ve eksikleri §7'e yaz.
+- [!] T25 [H] Mağaza metinleri, final turu ve teslim — metinler hazır, cihaz/hesap turu bekliyor (2026-09-20, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → store/LISTING.md: TR/EN/DE başlık (≤30), kısa açıklama (≤80), tam açıklama — yalnız doğrulanmış özellikler (T1–T19 çıktıları); cihazda doğrulanmamış iddia yok; yasak-iddia listesi test altında. KALAN (DIŞ BAĞIMLILIK): imzalı release paketi hash'leri (keystore kullanıcıda), gerçek cihazda yeni-kullanıcı→trial→free→purchase→restore turu (Android+iOS), screenshots/ gerçek cihaz PNG'leriyle yenileme.
+
 
 - [ ] T26 [H] Yedek kapsamı ve veri silme bütünlüğü (eski H26)
   - Where: `lib/data/backup_repository.dart; lib/data/db/tables.dart; test/data/backup_repository_test.dart`
@@ -439,5 +439,5 @@ Newest first.
 
 ## 7. HANDOFF
 
-T24 [!] (konsol girişi kullanıcıda). Sıradaki T25 (mağaza metinleri + final turu) ve T26 (yedek kapsamı).
-T23.1 açık (eski dep pin'i gerektiren migration testi). T19.1 [!] repo görünürlüğü.
+T25 [!] (imzalı paket + cihaz turu hesap/keystore kapısında; LISTING.md hazır). Sıradaki T26 (yedek kapsamı — tam kod yapılabilir).
+T23.1 açık; T19.1/T24 [!] kullanıcı eylemleri.
