@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T26 kapandı: yedek/silme tüm kişisel tabloları kapsıyor. Kod tarafı biten görevler bitti; kalan eşikler [!] (T19.1 repo-public, T20 sandbox, T21 SDK+consent, T23.1 eski-dep pin, T24 konsol girişi, T25 imzalı paket+cihaz turu).
-> **Phase:** BUILD · **Next:** T19.1 (kullanıcı: repo public) · **Updated:** 2026-09-20 · **Synced@:** cb31be6
+> **Status:** T26 kapandı; T20 stream sözleşmesi birim-testli (applyPurchases, 6 test). Kod tarafı biten görevler bitti; kalan eşikler [!] (T19.1 repo-public, T20 sandbox, T21 SDK+consent, T23.1 eski-dep pin, T24 konsol girişi, T25 imzalı paket+cihaz turu).
+> **Phase:** BUILD · **Next:** T19.1 (kullanıcı: repo public; gh CLI makinede yok) · **Updated:** 2026-09-21 · **Synced@:** a93add5
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -394,6 +394,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-21 | AUDIT | T20 takviye: PurchaseService.applyPurchases (test-görünür serileştirilmiş kuyruk) + 6 birim test (purchased/pending/error/canceled/bilinmeyen ürün/çakışan batch); tam390 test temiz | Windows hostta store etiketi Platformdan appstore geliyor; test invariantı store bilgisinin boş olmaması olarak yazıldı. Android queryPastPurchases authoritative-empty yolu cihaz/doğal platform kanıtı olarak kaldı. |
 | 2026-09-20 | AUDIT | T26 A2: export/import/wipe tüm kişisel tablolara genişletildi; 4 yeni test; tam384 test + analiz temiz | T3-review bulguları (a) wipe kapsamı, (b) milestones round-trip, (c) quitTs fresh-device satır yokluğu, (d) round-trip test adı iddiası, (e) v8/v9/v10 alanları — tamamı kapandı. Backup düz metin; PRIVACY_POLICY bunu söylüyor. |
 | 2026-09-20 | AUDIT | T24 A2: bildirim izin envanteri manifest'ten, xcprivacy mevcut, beyan taslağı yazıldı | Hukuki beyan iddiası yok; taslak olarak etiketli. Kullanıcı konsol girişine kadar [!]. |
 | 2026-09-20 | AUDIT | T23 A2: temiz logcat kanıtı (PID6335, 32 satır, 1 benign uyarı); eski-commit worktree build denemesi başarısız (AAR metadata + home_widget incremental cache) → T23.1 notu güncellendi | /tmp/halen-log.txt. Worktree kaldırıldı. T23.1 için gerekli: eski pubspec.lock pin'leriyle izole build veya CI işi. |
