@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T7 kapandı: Today rozeti (deneme/premium/ücretsiz) + Widget ayarları native store'a yazıyor; Android launcher widget'ı koyu tema kanıtlı.
-> **Phase:** BUILD · **Next:** T8 · **Updated:** 2026-09-18 · **Synced@:** cd46eec
+> **Status:** T8 kapandı: Today başlığı artık ikon + Halen adı + küçük alt başlık; 320dp×1.6 taşmıyor (rozet ellipsise kayar).
+> **Phase:** BUILD · **Next:** T9 · **Updated:** 2026-09-18 · **Synced@:** b115eb2
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -287,10 +287,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → `PremiumBadge` (ücretsiz/deneme/sahip etiketi → paywall), şema v10 widget tercihleri (son-sigara gizleme + tema), `WidgetService.applyWidgetPrefs` native store'a yazar. Android provider prefs dosya/anahtar hatası düzeltildi (HomeWidgetPreferences, öneksiz anahtarlar); widget koyu tema launcher'da kanıtlı. iOS Swift renkleri de theme-key okuyor. 4 widget testi + format testi.
 
-- [ ] T8 [M] Marka ve ana başlık (eski H08)
-  - Where: `lib/presentation/screens/today/today_screen.dart; lib/core/design/**`
-  - Do: 1) Mevcut kod ve testle gereksinimlerin karşılanma durumunu doğrula. 2) Mevcut uygulama ikonunu ortak vektör/asset ile tam ürün adının soluna getir. Halen okunur büyüklükte, alt açıklama daha küçük; "Today" marka başlığını bastırmaz. 320dp ve büyük fontta rozet/ayar/başlık taşmaz. Paket kimliğini pazarlama adına göre yeniden değiştirme. Kanıt: EN/TR/DE üst bar açık/koyu görüntüleri ve tap hedefleri.
+- [x] T8 [M] Marka ve ana başlık (2026-09-18, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
+  → assets/app_icon.png (launcher'la aynı) + başlık; rozet Flexible+ellipsis ile dar ekranda taşmaz. TR/EN/DE 320dp×1.6 test + Native Android görsel tespit (.dart_tool/t8). T7'nin widget testleri değişilmeden geçti.
 
 - [ ] T9 [M] Sigara kayıt düğmesi ve geri bildirim (eski H09)
   - Where: `lib/application/record_providers.dart; lib/presentation/screens/today/today_screen.dart; lib/presentation/screens/sos/sos_screen.dart`
@@ -403,6 +402,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-18 | AUDIT | T8 A2: başlık ikon+Halen+Bugün alt-satırı; T8 test paketi TR/EN/DE 320dp×1.6 overflow ile kırmızı-önce-yeşil (rozet Flexible sonrası), tam356 test temiz | Yerel native kanıt: .dart_tool/t8/. Simge launcher ile aynı dosya; paket kimliği unchanged (com.crazypenguin.halenquitsmoking korunuyor). PremiumBadge artık daralamaya kayar başlık boğmaz. |
 | 2026-09-18 | AUDIT | T7 A2: şema v10 + rozet/settings/native zincir; tam349…353 test temiz; emulator-5554 launcher'da widget eklendi (Halen 3×1), widgetTheme=dark → preview #1E4D45/#F5A623 pikselleri (.dart_tool/t7/widget-band.png) ve run-as prefs listesi kanıt | run-as okuması: widgetShowLast=false, widgetTheme=dark, todaySummary=0/17. Android provider önceden yanlış dosya/anahtar okuyordu (HomeWidgetPrefs + flutter. prefix) — T7 doğrularken bulundu ve düzeltildi. |
 | 2026-09-18 | AUDIT | T6 A2 (bağımsız gözden geçirme, general-purpose sub-agent): pack/model/economy/purchases yüzeyleri tek sınır setinde birleşti, 5 widget + 5 domain testi eklendi, tam349 test temiz | Review bulguları (input_bounds katında thunk duplication, economy controller leak, garbage→null session silme, save-after-reparse) tamamen kapatıldı. Settings pack diyaloğu artık PackEditResult döndürüyor. deep-link/widget yüzeyleri kodda sabit/uygulama-üretimli, kullanıcıdan yaşam yolu almıyor: temiz. |
 | 2026-09-18 | AUDIT | T5 A2: 10. adım beden verisi, `maxPlausibleSmokingYears` yaş-beli güvenliği, body parse blank/null ayrımı; 2 yeni domain testi + akış testi persist assertion; tam339 test ve analiz temiz | T5 tek başına şema değişikliği yapmadı (boy/kilo/yıl v2 kolonları). iOS/native ayrı değil — widget akışı yeterli ve yazılı kanıt görev tanımında native istemiyor. |
@@ -430,6 +430,6 @@ Newest first.
 
 ## 7. HANDOFF
 
-T7 kapandı; sıradaki T8 (marka + ana başlık: ikon + ürün adı üst bar).
-Widget ayarları canlı native store'a yazıyor; launcher widget'ı koyu tema ile duruyor. Emülatörde widget eklendi (kaldırmak istersen ana ekranda uzun bas → kaldır).
-Açıklar: T8–T18 görsel/UX, T19–T26; onboarding native son 4 adım T4'te kesildi (cihaz kontrolü), iOS mağaza kapıları T20+.
+T8 kapandı; sıradaki T9 (sigara kayıt düğmesi + geri bildirim — mercan, duplicate guard).
+Emülatör dark-modda kalabilir; pixel kanıtları 2400px native çözünürlükte.
+Büyük açık blok: T9–T18 UX zinciri; sonra mağaza/hukuk kapıları T19–T26.

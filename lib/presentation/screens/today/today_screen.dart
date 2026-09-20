@@ -234,24 +234,40 @@ class _TodayBody extends ConsumerWidget {
         children: [
           Row(
             children: [
+              // Brand-first header (T8): the product mark + name owns the row
+              // and "Today" plays a supporting role, not the headline.
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  'assets/app_icon.png',
+                  width: 36,
+                  height: 36,
+                  semanticLabel: l10n.appName,
+                ),
+              ),
+              const SizedBox(width: HalenSpace.x2),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.appName.toUpperCase(),
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        letterSpacing: 3,
-                        color: colors.primary,
+                      l10n.appName,
+                      style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: HalenSpace.x1),
-                    Text(l10n.todayTitle, style: theme.textTheme.headlineMedium),
+                    Text(
+                      l10n.todayTitle,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              const PremiumBadge(),
+              // T8: brand + badge share the row; at 320dp×1.6 the badge
+              // shrinks first, never overflowing into the hotspot.
+              const Flexible(child: PremiumBadge()),
               const SizedBox(width: 2),
               const ShellSettingsButton(),
             ],

@@ -51,12 +51,15 @@ class PremiumBadge extends ConsumerWidget {
               children: [
                 Icon(icon, size: 16, color: colors.primary),
                 const SizedBox(width: 4),
-                Text(
-                  text,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: colors.onSurfaceVariant,
-                        fontWeight: FontWeight.w600,
-                      ),
+                Flexible(
+                  child: Text(
+                    text,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: colors.onSurfaceVariant,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
                 ),
               ],
             ),

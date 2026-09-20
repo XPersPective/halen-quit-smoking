@@ -59,6 +59,10 @@ hooks:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    # Brand mark used in the Today top bar (brain T8); identical to the
+    # launcher icon so the app reads as one product.
+    - assets/app_icon.png
   fonts:
     # Inter, the variable original. Declaring the one file under four weights
     # instances the wght axis instead of letting the engine synthesise a fake
