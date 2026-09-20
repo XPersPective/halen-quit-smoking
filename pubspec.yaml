@@ -38,6 +38,7 @@ dependencies:
   url_launcher: ^6.3.0
   fl_chart: ^1.2.0
 
+  in_app_purchase_platform_interface: ^1.4.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

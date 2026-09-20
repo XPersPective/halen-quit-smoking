@@ -121,7 +121,7 @@ class PurchaseService {
     _subscription = _iap.purchaseStream.listen((purchases) {
       // Stream callbacks are not awaited by Stream.listen. Serialising the
       // writes makes restore() safe to await before reading entitlement.
-      _purchaseWork = _purchaseWork.then((_) => _onPurchases(purchases));
+      applyPurchases(purchases);
     }, onDone: () => _subscription?.cancel());
     await refreshFromStore();
   }
@@ -220,6 +220,14 @@ class PurchaseService {
       return;
     }
     await refreshFromStore(forceIosRestore: Platform.isIOS);
+  }
+
+  /// Queues a batch of purchase updates onto the serialised write queue —
+  /// the same path the stream uses (visible for tests, brain T20: the
+  /// store-stream contract is unit-testable without a billing client).
+  Future<void> applyPurchases(List<PurchaseDetails> purchases) {
+    _purchaseWork = _purchaseWork.then((_) => _onPurchases(purchases));
+    return _purchaseWork;
   }
 
   Future<void> _onPurchases(List<PurchaseDetails> purchases) async {
