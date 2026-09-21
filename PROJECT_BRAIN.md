@@ -369,7 +369,7 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
 - [!] T25 [H] Mağaza metinleri, final turu ve teslim — metinler hazır, cihaz/hesap turu bekliyor (2026-09-20, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → store/LISTING.md: TR/EN/DE başlık (≤30), kısa açıklama (≤80), tam açıklama — yalnız doğrulanmış özellikler (T1–T19 çıktıları); cihazda doğrulanmamış iddia yok; yasak-iddia listesi test altında. KALAN (DIŞ BAĞIMLILIK): imzalı release paketi hash'leri (keystore kullanıcıda), gerçek cihazda yeni-kullanıcı→trial→free→purchase→restore turu (Android+iOS), screenshots/ gerçek cihaz PNG'leriyle yenileme.
-  → 2026-09-21 İMZALI PAKET tamam: upload keystore üretildi (android/key/halen-upload.jks, CN=Halen Quit Smoking Tracker, 2054'e kadar geçerli; şifreler gitignored android/key.properties'te — YEDEKLEME KULLANICIDA, kaybedilirse Play güncellemesi imkânsız). İmzalı çıktılar: app-release.aab 74.9MB SHA256 a5558dee…81cd4; app-release.apk 79.6MB SHA256 b4d79dfe…aac6 (v1.3.1+4). apksigner sertifikası upload CN doğrulandı.
+  → 2026-09-21 İMZALI PAKET tamam: upload keystore üretildi (android/key/halen-upload.jks, CN=Halen Quit Smoking Tracker, 2054'e kadar geçerli; şifreler gitignored android/key.properties'te — YEDEKLEME KULLANICIDA, kaybedilirse Play güncellemesi imkânsız). İmzalı çıktılar (GMA sonrası, 2026-09-21): app-release.aab 79.3MB SHA256 9f703150…5224a6; app-release.apk 82.0MB SHA256 b4af7e98…dddd6 (v1.3.1+4). apksigner sertifikası upload CN doğrulandı.
 
 
 - [x] T26 [H] Yedek kapsamı ve veri silme bütünlüğü (2026-09-20, Kimi K3)
