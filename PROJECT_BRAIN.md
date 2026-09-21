@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T26 kapandı; T20 stream sözleşmesi birim-testli (applyPurchases, 6 test). Kod tarafı biten görevler bitti; kalan eşikler [!] (T19.1 repo-public, T20 sandbox, T21 SDK+consent, T23.1 eski-dep pin, T24 konsol girişi, T25 imzalı paket+cihaz turu).
-> **Phase:** BUILD · **Next:** T19.1 (kullanıcı: repo public; gh CLI makinede yok) · **Updated:** 2026-09-21 · **Synced@:** a93add5
+> **Status:** T25 [!] daraldı: upload keystore üretildi, imzalı release AAB+APK alındı (hash'ler §7). Kalan [!]: T19.1 repo-public, T20 sandbox, T21 SDK+consent, T23.1 migration, T24 konsol, T25 cihaz final turu.
+> **Phase:** BUILD · **Next:** T19.1 (kullanıcı: repo public; gh CLI yok) · **Updated:** 2026-09-21 · **Synced@:** a93add5
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -368,6 +368,7 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
 - [!] T25 [H] Mağaza metinleri, final turu ve teslim — metinler hazır, cihaz/hesap turu bekliyor (2026-09-20, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → store/LISTING.md: TR/EN/DE başlık (≤30), kısa açıklama (≤80), tam açıklama — yalnız doğrulanmış özellikler (T1–T19 çıktıları); cihazda doğrulanmamış iddia yok; yasak-iddia listesi test altında. KALAN (DIŞ BAĞIMLILIK): imzalı release paketi hash'leri (keystore kullanıcıda), gerçek cihazda yeni-kullanıcı→trial→free→purchase→restore turu (Android+iOS), screenshots/ gerçek cihaz PNG'leriyle yenileme.
+  → 2026-09-21 İMZALI PAKET tamam: upload keystore üretildi (android/key/halen-upload.jks, CN=Halen Quit Smoking Tracker, 2054'e kadar geçerli; şifreler gitignored android/key.properties'te — YEDEKLEME KULLANICIDA, kaybedilirse Play güncellemesi imkânsız). İmzalı çıktılar: app-release.aab 74.9MB SHA256 a5558dee…81cd4; app-release.apk 79.6MB SHA256 b4d79dfe…aac6 (v1.3.1+4). apksigner sertifikası upload CN doğrulandı.
 
 
 - [x] T26 [H] Yedek kapsamı ve veri silme bütünlüğü (2026-09-20, Kimi K3)
@@ -440,7 +441,12 @@ Newest first.
 
 ## 7. HANDOFF
 
-T1–T22 kod tarafı TAMAM (T20/T21/T24/T25 kod kısmı bitti, mağaza/hesap eşikleri [!]). T26 kapandı.
-[!] EŞİKLER: T19.1 repo public (kullanıcı); T20 sandbox matrisi (hesap); T21 SDK+consent (hesap); T23.1 migration matrisi (eski dep pin/CI kararı); T24 konsol formları + hukuk okuması; T25 imzalı paket hash + gerçek cihaz final turu.
-Eşikler açılınca: A4 final audit (§0.4) → Phase DONE. T4 native turunun adım 6–9'u ve undo native kanıtı da o zaman tamamlanacak.
-Harici yazar uyarısı: article_repository üzerinde eşzamanlı düzenleme gözlendi; commit'ler güvenli.
+[!] EŞİKLER VE AÇILDIRMA:
+1. T19.1 — GitHub repo public (kullanıcı tıklaması; gh CLI yok). Sonra 4 URL curl doğrulaması.
+2. T20 — Play/App Store hesabı + IAP ürünleri → sandbox matrisi.
+3. T21 — AdMob hesabı/ID → SDK+UMP entegrasyonu (AdPolicy hazır).
+4. T23.1 — cihaz sakinken ../halen-t231 (0d3b262, derleniyor) ile migration matrisi; 2026-09-21'de tek-sürümlü upgrade denemesi yapıldı (eski build storage+anahtar, yeni build üstüne kuruldu, 0 decrypt hatası).
+5. T24 — konsol formları + hukuk.
+6. T25 — keystore üretildi (android/key/, GITIGNORED — YEDEKLE!); imzalı AAB+APK: AAB SHA256 a5558dee…81cd4, APK SHA256 b4d79dfe…aac6 (v1.3.1+4); kalan: gerçek cihaz final turu + store upload.
+Eşikler açılınca A4 final audit → Phase DONE. T4 native adım 6–9 + undo kanıtı da cihaz penceresinde.
+Harici yazar: emulator'de Chatimus/roketkilit otomasyonu; article_repository'de eşzamanlı düzenleme gözlendi.

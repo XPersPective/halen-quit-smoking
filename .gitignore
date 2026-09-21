@@ -132,3 +132,5 @@ app.*.symbols
 # Upload-key credentials beyond the entries above. Whoever holds these can
 # ship updates as us.
 *.keystore
+android/key/
+/android/key.properties
