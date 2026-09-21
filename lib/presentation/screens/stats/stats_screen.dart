@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:halen/domain/ad_policy.dart';
+import 'package:halen/presentation/widgets/ads/halen_ad_banner.dart';
 import 'package:halen/application/interval_providers.dart';
 import 'package:halen/application/stats_providers.dart';
 import 'package:halen/core/routes.dart';
@@ -406,6 +408,10 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
             const TarIntakeCard(),
             const SizedBox(height: HalenSpace.x4),
             const EnvironmentCard(),
+            const SizedBox(height: 28),
+            // T21: labelled banner, free users past the trial only. The
+            // policy layer decides; no fill collapses the slot.
+            const HalenAdBanner(surface: AdSurface.statsBottom),
             const SizedBox(height: HalenSpace.x4),
             TextButton.icon(
               onPressed: () =>

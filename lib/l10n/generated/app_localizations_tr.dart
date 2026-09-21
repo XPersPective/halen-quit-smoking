@@ -964,6 +964,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get aboutThirdPartyLicenses => 'Üçüncü taraf lisansları';
 
   @override
+  String get adLabel => 'Reklam';
+
+  @override
   String get articleSourceHeading => 'Bilimsel dayanak ve kaynak';
 
   @override

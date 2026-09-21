@@ -967,6 +967,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutThirdPartyLicenses => 'Third-party licenses';
 
   @override
+  String get adLabel => 'Ad';
+
+  @override
   String get articleSourceHeading => 'Evidence and source';
 
   @override

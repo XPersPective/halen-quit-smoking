@@ -5,18 +5,27 @@
 ## Türkçe
 
 ### Özet
-Halen hesap istemez ve kendi uygulama sunucusunu kullanmaz. Bu kaynak sürümünde
-analiz/reklam SDK'sı bulunmaz. Tüm verileriniz yalnızca cihazınızda saklanır ve
-şifrelidir. Uygulama kendi verilerinizi ilk açılışta ağa göndermez; Premium
-ürünlerin fiyatı, satın alma durumu, abonelik yenilemesi ve restore işlemleri
-App Store / Google Play tarafından yürütülür.
+Halen hesap istemez ve kendi uygulama sunucusunu kullanmaz. Tüm kişisel
+verileriniz yalnızca cihazınızda saklanır ve şifrelidir. Kişisel verileriniz
+ilk açılışta ağa gönderilmez; Premium ürünlerin fiyatı, satın alma durumu,
+abonelik yenilemesi ve restore işlemleri App Store / Google Play tarafından
+yürütülür.
+
+**Reklamlar (yalnız ücretsiz kullanım, deneme bitiminden sonra):** Ücretsiz
+kullanıcılar için uygun ekranlarda Google AdMob aracılığıyla etiketli
+reklam gösterilir. AdMob, reklam sunumu için cihaz tanımlayıcılarını
+işleyebilir; sağlık/nikotin verileriniz reklam hedeflemesine asla
+gönderilmez. Reklamlar UMP consent akışıyla yönetilir; deneme süresince ve
+Premium'da hiçbir reklam gösterilmez. Geliştirme sürümleri Google'ın test
+reklam birimlerini kullanır.
 
 ### Toplanan veri: hiçbiri
 - Sigara/istek kayıtları, profil cevaplarınız (yaş grubu, günlük sayı, paket
   fiyatı vb.), plan ve tasarruf hesapları **yalnızca cihazınızda** tutulur.
-- Analiz, çökme bildirimi ve reklam SDK'sı yoktur. Gelecekte reklam SDK'sı
-  etkinleştirilirse bu politika, sağlayıcı ve consent akışı yayınlanmadan önce
-  güncellenir; sağlık/nikotin verisi reklam hedeflemesine gönderilmez.
+- Analiz ve çökme bildirimi SDK'sı yoktur. Reklam SDK'sı (Google AdMob)
+  yalnızca ücretsiz kullanımın deneme sonrası ekranlarında etiketli banner
+  için kullanılır; UMP consent akışı olmadan reklam yüklenmez. Sağlık ve
+  nikotin verileri reklam SDK'sına hiç iletilmez.
 - Konum, kişiler, mikrofon, kamera (bu sürümde barkod tarama yok) kullanılmaz.
 
 ### Depolama ve şifreleme
@@ -44,18 +53,25 @@ aktarım) haklarınız uygulama içinde doğrudan kullanılabilir durumdadır.
 ## English
 
 ### Summary
-Halen requires no account and has no application server. This source build
-contains no analytics or ad SDKs. Your data stays on your device, encrypted.
-Premium product pricing, purchase state, subscription renewal and restore are
-handled by the App Store / Google Play.
+Halen requires no account and has no application server. All personal data
+stays on your device, encrypted. Your personal data is never uploaded at
+first launch; Premium product pricing, purchase state, subscription renewal
+and restore are handled by the App Store / Google Play.
+
+**Ads (free usage only, after the trial ends):** For free users, labelled
+ads are shown on eligible screens via Google AdMob. AdMob may process device
+identifiers to serve the ads; your health/nicotine data is never sent for ad
+targeting. Ads are governed by the UMP consent flow; nothing is shown during
+the trial or with Premium. Development builds use Google's test ad units.
 
 ### Data collected: none
 - Cigarette/craving logs, your onboarding answers (age band, daily count,
   pack price, etc.), plan and savings calculations are stored **on your
   device only**.
-- No analytics, crash reporting or ad SDKs. If an ad SDK is enabled in a future
-  release, this policy and the consent flow are updated before publication;
-  health/nicotine data is not used for ad targeting.
+- No analytics or crash-reporting SDKs. The ad SDK (Google AdMob) is used
+  only for labelled banners on free screens after the trial; no ad loads
+  without the UMP consent flow. Health and nicotine data are never sent to
+  the ad SDK.
 - No location, contacts, microphone, or camera (no barcode scanning in this
   version).
 

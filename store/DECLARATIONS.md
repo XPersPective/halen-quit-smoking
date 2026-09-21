@@ -15,9 +15,11 @@
 | SCHEDULE_EXACT_ALARM | Planlanan hatırlatma saati (kullanıcı seçimi) | — |
 | VIBRATE | Bildirim titreşimi | — |
 
-Analiz / çökme / reklam SDK'sı YOK (kaynak: pubspec.yaml + AndroidManifest
-denetimi 2026-09-20). Reklam SDK'sı gelecekte eklenirse: bu belge +
-PRIVACY_POLICY.md + App Privacy beyanı yenilenmeden yayın yapılmaz (T21 [!]).
+Analiz / çökme SDK'sı YOK. Reklam SDK'sı (Google Mobile Ads / AdMob) VAR —
+yalnız deneme bitmiş ücretsiz kullanıcının uygun ekranlarında (Today/İstatistik/Rehber
+altı, etiketli medium rectangle); UMP consent akışı olmadan hiçbir reklam
+yüklenmez; deneme + Premium'da hiçbir yüzey yok (kaynak: pubspec.yaml +
+AndroidManifest denetimi 2026-09-21, Google'ın test birimleri).
 
 ### iOS (PrivacyInfo.xcprivacy)
 - NSPrivacyTracking: false; TrackingDomains: boş; CollectedDataTypes: boş.
@@ -29,14 +31,19 @@ PRIVACY_POLICY.md + App Privacy beyanı yenilenmeden yayın yapılmaz (T21 [!]).
   (in_app_purchase eklentisi) — kullanıcı tetiklemeli veya mağaza kontrolü.
 
 ## 2. Apple App Privacy beyanı (taslak)
-- Data Not Collected: uygulama herhangi bir veriyi sunucuya iletmez.
-- Tracking: yok. (IAP, tracking değildir; mağaza işlemi kullanıcı ile mağaza
-  arasındadır.)
-- Contact Info / Health / Location / Identifiers / Usage Data: toplanmıyor.
+- Health / Location / Contact Info / Financial Info / Usage Data: toplanmıyor.
+- **Identifiers → Device ID, Advertising Data:** ücretsiz kullanıcıda
+  deneme sonrası reklamlar için Google AdMob işler ("Data Not Linked to
+  You", Advertising Purpose); UMP consent zorunlu. Premium/deneme: toplanmıyor.
+- Tracking: yok (ATT istenmez; UMP yönetiminde, profil oluşturma yok).
+- Not: beyan, AdMob SDK sürümü ve birim türüne göre yayın günü yenilenir.
 
 ## 3. Google Play Data Safety (taslak)
-- Data collected: yok (kendi cihazında işlenen veriler "collected" sayılmaz).
-- Data shared: yok.
+- Data collected: yok (kendi cihazında işlenen veriler "collected" sayılmaz);
+  **reklam için cihaz tanımlayıcıları AdMob tarafından işlenir** — Data
+  Safety formunda "Device or other IDs → Advertising" beyan edilir.
+- Data shared: yok (veriler üçüncü tarafa satılmaz; AdMob reklam sunumu
+  formda ayrıca beyan edilir).
 - Security practices: Data encrypted in transit → mağaza IAP hariç uygulama
   ağı kullanmaz; "users can request data deletion" → uygulama içi
   Ayarlar → Verilerin → Tüm verileri sil (backup_repository.wipe).

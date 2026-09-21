@@ -1,8 +1,8 @@
 <!-- project-brain:v1 -->
 # PROJECT BRAIN — Halen: Quit Smoking Tracker
 
-> **Status:** T25 [!] daraldı: upload keystore üretildi, imzalı release AAB+APK alındı (hash'ler §7). Kalan [!]: T19.1 repo-public, T20 sandbox, T21 SDK+consent, T23.1 migration, T24 konsol, T25 cihaz final turu.
-> **Phase:** BUILD · **Next:** T19.1 (kullanıcı: repo public; gh CLI yok) · **Updated:** 2026-09-21 · **Synced@:** a93add5
+> **Status:** T21 [!] daraldı: google_mobile_ads 9.1.0 entegre edildi (UMP consent + test birimler; banner Today/İstatistik/Rehber altı, AdPolicy kapısı; app-open formatı GMA 9.x'te yok — native karar bekliyor). Gizlilik + beyanlar güncellendi. Kalan: gerçek AdMob ID/hesap, sandbox, cihaz turları.
+> **Phase:** BUILD · **Next:** T20.1 (kullanıcı: mağaza hesabı) · **Updated:** 2026-09-21 · **Synced@:** 7b4f511
 > **Goal:** v1 #36ffac52 · **Goal status:** CONFIRMED
 
 ## 0. PROTOCOL
@@ -346,9 +346,9 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → Kod denetimi tamam: purchase_stream yazımları _purchaseWork ile serileştiriliyor (restore await-edilebilir); Android queryPastPurchases başarılı-boş sonuç cache'i temizliyor (refund/abonelik sonu demote), hata durumunda son doğrulanmış cache korunuyor; pending hiçbir yetki vermiyor; satın alma anında acknowledge (3-gün-auto-refund); iOS restore idempotent ve restore satırları replaceEntitlements ile yazılıyor; UI yerel bool'a güvenmiyor. abonelik: annual/monthly/lifetime productIds. KALAN (DIŞ BAĞIMLILIK): gerçek Play/App Store hesabı + sandbox matrisi (eşzamanlı restore, hata sonrası tekrar, pending, refund, abonelik sonu, reinstall).
 
-- [!] T21 [H] Banner, app-open ve deneme sonrası reklamsız satın alma — politika kodda, SDK bekliyor (2026-09-18, Kimi K3)
+- [!] T21 [H] Banner, app-open ve deneme sonrası reklamsız satın alma — SDK entegre (test birimler), gerçek AdMob hesabı bekliyor (2026-09-18 başladı, 2026-09-21 güncellendi, Kimi K3)
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
-  → `lib/domain/ad_policy.dart`: banner yalnız deneme bitmiş ücretsiz kullanıcının uygun yüzeylerinde (today/stats/guide); SOS/ödeme/sağlık detay/widget yüzey olarak bile tanımlı değil; app-open ≤1/24s; ağ yok → arayüz normal akış (entegrasyon yok). 5 policy testi (gün0/gün6/gün7/premium/cap). KALAN (DIŞ BAĞIMLILIK): gerçek SDK lisans incelemesi, consent (UMP), test birimleri, hesap kimlikleri.
+  → `lib/domain/ad_policy.dart` + `lib/data/ads_service.dart` (UMP consent, Google test birimleri) + `HalenAdBanner` (Today/İstatistik/Rehber altı; AdPolicy kapısı; dolum yoksa slot çöker). Gizlilik metni ve store beyanları SDK varlığını yansıtacak şekilde güncellendi. 5 policy + 2 banner testi; tam392 test temiz. KALAN (DIŞ BAĞIMLILIK): gerçek AdMob hesabı/birim ID'leri, SDK lisans incelemesi onayı, app-open formatı (GMA 9.x'te yok — native karar).
 
 
 - [x] T22 [M] Belgeler ve üretim çıktısı temizliği (2026-09-18, Kimi K3)
@@ -397,6 +397,7 @@ Newest first.
 
 | Date | Type | What | Why / evidence |
 |---|---|---|---|
+| 2026-09-21 | AUDIT | T21 SDK entegrasyonu: google_mobile_ads 9.1.0, AndroidManifest+iOS test APPLICATION_ID, UMP consent-önce-yükle akışı, AdPolicy kapılı banner (Today/Stats/Rehber), gizlilik+beyan güncellemeleri; 2 banner widget testi; tam392 test + debug build (GMA ile) temiz | google_mobile_ads 9.x AppOpenAd içermiyor → app-open yalnız policy+cap düzeyinde, format kararı brain kaydında. Manifest Google'ın resmi test app id'sini kullanıyor; gerçek ID AdMob hesabından gelince tek yerden değişir. |
 | 2026-09-21 | AUDIT | T20 takviye: PurchaseService.applyPurchases (test-görünür serileştirilmiş kuyruk) + 6 birim test (purchased/pending/error/canceled/bilinmeyen ürün/çakışan batch); tam390 test temiz | Windows hostta store etiketi Platformdan appstore geliyor; test invariantı store bilgisinin boş olmaması olarak yazıldı. Android queryPastPurchases authoritative-empty yolu cihaz/doğal platform kanıtı olarak kaldı. |
 | 2026-09-20 | AUDIT | T26 A2: export/import/wipe tüm kişisel tablolara genişletildi; 4 yeni test; tam384 test + analiz temiz | T3-review bulguları (a) wipe kapsamı, (b) milestones round-trip, (c) quitTs fresh-device satır yokluğu, (d) round-trip test adı iddiası, (e) v8/v9/v10 alanları — tamamı kapandı. Backup düz metin; PRIVACY_POLICY bunu söylüyor. |
 | 2026-09-20 | AUDIT | T24 A2: bildirim izin envanteri manifest'ten, xcprivacy mevcut, beyan taslağı yazıldı | Hukuki beyan iddiası yok; taslak olarak etiketli. Kullanıcı konsol girişine kadar [!]. |
@@ -442,11 +443,11 @@ Newest first.
 
 ## 7. HANDOFF
 
-[!] EŞİKLER VE AÇILDIRMA:
-2. T20 — Play/App Store hesabı + IAP ürünleri → sandbox matrisi.
-3. T21 — AdMob hesabı/ID → SDK+UMP entegrasyonu (AdPolicy hazır).
-4. T23.1 — cihaz sakinken ../halen-t231 (0d3b262, derleniyor) ile migration matrisi; 2026-09-21'de tek-sürümlü upgrade denemesi yapıldı (eski build storage+anahtar, yeni build üstüne kuruldu, 0 decrypt hatası).
+T21 SDK tarafı bitti (google_mobile_ads 9.1.0 + UMP + AdPolicy kapılı banner; Today/Stats/Rehber altı). Kalan [!] ve kaynakları:
+1. T19.1 KAPANDI — repo public, 4 URL 200.
+2. T20.1 — Play/App Store hesabı + IAP ürünleri → sandbox matrisi.
+3. T21 — gerçek AdMob ID + lisans onayı → test birimler değiştirilir.
+4. T23.1 — cihaz sakinken ../halen-t231 ile migration matrisi (worktree derleniyor).
 5. T24 — konsol formları + hukuk.
-6. T25 — keystore üretildi (android/key/, GITIGNORED — YEDEKLE!); imzalı AAB+APK: AAB SHA256 a5558dee…81cd4, APK SHA256 b4d79dfe…aac6 (v1.3.1+4); kalan: gerçek cihaz final turu + store upload.
-Eşikler açılınca A4 final audit → Phase DONE. T4 native adım 6–9 + undo kanıtı da cihaz penceresinde.
-Harici yazar: emulator'de Chatimus/roketkilit otomasyonu; article_repository'de eşzamanlı düzenleme gözlendi.
+6. T25 — keystore android/key/ altında (YEDEKLE!); imzalı AAB+APK hash'leri yukarıda; kalan cihaz final turu + store upload.
+Eşikler açılınca A4 final audit → Phase DONE. T4 native adım 6–9 + undo kanıtı cihaz penceresinde.

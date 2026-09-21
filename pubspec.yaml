@@ -39,6 +39,7 @@ dependencies:
   fl_chart: ^1.2.0
 
   in_app_purchase_platform_interface: ^1.4.1
+  google_mobile_ads: ^9.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

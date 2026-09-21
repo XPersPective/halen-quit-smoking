@@ -972,6 +972,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get aboutThirdPartyLicenses => 'Drittanbieter-Lizenzen';
 
   @override
+  String get adLabel => 'Werbung';
+
+  @override
   String get articleSourceHeading => 'Evidenz und Quelle';
 
   @override

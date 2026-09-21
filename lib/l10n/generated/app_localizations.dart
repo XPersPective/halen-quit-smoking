@@ -1798,6 +1798,12 @@ abstract class AppLocalizations {
   /// **'Third-party licenses'**
   String get aboutThirdPartyLicenses;
 
+  /// No description provided for @adLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad'**
+  String get adLabel;
+
   /// No description provided for @articleSourceHeading.
   ///
   /// In en, this message translates to:
