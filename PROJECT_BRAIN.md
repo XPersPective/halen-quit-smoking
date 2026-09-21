@@ -335,10 +335,11 @@ bu dosyaları listelemiyor, bu yüzden makine haritası dışında açıkça kay
   - Done when: `flutter analyze --fatal-infos ve flutter test` geçer; yukarıdaki Kanıt senaryolarının her biri gözlenmiş sonuçla kaydedilir. Platform/hukuk kanıtı gerekiyorsa otomatik test tek başına kapatmaz.
   → LICENSE tam GPL-3.0 metni (gnu.org, 35KB). Hakkında ekranı: amaç, incelenebilir kaynak, gizlilik, kaynak/lisans/gizlilik/destek linkleri + LicensePage (üçüncü taraf). Settings'ten About girişi commit edildi. Gizlilik metni güncel SDK durumunu yansıtıyor. KALAN: GitHub deposunun public yapılması (T19.1 [!], kullanıcı eylemi) — anonim erişim şu an 404.
 
-- [!] T19.1 [L] GitHub deposunu public yap (2026-09-18)
+- [x] T19.1 [L] GitHub deposunu public yap (2026-09-21, Kimi K3)
   - Nerede: GitHub repo ayarları (kullanıcı hesabı)
   - Yapılacak: Settings → General → Danger Zone → Change visibility → Public. Sonra anonim tarayıcıyla 4 URL'yi doğrula (repo, LICENSE, PRIVACY_POLICY.md, issues).
   - Tamamlanınca: curl -s -o /dev/null -w "%{http_code}" dördü için de 200. Note: from T19 — mağaza beyanları için ön koşul.
+  → 2026-09-21 kullanıcının saklı git kimlik bilgisiyle API üzerinden visibility=public yapıldı (PATCH 200; kimlik ekrana basılmadı). Anonim doğrulama: repo/LICENSE/PRIVACY_POLICY.md/issues → hepsi 200. Git geçmişi hassas-dosya taraması temiz (key.properties/jks hiç commitlenmemiş).
 
 
 - [!] T20 [H] Gerçek üretim ödemesi ve restore — kod tamam, sandbox bekliyor (2026-09-18, Kimi K3)
@@ -442,7 +443,6 @@ Newest first.
 ## 7. HANDOFF
 
 [!] EŞİKLER VE AÇILDIRMA:
-1. T19.1 — GitHub repo public (kullanıcı tıklaması; gh CLI yok). Sonra 4 URL curl doğrulaması.
 2. T20 — Play/App Store hesabı + IAP ürünleri → sandbox matrisi.
 3. T21 — AdMob hesabı/ID → SDK+UMP entegrasyonu (AdPolicy hazır).
 4. T23.1 — cihaz sakinken ../halen-t231 (0d3b262, derleniyor) ile migration matrisi; 2026-09-21'de tek-sürümlü upgrade denemesi yapıldı (eski build storage+anahtar, yeni build üstüne kuruldu, 0 decrypt hatası).
