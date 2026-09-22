@@ -14,7 +14,7 @@ import '../domain/ad_policy.dart';
 ///
 /// google_mobile_ads 9.x ships banner/interstitial/rewarded but no
 /// app-open format; the policy supports app-open, its format decision is
-/// tracked in PROJECT_BRAIN (T21).
+/// tracked in .project-brain (PB-21).
 class HalenAds {
   HalenAds._();
 

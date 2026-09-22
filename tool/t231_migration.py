@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""T23.1 migration matrix runner (brain: PROJECT_BRAIN.md, task T23.1).
+"""T23.1 migration matrix runner (brain: .project-brain, task PB-23).
 
 Proves the secure-storage migration path on a REAL emulator run:
   Phase A  install the OLD build, complete onboarding (creates profile +
