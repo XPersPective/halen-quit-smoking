@@ -1,4 +1,4 @@
-# project-brain configuration (skill: ~/.zcode/skills/project-brain)
+# project-brain configuration (skill: ~/.claude/skills/project-brain)
 repository: halen-quit-smoking
 goal: >
   Android ve iOS'ta yayınlanabilecek premium kalitede, sigara bırakmaya yardımcı,
