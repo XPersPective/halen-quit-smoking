@@ -1,0 +1,13 @@
+# project-brain configuration (skill: ~/.zcode/skills/project-brain)
+repository: halen-quit-smoking
+goal: >
+  Android ve iOS'ta yayınlanabilecek premium kalitede, sigara bırakmaya yardımcı,
+  bilimsel kaynak ve hesap sınırlarını açık sunan Halen: Quit Smoking Tracker.
+  Kullanıcının bütün eleştirilerini uygula; mevcut ve yeni hataları kök nedeninde düzelt,
+  test/gerçek cihaz/görsel denetimle kanıtla. Açık kaynak faydasını iyi anlat;
+  GPL seçimini ticari dağıtıma izin verir şekilde saklama.
+languages: [tr, en, de]
+stack: [Flutter, Dart, Riverpod, Drift, SQLCipher, in_app_purchase, google_mobile_ads]
+policy:
+  no-secrets-in-git: true
+  brain-file-ownership: 'Only the user edits §0 protocol-level changes'

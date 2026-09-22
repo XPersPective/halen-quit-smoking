@@ -134,3 +134,4 @@ app.*.symbols
 *.keystore
 android/key/
 /android/key.properties
+.project-brain/.cache/

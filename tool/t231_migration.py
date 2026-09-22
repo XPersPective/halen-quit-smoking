@@ -72,6 +72,11 @@ def texts(xml):
     return re.findall(r'(?:content-desc|text)="([^"]{2,90})"', xml)
 
 
+def launch():
+    """Launcher-activity agnostic start (works across app-id renames)."""
+    adb('shell', f'monkey -p {PKG} -c android.intent.category.LAUNCHER 1')
+
+
 def focused():
     return 'halenquitsmoking' in adb('shell',
         'dumpsys activity activities | grep topResumedActivity').stdout
@@ -81,28 +86,41 @@ def ensure_focus(max_tries=6):
     for _ in range(max_tries):
         if focused():
             return True
-        adb('shell', f'am start -n {PKG}/.MainActivity')
+        launch()
         time.sleep(2.5)
     return focused()
 
 
 def step(marker, action=None, wait=1.6, log=[]):
+    if isinstance(marker, (list, tuple)):
+        markers = list(marker)
+    else:
+        markers = [marker]
+    if isinstance(action, (list, tuple)) or action is None:
+        actions = list(action) if action else [None]
+    else:
+        actions = [action]
     for _ in range(5):
         if not focused():
             ensure_focus()
         xml = dump()
-        if marker in xml:
+        current = next((m for m in markers if m in xml), None)
+        if current is not None:
             print(f'  ok: {marker}')
             if action:
-                p = find(xml, action)
+                p = None
+                for a in actions:
+                    p = find(xml, a)
+                    if p is not None:
+                        break
                 if p is None:
-                    print(f'  !! action {action!r} not visible at {marker}')
+                    print(f'  !! action {actions!r} not visible at {current}')
                     return False
                 tap(*p)
                 time.sleep(wait)
             return True
         time.sleep(1.0)
-    print(f'  !! marker never seen: {marker}')
+    print(f'  !! marker never seen: {markers}')
     return False
 
 
@@ -137,25 +155,25 @@ def main():
     r = adb('install', args.old)
     check('old apk installed', 'Success' in r.stdout)
     adb('shell', 'wm dismiss-keyguard')
-    adb('shell', f'am start -n {PKG}/.MainActivity')
+    launch()
     time.sleep(6)
 
-    check('welcome screen', step("Halen'e hoş geldin", 'Başla'))
-    check('step 1 age', step('Adım 1/8', 'İleri'))
-    check('step 2 daily', step('Adım 2/8', 'İleri'))
-    check('step 3 ttfc pick', step('Adım 3/8', '5–30 dakika'))
-    check('step 3 to price', step('Adım 3/8', 'İleri'))
-    check('step 4 price screen', step('Adım 4/8'))
+    check('welcome screen', step(["Halen'e hoş geldin", 'Welcome to Halen'], ['Başla', 'Start']))
+    check('step 1 age', step(['Adım 1/8', 'Step 1 of 8'], ['İleri', 'Next']))
+    check('step 2 daily', step(['Adım 2/8', 'Step 2 of 8'], ['İleri', 'Next']))
+    check('step 3 ttfc pick', step(['Adım 3/8', 'Step 3 of 8'], ['5–30 dakika', '5–30 minutes']))
+    check('step 3 to price', step(['Adım 3/8', 'Step 3 of 8'], ['İleri', 'Next']))
+    check('step 4 price screen', step(['Adım 4/8', 'Step 4 of 8']))
     adb('shell', 'input text 89,90')
     time.sleep(0.8)
-    check('step 4 to triggers', step('Adım 4/8', 'İleri'))
-    check('step 5 triggers pick', step('Adım 5/8', 'Kahve'))
-    check('step 5 to goal', step('Adım 5/8', 'İleri'))
-    check('step 6 goal', step('Adım 6/8', 'İleri'))
-    check('step 7 why pick', step('Adım 7/8', 'Stres'))
-    check('step 7 to brand', step('Adım 7/8', 'İleri'))
-    check('step 8 brand + finish', step('Adım 8/8', 'Planımı kur'))
-    check('result to Today', step('Bugün', 'Bir sigara içtim', wait=2.0))
+    check('step 4 to triggers', step(['Adım 4/8', 'Step 4 of 8'], ['İleri', 'Next']))
+    check('step 5 triggers pick', step(['Adım 5/8', 'Step 5 of 8'], ['Kahve', 'Coffee']))
+    check('step 5 to goal', step(['Adım 5/8', 'Step 5 of 8'], ['İleri', 'Next']))
+    check('step 6 goal', step(['Adım 6/8', 'Step 6 of 8'], ['İleri', 'Next']))
+    check('step 7 why pick', step(['Adım 7/8', 'Step 7 of 8'], ['Stres', 'Stress']))
+    check('step 7 to brand', step(['Adım 7/8', 'Step 7 of 8'], ['İleri', 'Next']))
+    check('step 8 brand + finish', step(['Adım 8/8', 'Step 8 of 8'], ['Planımı kur', 'Set up my plan']))
+    check('result to Today', step(['Bugün', 'Today'], ['Bir sigara içtim', 'I smoked'], wait=2.0))
     adb('shell', 'am force-stop ' + PKG)
     time.sleep(1.5)
 
@@ -175,7 +193,7 @@ def main():
     r = adb('install', '-r', args.new)
     check('new apk installed over old', 'Success' in r.stdout)
     adb('logcat', '-c')
-    adb('shell', f'am start -n {PKG}/.MainActivity')
+    launch()
     time.sleep(9)
 
     xml = dump()

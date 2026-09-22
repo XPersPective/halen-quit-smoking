@@ -7,7 +7,7 @@ uygulamasıdır. Kayıtlar cihazda saklanır; göstergeler tıbbi ölçüm veya 
 
 ## Belgeler ve durum
 
-- [PROJECT_BRAIN.md](PROJECT_BRAIN.md): tek çalışma protokolü, mimari, ayrıntılı yol haritası,
+- [.project-brain/](.project-brain/): tek çalışma protokolü, mimari, ayrıntılı yol haritası,
   kabul ölçütleri, doğrulama kayıtları ve mağaza metni taslakları.
 - [PRIVACY_POLICY.md](PRIVACY_POLICY.md): gizlilik politikası.
 - [CHANGELOG.md](CHANGELOG.md): sürüm geçmişi.
@@ -15,7 +15,7 @@ uygulamasıdır. Kayıtlar cihazda saklanır; göstergeler tıbbi ölçüm veya 
 
 Uygulama henüz Android/iOS yayınına hazır olarak onaylanmamıştır. Test, gerçek cihaz,
 mağaza ödeme doğrulaması, reklam/izin entegrasyonu, imzalama ve hukuki incelemenin
-açık işleri PROJECT_BRAIN.md'de izlenir. Bir özelliğin yol haritasında bulunması uygulanmış
+açık işleri .project-brain/'de izlenir. Bir özelliğin yol haritasında bulunması uygulanmış
 veya doğrulanmış olduğu anlamına gelmez.
 
 ## Geliştirme
@@ -41,7 +41,7 @@ yayınına uygun değildir. Anahtarları ve parolaları depoya koymayın.
 
 Flutter sunum → Riverpod uygulama akışları → saf Dart domain hesapları →
 Drift/SQLCipher veri katmanı ve native platform servisleri.
-Bilimsel modellerin anlamı, sınırları ve veri sözleşmeleri PROJECT_BRAIN.md'de tutulur;
+Bilimsel modellerin anlamı, sınırları ve veri sözleşmeleri .project-brain/'de tutulur;
 README ikinci bir mimari/yol haritası olarak kullanılmaz.
 
 ## Görsel kontroller
@@ -58,4 +58,4 @@ Android/iOS cihaz kontrolünün yerine geçmez.
 Projenin amacı kullanıcılara faydalı, incelenebilir bir bırakma yardımcısı sunmaktır.
 Seçili lisans GNU GPLv3-or-later'dır: ticari dağıtımı yasaklamaz; kaynak kodu ve
 copyleft yükümlülükleri getirir. Tam lisans, bağımlılık ve mağaza dağıtım incelemesi
-PROJECT_BRAIN.md T19 altında izlenir. Açık kaynak olmak kusursuz güvenlik garantisi değildir.
+.project-brain/ T19 altında izlenir. Açık kaynak olmak kusursuz güvenlik garantisi değildir.
