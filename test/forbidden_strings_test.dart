@@ -20,6 +20,14 @@ void main() {
     'akciğerinin %',
     'ciğerinin %',
     'in deinem blut',
+    // Claims that turn population guidance into a guarantee or a fixed
+    // personal timetable.
+    'mucizevi onarım',
+    'mutlaka kırılır',
+    'irade yükünü %90',
+    'completely cleared',
+    'cravings peak and fade within',
+    'nach 72 stunden ist der körper nikotinfrei',
   ];
 
   /// Word-boundary bans for English/German equivalents — avoids false hits
@@ -64,6 +72,30 @@ void main() {
       for (final pattern in bannedPatterns) {
         if (pattern.hasMatch(content)) {
           offenders.add('${file.path}: ${pattern.pattern}');
+        }
+      }
+    }
+    expect(offenders, isEmpty, reason: offenders.join('\n'));
+  });
+
+  test('no hardcoded Turkish copy in the presentation layer', () {
+    // UI copy must come from the ARB catalogs: a Turkish literal in
+    // lib/presentation ships Turkish text to English and German users.
+    // Comments are skipped; only quoted literals are checked.
+    final literal = RegExp(r'''(['"])([^'"\n]*)\1''');
+    final turkishChars = RegExp('[şıİŞğĞ]');
+    final offenders = <String>[];
+    for (final file in Directory('lib/presentation')
+        .listSync(recursive: true)
+        .whereType<File>()
+        .where((f) => f.path.endsWith('.dart'))) {
+      for (final line in file.readAsLinesSync()) {
+        final cut = line.indexOf('//');
+        final code = cut >= 0 ? line.substring(0, cut) : line;
+        for (final match in literal.allMatches(code)) {
+          if (turkishChars.hasMatch(match.group(2)!)) {
+            offenders.add('${file.path}: ${match.group(2)}');
+          }
         }
       }
     }

@@ -84,11 +84,6 @@ class BodyLoadSnapshot {
     required this.nicotinePercentOfPeak,
     required this.coPercentOfPeak,
     required this.values,
-    this.tarMgToday = 0,
-    this.tarDropsToday = 0.0,
-    this.weightKg,
-    this.tarPerCigarette = 10.0,
-    this.nicotinePerCigarette = 0.8,
   });
 
   /// Time since the last recorded cigarette; null when there is none.
@@ -103,20 +98,8 @@ class BodyLoadSnapshot {
   /// Normalized current value per curve (0–100).
   final Map<LoadKind, int> values;
 
-  /// Today's cumulative inhaled tar in milligrams.
-  final int tarMgToday;
-
-  /// Today's cumulative tar expressed in physical drops (~50 mg per drop).
-  final double tarDropsToday;
-
-  /// User's body weight in kg, if entered.
-  final double? weightKg;
-
-  /// Tar per cigarette from pack, or standard legal default (10 mg).
-  final double tarPerCigarette;
-
-  /// Nicotine per cigarette from pack, or standard default (0.8 mg).
-  final double nicotinePerCigarette;
+  // Absolute tar/nicotine amounts are intentionally not exposed here. The UI
+  // only receives normalized model values.
 
   /// How much the CO load has fallen from its 24 h peak (0–100).
   int get coDropPercent => 100 - coPercentOfPeak;
@@ -229,20 +212,10 @@ class BodyLoadModel {
   /// "What is in me right now" summary for the Body Load card header.
   BodyLoadSnapshot snapshot(DateTime now, List<DateTime> events) {
     final past = events.where((e) => !e.isAfter(now)).toList()..sort();
-    final todayStart = DateTime(now.year, now.month, now.day);
-    final todayCount = past.where((e) => !e.isBefore(todayStart)).length;
-    final tarMg = (todayCount * tarPerCigarette).round();
-    final tarDrops = tarMg / 50.0; // ~50 mg tar condensate per standard drop
-
     return BodyLoadSnapshot(
       sinceLast: past.isEmpty ? null : now.difference(past.last),
       nicotinePercentOfPeak: normalizedNow(LoadKind.nicotineAcute, now, past),
       coPercentOfPeak: normalizedNow(LoadKind.carbonMonoxide, now, past),
-      tarMgToday: tarMg,
-      tarDropsToday: tarDrops,
-      weightKg: weightKg,
-      tarPerCigarette: tarPerCigarette,
-      nicotinePerCigarette: nicotinePerCigarette,
       values: {
         for (final kind in LoadKind.values) kind: normalizedNow(kind, now, past),
       },

@@ -32,7 +32,7 @@ void main() {
     await tester.pumpAndSettle();
     // The sheet leads with objective physiological feedback and resets cleanly.
     expect(
-      find.text('Cigarette logged. Carbon monoxide clearance has reset.'),
+      find.text('Cigarette logged. The carbon-monoxide model has been recalculated.'),
       findsOneWidget,
     );
     await tester.tap(find.widgetWithText(FilledButton, 'Done'));

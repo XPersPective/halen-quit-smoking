@@ -108,4 +108,33 @@ void main() {
       1,
     );
   });
+
+  test('store entitlement upsert cannot leave a revoked product owned', () async {
+    final now = DateTime(2026, 9, 6, 12);
+    final product = 'com.crazypenguin.halenquitsmoking.monthly';
+    await db.purchaseDao.upsertEntitlement(
+      PurchaseEntitlementCompanion.insert(
+        store: 'play',
+        productId: product,
+        purchaseToken: 'old-token',
+        state: 'owned',
+        lastVerifiedAt: now,
+      ),
+    );
+    await db.purchaseDao.upsertEntitlement(
+      PurchaseEntitlementCompanion.insert(
+        store: 'play',
+        productId: product,
+        purchaseToken: 'new-token',
+        state: 'revoked',
+        lastVerifiedAt: now.add(const Duration(minutes: 1)),
+      ),
+    );
+
+    expect(await db.purchaseDao.hasOwnedEntitlement(), isFalse);
+    expect(
+      (await db.purchaseDao.latest())!.purchaseToken,
+      'new-token',
+    );
+  });
 }

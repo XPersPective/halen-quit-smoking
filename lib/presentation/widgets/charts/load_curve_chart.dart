@@ -35,8 +35,6 @@ class LoadCurveChart extends StatelessWidget {
     required this.locale,
     required this.semanticsLabel,
     this.height = 168,
-    this.peakValue,
-    this.unitFormatter,
   });
 
   /// Normalized 0–100 samples across the window.
@@ -62,13 +60,6 @@ class LoadCurveChart extends StatelessWidget {
 
   final String semanticsLabel;
   final double height;
-
-  /// The real quantity at 100% of this window (item 12). With
-  /// [unitFormatter], the axis prints that quantity — "0.9 mg" — instead of
-  /// a percentage. Exact, because the normalised curve is linear in the raw
-  /// one: 50% of the plot is half of [peakValue].
-  final double? peakValue;
-  final String Function(double)? unitFormatter;
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +87,6 @@ class LoadCurveChart extends StatelessWidget {
                 color: color,
                 timeLabels: timeLabels,
                 locale: locale,
-                peakValue: peakValue,
-                unitFormatter: unitFormatter,
                 labelStyle: (theme.textTheme.labelSmall ??
                       const TextStyle(fontSize: 11))
                   .asNumber,
@@ -121,8 +110,6 @@ class _LoadCurvePainter extends CustomPainter {
     required this.timeLabels,
     required this.locale,
     required this.labelStyle,
-    this.peakValue,
-    this.unitFormatter,
     required this.gridColor,
   });
 
@@ -133,8 +120,6 @@ class _LoadCurvePainter extends CustomPainter {
   final List<String> timeLabels;
   final String locale;
   final TextStyle labelStyle;
-  final double? peakValue;
-  final String Function(double)? unitFormatter;
   final Color gridColor;
 
   /// Room under the plot for the cigarette ticks and the time labels.
@@ -182,9 +167,7 @@ class _LoadCurvePainter extends CustomPainter {
       canvas.drawLine(Offset(plot.left, y), Offset(plot.right, y), gridPaint);
       _text(
         canvas,
-        unitFormatter != null && peakValue != null
-            ? unitFormatter!(peakValue! * value / 100)
-            : formatPercent(value, locale),
+        formatPercent(value, locale),
         Offset(0, y - 7),
         _labelGutter - 6,
       );

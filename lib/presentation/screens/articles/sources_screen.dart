@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../application/article_providers.dart';
 import '../../../application/module_providers.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../core/design/tokens.dart';
@@ -19,12 +20,16 @@ class SourcesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final locale = ref.watch(currentLocaleProvider);
     final sources = [
       ...ref.watch(dailyCardRepositoryProvider).allSources(),
+      for (final article in
+          ref.watch(articleRepositoryProvider).getArticles(locale: locale))
+        (label: article.title, url: article.sourceUrl),
       for (final technique in ref.watch(libraryRepositoryProvider).sosTechniques())
-        (label: technique.name('en'), url: technique.sourceUrl),
+        (label: technique.name(locale), url: technique.sourceUrl),
       for (final organ in ref.watch(libraryRepositoryProvider).organs())
-        (label: organ.name('en'), url: organ.sourceUrl),
+        (label: organ.name(locale), url: organ.sourceUrl),
     ];
     final seen = <String>{};
     final unique = [

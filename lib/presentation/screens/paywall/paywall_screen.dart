@@ -13,8 +13,9 @@ import '../../widgets/design/halen_components.dart';
 /// adherence/plan switch), never mid-onboarding.
 ///
 /// Features:
-///  - 3 Tiers: Annual (7-day trial, best value), Monthly, Lifetime (one-time).
-///  - Zero-risk 3-step trial timeline visualizer for subscriptions.
+///  - 3 Tiers: Annual, Monthly, Lifetime (one-time).
+///  - A three-step visualizer for Halen's card-free local trial; it never
+///    promises a store charge or trial offer that the store has not supplied.
 ///  - Full App Store & Google Play compliance: auto-renewal disclaimers,
 ///    EULA / terms, privacy policy modal, and restore purchases button.
 ///  - 100% on-device local database architecture; no account registration wall.
@@ -43,14 +44,13 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
       final list = await service.productDetails();
       if (mounted) {
         setState(() {
-          _products =
-              list.isNotEmpty ? list : PurchaseService.fallbackProducts();
+          _products = list;
         });
       }
     } catch (_) {
       if (mounted) {
         setState(() {
-          _products = PurchaseService.fallbackProducts();
+          _products = const [];
         });
       }
     }
@@ -134,11 +134,12 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final access = ref.watch(entitlementProvider).value;
-    final isOwned = access?.lifetimeOwned ?? false;
+    final isOwned = access?.storeOwned ?? false;
 
     final annualProduct = _findProduct(PurchaseService.productIdAnnual);
     final monthlyProduct = _findProduct(PurchaseService.productIdMonthly);
     final lifetimeProduct = _findProduct(PurchaseService.productIdLifetime);
+    final selectedProduct = _findProduct(_selectedTier);
 
     return Scaffold(
       appBar: AppBar(
@@ -295,7 +296,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
 
             // Plan Tier Selector Cards
             Text(
-              'Abonelik Seçenekleri',
+              l10n.paywallPlansTitle,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w700,
                 color: theme.colorScheme.onSurfaceVariant,
@@ -303,7 +304,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
             ),
             const SizedBox(height: HalenSpace.x2),
 
-            // 1. Annual Tier (Best value, 7-day trial)
+            // 1. Annual Tier (Best value)
             _buildTierCard(
               context: context,
               productId: PurchaseService.productIdAnnual,
@@ -311,11 +312,8 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
               title: l10n.planTierAnnual,
               subtitle: annualProduct != null
                   ? l10n.planTierAnnualSub(annualProduct.price)
-                  : '7 gün ücretsiz dene, ardından ₺399,99/yıl',
-              priceText: annualProduct?.price ?? '₺399,99/yıl',
-              perMonthText: annualProduct != null && annualProduct.rawPrice > 0
-                  ? '${annualProduct.currencySymbol}${(annualProduct.rawPrice / 12).toStringAsFixed(2)} / ay'
-                  : '~₺33,33 / ay',
+                  : l10n.paywallPriceUnavailable,
+              priceText: annualProduct?.price ?? l10n.paywallPriceUnavailable,
               isSelected: _selectedTier == PurchaseService.productIdAnnual,
             ),
             const SizedBox(height: HalenSpace.x2),
@@ -326,7 +324,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
               productId: PurchaseService.productIdMonthly,
               title: l10n.planTierMonthly,
               subtitle: l10n.planTierMonthlySub,
-              priceText: monthlyProduct?.price ?? '₺59,99/ay',
+              priceText: monthlyProduct?.price ?? l10n.paywallPriceUnavailable,
               isSelected: _selectedTier == PurchaseService.productIdMonthly,
             ),
             const SizedBox(height: HalenSpace.x2),
@@ -338,7 +336,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
               badgeText: l10n.planTierLifetimeBadge,
               title: l10n.planTierLifetime,
               subtitle: l10n.planTierLifetimeSub,
-              priceText: lifetimeProduct?.price ?? '₺799,99',
+              priceText: lifetimeProduct?.price ?? l10n.paywallPriceUnavailable,
               isSelected: _selectedTier == PurchaseService.productIdLifetime,
             ),
             const SizedBox(height: HalenSpace.x4),
@@ -369,7 +367,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
               )
             else ...[
               FilledButton(
-                onPressed: _buying ? null : _handleBuy,
+                onPressed: _buying || selectedProduct == null ? null : _handleBuy,
                 style: FilledButton.styleFrom(
                   minimumSize: const Size.fromHeight(54),
                   shape: const RoundedRectangleBorder(
@@ -430,11 +428,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                   ),
                   onPressed: () => _showLegalDialog(
                     title: l10n.paywallTerms,
-                    content:
-                        'Apple Standard End User License Agreement (EULA):\n\n'
-                        'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\n'
-                        'Halen uygulaması kullanıcı gizliliğine ve şeffaf faturalandırmaya tam uyumludur. '
-                        'Abonelikleriniz dönem bitiminden en az 24 saat önce iptal edilmediği müddetçe otomatik yenilenir.',
+                    content: l10n.paywallTermsBody,
                   ),
                   child: Text(
                     l10n.paywallTerms,
@@ -451,10 +445,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                   ),
                   onPressed: () => _showLegalDialog(
                     title: l10n.paywallPrivacy,
-                    content:
-                        '${l10n.settingsPrivacy}\n\n'
-                        'Halen, hiçbir kişisel veriyi, sigara içim kayıtlarını veya kriz verilerini harici sunuculara göndermez. '
-                        'Tüm veritabanı cihazınızda SQLCipher ile şifreli olarak saklanır.',
+                    content: l10n.paywallPrivacyBody,
                   ),
                   child: Text(
                     l10n.paywallPrivacy,
@@ -480,7 +471,6 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
     required String subtitle,
     required String priceText,
     String? badgeText,
-    String? perMonthText,
     required bool isSelected,
   }) {
     final theme = Theme.of(context);
@@ -566,14 +556,6 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                           color: theme.colorScheme.primary,
                         ),
                       ),
-                      if (perMonthText != null)
-                        Text(
-                          perMonthText,
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
                     ],
                   ),
                 ],
@@ -602,7 +584,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
               ),
               const SizedBox(width: HalenSpace.x2),
               Text(
-                'Nasıl Çalışır? (Sıfır Risk)',
+                l10n.paywallTimelineTitle,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w700,
                 ),

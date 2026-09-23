@@ -185,9 +185,12 @@ class TodayLogCard extends ConsumerWidget {
                       final gap = item.gapFromPrevious;
                       final gapStr = gap != null
                           ? (gap.inHours > 0
-                              ? '+${gap.inHours} sa ${gap.inMinutes % 60} dk sonra'
-                              : '+${gap.inMinutes} dk sonra')
-                          : 'Günün ilki';
+                              ? l10n.todayLogGapHours(
+                                  gap.inHours,
+                                  gap.inMinutes % 60,
+                                )
+                              : l10n.todayLogGapMinutes(gap.inMinutes))
+                          : l10n.todayLogFirstOfDay;
 
                       return Row(
                         children: [

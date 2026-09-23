@@ -211,8 +211,8 @@ void main() {
     expect(find.text(l10n.loadNicotineAcute), findsOneWidget);
     expect(find.text(l10n.loadCarbonMonoxide), findsOneWidget);
     expect(find.text(l10n.nowInBodyLast), findsOneWidget);
-    // Item 12: the nicotine axis is in milligrams now.
-    expect(find.text(l10n.nicotineMgAxis), findsOneWidget);
+    expect(find.text(l10n.loadAxisCaption), findsOneWidget);
+    expect(find.textContaining(' mg'), findsNothing);
 
     // A percentage is shown, and it is written the way English writes one.
     expect(find.textContaining(RegExp(r'^\d+%$')), findsWidgets);
@@ -343,6 +343,15 @@ void main() {
     final l10n = await AppLocalizations.delegate.load(const Locale('en'));
     expect(find.text(l10n.sourcesIntro), findsOneWidget);
     expect(find.textContaining('https://'), findsWidgets);
+    final articleSource = find.text(
+      'https://www.who.int/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation',
+    );
+    await tester.scrollUntilVisible(articleSource, 500,
+        scrollable: find.byType(Scrollable));
+    expect(
+      articleSource,
+      findsOneWidget,
+    );
 
     await disposeApp(tester);
   });

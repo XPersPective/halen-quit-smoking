@@ -220,7 +220,7 @@ class ArticleReaderScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Bilimsel Dayanak & Kaynak',
+                          l10n.articleSourceHeading,
                           style: theme.textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: theme.colorScheme.onSurfaceVariant,

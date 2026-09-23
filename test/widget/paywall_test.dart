@@ -150,14 +150,14 @@ void main() {
     expect(find.text('Ömür Boyu Erişim'), findsOneWidget);
 
     // Annual is selected by default -> trial timeline is visible & trial CTA is active
-    expect(find.text('Nasıl Çalışır? (Sıfır Risk)'), findsOneWidget);
-    expect(find.text('7 Gün Ücretsiz Dene & Başla'), findsOneWidget);
+    expect(find.text('7 günlük Halen Premium denemen'), findsOneWidget);
+    expect(find.text('Yıllık planı seç'), findsOneWidget);
 
     // Tap Monthly tier -> CTA becomes "Hemen Başla", trial timeline hides
     await tester.tap(find.text('Aylık Plan'));
     await tester.pumpAndSettle();
     expect(find.text('Hemen Başla'), findsOneWidget);
-    expect(find.text('Nasıl Çalışır? (Sıfır Risk)'), findsNothing);
+    expect(find.text('7 günlük Halen Premium denemen'), findsNothing);
 
     // Tap Lifetime tier -> CTA becomes "Ömür Boyu Sahip Ol"
     await tester.tap(find.text('Ömür Boyu Erişim'));
@@ -176,7 +176,14 @@ void main() {
     // Tap Terms of Service link -> opens legal dialog
     await tester.tap(find.text('Kullanım Koşulları (EULA)'));
     await tester.pumpAndSettle();
-    expect(find.text('Apple Standard End User License Agreement (EULA):\n\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nHalen uygulaması kullanıcı gizliliğine ve şeffaf faturalandırmaya tam uyumludur. Abonelikleriniz dönem bitiminden en az 24 saat önce iptal edilmediği müddetçe otomatik yenilenir.'), findsOneWidget);
+    expect(
+      find.textContaining('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/'),
+      findsOneWidget,
+    );
+    expect(
+      find.textContaining('https://play.google.com/about/play-terms/'),
+      findsOneWidget,
+    );
     await tester.tap(find.text('Kapat'));
     await tester.pumpAndSettle();
 

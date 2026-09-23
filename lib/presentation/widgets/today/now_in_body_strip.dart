@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,20 +86,6 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
       _now,
       past,
     );
-    // Item 12: the nicotine axis in milligrams. The model's raw curve is in
-    // mg of absorbed nicotine still in the body, so the peak of this window
-    // gives the axis its real scale.
-    final rawNicotine = model.rawCurve(
-      LoadKind.nicotineAcute,
-      windowStart,
-      _now,
-      past,
-    );
-    final peakMg = rawNicotine.isEmpty ? 0.0 : rawNicotine.reduce(math.max);
-    final nowMg = model.rawAt(LoadKind.nicotineAcute, _now, past);
-    String mg(double v) =>
-        l10n.mgValue(v < 10 ? v.toStringAsFixed(1) : v.toStringAsFixed(0));
-
     final ghosts = [
       for (final c in cravings)
         if (c.outcome == CravingOutcome.resisted && c.ts.isAfter(windowStart))
@@ -128,7 +113,7 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
               Expanded(
                 child: HalenStat(
                   label: l10n.loadNicotineAcute,
-                  value: mg(nowMg),
+                  value: formatPercent(snapshot.nicotinePercentOfPeak, locale),
                   caption: band(snapshot.nicotinePercentOfPeak),
                   color: DataRole.nicotine.of(context),
                 ),
@@ -149,9 +134,12 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
             children: [
               Expanded(
                 child: HalenStat(
-                  label: '${l10n.loadTar} (Bugün)',
-                  value: '${snapshot.tarMgToday} mg',
-                  caption: '≈ ${snapshot.tarDropsToday.toStringAsFixed(1)} damla',
+                  label: l10n.loadTarToday,
+                  value: formatPercent(
+                    snapshot.values[LoadKind.tarCumulative] ?? 0,
+                    locale,
+                  ),
+                  caption: band(snapshot.values[LoadKind.tarCumulative] ?? 0),
                   color: const Color(0xFF8D6E63),
                 ),
               ),
@@ -161,7 +149,7 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
                   value: snapshot.sinceLast == null
                       ? l10n.nowInBodyNever
                       : formatShortDuration(snapshot.sinceLast!, locale),
-                  caption: 'Temizlenme sürüyor',
+                  caption: l10n.nowInBodyCleaning,
                   color: theme.colorScheme.onSurface,
                 ),
               ),
@@ -173,9 +161,7 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
             events: windowEvents,
             ghostEvents: ghosts,
             color: DataRole.nicotine.of(context),
-            axisCaption: l10n.nicotineMgAxis,
-            peakValue: peakMg,
-            unitFormatter: mg,
+            axisCaption: l10n.loadAxisCaption,
             timeLabels: [
               l10n.loadAxisHoursAgo(24),
               l10n.loadAxisHoursAgo(18),
@@ -191,11 +177,6 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
           ),
           const SizedBox(height: HalenSpace.x3),
           Text(l10n.bodyLoadMeaning, style: theme.textTheme.bodySmall),
-          const SizedBox(height: HalenSpace.x1),
-          Text(
-            '${l10n.nicotineMgBasis} · ${snapshot.weightKg != null ? '${snapshot.weightKg!.round()} kg ağırlık · ' : ''}Paket: ${snapshot.tarPerCigarette.toStringAsFixed(0)} mg katran, ${snapshot.nicotinePerCigarette.toStringAsFixed(1)} mg nikotin.',
-            style: theme.textTheme.bodySmall,
-          ),
         ],
       ),
     );
