@@ -14,6 +14,13 @@
         android:fullBackupContent="@xml/backup_rules"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- AdMob app id (T21). Real app id from the publisher
+             account (pub-0258900763816899); debug builds still use
+             Google's test ad units (ads_service.dart). Without a
+             matching APPLICATION-LEVEL id the GMA SDK crashes at attach. -->
+        <meta-data
+          android:name="com.google.android.gms.ads.APPLICATION_ID"
+          android:value="ca-app-pub-0258900763816899~2518053325"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -31,13 +38,6 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
-            <!-- AdMob app id (T21). This is Google's official PUBLIC TEST app
-                 id; replace with the real AdMob app id from the publisher
-                 account before a store release with live ads. Without a
-                 matching id the SDK refuses to load ads. -->
-            <meta-data
-              android:name="com.google.android.gms.ads.APPLICATION_ID"
-              android:value="ca-app-pub-3940256099942544~3347511713"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
