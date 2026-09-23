@@ -33,7 +33,7 @@ val keystoreProperties = Properties().apply {
 val hasUploadKey = keystoreProperties.getProperty("storeFile") != null
 
 android {
-    namespace = "com.halenquitsmoking.app"
+    namespace = "com.crazypenguin.halenquitsmoking"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -45,7 +45,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.halenquitsmoking.app"
+        applicationId = "com.crazypenguin.halenquitsmoking"
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
