@@ -1,4 +1,15 @@
-# project-brain configuration (skill: ~/.claude/skills/project-brain)
+schema_version: 3
+architecture:
+  mode: single
+git:
+  history_mode: preserve
+  push_policy: manual
+tasks:
+  id_prefix: PB
+verification:
+  default_risk: medium
+
+# project-brain configuration
 repository: halen-quit-smoking
 goal: >
   Android ve iOS'ta yayınlanabilecek premium kalitede, sigara bırakmaya yardımcı,
