@@ -22,7 +22,7 @@ yüklenmez; deneme + Premium'da hiçbir yüzey yok (kaynak: pubspec.yaml +
 AndroidManifest denetimi 2026-09-21, Google'ın test birimleri).
 
 ### iOS (PrivacyInfo.xcprivacy)
-- NSPrivacyTracking: false; TrackingDomains: boş; CollectedDataTypes: boş.
+- NSPrivacyTracking: false; TrackingDomains: boş; CollectedDataTypes: DeviceID + AdvertisingData (AdMob, linked=false, ThirdPartyAdvertising).
 - Accessed APIs: UserDefaults (CA92.1) — yalnız uygulamanın kendi ayarları.
 
 ### Veri depolama
