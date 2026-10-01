@@ -697,7 +697,7 @@ abstract class AppLocalizations {
   /// No description provided for @nextTargetDayDone.
   ///
   /// In en, this message translates to:
-  /// **'Daily plan completed — well done'**
+  /// **'Today\'s budget is used up — try to hold here'**
   String get nextTargetDayDone;
 
   /// No description provided for @nicotineMiniLabel.
@@ -6111,6 +6111,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When you cut down or quit:\n\n• Coffee stays in the blood twice as long! Your usual amount can now cause palpitations, trembling and panic. Most people mistake this for a nicotine craving — it is a caffeine overload. Cut your coffee by 50%.\n• Simple sugars (chocolate, syrupy sweets) create sharp spikes and crashes in blood sugar (reactive hypoglycaemia), feeding dopamine hunger and cigarette cravings. Choose fibre-rich snacks instead.'**
   String get nutritionPillar4Body;
+
+  /// No description provided for @todayLogCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} logged'**
+  String todayLogCount(int n);
 }
 
 class _AppLocalizationsDelegate

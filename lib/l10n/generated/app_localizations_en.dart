@@ -338,7 +338,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'Next target: you are inside your planned window';
 
   @override
-  String get nextTargetDayDone => 'Daily plan completed — well done';
+  String get nextTargetDayDone =>
+      'Today\'s budget is used up — try to hold here';
 
   @override
   String get nicotineMiniLabel => 'Estimated nicotine exposure (model)';
@@ -3484,4 +3485,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get nutritionPillar4Body =>
       'When you cut down or quit:\n\n• Coffee stays in the blood twice as long! Your usual amount can now cause palpitations, trembling and panic. Most people mistake this for a nicotine craving — it is a caffeine overload. Cut your coffee by 50%.\n• Simple sugars (chocolate, syrupy sweets) create sharp spikes and crashes in blood sugar (reactive hypoglycaemia), feeding dopamine hunger and cigarette cravings. Choose fibre-rich snacks instead.';
+
+  @override
+  String todayLogCount(int n) {
+    return '$n logged';
+  }
 }

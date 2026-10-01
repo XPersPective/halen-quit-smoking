@@ -337,7 +337,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get nextTargetReady => 'Sonraki hedef: planlanan aralıktasın';
 
   @override
-  String get nextTargetDayDone => 'Günlük plan tamamlandı — iyi gitti';
+  String get nextTargetDayDone => 'Bugünkü bütçe doldu — burada durmayı dene';
 
   @override
   String get nicotineMiniLabel => 'Tahmini nikotin maruziyeti (model)';
@@ -3479,4 +3479,9 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get nutritionPillar4Body =>
       'Sigarayı azalttığınızda veya bıraktığınızda:\n\n• Kahve kanda iki kat daha uzun süre kalır! Normalde içtiğiniz kahve miktarı artık sizde taşikardi (çarpıntı), titreme ve panik yaratır. Çoğu kişi bu durumu nikotin krizi sanır; oysa aşırı kafein yüklenmesidir. Kahve tüketiminizi %50 azaltın.\n• Basit şekerler (çikolata, şerbetli tatlılar) kan şekerinde ani zirveler ve çöküşler (reaktif hipoglisemi) oluşturarak dopamin açlığını ve sigara krizini azdırır. Şeker yerine lifli atıştırmalıklar tercih edin.';
+
+  @override
+  String todayLogCount(int n) {
+    return '$n adet';
+  }
 }

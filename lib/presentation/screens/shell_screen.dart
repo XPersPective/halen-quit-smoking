@@ -11,18 +11,23 @@ import 'package:halen/presentation/screens/today/today_screen.dart';
 /// The app shell: bottom navigation over the five core surfaces
 /// (BUGÜN / Grafikler / Plan / Rehber / Kriz SOS).
 class ShellScreen extends StatefulWidget {
-  const ShellScreen({super.key});
+  const ShellScreen({super.key, this.initialIndex = 0});
+
+  /// Tab shown first; store screenshots open the shell on each tab.
+  final int initialIndex;
 
   @override
   State<ShellScreen> createState() => _ShellScreenState();
 }
 
 class _ShellScreenState extends State<ShellScreen> {
-  int _index = 0;
+  late int _index = widget.initialIndex;
 
   // Item 15: the tabs are pages, so a horizontal swipe moves between them as
   // well as the bar does. The bar and the pages drive each other.
-  final PageController _pages = PageController();
+  late final PageController _pages = PageController(
+    initialPage: widget.initialIndex,
+  );
 
   @override
   void dispose() {
@@ -104,7 +109,6 @@ class ShellSettingsButton extends StatelessWidget {
     );
   }
 }
-
 
 class _KeepAlive extends StatefulWidget {
   const _KeepAlive({required this.child});

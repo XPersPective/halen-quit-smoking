@@ -340,7 +340,8 @@ class AppLocalizationsDe extends AppLocalizations {
       'Nächstes Ziel: du bist in deinem geplanten Fenster';
 
   @override
-  String get nextTargetDayDone => 'Tagesplan geschafft — gut gemacht';
+  String get nextTargetDayDone =>
+      'Das heutige Budget ist aufgebraucht — versuche, hier zu stoppen';
 
   @override
   String get nicotineMiniLabel => 'Geschätzte Nikotin-Exposition (Modell)';
@@ -3498,4 +3499,9 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get nutritionPillar4Body =>
       'Wenn du reduzierst oder aufhörst:\n\n• Kaffee bleibt doppelt so lange im Blut! Deine gewohnte Menge kann jetzt Herzrasen, Zittern und Panik verursachen. Die meisten halten das für einen Nikotin-Craving — es ist eine Koffein-Überladung. Reduziere deinen Kaffeekonsum um 50 %.\n• Einfache Zucker (Schokolade, Sirup-Süßigkeiten) erzeugen steile Blutzuckerspitzen und -abstürze (reaktive Hypoglykämie), was den Dopamin-Hunger und das Rauchverlangen anheizt. Greife stattdessen zu ballaststoffreichen Snacks.';
+
+  @override
+  String todayLogCount(int n) {
+    return '$n erfasst';
+  }
 }

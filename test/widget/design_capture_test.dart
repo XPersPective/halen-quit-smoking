@@ -20,6 +20,7 @@ import 'package:halen/presentation/screens/onboarding/onboarding_result_screen.d
 import 'package:halen/presentation/screens/paywall/paywall_screen.dart';
 import 'package:halen/presentation/screens/plan/plan_screen.dart';
 import 'package:halen/presentation/screens/settings/settings_screen.dart';
+import 'package:halen/presentation/screens/shell_screen.dart';
 import 'package:halen/presentation/screens/sos/sos_screen.dart';
 import 'package:halen/presentation/screens/stats/stats_screen.dart';
 import 'package:halen/presentation/screens/timeline/health_timeline_screen.dart';
@@ -59,6 +60,16 @@ class _OfflineStore extends PurchaseService {
 
   @override
   Future<void> restore() async {}
+}
+
+/// Store listing mode: `--dart-define=STORE_LOCALE=tr|en|de` renders the
+/// core tour (01-08) at 1080x2160 in that language into
+/// `store/screenshots/<locale>/`.
+const storeLocale = String.fromEnvironment('STORE_LOCALE');
+
+Widget _storeScreen(String name, Widget screen) {
+  final tab = int.parse(name.substring(0, 2)) - 1;
+  return tab < 5 ? ShellScreen(initialIndex: tab) : screen;
 }
 
 void main() {
@@ -131,18 +142,27 @@ void main() {
     Widget screen, {
     Brightness brightness = Brightness.light,
   }) async {
-    tester.view.physicalSize = const Size(420, 1000);
-    tester.view.devicePixelRatio = 1;
+    final store = storeLocale.isNotEmpty;
+    if (store && !name.startsWith(RegExp(r'0[1-8]-'))) {
+      return;
+    }
+    tester.view.physicalSize = store
+        ? const Size(1080, 2160)
+        : const Size(420, 1000);
+    tester.view.devicePixelRatio = store ? 1080 / 420 : 1;
     addTearDown(tester.view.reset);
 
     await pumpModuleWidget(
       tester,
       db: db,
-      child: screen,
-      scrollable: screen is IndicesCard ||
+      // Store shots show the real shell (nav bar, background), not a bare tab.
+      child: store ? _storeScreen(name, screen) : screen,
+      scrollable:
+          !store && screen is IndicesCard ||
           screen is TarIntakeCard ||
           screen is EnvironmentCard,
       brightness: brightness,
+      locale: Locale(store ? storeLocale : 'en'),
       // Any screen that reads the entitlement reaches for the store, and a
       // billing client cannot exist in a test binding. Without this the plan
       // and paywall captures fail on a platform channel rather than on
@@ -163,7 +183,9 @@ void main() {
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile(
-          name.startsWith(RegExp(r'0[1-8]-'))
+          store
+              ? '../../store/screenshots/$storeLocale/$name.png'
+              : name.startsWith(RegExp(r'0[1-8]-'))
               // The core tour lives at the root; the module screens keep
               // their own folder.
               ? '../../screenshots/$name.png'
@@ -224,10 +246,7 @@ void main() {
   testWidgets('plan', (t) => shot(t, '03-plan', const PlanScreen()));
   testWidgets('articles', (t) => shot(t, '04-rehber', const ArticlesScreen()));
   testWidgets('sos', (t) => shot(t, '05-kriz-sos', const SosScreen()));
-  testWidgets(
-    'settings',
-    (t) => shot(t, '06-ayarlar', const SettingsScreen()),
-  );
+  testWidgets('settings', (t) => shot(t, '06-ayarlar', const SettingsScreen()));
   testWidgets(
     'timeline',
     (t) => shot(t, '07-saglik-zaman-cizelgesi', const HealthTimelineScreen()),

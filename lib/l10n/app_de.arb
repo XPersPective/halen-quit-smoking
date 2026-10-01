@@ -99,7 +99,7 @@
   "nextTargetIn": "Nächstes Ziel: frühestens in {n} Min.",
   "nextTargetHoursIn": "Nächstes Ziel: frühestens in {h} Std. {m} Min.",
   "nextTargetReady": "Nächstes Ziel: du bist in deinem geplanten Fenster",
-  "nextTargetDayDone": "Tagesplan geschafft — gut gemacht",
+  "nextTargetDayDone": "Das heutige Budget ist aufgebraucht — versuche, hier zu stoppen",
   "nicotineMiniLabel": "Geschätzte Nikotin-Exposition (Modell)",
   "ctaSmoked": "Ich habe eine geraucht",
   "ctaResisted": "Ich habe widerstanden",
@@ -991,21 +991,60 @@
   "commonDelete": "Löschen",
   "todayLogFirstOfDay": "Erste des Tages",
   "todayLogGapHours": "+{h} Std {m} Min später",
-  "@todayLogGapHours": {"placeholders": {"h": {"type": "int"}, "m": {"type": "int"}}},
+  "@todayLogGapHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
   "todayLogGapMinutes": "+{m} Min später",
-  "@todayLogGapMinutes": {"placeholders": {"m": {"type": "int"}}},
+  "@todayLogGapMinutes": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  },
   "loadTarToday": "Teer (heute)",
   "nowInBodyCleaning": "Abbau läuft",
   "sosInternationalLines": "Internationale Rauchstopp-Hotlines",
   "economyPastSpentNote": "Dieses Geld ist bereits ausgegeben. Mit Halen aufzuhören sorgt dafür, dass dein Vermögen — und deine Lebenszeit — in den kommenden Jahren in deiner Tasche bleibt.",
   "economyYearsLabel": "{years} J. / Zigaretten",
-  "@economyYearsLabel": {"placeholders": {"years": {"type": "String"}}},
+  "@economyYearsLabel": {
+    "placeholders": {
+      "years": {
+        "type": "String"
+      }
+    }
+  },
   "economyCigaretteCount": "{count} Zigaretten",
-  "@economyCigaretteCount": {"placeholders": {"count": {"type": "String"}}},
+  "@economyCigaretteCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "earPointOf": "Punkt {n}/5",
-  "@earPointOf": {"placeholders": {"n": {"type": "int"}}},
+  "@earPointOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "earPointLocation": "Position: {location}",
-  "@earPointLocation": {"placeholders": {"location": {"type": "String"}}},
+  "@earPointLocation": {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
   "earPointShenMenTitle": "Shen Men (Geistestor)",
   "earPointShenMenLocation": "Obere Dreieckgrube (Fossa triangularis) des Ohrs",
   "earPointShenMenEffect": "Stimuliert das parasympathische Nervensystem; beruhigt Angst, Panik und Stresshormone (Kortisol) in einem Craving.",
@@ -1027,7 +1066,13 @@
   "earPointLungEffect": "Löst den Krampf des Luftbedürfnisses in den Atemwegen; vertieft und erleichtert die Atmung.",
   "earPointLungInstruction": "Den Finger direkt oberhalb und hinter dem Gehörgang platzieren. Mit jedem Ausatmen den Druck leicht erhöhen.",
   "nutritionClinicalBase": "Klinische Grundlage: {basis}",
-  "@nutritionClinicalBase": {"placeholders": {"basis": {"type": "String"}}},
+  "@nutritionClinicalBase": {
+    "placeholders": {
+      "basis": {
+        "type": "String"
+      }
+    }
+  },
   "nutritionPillar1Title": "1. Eiskaltes Wasser (Vagus-Stimulation)",
   "nutritionPillar1Basis": "Stimulation der oropharyngealen Thermorezeptoren und Aktivierung des Vagotonus.",
   "nutritionPillar1Body": "Wenn ein Craving kommt, trinke ein Glas eiskaltes Wasser durch einen Strohhalm, Schluck für Schluck.\n\n• Kaltes Wasser irritiert die nikotinischen Sinnesrezeptoren in Rachen und Mund.\n• Es aktiviert das parasympathische System (Nervus vagus) und senkt erhöhten Puls und Angst innerhalb von Minuten.\n• Es ersetzt Hand-Mund-Bewegungen und füllt die psychomotorische Leere.",
@@ -1049,5 +1094,6 @@
         "type": "int"
       }
     }
-  }
+  },
+  "todayLogCount": "{n} erfasst"
 }

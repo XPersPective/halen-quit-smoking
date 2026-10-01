@@ -153,7 +153,7 @@
     }
   },
   "nextTargetReady": "Next target: you are inside your planned window",
-  "nextTargetDayDone": "Daily plan completed — well done",
+  "nextTargetDayDone": "Today's budget is used up — try to hold here",
   "nicotineMiniLabel": "Estimated nicotine exposure (model)",
   "ctaSmoked": "I smoked one",
   "ctaResisted": "I resisted it",
@@ -1751,21 +1751,60 @@
   "commonDelete": "Delete",
   "todayLogFirstOfDay": "First of the day",
   "todayLogGapHours": "+{h} h {m} min later",
-  "@todayLogGapHours": {"placeholders": {"h": {"type": "int"}, "m": {"type": "int"}}},
+  "@todayLogGapHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
   "todayLogGapMinutes": "+{m} min later",
-  "@todayLogGapMinutes": {"placeholders": {"m": {"type": "int"}}},
+  "@todayLogGapMinutes": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  },
   "loadTarToday": "Tar (today)",
   "nowInBodyCleaning": "Clearing ongoing",
   "sosInternationalLines": "International quitlines",
   "economyPastSpentNote": "This money is already gone. Quitting with Halen is what keeps your wealth — and your lifespan — in your pocket in the years ahead.",
   "economyYearsLabel": "{years} yrs / cigarettes",
-  "@economyYearsLabel": {"placeholders": {"years": {"type": "String"}}},
+  "@economyYearsLabel": {
+    "placeholders": {
+      "years": {
+        "type": "String"
+      }
+    }
+  },
   "economyCigaretteCount": "{count} cigarettes",
-  "@economyCigaretteCount": {"placeholders": {"count": {"type": "String"}}},
+  "@economyCigaretteCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "earPointOf": "Point {n}/5",
-  "@earPointOf": {"placeholders": {"n": {"type": "int"}}},
+  "@earPointOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "earPointLocation": "Location: {location}",
-  "@earPointLocation": {"placeholders": {"location": {"type": "String"}}},
+  "@earPointLocation": {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
   "earPointShenMenTitle": "Shen Men (Spirit Gate)",
   "earPointShenMenLocation": "Upper triangular fossa of the ear",
   "earPointShenMenEffect": "Stimulates the parasympathetic nervous system; calms the anxiety, panic and stress hormones (cortisol) of a craving.",
@@ -1787,7 +1826,13 @@
   "earPointLungEffect": "Relaxes the air-hunger spasm in the airways; deepens and eases the breath.",
   "earPointLungInstruction": "Place your finger just above and behind the ear canal. Increase the pressure slightly with each exhale.",
   "nutritionClinicalBase": "Clinical basis: {basis}",
-  "@nutritionClinicalBase": {"placeholders": {"basis": {"type": "String"}}},
+  "@nutritionClinicalBase": {
+    "placeholders": {
+      "basis": {
+        "type": "String"
+      }
+    }
+  },
   "nutritionPillar1Title": "1. Ice-Cold Water (Vagal Stimulation)",
   "nutritionPillar1Basis": "Stimulation of oropharyngeal thermoreceptors and activation of vagal tone.",
   "nutritionPillar1Body": "When a craving hits, drink a glass of ice-cold water through a straw, sip by sip.\n\n• Cold water distracts the nicotinic sensory receptors in the throat and mouth.\n• It activates the parasympathetic system (vagus nerve), lowering a rising heart rate and anxiety within minutes.\n• It substitutes for hand-and-mouth movement, filling the psychomotor void.",
@@ -1799,5 +1844,13 @@
   "nutritionPillar3Body": "Nicotine withdrawal creates an acute stress response, and the adrenal glands burn through large amounts of vitamin C.\n\n• Freshly squeezed lukewarm lemon water, kiwi, strawberries, oranges and red peppers quickly replenish vitamin C stores.\n• By supporting cortisol regulation, it eases the exhaustion and irritability withdrawal causes.",
   "nutritionPillar4Title": "4. Caffeine and Refined Sugar Warning (The Critical Trap)",
   "nutritionPillar4Basis": "Tobacco smoke stimulates the liver enzyme CYP1A2, which breaks caffeine down quickly; when you quit, caffeine clearance slows by about 50%.",
-  "nutritionPillar4Body": "When you cut down or quit:\n\n• Coffee stays in the blood twice as long! Your usual amount can now cause palpitations, trembling and panic. Most people mistake this for a nicotine craving — it is a caffeine overload. Cut your coffee by 50%.\n• Simple sugars (chocolate, syrupy sweets) create sharp spikes and crashes in blood sugar (reactive hypoglycaemia), feeding dopamine hunger and cigarette cravings. Choose fibre-rich snacks instead."
+  "nutritionPillar4Body": "When you cut down or quit:\n\n• Coffee stays in the blood twice as long! Your usual amount can now cause palpitations, trembling and panic. Most people mistake this for a nicotine craving — it is a caffeine overload. Cut your coffee by 50%.\n• Simple sugars (chocolate, syrupy sweets) create sharp spikes and crashes in blood sugar (reactive hypoglycaemia), feeding dopamine hunger and cigarette cravings. Choose fibre-rich snacks instead.",
+  "todayLogCount": "{n} logged",
+  "@todayLogCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

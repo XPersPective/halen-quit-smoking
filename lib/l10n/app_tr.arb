@@ -99,7 +99,7 @@
   "nextTargetIn": "Sonraki hedef: en erken {n} dk sonra",
   "nextTargetHoursIn": "Sonraki hedef: en erken {h} sa {m} dk sonra",
   "nextTargetReady": "Sonraki hedef: planlanan aralıktasın",
-  "nextTargetDayDone": "Günlük plan tamamlandı — iyi gitti",
+  "nextTargetDayDone": "Bugünkü bütçe doldu — burada durmayı dene",
   "nicotineMiniLabel": "Tahmini nikotin maruziyeti (model)",
   "ctaSmoked": "Bir sigara içtim",
   "ctaResisted": "İçmedim, atlattım",
@@ -991,21 +991,60 @@
   "commonDelete": "Sil",
   "todayLogFirstOfDay": "Günün ilki",
   "todayLogGapHours": "+{h} sa {m} dk sonra",
-  "@todayLogGapHours": {"placeholders": {"h": {"type": "int"}, "m": {"type": "int"}}},
+  "@todayLogGapHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
   "todayLogGapMinutes": "+{m} dk sonra",
-  "@todayLogGapMinutes": {"placeholders": {"m": {"type": "int"}}},
+  "@todayLogGapMinutes": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  },
   "loadTarToday": "Katran (Bugün)",
   "nowInBodyCleaning": "Temizlenme sürüyor",
   "sosInternationalLines": "Uluslararası Sigara Bırakma Hatları",
   "economyPastSpentNote": "Geçmişte harcanan bu meblağ geride kaldı; ancak Halen ile sigarayı bırakarak önündeki yıllarda servetinin ve ömrünün cebinde kalmasını sağlayabilirsin.",
   "economyYearsLabel": "{years} yıl / sigara",
-  "@economyYearsLabel": {"placeholders": {"years": {"type": "String"}}},
+  "@economyYearsLabel": {
+    "placeholders": {
+      "years": {
+        "type": "String"
+      }
+    }
+  },
   "economyCigaretteCount": "{count} adet",
-  "@economyCigaretteCount": {"placeholders": {"count": {"type": "String"}}},
+  "@economyCigaretteCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "earPointOf": "Nokta {n}/5",
-  "@earPointOf": {"placeholders": {"n": {"type": "int"}}},
+  "@earPointOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "earPointLocation": "Konum: {location}",
-  "@earPointLocation": {"placeholders": {"location": {"type": "String"}}},
+  "@earPointLocation": {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
   "earPointShenMenTitle": "Shen Men (Ruh Kapısı)",
   "earPointShenMenLocation": "Kulağın üst üçgen çukuru (triangular fossa)",
   "earPointShenMenEffect": "Parasempatik sinir sistemini uyarır; kriz anındaki anksiyete, panik ve stres hormonlarını (kortizol) yatıştırır.",
@@ -1027,7 +1066,13 @@
   "earPointLungEffect": "Solunum yollarındaki hava açlığı spazmını gevşetir, nefesi derinleştirir ve rahatlatır.",
   "earPointLungInstruction": "Kulak deliğinin hemen yukarısına ve arkasına parmağınızı yerleştirin. Her nefes verişte basıyı hafifçe artırın.",
   "nutritionClinicalBase": "Klinik Temel: {basis}",
-  "@nutritionClinicalBase": {"placeholders": {"basis": {"type": "String"}}},
+  "@nutritionClinicalBase": {
+    "placeholders": {
+      "basis": {
+        "type": "String"
+      }
+    }
+  },
   "nutritionPillar1Title": "1. Buz Gibi Su & Maden Suyu (Vagus Uyarımı)",
   "nutritionPillar1Basis": "Orofaringeal termoreseptörlerin uyarılması ve vagal tonus aktivasyonu.",
   "nutritionPillar1Body": "Bir sigara isteği geldiğinde, bir bardak buz gibi suyu pipetle veya yudum yudum için.\n\n• Soğuk su, boğaz ve ağızdaki nikotinik duyusal reseptörleri şaşırtır.\n• Parasempatik sistemi (vagus siniri) aktive ederek yükselen kalp atımını ve anksiyeteyi dakikalar içinde düşürür.\n• El ve ağız hareketini ikame ederek psikomotor boşluğu doldurur.",
@@ -1049,5 +1094,6 @@
         "type": "int"
       }
     }
-  }
+  },
+  "todayLogCount": "{n} adet"
 }
