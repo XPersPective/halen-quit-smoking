@@ -38,11 +38,19 @@ class HalenAds {
       'ca-app-pub-3940256099942544/3419835294';
   static const testAppOpenUnitIos = 'ca-app-pub-3940256099942544/5662855259';
 
-  /// Real inventory (AdMob pub-0258900763816899); app ids live in
-  /// AndroidManifest.xml / Info.plist. Debug/profile keep the test units so
-  /// development never generates invalid traffic on the live account.
-  static const bannerUnitAndroid = 'ca-app-pub-0258900763816899/9594686855';
-  static const bannerUnitIos = 'ca-app-pub-0258900763816899/7379587050';
+  /// Real units come only from `--dart-define` at release time
+  /// (`fastlane build_release` reads the publishing root's app-ids.env); this
+  /// open-source repo never holds them. Without them — a fresh clone, debug,
+  /// tests — Google's test units are used, so no build can generate live
+  /// traffic on someone's account by accident.
+  static const _bannerUnitAndroid = String.fromEnvironment(
+    'ADMOB_BANNER_ANDROID',
+    defaultValue: testBannerUnitAndroid,
+  );
+  static const _bannerUnitIos = String.fromEnvironment(
+    'ADMOB_BANNER_IOS',
+    defaultValue: testBannerUnitIos,
+  );
 
   static bool get platformSupported =>
       Platform.isAndroid || Platform.isIOS;
@@ -114,7 +122,7 @@ class HalenAds {
       return null;
     }
     final unit = kReleaseMode
-        ? (Platform.isIOS ? bannerUnitIos : bannerUnitAndroid)
+        ? (Platform.isIOS ? _bannerUnitIos : _bannerUnitAndroid)
         : (Platform.isIOS ? testBannerUnitIos : testBannerUnitAndroid);
     final ad = BannerAd(
       adUnitId: unit,

@@ -3,9 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>GADApplicationIdentifier</key>
-	<!-- Real AdMob app id (pub-0258900763816899); debug builds use test
-	     ad units (ads_service.dart). -->
-	<string>ca-app-pub-0258900763816899~5655441841</string>
+	<!-- Google's public TEST AdMob app id. The real one lives only in the
+	     publishing root (app-ids.env, ADMOB_APP_ID_IOS) and must be injected
+	     by the iOS release build; never commit it (open-source repo). -->
+	<string>ca-app-pub-3940256099942544~1458002511</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

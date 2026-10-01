@@ -6,28 +6,16 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// Upload-key credentials, read from android/key.properties, which is
-// gitignored and never committed. The file is absent on a fresh clone and on
-// CI, and the build below falls back to debug signing so `flutter build apk`
-// keeps working for anyone who just wants to run the thing.
-//
-// To produce a store-signable build, create the keystore once:
-//
-//   keytool -genkey -v -keystore ~/halen-upload.jks -keyalg RSA //           -keysize 2048 -validity 10000 -alias halen
-//
-// then write android/key.properties:
-//
-//   storeFile=/absolute/path/to/halen-upload.jks
-//   storePassword=...
-//   keyAlias=halen
-//   keyPassword=...
-//
-// Losing that keystore means losing the ability to update the app on Play,
-// so it belongs in a password manager, not in this repository.
+// Upload-key credentials live outside this (open-source) repository, in the
+// publishing root: D:\AppPublishingpps\halen-quit-smoking\credentialsndroid
+// (protocol: D:\AppPublishing\README.md). `fastlane build_release` points
+// HALEN_SIGNING at that key.properties; its storeFile is relative to it.
+// Without it the release build falls back to debug signing, so a fresh clone
+// still builds — and Play refuses that APK, so nothing ships by accident.
+val keystorePropertiesFile = System.getenv("HALEN_SIGNING")?.let { file(it) }
 val keystoreProperties = Properties().apply {
-    val file = rootProject.file("key.properties")
-    if (file.exists()) {
-        file.inputStream().use { load(it) }
+    if (keystorePropertiesFile?.exists() == true) {
+        keystorePropertiesFile.inputStream().use { load(it) }
     }
 }
 val hasUploadKey = keystoreProperties.getProperty("storeFile") != null
@@ -55,12 +43,16 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // Real AdMob app id comes from the publishing root at release time;
+        // Google's public test app id otherwise.
+        manifestPlaceholders["admobAppId"] =
+            System.getenv("ADMOB_APP_ID_ANDROID") ?: "ca-app-pub-3940256099942544~3347511713"
     }
 
     signingConfigs {
         if (hasUploadKey) {
             create("upload") {
-                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storeFile = keystorePropertiesFile!!.parentFile.resolve(keystoreProperties.getProperty("storeFile"))
                 storePassword = keystoreProperties.getProperty("storePassword")
                 keyAlias = keystoreProperties.getProperty("keyAlias")
                 keyPassword = keystoreProperties.getProperty("keyPassword")

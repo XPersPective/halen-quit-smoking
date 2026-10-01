@@ -1,0 +1,81 @@
+# Halen — Google Play yayın lane'leri (DoctorFilter standardı)
+#
+#   fastlane build_release      → imzalı AAB (gerçek AdMob kimlikleriyle)
+#   fastlane deploy_internal    → AAB'yi İç test kanalına yükler
+#   fastlane deploy_production  → İç testteki sürümü Üretim'e taşır + mağaza içeriği
+#   fastlane push_metadata      → yalnızca mağaza metin/görselleri
+#
+# İmza, kimlikler ve mağaza içeriği yalnızca yayın kökünde durur
+# (D:\AppPublishing, protokol README.md; APP_PUBLISHING_ROOT ile değiştirilir).
+# Bu açık kaynak repoda anahtar/gerçek kimlik tutulmaz.
+
+default_platform(:android)
+
+AAB_PATH = File.expand_path("../build/app/outputs/bundle/release/app-release.aab", __dir__)
+VERSION_CODE = File.read(File.expand_path("../pubspec.yaml", __dir__))[/^version: .*\+(\d+)/, 1].to_i
+
+PUBLISHING_ROOT = ENV.fetch("APP_PUBLISHING_ROOT", "D:/AppPublishing")
+APP_DIR = File.join(PUBLISHING_ROOT, "apps/halen-quit-smoking")
+METADATA_PATH = File.join(APP_DIR, "stores/google-play/metadata")
+APP_IDS = File.join(APP_DIR, "app-ids.env")
+SIGNING = File.join(APP_DIR, "credentials/android/key.properties")
+
+# app-ids.env anahtarı → --dart-define adı (lib/data/ads_service.dart)
+AD_UNITS = { "ADMOB_BANNER_ANDROID" => "ADMOB_BANNER_ANDROID" }
+
+def app_ids
+  UI.user_error!("Yayın kimlikleri yok: #{APP_IDS}") unless File.exist?(APP_IDS)
+  File.readlines(APP_IDS, chomp: true).grep(/^[A-Z_]+=/).to_h { |l| l.split("=", 2) }
+end
+
+platform :android do
+  desc "İmzalı sürüm AAB'si (yayın kökündeki imza ve gerçek AdMob kimlikleri)"
+  lane :build_release do
+    ids = app_ids
+    UI.user_error!("İmza dosyası yok: #{SIGNING}") unless File.exist?(SIGNING)
+    defines = AD_UNITS.map do |key, define|
+      value = ids[key].to_s
+      UI.user_error!("#{APP_IDS}: #{key} eksik") unless value.start_with?("ca-app-pub-")
+      UI.user_error!("#{key} Google test birimi") if value.include?("3940256099942544")
+      "--dart-define=#{define}=#{value}"
+    end
+    app_id = ids["ADMOB_APP_ID_ANDROID"].to_s
+    UI.user_error!("#{APP_IDS}: ADMOB_APP_ID_ANDROID eksik") unless app_id.include?("~")
+    ENV["HALEN_SIGNING"] = SIGNING
+    ENV["ADMOB_APP_ID_ANDROID"] = app_id
+    sh("flutter", "build", "appbundle", "--release", *defines, log: false)
+    UI.success("AAB hazır: #{AAB_PATH}")
+  end
+
+  desc "AAB'yi İç test (internal) kanalına yükler"
+  lane :deploy_internal do
+    supply(
+      track: "internal",
+      aab: AAB_PATH,
+      release_status: "completed",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+
+  desc "İç testteki pubspec sürümünü Üretim'e taşır ve mağaza içeriğini yükler"
+  lane :deploy_production do
+    supply(
+      track: "internal",
+      track_promote_to: "production",
+      version_code: VERSION_CODE,
+      metadata_path: METADATA_PATH,
+    )
+  end
+
+  desc "Yalnızca mağaza metinleri ve görselleri"
+  lane :push_metadata do
+    supply(
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_changelogs: true,
+      metadata_path: METADATA_PATH,
+    )
+  end
+end
