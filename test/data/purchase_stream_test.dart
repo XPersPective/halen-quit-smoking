@@ -77,29 +77,29 @@ void main() {
   });
 
   test('rapid stream batches end consistent — serialised, not lost', () async {
-    // Two overlapping batches: the serialised queue must land both writes
-    // and leave exactly one owned row per product id.
+    // Two overlapping batches for the same product: the serialised queue
+    // must land both writes and leave exactly one owned row.
     final f1 = service.applyPurchases([
       _detail(PurchaseService.productIdLifetime, PurchaseStatus.purchased,
           token: 'tok-1'),
     ]);
     final f2 = service.applyPurchases([
-      _detail(PurchaseService.productIdAnnual, PurchaseStatus.restored,
+      _detail(PurchaseService.productIdLifetime, PurchaseStatus.restored,
           token: 'tok-2'),
     ]);
     await Future.wait([f1, f2]);
     final rows = await db.select(db.purchaseEntitlement).get();
-    expect(rows, hasLength(2));
+    expect(rows, hasLength(1));
     for (final row in rows) {
       expect(row.state, 'owned');
     }
   });
 
-  test('subscription expiry: an authoritative empty refresh demotes the row',
+  test('refund: an authoritative empty refresh demotes the row',
       () async {
     // Seed the verified row as a past purchase would have.
     await service.applyPurchases([
-      _detail(PurchaseService.productIdMonthly, PurchaseStatus.purchased),
+      _detail(PurchaseService.productIdLifetime, PurchaseStatus.purchased),
     ]);
     expect(await db.purchaseDao.latest(), isNotNull);
     // The store later reports no active purchase: refreshFromStore clears

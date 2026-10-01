@@ -21,7 +21,8 @@ class FakePurchaseService extends PurchaseService {
   Future<void> start() async {}
 
   @override
-  Future<List<ProductDetails>> productDetails() async => const [];
+  Future<List<ProductDetails>> productDetails() async =>
+      PurchaseService.fallbackProducts();
 
   @override
   Future<bool> buy([String? productId]) async => false;
@@ -127,7 +128,8 @@ void main() {
     await db.close();
   });
 
-  testWidgets('paywall screen allows selecting tiers and updates CTA', (tester) async {
+  testWidgets('paywall offers only the one-time lifetime unlock',
+      (tester) async {
     useLargeTestSurface(tester);
     final db = await seedOnboardedProfile();
     final fakeService = FakePurchaseService(db, owned: false);
@@ -144,27 +146,15 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // Verify 3 tiers rendered
-    expect(find.text('Yıllık Plan'), findsOneWidget);
-    expect(find.text('Aylık Plan'), findsOneWidget);
+    // One product, no subscription wording anywhere.
     expect(find.text('Ömür Boyu Erişim'), findsOneWidget);
-
-    // Annual is selected by default -> trial timeline is visible & trial CTA is active
+    expect(find.text(r'$0.99'), findsOneWidget);
+    expect(find.textContaining('Abonelik ve otomatik yenileme yoktur'),
+        findsOneWidget);
+    expect(find.textContaining('Yıllık'), findsNothing);
+    expect(find.textContaining('Aylık'), findsNothing);
     expect(find.text('7 günlük Halen Premium denemen'), findsOneWidget);
-    expect(find.text('Yıllık planı seç'), findsOneWidget);
 
-    // Tap Monthly tier -> CTA becomes "Hemen Başla", trial timeline hides
-    await tester.tap(find.text('Aylık Plan'));
-    await tester.pumpAndSettle();
-    expect(find.text('Hemen Başla'), findsOneWidget);
-    expect(find.text('7 günlük Halen Premium denemen'), findsNothing);
-
-    // Tap Lifetime tier -> CTA becomes "Ömür Boyu Sahip Ol"
-    await tester.tap(find.text('Ömür Boyu Erişim'));
-    await tester.pumpAndSettle();
-    expect(find.text('Ömür Boyu Sahip Ol'), findsOneWidget);
-
-    // Tap Buy button on Lifetime
     await tester.tap(find.text('Ömür Boyu Sahip Ol'));
     await tester.pumpAndSettle();
 

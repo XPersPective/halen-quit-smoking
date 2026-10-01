@@ -1,6 +1,6 @@
 /// Pure entitlement logic (report §12/§28): the 7-day feature-gated trial
 /// starts at first launch without any payment method; store access comes from
-/// a store-verified lifetime purchase or active subscription.
+/// a store-verified one-time lifetime purchase.
 library;
 
 class PremiumAccess {

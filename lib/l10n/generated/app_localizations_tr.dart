@@ -897,10 +897,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsPurchase => 'Halen Premium';
 
   @override
-  String get purchaseCopy => 'Esnek planlar · Ömür boyu seçenek';
+  String get purchaseCopy => 'Tek seferlik satın alma · ömür boyu senin';
 
   @override
-  String get purchaseCta => 'Premium planı seç';
+  String get purchaseCta => 'Ömür boyu erişimi al';
 
   @override
   String get purchaseRestore => 'Satın almayı geri yükle';
@@ -1033,24 +1033,6 @@ class AppLocalizationsTr extends AppLocalizations {
       '7 günlük ücretsiz deneme ilk açılışta başlar — kart gerekmez.';
 
   @override
-  String get planTierAnnual => 'Yıllık Plan';
-
-  @override
-  String get planTierAnnualBadge => 'EN POPÜLER · %50 TASARRUF';
-
-  @override
-  String planTierAnnualSub(String price) {
-    return 'Yıllık plan · $price/yıl · mağaza koşulları ödeme ekranında gösterilir';
-  }
-
-  @override
-  String get planTierMonthly => 'Aylık Plan';
-
-  @override
-  String get planTierMonthlySub =>
-      'Taahhütsüz esnek abonelik, dilediğin an iptal et';
-
-  @override
   String get planTierLifetime => 'Ömür Boyu Erişim';
 
   @override
@@ -1082,13 +1064,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallTimelineBillingDesc =>
-      'Deneme biter; mağazada bir plan seçersin. Otomatik ücret alınmaz.';
-
-  @override
-  String get paywallCtaTrial => 'Yıllık planı seç';
-
-  @override
-  String get paywallCtaSubscribe => 'Hemen Başla';
+      'Deneme biter; tek bir satın almayla ömür boyu erişimi aç ya da ücretsiz sürümle devam et. Otomatik ücret alınmaz.';
 
   @override
   String get paywallCtaLifetime => 'Ömür Boyu Sahip Ol';
@@ -1098,7 +1074,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallTermsBody =>
-      'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play Hizmet Şartları:\nhttps://play.google.com/about/play-terms/\n\nFiyat, deneme, yenileme ve iptal koşulları satın alma sırasında ilgili mağazanın onay ekranında gösterilir. Abonelikler, dönem bitiminden en az 24 saat önce iptal edilmezse otomatik yenilenir ve App Store / Google Play hesap ayarlarından yönetilir.';
+      'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play Hizmet Şartları:\nhttps://play.google.com/about/play-terms/\n\nFiyat, satın almadan önce mağazanın onay ekranında gösterilir. Halen Premium tek seferlik bir satın almadır: abonelik yoktur, hiçbir şey yenilenmez.';
 
   @override
   String get paywallPrivacy => 'Gizlilik Politikası';
@@ -1109,10 +1085,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallLegalDisclaimer =>
-      'Abonelik, cari dönemin bitiminden en az 24 saat önce iptal edilmediği sürece otomatik yenilenir. Satın alımlarınızı App Store / Google Play hesap ayarlarınızdan dilediğiniz an yönetebilirsiniz.';
+      'Tek seferlik satın alma. Abonelik ve otomatik yenileme yoktur. Ödeme, onay anında App Store / Google Play hesabından alınır.';
 
   @override
-  String get paywallPlansTitle => 'Premium planlar';
+  String get paywallPlansTitle => 'Tek seferlik satın alma';
 
   @override
   String get paywallPriceUnavailable => 'Mağaza fiyatı alınamadı';

@@ -111,7 +111,7 @@ void main() {
 
   test('store entitlement upsert cannot leave a revoked product owned', () async {
     final now = DateTime(2026, 9, 6, 12);
-    final product = 'com.crazypenguin.halenquitsmoking.monthly';
+    final product = 'com.crazypenguin.halenquitsmoking.lifetime';
     await db.purchaseDao.upsertEntitlement(
       PurchaseEntitlementCompanion.insert(
         store: 'play',

@@ -901,10 +901,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsPurchase => 'Halen Premium';
 
   @override
-  String get purchaseCopy => 'Flexible plans · Lifetime option';
+  String get purchaseCopy => 'One-time purchase · yours forever';
 
   @override
-  String get purchaseCta => 'Choose a Premium plan';
+  String get purchaseCta => 'Get lifetime access';
 
   @override
   String get purchaseRestore => 'Restore purchase';
@@ -1037,24 +1037,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your 7-day free trial starts on first launch — no card needed.';
 
   @override
-  String get planTierAnnual => 'Annual Plan';
-
-  @override
-  String get planTierAnnualBadge => 'BEST VALUE · SAVE 50%';
-
-  @override
-  String planTierAnnualSub(String price) {
-    return 'Annual plan · $price/year · store terms shown at checkout';
-  }
-
-  @override
-  String get planTierMonthly => 'Monthly Plan';
-
-  @override
-  String get planTierMonthlySub =>
-      'Flexible monthly subscription, cancel anytime';
-
-  @override
   String get planTierLifetime => 'Lifetime Access';
 
   @override
@@ -1086,13 +1068,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallTimelineBillingDesc =>
-      'The trial ends; choose a plan in the store. Nothing is charged automatically.';
-
-  @override
-  String get paywallCtaTrial => 'Choose annual plan';
-
-  @override
-  String get paywallCtaSubscribe => 'Subscribe Now';
+      'The trial ends; unlock lifetime access with a single purchase or keep using the free version. Nothing is charged automatically.';
 
   @override
   String get paywallCtaLifetime => 'Get Lifetime Access';
@@ -1102,7 +1078,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallTermsBody =>
-      'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play Terms of Service:\nhttps://play.google.com/about/play-terms/\n\nPrice, trial, renewal and cancellation terms are shown on the relevant store confirmation screen before purchase. Subscriptions renew automatically unless cancelled at least 24 hours before the current period ends, and are managed in your App Store / Google Play account settings.';
+      'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play Terms of Service:\nhttps://play.google.com/about/play-terms/\n\nThe price is shown on the store confirmation screen before purchase. Halen Premium is a one-time purchase: there is no subscription and nothing renews.';
 
   @override
   String get paywallPrivacy => 'Privacy Policy';
@@ -1113,10 +1089,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallLegalDisclaimer =>
-      'Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Manage in your App Store / Google Play account settings.';
+      'One-time purchase. No subscription and no automatic renewal. Payment is charged to your App Store / Google Play account at confirmation.';
 
   @override
-  String get paywallPlansTitle => 'Premium plans';
+  String get paywallPlansTitle => 'One-time purchase';
 
   @override
   String get paywallPriceUnavailable => 'Store price unavailable';

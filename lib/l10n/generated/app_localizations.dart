@@ -1681,13 +1681,13 @@ abstract class AppLocalizations {
   /// No description provided for @purchaseCopy.
   ///
   /// In en, this message translates to:
-  /// **'Flexible plans · Lifetime option'**
+  /// **'One-time purchase · yours forever'**
   String get purchaseCopy;
 
   /// No description provided for @purchaseCta.
   ///
   /// In en, this message translates to:
-  /// **'Choose a Premium plan'**
+  /// **'Get lifetime access'**
   String get purchaseCta;
 
   /// No description provided for @purchaseRestore.
@@ -1912,36 +1912,6 @@ abstract class AppLocalizations {
   /// **'Your 7-day free trial starts on first launch — no card needed.'**
   String get paywallTrialNote;
 
-  /// No description provided for @planTierAnnual.
-  ///
-  /// In en, this message translates to:
-  /// **'Annual Plan'**
-  String get planTierAnnual;
-
-  /// No description provided for @planTierAnnualBadge.
-  ///
-  /// In en, this message translates to:
-  /// **'BEST VALUE · SAVE 50%'**
-  String get planTierAnnualBadge;
-
-  /// No description provided for @planTierAnnualSub.
-  ///
-  /// In en, this message translates to:
-  /// **'Annual plan · {price}/year · store terms shown at checkout'**
-  String planTierAnnualSub(String price);
-
-  /// No description provided for @planTierMonthly.
-  ///
-  /// In en, this message translates to:
-  /// **'Monthly Plan'**
-  String get planTierMonthly;
-
-  /// No description provided for @planTierMonthlySub.
-  ///
-  /// In en, this message translates to:
-  /// **'Flexible monthly subscription, cancel anytime'**
-  String get planTierMonthlySub;
-
   /// No description provided for @planTierLifetime.
   ///
   /// In en, this message translates to:
@@ -1999,20 +1969,8 @@ abstract class AppLocalizations {
   /// No description provided for @paywallTimelineBillingDesc.
   ///
   /// In en, this message translates to:
-  /// **'The trial ends; choose a plan in the store. Nothing is charged automatically.'**
+  /// **'The trial ends; unlock lifetime access with a single purchase or keep using the free version. Nothing is charged automatically.'**
   String get paywallTimelineBillingDesc;
-
-  /// No description provided for @paywallCtaTrial.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose annual plan'**
-  String get paywallCtaTrial;
-
-  /// No description provided for @paywallCtaSubscribe.
-  ///
-  /// In en, this message translates to:
-  /// **'Subscribe Now'**
-  String get paywallCtaSubscribe;
 
   /// No description provided for @paywallCtaLifetime.
   ///
@@ -2029,7 +1987,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallTermsBody.
   ///
   /// In en, this message translates to:
-  /// **'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play Terms of Service:\nhttps://play.google.com/about/play-terms/\n\nPrice, trial, renewal and cancellation terms are shown on the relevant store confirmation screen before purchase. Subscriptions renew automatically unless cancelled at least 24 hours before the current period ends, and are managed in your App Store / Google Play account settings.'**
+  /// **'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play Terms of Service:\nhttps://play.google.com/about/play-terms/\n\nThe price is shown on the store confirmation screen before purchase. Halen Premium is a one-time purchase: there is no subscription and nothing renews.'**
   String get paywallTermsBody;
 
   /// No description provided for @paywallPrivacy.
@@ -2047,13 +2005,13 @@ abstract class AppLocalizations {
   /// No description provided for @paywallLegalDisclaimer.
   ///
   /// In en, this message translates to:
-  /// **'Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Manage in your App Store / Google Play account settings.'**
+  /// **'One-time purchase. No subscription and no automatic renewal. Payment is charged to your App Store / Google Play account at confirmation.'**
   String get paywallLegalDisclaimer;
 
   /// No description provided for @paywallPlansTitle.
   ///
   /// In en, this message translates to:
-  /// **'Premium plans'**
+  /// **'One-time purchase'**
   String get paywallPlansTitle;
 
   /// No description provided for @paywallPriceUnavailable.

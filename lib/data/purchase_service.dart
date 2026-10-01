@@ -12,7 +12,8 @@ import 'db/app_database.dart';
 ///  - iOS: non-consumable "Halen Lifetime"; ownership is re-verified from
 ///    the store on every cold start; revocation arrives via the purchase
 ///    stream and demotes the local row;
-///  - Android: lifetime in-app product and auto-renewable subscriptions;
+///  - Android: one lifetime in-app product (no subscriptions — owner
+///    decision 2026-10-01: buy once, use forever);
 ///    purchases are acknowledged immediately (Play auto-refunds
 ///    unacknowledged purchases after 3 days); pending purchases grant nothing;
 ///  - the UI NEVER trusts a local boolean: the DB row records
@@ -42,64 +43,27 @@ class PurchaseService {
   bool _iosRestoreActive = false;
   final List<PurchaseEntitlementCompanion> _iosRestoreRows = [];
 
-  /// Store product identifiers.
+  /// The only store product: a one-time, non-consumable lifetime unlock.
   static const productIdLifetime = 'com.crazypenguin.halenquitsmoking.lifetime';
-  static const productIdAnnual = 'com.crazypenguin.halenquitsmoking.annual';
-  static const productIdMonthly = 'com.crazypenguin.halenquitsmoking.monthly';
 
   /// Legacy alias for single lifetime product
   static const productId = productIdLifetime;
 
-  /// All supported monetization tiers
-  static const productIds = {
-    productIdAnnual,
-    productIdMonthly,
-    productIdLifetime,
-  };
+  static const productIds = {productIdLifetime};
 
-  /// Store-specific subscription management URLs for user convenience
-  static const String manageSubscriptionsUrlApple =
-      'https://apps.apple.com/account/subscriptions';
-  static const String manageSubscriptionsUrlGoogle =
-      'https://play.google.com/store/account/subscriptions';
-
-  static Uri get manageSubscriptionsUri => Uri.parse(
-    Platform.isIOS ? manageSubscriptionsUrlApple : manageSubscriptionsUrlGoogle,
-  );
-
-  /// Offline/preview fallback products when store billing is unavailable
-  static List<ProductDetails> fallbackProducts({String currencySymbol = '₺'}) {
-    return [
-      ProductDetails(
-        id: productIdAnnual,
-        title: 'Halen Yıllık',
-        description:
-            'Yıllık Premium plan; mağaza koşulları ödeme ekranında gösterilir',
-        price: '${currencySymbol}399,99/yıl',
-        rawPrice: 399.99,
-        currencyCode: 'TRY',
-        currencySymbol: currencySymbol,
-      ),
-      ProductDetails(
-        id: productIdMonthly,
-        title: 'Halen Aylık',
-        description: 'Esnek aylık abonelik',
-        price: '${currencySymbol}59,99/ay',
-        rawPrice: 59.99,
-        currencyCode: 'TRY',
-        currencySymbol: currencySymbol,
-      ),
-      ProductDetails(
-        id: productIdLifetime,
-        title: 'Halen Ömür Boyu',
-        description: 'Tek seferlik sınırsız lisans',
-        price: '${currencySymbol}799,99',
-        rawPrice: 799.99,
-        currencyCode: 'TRY',
-        currencySymbol: currencySymbol,
-      ),
-    ];
-  }
+  /// Offline/preview fallback product when store billing is unavailable
+  /// (desktop previews only — mobile never shows an invented price).
+  static List<ProductDetails> fallbackProducts() => [
+    ProductDetails(
+      id: productIdLifetime,
+      title: 'Halen Lifetime',
+      description: 'One-time purchase, yours forever',
+      price: r'$0.99',
+      rawPrice: 0.99,
+      currencyCode: 'USD',
+      currencySymbol: r'$',
+    ),
+  ];
 
   bool _started = false;
 
@@ -145,7 +109,7 @@ class PurchaseService {
       if (addition != null) {
         final response = await addition.queryPastPurchases();
         // A successful response is authoritative: an empty list means no
-        // active product (including an expired subscription). Preserve the
+        // owned product (e.g. refunded). Preserve the
         // last verified cache only when the store query itself failed.
         if (response.error == null) {
           await db.purchaseDao.clear();
@@ -194,7 +158,7 @@ class PurchaseService {
     return const [];
   }
 
-  /// Buys the selected product (non-consumable / auto-renewable subscription).
+  /// Buys the lifetime unlock (non-consumable).
   /// Defaults to [productIdLifetime] if unspecified.
   Future<bool> buy([String? productId]) async {
     if (!Platform.isAndroid && !Platform.isIOS) {

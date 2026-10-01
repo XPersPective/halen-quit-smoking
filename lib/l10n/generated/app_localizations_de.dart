@@ -906,10 +906,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsPurchase => 'Halen Premium';
 
   @override
-  String get purchaseCopy => 'Flexible Pläne · Lebenslange Option';
+  String get purchaseCopy => 'Einmalkauf · für immer deins';
 
   @override
-  String get purchaseCta => 'Premium-Plan auswählen';
+  String get purchaseCta => 'Lebenslangen Zugang holen';
 
   @override
   String get purchaseRestore => 'Kauf wiederherstellen';
@@ -1042,23 +1042,6 @@ class AppLocalizationsDe extends AppLocalizations {
       'Deine 7-tägige kostenlose Testphase startet beim ersten Start — ohne Karte.';
 
   @override
-  String get planTierAnnual => 'Jahresplan';
-
-  @override
-  String get planTierAnnualBadge => 'BELIEBTESTE · 50% SPAREN';
-
-  @override
-  String planTierAnnualSub(String price) {
-    return 'Jahresplan · $price/Jahr · Store-Bedingungen beim Kauf';
-  }
-
-  @override
-  String get planTierMonthly => 'Monatsplan';
-
-  @override
-  String get planTierMonthlySub => 'Flexibles Monatsabo, jederzeit kündbar';
-
-  @override
   String get planTierLifetime => 'Lebenslanger Zugriff';
 
   @override
@@ -1090,13 +1073,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallTimelineBillingDesc =>
-      'Die Testphase endet; wähle einen Plan im Store. Es wird nichts automatisch berechnet.';
-
-  @override
-  String get paywallCtaTrial => 'Jahresplan wählen';
-
-  @override
-  String get paywallCtaSubscribe => 'Jetzt abonnieren';
+      'Die Testphase endet; schalte den lebenslangen Zugang mit einem einzigen Kauf frei oder nutze die kostenlose Version weiter. Es wird nichts automatisch berechnet.';
 
   @override
   String get paywallCtaLifetime => 'Lebenslang sichern';
@@ -1106,7 +1083,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallTermsBody =>
-      'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play-Nutzungsbedingungen:\nhttps://play.google.com/about/play-terms/\n\nPreis-, Test-, Verlängerungs- und Kündigungsbedingungen werden vor dem Kauf im Bestätigungsbildschirm des jeweiligen Stores angezeigt. Abonnements verlängern sich automatisch, sofern sie nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt werden; die Verwaltung erfolgt in den Kontoeinstellungen des App Store bzw. Google Play.';
+      'Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play-Nutzungsbedingungen:\nhttps://play.google.com/about/play-terms/\n\nDer Preis wird vor dem Kauf auf dem Bestätigungsbildschirm des Stores angezeigt. Halen Premium ist ein Einmalkauf: Es gibt kein Abonnement und nichts verlängert sich.';
 
   @override
   String get paywallPrivacy => 'Datenschutzerklärung';
@@ -1117,10 +1094,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallLegalDisclaimer =>
-      'Das Abonnement verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Verwaltung in den Kontoeinstellungen.';
+      'Einmalkauf. Kein Abonnement, keine automatische Verlängerung. Die Zahlung erfolgt bei Bestätigung über dein App-Store- / Google-Play-Konto.';
 
   @override
-  String get paywallPlansTitle => 'Premium-Pläne';
+  String get paywallPlansTitle => 'Einmalkauf';
 
   @override
   String get paywallPriceUnavailable => 'Store-Preis nicht verfügbar';

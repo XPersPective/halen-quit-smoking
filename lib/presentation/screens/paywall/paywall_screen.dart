@@ -13,11 +13,11 @@ import '../../widgets/design/halen_components.dart';
 /// adherence/plan switch), never mid-onboarding.
 ///
 /// Features:
-///  - 3 Tiers: Annual, Monthly, Lifetime (one-time).
+///  - One product: a one-time lifetime unlock (no subscriptions).
 ///  - A three-step visualizer for Halen's card-free local trial; it never
 ///    promises a store charge or trial offer that the store has not supplied.
-///  - Full App Store & Google Play compliance: auto-renewal disclaimers,
-///    EULA / terms, privacy policy modal, and restore purchases button.
+///  - Store compliance: one-time purchase disclaimer, EULA / terms,
+///    privacy policy modal, and restore purchases button.
 ///  - 100% on-device local database architecture; no account registration wall.
 class PaywallScreen extends ConsumerStatefulWidget {
   const PaywallScreen({super.key});
@@ -27,7 +27,6 @@ class PaywallScreen extends ConsumerStatefulWidget {
 }
 
 class _PaywallScreenState extends ConsumerState<PaywallScreen> {
-  String _selectedTier = PurchaseService.productIdAnnual;
   bool _buying = false;
   bool _restoring = false;
   List<ProductDetails> _products = const [];
@@ -63,7 +62,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
   Future<void> _handleBuy() async {
     setState(() => _buying = true);
     try {
-      await ref.read(purchaseServiceProvider).buy(_selectedTier);
+      await ref.read(purchaseServiceProvider).buy();
       ref.invalidate(entitlementProvider);
     } catch (e) {
       if (mounted) {
@@ -136,10 +135,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
     final access = ref.watch(entitlementProvider).value;
     final isOwned = access?.storeOwned ?? false;
 
-    final annualProduct = _findProduct(PurchaseService.productIdAnnual);
-    final monthlyProduct = _findProduct(PurchaseService.productIdMonthly);
     final lifetimeProduct = _findProduct(PurchaseService.productIdLifetime);
-    final selectedProduct = _findProduct(_selectedTier);
 
     return Scaffold(
       appBar: AppBar(
@@ -304,45 +300,18 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
             ),
             const SizedBox(height: HalenSpace.x2),
 
-            // 1. Annual Tier (Best value)
-            _buildTierCard(
-              context: context,
-              productId: PurchaseService.productIdAnnual,
-              badgeText: l10n.planTierAnnualBadge,
-              title: l10n.planTierAnnual,
-              subtitle: annualProduct != null
-                  ? l10n.planTierAnnualSub(annualProduct.price)
-                  : l10n.paywallPriceUnavailable,
-              priceText: annualProduct?.price ?? l10n.paywallPriceUnavailable,
-              isSelected: _selectedTier == PurchaseService.productIdAnnual,
-            ),
-            const SizedBox(height: HalenSpace.x2),
-
-            // 2. Monthly Tier (Flexible)
-            _buildTierCard(
-              context: context,
-              productId: PurchaseService.productIdMonthly,
-              title: l10n.planTierMonthly,
-              subtitle: l10n.planTierMonthlySub,
-              priceText: monthlyProduct?.price ?? l10n.paywallPriceUnavailable,
-              isSelected: _selectedTier == PurchaseService.productIdMonthly,
-            ),
-            const SizedBox(height: HalenSpace.x2),
-
             // 3. Lifetime Tier (One-time purchase)
             _buildTierCard(
               context: context,
-              productId: PurchaseService.productIdLifetime,
               badgeText: l10n.planTierLifetimeBadge,
               title: l10n.planTierLifetime,
               subtitle: l10n.planTierLifetimeSub,
               priceText: lifetimeProduct?.price ?? l10n.paywallPriceUnavailable,
-              isSelected: _selectedTier == PurchaseService.productIdLifetime,
             ),
             const SizedBox(height: HalenSpace.x4),
 
-            // 3-Step Trial Timeline (shown for Annual Tier)
-            if (_selectedTier == PurchaseService.productIdAnnual) ...[
+            // 3-step local trial timeline (no card, no automatic charge).
+            if (!isOwned) ...[
               _buildTrialTimeline(context),
               const SizedBox(height: HalenSpace.x4),
             ],
@@ -367,7 +336,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
               )
             else ...[
               FilledButton(
-                onPressed: _buying || selectedProduct == null ? null : _handleBuy,
+                onPressed: _buying || lifetimeProduct == null ? null : _handleBuy,
                 style: FilledButton.styleFrom(
                   minimumSize: const Size.fromHeight(54),
                   shape: const RoundedRectangleBorder(
@@ -384,11 +353,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                         ),
                       )
                     : Text(
-                        _selectedTier == PurchaseService.productIdAnnual
-                            ? l10n.paywallCtaTrial
-                            : (_selectedTier == PurchaseService.productIdMonthly
-                                ? l10n.paywallCtaSubscribe
-                                : l10n.paywallCtaLifetime),
+                        l10n.paywallCtaLifetime,
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: theme.colorScheme.onPrimary,
                           fontWeight: FontWeight.w700,
@@ -466,25 +431,20 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
 
   Widget _buildTierCard({
     required BuildContext context,
-    required String productId,
     required String title,
     required String subtitle,
     required String priceText,
     String? badgeText,
-    required bool isSelected,
   }) {
     final theme = Theme.of(context);
-    final borderColor = isSelected
-        ? theme.colorScheme.primary
-        : theme.colorScheme.outlineVariant;
-    final backgroundColor = isSelected
-        ? theme.colorScheme.primaryContainer.withValues(alpha: 0.15)
-        : theme.colorScheme.surface;
+    final borderColor = theme.colorScheme.primary;
+    final backgroundColor =
+        theme.colorScheme.primaryContainer.withValues(alpha: 0.15);
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => setState(() => _selectedTier = productId),
+        onTap: null,
         borderRadius: HalenRadius.mediumAll,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
@@ -494,7 +454,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
             borderRadius: HalenRadius.mediumAll,
             border: Border.all(
               color: borderColor,
-              width: isSelected ? 2 : 1,
+              width: 2,
             ),
           ),
           child: Column(
