@@ -100,7 +100,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get splashPrivacyLine =>
-      'No account. No servers. Your data stays on this device.';
+      'No account. No Halen server. Your data stays on this device.';
 
   @override
   String get splashBackupLine =>
@@ -1030,7 +1030,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallFeaturePrivacy =>
-      '100% on-device privacy: no account, no server, fully encrypted vault';
+      '100% on-device privacy: no account, no Halen server, fully encrypted vault';
 
   @override
   String get paywallTrialNote =>

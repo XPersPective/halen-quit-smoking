@@ -16,7 +16,7 @@ Standart: DoctorFilter ile aynı (iletişim e-postası, GitHub gizlilik URL'si).
 - Resmi kurum: hayır · Finans özellikleri: yok
 - Sağlık: Sağlık uygulaması → davranış değişikliği/bağımlılık desteği; tıbbi cihaz değil, tanı/tedavi yok
 
-## Mağaza girişi (başlık: `Halen: Quit Smoking Tracker`)
+## Mağaza girişi — kaynak: D:\AppPublishingpps\halen-quit-smoking\stores\google-play\metadata (fastlane supply) (başlık: `Halen: Quit Smoking Tracker`)
 Tam açıklama: `D:\AppPublishing\apps\halen-quit-smoking\stores\google-play\metadata\<dil>\full_description.txt`
 
 Kısa açıklama (≤80):
@@ -27,14 +27,12 @@ Kısa açıklama (≤80):
 Görseller: ikon `store/icon-512.png` · öne çıkan `store/feature/feature-<tr|en|de>.png` ·
 telefon ekran görüntüleri `store/screenshots/<tr|en|de>/01..05, 07` (06 ayarlar, 08 paywall mağazaya konmaz).
 
-## Uygulama içi ürünler (çok düşük fiyat — kullanıcı kararı 2026-10-01)
-| Ürün kimliği | Tür | Fiyat (USD, KDV dahil eşdeğer) |
+## Uygulama içi ürün (abonelik YOK — sahip kararı 2026-10-01)
+| Ürün kimliği | Tür | Fiyat |
 |---|---|---|
-| com.crazypenguin.halenquitsmoking.monthly | abonelik, aylık | 0,99 |
-| com.crazypenguin.halenquitsmoking.annual | abonelik, yıllık | 5,99 (~%50 tasarruf, rozetle tutarlı) |
-| com.crazypenguin.halenquitsmoking.lifetime | tek seferlik | 9,99 |
+| com.crazypenguin.halenquitsmoking.lifetime | tek seferlik, ömür boyu | 0,99 USD tabanlı (Play yerel dönüşüm + KDV) |
 
-Ürünler, faturalama izni olan AAB bir kanala yüklendikten sonra oluşturulabilir.
+Ürün, faturalama izni olan AAB bir kanala yüklendikten sonra oluşturulabilir.
 
 ## Sürüm
 AAB: `build/app/outputs/bundle/release/app-release.aab` (1.3.1+4, upload anahtarıyla imzalı; anahtar repoda değil).

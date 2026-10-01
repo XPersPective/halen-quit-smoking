@@ -1,14 +1,14 @@
 # Halen: Quit Smoking Tracker — Gizlilik Politikası
 
-**Son güncelleme: 7 Eylül 2026**
+**Son güncelleme: 1 Ekim 2026**
 
 ## Türkçe
 
 ### Özet
 Halen hesap istemez ve kendi uygulama sunucusunu kullanmaz. Tüm kişisel
 verileriniz yalnızca cihazınızda saklanır ve şifrelidir. Kişisel verileriniz
-ilk açılışta ağa gönderilmez; Premium ürünlerin fiyatı, satın alma durumu,
-abonelik yenilemesi ve restore işlemleri App Store / Google Play tarafından
+ilk açılışta ağa gönderilmez; tek seferlik Premium satın alımının fiyatı,
+satın alma durumu ve restore işlemleri App Store / Google Play tarafından
 yürütülür.
 
 **Reklamlar (yalnız ücretsiz kullanım, deneme bitiminden sonra):** Ücretsiz
@@ -19,7 +19,7 @@ gönderilmez. Reklamlar UMP consent akışıyla yönetilir; deneme süresince ve
 Premium'da hiçbir reklam gösterilmez. Geliştirme sürümleri Google'ın test
 reklam birimlerini kullanır.
 
-### Toplanan veri: hiçbiri
+### Halen'in topladığı veri: yok (reklam SDK'sı hariç, aşağıya bakın)
 - Sigara/istek kayıtları, profil cevaplarınız (yaş grubu, günlük sayı, paket
   fiyatı vb.), plan ve tasarruf hesapları **yalnızca cihazınızda** tutulur.
 - Analiz ve çökme bildirimi SDK'sı yoktur. Reklam SDK'sı (Google AdMob)
@@ -55,8 +55,8 @@ aktarım) haklarınız uygulama içinde doğrudan kullanılabilir durumdadır.
 ### Summary
 Halen requires no account and has no application server. All personal data
 stays on your device, encrypted. Your personal data is never uploaded at
-first launch; Premium product pricing, purchase state, subscription renewal
-and restore are handled by the App Store / Google Play.
+first launch; pricing, purchase state and restore of the one-time
+Premium purchase are handled by the App Store / Google Play.
 
 **Ads (free usage only, after the trial ends):** For free users, labelled
 ads are shown on eligible screens via Google AdMob. AdMob may process device
@@ -64,7 +64,7 @@ identifiers to serve the ads; your health/nicotine data is never sent for ad
 targeting. Ads are governed by the UMP consent flow; nothing is shown during
 the trial or with Premium. Development builds use Google's test ad units.
 
-### Data collected: none
+### Data Halen collects: none (except the ad SDK, see below)
 - Cigarette/craving logs, your onboarding answers (age band, daily count,
   pack price, etc.), plan and savings calculations are stored **on your
   device only**.
@@ -98,19 +98,26 @@ export) are available directly in the app. Questions and support: [GitHub Issues
 ## Deutsch
 
 ### Zusammenfassung
-Halen verlangt kein Konto und hat keinen eigenen App-Server. Diese Quellversion
-enthält keine Analyse- oder Werbe-SDKs. Alle Daten bleiben verschlüsselt auf
-deinem Gerät. Premium-Preise, Käufe, Verlängerungen und Wiederherstellungen
-werden vom App Store bzw. Google Play abgewickelt.
+Halen verlangt kein Konto und hat keinen eigenen App-Server. Alle persönlichen
+Daten bleiben verschlüsselt auf deinem Gerät. Preis, Kaufstatus und
+Wiederherstellung des einmaligen Premium-Kaufs werden vom App Store bzw.
+Google Play abgewickelt.
 
-### Gesammelte Daten: keine
+**Werbung (nur kostenlose Nutzung, nach der Testphase):** Für kostenlose
+Nutzer werden auf geeigneten Bildschirmen gekennzeichnete Anzeigen über Google
+AdMob gezeigt. AdMob kann dafür Gerätekennungen verarbeiten; Gesundheits-/
+Nikotindaten werden nie für Werbung verwendet. Anzeigen laufen über den
+UMP-Einwilligungsablauf; in der Testphase und mit Premium wird nichts gezeigt.
+Entwicklungsversionen nutzen Googles Test-Anzeigenblöcke.
+
+### Von Halen erhobene Daten: keine (außer dem Werbe-SDK, siehe oben)
 - Klick-/Craving-Einträge, deine Antworten im Onboarding (Altersgruppe,
   Tagesmenge, Packungspreis usw.), Plan- und Sparberechnungen bleiben
   **ausschließlich auf deinem Gerät**.
-- Keine Analyse-, Absturz- oder Werbe-SDKs. Wird ein Werbe-SDK in einer späteren
-  Version aktiviert, werden diese Erklärung und der Consent-Ablauf vor der
-  Veröffentlichung aktualisiert; Gesundheits-/Nikotinwerte werden nicht für
-  Werbezielgruppen verwendet.
+- Keine Analyse- oder Absturz-SDKs. Das Werbe-SDK (Google AdMob) wird nur für
+  gekennzeichnete Banner der kostenlosen Nutzung nach der Testphase verwendet;
+  ohne UMP-Einwilligungsablauf wird keine Anzeige geladen. Gesundheits- und
+  Nikotindaten werden nie an das Werbe-SDK übermittelt.
 - Kein Standort, keine Kontakte, kein Mikrofon, keine Kamera (in dieser
   Version kein Barcode-Scanning).
 

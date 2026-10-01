@@ -277,7 +277,7 @@ abstract class AppLocalizations {
   /// No description provided for @splashPrivacyLine.
   ///
   /// In en, this message translates to:
-  /// **'No account. No servers. Your data stays on this device.'**
+  /// **'No account. No Halen server. Your data stays on this device.'**
   String get splashPrivacyLine;
 
   /// No description provided for @splashBackupLine.
@@ -1903,7 +1903,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallFeaturePrivacy.
   ///
   /// In en, this message translates to:
-  /// **'100% on-device privacy: no account, no server, fully encrypted vault'**
+  /// **'100% on-device privacy: no account, no Halen server, fully encrypted vault'**
   String get paywallFeaturePrivacy;
 
   /// No description provided for @paywallTrialNote.

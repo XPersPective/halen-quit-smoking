@@ -101,7 +101,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get splashPrivacyLine =>
-      'Kein Konto. Keine Server. Deine Daten bleiben auf diesem Gerät.';
+      'Kein Konto. Kein Halen-Server. Deine Daten bleiben auf diesem Gerät.';
 
   @override
   String get splashBackupLine =>
@@ -1035,7 +1035,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallFeaturePrivacy =>
-      '100 % Privatsphäre: kein Konto, kein Server, verschlüsselter lokaler Tresor';
+      '100 % Privatsphäre: kein Konto, kein Halen-Server, verschlüsselter lokaler Tresor';
 
   @override
   String get paywallTrialNote =>

@@ -100,7 +100,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get splashPrivacyLine =>
-      'Hesap yok. Sunucu yok. Verilerin sadece bu cihazda.';
+      'Hesap yok. Halen sunucusu yok. Verilerin sadece bu cihazda.';
 
   @override
   String get splashBackupLine =>
@@ -981,7 +981,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsPrivacy =>
-      'Gizlilik: hesap yok, sunucu yok, analitik yok. Kayıtların bu cihazda kalır.';
+      'Gizlilik: hesap yok, Halen sunucusu yok, analitik yok. Kayıtların bu cihazda kalır.';
 
   @override
   String get settingsPrivacyPolicy => 'Gizlilik politikası';
@@ -1026,7 +1026,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallFeaturePrivacy =>
-      '%100 yerel gizlilik: hesap yok, sunucu yok, şifreli yerel kasa';
+      '%100 yerel gizlilik: hesap yok, Halen sunucusu yok, şifreli yerel kasa';
 
   @override
   String get paywallTrialNote =>
