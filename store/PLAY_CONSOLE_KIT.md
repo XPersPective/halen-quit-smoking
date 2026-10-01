@@ -16,7 +16,7 @@ Standart: DoctorFilter ile aynı (iletişim e-postası, GitHub gizlilik URL'si).
 - Resmi kurum: hayır · Finans özellikleri: yok
 - Sağlık: Sağlık uygulaması → davranış değişikliği/bağımlılık desteği; tıbbi cihaz değil, tanı/tedavi yok
 
-## Mağaza girişi — kaynak: D:\AppPublishingpps\halen-quit-smoking\stores\google-play\metadata (fastlane supply) (başlık: `Halen: Quit Smoking Tracker`)
+## Mağaza girişi — kaynak: D:\AppPublishing\apps\halen-quit-smoking\stores\google-play\metadata (fastlane supply) (başlık: `Halen: Quit Smoking Tracker`)
 Tam açıklama: `D:\AppPublishing\apps\halen-quit-smoking\stores\google-play\metadata\<dil>\full_description.txt`
 
 Kısa açıklama (≤80):
