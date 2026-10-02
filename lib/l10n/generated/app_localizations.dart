@@ -6165,6 +6165,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{n} of {total} days'**
   String progressCalibratingCount(int n, int total);
+
+  /// No description provided for @paywallOwnedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You have Halen Premium'**
+  String get paywallOwnedTitle;
+
+  /// No description provided for @paywallOwnedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you. A one-time purchase — yours for good. Every feature is unlocked and ads are off.'**
+  String get paywallOwnedSubtitle;
+
+  /// No description provided for @paywallOwnedIncludes.
+  ///
+  /// In en, this message translates to:
+  /// **'What you have'**
+  String get paywallOwnedIncludes;
+
+  /// No description provided for @paywallFeatureNoAds.
+  ///
+  /// In en, this message translates to:
+  /// **'No ads'**
+  String get paywallFeatureNoAds;
 }
 
 class _AppLocalizationsDelegate

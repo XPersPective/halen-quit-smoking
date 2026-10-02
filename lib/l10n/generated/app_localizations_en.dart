@@ -3525,4 +3525,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String progressCalibratingCount(int n, int total) {
     return '$n of $total days';
   }
+
+  @override
+  String get paywallOwnedTitle => 'You have Halen Premium';
+
+  @override
+  String get paywallOwnedSubtitle =>
+      'Thank you. A one-time purchase — yours for good. Every feature is unlocked and ads are off.';
+
+  @override
+  String get paywallOwnedIncludes => 'What you have';
+
+  @override
+  String get paywallFeatureNoAds => 'No ads';
 }

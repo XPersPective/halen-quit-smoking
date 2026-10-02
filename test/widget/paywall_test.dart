@@ -180,4 +180,44 @@ void main() {
     await disposeApp(tester);
     await db.close();
   });
+
+  testWidgets('a purchase that completes flips the paywall to the owner view '
+      'on its own (owner test 2026-10-02: it stayed on "buy")', (tester) async {
+    useLargeTestSurface(tester);
+    final db = await seedOnboardedProfile();
+    final fakeService = FakePurchaseService(db, owned: false);
+
+    await pumpModuleWidget(
+      tester,
+      db: db,
+      child: const PaywallScreen(),
+      locale: const Locale('tr'),
+      extraOverrides: [
+        purchaseServiceProvider.overrideWithValue(fakeService),
+      ],
+      scrollable: false,
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Ömür Boyu Sahip Ol'), findsOneWidget);
+    expect(find.text("Halen Premium'a sahipsin"), findsNothing);
+
+    // What the purchase stream does when Play confirms the payment.
+    await db.purchaseDao.upsertEntitlement(
+      PurchaseEntitlementCompanion.insert(
+        store: 'play',
+        productId: PurchaseService.productId,
+        purchaseToken: 'tok',
+        state: 'owned',
+        lastVerifiedAt: DateTime.now(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text("Halen Premium'a sahipsin"), findsWidgets);
+    expect(find.text('Ömür Boyu Sahip Ol'), findsNothing);
+    expect(find.text('7 günlük Halen Premium denemen'), findsNothing);
+
+    await disposeApp(tester);
+    await db.close();
+  });
 }

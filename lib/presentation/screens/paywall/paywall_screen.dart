@@ -66,9 +66,8 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
       ref.invalidate(entitlementProvider);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.toString())));
       }
     } finally {
       if (mounted) {
@@ -113,10 +112,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
       builder: (ctx) => AlertDialog(
         title: Text(title),
         content: SingleChildScrollView(
-          child: Text(
-            content,
-            style: Theme.of(ctx).textTheme.bodyMedium,
-          ),
+          child: Text(content, style: Theme.of(ctx).textTheme.bodyMedium),
         ),
         actions: [
           TextButton(
@@ -139,7 +135,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.paywallTitle),
+        title: Text(isOwned ? l10n.paywallOwnedTitle : l10n.paywallTitle),
         actions: [
           IconButton(
             tooltip: l10n.purchaseRestore,
@@ -179,7 +175,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
             ),
             const SizedBox(height: HalenSpace.x3),
             Text(
-              l10n.paywallTitle,
+              isOwned ? l10n.paywallOwnedTitle : l10n.paywallTitle,
               textAlign: TextAlign.center,
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w700,
@@ -187,7 +183,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
             ),
             const SizedBox(height: HalenSpace.x1),
             Text(
-              l10n.paywallSubtitle,
+              isOwned ? l10n.paywallOwnedSubtitle : l10n.paywallSubtitle,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
@@ -204,7 +200,9 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                   vertical: HalenSpace.x2,
                 ),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.secondaryContainer.withValues(alpha: 0.5),
+                  color: theme.colorScheme.secondaryContainer.withValues(
+                    alpha: 0.5,
+                  ),
                   borderRadius: HalenRadius.smallAll,
                 ),
                 child: Row(
@@ -237,7 +235,9 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                   vertical: HalenSpace.x2,
                 ),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
+                  color: theme.colorScheme.errorContainer.withValues(
+                    alpha: 0.3,
+                  ),
                   borderRadius: HalenRadius.smallAll,
                 ),
                 child: Center(
@@ -251,6 +251,16 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                 ),
               ),
 
+            if (isOwned) ...[
+              Text(
+                l10n.paywallOwnedIncludes,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: HalenSpace.x2),
+            ],
             // Feature Checklist Card
             HalenCard(
               child: Column(
@@ -263,7 +273,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                     l10n.paywallFeatureTimeline,
                     l10n.paywallFeatureSos,
                     l10n.paywallFeatureWidget,
-                    l10n.paywallFeaturePrivacy,
+                    l10n.paywallFeatureNoAds,
                   ])
                     Padding(
                       padding: const EdgeInsets.only(bottom: HalenSpace.x2),
@@ -290,26 +300,28 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
             ),
             const SizedBox(height: HalenSpace.x4),
 
-            // Plan Tier Selector Cards
-            Text(
-              l10n.paywallPlansTitle,
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: theme.colorScheme.onSurfaceVariant,
+            if (!isOwned) ...[
+              // Plan Tier Selector Cards
+              Text(
+                l10n.paywallPlansTitle,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
-            ),
-            const SizedBox(height: HalenSpace.x2),
+              const SizedBox(height: HalenSpace.x2),
 
-            // 3. Lifetime Tier (One-time purchase)
-            _buildTierCard(
-              context: context,
-              badgeText: l10n.planTierLifetimeBadge,
-              title: l10n.planTierLifetime,
-              subtitle: l10n.planTierLifetimeSub,
-              priceText: lifetimeProduct?.price ?? l10n.paywallPriceUnavailable,
-            ),
-            const SizedBox(height: HalenSpace.x4),
-
+              // 3. Lifetime Tier (One-time purchase)
+              _buildTierCard(
+                context: context,
+                badgeText: l10n.planTierLifetimeBadge,
+                title: l10n.planTierLifetime,
+                subtitle: l10n.planTierLifetimeSub,
+                priceText:
+                    lifetimeProduct?.price ?? l10n.paywallPriceUnavailable,
+              ),
+              const SizedBox(height: HalenSpace.x4),
+            ],
             // 3-step local trial timeline (no card, no automatic charge).
             if (!isOwned) ...[
               _buildTrialTimeline(context),
@@ -336,7 +348,9 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
               )
             else ...[
               FilledButton(
-                onPressed: _buying || lifetimeProduct == null ? null : _handleBuy,
+                onPressed: _buying || lifetimeProduct == null
+                    ? null
+                    : _handleBuy,
                 style: FilledButton.styleFrom(
                   minimumSize: const Size.fromHeight(54),
                   shape: const RoundedRectangleBorder(
@@ -438,8 +452,9 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
   }) {
     final theme = Theme.of(context);
     final borderColor = theme.colorScheme.primary;
-    final backgroundColor =
-        theme.colorScheme.primaryContainer.withValues(alpha: 0.15);
+    final backgroundColor = theme.colorScheme.primaryContainer.withValues(
+      alpha: 0.15,
+    );
 
     return Material(
       color: Colors.transparent,
@@ -452,10 +467,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: HalenRadius.mediumAll,
-            border: Border.all(
-              color: borderColor,
-              width: 2,
-            ),
+            border: Border.all(color: borderColor, width: 2),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -600,11 +612,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                   color: theme.colorScheme.primaryContainer,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  icon,
-                  size: 16,
-                  color: theme.colorScheme.primary,
-                ),
+                child: Icon(icon, size: 16, color: theme.colorScheme.primary),
               ),
               if (!isLast)
                 Expanded(

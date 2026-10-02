@@ -19,10 +19,12 @@ import 'package:halen/presentation/widgets/charts/interval_chart.dart';
 import 'package:halen/presentation/widgets/charts/trigger_breakdown_chart.dart';
 import 'package:halen/presentation/widgets/craving_window_card.dart';
 import 'package:halen/presentation/widgets/entrance.dart';
+import 'package:halen/presentation/widgets/premium_gate.dart';
 import 'package:halen/presentation/widgets/indices_card.dart';
 import 'package:halen/presentation/widgets/stats_charts.dart';
 import 'package:halen/presentation/widgets/environment_card.dart';
 import 'package:halen/presentation/widgets/tar_intake_card.dart';
+
 import '../../../core/design/tokens.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {
@@ -215,7 +217,9 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                           (s) => s.count == 0 && s.planTarget == null,
                         ))
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: HalenSpace.x8),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: HalenSpace.x8,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
@@ -324,8 +328,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                   ]);
                   // Progress toward the next 7-day milestone (no zero
                   // counters on broken streaks — report §16).
-                  final weekProgress =
-                      (streaks.displayDays % 7) / 7;
+                  final weekProgress = (streaks.displayDays % 7) / 7;
                   return Card(
                     child: Padding(
                       padding: const EdgeInsets.all(HalenSpace.x5),
@@ -376,32 +379,41 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
               ),
             ],
             if (_selectedTabIndex == 1)
-              ref
-                  .watch(hourlyAnalyticsProvider)
-                  .when(
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    error: (e, _) => Text(l10n.commonErrorTitle),
-                    data: (report) => HourlyDistributionCard(report: report),
-                  ),
+              PremiumGate(
+                feature: PremiumFeature.fullCharts,
+                child: ref
+                    .watch(hourlyAnalyticsProvider)
+                    .when(
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
+                      error: (e, _) => Text(l10n.commonErrorTitle),
+                      data: (report) => HourlyDistributionCard(report: report),
+                    ),
+              ),
             if (_selectedTabIndex == 2)
-              ref
-                  .watch(todayIntervalsProvider)
-                  .when(
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    error: (e, _) => Text(l10n.commonErrorTitle),
-                    data: (report) => IntervalChartCard(report: report),
-                  ),
+              PremiumGate(
+                feature: PremiumFeature.fullCharts,
+                child: ref
+                    .watch(todayIntervalsProvider)
+                    .when(
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
+                      error: (e, _) => Text(l10n.commonErrorTitle),
+                      data: (report) => IntervalChartCard(report: report),
+                    ),
+              ),
             if (_selectedTabIndex == 3)
-              ref
-                  .watch(triggerAnalyticsProvider)
-                  .when(
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    error: (e, _) => Text(l10n.commonErrorTitle),
-                    data: (report) => TriggerBreakdownCard(triggers: report),
-                  ),
+              PremiumGate(
+                feature: PremiumFeature.triggerPatterns,
+                child: ref
+                    .watch(triggerAnalyticsProvider)
+                    .when(
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
+                      error: (e, _) => Text(l10n.commonErrorTitle),
+                      data: (report) => TriggerBreakdownCard(triggers: report),
+                    ),
+              ),
             // Items 4 and 10 go after everything that was already here:
             // added above, they pushed the chart tabs ~7,000 px further down
             // on a small phone with large text.
@@ -501,11 +513,11 @@ class _SavingsTrendChart extends StatelessWidget {
                   show: true,
                   getDotPainter: (spot, percent, barData, index) =>
                       FlDotCirclePainter(
-                    radius: 3,
-                    color: HalenColors.mint,
-                    strokeWidth: 2,
-                    strokeColor: const Color(0xFF1D4A39),
-                  ),
+                        radius: 3,
+                        color: HalenColors.mint,
+                        strokeWidth: 2,
+                        strokeColor: const Color(0xFF1D4A39),
+                      ),
                 ),
                 belowBarData: BarAreaData(
                   show: true,

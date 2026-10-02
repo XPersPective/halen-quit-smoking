@@ -1096,5 +1096,9 @@
   "spendRecordedNote": "Bugün, 7 gün, 30 gün ve 12 ay yalnızca Halen'de kaydettiklerini sayar. Tüm zamanlar, beyan ettiğin geçmişi de ekler.",
   "progressCalibrating": "Kalibrasyon sürüyor",
   "progressCalibratingBody": "Puanın, {total} gerçek ve tamamlanmış günle oluşur. Bugün henüz sayılmaz — hâlâ yaşanıyor. O zamana kadar buradaki sayılar, bize söylediklerine dayalı tahminlerdir.",
-  "progressCalibratingCount": "{n} / {total} gün"
+  "progressCalibratingCount": "{n} / {total} gün",
+  "paywallOwnedTitle": "Halen Premium'a sahipsin",
+  "paywallOwnedSubtitle": "Teşekkürler. Tek seferlik satın alma — sonsuza dek senin. Tüm özellikler açık, reklamlar kapalı.",
+  "paywallOwnedIncludes": "Neleri aldın",
+  "paywallFeatureNoAds": "Reklam yok"
 }

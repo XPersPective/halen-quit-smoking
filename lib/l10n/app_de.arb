@@ -1096,5 +1096,9 @@
   "spendRecordedNote": "Heute, 7 Tage, 30 Tage und 12 Monate zählen nur, was du in Halen erfasst hast. Insgesamt enthält deine angegebene Vorgeschichte.",
   "progressCalibrating": "Kalibrierung läuft",
   "progressCalibratingBody": "Dein Wert entsteht aus {total} echten, abgeschlossenen Tagen. Heute zählt noch nicht – er läuft ja noch. Bis dahin sind alle Zahlen Schätzungen auf Basis deiner Angaben.",
-  "progressCalibratingCount": "{n} von {total} Tagen"
+  "progressCalibratingCount": "{n} von {total} Tagen",
+  "paywallOwnedTitle": "Du hast Halen Premium",
+  "paywallOwnedSubtitle": "Danke dir. Ein Einmalkauf – für immer deins. Alle Funktionen sind freigeschaltet, Werbung ist aus.",
+  "paywallOwnedIncludes": "Das hast du",
+  "paywallFeatureNoAds": "Keine Werbung"
 }

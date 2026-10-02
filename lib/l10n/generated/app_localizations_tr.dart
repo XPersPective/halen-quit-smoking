@@ -3519,4 +3519,17 @@ class AppLocalizationsTr extends AppLocalizations {
   String progressCalibratingCount(int n, int total) {
     return '$n / $total gün';
   }
+
+  @override
+  String get paywallOwnedTitle => 'Halen Premium\'a sahipsin';
+
+  @override
+  String get paywallOwnedSubtitle =>
+      'Teşekkürler. Tek seferlik satın alma — sonsuza dek senin. Tüm özellikler açık, reklamlar kapalı.';
+
+  @override
+  String get paywallOwnedIncludes => 'Neleri aldın';
+
+  @override
+  String get paywallFeatureNoAds => 'Reklam yok';
 }

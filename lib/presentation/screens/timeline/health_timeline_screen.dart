@@ -5,12 +5,16 @@ import 'package:halen/application/providers.dart';
 import 'package:halen/domain/health_timeline.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import '../../../core/design/tokens.dart';
+import '../../widgets/premium_gate.dart';
 
 /// Screen: WHO health-benefits timeline (report §17, S4 data).
 ///
 /// Every card uses the population pattern ("In general, among people who
 /// quit smoking…") and names its source. In reduce mode — before a quit day
 /// is set — the list is a locked preview (report §17: "önizleme").
+/// Milestones a free user sees (20 minutes, 12 hours, 2–12 weeks).
+const int _freeMilestones = 3;
+
 class HealthTimelineScreen extends ConsumerWidget {
   const HealthTimelineScreen({super.key});
 
@@ -103,13 +107,24 @@ class HealthTimelineScreen extends ConsumerWidget {
                     ),
                   ),
                 const SizedBox(height: HalenSpace.x2),
-                for (final milestone in HealthMilestone.values)
+                // Free: the first stretch (20 minutes to 12 weeks). Premium: the
+                // whole timeline to 15 years — as the paywall promises.
+                for (final milestone in HealthMilestone.values.take(
+                  ref.watch(premiumUnlockedProvider)
+                      ? HealthMilestone.values.length
+                      : _freeMilestones,
+                ))
                   _MilestoneCard(
                     title: titles[milestone]!,
                     body: bodies[milestone]!,
                     source: l10n.timelineSourceWho,
                     reached: !locked && days >= milestone.minQuitDays,
                     current: !locked && current == milestone,
+                  ),
+                if (!ref.watch(premiumUnlockedProvider))
+                  const PremiumGate(
+                    feature: PremiumFeature.fullTimeline,
+                    child: SizedBox.shrink(),
                   ),
                 const SizedBox(height: HalenSpace.x2),
                 Card(

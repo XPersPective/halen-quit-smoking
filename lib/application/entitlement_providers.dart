@@ -13,10 +13,19 @@ import 'settings_screen_controller.dart';
 final purchaseServiceProvider =
     Provider<PurchaseService>((ref) => PurchaseService(ref.watch(databaseProvider)));
 
+/// Owned-state changes written by the purchase stream (a finished purchase,
+/// a restore, a refund). The entitlement re-evaluates when it flips, so the
+/// paywall and every gate update on their own — the owner's first real
+/// purchase left "Get lifetime access" on screen until a manual refresh.
+final ownedEntitlementProvider = StreamProvider<bool>((ref) {
+  return ref.watch(databaseProvider).purchaseDao.watchHasOwnedEntitlement();
+});
+
 /// Cold-start entitlement refresh: store verification runs on every launch
 /// (report §29). Also ensures the 7-day trial clock started on first launch.
 final entitlementProvider = FutureProvider<PremiumAccess>((ref) async {
   final db = ref.watch(databaseProvider);
+  ref.watch(ownedEntitlementProvider);
 
   // First launch: start the no-card 7-day premium trial (report §28).
   final settings = await db.settingsDao.getSettings();

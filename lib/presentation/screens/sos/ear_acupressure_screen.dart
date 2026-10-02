@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:halen/presentation/widgets/premium_gate.dart';
 
 import '../../../core/theme.dart';
 import '../../../l10n/generated/app_localizations.dart';
@@ -34,44 +35,45 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
   int _selectedPoint = 0;
   Timer? _ticker;
 
-  int get _currentPoint => (_elapsed ~/ _secondsPerPoint).clamp(0, _pointCount - 1);
+  int get _currentPoint =>
+      (_elapsed ~/ _secondsPerPoint).clamp(0, _pointCount - 1);
   int get _secondsLeftOnPoint =>
       _secondsPerPoint - (_elapsed % _secondsPerPoint);
   bool get _finished => _elapsed >= _secondsPerPoint * _pointCount;
 
   List<({String title, String location, String effect, String instruction})>
-      _pointInfo(AppLocalizations l10n) => [
-        (
-          title: l10n.earPointShenMenTitle,
-          location: l10n.earPointShenMenLocation,
-          effect: l10n.earPointShenMenEffect,
-          instruction: l10n.earPointShenMenInstruction,
-        ),
-        (
-          title: l10n.earPointAutonomicTitle,
-          location: l10n.earPointAutonomicLocation,
-          effect: l10n.earPointAutonomicEffect,
-          instruction: l10n.earPointAutonomicInstruction,
-        ),
-        (
-          title: l10n.earPointKidneyTitle,
-          location: l10n.earPointKidneyLocation,
-          effect: l10n.earPointKidneyEffect,
-          instruction: l10n.earPointKidneyInstruction,
-        ),
-        (
-          title: l10n.earPointLiverTitle,
-          location: l10n.earPointLiverLocation,
-          effect: l10n.earPointLiverEffect,
-          instruction: l10n.earPointLiverInstruction,
-        ),
-        (
-          title: l10n.earPointLungTitle,
-          location: l10n.earPointLungLocation,
-          effect: l10n.earPointLungEffect,
-          instruction: l10n.earPointLungInstruction,
-        ),
-      ];
+  _pointInfo(AppLocalizations l10n) => [
+    (
+      title: l10n.earPointShenMenTitle,
+      location: l10n.earPointShenMenLocation,
+      effect: l10n.earPointShenMenEffect,
+      instruction: l10n.earPointShenMenInstruction,
+    ),
+    (
+      title: l10n.earPointAutonomicTitle,
+      location: l10n.earPointAutonomicLocation,
+      effect: l10n.earPointAutonomicEffect,
+      instruction: l10n.earPointAutonomicInstruction,
+    ),
+    (
+      title: l10n.earPointKidneyTitle,
+      location: l10n.earPointKidneyLocation,
+      effect: l10n.earPointKidneyEffect,
+      instruction: l10n.earPointKidneyInstruction,
+    ),
+    (
+      title: l10n.earPointLiverTitle,
+      location: l10n.earPointLiverLocation,
+      effect: l10n.earPointLiverEffect,
+      instruction: l10n.earPointLiverInstruction,
+    ),
+    (
+      title: l10n.earPointLungTitle,
+      location: l10n.earPointLungLocation,
+      effect: l10n.earPointLungEffect,
+      instruction: l10n.earPointLungInstruction,
+    ),
+  ];
 
   void _start() {
     _ticker?.cancel();
@@ -104,12 +106,12 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
   }
 
   List<String> _pointNames(AppLocalizations l10n) => [
-        l10n.sosEarPointShenMen,
-        l10n.sosEarPointAutonomic,
-        l10n.sosEarPointKidney,
-        l10n.sosEarPointLiver,
-        l10n.sosEarPointLung,
-      ];
+    l10n.sosEarPointShenMen,
+    l10n.sosEarPointAutonomic,
+    l10n.sosEarPointKidney,
+    l10n.sosEarPointLiver,
+    l10n.sosEarPointLung,
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -122,162 +124,173 @@ class _EarAcupressureScreenState extends State<EarAcupressureScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.earGuideTitle)),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(HalenSpace.x6),
-          children: [
-            Center(
-              child: SizedBox(
-                height: 220,
-                width: 170,
-                child: Semantics(
-                  label: _running
-                      ? l10n.earGuideStep(
-                          names[_currentPoint],
-                          _secondsLeftOnPoint,
-                        )
-                      : l10n.earGuideTitle,
-                  excludeSemantics: true,
-                  child: CustomPaint(
-                    painter: _EarPainter(
-                      activePoint: displayIndex,
-                      isLight: theme.brightness == Brightness.light,
+      body: PremiumGate(
+        feature: PremiumFeature.fullSosToolkit,
+        screen: true,
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.all(HalenSpace.x6),
+            children: [
+              Center(
+                child: SizedBox(
+                  height: 220,
+                  width: 170,
+                  child: Semantics(
+                    label: _running
+                        ? l10n.earGuideStep(
+                            names[_currentPoint],
+                            _secondsLeftOnPoint,
+                          )
+                        : l10n.earGuideTitle,
+                    excludeSemantics: true,
+                    child: CustomPaint(
+                      painter: _EarPainter(
+                        activePoint: displayIndex,
+                        isLight: theme.brightness == Brightness.light,
+                      ),
+                      size: Size.infinite,
                     ),
-                    size: Size.infinite,
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: HalenSpace.x4),
+              const SizedBox(height: HalenSpace.x4),
 
-            // Clinical Point Insight Card
-            Card(
-              color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.6),
-              child: Padding(
-                padding: const EdgeInsets.all(HalenSpace.x4),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: HalenColors.emerald.withValues(alpha: 0.18),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            l10n.earPointOf(displayIndex + 1),
-                            style: theme.textTheme.labelSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: HalenColors.emerald,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: HalenSpace.x2),
-                        Expanded(
-                          child: Text(
-                            activeInfo.title,
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: HalenSpace.x2),
-                    Text(
-                      l10n.earPointLocation(activeInfo.location),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    const SizedBox(height: HalenSpace.x2),
-                    Text(
-                      activeInfo.effect,
-                      style: theme.textTheme.bodyMedium,
-                    ),
-                    const SizedBox(height: HalenSpace.x2),
-                    Container(
-                      padding: const EdgeInsets.all(HalenSpace.x2),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.surface,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              // Clinical Point Insight Card
+              Card(
+                color: theme.colorScheme.surfaceContainerHighest.withValues(
+                  alpha: 0.6,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(HalenSpace.x4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          const Icon(Icons.touch_app_outlined, size: 16),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: HalenColors.emerald.withValues(
+                                alpha: 0.18,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              l10n.earPointOf(displayIndex + 1),
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: HalenColors.emerald,
+                              ),
+                            ),
+                          ),
                           const SizedBox(width: HalenSpace.x2),
                           Expanded(
                             child: Text(
-                              activeInfo.instruction,
-                              style: theme.textTheme.labelSmall,
+                              activeInfo.title,
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: HalenSpace.x2),
+                      Text(
+                        l10n.earPointLocation(activeInfo.location),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      const SizedBox(height: HalenSpace.x2),
+                      Text(
+                        activeInfo.effect,
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: HalenSpace.x2),
+                      Container(
+                        padding: const EdgeInsets.all(HalenSpace.x2),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.surface,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.touch_app_outlined, size: 16),
+                            const SizedBox(width: HalenSpace.x2),
+                            Expanded(
+                              child: Text(
+                                activeInfo.instruction,
+                                style: theme.textTheme.labelSmall,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: HalenSpace.x4),
+              const SizedBox(height: HalenSpace.x4),
 
-            for (var i = 0; i < _pointCount; i++)
-              _PointRow(
-                index: i,
-                name: names[i],
-                isSelected: i == displayIndex,
-                state: !_running && !_finished
-                    ? _PointState.idle
-                    : i < _currentPoint || _finished
-                        ? _PointState.done
-                        : i == _currentPoint
-                            ? _PointState.active
-                            : _PointState.idle,
-                secondsLeft: _secondsLeftOnPoint,
-                onTap: () {
-                  if (!_running) {
-                    setState(() => _selectedPoint = i);
-                  }
-                },
-              ),
-            const SizedBox(height: HalenSpace.x5),
-            if (_finished)
-              Text(l10n.earGuideFinished, style: theme.textTheme.titleMedium)
-            else ...[
-              FilledButton(
-                onPressed: _running ? null : _start,
-                child: Text(l10n.earGuideStart),
-              ),
-              // T16: a running sequence must be stoppable — crises don't
-              // always wait for a 2-minute script to finish.
-              if (_running)
-                TextButton(
-                  onPressed: () {
-                    _ticker?.cancel();
-                    setState(() {
-                      _running = false;
-                      _elapsed = 0;
-                    });
+              for (var i = 0; i < _pointCount; i++)
+                _PointRow(
+                  index: i,
+                  name: names[i],
+                  isSelected: i == displayIndex,
+                  state: !_running && !_finished
+                      ? _PointState.idle
+                      : i < _currentPoint || _finished
+                      ? _PointState.done
+                      : i == _currentPoint
+                      ? _PointState.active
+                      : _PointState.idle,
+                  secondsLeft: _secondsLeftOnPoint,
+                  onTap: () {
+                    if (!_running) {
+                      setState(() => _selectedPoint = i);
+                    }
                   },
-                  child: Text(l10n.earGuideStop),
                 ),
-            ],
-            const SizedBox(height: HalenSpace.x5),
-            Text(
-              l10n.sosNoNeedles,
-              style: theme.textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w700,
+              const SizedBox(height: HalenSpace.x5),
+              if (_finished)
+                Text(l10n.earGuideFinished, style: theme.textTheme.titleMedium)
+              else ...[
+                FilledButton(
+                  onPressed: _running ? null : _start,
+                  child: Text(l10n.earGuideStart),
+                ),
+                // T16: a running sequence must be stoppable — crises don't
+                // always wait for a 2-minute script to finish.
+                if (_running)
+                  TextButton(
+                    onPressed: () {
+                      _ticker?.cancel();
+                      setState(() {
+                        _running = false;
+                        _elapsed = 0;
+                      });
+                    },
+                    child: Text(l10n.earGuideStop),
+                  ),
+              ],
+              const SizedBox(height: HalenSpace.x5),
+              Text(
+                l10n.sosNoNeedles,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            const SizedBox(height: HalenSpace.x2),
-            Text(
-              '${l10n.evidenceTraditional} · ${l10n.evidenceLabel}',
-              style: theme.textTheme.labelSmall,
-            ),
-          ],
+              const SizedBox(height: HalenSpace.x2),
+              Text(
+                '${l10n.evidenceTraditional} · ${l10n.evidenceLabel}',
+                style: theme.textTheme.labelSmall,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -312,7 +325,10 @@ class _PointRow extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(10),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: HalenSpace.x1, horizontal: 4),
+        padding: const EdgeInsets.symmetric(
+          vertical: HalenSpace.x1,
+          horizontal: 4,
+        ),
         child: Row(
           children: [
             Container(
@@ -322,13 +338,16 @@ class _PointRow extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: switch (state) {
-                  _PointState.done =>
-                    HalenColors.emerald.withValues(alpha: 0.25),
-                  _PointState.active =>
-                    HalenColors.petrol.withValues(alpha: 0.25),
-                  _PointState.idle => isSelected
-                      ? theme.colorScheme.primary.withValues(alpha: 0.25)
-                      : theme.dividerColor.withValues(alpha: 0.4),
+                  _PointState.done => HalenColors.emerald.withValues(
+                    alpha: 0.25,
+                  ),
+                  _PointState.active => HalenColors.petrol.withValues(
+                    alpha: 0.25,
+                  ),
+                  _PointState.idle =>
+                    isSelected
+                        ? theme.colorScheme.primary.withValues(alpha: 0.25)
+                        : theme.dividerColor.withValues(alpha: 0.4),
                 },
               ),
               child: state == _PointState.done
@@ -342,12 +361,13 @@ class _PointRow extends StatelessWidget {
                 style: active
                     ? theme.textTheme.titleSmall
                     : theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                       ),
               ),
             ),
-            if (isSelected && !active)
-              const Icon(Icons.info_outline, size: 16),
+            if (isSelected && !active) const Icon(Icons.info_outline, size: 16),
           ],
         ),
       ),
@@ -411,8 +431,9 @@ class _EarPainter extends CustomPainter {
         centre,
         isActive ? 11 : 6,
         Paint()
-          ..color = (isActive ? HalenColors.amberCta : tint)
-              .withValues(alpha: isActive ? 0.30 : 0.16),
+          ..color = (isActive ? HalenColors.amberCta : tint).withValues(
+            alpha: isActive ? 0.30 : 0.16,
+          ),
       );
       canvas.drawCircle(
         centre,
