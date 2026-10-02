@@ -3538,4 +3538,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallFeatureNoAds => 'No ads';
+
+  @override
+  String get countrySearchHint => 'Search country';
+
+  @override
+  String get countryNoMatch => 'No country matches';
+
+  @override
+  String get quitlineChooseCountry => 'Choose your country';
+
+  @override
+  String quitlineUseDetected(String country) {
+    return 'Use $country (from your phone)';
+  }
+
+  @override
+  String quitlineNoneForCountry(String country) {
+    return 'No verified quit line is on file for $country. The WHO keeps a directory, and a doctor or pharmacist can help too.';
+  }
+
+  @override
+  String get quitlineWhoDirectory => 'WHO quit line directory';
+
+  @override
+  String get quitlineGeneric => 'Quit line';
+
+  @override
+  String get quitlineSourceNote =>
+      'Numbers from the WHO list (2021) and national health services. Check locally before relying on one.';
+
+  @override
+  String get settingsCountry => 'Country';
 }

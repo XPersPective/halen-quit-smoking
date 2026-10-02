@@ -1100,5 +1100,14 @@
   "paywallOwnedTitle": "Du hast Halen Premium",
   "paywallOwnedSubtitle": "Danke dir. Ein Einmalkauf – für immer deins. Alle Funktionen sind freigeschaltet, Werbung ist aus.",
   "paywallOwnedIncludes": "Das hast du",
-  "paywallFeatureNoAds": "Keine Werbung"
+  "paywallFeatureNoAds": "Keine Werbung",
+  "countrySearchHint": "Land suchen",
+  "countryNoMatch": "Kein Land gefunden",
+  "quitlineChooseCountry": "Wähle dein Land",
+  "quitlineUseDetected": "{country} verwenden (von deinem Telefon)",
+  "quitlineNoneForCountry": "Für {country} ist keine geprüfte Rauchstopp-Hotline hinterlegt. Die WHO führt ein Verzeichnis; auch Ärzte und Apotheken helfen.",
+  "quitlineWhoDirectory": "WHO-Verzeichnis der Rauchstopp-Hotlines",
+  "quitlineGeneric": "Rauchstopp-Hotline",
+  "quitlineSourceNote": "Nummern aus der WHO-Liste (2021) und nationalen Gesundheitsdiensten. Prüfe vor Ort, bevor du dich darauf verlässt.",
+  "settingsCountry": "Land"
 }

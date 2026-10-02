@@ -3553,4 +3553,36 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallFeatureNoAds => 'Keine Werbung';
+
+  @override
+  String get countrySearchHint => 'Land suchen';
+
+  @override
+  String get countryNoMatch => 'Kein Land gefunden';
+
+  @override
+  String get quitlineChooseCountry => 'Wähle dein Land';
+
+  @override
+  String quitlineUseDetected(String country) {
+    return '$country verwenden (von deinem Telefon)';
+  }
+
+  @override
+  String quitlineNoneForCountry(String country) {
+    return 'Für $country ist keine geprüfte Rauchstopp-Hotline hinterlegt. Die WHO führt ein Verzeichnis; auch Ärzte und Apotheken helfen.';
+  }
+
+  @override
+  String get quitlineWhoDirectory => 'WHO-Verzeichnis der Rauchstopp-Hotlines';
+
+  @override
+  String get quitlineGeneric => 'Rauchstopp-Hotline';
+
+  @override
+  String get quitlineSourceNote =>
+      'Nummern aus der WHO-Liste (2021) und nationalen Gesundheitsdiensten. Prüfe vor Ort, bevor du dich darauf verlässt.';
+
+  @override
+  String get settingsCountry => 'Land';
 }

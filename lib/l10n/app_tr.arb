@@ -1100,5 +1100,14 @@
   "paywallOwnedTitle": "Halen Premium'a sahipsin",
   "paywallOwnedSubtitle": "Teşekkürler. Tek seferlik satın alma — sonsuza dek senin. Tüm özellikler açık, reklamlar kapalı.",
   "paywallOwnedIncludes": "Neleri aldın",
-  "paywallFeatureNoAds": "Reklam yok"
+  "paywallFeatureNoAds": "Reklam yok",
+  "countrySearchHint": "Ülke ara",
+  "countryNoMatch": "Eşleşen ülke yok",
+  "quitlineChooseCountry": "Ülkeni seç",
+  "quitlineUseDetected": "{country} kullan (telefonundan)",
+  "quitlineNoneForCountry": "{country} için kayıtlı doğrulanmış bir sigara bırakma hattı yok. DSÖ bir dizin tutuyor; doktorun ya da eczacın da yardımcı olabilir.",
+  "quitlineWhoDirectory": "DSÖ sigara bırakma hatları dizini",
+  "quitlineGeneric": "Sigara bırakma hattı",
+  "quitlineSourceNote": "Numaralar DSÖ listesinden (2021) ve ulusal sağlık hizmetlerinden alınmıştır. Güvenmeden önce yerel olarak doğrula.",
+  "settingsCountry": "Ülke"
 }

@@ -37,7 +37,13 @@ class EnvironmentCard extends ConsumerWidget {
     }
     final impact = view.impact;
     final trees = impact.trees;
-    final saplings = EnvironmentImpact.saplingsFor(view.saved);
+    final country =
+        WidgetsBinding.instance.platformDispatcher.locale.countryCode;
+    // The price is in lira, so the sapling sum is shown to users in Türkiye
+    // only; everyone else just gets the organisations.
+    final saplings = country?.toUpperCase() == 'TR'
+        ? EnvironmentImpact.saplingsFor(view.saved)
+        : 0;
 
     return HalenCard(
       child: Column(
@@ -87,7 +93,7 @@ class EnvironmentCard extends ConsumerWidget {
             spacing: HalenSpace.x2,
             runSpacing: HalenSpace.x2,
             children: [
-              for (final partner in plantingPartners)
+              for (final partner in plantingPartnersFor(country))
                 OutlinedButton.icon(
                   icon: const Icon(Icons.park_outlined, size: 18),
                   label: Text(partner.name),

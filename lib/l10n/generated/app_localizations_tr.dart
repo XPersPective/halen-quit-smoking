@@ -3532,4 +3532,36 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallFeatureNoAds => 'Reklam yok';
+
+  @override
+  String get countrySearchHint => 'Ülke ara';
+
+  @override
+  String get countryNoMatch => 'Eşleşen ülke yok';
+
+  @override
+  String get quitlineChooseCountry => 'Ülkeni seç';
+
+  @override
+  String quitlineUseDetected(String country) {
+    return '$country kullan (telefonundan)';
+  }
+
+  @override
+  String quitlineNoneForCountry(String country) {
+    return '$country için kayıtlı doğrulanmış bir sigara bırakma hattı yok. DSÖ bir dizin tutuyor; doktorun ya da eczacın da yardımcı olabilir.';
+  }
+
+  @override
+  String get quitlineWhoDirectory => 'DSÖ sigara bırakma hatları dizini';
+
+  @override
+  String get quitlineGeneric => 'Sigara bırakma hattı';
+
+  @override
+  String get quitlineSourceNote =>
+      'Numaralar DSÖ listesinden (2021) ve ulusal sağlık hizmetlerinden alınmıştır. Güvenmeden önce yerel olarak doğrula.';
+
+  @override
+  String get settingsCountry => 'Ülke';
 }

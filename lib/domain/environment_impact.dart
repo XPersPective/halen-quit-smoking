@@ -21,7 +21,8 @@ abstract final class EnvironmentFigures {
   static const int cigarettesPerTree = 300;
 
   /// A typical sapling donation in Türkiye, in lira. Only used to say "your
-  /// savings would cover about N saplings"; the organisation sets the price.
+  /// savings would cover about N saplings" — and only for a user in Türkiye,
+  /// where the price is in lira. Elsewhere no price is invented.
   static const double typicalSaplingPriceTry = 50;
 }
 
@@ -57,14 +58,49 @@ class PlantingPartner {
   final String url;
 }
 
-const plantingPartners = [
-  PlantingPartner(name: 'TEMA Vakfı', url: 'https://www.tema.org.tr/'),
-  PlantingPartner(
-    name: 'OGM — Fidan Bağışı',
-    url: 'https://www.ogm.gov.tr/',
-  ),
-  PlantingPartner(
-    name: 'One Tree Planted',
-    url: 'https://onetreeplanted.org/',
-  ),
-];
+const _oneTree = PlantingPartner(
+  name: 'One Tree Planted',
+  url: 'https://onetreeplanted.org/',
+);
+const _arborDay = PlantingPartner(
+  name: 'Arbor Day Foundation',
+  url: 'https://www.arborday.org/',
+);
+const _plantForPlanet = PlantingPartner(
+  name: 'Plant-for-the-Planet',
+  url: 'https://www.plant-for-the-planet.org/',
+);
+
+/// Planting organisations suited to the user's country. Only widely known,
+/// long-standing organisations; the app links out and takes no part in the
+/// donation. Unknown countries get the international set.
+List<PlantingPartner> plantingPartnersFor(String? countryCode) {
+  switch (countryCode?.toUpperCase()) {
+    case 'TR':
+      return const [
+        PlantingPartner(name: 'TEMA Vakfı', url: 'https://www.tema.org.tr/'),
+        PlantingPartner(
+          name: 'OGM — Fidan Bağışı',
+          url: 'https://www.ogm.gov.tr/',
+        ),
+        _oneTree,
+      ];
+    case 'DE' || 'AT' || 'CH':
+      return const [_plantForPlanet, _oneTree];
+    case 'GB' || 'IE':
+      return const [
+        PlantingPartner(
+          name: 'Woodland Trust',
+          url: 'https://www.woodlandtrust.org.uk/',
+        ),
+        _oneTree,
+      ];
+    case 'US' || 'CA':
+      return const [_arborDay, _oneTree];
+    default:
+      return const [_oneTree, _arborDay, _plantForPlanet];
+  }
+}
+
+/// Kept for callers that predate country awareness.
+const plantingPartners = [_oneTree, _arborDay, _plantForPlanet];

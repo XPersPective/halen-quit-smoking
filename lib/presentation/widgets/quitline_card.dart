@@ -1,125 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../application/country_providers.dart';
 import '../../core/design/tokens.dart';
+import '../../data/quitline_directory.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'country_picker.dart';
 
-/// Regional support, not emergency services. Sources checked 2026-09-16:
-/// alo171.saglik.gov.tr, yedam.org.tr, cdc.gov (1-800-784-8669),
-/// rauchfrei-info.de, nhs.uk (England 0300 123 1044, Scotland 0800 84 84 84,
-/// Wales 0800 085 2219). Old "Yeşilay 176" lines are removed.
-class QuitlineCard extends StatefulWidget {
+/// Regional support, not emergency services.
+///
+/// The user picks their country from a searchable list of every country; the
+/// choice is saved and shared with currency and donations. The phone's region
+/// is only ever a one-tap suggestion — nothing is assumed (owner, 2026-10-02:
+/// the card kept showing Türkiye after switching the language). Numbers come
+/// from [quitlinesByCountry] (WHO list + national services); a country
+/// without a verified line says so and points to the WHO directory.
+class QuitlineCard extends ConsumerWidget {
   const QuitlineCard({super.key});
 
-  @override
-  State<QuitlineCard> createState() => _QuitlineCardState();
-}
-
-class _QuitlineCardState extends State<QuitlineCard> {
-  static const _key = 'quitlineRegion';
-  static const _lines = {
-    'TR': [('ALO 171', '171'), ('YEDAM', '115')],
-    'US': [('1-800-QUIT-NOW', '18007848669')],
-    'DE': [('BIÖG rauchfrei', '08008313131')],
-    'GB-ENG': [('NHS Smokefree', '03001231044')],
-    'GB-SCT': [('Quit Your Way', '0800848484')],
-    'GB-WLS': [('Help Me Quit', '08000852219')],
-    'other': <(String, String)>[],
-  };
-  String? _region;
-  bool _ready = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _load();
-  }
-
-  Future<void> _load() async {
-    String? saved;
-    try {
-      saved = (await SharedPreferences.getInstance()).getString(_key);
-    } catch (_) {
-      // Preference storage is optional; never block access to support.
-    }
-    if (!mounted) return;
-    final country =
-        WidgetsBinding.instance.platformDispatcher.locale.countryCode;
-    setState(() {
-      _region = _lines.containsKey(saved)
-          ? saved
-          : (_lines.containsKey(country) ? country : null);
-      _ready = true;
-    });
-  }
-
-  Future<void> _choose(String? value) async {
-    setState(() => _region = value);
-    try {
-      await (await SharedPreferences.getInstance()).setString(_key, value!);
-    } catch (_) {
-      // The selection still works for this screen when storage is unavailable.
-    }
-  }
-
-  Future<void> _call(String number, String unavailable) async {
+  Future<void> _call(
+    BuildContext context,
+    String number,
+    String unavailable,
+  ) async {
     try {
       if (await launchUrl(Uri(scheme: 'tel', path: number))) return;
     } catch (_) {
       // A tablet/emulator may not have a dialer; keep the number accessible.
     }
-    if (!mounted) return;
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text('$unavailable $number')));
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final countries = [
-      l10n.quitlineTR,
-      l10n.quitlineUS,
-      l10n.quitlineDE,
-      l10n.quitlineEngland,
-      l10n.quitlineScotland,
-      l10n.quitlineWales,
-    ];
+    final theme = Theme.of(context);
+    final directory = ref.watch(countryDirectoryProvider).value;
+    final selected = ref.watch(countryCodeProvider);
+    final detected = ref.watch(detectedCountryProvider);
+    final chain = countryNameChain(context);
+
+    String nameOf(String code) => directory?.nameOf(code, chain) ?? code;
+
+    Future<void> choose() async {
+      final code = await pickCountry(context);
+      if (code != null) {
+        await ref.read(setCountryProvider)(code);
+      }
+    }
+
+    final lines = selected == null
+        ? const <QuitLine>[]
+        : (quitlinesByCountry[selected] ?? const <QuitLine>[]);
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(HalenSpace.x4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              l10n.helplineTitle,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text(l10n.helplineTitle, style: theme.textTheme.titleMedium),
             const SizedBox(height: HalenSpace.x2),
             Text(l10n.quitlineHint),
             const SizedBox(height: HalenSpace.x3),
-            if (_ready)
-              DropdownButtonFormField<String>(
-                key: ValueKey(_region),
-                initialValue: _region,
-                isExpanded: true,
-                decoration: InputDecoration(labelText: l10n.quitlineRegion),
-                items: [
-                  for (final entry in _lines.keys.indexed)
-                    DropdownMenuItem(
-                      value: entry.$2,
-                      child: Text(
-                        entry.$2 == 'other'
-                            ? l10n.quitlineOther
-                            : countries[entry.$1],
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                ],
-                onChanged: _choose,
+            OutlinedButton.icon(
+              onPressed: choose,
+              icon: const Icon(Icons.public_rounded),
+              label: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  selected == null
+                      ? l10n.quitlineChooseCountry
+                      : nameOf(selected),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            for (final line in _lines[_region] ?? <(String, String)>[]) ...[
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size.fromHeight(48),
+              ),
+            ),
+            if (selected == null && detected != null) ...[
+              const SizedBox(height: HalenSpace.x2),
+              TextButton(
+                onPressed: () => ref.read(setCountryProvider)(detected),
+                child: Text(l10n.quitlineUseDetected(nameOf(detected))),
+              ),
+            ],
+            if (selected != null && lines.isEmpty) ...[
+              const SizedBox(height: HalenSpace.x3),
+              Text(l10n.quitlineNoneForCountry(nameOf(selected))),
+              TextButton.icon(
+                onPressed: () => launchUrl(
+                  Uri.parse(whoQuitlineDirectoryUrl),
+                  mode: LaunchMode.externalApplication,
+                ),
+                icon: const Icon(Icons.open_in_new, size: 18),
+                label: Text(l10n.quitlineWhoDirectory),
+              ),
+            ],
+            for (final line in lines) ...[
               const SizedBox(height: HalenSpace.x3),
               FilledButton.icon(
                 style: FilledButton.styleFrom(
@@ -127,15 +110,26 @@ class _QuitlineCardState extends State<QuitlineCard> {
                   foregroundColor: Colors.white,
                   minimumSize: const Size.fromHeight(48),
                 ),
-                onPressed: () => _call(line.$2, l10n.quitlineUnavailable),
+                onPressed: () =>
+                    _call(context, line.number, l10n.quitlineUnavailable),
                 icon: const Icon(Icons.call),
-                label: Text('${line.$1} · ${line.$2}'),
+                label: Text(
+                  '${line.label ?? l10n.quitlineGeneric} · ${line.display}',
+                ),
               ),
               TextButton.icon(
                 onPressed: () =>
-                    Clipboard.setData(ClipboardData(text: line.$2)),
+                    Clipboard.setData(ClipboardData(text: line.number)),
                 icon: const Icon(Icons.copy, size: 18),
                 label: Text(l10n.quitlineCopy),
+              ),
+            ],
+            if (lines.isNotEmpty) ...[
+              const SizedBox(height: HalenSpace.x2),
+              Text(
+                l10n.quitlineSourceNote,
+                style: theme.textTheme.labelSmall
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
               ),
             ],
           ],

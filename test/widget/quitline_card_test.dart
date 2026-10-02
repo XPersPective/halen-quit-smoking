@@ -1,40 +1,84 @@
+import 'dart:io';
+
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:halen/application/country_providers.dart';
+import 'package:halen/application/providers.dart';
+import 'package:halen/data/db/app_database.dart';
+import 'package:halen/domain/countries.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/quitline_card.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/design_font.dart';
+import '../helpers/pump_app.dart';
 
 void main() {
   setUpAll(loadDesignFonts);
-  Future<void> showCard(
+
+  Future<AppDatabase> showCard(
     WidgetTester tester,
     Locale device,
     String language, {
-    String? saved,
+    String? country,
+    double textScale = 1,
+    Brightness brightness = Brightness.light,
   }) async {
-    SharedPreferences.setMockInitialValues({'quitlineRegion': ?saved});
     tester.platformDispatcher.localeTestValue = device;
     addTearDown(tester.platformDispatcher.clearLocaleTestValue);
+    final db = await seedOnboardedProfile();
+    await db.settingsDao.updateSettings(
+      SettingsCompanion(countryCode: Value(country)),
+    );
     await tester.pumpWidget(
-      MaterialApp(
-        locale: Locale(language),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: const Scaffold(
-          body: SingleChildScrollView(child: QuitlineCard()),
+      ProviderScope(
+        overrides: [
+          databaseProvider.overrideWithValue(db),
+          countryDirectoryProvider.overrideWith(
+            (ref) => CountryDirectory.fromJson(
+              File('assets/data/countries.json').readAsStringSync(),
+            ),
+          ),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          locale: Locale(language),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          theme: ThemeData(brightness: brightness, fontFamily: 'Inter'),
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.linear(textScale)),
+            child: child!,
+          ),
+          home: const Scaffold(
+            body: SingleChildScrollView(child: QuitlineCard()),
+          ),
         ),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
+    for (var i = 0; i < 6; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    return db;
+  }
+
+  Future<void> finish(WidgetTester tester, AppDatabase db) async {
+    await disposeApp(tester);
+    await db.close();
   }
 
   for (final language in ['tr', 'en', 'de']) {
-    testWidgets('$language UI keeps Türkiye region and green support buttons', (
-      tester,
-    ) async {
-      await showCard(tester, const Locale('en', 'TR'), language);
+    testWidgets('$language UI: a chosen Türkiye keeps its lines and green '
+        'support buttons', (tester) async {
+      final db = await showCard(
+        tester,
+        const Locale('en', 'US'), // device region differs: the choice wins
+        language,
+        country: 'TR',
+      );
       expect(find.text('ALO 171 · 171'), findsOneWidget);
       expect(find.text('YEDAM · 115'), findsOneWidget);
       expect(find.textContaining('1-800-QUIT-NOW'), findsNothing);
@@ -46,51 +90,51 @@ void main() {
         const Color(0xFF166534),
       );
       expect(tester.takeException(), isNull);
+      await finish(tester, db);
     });
   }
 
-  testWidgets('language without region does not assume US or Türkiye', (
-    tester,
-  ) async {
-    await showCard(tester, const Locale('en'), 'en');
+  testWidgets('nothing chosen: no line is shown, none assumed', (tester) async {
+    final db = await showCard(tester, const Locale('en', 'TR'), 'en');
     expect(find.byType(FilledButton), findsNothing);
-    expect(find.text('Country/region for support'), findsOneWidget);
+    expect(find.text('Choose your country'), findsOneWidget);
+    // The phone's region is only a suggestion the user can accept.
+    expect(find.textContaining('Use Türkiye'), findsOneWidget);
+    expect(find.textContaining('ALO 171'), findsNothing);
+    await finish(tester, db);
   });
 
-  testWidgets('US and DE device regions use their own services', (
-    tester,
-  ) async {
-    await showCard(tester, const Locale('en', 'US'), 'en');
-    expect(find.text('1-800-QUIT-NOW · 18007848669'), findsOneWidget);
-    await tester.pumpWidget(const SizedBox());
-    await showCard(tester, const Locale('de', 'DE'), 'de');
-    expect(find.text('BIÖG rauchfrei · 08008313131'), findsOneWidget);
+  testWidgets('a phone with no region offers no suggestion', (tester) async {
+    final db = await showCard(tester, const Locale('en'), 'en');
+    expect(find.byType(FilledButton), findsNothing);
+    expect(find.textContaining('from your phone'), findsNothing);
+    await finish(tester, db);
   });
 
-  testWidgets('UK needs region choice; choice survives reopening', (
-    tester,
-  ) async {
-    await showCard(tester, const Locale('en', 'GB'), 'en');
-    expect(find.byType(FilledButton), findsNothing);
-    await tester.tap(find.byType(DropdownButtonFormField<String>));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('United Kingdom — England').last);
-    await tester.pumpAndSettle();
-    expect(find.text('NHS Smokefree · 03001231044'), findsOneWidget);
-    expect(
-      (await SharedPreferences.getInstance()).getString('quitlineRegion'),
-      'GB-ENG',
+  testWidgets('the UK shows all three national services', (tester) async {
+    final db = await showCard(
+      tester,
+      const Locale('en', 'GB'),
+      'en',
+      country: 'GB',
     );
-    await tester.pumpWidget(const SizedBox());
-    await showCard(tester, const Locale('en', 'US'), 'en', saved: 'GB-ENG');
-    expect(find.text('NHS Smokefree · 03001231044'), findsOneWidget);
-    expect(find.textContaining('1-800-QUIT-NOW'), findsNothing);
+    expect(find.textContaining('NHS Smokefree (England)'), findsOneWidget);
+    expect(find.textContaining('Quit Your Way (Scotland)'), findsOneWidget);
+    expect(find.textContaining('Help Me Quit (Wales)'), findsOneWidget);
+    await finish(tester, db);
   });
 
-  testWidgets('unknown region never shows an unrelated number', (tester) async {
-    await showCard(tester, const Locale('en', 'CA'), 'en', saved: 'invalid');
+  testWidgets('an invalid stored country never shows an unrelated number',
+      (tester) async {
+    final db = await showCard(
+      tester,
+      const Locale('en', 'CA'),
+      'en',
+      country: 'ZZ',
+    );
     expect(find.byType(FilledButton), findsNothing);
     expect(tester.takeException(), isNull);
+    await finish(tester, db);
   });
 
   for (final language in ['en', 'tr', 'de']) {
@@ -100,35 +144,16 @@ void main() {
       ) async {
         await tester.binding.setSurfaceSize(const Size(320, 900));
         addTearDown(() => tester.binding.setSurfaceSize(null));
-        SharedPreferences.setMockInitialValues({'quitlineRegion': 'TR'});
-        await tester.pumpWidget(
-          MaterialApp(
-            debugShowCheckedModeBanner: false,
-            locale: Locale(language),
-            supportedLocales: AppLocalizations.supportedLocales,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            theme: ThemeData(brightness: brightness, fontFamily: 'Inter'),
-            builder: (context, child) => MediaQuery(
-              data: MediaQuery.of(context)
-                  .copyWith(textScaler: const TextScaler.linear(1.5)),
-              child: child!,
-            ),
-            home: const Scaffold(
-              body: SingleChildScrollView(child: QuitlineCard()),
-            ),
-          ),
+        final db = await showCard(
+          tester,
+          const Locale('en', 'TR'),
+          language,
+          country: 'GB',
+          textScale: 1.5,
+          brightness: brightness,
         );
-        await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
-        if (const bool.fromEnvironment('CAPTURE_DESIGN')) {
-          await pumpFrames(tester);
-          await expectLater(
-            find.byType(MaterialApp),
-            matchesGoldenFile(
-              '../../screenshots/quitline-$language-${brightness.name}.png',
-            ),
-          );
-        }
+        await finish(tester, db);
       });
     }
   }

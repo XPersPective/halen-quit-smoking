@@ -68,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.e);
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -148,6 +148,10 @@ class AppDatabase extends _$AppDatabase {
             // v10 — home-widget customisation (brain T7).
             await m.addColumn(settings, settings.widgetShowLastCigarette);
             await m.addColumn(settings, settings.widgetTheme);
+          }
+          if (from < 11) {
+            // v11 — the user's country (support lines, currency). Nullable.
+            await m.addColumn(settings, settings.countryCode);
           }
         },
       );

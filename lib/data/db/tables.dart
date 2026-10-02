@@ -204,6 +204,11 @@ class Settings extends Table {
   BoolColumn get trialNudge =>
       boolean().withDefault(const Constant(false))();
 
+  /// ISO 3166-1 alpha-2 country the user chose (support lines, currency,
+  /// donations). Null = not chosen yet: nothing is assumed, and the device
+  /// region is only offered as a suggestion.
+  TextColumn get countryCode => text().nullable()();
+
   /// Home-widget customisation (brain T7): hide the "last cigarette" part and
   /// pick a widget theme independent of the app's theme.
   BoolColumn get widgetShowLastCigarette =>

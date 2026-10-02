@@ -6189,6 +6189,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No ads'**
   String get paywallFeatureNoAds;
+
+  /// No description provided for @countrySearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search country'**
+  String get countrySearchHint;
+
+  /// No description provided for @countryNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No country matches'**
+  String get countryNoMatch;
+
+  /// No description provided for @quitlineChooseCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your country'**
+  String get quitlineChooseCountry;
+
+  /// No description provided for @quitlineUseDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Use {country} (from your phone)'**
+  String quitlineUseDetected(String country);
+
+  /// No description provided for @quitlineNoneForCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'No verified quit line is on file for {country}. The WHO keeps a directory, and a doctor or pharmacist can help too.'**
+  String quitlineNoneForCountry(String country);
+
+  /// No description provided for @quitlineWhoDirectory.
+  ///
+  /// In en, this message translates to:
+  /// **'WHO quit line directory'**
+  String get quitlineWhoDirectory;
+
+  /// No description provided for @quitlineGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit line'**
+  String get quitlineGeneric;
+
+  /// No description provided for @quitlineSourceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers from the WHO list (2021) and national health services. Check locally before relying on one.'**
+  String get quitlineSourceNote;
+
+  /// No description provided for @settingsCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get settingsCountry;
 }
 
 class _AppLocalizationsDelegate

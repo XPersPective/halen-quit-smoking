@@ -1908,5 +1908,28 @@
   "paywallOwnedTitle": "You have Halen Premium",
   "paywallOwnedSubtitle": "Thank you. A one-time purchase — yours for good. Every feature is unlocked and ads are off.",
   "paywallOwnedIncludes": "What you have",
-  "paywallFeatureNoAds": "No ads"
+  "paywallFeatureNoAds": "No ads",
+  "countrySearchHint": "Search country",
+  "countryNoMatch": "No country matches",
+  "quitlineChooseCountry": "Choose your country",
+  "quitlineUseDetected": "Use {country} (from your phone)",
+  "@quitlineUseDetected": {
+    "placeholders": {
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "quitlineNoneForCountry": "No verified quit line is on file for {country}. The WHO keeps a directory, and a doctor or pharmacist can help too.",
+  "@quitlineNoneForCountry": {
+    "placeholders": {
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "quitlineWhoDirectory": "WHO quit line directory",
+  "quitlineGeneric": "Quit line",
+  "quitlineSourceNote": "Numbers from the WHO list (2021) and national health services. Check locally before relying on one.",
+  "settingsCountry": "Country"
 }
