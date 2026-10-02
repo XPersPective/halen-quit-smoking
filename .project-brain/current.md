@@ -16,7 +16,7 @@ the latest Project Brain checkpoint.
   `flutter_secure_storage`.
 - Localizations are TR/EN/DE in `lib/l10n/`.
 - Android and iOS identifiers are `com.crazypenguin.halenquitsmoking`.
-- Package version is `1.3.1+4`.
+- Package version is `1.4.0+5` (uploaded to Play internal + production tracks 2026-10-02; replaces 1.3.1 which had misleading first-day numbers).
 
 ## Domains
 
@@ -40,7 +40,7 @@ step flow. The current widget test covers the 10-step flow.
 `lib/data/db_opener.dart`, `lib/data/secure_key_store.dart`,
 `lib/data/backup_repository.dart`, `test/data/`
 
-`AppDatabase` is schema version 10. Migrations are additive through v10,
+`AppDatabase` is schema version 11 (adds `Settings.countryCode`). Migrations are additive through v11,
 including widget preferences. Existing encrypted databases require their
 existing key; wrong keys/corrupt files fail without replacement. Backup/import
 intentionally excludes purchase and trial entitlement data; personal tables
@@ -85,10 +85,30 @@ handling, evidence/formula transparency and region-aware quitline behavior.
 AdMob release identifiers, Android package cleanup and iOS privacy manifest
 are present in platform configuration.
 
+### Honest numbers, spend and country (1.4.0)
+
+**Status:** VERIFIED by automated coverage
+
+**Sources:** `lib/domain/savings_ledger.dart`, `lib/domain/spend_summary.dart`,
+`lib/domain/countries.dart`, `lib/application/country_providers.dart`,
+`lib/application/money.dart`, `lib/data/quitline_directory.dart`,
+`test/domain/`
+
+Savings and avoided counts only use completed days vs the declared/measured
+baseline; today is never credited. Progress/body indices are calibrating for
+3 tracked days. Spend (today/7d/30d/12m) counts logged data only; all-time adds
+declared years × baseline × price. Country (searchable, 250 countries × 73
+languages from CLDR in `assets/data/countries.json`) drives currency and the
+quitline list; no hard-coded default country. Today screen has inline
+follow-up under the smoked button, today-vs-usual pace chart, collapsed log.
+Discover tab loads `napp_apps/apps.json` (24 h cache, embedded fallback) only
+when opened. One 320x50 banner above the nav bar for free users after the
+trial; unknown entitlement counts as "no ad" (fixed 2026-10-02).
+
 ## Verification baseline
 
 - `flutter analyze`: no issues found.
-- `flutter test`: 392 tests passed.
+- `flutter test`: 432 tests passed.
 - Test output includes expected Drift multiple-instance warnings and deliberate
   SQLCipher wrong-key diagnostics; neither is a test failure.
 
@@ -98,4 +118,7 @@ are present in platform configuration.
   not executable without store accounts and devices.
 - Device-owner migration/key-survival matrix and signed release validation are
   not fully evidenced by repository tests.
+- Release 1.4.0 was smoke-tested on an Android emulator (onboarding, Today,
+  Discover offline fallback, no ad during trial); Play review outcome pending.
+- 73-language UI/store listing (PB-041/052) is not started: UI is EN/TR/DE.
 - Store-console legal declarations and listing sign-off remain external.
