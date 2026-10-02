@@ -72,6 +72,8 @@ platform :android do
   desc "Yalnızca mağaza metinleri ve görselleri"
   lane :push_metadata do
     supply(
+      track: "internal",
+      version_code: VERSION_CODE,
       skip_upload_apk: true,
       skip_upload_aab: true,
       skip_upload_changelogs: true,
