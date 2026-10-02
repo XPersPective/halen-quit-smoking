@@ -11,6 +11,7 @@ import 'application/quick_log_controller.dart';
 import 'application/settings_controller.dart';
 import 'application/settings_screen_controller.dart';
 import 'core/routes.dart';
+import 'data/repositories/record_repository.dart';
 import 'core/theme.dart';
 import 'domain/entities.dart';
 import 'l10n/generated/app_localizations.dart';
@@ -195,12 +196,29 @@ class _LifecycleTrackerState extends ConsumerState<_LifecycleTracker>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // Moves "today" at midnight while the app stays open.
+    // Moves "today" at midnight while the app stays open, and prices the
+    // day that just ended.
+    _finalizeDays();
     _dayTicker = Timer.periodic(const Duration(seconds: 30), (_) {
       if (mounted) {
+        final before = ref.read(todayKeyProvider);
         ref.read(todayKeyProvider.notifier).refresh();
+        if (ref.read(todayKeyProvider) != before) {
+          _finalizeDays();
+        }
       }
     });
+  }
+
+  void _finalizeDays() {
+    if (widget.databaseFailed) {
+      return;
+    }
+    RecordRepository(ref.read(databaseProvider))
+        .finalizeCompletedDays()
+        .then((_) {
+      ref.invalidate(savingsLedgerProvider);
+    }).catchError((Object _) {});
   }
 
   @override
@@ -217,6 +235,7 @@ class _LifecycleTrackerState extends ConsumerState<_LifecycleTracker>
     }
     ref.read(todayKeyProvider.notifier).refresh();
     ref.invalidate(todayStateProvider);
+    _finalizeDays();
     final db = ref.read(databaseProvider);
     QuickLogController(db).drain().then((count) {
       if (count > 0) {

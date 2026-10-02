@@ -1109,5 +1109,7 @@
   "quitlineWhoDirectory": "DSÖ sigara bırakma hatları dizini",
   "quitlineGeneric": "Sigara bırakma hattı",
   "quitlineSourceNote": "Numaralar DSÖ listesinden (2021) ve ulusal sağlık hizmetlerinden alınmıştır. Güvenmeden önce yerel olarak doğrula.",
-  "settingsCountry": "Ülke"
+  "settingsCountry": "Ülke",
+  "spendYearsDialogTitle": "Kaç yıldır sigara içiyorsun?",
+  "spendYearsAction": "Yıl sayısını ekle"
 }

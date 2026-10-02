@@ -1931,5 +1931,7 @@
   "quitlineWhoDirectory": "WHO quit line directory",
   "quitlineGeneric": "Quit line",
   "quitlineSourceNote": "Numbers from the WHO list (2021) and national health services. Check locally before relying on one.",
-  "settingsCountry": "Country"
+  "settingsCountry": "Country",
+  "spendYearsDialogTitle": "How many years have you smoked?",
+  "spendYearsAction": "Add years smoked"
 }

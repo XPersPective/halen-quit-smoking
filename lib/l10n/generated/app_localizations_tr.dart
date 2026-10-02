@@ -3564,4 +3564,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsCountry => 'Ülke';
+
+  @override
+  String get spendYearsDialogTitle => 'Kaç yıldır sigara içiyorsun?';
+
+  @override
+  String get spendYearsAction => 'Yıl sayısını ekle';
 }

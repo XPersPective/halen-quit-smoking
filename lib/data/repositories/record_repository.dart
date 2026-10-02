@@ -94,6 +94,30 @@ class RecordRepository {
     });
   }
 
+  /// Re-prices every finished day once it is over. A day's savings are only
+  /// credited after midnight (see [recomputeDailySummary]), and nothing else
+  /// touches a day after it ends, so the app calls this on start, on resume
+  /// and when the date changes.
+  Future<void> finalizeCompletedDays() async {
+    final profile = await _db.profileDao.getSmokingProfile();
+    if (profile == null) {
+      return;
+    }
+    final today = dayKey(DateTime.now());
+    final rows = await _db.statsDao.getSummariesBetween('0000-00-00', today);
+    for (final row in rows) {
+      if (row.date.compareTo(today) >= 0) {
+        continue;
+      }
+      final baseline = profile.baselineCpd;
+      final expected =
+          baseline > 0 && row.count < baseline ? baseline - row.count : 0;
+      if (row.avoidedCount != expected) {
+        await recomputeDailySummary(DateTime.parse(row.date));
+      }
+    }
+  }
+
   /// Recomputes the DailySummary row for the local day of [day].
   ///
   /// avoidedCount/savings compare actual consumption against the declared

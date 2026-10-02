@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../application/module_providers.dart';
 import '../../application/record_providers.dart';
@@ -14,6 +13,7 @@ import '../../domain/entities.dart';
 import '../../domain/evidence.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../core/design/tokens.dart';
+import '../../application/money.dart';
 
 /// Today's card from the content engine (module report §11).
 ///
@@ -163,7 +163,9 @@ class _MotivationLine extends ConsumerWidget {
     final options = <String>[
       if (avoided > 0)
         l10n.motivationSaved(
-          NumberFormat.currency(locale: locale, decimalDigits: 0)
+          ref
+              .watch(moneyFormatsProvider(locale))
+              .whole
               .format(economy.saved(avoided)),
         ),
       if (rides > 0) l10n.motivationRides(rides),

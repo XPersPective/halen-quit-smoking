@@ -11,6 +11,8 @@ import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/screens/cessation/quit_plan_screen.dart'
     show quitReasonLabel;
 import 'package:halen/presentation/widgets/choice_card.dart';
+import '../../../application/country_providers.dart';
+import '../../widgets/country_picker.dart';
 
 /// Screens 2–10: the ten-step onboarding (<90 s, no account, report §11).
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -513,6 +515,11 @@ class _PriceStepState extends ConsumerState<_PriceStep> {
       hint: l10n.obPriceHint,
       child: Column(
         children: [
+          // The country decides the currency, the support lines and the
+          // donation suggestions; the phone's region is only offered, never
+          // applied silently.
+          const _CountryButton(),
+          const SizedBox(height: HalenSpace.x4),
           TextFormField(
             controller: _priceController,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -545,6 +552,62 @@ class _PriceStepState extends ConsumerState<_PriceStep> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _CountryButton extends ConsumerStatefulWidget {
+  const _CountryButton();
+
+  @override
+  ConsumerState<_CountryButton> createState() => _CountryButtonState();
+}
+
+class _CountryButtonState extends ConsumerState<_CountryButton> {
+  @override
+  void initState() {
+    super.initState();
+    // Pre-fill with the phone's region so most people just tap Next. It is
+    // shown on the button and one tap changes it; it is only applied here, in
+    // onboarding, where the person sees it.
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted || ref.read(countryCodeProvider) != null) {
+        return;
+      }
+      try {
+        await ref.read(countryDirectoryProvider.future);
+      } catch (_) {
+        return;
+      }
+      final detected = ref.read(detectedCountryProvider);
+      if (mounted && detected != null && ref.read(countryCodeProvider) == null) {
+        await ref.read(setCountryProvider)(detected);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final directory = ref.watch(countryDirectoryProvider).value;
+    final selected = ref.watch(countryCodeProvider);
+    final chain = countryNameChain(context);
+    final label = selected == null
+        ? l10n.quitlineChooseCountry
+        : (directory?.nameOf(selected, chain) ?? selected);
+    return OutlinedButton.icon(
+      onPressed: () async {
+        final picked = await pickCountry(context);
+        if (picked != null) {
+          await ref.read(setCountryProvider)(picked);
+        }
+      },
+      icon: const Icon(Icons.public_rounded),
+      label: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Text(label, overflow: TextOverflow.ellipsis),
+      ),
+      style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(52)),
     );
   }
 }

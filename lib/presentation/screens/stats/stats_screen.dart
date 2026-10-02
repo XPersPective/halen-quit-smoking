@@ -26,6 +26,7 @@ import 'package:halen/presentation/widgets/environment_card.dart';
 import 'package:halen/presentation/widgets/tar_intake_card.dart';
 
 import '../../../core/design/tokens.dart';
+import 'package:halen/application/money.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {
   const StatsScreen({super.key});
@@ -142,7 +143,11 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                     ),
                     const SizedBox(height: HalenSpace.x5),
                     Text(
-                      '${total.toStringAsFixed(0)} ₺',
+                      ref
+                          .watch(moneyFormatsProvider(
+                              Localizations.localeOf(context).toString()))
+                          .whole
+                          .format(total),
                       style: theme.textTheme.displaySmall?.copyWith(
                         color: Colors.white,
                         fontSize: 46,
@@ -442,13 +447,13 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
 /// Cumulative savings as a smooth gradient area line inside the dark hero
 /// (the signature chart of the category's top apps). Lives on the petrol
 /// surface, so its palette is mint-on-green, not theme colors.
-class _SavingsTrendChart extends StatelessWidget {
+class _SavingsTrendChart extends ConsumerWidget {
   const _SavingsTrendChart({required this.stats});
 
   final List<DayStats> stats;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     var running = 0.0;
     final spots = <FlSpot>[
@@ -491,7 +496,11 @@ class _SavingsTrendChart extends StatelessWidget {
                 getTooltipItems: (spots) => [
                   for (final spot in spots)
                     LineTooltipItem(
-                      '${spot.y.toStringAsFixed(0)} ₺',
+                      ref
+                          .read(moneyFormatsProvider(
+                              Localizations.localeOf(context).toString()))
+                          .whole
+                          .format(spot.y),
                       TextStyle(
                         color: HalenColors.petrolDeep,
                         fontSize: 12,

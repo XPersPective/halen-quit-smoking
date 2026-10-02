@@ -3570,4 +3570,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsCountry => 'Country';
+
+  @override
+  String get spendYearsDialogTitle => 'How many years have you smoked?';
+
+  @override
+  String get spendYearsAction => 'Add years smoked';
 }

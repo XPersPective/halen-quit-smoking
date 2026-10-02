@@ -15,6 +15,7 @@ import '../../../domain/input_bounds.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/charts/halen_line_chart.dart';
 import '../../../core/design/tokens.dart';
+import '../../../application/money.dart';
 
 /// Money and time (module report §3).
 ///
@@ -48,11 +49,11 @@ class _EconomyScreenState extends ConsumerState<EconomyScreen> {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final locale = Localizations.localeOf(context).toString();
-    final money = NumberFormat.currency(locale: locale, decimalDigits: 0);
+    final formats = ref.watch(moneyFormatsProvider(locale));
+    final money = formats.whole;
     // Axis ticks get the compact form: a full currency string wraps inside
     // the gutter and collides with the line above it.
-    final compactMoney =
-        NumberFormat.compactCurrency(locale: locale, decimalDigits: 0);
+    final compactMoney = formats.compact;
 
     final economy = ref.watch(economyProvider).value;
     final profile = ref.watch(smokingProfileProvider).value;

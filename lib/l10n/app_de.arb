@@ -1109,5 +1109,7 @@
   "quitlineWhoDirectory": "WHO-Verzeichnis der Rauchstopp-Hotlines",
   "quitlineGeneric": "Rauchstopp-Hotline",
   "quitlineSourceNote": "Nummern aus der WHO-Liste (2021) und nationalen Gesundheitsdiensten. Prüfe vor Ort, bevor du dich darauf verlässt.",
-  "settingsCountry": "Land"
+  "settingsCountry": "Land",
+  "spendYearsDialogTitle": "Wie viele Jahre rauchst du schon?",
+  "spendYearsAction": "Jahre eintragen"
 }

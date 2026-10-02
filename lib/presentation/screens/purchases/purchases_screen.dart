@@ -13,6 +13,7 @@ import '../../../domain/pack_purchases.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/charts/halen_bar_chart.dart';
 import '../../widgets/design/halen_components.dart';
+import '../../../application/money.dart';
 
 /// Pack purchase history (device feedback, item 3).
 ///
@@ -28,9 +29,9 @@ class PurchasesScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final locale = Localizations.localeOf(context).toString();
-    final money = NumberFormat.simpleCurrency(locale: locale, decimalDigits: 0);
-    final compact =
-        NumberFormat.compactSimpleCurrency(locale: locale, decimalDigits: 0);
+    final formats = ref.watch(moneyFormatsProvider(locale));
+    final money = formats.whole;
+    final compact = formats.compact;
     final summary = ref.watch(purchaseSummaryProvider).value;
     final rows = ref.watch(packPurchaseRowsProvider).value ?? const [];
 

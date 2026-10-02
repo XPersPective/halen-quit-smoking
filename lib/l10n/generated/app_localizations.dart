@@ -6243,6 +6243,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Country'**
   String get settingsCountry;
+
+  /// No description provided for @spendYearsDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How many years have you smoked?'**
+  String get spendYearsDialogTitle;
+
+  /// No description provided for @spendYearsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add years smoked'**
+  String get spendYearsAction;
 }
 
 class _AppLocalizationsDelegate

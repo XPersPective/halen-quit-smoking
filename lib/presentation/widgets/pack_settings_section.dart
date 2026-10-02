@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../application/module_providers.dart';
 import '../../application/pack_providers.dart';
@@ -10,6 +9,7 @@ import '../../domain/tar_intake.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../screens/purchases/purchases_screen.dart';
 import 'design/halen_components.dart';
+import '../../application/money.dart';
 
 /// "My pack", in Settings (device feedback, item 2).
 ///
@@ -25,7 +25,7 @@ class PackSettingsSection extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final locale = Localizations.localeOf(context).toString();
-    final money = NumberFormat.simpleCurrency(locale: locale);
+    final money = ref.watch(moneyFormatsProvider(locale)).precise;
     final profile = ref.watch(smokingProfileProvider).value;
     if (profile == null) {
       return const SizedBox.shrink();
