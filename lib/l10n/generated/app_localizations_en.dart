@@ -3637,4 +3637,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get todayLogShowLess => 'Show less';
+
+  @override
+  String get harmYearsAssumed =>
+      'This assumes 10 years of smoking because you have not said how long — add your real number in Settings.';
 }

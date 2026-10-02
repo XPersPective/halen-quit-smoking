@@ -15,7 +15,6 @@ import 'package:halen/presentation/widgets/daily_card_tile.dart';
 import 'package:halen/presentation/widgets/design/halen_components.dart';
 import 'package:halen/presentation/widgets/entrance.dart';
 import 'package:halen/presentation/widgets/milestone_watcher.dart';
-import 'package:halen/presentation/widgets/mind_state_card.dart';
 import 'package:halen/presentation/widgets/quit_day_co_card.dart';
 import 'package:halen/presentation/widgets/support_card_tile.dart';
 import 'package:halen/core/design/tokens.dart';
@@ -577,8 +576,6 @@ class _TodayBody extends ConsumerWidget {
           // today is likely to feel, and one small thing to do about it.
           HalenSectionHeader(title: l10n.todaySectionSupport),
           const SizedBox(height: HalenSpace.x3),
-          const Entrance(index: 2, child: MindStateCard()),
-          const SizedBox(height: HalenSpace.x4),
           const Entrance(index: 3, child: SupportCardTile()),
           const SizedBox(height: HalenSpace.x4),
           // §11 — one card a day, phase-aware, and never a hard-truth card

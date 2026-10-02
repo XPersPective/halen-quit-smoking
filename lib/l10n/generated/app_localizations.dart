@@ -6357,6 +6357,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show less'**
   String get todayLogShowLess;
+
+  /// No description provided for @harmYearsAssumed.
+  ///
+  /// In en, this message translates to:
+  /// **'This assumes 10 years of smoking because you have not said how long — add your real number in Settings.'**
+  String get harmYearsAssumed;
 }
 
 class _AppLocalizationsDelegate

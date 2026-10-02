@@ -1128,5 +1128,6 @@
   "otherAppsOpenStore": "Google Play'de aç",
   "otherAppsOpenFailed": "Mağaza açılamadı.",
   "todayLogShowAll": "Tümünü göster ({count})",
-  "todayLogShowLess": "Daha az göster"
+  "todayLogShowLess": "Daha az göster",
+  "harmYearsAssumed": "Ne kadar süredir içtiğini söylemediğin için 10 yıl varsayıldı — gerçek sayını Ayarlar'dan ekle."
 }

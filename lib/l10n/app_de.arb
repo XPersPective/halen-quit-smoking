@@ -1128,5 +1128,6 @@
   "otherAppsOpenStore": "In Google Play öffnen",
   "otherAppsOpenFailed": "Der Store konnte nicht geöffnet werden.",
   "todayLogShowAll": "Alle {count} anzeigen",
-  "todayLogShowLess": "Weniger anzeigen"
+  "todayLogShowLess": "Weniger anzeigen",
+  "harmYearsAssumed": "Hier sind 10 Rauchjahre angenommen, weil du nicht angegeben hast, wie lange du rauchst – trag deine echte Zahl in den Einstellungen ein."
 }

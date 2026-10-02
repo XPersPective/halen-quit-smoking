@@ -4,6 +4,31 @@ Tüm önemli değişiklikler bu dosyada belgelenir. Biçim:
 [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) ·
 sürümleme: [SemVer](https://semver.org/lang/tr/).
 
+## [1.4.0] — 2026-10-02 — dürüst sayılar, ülke, Keşfet
+
+İlk gerçek cihaz testinden sonra (sahip geri bildirimi, ADR-0002).
+
+### Düzeltildi (Fixed)
+- **Tasarruf yalnızca tamamlanmış günler için ve eski alışkanlığa (baseline)
+  göre sayılır.** Önce: bitmemiş gün ve *kayıtsız* her gün "tamamen kaçınıldı"
+  sayılıyor, ilk dört sigarada "78 TL tasarruf" ve "1795 izmarit" çıkıyordu.
+- **İlerleme puanı ilk 3 gerçek günden önce gösterilmez** ("Kalibrasyon").
+- **Nikotin/CO yüzdesi kendi 24 saatlik tepesine değil, beyan edilen olağan
+  düzeye göre** (arka arkaya sigara artık otomatik %100 değil).
+- **Ödeme ekranı satın alma sonrası kendini yeniler**; sahip görünümü.
+- **Premium vaatlerinin hepsi gerçekten kilitli** (yalnızca Plan kilitliydi);
+  "%100 yerel gizlilik" Premium vaadi olmaktan çıkarıldı (ücretsizde de var).
+
+### Eklendi (Added)
+- Ülke seçimi (250 ülke, 73 dilde ad, aranabilir) → para birimi, destek
+  hatları (DSÖ listesi + ulusal servisler), ülkeye göre bağış önerileri.
+- Ana ekranda "Sigaranın sana maliyeti": tüm zamanlar (beyan edilen yıllar ×
+  adet × fiyat + kayıtlar), bugün/7/30/365 gün, harcanan süre.
+- Bugün ve olağan günün karşılaştırması (kümülatif grafik).
+- "İçtim" altında satır içi tetikleyici seçimi (ayrı sayfa yok).
+- Keşfet sekmesi: aynı geliştiricinin diğer uygulamaları (GitHub JSON).
+- Reklam: alt çubuğun üstünde tek küçük afiş (SOS'ta ve denemede yok).
+
 ## [Yayımlanmamış] — modül raporu uygulaması
 
 Kaynak: [`halen-modul-derin-arastirma-raporu.md`](halen-modul-derin-arastirma-raporu.md)

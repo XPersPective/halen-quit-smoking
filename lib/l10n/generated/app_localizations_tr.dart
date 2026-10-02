@@ -3631,4 +3631,8 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get todayLogShowLess => 'Daha az göster';
+
+  @override
+  String get harmYearsAssumed =>
+      'Ne kadar süredir içtiğini söylemediğin için 10 yıl varsayıldı — gerçek sayını Ayarlar\'dan ekle.';
 }

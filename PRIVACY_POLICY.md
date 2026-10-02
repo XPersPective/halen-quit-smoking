@@ -1,6 +1,6 @@
 # Halen: Quit Smoking Tracker — Gizlilik Politikası
 
-**Son güncelleme: 1 Ekim 2026**
+**Son güncelleme: 2 Ekim 2026**
 
 ## Türkçe
 
@@ -18,6 +18,12 @@ işleyebilir; sağlık/nikotin verileriniz reklam hedeflemesine asla
 gönderilmez. Reklamlar UMP consent akışıyla yönetilir; deneme süresince ve
 Premium'da hiçbir reklam gösterilmez. Geliştirme sürümleri Google'ın test
 reklam birimlerini kullanır.
+
+**Keşfet sekmesi:** Yalnızca bu sekmeyi açtığında uygulama, aynı geliştiricinin
+diğer uygulamalarının herkese açık listesini GitHub'dan
+(raw.githubusercontent.com/XPersPective/napp_apps) indirir ve 24 saat
+önbelleğe alır. Bu istekte kişisel veya sağlık verin gönderilmez; GitHub
+isteğin IP adresini görebilir. Başka uygulamayı yüklemek için ödül verilmez.
 
 ### Halen'in topladığı veri: yok (reklam SDK'sı hariç, aşağıya bakın)
 - Sigara/istek kayıtları, profil cevaplarınız (yaş grubu, günlük sayı, paket
@@ -64,6 +70,12 @@ identifiers to serve the ads; your health/nicotine data is never sent for ad
 targeting. Ads are governed by the UMP consent flow; nothing is shown during
 the trial or with Premium. Development builds use Google's test ad units.
 
+**Discover tab:** Only when you open this tab, the app downloads the public
+list of the same developer's other apps from GitHub
+(raw.githubusercontent.com/XPersPective/napp_apps) and caches it for 24 hours.
+No personal or health data is sent with that request; GitHub can see the
+request's IP address. Installing another app is never rewarded.
+
 ### Data Halen collects: none (except the ad SDK, see below)
 - Cigarette/craving logs, your onboarding answers (age band, daily count,
   pack price, etc.), plan and savings calculations are stored **on your
@@ -109,6 +121,13 @@ AdMob gezeigt. AdMob kann dafür Gerätekennungen verarbeiten; Gesundheits-/
 Nikotindaten werden nie für Werbung verwendet. Anzeigen laufen über den
 UMP-Einwilligungsablauf; in der Testphase und mit Premium wird nichts gezeigt.
 Entwicklungsversionen nutzen Googles Test-Anzeigenblöcke.
+
+**Entdecken-Tab:** Nur wenn du diesen Tab öffnest, lädt die App die öffentliche
+Liste der anderen Apps desselben Entwicklers von GitHub
+(raw.githubusercontent.com/XPersPective/napp_apps) und speichert sie 24 Stunden
+zwischen. Mit dieser Anfrage werden keine persönlichen oder Gesundheitsdaten
+gesendet; GitHub kann die IP-Adresse der Anfrage sehen. Fürs Installieren einer
+anderen App gibt es keine Belohnung.
 
 ### Von Halen erhobene Daten: keine (außer dem Werbe-SDK, siehe oben)
 - Klick-/Craving-Einträge, deine Antworten im Onboarding (Altersgruppe,

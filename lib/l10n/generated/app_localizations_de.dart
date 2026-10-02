@@ -3652,4 +3652,8 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get todayLogShowLess => 'Weniger anzeigen';
+
+  @override
+  String get harmYearsAssumed =>
+      'Hier sind 10 Rauchjahre angenommen, weil du nicht angegeben hast, wie lange du rauchst – trag deine echte Zahl in den Einstellungen ein.';
 }

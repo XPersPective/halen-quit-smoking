@@ -465,6 +465,7 @@ final taperPlanDetailProvider =
 class IndicesState {
   const IndicesState({
     required this.trackedDays,
+    required this.yearsAssumed,
     required this.progress,
     required this.harm,
     required this.progressHistory,
@@ -474,6 +475,10 @@ class IndicesState {
 
   /// Completed days the user engaged with inside the score window.
   final int trackedDays;
+
+  /// True when the Harm Load had to assume 10 years of smoking because the
+  /// person never said how long they have smoked.
+  final bool yearsAssumed;
 
   /// The score is withheld until [calibrationDays] real days exist.
   bool get isCalibrating => trackedDays < calibrationDays;
@@ -591,6 +596,7 @@ final indicesProvider = FutureProvider<IndicesState>((ref) async {
   ];
   return IndicesState(
     trackedDays: summaries.length,
+    yearsAssumed: profile?.smokingYears == null,
     progress: progress,
     harm: harm,
     progressHistory: progressHistory,

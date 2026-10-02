@@ -130,7 +130,11 @@ class IndicesCard extends ConsumerWidget {
                 indices.harm.packYears.toStringAsFixed(1),
               ),
               onHelp: () => Navigator.of(context).pushNamed(Routes.glossary),
-              footnote: '${l10n.harmNotRisk} ${l10n.harmMovingPartNote}',
+              footnote: [
+                if (indices.yearsAssumed) l10n.harmYearsAssumed,
+                l10n.harmNotRisk,
+                l10n.harmMovingPartNote,
+              ].join(' '),
               child: Column(
                 children: [
                   HarmScale(

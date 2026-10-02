@@ -36,10 +36,15 @@ class _HalenAdBannerState extends ConsumerState<HalenAdBanner> {
 
   bool _allowed(WidgetRef ref) {
     final access = ref.watch(entitlementProvider).value;
+    // Unknown entitlement is not "free": no ad until the trial / purchase
+    // state is known.
+    if (access == null) {
+      return false;
+    }
     return AdPolicy.bannerAllowed(
       surface: widget.surface,
-      trialActive: access?.source == PremiumSource.trial,
-      premiumOwned: access?.source == PremiumSource.store,
+      trialActive: access.source == PremiumSource.trial,
+      premiumOwned: access.source == PremiumSource.store,
     );
   }
 
@@ -56,11 +61,14 @@ class _HalenAdBannerState extends ConsumerState<HalenAdBanner> {
     if (!await HalenAds.instance.consentGranted()) {
       return;
     }
-    final access = ref.read(entitlementProvider).value;
+    final access = await ref.read(entitlementProvider.future);
+    if (!mounted) {
+      return;
+    }
     final banner = HalenAds.instance.createBanner(
       surface: widget.surface,
-      trialActive: access?.source == PremiumSource.trial,
-      premiumOwned: access?.source == PremiumSource.store,
+      trialActive: access.source == PremiumSource.trial,
+      premiumOwned: access.source == PremiumSource.store,
       onLoaded: () {
         if (mounted) {
           setState(() => _loaded = true);

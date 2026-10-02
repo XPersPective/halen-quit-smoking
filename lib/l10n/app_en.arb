@@ -1984,5 +1984,6 @@
       }
     }
   },
-  "todayLogShowLess": "Show less"
+  "todayLogShowLess": "Show less",
+  "harmYearsAssumed": "This assumes 10 years of smoking because you have not said how long — add your real number in Settings."
 }
