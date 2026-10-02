@@ -8,7 +8,7 @@ import '../../../domain/ad_policy.dart';
 import '../../../domain/entitlement.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
-/// Labelled medium-rectangle banner for free users past the trial
+/// Small labelled banner for free users past the trial
 /// (brain T21). Every decision comes from [AdPolicy]; policy refusal, no
 /// fill and a failed load all collapse the slot — an empty content hole is
 /// never left behind. In preview mode (tests / dev builds) the ad slot is
@@ -89,20 +89,32 @@ class _HalenAdBannerState extends ConsumerState<HalenAdBanner> {
       // blank hole (brain T21).
       return const SizedBox.shrink();
     }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(l10n.adLabel, style: Theme.of(context).textTheme.labelSmall),
-        const SizedBox(height: 4),
-        Container(
-          height: widget.previewMode ? 120 : 250,
-          width: double.infinity,
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          child: widget.previewMode
-              ? Center(child: Text(l10n.adLabel))
-              : AdWidget(ad: _banner!),
+    // One small banner (320x50) pinned above the navigation bar, labelled so
+    // it is never mistaken for content.
+    final theme = Theme.of(context);
+    return Semantics(
+      label: l10n.adLabel,
+      child: Container(
+        width: double.infinity,
+        color: theme.colorScheme.surfaceContainerHighest,
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: Text(l10n.adLabel, style: theme.textTheme.labelSmall),
+            ),
+            SizedBox(
+              height: 50,
+              width: 320,
+              child: widget.previewMode
+                  ? Center(child: Text(l10n.adLabel))
+                  : AdWidget(ad: _banner!),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

@@ -6,8 +6,6 @@ import 'package:halen/core/theme.dart';
 import 'package:halen/data/repositories/article_repository.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
-import 'package:halen/domain/ad_policy.dart';
-import 'package:halen/presentation/widgets/ads/halen_ad_banner.dart';
 import '../../../core/design/tokens.dart';
 
 class ArticlesScreen extends ConsumerWidget {
@@ -215,7 +213,6 @@ class ArticlesScreen extends ConsumerWidget {
             ),
             const SizedBox(height: HalenSpace.x4),
             // T21: labelled banner, free users past the trial only.
-            const HalenAdBanner(surface: AdSurface.guideBottom),
           ],
         ),
       ),

@@ -103,7 +103,7 @@ class HalenAds {
     }
   }
 
-  /// Creates a labelled medium-rectangle banner for [surface], or null when
+  /// Creates a small (320x50) banner for [surface], or null when
   /// the policy says no. Caller owns dispose() and the label row.
   BannerAd? createBanner({
     required AdSurface surface,
@@ -126,7 +126,7 @@ class HalenAds {
         : (Platform.isIOS ? testBannerUnitIos : testBannerUnitAndroid);
     final ad = BannerAd(
       adUnitId: unit,
-      size: AdSize.mediumRectangle,
+      size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) => onLoaded(),

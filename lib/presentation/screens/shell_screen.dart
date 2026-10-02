@@ -7,9 +7,20 @@ import 'package:halen/presentation/screens/plan/plan_screen.dart';
 import 'package:halen/presentation/screens/sos/sos_screen.dart';
 import 'package:halen/presentation/screens/stats/stats_screen.dart';
 import 'package:halen/presentation/screens/today/today_screen.dart';
+import '../../domain/ad_policy.dart';
+import '../widgets/ads/halen_ad_banner.dart';
 
 /// The app shell: bottom navigation over the five core surfaces
 /// (BUGÜN / Grafikler / Plan / Rehber / Kriz SOS).
+/// Ad surface per tab (null = no ad). The SOS tab never carries one.
+const _adSurfaces = <AdSurface?>[
+  AdSurface.todayBottom,
+  AdSurface.statsBottom,
+  AdSurface.planBottom,
+  AdSurface.guideBottom,
+  null,
+];
+
 class ShellScreen extends StatefulWidget {
   const ShellScreen({super.key, this.initialIndex = 0});
 
@@ -78,17 +89,29 @@ class _ShellScreenState extends State<ShellScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _index,
-        onDestinationSelected: _go,
-        destinations: [
-          for (final d in destinations)
-            NavigationDestination(
-              icon: Icon(d.$1),
-              selectedIcon: Icon(d.$2),
-              label: d.$3,
-              tooltip: d.$3,
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // One small ad pinned above the bar — never on the SOS tab. The
+          // policy hides it during the 7-day trial and for Premium.
+          if (_adSurfaces[_index] != null)
+            HalenAdBanner(
+              key: ValueKey(_adSurfaces[_index]),
+              surface: _adSurfaces[_index]!,
             ),
+          NavigationBar(
+            selectedIndex: _index,
+            onDestinationSelected: _go,
+            destinations: [
+              for (final d in destinations)
+                NavigationDestination(
+                  icon: Icon(d.$1),
+                  selectedIcon: Icon(d.$2),
+                  label: d.$3,
+                  tooltip: d.$3,
+                ),
+            ],
+          ),
         ],
       ),
     );

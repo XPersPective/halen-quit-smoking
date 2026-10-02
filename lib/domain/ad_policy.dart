@@ -4,15 +4,15 @@
 /// this class and this class alone decides. Rules, in order:
 ///  - the first 7 days (trial), an active premium, SOS, payment, health
 ///    detail, onboarding and the widget NEVER show ads;
-///  - after the trial, free users on eligible surfaces see a labelled
-///    medium banner;
+///  - after the trial, free users on eligible surfaces see one small
+///    labelled banner pinned above the bottom navigation bar;
 ///  - app-open ads: eligible moments only, at most once per 24 hours;
 ///  - no network / no fill must never leave an empty content hole: callers
 ///    render the ordinary card flow when this policy says "no".
 library;
 
 /// Screens where an ad surface may exist for a free user past the trial.
-enum AdSurface { todayBottom, statsBottom, guideBottom }
+enum AdSurface { todayBottom, statsBottom, planBottom, guideBottom }
 
 class AdPolicy {
   const AdPolicy._();
