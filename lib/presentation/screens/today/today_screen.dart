@@ -28,6 +28,7 @@ import 'package:halen/presentation/widgets/today/log_feedback.dart';
 import 'package:halen/presentation/widgets/today/mini_organ_cockpit.dart';
 import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
 import 'package:halen/presentation/widgets/today/progress_score_tile.dart';
+import 'package:halen/presentation/widgets/today/spend_card.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 import 'package:halen/presentation/widgets/today/today_log_sheet.dart';
 import 'package:halen/presentation/widgets/premium_badge.dart';
@@ -517,6 +518,11 @@ class _TodayBody extends ConsumerWidget {
 
           // ——— Smoking diary right below action buttons (road-tested visibility) ———
           const TodayLogCard(),
+          const SizedBox(height: HalenSpace.x4),
+
+          // What smoking has cost — the number that makes the habit concrete
+          // — sits right under the log, not two screens deep.
+          const Entrance(child: SpendCard()),
           const SizedBox(height: HalenSpace.x6),
 
           // ——— Overview ———
@@ -559,38 +565,6 @@ class _TodayBody extends ConsumerWidget {
           const SizedBox(height: HalenSpace.x8),
 
           Text(l10n.todayOverview, style: theme.textTheme.titleMedium),
-          const SizedBox(height: HalenSpace.x3),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(HalenSpace.x5),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(HalenSpace.x3),
-                    decoration: BoxDecoration(
-                      color: colors.primaryContainer,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Icon(
-                      Icons.savings_rounded,
-                      color: colors.onPrimaryContainer,
-                      size: 22,
-                    ),
-                  ),
-                  const SizedBox(width: HalenSpace.x4),
-                  Expanded(
-                    child: Text(
-                      l10n.savingsStrip(
-                        state.savingsToday.toStringAsFixed(0),
-                        state.avoidedToday,
-                      ),
-                      style: theme.textTheme.titleSmall,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
           const SizedBox(height: HalenSpace.x3),
           Card(
             color: colors.primaryContainer,

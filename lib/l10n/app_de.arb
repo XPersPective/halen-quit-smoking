@@ -468,8 +468,8 @@
   "moduleSourceLabel": "Quelle",
   "bodyLoadTitle": "Körperlast",
   "bodyLoadSinceLast": "{time} seit deiner letzten Zigarette",
-  "bodyLoadNicotineNow": "Die geschätzte Nikotinlast liegt bei {percent}% des Höchstwerts.",
-  "bodyLoadCoDrop": "Die modellierte Kohlenmonoxidlast liegt {percent} % unter ihrem Höchstwert.",
+  "bodyLoadNicotineNow": "Die geschätzte Nikotinlast liegt bei {percent} % deines üblichen Niveaus.",
+  "bodyLoadCoDrop": "Die modellierte Kohlenmonoxidlast liegt {percent} % unter deinem üblichen Niveau.",
   "loadNicotineAcute": "Nikotin jetzt",
   "loadNicotineBaseline": "Im Körper angesammeltes Nikotin",
   "loadCarbonMonoxide": "Kohlenmonoxid im Blut",
@@ -718,7 +718,7 @@
   "mindLegendFelt": "Was du sagtest",
   "loadBandMeaning": "Ein Balken pro Tag: je höher, desto mehr trug dein Körper. Der Strich ist der Tageshöchstwert.",
   "bodyLoadMeaning": "Jede Spitze ist eine protokollierte Zigarette; die fallende Linie ist Modellabbau, keine Messung. Grüne Marken sind nie entstandene Spitzen.",
-  "loadAxisCaption": "% deines eigenen Höchstwerts — ein Modell, keine Messung",
+  "loadAxisCaption": "% deines üblichen Niveaus (nach deinen Angaben) – ein Modell, keine Messung",
   "loadAxisNow": "jetzt",
   "loadAxisHoursAgo": "vor {hours} Std.",
   "nowInBodyTitle": "Gerade in deinem Körper",
@@ -1081,5 +1081,20 @@
       }
     }
   },
-  "todayLogCount": "{n} erfasst"
+  "todayLogCount": "{n} erfasst",
+  "spendCardTitle": "Was Rauchen dich kostet",
+  "spendLifetimeLabel": "Insgesamt (Schätzung)",
+  "spendLifetimeBasis": "{years} Jahre × {cpd} pro Tag zum heutigen Preis",
+  "spendTimeSmoking": "Etwa {time} deines Lebens mit Rauchen verbracht",
+  "spendToday": "Heute",
+  "spend7d": "7 Tage",
+  "spend30d": "30 Tage",
+  "spend12m": "12 Monate",
+  "spendPerCigarette": "{amount} pro Zigarette",
+  "spendTodayLine": "Heute: {count} Zigaretten · {amount}",
+  "spendAskYears": "Wie lange rauchst du schon? Trag es ein, um deine Gesamtsumme zu sehen.",
+  "spendRecordedNote": "Heute, 7 Tage, 30 Tage und 12 Monate zählen nur, was du in Halen erfasst hast. Insgesamt enthält deine angegebene Vorgeschichte.",
+  "progressCalibrating": "Kalibrierung läuft",
+  "progressCalibratingBody": "Dein Wert entsteht aus {total} echten, abgeschlossenen Tagen. Heute zählt noch nicht – er läuft ja noch. Bis dahin sind alle Zahlen Schätzungen auf Basis deiner Angaben.",
+  "progressCalibratingCount": "{n} von {total} Tagen"
 }

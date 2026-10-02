@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:halen/domain/ad_policy.dart';
 import 'package:halen/presentation/widgets/ads/halen_ad_banner.dart';
 import 'package:halen/application/interval_providers.dart';
+import 'package:halen/application/module_providers.dart';
 import 'package:halen/application/stats_providers.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/core/theme.dart';

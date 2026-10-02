@@ -786,7 +786,7 @@
       }
     }
   },
-  "bodyLoadNicotineNow": "Estimated nicotine load is at {percent}% of its peak.",
+  "bodyLoadNicotineNow": "Estimated nicotine load is at {percent}% of your usual level.",
   "@bodyLoadNicotineNow": {
     "placeholders": {
       "percent": {
@@ -794,7 +794,7 @@
       }
     }
   },
-  "bodyLoadCoDrop": "The modelled carbon-monoxide load is {percent}% below its peak.",
+  "bodyLoadCoDrop": "The modelled carbon-monoxide load is {percent}% below your usual level.",
   "@bodyLoadCoDrop": {
     "placeholders": {
       "percent": {
@@ -1294,7 +1294,7 @@
   "mindLegendFelt": "What you said",
   "loadBandMeaning": "One bar per day: the taller the bar, the more your body carried that day. The cap is that day's peak.",
   "bodyLoadMeaning": "Each spike is a logged cigarette; the falling line is model decay, not a measurement. Green marks are spikes that never happened.",
-  "loadAxisCaption": "% of your own peak — a model, not a measurement",
+  "loadAxisCaption": "% of your usual level (from what you declared) — a model, not a measurement",
   "loadAxisNow": "now",
   "loadAxisHoursAgo": "{hours} h ago",
   "@loadAxisHoursAgo": {
@@ -1835,6 +1835,72 @@
   "@todayLogCount": {
     "placeholders": {
       "n": {
+        "type": "int"
+      }
+    }
+  },
+  "spendCardTitle": "What smoking costs",
+  "spendLifetimeLabel": "All time (estimate)",
+  "spendLifetimeBasis": "{years} years × {cpd} a day at today's price",
+  "@spendLifetimeBasis": {
+    "placeholders": {
+      "years": {
+        "type": "String"
+      },
+      "cpd": {
+        "type": "int"
+      }
+    }
+  },
+  "spendTimeSmoking": "About {time} of your life spent smoking",
+  "@spendTimeSmoking": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "spendToday": "Today",
+  "spend7d": "7 days",
+  "spend30d": "30 days",
+  "spend12m": "12 months",
+  "spendPerCigarette": "{amount} per cigarette",
+  "@spendPerCigarette": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "spendTodayLine": "Today: {count} cigarettes · {amount}",
+  "@spendTodayLine": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "spendAskYears": "How long have you smoked? Add it to see your all-time total.",
+  "spendRecordedNote": "Today, 7 days, 30 days and 12 months count only what you logged in Halen. All time adds your declared history.",
+  "progressCalibrating": "Calibrating",
+  "progressCalibratingBody": "Your score is built from {total} real, finished days. Today does not count yet — it is still being lived. Until then, every other number here is an estimate from what you told us.",
+  "@progressCalibratingBody": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "progressCalibratingCount": "{n} of {total} days",
+  "@progressCalibratingCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
         "type": "int"
       }
     }

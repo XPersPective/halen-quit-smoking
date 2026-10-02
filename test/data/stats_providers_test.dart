@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:halen/application/module_providers.dart';
 import 'package:halen/application/stats_providers.dart';
 import 'package:halen/application/providers.dart';
 import 'package:halen/data/db/app_database.dart';

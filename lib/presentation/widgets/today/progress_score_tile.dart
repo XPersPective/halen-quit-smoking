@@ -9,6 +9,7 @@ import '../../../domain/progress_index.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../charts/score_gauge.dart';
 import '../design/halen_components.dart';
+import 'progress_calibrating.dart';
 
 /// The Progress Score, on the home screen (item 14).
 ///
@@ -27,6 +28,13 @@ class ProgressScoreTile extends ConsumerWidget {
     final indices = ref.watch(indicesProvider).value;
     if (indices == null) {
       return const SizedBox.shrink();
+    }
+
+    if (indices.isCalibrating) {
+      return HalenCard(
+        onTap: () => Navigator.of(context).pushNamed(Routes.status),
+        child: ProgressCalibrating(trackedDays: indices.trackedDays),
+      );
     }
 
     final band = switch (indices.progress.band) {

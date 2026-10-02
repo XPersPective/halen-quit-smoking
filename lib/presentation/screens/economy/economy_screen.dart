@@ -10,6 +10,7 @@ import '../../../application/stats_providers.dart';
 import '../../../core/dates.dart';
 import '../../../core/theme.dart';
 import '../../../domain/economy.dart';
+import '../../../domain/savings_ledger.dart';
 import '../../../domain/input_bounds.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/charts/halen_line_chart.dart';
@@ -93,11 +94,20 @@ class _EconomyScreenState extends ConsumerState<EconomyScreen> {
       return afterMin && afterStart && beforeToday;
     }).toList();
 
+    // Money actually spent counts every cigarette, today's included. Money
+    // "saved" counts only completed days the user engaged with, measured
+    // against the baseline (see SavingsLedger for why).
     final smokedTotal = trackedStats.fold<int>(0, (sum, d) => sum + d.count);
-    final avoidedTotal = trackedStats.fold<int>(
-      0,
-      (sum, d) => sum + math.max(0, (baseline - d.count).round()),
+    final ledger = SavingsLedger.from(
+      baselineCpd: baseline,
+      startKey: filterMinKey.compareTo(startKey) > 0 ? filterMinKey : startKey,
+      todayKey: todayKey,
+      rows: [
+        for (final d in trackedStats)
+          LedgerRow(dateKey: d.dateKey, count: d.count, resisted: d.resisted),
+      ],
     );
+    final avoidedTotal = ledger.avoided;
 
     final recentCounts = stats.length <= 7
         ? stats

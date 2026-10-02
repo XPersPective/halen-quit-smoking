@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'application/module_providers.dart';
 import 'application/providers.dart';
 import 'application/plan_controller.dart';
 import 'application/quick_log_controller.dart';
@@ -186,14 +189,23 @@ class _LifecycleTracker extends ConsumerStatefulWidget {
 
 class _LifecycleTrackerState extends ConsumerState<_LifecycleTracker>
     with WidgetsBindingObserver {
+  Timer? _dayTicker;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    // Moves "today" at midnight while the app stays open.
+    _dayTicker = Timer.periodic(const Duration(seconds: 30), (_) {
+      if (mounted) {
+        ref.read(todayKeyProvider.notifier).refresh();
+      }
+    });
   }
 
   @override
   void dispose() {
+    _dayTicker?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -203,6 +215,8 @@ class _LifecycleTrackerState extends ConsumerState<_LifecycleTracker>
     if (state != AppLifecycleState.resumed || widget.databaseFailed) {
       return;
     }
+    ref.read(todayKeyProvider.notifier).refresh();
+    ref.invalidate(todayStateProvider);
     final db = ref.read(databaseProvider);
     QuickLogController(db).drain().then((count) {
       if (count > 0) {

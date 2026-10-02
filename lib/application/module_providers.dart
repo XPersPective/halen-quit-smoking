@@ -16,6 +16,8 @@ import '../domain/harm_load.dart';
 import '../domain/lung_model.dart';
 import '../domain/plan_kinds.dart';
 import '../domain/progress_index.dart';
+import '../domain/savings_ledger.dart';
+import '../domain/spend_summary.dart';
 import '../domain/withdrawal_model.dart';
 import 'notification_texts.dart';
 import 'settings_screen_controller.dart';
@@ -77,9 +79,11 @@ final bodyLoadModelProvider = Provider<BodyLoadModel>((ref) {
 /// "What is in me right now" — the Body Load card header (S3).
 final bodyLoadSnapshotProvider = Provider<AsyncValue<BodyLoadSnapshot>>((ref) {
   final model = ref.watch(bodyLoadModelProvider);
-  return ref
-      .watch(eventTimestampsProvider)
-      .whenData((events) => model.snapshot(DateTime.now(), events));
+  final baseline = ref.watch(measuredBaselineProvider).value;
+  return ref.watch(eventTimestampsProvider).whenData(
+        (events) =>
+            model.snapshot(DateTime.now(), events, baselineCpd: baseline),
+      );
 });
 
 /// 24-hour normalized curve for one load kind.
@@ -347,13 +351,94 @@ final measuredBaselineProvider = FutureProvider<double>((ref) async {
   if (profile == null) {
     return 0;
   }
+  ref.watch(todayKeyProvider);
   final summaries = await db.statsDao.getSummariesBetween(
     dayKey(profile.startedAt),
     dayKey(profile.startedAt.add(const Duration(days: 7))),
   );
+  // Today is still being lived: a half-smoked day would drag the baseline
+  // down and then be credited back as "savings".
+  final today = dayKey(DateTime.now());
   return Economy.baselineFromFirstWeek(
-    firstWeekDailyCounts: [for (final s in summaries) s.count],
+    firstWeekDailyCounts: [
+      for (final s in summaries)
+        if (s.date.compareTo(today) < 0) s.count,
+    ],
     onboardingCpd: profile.baselineCpd,
+  );
+});
+
+/// Today's local day key. [TodayKeyNotifier.refresh] moves it at midnight and
+/// on app resume (driven by the lifecycle widget, so no provider owns a timer
+/// that tests would have to tear down).
+final todayKeyProvider =
+    NotifierProvider<TodayKeyNotifier, String>(TodayKeyNotifier.new);
+
+class TodayKeyNotifier extends Notifier<String> {
+  @override
+  String build() => dayKey(DateTime.now());
+
+  void refresh() {
+    final key = dayKey(DateTime.now());
+    if (key != state) {
+      state = key;
+    }
+  }
+}
+
+/// What smoking has cost: recorded spend per period + declared history.
+final spendSummaryProvider = FutureProvider<SpendSummary?>((ref) async {
+  final db = ref.watch(databaseProvider);
+  final profile = await ref.watch(smokingProfileProvider.future);
+  if (profile == null) {
+    return null;
+  }
+  ref.watch(cigaretteEventsProvider);
+  ref.watch(todayKeyProvider);
+  final startKey = dayKey(profile.startedAt);
+  final rows = await db.statsDao.getSummariesBetween(startKey, '9999-99-99');
+  return SpendSummary.compute(
+    days: [for (final r in rows) SpendDay(dateKey: r.date, count: r.count)],
+    now: DateTime.now(),
+    pricePerPack: profile.pricePerPack,
+    packSize: profile.packSize,
+    startKey: startKey,
+    declaredCpd: profile.baselineCpd.toDouble(),
+    smokingYears: profile.smokingYears,
+  );
+});
+
+/// Money saved over completed, engaged days (see SavingsLedger).
+final totalSavingsProvider = FutureProvider<double>((ref) async {
+  final ledger = await ref.watch(savingsLedgerProvider.future);
+  final economy = ref.watch(economyProvider).value;
+  return economy?.saved(ledger.avoided) ?? 0;
+});
+
+/// Cigarettes avoided and smoked over COMPLETED, engaged days only.
+final savingsLedgerProvider = FutureProvider<SavingsLedger>((ref) async {
+  final db = ref.watch(databaseProvider);
+  final profile = await ref.watch(smokingProfileProvider.future);
+  if (profile == null) {
+    return SavingsLedger.empty;
+  }
+  final baseline = await ref.watch(measuredBaselineProvider.future);
+  ref.watch(cigaretteEventsProvider);
+  final todayKey = dayKey(DateTime.now());
+  final startKey = dayKey(profile.startedAt);
+  final rows = await db.statsDao.getSummariesBetween(startKey, todayKey);
+  return SavingsLedger.from(
+    baselineCpd: baseline,
+    startKey: startKey,
+    todayKey: todayKey,
+    rows: [
+      for (final r in rows)
+        LedgerRow(
+          dateKey: r.date,
+          count: r.count,
+          resisted: r.resistedCount,
+        ),
+    ],
   );
 });
 
@@ -379,12 +464,19 @@ final taperPlanDetailProvider =
 @immutable
 class IndicesState {
   const IndicesState({
+    required this.trackedDays,
     required this.progress,
     required this.harm,
     required this.progressHistory,
     required this.harmHistory,
     required this.delta7d,
   });
+
+  /// Completed days the user engaged with inside the score window.
+  final int trackedDays;
+
+  /// The score is withheld until [calibrationDays] real days exist.
+  bool get isCalibrating => trackedDays < calibrationDays;
 
   final ProgressResult progress;
   final HarmResult harm;
@@ -402,18 +494,36 @@ final indicesProvider = FutureProvider<IndicesState>((ref) async {
   final cravings = ref.watch(cravingEventsProvider).value ?? const [];
 
   final windowStart = dayStartMinusDays(now, progressWindowDays - 1);
-  final summaries = await db.statsDao.getSummariesBetween(
+  final allSummaries = await db.statsDao.getSummariesBetween(
     dayKey(windowStart),
     dayKey(now),
   );
+  // Only days that are over and that the user actually engaged with feed the
+  // score. Today is half-lived (4 cigarettes by 9am looked like "80% below
+  // baseline"), and an empty day is unknown, not perfect.
+  final todayKey = dayKey(now);
+  final startKey = profile == null ? '0000-00-00' : dayKey(profile.startedAt);
+  final summaries = [
+    for (final s in allSummaries)
+      if (s.date.compareTo(todayKey) < 0 &&
+          s.date.compareTo(startKey) >= 0 &&
+          (s.count > 0 || s.resistedCount > 0))
+        s,
+  ];
   final adherences = [
     for (final s in summaries)
       if (s.adherence != null) s.adherence!,
   ];
   final recentCounts = [for (final s in summaries) s.count];
   final recentCpd = recentCounts.isEmpty
-      ? 0.0
+      ? baseline
       : recentCounts.reduce((a, b) => a + b) / recentCounts.length;
+  final completedSinceStart = profile == null
+      ? 0
+      : DateTime(now.year, now.month, now.day)
+          .difference(DateTime(profile.startedAt.year, profile.startedAt.month,
+              profile.startedAt.day))
+          .inDays;
 
   final windowCravings =
       cravings.where((c) => c.ts.isAfter(windowStart)).toList();
@@ -441,8 +551,8 @@ final indicesProvider = FutureProvider<IndicesState>((ref) async {
           .where((c) => c.outcome == CravingOutcome.resisted)
           .length,
       cravingsTotal: windowCravings.length,
-      daysLogged: summaries.where((s) => s.count > 0).length,
-      daysInWindow: summaries.isEmpty ? progressWindowDays : summaries.length,
+      daysLogged: summaries.length,
+      daysInWindow: completedSinceStart.clamp(1, progressWindowDays),
       nicotineBaselineFall: 1 - baselineNow / 100,
     ),
     previousScore:
@@ -480,6 +590,7 @@ final indicesProvider = FutureProvider<IndicesState>((ref) async {
     progress.score,
   ];
   return IndicesState(
+    trackedDays: summaries.length,
     progress: progress,
     harm: harm,
     progressHistory: progressHistory,

@@ -96,9 +96,8 @@ class RecordRepository {
 
   /// Recomputes the DailySummary row for the local day of [day].
   ///
-  /// avoidedCount/savings compare actual consumption against the plan target
-  /// for that day when one exists, otherwise against the onboarding baseline
-  /// (first day, no plan yet — report §4: estimate from onboarding data).
+  /// avoidedCount/savings compare actual consumption against the declared
+  /// baseline, for completed days only (see SavingsLedger).
   Future<void> recomputeDailySummary(DateTime day) async {
     final dayStart = day.dayStart;
     final nextDay = dayStart.add(const Duration(days: 1));
@@ -124,8 +123,13 @@ class RecordRepository {
     final planTarget = plan?.targetCount;
 
     final count = events.length;
-    final expected = planTarget ?? profile?.baselineCpd ?? 0;
-    final avoided = expected > 0 && count < expected ? expected - count : 0;
+    // Savings are credited only once the day is over, against the baseline
+    // the user declared — never against a plan target, and never for a day
+    // still in progress (4 cigarettes by 9am is not "13 avoided").
+    final isCompleted = dayStart.isBefore(DateTime.now().dayStart);
+    final baseline = profile?.baselineCpd ?? 0;
+    final avoided =
+        isCompleted && baseline > 0 && count < baseline ? baseline - count : 0;
     final perCigarettePrice = profile == null || profile.packSize == 0
         ? 0.0
         : profile.pricePerPack / profile.packSize;

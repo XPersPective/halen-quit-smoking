@@ -89,7 +89,8 @@ class BodyLoadSnapshot {
   /// Time since the last recorded cigarette; null when there is none.
   final Duration? sinceLast;
 
-  /// Current acute nicotine load as a percentage of the 24 h peak (0–100).
+  /// Current acute nicotine load, % of the user's usual peak (0–200), or of
+  /// the 24 h peak when no baseline is known.
   final int nicotinePercentOfPeak;
 
   /// Current CO load as a percentage of the 24 h peak (0–100).
@@ -102,7 +103,7 @@ class BodyLoadSnapshot {
   // only receives normalized model values.
 
   /// How much the CO load has fallen from its 24 h peak (0–100).
-  int get coDropPercent => 100 - coPercentOfPeak;
+  int get coDropPercent => (100 - coPercentOfPeak).clamp(0, 100);
 }
 
 /// Exponential-decay load engine (module report §1.⑤).
@@ -186,9 +187,10 @@ class BodyLoadModel {
     DateTime end,
     List<DateTime> events, {
     int stepMinutes = 15,
+    double? referencePeak,
   }) {
     final raw = rawCurve(kind, start, end, events, stepMinutes: stepMinutes);
-    final peak = raw.fold<double>(0, math.max);
+    final peak = referencePeak ?? raw.fold<double>(0, math.max);
     return [
       for (var i = 0; i < raw.length; i++)
         LoadSample(
@@ -209,16 +211,72 @@ class BodyLoadModel {
     return samples.isEmpty ? 0 : samples.last.value;
   }
 
+  /// The highest load a person smoking [baselineCpd] a day, spread evenly
+  /// over [wakingHours], reaches at steady state (the last of ten simulated
+  /// days). This — not the last 24 hours' own maximum — is what "100%"
+  /// means: *your usual*. Normalizing to the window's own peak made one
+  /// cigarette read 100% and four in a row read 100% too (owner, 2026-10-02).
+  double referencePeak(
+    LoadKind kind,
+    double baselineCpd, {
+    double wakingHours = 16,
+  }) {
+    if (baselineCpd <= 0 || kind == LoadKind.tarCumulative) {
+      return 0;
+    }
+    final perDay = baselineCpd.ceil().clamp(1, 120);
+    final spacing = Duration(
+      microseconds: (wakingHours * 3.6e9 / perDay).round(),
+    );
+    final origin = DateTime.utc(2000, 1, 1, 7);
+    final doses = <DateTime>[
+      for (var day = 0; day < 10; day++)
+        for (var i = 0; i < perDay; i++)
+          origin.add(Duration(days: day)).add(spacing * i),
+    ];
+    var peak = 0.0;
+    final lastDayStart = origin.add(const Duration(days: 9));
+    for (final t in doses.where((d) => !d.isBefore(lastDayStart))) {
+      peak = math.max(peak, rawAt(kind, t, doses));
+    }
+    return peak;
+  }
+
+  /// Current load as a percentage of the user's usual steady-state peak.
+  /// Can exceed 100 (a burst above the usual pattern); capped at 200.
+  int relativeNow(
+    LoadKind kind,
+    DateTime now,
+    List<DateTime> events,
+    double baselineCpd,
+  ) {
+    final ref = referencePeak(kind, baselineCpd);
+    if (ref <= 0) {
+      return normalizedNow(kind, now, events);
+    }
+    final current = rawAt(kind, now, events);
+    return (current / ref * 100).round().clamp(0, 200);
+  }
+
   /// "What is in me right now" summary for the Body Load card header.
-  BodyLoadSnapshot snapshot(DateTime now, List<DateTime> events) {
+  ///
+  /// With [baselineCpd] the nicotine and CO figures are relative to the
+  /// user's own usual level; without it they fall back to the 24-hour peak.
+  BodyLoadSnapshot snapshot(
+    DateTime now,
+    List<DateTime> events, {
+    double? baselineCpd,
+  }) {
     final past = events.where((e) => !e.isAfter(now)).toList()..sort();
+    final useBaseline = baselineCpd != null && baselineCpd > 0;
+    int pick(LoadKind kind) => useBaseline && kind != LoadKind.tarCumulative
+        ? relativeNow(kind, now, past, baselineCpd)
+        : normalizedNow(kind, now, past);
     return BodyLoadSnapshot(
       sinceLast: past.isEmpty ? null : now.difference(past.last),
-      nicotinePercentOfPeak: normalizedNow(LoadKind.nicotineAcute, now, past),
-      coPercentOfPeak: normalizedNow(LoadKind.carbonMonoxide, now, past),
-      values: {
-        for (final kind in LoadKind.values) kind: normalizedNow(kind, now, past),
-      },
+      nicotinePercentOfPeak: pick(LoadKind.nicotineAcute),
+      coPercentOfPeak: pick(LoadKind.carbonMonoxide),
+      values: {for (final kind in LoadKind.values) kind: pick(kind)},
     );
   }
 

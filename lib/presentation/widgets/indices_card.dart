@@ -12,6 +12,7 @@ import 'charts/halen_line_chart.dart';
 import 'design/halen_components.dart';
 import 'charts/score_gauge.dart';
 import '../../core/design/tokens.dart';
+import 'today/progress_calibrating.dart';
 
 /// The two indices (module report §14.③), rebuilt around how they are
 /// actually read.
@@ -82,42 +83,43 @@ class IndicesCard extends ConsumerWidget {
             ChartCard(
               title: l10n.progressScoreTitle,
               subtitle: l10n.progressWindowLabel,
-              onHelp: () =>
-                  Navigator.of(context).pushNamed(Routes.glossary),
+              onHelp: () => Navigator.of(context).pushNamed(Routes.glossary),
               footnote: l10n.progressBehaviourNote,
-              child: Column(
-                children: [
-                  Center(
-                    child: ScoreGauge(
-                      score: indices.progress.score,
-                      band: progressBand,
-                      delta: delta,
-                      deltaLabel: deltaLabel,
-                      color: HalenColors.emerald,
-                      semanticsLabel:
-                          '${l10n.progressScoreTitle} ${indices.progress.score}, '
-                          '$progressBand, $deltaLabel',
-                    ),
-                  ),
-                  const SizedBox(height: HalenSpace.x1),
-                  _BreakdownButton(
-                    label: l10n.indicesBreakdownTitle,
-                    onTap: () => _showBreakdown(
-                      context,
-                      title: l10n.progressScoreTitle,
-                      note: l10n.progressBehaviourNote,
-                      rows: [
-                        for (final b in indices.progress.breakdown)
-                          (
-                            label: _progressLabel(b.component, l10n),
-                            points: b.points,
-                            weight: b.component.weight,
+              child: indices.isCalibrating
+                  ? ProgressCalibrating(trackedDays: indices.trackedDays)
+                  : Column(
+                      children: [
+                        Center(
+                          child: ScoreGauge(
+                            score: indices.progress.score,
+                            band: progressBand,
+                            delta: delta,
+                            deltaLabel: deltaLabel,
+                            color: HalenColors.emerald,
+                            semanticsLabel:
+                                '${l10n.progressScoreTitle} ${indices.progress.score}, '
+                                '$progressBand, $deltaLabel',
                           ),
+                        ),
+                        const SizedBox(height: HalenSpace.x1),
+                        _BreakdownButton(
+                          label: l10n.indicesBreakdownTitle,
+                          onTap: () => _showBreakdown(
+                            context,
+                            title: l10n.progressScoreTitle,
+                            note: l10n.progressBehaviourNote,
+                            rows: [
+                              for (final b in indices.progress.breakdown)
+                                (
+                                  label: _progressLabel(b.component, l10n),
+                                  points: b.points,
+                                  weight: b.component.weight,
+                                ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                ],
-              ),
             ),
             const SizedBox(height: HalenSpace.x4),
 
@@ -127,8 +129,7 @@ class IndicesCard extends ConsumerWidget {
               subtitle: l10n.harmPackYears(
                 indices.harm.packYears.toStringAsFixed(1),
               ),
-              onHelp: () =>
-                  Navigator.of(context).pushNamed(Routes.glossary),
+              onHelp: () => Navigator.of(context).pushNamed(Routes.glossary),
               footnote: '${l10n.harmNotRisk} ${l10n.harmMovingPartNote}',
               child: Column(
                 children: [

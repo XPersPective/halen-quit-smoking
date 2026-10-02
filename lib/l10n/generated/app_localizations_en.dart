@@ -1533,12 +1533,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String bodyLoadNicotineNow(int percent) {
-    return 'Estimated nicotine load is at $percent% of its peak.';
+    return 'Estimated nicotine load is at $percent% of your usual level.';
   }
 
   @override
   String bodyLoadCoDrop(int percent) {
-    return 'The modelled carbon-monoxide load is $percent% below its peak.';
+    return 'The modelled carbon-monoxide load is $percent% below your usual level.';
   }
 
   @override
@@ -2397,7 +2397,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadAxisCaption =>
-      '% of your own peak — a model, not a measurement';
+      '% of your usual level (from what you declared) — a model, not a measurement';
 
   @override
   String get loadAxisNow => 'now';
@@ -3465,5 +3465,64 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String todayLogCount(int n) {
     return '$n logged';
+  }
+
+  @override
+  String get spendCardTitle => 'What smoking costs';
+
+  @override
+  String get spendLifetimeLabel => 'All time (estimate)';
+
+  @override
+  String spendLifetimeBasis(String years, int cpd) {
+    return '$years years × $cpd a day at today\'s price';
+  }
+
+  @override
+  String spendTimeSmoking(String time) {
+    return 'About $time of your life spent smoking';
+  }
+
+  @override
+  String get spendToday => 'Today';
+
+  @override
+  String get spend7d => '7 days';
+
+  @override
+  String get spend30d => '30 days';
+
+  @override
+  String get spend12m => '12 months';
+
+  @override
+  String spendPerCigarette(String amount) {
+    return '$amount per cigarette';
+  }
+
+  @override
+  String spendTodayLine(int count, String amount) {
+    return 'Today: $count cigarettes · $amount';
+  }
+
+  @override
+  String get spendAskYears =>
+      'How long have you smoked? Add it to see your all-time total.';
+
+  @override
+  String get spendRecordedNote =>
+      'Today, 7 days, 30 days and 12 months count only what you logged in Halen. All time adds your declared history.';
+
+  @override
+  String get progressCalibrating => 'Calibrating';
+
+  @override
+  String progressCalibratingBody(int total) {
+    return 'Your score is built from $total real, finished days. Today does not count yet — it is still being lived. Until then, every other number here is an estimate from what you told us.';
+  }
+
+  @override
+  String progressCalibratingCount(int n, int total) {
+    return '$n of $total days';
   }
 }

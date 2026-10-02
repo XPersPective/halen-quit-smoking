@@ -1537,12 +1537,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String bodyLoadNicotineNow(int percent) {
-    return 'Die geschätzte Nikotinlast liegt bei $percent% des Höchstwerts.';
+    return 'Die geschätzte Nikotinlast liegt bei $percent % deines üblichen Niveaus.';
   }
 
   @override
   String bodyLoadCoDrop(int percent) {
-    return 'Die modellierte Kohlenmonoxidlast liegt $percent % unter ihrem Höchstwert.';
+    return 'Die modellierte Kohlenmonoxidlast liegt $percent % unter deinem üblichen Niveau.';
   }
 
   @override
@@ -2407,7 +2407,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get loadAxisCaption =>
-      '% deines eigenen Höchstwerts — ein Modell, keine Messung';
+      '% deines üblichen Niveaus (nach deinen Angaben) – ein Modell, keine Messung';
 
   @override
   String get loadAxisNow => 'jetzt';
@@ -3480,5 +3480,64 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String todayLogCount(int n) {
     return '$n erfasst';
+  }
+
+  @override
+  String get spendCardTitle => 'Was Rauchen dich kostet';
+
+  @override
+  String get spendLifetimeLabel => 'Insgesamt (Schätzung)';
+
+  @override
+  String spendLifetimeBasis(String years, int cpd) {
+    return '$years Jahre × $cpd pro Tag zum heutigen Preis';
+  }
+
+  @override
+  String spendTimeSmoking(String time) {
+    return 'Etwa $time deines Lebens mit Rauchen verbracht';
+  }
+
+  @override
+  String get spendToday => 'Heute';
+
+  @override
+  String get spend7d => '7 Tage';
+
+  @override
+  String get spend30d => '30 Tage';
+
+  @override
+  String get spend12m => '12 Monate';
+
+  @override
+  String spendPerCigarette(String amount) {
+    return '$amount pro Zigarette';
+  }
+
+  @override
+  String spendTodayLine(int count, String amount) {
+    return 'Heute: $count Zigaretten · $amount';
+  }
+
+  @override
+  String get spendAskYears =>
+      'Wie lange rauchst du schon? Trag es ein, um deine Gesamtsumme zu sehen.';
+
+  @override
+  String get spendRecordedNote =>
+      'Heute, 7 Tage, 30 Tage und 12 Monate zählen nur, was du in Halen erfasst hast. Insgesamt enthält deine angegebene Vorgeschichte.';
+
+  @override
+  String get progressCalibrating => 'Kalibrierung läuft';
+
+  @override
+  String progressCalibratingBody(int total) {
+    return 'Dein Wert entsteht aus $total echten, abgeschlossenen Tagen. Heute zählt noch nicht – er läuft ja noch. Bis dahin sind alle Zahlen Schätzungen auf Basis deiner Angaben.';
+  }
+
+  @override
+  String progressCalibratingCount(int n, int total) {
+    return '$n von $total Tagen';
   }
 }

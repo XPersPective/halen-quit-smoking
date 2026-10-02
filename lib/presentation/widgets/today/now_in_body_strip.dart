@@ -79,12 +79,16 @@ class _NowInBodyStripState extends ConsumerState<NowInBodyStrip> {
       );
     }
 
-    final snapshot = model.snapshot(_now, past);
+    final baseline = ref.watch(measuredBaselineProvider).value;
+    final snapshot = model.snapshot(_now, past, baselineCpd: baseline);
     final samples = model.normalizedCurve(
       LoadKind.nicotineAcute,
       windowStart,
       _now,
       past,
+      referencePeak: baseline == null || baseline <= 0
+          ? null
+          : model.referencePeak(LoadKind.nicotineAcute, baseline),
     );
     final ghosts = [
       for (final c in cravings)

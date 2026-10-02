@@ -1,10 +1,7 @@
-import 'dart:math' as math;
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/environment_impact.dart';
 import 'module_providers.dart';
-import 'stats_providers.dart';
 
 /// Cigarettes not smoked and money not spent, for the environment card.
 class EnvironmentView {
@@ -14,21 +11,16 @@ class EnvironmentView {
   final double saved;
 }
 
-/// Counts avoided cigarettes exactly the way the economy screen does — the
-/// user's measured baseline minus each day's count, over the last 90 days —
-/// so the tree figure and the money figure can never disagree.
+/// Avoided cigarettes come from the same [SavingsLedger] as the money
+/// figure: completed days the user actually logged, against the baseline.
+/// Empty days are unknown, not "all avoided" — that bug once produced
+/// "1795 butts spared" on the first day.
 final environmentProvider = Provider<AsyncValue<EnvironmentView>>((ref) {
   final economy = ref.watch(economyProvider).value;
-  final baseline = ref.watch(measuredBaselineProvider).value;
-  return ref.watch(dailyStatsProvider(90)).whenData((stats) {
-    final base = baseline ?? 0;
-    final avoided = stats.fold<int>(
-      0,
-      (sum, d) => sum + math.max(0, (base - d.count).round()),
-    );
+  return ref.watch(savingsLedgerProvider).whenData((ledger) {
     return EnvironmentView(
-      impact: EnvironmentImpact(cigarettesAvoided: avoided),
-      saved: economy?.saved(avoided) ?? 0,
+      impact: EnvironmentImpact(cigarettesAvoided: ledger.avoided),
+      saved: economy?.saved(ledger.avoided) ?? 0,
     );
   });
 });

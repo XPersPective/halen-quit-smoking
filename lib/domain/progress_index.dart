@@ -48,6 +48,11 @@ const int maxDailyDelta = 4;
 /// Days of history the score looks at.
 const int progressWindowDays = 14;
 
+/// Real, completed days needed before any score is shown. Before that the
+/// number would be built from declarations and a half-lived day — the owner's
+/// first-hour "78, strong" (2026-10-02).
+const int calibrationDays = 3;
+
 /// Inputs, all derived from the user's own records.
 class ProgressInputs {
   const ProgressInputs({

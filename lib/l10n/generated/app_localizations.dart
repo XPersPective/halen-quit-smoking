@@ -2767,13 +2767,13 @@ abstract class AppLocalizations {
   /// No description provided for @bodyLoadNicotineNow.
   ///
   /// In en, this message translates to:
-  /// **'Estimated nicotine load is at {percent}% of its peak.'**
+  /// **'Estimated nicotine load is at {percent}% of your usual level.'**
   String bodyLoadNicotineNow(int percent);
 
   /// No description provided for @bodyLoadCoDrop.
   ///
   /// In en, this message translates to:
-  /// **'The modelled carbon-monoxide load is {percent}% below its peak.'**
+  /// **'The modelled carbon-monoxide load is {percent}% below your usual level.'**
   String bodyLoadCoDrop(int percent);
 
   /// No description provided for @loadNicotineAcute.
@@ -4267,7 +4267,7 @@ abstract class AppLocalizations {
   /// No description provided for @loadAxisCaption.
   ///
   /// In en, this message translates to:
-  /// **'% of your own peak — a model, not a measurement'**
+  /// **'% of your usual level (from what you declared) — a model, not a measurement'**
   String get loadAxisCaption;
 
   /// No description provided for @loadAxisNow.
@@ -6075,6 +6075,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{n} logged'**
   String todayLogCount(int n);
+
+  /// No description provided for @spendCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What smoking costs'**
+  String get spendCardTitle;
+
+  /// No description provided for @spendLifetimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All time (estimate)'**
+  String get spendLifetimeLabel;
+
+  /// No description provided for @spendLifetimeBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'{years} years × {cpd} a day at today\'s price'**
+  String spendLifetimeBasis(String years, int cpd);
+
+  /// No description provided for @spendTimeSmoking.
+  ///
+  /// In en, this message translates to:
+  /// **'About {time} of your life spent smoking'**
+  String spendTimeSmoking(String time);
+
+  /// No description provided for @spendToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get spendToday;
+
+  /// No description provided for @spend7d.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days'**
+  String get spend7d;
+
+  /// No description provided for @spend30d.
+  ///
+  /// In en, this message translates to:
+  /// **'30 days'**
+  String get spend30d;
+
+  /// No description provided for @spend12m.
+  ///
+  /// In en, this message translates to:
+  /// **'12 months'**
+  String get spend12m;
+
+  /// No description provided for @spendPerCigarette.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} per cigarette'**
+  String spendPerCigarette(String amount);
+
+  /// No description provided for @spendTodayLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Today: {count} cigarettes · {amount}'**
+  String spendTodayLine(int count, String amount);
+
+  /// No description provided for @spendAskYears.
+  ///
+  /// In en, this message translates to:
+  /// **'How long have you smoked? Add it to see your all-time total.'**
+  String get spendAskYears;
+
+  /// No description provided for @spendRecordedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Today, 7 days, 30 days and 12 months count only what you logged in Halen. All time adds your declared history.'**
+  String get spendRecordedNote;
+
+  /// No description provided for @progressCalibrating.
+  ///
+  /// In en, this message translates to:
+  /// **'Calibrating'**
+  String get progressCalibrating;
+
+  /// No description provided for @progressCalibratingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your score is built from {total} real, finished days. Today does not count yet — it is still being lived. Until then, every other number here is an estimate from what you told us.'**
+  String progressCalibratingBody(int total);
+
+  /// No description provided for @progressCalibratingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} of {total} days'**
+  String progressCalibratingCount(int n, int total);
 }
 
 class _AppLocalizationsDelegate

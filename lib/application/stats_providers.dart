@@ -11,6 +11,7 @@ class DayStats {
     this.planTarget,
     this.savings,
     this.adherence,
+    this.resisted = 0,
   });
 
   final String dateKey;
@@ -18,6 +19,7 @@ class DayStats {
   final int? planTarget;
   final double? savings;
   final double? adherence;
+  final int resisted;
 }
 
 /// Last [days] days of daily stats, oldest first, missing days as zeros.
@@ -42,6 +44,7 @@ final dailyStatsProvider = FutureProvider.family<List<DayStats>, int>(
             planTarget: s?.planTarget,
             savings: s?.savings,
             adherence: s?.adherence,
+            resisted: s?.resistedCount ?? 0,
           );
         }(),
     ];
@@ -58,12 +61,3 @@ final hourlyHistogramProvider = FutureProvider<List<int>>((ref) async {
   );
 });
 
-/// Total money saved across all summaries (S3).
-final totalSavingsProvider = FutureProvider<double>((ref) async {
-  final db = ref.watch(databaseProvider);
-  final summaries = await db.statsDao.getSummariesBetween(
-    '0000-00-00',
-    '9999-99-99',
-  );
-  return summaries.fold<double>(0, (sum, s) => sum + s.savings);
-});

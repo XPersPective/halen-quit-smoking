@@ -468,8 +468,8 @@
   "moduleSourceLabel": "Kaynak",
   "bodyLoadTitle": "Vücut Yükü",
   "bodyLoadSinceLast": "Son sigaranın üzerinden {time}",
-  "bodyLoadNicotineNow": "Tahmini nikotin yükün tepe değerinin %{percent} kadarı.",
-  "bodyLoadCoDrop": "Model karbonmonoksit yükü tepe değerinin %{percent} altında.",
+  "bodyLoadNicotineNow": "Tahmini nikotin yükü, olağan düzeyinin %{percent} kadarı.",
+  "bodyLoadCoDrop": "Modellenen karbonmonoksit yükü olağan düzeyinin %{percent} altında.",
   "loadNicotineAcute": "Nikotin şimdi",
   "loadNicotineBaseline": "Vücutta birikmiş nikotin",
   "loadCarbonMonoxide": "Kandaki karbonmonoksit",
@@ -718,7 +718,7 @@
   "mindLegendFelt": "Senin söylediğin",
   "loadBandMeaning": "Her gün için bir sütun: sütun ne kadar uzunsa o gün vücudunun taşıdığı yük o kadar fazla. Üstteki çizgi o günün tepesi.",
   "bodyLoadMeaning": "Her tepe kaydedilmiş bir sigaranın girdisidir; düşen çizgi modelin sönümüdür, ölçüm değildir. Yeşil işaretler hiç oluşmayan tepelerdir.",
-  "loadAxisCaption": "kendi zirvenin %'si — model, ölçüm sonucu değil",
+  "loadAxisCaption": "beyan ettiğin olağan düzeyin %'si — model, ölçüm sonucu değil",
   "loadAxisNow": "şimdi",
   "loadAxisHoursAgo": "{hours} sa önce",
   "nowInBodyTitle": "Şu an vücudunda",
@@ -1081,5 +1081,20 @@
       }
     }
   },
-  "todayLogCount": "{n} adet"
+  "todayLogCount": "{n} adet",
+  "spendCardTitle": "Sigaranın sana maliyeti",
+  "spendLifetimeLabel": "Tüm zamanlar (tahmini)",
+  "spendLifetimeBasis": "Bugünkü fiyatla {years} yıl × günde {cpd}",
+  "spendTimeSmoking": "Hayatından yaklaşık {time} sigara içerek geçti",
+  "spendToday": "Bugün",
+  "spend7d": "7 gün",
+  "spend30d": "30 gün",
+  "spend12m": "12 ay",
+  "spendPerCigarette": "Bir dal {amount}",
+  "spendTodayLine": "Bugün: {count} sigara · {amount}",
+  "spendAskYears": "Kaç yıldır içiyorsun? Tüm zamanlar toplamını görmek için ekle.",
+  "spendRecordedNote": "Bugün, 7 gün, 30 gün ve 12 ay yalnızca Halen'de kaydettiklerini sayar. Tüm zamanlar, beyan ettiğin geçmişi de ekler.",
+  "progressCalibrating": "Kalibrasyon sürüyor",
+  "progressCalibratingBody": "Puanın, {total} gerçek ve tamamlanmış günle oluşur. Bugün henüz sayılmaz — hâlâ yaşanıyor. O zamana kadar buradaki sayılar, bize söylediklerine dayalı tahminlerdir.",
+  "progressCalibratingCount": "{n} / {total} gün"
 }

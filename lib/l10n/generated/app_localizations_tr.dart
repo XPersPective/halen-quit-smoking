@@ -1526,12 +1526,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String bodyLoadNicotineNow(int percent) {
-    return 'Tahmini nikotin yükün tepe değerinin %$percent kadarı.';
+    return 'Tahmini nikotin yükü, olağan düzeyinin %$percent kadarı.';
   }
 
   @override
   String bodyLoadCoDrop(int percent) {
-    return 'Model karbonmonoksit yükü tepe değerinin %$percent altında.';
+    return 'Modellenen karbonmonoksit yükü olağan düzeyinin %$percent altında.';
   }
 
   @override
@@ -2390,7 +2390,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get loadAxisCaption =>
-      'kendi zirvenin %\'si — model, ölçüm sonucu değil';
+      'beyan ettiğin olağan düzeyin %\'si — model, ölçüm sonucu değil';
 
   @override
   String get loadAxisNow => 'şimdi';
@@ -3459,5 +3459,64 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String todayLogCount(int n) {
     return '$n adet';
+  }
+
+  @override
+  String get spendCardTitle => 'Sigaranın sana maliyeti';
+
+  @override
+  String get spendLifetimeLabel => 'Tüm zamanlar (tahmini)';
+
+  @override
+  String spendLifetimeBasis(String years, int cpd) {
+    return 'Bugünkü fiyatla $years yıl × günde $cpd';
+  }
+
+  @override
+  String spendTimeSmoking(String time) {
+    return 'Hayatından yaklaşık $time sigara içerek geçti';
+  }
+
+  @override
+  String get spendToday => 'Bugün';
+
+  @override
+  String get spend7d => '7 gün';
+
+  @override
+  String get spend30d => '30 gün';
+
+  @override
+  String get spend12m => '12 ay';
+
+  @override
+  String spendPerCigarette(String amount) {
+    return 'Bir dal $amount';
+  }
+
+  @override
+  String spendTodayLine(int count, String amount) {
+    return 'Bugün: $count sigara · $amount';
+  }
+
+  @override
+  String get spendAskYears =>
+      'Kaç yıldır içiyorsun? Tüm zamanlar toplamını görmek için ekle.';
+
+  @override
+  String get spendRecordedNote =>
+      'Bugün, 7 gün, 30 gün ve 12 ay yalnızca Halen\'de kaydettiklerini sayar. Tüm zamanlar, beyan ettiğin geçmişi de ekler.';
+
+  @override
+  String get progressCalibrating => 'Kalibrasyon sürüyor';
+
+  @override
+  String progressCalibratingBody(int total) {
+    return 'Puanın, $total gerçek ve tamamlanmış günle oluşur. Bugün henüz sayılmaz — hâlâ yaşanıyor. O zamana kadar buradaki sayılar, bize söylediklerine dayalı tahminlerdir.';
+  }
+
+  @override
+  String progressCalibratingCount(int n, int total) {
+    return '$n / $total gün';
   }
 }
