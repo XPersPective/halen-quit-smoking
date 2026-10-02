@@ -1111,5 +1111,14 @@
   "quitlineSourceNote": "Nummern aus der WHO-Liste (2021) und nationalen Gesundheitsdiensten. Prüfe vor Ort, bevor du dich darauf verlässt.",
   "settingsCountry": "Land",
   "spendYearsDialogTitle": "Wie viele Jahre rauchst du schon?",
-  "spendYearsAction": "Jahre eintragen"
+  "spendYearsAction": "Jahre eintragen",
+  "followUpTitle": "Was hat es ausgelöst? (optional)",
+  "followUpSkip": "Überspringen",
+  "todayPaceTitle": "Heute und dein üblicher Tag",
+  "todayPaceUsual": "Dein üblicher Tag",
+  "todayPaceToday": "Heute",
+  "todayPaceMeaning": "Heute bisher {count} Zigaretten. An deinem üblichen Tag wären es jetzt etwa {expected}.",
+  "todayPaceAxis": "Zigaretten, kumuliert",
+  "spendHeroLine": "Insgesamt {total} · heute {today}",
+  "spendHeroToday": "Heute ausgegeben {today}"
 }

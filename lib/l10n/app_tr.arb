@@ -1111,5 +1111,14 @@
   "quitlineSourceNote": "Numaralar DSÖ listesinden (2021) ve ulusal sağlık hizmetlerinden alınmıştır. Güvenmeden önce yerel olarak doğrula.",
   "settingsCountry": "Ülke",
   "spendYearsDialogTitle": "Kaç yıldır sigara içiyorsun?",
-  "spendYearsAction": "Yıl sayısını ekle"
+  "spendYearsAction": "Yıl sayısını ekle",
+  "followUpTitle": "Neyi tetikledi? (isteğe bağlı)",
+  "followUpSkip": "Geç",
+  "todayPaceTitle": "Bugün ve olağan günün",
+  "todayPaceUsual": "Olağan günün",
+  "todayPaceToday": "Bugün",
+  "todayPaceMeaning": "Bugün şimdiye kadar {count} sigara. Olağan gününde şu ana kadar yaklaşık {expected} olurdu.",
+  "todayPaceAxis": "sigara, birikimli",
+  "spendHeroLine": "Tüm zamanlar {total} · bugün {today}",
+  "spendHeroToday": "Bugün harcanan {today}"
 }

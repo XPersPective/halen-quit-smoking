@@ -7,6 +7,7 @@ import 'package:halen/application/record_providers.dart';
 import 'package:halen/core/dates.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/application/module_providers.dart';
+import 'package:halen/application/money.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
@@ -26,7 +27,9 @@ import 'package:halen/presentation/widgets/today/log_feedback.dart';
 import 'package:halen/presentation/widgets/today/mini_organ_cockpit.dart';
 import 'package:halen/presentation/widgets/today/now_in_body_strip.dart';
 import 'package:halen/presentation/widgets/today/progress_score_tile.dart';
+import 'package:halen/presentation/widgets/today/quick_follow_up.dart';
 import 'package:halen/presentation/widgets/today/spend_card.dart';
+import 'package:halen/presentation/widgets/today/today_pace_card.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
 import 'package:halen/presentation/widgets/today/today_log_sheet.dart';
 import 'package:halen/presentation/widgets/premium_badge.dart';
@@ -72,6 +75,8 @@ class _TodayBody extends ConsumerWidget {
     final id = await ref
         .read(recordRepositoryProvider)
         .logCigarette(source: RecordSource.app);
+    // Offer the optional "what set it off?" tap right under the button.
+    ref.read(followUpProvider.notifier).offer(id);
 
     // Dynamic recalculation (report §14.4): after every record the rest of
     // the day is redistributed — no penalty, just "Yeniden hesapladık."
@@ -139,10 +144,9 @@ class _TodayBody extends ConsumerWidget {
         ref.invalidate(todayStateProvider);
       },
     );
-    if (!context.mounted) {
-      return;
-    }
-    await Navigator.of(context).pushNamed(Routes.recordDetail, arguments: id);
+    // The optional trigger tag is the inline QuickFollowUp card right under
+    // the button; it used to be a separate page the person had to leave Today
+    // for.
   }
 
   Future<void> _logResisted(BuildContext context, WidgetRef ref) async {
@@ -218,6 +222,10 @@ class _TodayBody extends ConsumerWidget {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final planRow = ref.watch(planStateProvider).value;
+    final spend = ref.watch(spendSummaryProvider).value;
+    final money = ref
+        .watch(moneyFormatsProvider(Localizations.localeOf(context).toString()))
+        .whole;
     final planKind = planRow?.kind ?? PlanKind.gradualTaper;
     final planName = switch (planKind) {
       PlanKind.gradualTaper => l10n.planKindGradual,
@@ -459,6 +467,19 @@ class _TodayBody extends ConsumerWidget {
                         label: _nextTargetText(l10n, state.nextSuggestion),
                         emphasize: true,
                       ),
+                      // The sum the habit has cost, inside the first screen.
+                      if (spend != null) ...[
+                        const SizedBox(height: HalenSpace.x3),
+                        _HeroStatRow(
+                          icon: Icons.payments_outlined,
+                          label: spend.lifetimeTotal == null
+                              ? l10n.spendHeroToday(money.format(spend.today))
+                              : l10n.spendHeroLine(
+                                  money.format(spend.lifetimeTotal),
+                                  money.format(spend.today),
+                                ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -512,6 +533,7 @@ class _TodayBody extends ConsumerWidget {
             icon: const Icon(Icons.smoking_rooms_rounded, size: 20),
             label: Text(l10n.ctaSmoked),
           ),
+          const QuickFollowUp(),
           const SizedBox(height: HalenSpace.x4),
 
           // ——— Smoking diary right below action buttons (road-tested visibility) ———
@@ -521,6 +543,8 @@ class _TodayBody extends ConsumerWidget {
           // What smoking has cost — the number that makes the habit concrete
           // — sits right under the log, not two screens deep.
           const Entrance(child: SpendCard()),
+          const SizedBox(height: HalenSpace.x4),
+          const Entrance(child: TodayPaceCard()),
           const SizedBox(height: HalenSpace.x6),
 
           // ——— Overview ———

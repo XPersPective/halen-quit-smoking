@@ -6255,6 +6255,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add years smoked'**
   String get spendYearsAction;
+
+  /// No description provided for @followUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What set it off? (optional)'**
+  String get followUpTitle;
+
+  /// No description provided for @followUpSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get followUpSkip;
+
+  /// No description provided for @todayPaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today and your usual day'**
+  String get todayPaceTitle;
+
+  /// No description provided for @todayPaceUsual.
+  ///
+  /// In en, this message translates to:
+  /// **'Your usual day'**
+  String get todayPaceUsual;
+
+  /// No description provided for @todayPaceToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayPaceToday;
+
+  /// No description provided for @todayPaceMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} cigarettes so far today. On your usual day it would be about {expected} by now.'**
+  String todayPaceMeaning(int count, int expected);
+
+  /// No description provided for @todayPaceAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'cigarettes, cumulative'**
+  String get todayPaceAxis;
+
+  /// No description provided for @spendHeroLine.
+  ///
+  /// In en, this message translates to:
+  /// **'All time {total} · today {today}'**
+  String spendHeroLine(String total, String today);
+
+  /// No description provided for @spendHeroToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Spent today {today}'**
+  String spendHeroToday(String today);
 }
 
 class _AppLocalizationsDelegate

@@ -3570,4 +3570,37 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get spendYearsAction => 'Yıl sayısını ekle';
+
+  @override
+  String get followUpTitle => 'Neyi tetikledi? (isteğe bağlı)';
+
+  @override
+  String get followUpSkip => 'Geç';
+
+  @override
+  String get todayPaceTitle => 'Bugün ve olağan günün';
+
+  @override
+  String get todayPaceUsual => 'Olağan günün';
+
+  @override
+  String get todayPaceToday => 'Bugün';
+
+  @override
+  String todayPaceMeaning(int count, int expected) {
+    return 'Bugün şimdiye kadar $count sigara. Olağan gününde şu ana kadar yaklaşık $expected olurdu.';
+  }
+
+  @override
+  String get todayPaceAxis => 'sigara, birikimli';
+
+  @override
+  String spendHeroLine(String total, String today) {
+    return 'Tüm zamanlar $total · bugün $today';
+  }
+
+  @override
+  String spendHeroToday(String today) {
+    return 'Bugün harcanan $today';
+  }
 }

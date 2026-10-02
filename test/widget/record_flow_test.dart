@@ -38,7 +38,10 @@ void main() {
     await tester.tap(find.widgetWithText(FilledButton, 'Done'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Log details'), findsOneWidget);
+    // No separate page any more: the optional follow-up sits right under the
+    // button on Today.
+    expect(find.text('Log details'), findsNothing);
+    expect(find.text('What set it off? (optional)'), findsOneWidget);
 
     final eventsBefore = await db.select(db.cigaretteEvent).get();
     expect(eventsBefore, hasLength(1));
@@ -46,10 +49,9 @@ void main() {
     expect(eventsBefore.single.triggerLabel, isNull);
 
     // Optional tag: one chip, then Done.
-    await tester.tap(find.text('Coffee'));
+    await tester.tap(find.widgetWithText(ActionChip, 'Coffee'));
     await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(FilledButton, 'Done'));
-    await tester.pumpAndSettle();
+    expect(find.text('What set it off? (optional)'), findsNothing);
 
     final events = await db.select(db.cigaretteEvent).get();
     expect(events.single.triggerLabel, TriggerLabel.coffee);

@@ -1933,5 +1933,41 @@
   "quitlineSourceNote": "Numbers from the WHO list (2021) and national health services. Check locally before relying on one.",
   "settingsCountry": "Country",
   "spendYearsDialogTitle": "How many years have you smoked?",
-  "spendYearsAction": "Add years smoked"
+  "spendYearsAction": "Add years smoked",
+  "followUpTitle": "What set it off? (optional)",
+  "followUpSkip": "Skip",
+  "todayPaceTitle": "Today and your usual day",
+  "todayPaceUsual": "Your usual day",
+  "todayPaceToday": "Today",
+  "todayPaceMeaning": "{count} cigarettes so far today. On your usual day it would be about {expected} by now.",
+  "@todayPaceMeaning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "expected": {
+        "type": "int"
+      }
+    }
+  },
+  "todayPaceAxis": "cigarettes, cumulative",
+  "spendHeroLine": "All time {total} · today {today}",
+  "@spendHeroLine": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      },
+      "today": {
+        "type": "String"
+      }
+    }
+  },
+  "spendHeroToday": "Spent today {today}",
+  "@spendHeroToday": {
+    "placeholders": {
+      "today": {
+        "type": "String"
+      }
+    }
+  }
 }

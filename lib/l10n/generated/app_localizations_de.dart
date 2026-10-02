@@ -3591,4 +3591,37 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get spendYearsAction => 'Jahre eintragen';
+
+  @override
+  String get followUpTitle => 'Was hat es ausgelöst? (optional)';
+
+  @override
+  String get followUpSkip => 'Überspringen';
+
+  @override
+  String get todayPaceTitle => 'Heute und dein üblicher Tag';
+
+  @override
+  String get todayPaceUsual => 'Dein üblicher Tag';
+
+  @override
+  String get todayPaceToday => 'Heute';
+
+  @override
+  String todayPaceMeaning(int count, int expected) {
+    return 'Heute bisher $count Zigaretten. An deinem üblichen Tag wären es jetzt etwa $expected.';
+  }
+
+  @override
+  String get todayPaceAxis => 'Zigaretten, kumuliert';
+
+  @override
+  String spendHeroLine(String total, String today) {
+    return 'Insgesamt $total · heute $today';
+  }
+
+  @override
+  String spendHeroToday(String today) {
+    return 'Heute ausgegeben $today';
+  }
 }
