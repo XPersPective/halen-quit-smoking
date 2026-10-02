@@ -19,3 +19,6 @@ Hedef doğrudan kullanıcı akışından türetilir:
   platforma aktarılır. Kaynaklı içerik/kanıt düzeyi; besin veya akupresür tedavi yerine geçmez.
 - Yayın kapısı: bağımlılık/GPL mağaza uyumu, gerçek SDK gizlilik envanteri, sandbox satın alma,
   imzalı Android/iOS build, anonim kaynak/destek URL erişimi ve hukuk değerlendirmesi.
+
+## 2026-10-02 hedef güncellemesi (sahip kararı)
+Bkz. decisions/ADR-0002. Kapsam: kalibrasyonlu/dürüst istatistikler, ülke+para birimi, ömür boyu harcama, ~73 dilde arayüz+mağaza, ülkeye göre destek hatları ve bağış, premium vaat denetimi, alt çubuk üstü reklam, Diğer uygulamalar sekmesi. Sürüm 1.4.0.
