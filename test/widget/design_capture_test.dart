@@ -67,6 +67,10 @@ class _OfflineStore extends PurchaseService {
 /// `store/screenshots/<locale>/`.
 const storeLocale = String.fromEnvironment('STORE_LOCALE');
 
+/// `--dart-define=STORE_TALL=true` renders full-length review shots (not store
+/// assets) into build/review/`<locale>`/, for the critical visual pass.
+const storeTall = bool.fromEnvironment('STORE_TALL');
+
 Widget _storeScreen(String name, Widget screen) {
   final tab = int.parse(name.substring(0, 2)) - 1;
   return tab < 5 ? ShellScreen(initialIndex: tab) : screen;
@@ -147,7 +151,7 @@ void main() {
       return;
     }
     tester.view.physicalSize = store
-        ? const Size(1080, 2160)
+        ? Size(1080, storeTall ? 7200 : 2160)
         : const Size(420, 1000);
     tester.view.devicePixelRatio = store ? 1080 / 420 : 1;
     addTearDown(tester.view.reset);
@@ -183,7 +187,9 @@ void main() {
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile(
-          store
+          store && storeTall
+              ? '../../build/review/$storeLocale/$name.png'
+              : store
               ? '../../store/screenshots/$storeLocale/$name.png'
               : name.startsWith(RegExp(r'0[1-8]-'))
               // The core tour lives at the root; the module screens keep

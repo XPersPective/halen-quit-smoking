@@ -1333,7 +1333,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navArticles => 'Guides';
 
   @override
-  String get navSos => 'Craving SOS';
+  String get navSos => 'SOS';
 
   @override
   String get statsTabDaily => 'Daily Trends';
@@ -3609,4 +3609,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String spendHeroToday(String today) {
     return 'Spent today $today';
   }
+
+  @override
+  String get navDiscover => 'Discover';
+
+  @override
+  String get otherAppsTitle => 'Discover our other apps';
+
+  @override
+  String get otherAppsIntro =>
+      'More apps from the same developer. This page only shows them — nothing is rewarded for installing, and nothing here is loaded until you open it.';
+
+  @override
+  String get otherAppsEmpty =>
+      'Nothing to show right now. Try again when you are online.';
+
+  @override
+  String get otherAppsOpenStore => 'Open in Google Play';
+
+  @override
+  String get otherAppsOpenFailed => 'Could not open the store.';
+
+  @override
+  String todayLogShowAll(int count) {
+    return 'Show all $count';
+  }
+
+  @override
+  String get todayLogShowLess => 'Show less';
 }

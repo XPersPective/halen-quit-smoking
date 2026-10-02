@@ -1120,5 +1120,13 @@
   "todayPaceMeaning": "Bugün şimdiye kadar {count} sigara. Olağan gününde şu ana kadar yaklaşık {expected} olurdu.",
   "todayPaceAxis": "sigara, birikimli",
   "spendHeroLine": "Tüm zamanlar {total} · bugün {today}",
-  "spendHeroToday": "Bugün harcanan {today}"
+  "spendHeroToday": "Bugün harcanan {today}",
+  "navDiscover": "Keşfet",
+  "otherAppsTitle": "Diğer uygulamalarımız",
+  "otherAppsIntro": "Aynı geliştiricinin diğer uygulamaları. Bu sayfa yalnızca tanıtır — yüklemek için ödül verilmez ve sayfayı açana kadar hiçbir şey yüklenmez.",
+  "otherAppsEmpty": "Şu an gösterilecek bir şey yok. Çevrimiçi olunca tekrar dene.",
+  "otherAppsOpenStore": "Google Play'de aç",
+  "otherAppsOpenFailed": "Mağaza açılamadı.",
+  "todayLogShowAll": "Tümünü göster ({count})",
+  "todayLogShowLess": "Daha az göster"
 }

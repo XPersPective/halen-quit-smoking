@@ -9,15 +9,18 @@ import 'package:halen/presentation/screens/stats/stats_screen.dart';
 import 'package:halen/presentation/screens/today/today_screen.dart';
 import '../../domain/ad_policy.dart';
 import '../widgets/ads/halen_ad_banner.dart';
+import 'apps/other_apps_screen.dart';
 
 /// The app shell: bottom navigation over the five core surfaces
 /// (BUGÜN / Grafikler / Plan / Rehber / Kriz SOS).
-/// Ad surface per tab (null = no ad). The SOS tab never carries one.
+/// Ad surface per tab (null = no ad). The SOS tab never carries one, and the
+/// Discover tab is itself a promotion page.
 const _adSurfaces = <AdSurface?>[
   AdSurface.todayBottom,
   AdSurface.statsBottom,
   AdSurface.planBottom,
   AdSurface.guideBottom,
+  null,
   null,
 ];
 
@@ -68,6 +71,7 @@ class _ShellScreenState extends State<ShellScreen> {
       (Icons.track_changes_outlined, Icons.track_changes_rounded, l10n.navPlan),
       (Icons.menu_book_outlined, Icons.menu_book_rounded, l10n.navArticles),
       (Icons.healing_outlined, Icons.healing_rounded, l10n.navSos),
+      (Icons.explore_outlined, Icons.explore_rounded, l10n.navDiscover),
     ];
 
     return Scaffold(
@@ -85,6 +89,7 @@ class _ShellScreenState extends State<ShellScreen> {
               _KeepAlive(child: PlanScreen()),
               _KeepAlive(child: ArticlesScreen()),
               _KeepAlive(child: SosScreen()),
+              _KeepAlive(child: OtherAppsScreen()),
             ],
           ),
         ),

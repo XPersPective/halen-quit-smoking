@@ -2407,7 +2407,7 @@ abstract class AppLocalizations {
   /// No description provided for @navSos.
   ///
   /// In en, this message translates to:
-  /// **'Craving SOS'**
+  /// **'SOS'**
   String get navSos;
 
   /// No description provided for @statsTabDaily.
@@ -6309,6 +6309,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Spent today {today}'**
   String spendHeroToday(String today);
+
+  /// No description provided for @navDiscover.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover'**
+  String get navDiscover;
+
+  /// No description provided for @otherAppsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover our other apps'**
+  String get otherAppsTitle;
+
+  /// No description provided for @otherAppsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'More apps from the same developer. This page only shows them — nothing is rewarded for installing, and nothing here is loaded until you open it.'**
+  String get otherAppsIntro;
+
+  /// No description provided for @otherAppsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to show right now. Try again when you are online.'**
+  String get otherAppsEmpty;
+
+  /// No description provided for @otherAppsOpenStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Google Play'**
+  String get otherAppsOpenStore;
+
+  /// No description provided for @otherAppsOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the store.'**
+  String get otherAppsOpenFailed;
+
+  /// No description provided for @todayLogShowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all {count}'**
+  String todayLogShowAll(int count);
+
+  /// No description provided for @todayLogShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get todayLogShowLess;
 }
 
 class _AppLocalizationsDelegate

@@ -3624,4 +3624,32 @@ class AppLocalizationsDe extends AppLocalizations {
   String spendHeroToday(String today) {
     return 'Heute ausgegeben $today';
   }
+
+  @override
+  String get navDiscover => 'Entdecken';
+
+  @override
+  String get otherAppsTitle => 'Unsere anderen Apps';
+
+  @override
+  String get otherAppsIntro =>
+      'Weitere Apps desselben Entwicklers. Diese Seite zeigt sie nur – fürs Installieren gibt es keine Belohnung, und nichts wird geladen, bevor du sie öffnest.';
+
+  @override
+  String get otherAppsEmpty =>
+      'Gerade nichts anzuzeigen. Versuche es online noch einmal.';
+
+  @override
+  String get otherAppsOpenStore => 'In Google Play öffnen';
+
+  @override
+  String get otherAppsOpenFailed => 'Der Store konnte nicht geöffnet werden.';
+
+  @override
+  String todayLogShowAll(int count) {
+    return 'Alle $count anzeigen';
+  }
+
+  @override
+  String get todayLogShowLess => 'Weniger anzeigen';
 }

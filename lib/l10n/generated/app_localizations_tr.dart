@@ -3603,4 +3603,32 @@ class AppLocalizationsTr extends AppLocalizations {
   String spendHeroToday(String today) {
     return 'Bugün harcanan $today';
   }
+
+  @override
+  String get navDiscover => 'Keşfet';
+
+  @override
+  String get otherAppsTitle => 'Diğer uygulamalarımız';
+
+  @override
+  String get otherAppsIntro =>
+      'Aynı geliştiricinin diğer uygulamaları. Bu sayfa yalnızca tanıtır — yüklemek için ödül verilmez ve sayfayı açana kadar hiçbir şey yüklenmez.';
+
+  @override
+  String get otherAppsEmpty =>
+      'Şu an gösterilecek bir şey yok. Çevrimiçi olunca tekrar dene.';
+
+  @override
+  String get otherAppsOpenStore => 'Google Play\'de aç';
+
+  @override
+  String get otherAppsOpenFailed => 'Mağaza açılamadı.';
+
+  @override
+  String todayLogShowAll(int count) {
+    return 'Tümünü göster ($count)';
+  }
+
+  @override
+  String get todayLogShowLess => 'Daha az göster';
 }

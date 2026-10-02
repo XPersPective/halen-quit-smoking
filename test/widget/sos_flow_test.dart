@@ -20,7 +20,7 @@ void main() {
     useLargeTestSurface(tester);
     await pumpHalenApp(tester, database: db);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Craving SOS'));
+    await tester.tap(find.text('SOS'));
     await tester.pumpAndSettle();
   }
 

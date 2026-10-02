@@ -7,6 +7,21 @@ import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import '../../../core/design/tokens.dart';
 
+/// Whether the day's log shows every entry or only the newest few.
+class TodayLogExpandedNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void toggle() => state = !state;
+}
+
+final todayLogExpandedProvider =
+    NotifierProvider<TodayLogExpandedNotifier, bool>(
+  TodayLogExpandedNotifier.new,
+);
+
+const int _collapsedCount = 3;
+
 class TodayLogCard extends ConsumerWidget {
   const TodayLogCard({super.key});
 
@@ -89,7 +104,13 @@ class TodayLogCard extends ConsumerWidget {
       loading: () => const SizedBox.shrink(),
       error: (e, _) => const SizedBox.shrink(),
       data: (report) {
-        final items = report.items.reversed.toList(); // Newest first
+        final allItems = report.items.reversed.toList(); // Newest first
+        final expanded = ref.watch(todayLogExpandedProvider);
+        // Three newest by default: a full day of entries pushed the money and
+        // the charts a screen and a half down the page.
+        final items = expanded || allItems.length <= _collapsedCount
+            ? allItems
+            : allItems.take(_collapsedCount).toList();
 
         return Card(
           child: Padding(
@@ -249,7 +270,7 @@ class TodayLogCard extends ConsumerWidget {
                           IconButton(
                             icon: const Icon(Icons.delete_outline_rounded, size: 18),
                             color: HalenColors.coral,
-                            tooltip: 'Sil',
+                            tooltip: l10n.commonDelete,
                             visualDensity: VisualDensity.compact,
                             onPressed: () => _deleteRecord(
                               context,
@@ -261,6 +282,19 @@ class TodayLogCard extends ConsumerWidget {
                         ],
                       );
                     },
+                  ),
+                if (allItems.length > _collapsedCount)
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: TextButton(
+                      onPressed: () =>
+                          ref.read(todayLogExpandedProvider.notifier).toggle(),
+                      child: Text(
+                        expanded
+                            ? l10n.todayLogShowLess
+                            : l10n.todayLogShowAll(allItems.length),
+                      ),
+                    ),
                   ),
               ],
             ),

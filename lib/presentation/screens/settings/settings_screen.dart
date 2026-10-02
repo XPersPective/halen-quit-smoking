@@ -332,6 +332,11 @@ class SettingsScreen extends ConsumerWidget {
                 onTap: () => Navigator.pushNamed(context, Routes.about),
               ),
               ListTile(
+                leading: const Icon(Icons.explore_outlined),
+                title: Text(l10n.otherAppsTitle),
+                onTap: () => Navigator.pushNamed(context, Routes.otherApps),
+              ),
+              ListTile(
                 leading: const Icon(Icons.workspace_premium_outlined),
                 title: Text(l10n.settingsPurchase),
                 subtitle: Text(l10n.purchaseCopy),

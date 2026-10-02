@@ -1120,5 +1120,13 @@
   "todayPaceMeaning": "Heute bisher {count} Zigaretten. An deinem üblichen Tag wären es jetzt etwa {expected}.",
   "todayPaceAxis": "Zigaretten, kumuliert",
   "spendHeroLine": "Insgesamt {total} · heute {today}",
-  "spendHeroToday": "Heute ausgegeben {today}"
+  "spendHeroToday": "Heute ausgegeben {today}",
+  "navDiscover": "Entdecken",
+  "otherAppsTitle": "Unsere anderen Apps",
+  "otherAppsIntro": "Weitere Apps desselben Entwicklers. Diese Seite zeigt sie nur – fürs Installieren gibt es keine Belohnung, und nichts wird geladen, bevor du sie öffnest.",
+  "otherAppsEmpty": "Gerade nichts anzuzeigen. Versuche es online noch einmal.",
+  "otherAppsOpenStore": "In Google Play öffnen",
+  "otherAppsOpenFailed": "Der Store konnte nicht geöffnet werden.",
+  "todayLogShowAll": "Alle {count} anzeigen",
+  "todayLogShowLess": "Weniger anzeigen"
 }

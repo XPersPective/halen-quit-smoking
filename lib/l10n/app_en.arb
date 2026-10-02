@@ -668,7 +668,7 @@
   "navStats": "Analytics",
   "navPlan": "Plan",
   "navArticles": "Guides",
-  "navSos": "Craving SOS",
+  "navSos": "SOS",
   "statsTabDaily": "Daily Trends",
   "statsTabHourly": "24h Hourly",
   "statsTabIntervals": "Intervals",
@@ -1969,5 +1969,20 @@
         "type": "String"
       }
     }
-  }
+  },
+  "navDiscover": "Discover",
+  "otherAppsTitle": "Discover our other apps",
+  "otherAppsIntro": "More apps from the same developer. This page only shows them — nothing is rewarded for installing, and nothing here is loaded until you open it.",
+  "otherAppsEmpty": "Nothing to show right now. Try again when you are online.",
+  "otherAppsOpenStore": "Open in Google Play",
+  "otherAppsOpenFailed": "Could not open the store.",
+  "todayLogShowAll": "Show all {count}",
+  "@todayLogShowAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayLogShowLess": "Show less"
 }

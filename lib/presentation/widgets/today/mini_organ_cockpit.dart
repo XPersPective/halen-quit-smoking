@@ -52,7 +52,7 @@ class MiniOrganCockpit extends ConsumerWidget {
                     const SizedBox(height: HalenSpace.x1),
                     Text(
                       l10n.organRecoveryTitle,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: HalenColors.emerald,
@@ -62,17 +62,10 @@ class MiniOrganCockpit extends ConsumerWidget {
                   ],
                 ),
               ),
-              Flexible(
-                child: TextButton.icon(
-                  onPressed: () => Navigator.of(context).pushNamed(Routes.body),
-                  icon: const Icon(Icons.arrow_forward_rounded, size: 16),
-                  iconAlignment: IconAlignment.end,
-                  label: Text(
-                    l10n.statusOpen,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+              IconButton(
+                onPressed: () => Navigator.of(context).pushNamed(Routes.body),
+                icon: const Icon(Icons.arrow_forward_rounded),
+                tooltip: l10n.statusOpen,
               ),
             ],
           ),
@@ -124,16 +117,6 @@ class MiniOrganCockpit extends ConsumerWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: theme.textTheme.labelLarge?.copyWith(
                                   fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                l10n.organRecoveryTitle,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: theme.textTheme.labelSmall?.copyWith(
-                                  color: HalenColors.emerald,
-                                  fontSize: 11,
                                 ),
                               ),
                             ],
