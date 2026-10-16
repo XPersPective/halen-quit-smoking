@@ -156,6 +156,7 @@
   "nextTargetDayDone": "Today's budget is used up — try to hold here",
   "nicotineMiniLabel": "Estimated nicotine exposure (model)",
   "ctaSmoked": "I smoked one",
+  "ctaNewPack": "I bought a new pack",
   "ctaResisted": "I resisted it",
   "resistedTodayCount": "{n} today",
   "@resistedTodayCount": {
@@ -475,6 +476,14 @@
   "purchasePending": "Your purchase is pending — access unlocks when it completes.",
   "trialDaysLeft": "Trial: {n} days left",
   "@trialDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "trialBadgeShort": "Trial: {n} days",
+  "@trialBadgeShort": {
     "placeholders": {
       "n": {
         "type": "int"

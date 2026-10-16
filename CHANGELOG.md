@@ -4,6 +4,21 @@ Tüm önemli değişiklikler bu dosyada belgelenir. Biçim:
 [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) ·
 sürümleme: [SemVer](https://semver.org/lang/tr/).
 
+## [Yayımlanmadı] — 2026-10-16 — "Yeni paket aldım", yerel mağaza sayfaları
+
+### Eklendi (Added)
+- Bugün ekranında **"Yeni paket aldım"** butonu (tr/en/de); mevcut paket ekleme
+  sayfasını açar, alınan paket güncel paket olur ve maliyet gerçek fiyatlara göre hesaplanır.
+- Mağaza sayfaları 73 Play + 46 App Store dilinde yerel başlık, kısa/tam
+  açıklama ve yerelleştirilmiş öne çıkan görselle (`tool/store_listing/`).
+
+### Düzeltildi (Fixed)
+- Türkçe mağaza başlığı İngilizce "Quit Smoking Tracker" idi → "Halen: Sigara
+  Bırakma Takibi"; kısa açıklama ve tam açıklama "sigara bırakma/azaltma"
+  anahtar kelimeleriyle yeniden yazıldı.
+- Bugün başlığındaki deneme rozeti "Deneme: 7 gün k…" diye kırpılıyordu →
+  kısa etiket (`trialBadgeShort`); ödeme ekranı tam etiketi korur.
+
 ## [1.4.0] — 2026-10-02 — dürüst sayılar, ülke, Keşfet
 
 İlk gerçek cihaz testinden sonra (sahip geri bildirimi, ADR-0002).

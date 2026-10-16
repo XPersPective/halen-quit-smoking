@@ -1,7 +1,7 @@
 name: halen
 description: "Halen: Quit Smoking Tracker — Reduce at your pace. Quit for good."
 publish_to: "none"
-version: 1.4.0+5
+version: 1.4.1+6
 
 environment:
   sdk: ^3.13.2

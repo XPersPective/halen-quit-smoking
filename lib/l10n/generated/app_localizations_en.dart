@@ -348,6 +348,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ctaSmoked => 'I smoked one';
 
   @override
+  String get ctaNewPack => 'I bought a new pack';
+
+  @override
   String get ctaResisted => 'I resisted it';
 
   @override
@@ -919,6 +922,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String trialDaysLeft(int n) {
     return 'Trial: $n days left';
+  }
+
+  @override
+  String trialBadgeShort(int n) {
+    return 'Trial: $n days';
   }
 
   @override

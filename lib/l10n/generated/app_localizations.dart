@@ -712,6 +712,12 @@ abstract class AppLocalizations {
   /// **'I smoked one'**
   String get ctaSmoked;
 
+  /// No description provided for @ctaNewPack.
+  ///
+  /// In en, this message translates to:
+  /// **'I bought a new pack'**
+  String get ctaNewPack;
+
   /// No description provided for @ctaResisted.
   ///
   /// In en, this message translates to:
@@ -1713,6 +1719,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Trial: {n} days left'**
   String trialDaysLeft(int n);
+
+  /// No description provided for @trialBadgeShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Trial: {n} days'**
+  String trialBadgeShort(int n);
 
   /// No description provided for @trialExpiredFree.
   ///

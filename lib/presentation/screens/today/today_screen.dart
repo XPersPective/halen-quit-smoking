@@ -30,6 +30,7 @@ import 'package:halen/presentation/widgets/today/quick_follow_up.dart';
 import 'package:halen/presentation/widgets/today/spend_card.dart';
 import 'package:halen/presentation/widgets/today/today_pace_card.dart';
 import 'package:halen/presentation/screens/shell_screen.dart';
+import 'package:halen/presentation/screens/purchases/purchases_screen.dart';
 import 'package:halen/presentation/widgets/today/today_log_sheet.dart';
 import 'package:halen/presentation/widgets/premium_badge.dart';
 import 'package:halen/presentation/widgets/today_widgets.dart';
@@ -531,6 +532,20 @@ class _TodayBody extends ConsumerWidget {
             ),
             icon: const Icon(Icons.smoking_rooms_rounded, size: 20),
             label: Text(l10n.ctaSmoked),
+          ),
+          const SizedBox(height: HalenSpace.x3),
+          // Same sheet as Purchases → "Alım ekle"; a pack bought here also
+          // becomes the current pack, so the money figures follow it.
+          OutlinedButton.icon(
+            onPressed: () => showAddPurchaseSheet(context),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size.fromHeight(48),
+              shape: const RoundedRectangleBorder(
+                borderRadius: HalenRadius.mediumAll,
+              ),
+            ),
+            icon: const Icon(Icons.shopping_bag_outlined, size: 20),
+            label: Text(l10n.ctaNewPack),
           ),
           const QuickFollowUp(),
           const SizedBox(height: HalenSpace.x4),
