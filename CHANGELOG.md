@@ -10,7 +10,7 @@ sürümleme: [SemVer](https://semver.org/lang/tr/).
 - Bugün ekranında **"Yeni paket aldım"** butonu (tr/en/de); mevcut paket ekleme
   sayfasını açar, alınan paket güncel paket olur ve maliyet gerçek fiyatlara göre hesaplanır.
 - Mağaza sayfaları 73 Play + 46 App Store dilinde yerel başlık, kısa/tam
-  açıklama ve yerelleştirilmiş öne çıkan görselle (`tool/store_listing/`).
+  açıklama ve yerelleştirilmiş öne çıkan görselle.
 
 ### Düzeltildi (Fixed)
 - Türkçe mağaza başlığı İngilizce "Quit Smoking Tracker" idi → "Halen: Sigara
