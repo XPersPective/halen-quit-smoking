@@ -8,7 +8,7 @@ uygulamasıdır. Kayıtlar cihazda saklanır; göstergeler tıbbi ölçüm veya 
 ## Belgeler ve durum
 
 - [.project-brain/](.project-brain/): tek çalışma protokolü, mimari, ayrıntılı yol haritası,
-  kabul ölçütleri, doğrulama kayıtları ve mağaza metni taslakları.
+  kabul ölçütleri ve doğrulama kayıtları.
 - [PRIVACY_POLICY.md](PRIVACY_POLICY.md): gizlilik politikası.
 - [CHANGELOG.md](CHANGELOG.md): sürüm geçmişi.
 - [LICENSE](LICENSE): lisans bildirimi.
