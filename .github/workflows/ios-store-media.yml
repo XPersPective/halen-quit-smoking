@@ -61,7 +61,7 @@ jobs:
           xcrun simctl ui "$device_id" appearance light
           xcrun simctl status_bar "$device_id" override --time '9:41' \
             --dataNetwork wifi --wifiMode active --wifiBars 3 --cellularMode active \
-            --cellularBars 4 --batteryState unplugged --batteryLevel 100
+            --cellularBars 4 --batteryState discharging --batteryLevel 100
 
       - name: Capture real Halen screens
         run: |
