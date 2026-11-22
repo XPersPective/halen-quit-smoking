@@ -3,10 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>GADApplicationIdentifier</key>
-	<!-- Google's public TEST AdMob app id. The real one lives only in the
-	     publishing root (app-ids.env, ADMOB_APP_ID_IOS) and must be injected
-	     by the iOS release build; never commit it (open-source repo). -->
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<string>$(HALEN_ADMOB_APP_ID_IOS)</string>
+	<key>GADDelayAppMeasurementInit</key>
+	<true/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

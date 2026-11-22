@@ -1,0 +1,178 @@
+name: Halen signed iOS candidate
+
+on:
+  push:
+    branches: [codex/halen-ios-release]
+
+permissions:
+  contents: read
+
+jobs:
+  candidate:
+    runs-on: macos-15
+    timeout-minutes: 35
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+      APP_BUNDLE_ID: com.crazypenguin.halenquitsmoking
+      TEAM_ID: 53X3279WA3
+      PROFILE_NAME: Halen AppStore
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.2'
+
+      - name: Check Flutter source
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          flutter pub get --enforce-lockfile
+          flutter analyze --no-pub
+          flutter test --no-pub test/domain/ad_policy_test.dart
+
+      - name: Sign and verify IPA
+        env:
+          DISTRIBUTION_P12: ${{ secrets.HALEN_IOS_CANDIDATE_P12 }}
+          DISTRIBUTION_PASSWORD: ${{ secrets.HALEN_IOS_CANDIDATE_P12_PASSWORD }}
+          PROFILE_BASE64: ${{ secrets.HALEN_IOS_CANDIDATE_PROFILE }}
+          ADS_CONFIG: ${{ secrets.HALEN_IOS_CANDIDATE_ADS }}
+        run: |
+          set -euo pipefail
+          umask 077
+          export HALEN_SIGNING_DIR="$(mktemp -d)"
+          keychain="$HALEN_SIGNING_DIR/ios.keychain-db"
+          installed_profile=
+          cleanup() {
+            security delete-keychain "$keychain" >/dev/null 2>&1 || true
+            if [[ -n "$installed_profile" ]]; then rm -f "$installed_profile"; fi
+            rm -rf "$HALEN_SIGNING_DIR"
+          }
+          trap cleanup EXIT
+
+          test -n "$DISTRIBUTION_P12"
+          test -n "$DISTRIBUTION_PASSWORD"
+          test -n "$PROFILE_BASE64"
+          test -n "$ADS_CONFIG"
+          printf '%s' "$DISTRIBUTION_P12" | base64 -D > "$HALEN_SIGNING_DIR/distribution.p12"
+          printf '%s' "$PROFILE_BASE64" | base64 -D > "$HALEN_SIGNING_DIR/profile.mobileprovision"
+          printf '%s' "$ADS_CONFIG" > "$HALEN_SIGNING_DIR/ads.json"
+          security cms -D -i "$HALEN_SIGNING_DIR/profile.mobileprovision" > "$HALEN_SIGNING_DIR/profile.plist"
+
+          python3 - <<'PY'
+          import datetime
+          import json
+          import os
+          import plistlib
+          import re
+          from pathlib import Path
+
+          root = Path(os.environ["HALEN_SIGNING_DIR"])
+          team, bundle, name = (os.environ[key] for key in ("TEAM_ID", "APP_BUNDLE_ID", "PROFILE_NAME"))
+          profile = plistlib.loads((root / "profile.plist").read_bytes())
+          if (
+              profile["Name"] != name
+              or profile["TeamIdentifier"] != [team]
+              or profile["Entitlements"]["application-identifier"] != f"{team}.{bundle}"
+              or profile["Entitlements"].get("get-task-allow")
+              or profile.get("ProvisionedDevices")
+              or profile["ExpirationDate"] <= datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
+          ):
+              raise SystemExit("Invalid Halen App Store provisioning profile")
+
+          ads = json.loads((root / "ads.json").read_text())
+          app, banner = ads["HALEN_ADMOB_APP_ID_IOS"], ads["ADMOB_BANNER_IOS"]
+          if (
+              not re.fullmatch(r"ca-app-pub-\d{16}~\d{10}", app)
+              or not re.fullmatch(r"ca-app-pub-\d{16}/\d{10}", banner)
+              or app.split("~")[0] != banner.split("/")[0]
+              or "3940256099942544" in app
+          ):
+              raise SystemExit("Expected matching production Halen AdMob app and banner IDs")
+
+          (root / "options.plist").write_bytes(plistlib.dumps({
+              "method": "app-store-connect",
+              "teamID": team,
+              "signingStyle": "manual",
+              "signingCertificate": "Apple Distribution",
+              "provisioningProfiles": {bundle: name},
+          }))
+          PY
+
+          keychain_password="$(openssl rand -base64 32)"
+          security create-keychain -p "$keychain_password" "$keychain"
+          security set-keychain-settings -lut 7200 "$keychain"
+          security unlock-keychain -p "$keychain_password" "$keychain"
+          security list-keychains -d user -s "$keychain"
+          security import "$HALEN_SIGNING_DIR/distribution.p12" -f pkcs12 \
+            -P "$DISTRIBUTION_PASSWORD" -k "$keychain" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: \
+            -s -k "$keychain_password" "$keychain" >/dev/null
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          uuid="$(/usr/libexec/PlistBuddy -c 'Print UUID' "$HALEN_SIGNING_DIR/profile.plist")"
+          installed_profile="$HOME/Library/MobileDevice/Provisioning Profiles/$uuid.mobileprovision"
+          cp "$HALEN_SIGNING_DIR/profile.mobileprovision" "$installed_profile"
+
+          ruby -rxcodeproj -rjson - <<'RUBY'
+          project = Xcodeproj::Project.open('ios/Runner.xcodeproj')
+          runner = project.targets.find { |target| target.name == 'Runner' }
+          abort 'Missing iOS Runner target' unless runner
+          path = File.join(ENV.fetch('HALEN_SIGNING_DIR'), 'ads.json')
+          app_id = JSON.parse(File.read(path)).fetch('HALEN_ADMOB_APP_ID_IOS')
+          runner.build_configurations.each do |configuration|
+            configuration.build_settings.merge!(
+              'CODE_SIGN_STYLE' => 'Manual',
+              'DEVELOPMENT_TEAM' => ENV.fetch('TEAM_ID'),
+              'CODE_SIGN_IDENTITY' => 'Apple Distribution',
+              'CODE_SIGN_IDENTITY[sdk=iphoneos*]' => 'Apple Distribution',
+              'PROVISIONING_PROFILE_SPECIFIER' => ENV.fetch('PROFILE_NAME'),
+              'HALEN_ADMOB_APP_ID_IOS' => app_id
+            )
+          end
+          project.save
+          RUBY
+
+          flutter build ipa --release --no-pub \
+            --dart-define-from-file="$HALEN_SIGNING_DIR/ads.json" \
+            --export-options-plist="$HALEN_SIGNING_DIR/options.plist"
+          ipa=(build/ios/ipa/*.ipa)
+          [[ "${#ipa[@]}" == 1 && -f "${ipa[0]}" ]]
+          unzip -q "${ipa[0]}" -d "$HALEN_SIGNING_DIR/signed"
+          export HALEN_SIGNED_APP="$HALEN_SIGNING_DIR/signed/Payload/Runner.app"
+          codesign --verify --deep --strict "$HALEN_SIGNED_APP"
+          cmp -s "$HALEN_SIGNED_APP/embedded.mobileprovision" "$installed_profile"
+          python3 - <<'PY'
+          import json
+          import os
+          import plistlib
+          import re
+          from pathlib import Path
+
+          candidate = Path(os.environ["HALEN_SIGNED_APP"])
+          root = Path(os.environ["HALEN_SIGNING_DIR"])
+          info = plistlib.loads((candidate / "Info.plist").read_bytes())
+          ads = json.loads((root / "ads.json").read_text())
+          version = re.search(r"^version:\s+(\d+\.\d+\.\d+)\+(\d+)$",
+                              Path("pubspec.yaml").read_text(), re.MULTILINE)
+          if (
+              not version
+              or info["CFBundleIdentifier"] != os.environ["APP_BUNDLE_ID"]
+              or info["GADApplicationIdentifier"] != ads["HALEN_ADMOB_APP_ID_IOS"]
+              or (info["CFBundleShortVersionString"], info["CFBundleVersion"]) != version.groups()
+              or not (candidate / "PrivacyInfo.xcprivacy").is_file()
+          ):
+              raise SystemExit("Candidate bundle, version, AdMob configuration or privacy manifest mismatch")
+          print(f"Verified Halen iOS candidate {version[1]} ({version[2]})")
+          PY
+          shasum -a 256 "${ipa[0]}" > build/ios/ipa/sha256.txt
+
+      - name: Retain signed candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: halen-ios-app-store-candidate
+          path: |
+            build/ios/ipa/*.ipa
+            build/ios/ipa/sha256.txt
+          if-no-files-found: error
+          retention-days: 1
