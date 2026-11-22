@@ -47,6 +47,8 @@ dev_dependencies:
   drift_dev: ^2.34.0
   build_runner: ^2.4.15
   riverpod: ^3.4.3
+  integration_test:
+    sdk: flutter
 
 # Which SQLite the build hook bundles. Without this the default is plain
 # SQLite, which has never heard of `PRAGMA key` — and SQLite silently ignores
