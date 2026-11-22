@@ -16,8 +16,9 @@ sürümleme: [SemVer](https://semver.org/lang/tr/).
 - Türkçe mağaza başlığı İngilizce "Quit Smoking Tracker" idi → "Halen: Sigara
   Bırakma Takibi"; kısa açıklama ve tam açıklama "sigara bırakma/azaltma"
   anahtar kelimeleriyle yeniden yazıldı.
-- Bugün başlığındaki deneme rozeti "Deneme: 7 gün k…" diye kırpılıyordu →
-  kısa etiket (`trialBadgeShort`); ödeme ekranı tam etiketi korur.
+- Ücretsiz Premium denemesi ilk açılıştan itibaren 24 saat sürer. Deneme
+  bildirimi isteğe bağlıdır. Deneme sona erince uygun ücretsiz ekranlarda
+  reklam gösterilebilir. Mevcut ömür boyu satın almalar geçerliliğini korur.
 
 ## [1.4.0] — 2026-10-02 — dürüst sayılar, ülke, Keşfet
 

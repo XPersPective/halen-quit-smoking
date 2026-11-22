@@ -27,9 +27,7 @@ class PremiumBadge extends ConsumerWidget {
         ),
       PremiumSource.trial => (
           Icons.schedule_outlined,
-          // Short form: the header row is narrow and the long label was
-          // ellipsized ("Deneme: 7 gün k…"). The paywall keeps the full one.
-          l10n.trialBadgeShort(access!.trialDaysLeft),
+          l10n.trialActiveBadge,
         ),
       _ => (
           Icons.workspace_premium_outlined,

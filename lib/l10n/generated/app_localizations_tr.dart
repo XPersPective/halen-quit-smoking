@@ -87,7 +87,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get commonPremiumLocked =>
-      'Bu özellik Halen Premium\'da. 7 günlük denemen her şeyi ücretsiz kapsıyor.';
+      'Bu özellik Halen Premium’a ve 24 saatlik denemeye dahildir.';
 
   @override
   String get commonUnlockPremium => 'Tek seferlik teklifi gör';
@@ -778,7 +778,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get notifTrialBody =>
-      'Halen Premium denemen iki gün içinde bitiyor. Bir plan seçmek tamamen sende; otomatik ücret alınmaz.';
+      '24 saatlik Halen Premium denemen yakında bitiyor. Halen’i ücretsiz kullanmaya devam edebilirsin. Otomatik ücret alınmaz.';
 
   @override
   String get notifChannelReminders => 'Hatırlatmalar';
@@ -813,7 +813,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get notifTrialNudgeHint =>
-      'Deneme bitmeden, 5. günde tek bir nazik hatırlatma. Sen istemedikçe kapalı.';
+      '24 saatlik denemenin yaklaşık ortasında isteğe bağlı bildirim.';
 
   @override
   String get notifQuitSupport => 'Bırakma günü desteği (ilk 72 saat)';
@@ -916,14 +916,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Satın almanın beklemede — tamamlandığında erişim açılır.';
 
   @override
-  String trialDaysLeft(int n) {
-    return 'Deneme: $n gün kaldı';
-  }
+  String get trialActiveBadge => 'Deneme etkin';
 
   @override
-  String trialBadgeShort(int n) {
-    return 'Deneme: $n gün';
-  }
+  String get trialActiveTitle => 'Premium denemesi etkin';
 
   @override
   String get trialExpiredFree =>
@@ -1038,7 +1034,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallTrialNote =>
-      '7 günlük ücretsiz deneme ilk açılışta başlar — kart gerekmez.';
+      '24 saatlik ücretsiz deneme ilk açılışta başlar. Kart gerekmez.';
 
   @override
   String get planTierLifetime => 'Ömür Boyu Erişim';
@@ -1054,25 +1050,25 @@ class AppLocalizationsTr extends AppLocalizations {
   String get paywallTimelineToday => 'Bugün';
 
   @override
-  String get paywallTimelineTitle => '7 günlük Halen Premium denemen';
+  String get paywallTimelineTitle => '24 saatlik Halen Premium denemen';
 
   @override
   String get paywallTimelineTodayDesc =>
       'Tam erişim kart olmadan başlar; otomatik ücret alınmaz.';
 
   @override
-  String get paywallTimelineReminder => '5. Gün';
+  String get paywallTimelineReminder => '12 saat sonra';
 
   @override
   String get paywallTimelineReminderDesc =>
-      'İsteğe bağlı: Ayarlar\'dan \"Deneme hatırlatması\"nı açarsan 5. günde tek bir nazik hatırlatma.';
+      'Bir kez bildirim almak için Ayarlar’da Deneme hatırlatması’nı aç.';
 
   @override
-  String get paywallTimelineBilling => '7. Gün';
+  String get paywallTimelineBilling => '24 saat sonra';
 
   @override
   String get paywallTimelineBillingDesc =>
-      'Deneme biter; tek bir satın almayla ömür boyu erişimi aç ya da ücretsiz sürümle devam et. Otomatik ücret alınmaz.';
+      'Ücretsiz sürümde uygun ekranlarda reklam görürsün. Reklamları kaldırmak için ömür boyu erişim satın alabilirsin. Otomatik ücret alınmaz.';
 
   @override
   String get paywallCtaLifetime => 'Ömür Boyu Sahip Ol';

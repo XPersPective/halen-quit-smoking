@@ -11,7 +11,7 @@ ilk açılışta ağa gönderilmez; tek seferlik Premium satın alımının fiya
 satın alma durumu ve restore işlemleri App Store / Google Play tarafından
 yürütülür.
 
-**Reklamlar (yalnız ücretsiz kullanım, deneme bitiminden sonra):** Ücretsiz
+**Reklamlar (yalnız ücretsiz kullanım, 24 saatlik deneme bitiminden sonra):** Ücretsiz
 kullanıcılar için uygun ekranlarda Google AdMob aracılığıyla etiketli
 reklam gösterilir. AdMob, reklam sunumu için cihaz tanımlayıcılarını
 işleyebilir; sağlık/nikotin verileriniz reklam hedeflemesine asla
@@ -67,7 +67,7 @@ stays on your device, encrypted. Your personal data is never uploaded at
 first launch; pricing, purchase state and restore of the one-time
 Premium purchase are handled by the App Store / Google Play.
 
-**Ads (free usage only, after the trial ends):** For free users, labelled
+**Ads (free usage only, after the 24-hour trial ends):** For free users, labelled
 ads are shown on eligible screens via Google AdMob. AdMob may process device
 identifiers to serve the ads; your health/nicotine data is never sent for ad
 targeting. Ads are governed by the UMP consent flow; nothing is shown during
@@ -121,7 +121,7 @@ Daten bleiben verschlüsselt auf deinem Gerät. Preis, Kaufstatus und
 Wiederherstellung des einmaligen Premium-Kaufs werden vom App Store bzw.
 Google Play abgewickelt.
 
-**Werbung (nur kostenlose Nutzung, nach der Testphase):** Für kostenlose
+**Werbung (nur kostenlose Nutzung, nach der 24-Stunden-Testphase):** Für kostenlose
 Nutzer werden auf geeigneten Bildschirmen gekennzeichnete Anzeigen über Google
 AdMob gezeigt. AdMob kann dafür Gerätekennungen verarbeiten; Gesundheits-/
 Nikotindaten werden nie für Werbung verwendet. Anzeigen laufen über den

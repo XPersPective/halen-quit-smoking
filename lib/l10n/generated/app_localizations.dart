@@ -253,7 +253,7 @@ abstract class AppLocalizations {
   /// No description provided for @commonPremiumLocked.
   ///
   /// In en, this message translates to:
-  /// **'This is part of Halen Premium. Your 7-day trial covers everything for free.'**
+  /// **'This feature is included in Halen Premium and the 24-hour trial.'**
   String get commonPremiumLocked;
 
   /// No description provided for @commonUnlockPremium.
@@ -1459,7 +1459,7 @@ abstract class AppLocalizations {
   /// No description provided for @notifTrialBody.
   ///
   /// In en, this message translates to:
-  /// **'Your Halen Premium trial ends in two days. Choosing a plan is entirely up to you; nothing is charged automatically.'**
+  /// **'Your 24-hour Halen Premium trial ends soon. You can keep using Halen for free. No automatic charge applies.'**
   String get notifTrialBody;
 
   /// No description provided for @notifChannelReminders.
@@ -1525,7 +1525,7 @@ abstract class AppLocalizations {
   /// No description provided for @notifTrialNudgeHint.
   ///
   /// In en, this message translates to:
-  /// **'One gentle note on day 5, before the trial ends. Off unless you ask for it.'**
+  /// **'Optional reminder about halfway through your 24-hour trial.'**
   String get notifTrialNudgeHint;
 
   /// No description provided for @notifQuitSupport.
@@ -1714,17 +1714,17 @@ abstract class AppLocalizations {
   /// **'Your purchase is pending — access unlocks when it completes.'**
   String get purchasePending;
 
-  /// No description provided for @trialDaysLeft.
+  /// No description provided for @trialActiveBadge.
   ///
   /// In en, this message translates to:
-  /// **'Trial: {n} days left'**
-  String trialDaysLeft(int n);
+  /// **'Trial active'**
+  String get trialActiveBadge;
 
-  /// No description provided for @trialBadgeShort.
+  /// No description provided for @trialActiveTitle.
   ///
   /// In en, this message translates to:
-  /// **'Trial: {n} days'**
-  String trialBadgeShort(int n);
+  /// **'Premium trial active'**
+  String get trialActiveTitle;
 
   /// No description provided for @trialExpiredFree.
   ///
@@ -1921,7 +1921,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallTrialNote.
   ///
   /// In en, this message translates to:
-  /// **'Your 7-day free trial starts on first launch — no card needed.'**
+  /// **'Your free 24-hour trial starts on first launch. No card is required.'**
   String get paywallTrialNote;
 
   /// No description provided for @planTierLifetime.
@@ -1951,7 +1951,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallTimelineTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your 7-day Halen Premium trial'**
+  /// **'Your 24-hour Halen Premium trial'**
   String get paywallTimelineTitle;
 
   /// No description provided for @paywallTimelineTodayDesc.
@@ -1963,25 +1963,25 @@ abstract class AppLocalizations {
   /// No description provided for @paywallTimelineReminder.
   ///
   /// In en, this message translates to:
-  /// **'Day 5'**
+  /// **'After 12 hours'**
   String get paywallTimelineReminder;
 
   /// No description provided for @paywallTimelineReminderDesc.
   ///
   /// In en, this message translates to:
-  /// **'Optional: one gentle reminder on day 5 if you turn on \"Trial reminder\" in Settings.'**
+  /// **'Turn on Trial reminder in Settings to receive one reminder.'**
   String get paywallTimelineReminderDesc;
 
   /// No description provided for @paywallTimelineBilling.
   ///
   /// In en, this message translates to:
-  /// **'Day 7'**
+  /// **'After 24 hours'**
   String get paywallTimelineBilling;
 
   /// No description provided for @paywallTimelineBillingDesc.
   ///
   /// In en, this message translates to:
-  /// **'The trial ends; unlock lifetime access with a single purchase or keep using the free version. Nothing is charged automatically.'**
+  /// **'Keep using the free version with ads on eligible screens, or buy lifetime access to remove ads. No automatic charge applies.'**
   String get paywallTimelineBillingDesc;
 
   /// No description provided for @paywallCtaLifetime.

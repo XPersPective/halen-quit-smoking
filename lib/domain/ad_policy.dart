@@ -2,7 +2,7 @@
 ///
 /// Pure policy: no SDK, no platform channels — the integration layer asks
 /// this class and this class alone decides. Rules, in order:
-///  - the first 7 days (trial), an active premium, SOS, payment, health
+///  - the 24-hour trial, an active premium, SOS, payment, health
 ///    detail, onboarding and the widget NEVER show ads;
 ///  - after the trial, free users on eligible surfaces see one small
 ///    labelled banner pinned above the bottom navigation bar;

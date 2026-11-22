@@ -25,7 +25,7 @@
   "commonModelTag": "estimate · model",
   "commonErrorTitle": "Something went wrong",
   "commonLoading": "Loading…",
-  "commonPremiumLocked": "This is part of Halen Premium. Your 7-day trial covers everything for free.",
+  "commonPremiumLocked": "This feature is included in Halen Premium and the 24-hour trial.",
   "commonUnlockPremium": "See lifetime offer",
   "splashWelcomeTitle": "Welcome to Halen",
   "splashTagline": "Reduce at your pace. Quit for good.",
@@ -417,7 +417,7 @@
   "notifMilestoneTitle": "Milestone reached",
   "notifMilestoneBody": "A new health milestone is in. Check your timeline.",
   "notifTrialTitle": "Your trial ends soon",
-  "notifTrialBody": "Your Halen Premium trial ends in two days. Choosing a plan is entirely up to you; nothing is charged automatically.",
+  "notifTrialBody": "Your 24-hour Halen Premium trial ends soon. You can keep using Halen for free. No automatic charge applies.",
   "notifChannelReminders": "Reminders",
   "notifChannelSupport": "Support",
   "notifSummaryGeneric": "Every record keeps the plan honest.",
@@ -428,7 +428,7 @@
   "notifPermissionOffExplainer": "Notifications are off, so no reminders will arrive. You can allow them here or use the app without them — nothing else changes.",
   "notifOpenSystemSettings": "Open system settings",
   "notifTrialNudge": "Trial reminder",
-  "notifTrialNudgeHint": "One gentle note on day 5, before the trial ends. Off unless you ask for it.",
+  "notifTrialNudgeHint": "Optional reminder about halfway through your 24-hour trial.",
   "notifQuitSupport": "Quit-day support (first 72 hours)",
   "notifMilestones": "Milestones",
   "notifGentleReturn": "Gentle nudge after silence",
@@ -474,22 +474,8 @@
   "purchaseRestore": "Restore purchase",
   "purchaseOwned": "Halen Premium access is active.",
   "purchasePending": "Your purchase is pending — access unlocks when it completes.",
-  "trialDaysLeft": "Trial: {n} days left",
-  "@trialDaysLeft": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "trialBadgeShort": "Trial: {n} days",
-  "@trialBadgeShort": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
+  "trialActiveBadge": "Trial active",
+  "trialActiveTitle": "Premium trial active",
   "trialExpiredFree": "Trial ended — the free tier (logging, savings, day counter, 7-day chart, export) stays yours forever.",
   "settingsAbout": "About",
   "aboutTitle": "About Halen",
@@ -536,17 +522,17 @@
   "paywallFeatureSos": "The complete SOS toolkit, acupressure and nutrition guide",
   "paywallFeatureWidget": "Widget customisation",
   "paywallFeaturePrivacy": "100% on-device privacy: no account, no Halen server, fully encrypted vault",
-  "paywallTrialNote": "Your 7-day free trial starts on first launch — no card needed.",
+  "paywallTrialNote": "Your free 24-hour trial starts on first launch. No card is required.",
   "planTierLifetime": "Lifetime Access",
   "planTierLifetimeBadge": "ONE-TIME",
   "planTierLifetimeSub": "One-time payment, unlimited lifetime access",
   "paywallTimelineToday": "Today",
-  "paywallTimelineTitle": "Your 7-day Halen Premium trial",
+  "paywallTimelineTitle": "Your 24-hour Halen Premium trial",
   "paywallTimelineTodayDesc": "Full access begins with no card and no automatic charge.",
-  "paywallTimelineReminder": "Day 5",
-  "paywallTimelineReminderDesc": "Optional: one gentle reminder on day 5 if you turn on \"Trial reminder\" in Settings.",
-  "paywallTimelineBilling": "Day 7",
-  "paywallTimelineBillingDesc": "The trial ends; unlock lifetime access with a single purchase or keep using the free version. Nothing is charged automatically.",
+  "paywallTimelineReminder": "After 12 hours",
+  "paywallTimelineReminderDesc": "Turn on Trial reminder in Settings to receive one reminder.",
+  "paywallTimelineBilling": "After 24 hours",
+  "paywallTimelineBillingDesc": "Keep using the free version with ads on eligible screens, or buy lifetime access to remove ads. No automatic charge applies.",
   "paywallCtaLifetime": "Get Lifetime Access",
   "paywallTerms": "Terms of Use (EULA)",
   "paywallTermsBody": "Apple Standard End User License Agreement (EULA):\nhttps://www.apple.com/legal/internet-services/itunes/dev/stdeula/\n\nGoogle Play Terms of Service:\nhttps://play.google.com/about/play-terms/\n\nThe price is shown on the store confirmation screen before purchase. Halen Premium is a one-time purchase: there is no subscription and nothing renews.",

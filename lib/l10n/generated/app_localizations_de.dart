@@ -88,7 +88,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get commonPremiumLocked =>
-      'Das gehört zu Halen Premium. Deine 7-tägige Testphase deckt alles kostenlos ab.';
+      'Diese Funktion ist in Halen Premium und in der 24-Stunden-Testphase enthalten.';
 
   @override
   String get commonUnlockPremium => 'Einmalangebot ansehen';
@@ -786,7 +786,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notifTrialBody =>
-      'Deine Halen-Premium-Testphase endet in zwei Tagen. Die Planwahl liegt ganz bei dir; es wird nichts automatisch abgebucht.';
+      'Deine 24-Stunden-Testphase für Halen Premium endet bald. Du kannst Halen kostenlos weiter nutzen. Es wird nichts automatisch abgebucht.';
 
   @override
   String get notifChannelReminders => 'Erinnerungen';
@@ -821,7 +821,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notifTrialNudgeHint =>
-      'Ein sanfter Hinweis an Tag 5, bevor die Testphase endet. Aus, solange du es nicht willst.';
+      'Optionale Erinnerung etwa zur Hälfte deiner 24-stündigen Testphase.';
 
   @override
   String get notifQuitSupport => 'Stopp-Tag-Unterstützung (erste 72 Stunden)';
@@ -925,14 +925,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Dein Kauf wartet — der Zugang wird nach Abschluss freigeschaltet.';
 
   @override
-  String trialDaysLeft(int n) {
-    return 'Testphase: noch $n Tage';
-  }
+  String get trialActiveBadge => 'Testphase aktiv';
 
   @override
-  String trialBadgeShort(int n) {
-    return 'Test: $n Tage';
-  }
+  String get trialActiveTitle => 'Premium-Testphase aktiv';
 
   @override
   String get trialExpiredFree =>
@@ -1047,7 +1043,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallTrialNote =>
-      'Deine 7-tägige kostenlose Testphase startet beim ersten Start — ohne Karte.';
+      'Deine kostenlose 24-Stunden-Testphase beginnt beim ersten Start. Eine Karte ist nicht erforderlich.';
 
   @override
   String get planTierLifetime => 'Lebenslanger Zugriff';
@@ -1063,25 +1059,26 @@ class AppLocalizationsDe extends AppLocalizations {
   String get paywallTimelineToday => 'Heute';
 
   @override
-  String get paywallTimelineTitle => 'Deine 7-tägige Halen-Premium-Testphase';
+  String get paywallTimelineTitle =>
+      'Deine 24-Stunden-Testphase für Halen Premium';
 
   @override
   String get paywallTimelineTodayDesc =>
       'Vollzugriff startet ohne Karte und ohne automatische Abbuchung.';
 
   @override
-  String get paywallTimelineReminder => 'Tag 5';
+  String get paywallTimelineReminder => 'Nach 12 Stunden';
 
   @override
   String get paywallTimelineReminderDesc =>
-      'Optional: eine sanfte Erinnerung an Tag 5, wenn du in den Einstellungen «Testphasen-Erinnerung» aktivierst.';
+      'Aktiviere die Testphasen-Erinnerung in den Einstellungen, um einmal erinnert zu werden.';
 
   @override
-  String get paywallTimelineBilling => 'Tag 7';
+  String get paywallTimelineBilling => 'Nach 24 Stunden';
 
   @override
   String get paywallTimelineBillingDesc =>
-      'Die Testphase endet; schalte den lebenslangen Zugang mit einem einzigen Kauf frei oder nutze die kostenlose Version weiter. Es wird nichts automatisch berechnet.';
+      'Nutze die kostenlose Version mit Werbung auf dafür vorgesehenen Seiten weiter oder kaufe lebenslangen Zugang ohne Werbung. Es wird nichts automatisch abgebucht.';
 
   @override
   String get paywallCtaLifetime => 'Lebenslang sichern';

@@ -87,7 +87,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonPremiumLocked =>
-      'This is part of Halen Premium. Your 7-day trial covers everything for free.';
+      'This feature is included in Halen Premium and the 24-hour trial.';
 
   @override
   String get commonUnlockPremium => 'See lifetime offer';
@@ -782,7 +782,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifTrialBody =>
-      'Your Halen Premium trial ends in two days. Choosing a plan is entirely up to you; nothing is charged automatically.';
+      'Your 24-hour Halen Premium trial ends soon. You can keep using Halen for free. No automatic charge applies.';
 
   @override
   String get notifChannelReminders => 'Reminders';
@@ -817,7 +817,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifTrialNudgeHint =>
-      'One gentle note on day 5, before the trial ends. Off unless you ask for it.';
+      'Optional reminder about halfway through your 24-hour trial.';
 
   @override
   String get notifQuitSupport => 'Quit-day support (first 72 hours)';
@@ -920,14 +920,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your purchase is pending — access unlocks when it completes.';
 
   @override
-  String trialDaysLeft(int n) {
-    return 'Trial: $n days left';
-  }
+  String get trialActiveBadge => 'Trial active';
 
   @override
-  String trialBadgeShort(int n) {
-    return 'Trial: $n days';
-  }
+  String get trialActiveTitle => 'Premium trial active';
 
   @override
   String get trialExpiredFree =>
@@ -1042,7 +1038,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallTrialNote =>
-      'Your 7-day free trial starts on first launch — no card needed.';
+      'Your free 24-hour trial starts on first launch. No card is required.';
 
   @override
   String get planTierLifetime => 'Lifetime Access';
@@ -1058,25 +1054,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paywallTimelineToday => 'Today';
 
   @override
-  String get paywallTimelineTitle => 'Your 7-day Halen Premium trial';
+  String get paywallTimelineTitle => 'Your 24-hour Halen Premium trial';
 
   @override
   String get paywallTimelineTodayDesc =>
       'Full access begins with no card and no automatic charge.';
 
   @override
-  String get paywallTimelineReminder => 'Day 5';
+  String get paywallTimelineReminder => 'After 12 hours';
 
   @override
   String get paywallTimelineReminderDesc =>
-      'Optional: one gentle reminder on day 5 if you turn on \"Trial reminder\" in Settings.';
+      'Turn on Trial reminder in Settings to receive one reminder.';
 
   @override
-  String get paywallTimelineBilling => 'Day 7';
+  String get paywallTimelineBilling => 'After 24 hours';
 
   @override
   String get paywallTimelineBillingDesc =>
-      'The trial ends; unlock lifetime access with a single purchase or keep using the free version. Nothing is charged automatically.';
+      'Keep using the free version with ads on eligible screens, or buy lifetime access to remove ads. No automatic charge applies.';
 
   @override
   String get paywallCtaLifetime => 'Get Lifetime Access';

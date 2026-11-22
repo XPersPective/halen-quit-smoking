@@ -84,7 +84,7 @@ void main() {
   testWidgets('active trial keeps the plan engine unlocked', (tester) async {
     final db = await boot(
       tester,
-      trialStartedAt: DateTime.now().subtract(const Duration(days: 2)),
+      trialStartedAt: DateTime.now().subtract(const Duration(hours: 12)),
       owned: false,
     );
 
@@ -153,7 +153,7 @@ void main() {
         findsOneWidget);
     expect(find.textContaining('Yıllık'), findsNothing);
     expect(find.textContaining('Aylık'), findsNothing);
-    expect(find.text('7 günlük Halen Premium denemen'), findsOneWidget);
+    expect(find.text('24 saatlik Halen Premium denemen'), findsOneWidget);
 
     await tester.tap(find.text('Ömür Boyu Sahip Ol'));
     await tester.pumpAndSettle();
@@ -215,7 +215,7 @@ void main() {
 
     expect(find.text("Halen Premium'a sahipsin"), findsWidgets);
     expect(find.text('Ömür Boyu Sahip Ol'), findsNothing);
-    expect(find.text('7 günlük Halen Premium denemen'), findsNothing);
+    expect(find.text('24 saatlik Halen Premium denemen'), findsNothing);
 
     await disposeApp(tester);
     await db.close();

@@ -5,7 +5,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../../application/entitlement_providers.dart';
 import '../../../data/ads_service.dart';
 import '../../../domain/ad_policy.dart';
-import '../../../domain/entitlement.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
 /// Small labelled banner for free users past the trial
@@ -13,7 +12,7 @@ import '../../../l10n/generated/app_localizations.dart';
 /// fill and a failed load all collapse the slot — an empty content hole is
 /// never left behind. In preview mode (tests / dev builds) the ad slot is
 /// drawn as a labelled placeholder instead of hitting the SDK.
-class HalenAdBanner extends ConsumerStatefulWidget {
+class HalenAdBanner extends ConsumerWidget {
   const HalenAdBanner({
     super.key,
     required this.surface,
@@ -27,26 +26,43 @@ class HalenAdBanner extends ConsumerStatefulWidget {
   final bool previewMode;
 
   @override
-  ConsumerState<HalenAdBanner> createState() => _HalenAdBannerState();
-}
-
-class _HalenAdBannerState extends ConsumerState<HalenAdBanner> {
-  BannerAd? _banner;
-  bool _loaded = false;
-
-  bool _allowed(WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final access = ref.watch(entitlementProvider).value;
     // Unknown entitlement is not "free": no ad until the trial / purchase
     // state is known.
-    if (access == null) {
-      return false;
+    if (access == null ||
+        !AdPolicy.bannerAllowed(
+          surface: surface,
+          trialActive: access.trialActive,
+          premiumOwned: access.storeOwned,
+        )) {
+      return const SizedBox.shrink();
     }
-    return AdPolicy.bannerAllowed(
-      surface: widget.surface,
-      trialActive: access.source == PremiumSource.trial,
-      premiumOwned: access.source == PremiumSource.store,
+    return _EligibleBanner(
+      key: ValueKey(surface),
+      surface: surface,
+      previewMode: previewMode,
     );
   }
+}
+
+class _EligibleBanner extends StatefulWidget {
+  const _EligibleBanner({
+    super.key,
+    required this.surface,
+    required this.previewMode,
+  });
+
+  final AdSurface surface;
+  final bool previewMode;
+
+  @override
+  State<_EligibleBanner> createState() => _EligibleBannerState();
+}
+
+class _EligibleBannerState extends State<_EligibleBanner> {
+  BannerAd? _banner;
+  bool _loaded = false;
 
   @override
   void initState() {
@@ -58,17 +74,13 @@ class _HalenAdBannerState extends ConsumerState<HalenAdBanner> {
 
   Future<void> _load() async {
     // UMP consent first: an unconsented load must never happen.
-    if (!await HalenAds.instance.consentGranted()) {
-      return;
-    }
-    final access = await ref.read(entitlementProvider.future);
-    if (!mounted) {
-      return;
-    }
+    if (!mounted) return;
+    final consentGranted = await HalenAds.instance.consentGranted();
+    if (!mounted || !consentGranted) return;
     final banner = HalenAds.instance.createBanner(
       surface: widget.surface,
-      trialActive: access.source == PremiumSource.trial,
-      premiumOwned: access.source == PremiumSource.store,
+      trialActive: false,
+      premiumOwned: false,
       onLoaded: () {
         if (mounted) {
           setState(() => _loaded = true);
@@ -89,9 +101,6 @@ class _HalenAdBannerState extends ConsumerState<HalenAdBanner> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    if (!_allowed(ref)) {
-      return const SizedBox.shrink();
-    }
     if (!widget.previewMode && (_banner == null || !_loaded)) {
       // No fill / still loading: collapse the slot instead of leaving a
       // blank hole (brain T21).

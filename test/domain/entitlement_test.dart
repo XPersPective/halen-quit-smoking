@@ -16,25 +16,43 @@ void main() {
       expect(access.source, PremiumSource.store);
     });
 
-    test('trial is active within 7 days of first launch', () {
+    test('trial is active on first launch', () {
       final access = evaluateAccess(
         storeVerifiedOwned: false,
         trialStartedAt: trialStart,
-        now: trialStart.add(const Duration(days: 5)),
+        now: trialStart,
       );
-      expect(access.premium, isTrue);
-      expect(access.trialDaysLeft, 2);
       expect(access.source, PremiumSource.trial);
     });
 
-    test('trial expires after 7 days — free tier stays functional', () {
+    test('a future start cannot grant trial access', () {
       final access = evaluateAccess(
         storeVerifiedOwned: false,
         trialStartedAt: trialStart,
-        now: trialStart.add(const Duration(days: 7)),
+        now: trialStart.subtract(const Duration(seconds: 1)),
+      );
+      expect(access.source, PremiumSource.free);
+    });
+
+    test('trial is active one second before the 24-hour deadline', () {
+      final access = evaluateAccess(
+        storeVerifiedOwned: false,
+        trialStartedAt: trialStart,
+        now: trialStart.add(
+          const Duration(hours: 23, minutes: 59, seconds: 59),
+        ),
+      );
+      expect(access.premium, isTrue);
+      expect(access.source, PremiumSource.trial);
+    });
+
+    test('trial expires at exactly 24 hours', () {
+      final access = evaluateAccess(
+        storeVerifiedOwned: false,
+        trialStartedAt: trialStart,
+        now: trialStart.add(const Duration(hours: 24)),
       );
       expect(access.premium, isFalse);
-      expect(access.trialDaysLeft, 0);
       expect(access.source, PremiumSource.free);
     });
 

@@ -117,6 +117,12 @@ trial; unknown entitlement counts as "no ad" (fixed 2026-10-02).
 - Test output includes expected Drift multiple-instance warnings and deliberate
   SQLCipher wrong-key diagnostics; neither is a test failure.
 
+## 2026-11-22 Premium trial update
+
+- PB-066 changes trial access to 24 hours from the earliest recorded start. A timer refreshes entitlement when the trial expires while the app stays open. The banner slot starts its consent/ad flow only when entitlement permits it.
+- Turkish, English and German paywall, trial badge and optional reminder copy match the 24-hour window. The optional reminder is scheduled 12 hours after the start.
+- Existing lifetime access and iOS device-only Keychain reconciliation are preserved. Android stores the start in app data and has no existing trusted trial service, so uninstall can still reset it. The source update has not been delivered to either store.
+
 ## Known Unknowns
 
 - Real App Store/Play sandbox refund, expiry, restore and reinstall matrix is

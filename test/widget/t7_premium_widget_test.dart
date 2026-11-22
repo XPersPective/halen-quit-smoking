@@ -62,8 +62,8 @@ void main() {
     await disposeApp(tester);
   });
 
-  testWidgets('trial badge shows the remaining days', (tester) async {
-    final trialStart = DateTime.now().subtract(const Duration(days: 1));
+  testWidgets('trial badge describes active access', (tester) async {
+    final trialStart = DateTime.now().subtract(const Duration(hours: 12));
     await db.settingsDao.updateSettings(
       SettingsCompanion(trialStartedAt: Value(trialStart)),
     );
@@ -74,9 +74,9 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(
-      find.textContaining('6'),
+      find.text('Trial active'),
       findsOneWidget,
-      reason: 'trial day count visible in the badge',
+      reason: 'the badge describes an active trial',
     );
     await disposeApp(tester);
   });

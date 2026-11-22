@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,27 +35,26 @@ final _trialStartProvider = FutureProvider<DateTime?>((ref) async {
   final startedAt = !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS
       ? await TrialStartStore().keepEarliest(recorded: recorded, now: now)
       : recorded ?? now;
-  if (startedAt == null) return null;
-  if (recorded == null || !recorded.isAtSameMomentAs(startedAt)) {
+  if (startedAt != null &&
+      (recorded == null || !recorded.isAtSameMomentAs(startedAt))) {
     await db.settingsDao.updateSettings(
       SettingsCompanion(trialStartedAt: Value(startedAt)),
     );
   }
-  if (recorded == null && startedAt.isAtSameMomentAs(now)) {
-    // The day-5 nudge is a marketing reminder: it only fires when the user
-    // turned on its own setting (brain T2). The trial clock itself must not
-    // imply consent to anything.
-    if (settings.trialNudge && settings.notifLevel != NotificationDensity.off) {
-      try {
-        await ref
-            .read(notificationServiceProvider)
-            .scheduleTrialReminder(
-              trialStartedAt: startedAt,
-              texts: notificationTextsFor(ref.read(resolvedLocaleProvider)),
-            );
-      } catch (_) {}
+  // Refresh opted-in reminders to replace those scheduled by older versions.
+  try {
+    final notifications = ref.read(notificationServiceProvider);
+    if (startedAt != null &&
+        settings.trialNudge &&
+        settings.notifLevel != NotificationDensity.off) {
+      await notifications.scheduleTrialReminder(
+        trialStartedAt: startedAt,
+        texts: notificationTextsFor(ref.read(resolvedLocaleProvider)),
+      );
+    } else {
+      await notifications.cancelTrialReminder();
     }
-  }
+  } catch (_) {}
   return startedAt;
 });
 
@@ -77,11 +78,18 @@ final entitlementProvider = FutureProvider<PremiumAccess>((ref) async {
     } catch (_) {}
   }
 
-  return evaluateAccess(
+  final now = DateTime.now();
+  final access = evaluateAccess(
     storeVerifiedOwned: owned,
     trialStartedAt: startedAt,
-    now: DateTime.now(),
+    now: now,
   );
+  if (access.trialActive && startedAt != null) {
+    final remaining = startedAt.add(trialDuration).difference(now);
+    final expiryTimer = Timer(remaining, ref.invalidateSelf);
+    ref.onDispose(expiryTimer.cancel);
+  }
+  return access;
 });
 
 /// Convenience boolean gate for UI.

@@ -98,7 +98,7 @@ class _ShellScreenState extends State<ShellScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           // One small ad pinned above the bar — never on the SOS tab. The
-          // policy hides it during the 7-day trial and for Premium.
+          // policy hides it during the 24-hour trial and for Premium.
           if (_adSurfaces[_index] != null)
             HalenAdBanner(
               key: ValueKey(_adSurfaces[_index]),
