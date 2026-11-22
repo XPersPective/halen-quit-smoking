@@ -1,0 +1,62 @@
+name: Halen App Store upload
+
+on:
+  push:
+    branches: [codex/halen-ios-release]
+
+permissions:
+  actions: read
+
+jobs:
+  upload:
+    if: contains(github.event.head_commit.message, '[halen-upload]') && vars.HALEN_APP_STORE_ID != ''
+    runs-on: macos-15
+    timeout-minutes: 20
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+
+    steps:
+      - name: Retrieve the verified signed candidate
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 45060456677
+          name: halen-ios-app-store-candidate
+          path: candidate
+
+      - name: Validate and upload to Apple
+        env:
+          HALEN_APP_STORE_ID: ${{ vars.HALEN_APP_STORE_ID }}
+          IOS_UPLOAD_KEY_ID: ${{ secrets.HALEN_IOS_DELIVERY_KEY_ID }}
+          IOS_UPLOAD_ISSUER: ${{ secrets.HALEN_IOS_DELIVERY_ISSUER }}
+          IOS_UPLOAD_PRIVATE_KEY: ${{ secrets.HALEN_IOS_DELIVERY_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          umask 077
+          [[ "$HALEN_APP_STORE_ID" =~ ^[0-9]+$ ]]
+          ipa=candidate/halen.ipa
+          expected_digest=40dce7e3b1b56528cec66c4b0a0a6b49c45632c86eedc34b94659d8d76d62074
+          actual_digest="$(shasum -a 256 "$ipa" | awk '{ print $1 }')"
+          test "$expected_digest" = "$actual_digest"
+          python3 - "$ipa" <<'PY'
+          import plistlib
+          import sys
+          import zipfile
+          with zipfile.ZipFile(sys.argv[1]) as artifact:
+              info = plistlib.loads(artifact.read("Payload/Runner.app/Info.plist"))
+          if (info["CFBundleIdentifier"], info["CFBundleShortVersionString"], info["CFBundleVersion"]) != (
+              "com.crazypenguin.halenquitsmoking", "1.4.1", "6"
+          ):
+              raise SystemExit("Unexpected signed candidate identity")
+          PY
+
+          test -n "$IOS_UPLOAD_KEY_ID"
+          test -n "$IOS_UPLOAD_ISSUER"
+          test -n "$IOS_UPLOAD_PRIVATE_KEY"
+          export API_PRIVATE_KEYS_DIR="$(mktemp -d)"
+          trap 'rm -rf "$API_PRIVATE_KEYS_DIR"' EXIT
+          printf '%s\n' "$IOS_UPLOAD_PRIVATE_KEY" > "$API_PRIVATE_KEYS_DIR/AuthKey_$IOS_UPLOAD_KEY_ID.p8"
+          xcrun altool --validate-app -f "$ipa" -t ios \
+            --apiKey "$IOS_UPLOAD_KEY_ID" --apiIssuer "$IOS_UPLOAD_ISSUER"
+          xcrun altool --upload-app -f "$ipa" -t ios \
+            --apiKey "$IOS_UPLOAD_KEY_ID" --apiIssuer "$IOS_UPLOAD_ISSUER"
