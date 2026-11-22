@@ -39,6 +39,9 @@ isteğin IP adresini görebilir. Başka uygulamayı yüklemek için ödül veril
   Keystore / iOS Keychain'de saklanır.
 - Veritabanı klasörü bulut yedeklemesinden ve cihazlar arası transferden
   hariç tutulur (iOS `isExcludedFromBackup`, Android `dataExtractionRules`).
+- iOS'ta deneme süresinin başlangıç tarihi yalnızca aygıttaki Anahtar
+  Zinciri'nde ayrıca saklanır. Kişisel kayıtlar silinse veya uygulama yeniden
+  yüklense de tarih aygıtta kalabilir ve başka bir aygıtla eşzamanlanmaz.
 - Verilerinizi yine de dilediğiniz an JSON olarak dışa aktarabilirsiniz
   (Ayarlar → Veriniz). Bu dosyanın kaderi tamamen size aittir; uygulama
   hiçbir yüklemeye katılmaz.
@@ -92,6 +95,9 @@ request's IP address. Installing another app is never rewarded.
   the Android Keystore / iOS Keychain.
 - The database folder is excluded from cloud backups and device transfer
   (iOS `isExcludedFromBackup`, Android `dataExtractionRules`).
+- On iOS, the trial start date is also stored in the device-only Keychain.
+  It may remain after clearing personal records or reinstalling the app,
+  and does not sync to other devices.
 - You can export your data as JSON at any time (Settings → Your data). That
   file is entirely yours; the app never uploads anything.
 
@@ -145,6 +151,9 @@ anderen App gibt es keine Belohnung.
   Schlüssel liegt im Android Keystore bzw. iOS Keychain.
 - Der Datenbank-Ordner ist von Cloud-Backups und Geräteübertragung
   ausgeschlossen (iOS `isExcludedFromBackup`, Android `dataExtractionRules`).
+- Unter iOS wird das Startdatum der Testphase zusätzlich im Schlüsselbund
+  dieses Geräts gespeichert. Es kann nach dem Löschen persönlicher Daten
+  oder nach einer Neuinstallation erhalten bleiben und wird nicht synchronisiert.
 - Du kannst deine Daten jederzeit als JSON exportieren (Einstellungen →
   Deine Daten). Diese Datei gehört dir allein; die App lädt nichts hoch.
 

@@ -73,6 +73,11 @@ not imported from JSON. Ads are policy-gated: no ads during trial/premium,
 onboarding, SOS, payments or health detail; eligible free surfaces use
 labelled banners and app-open frequency is capped at 24 hours.
 
+PB-065 adds a separate iOS Keychain record that keeps the earliest trial
+start date when retained through reinstall. It is device-only and independent
+of health records, purchase verification, and the encrypted database key.
+Android continues to use app-local storage with backup disabled.
+
 ### Product UI and content
 
 **Status:** VERIFIED by automated coverage

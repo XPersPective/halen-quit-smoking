@@ -2,7 +2,7 @@ name: Halen signed iOS candidate
 
 on:
   push:
-    branches: [codex/halen-ios-release]
+    branches: [codex/halen-ios-release, codex/halen-trial-reinstall]
 
 permissions:
   contents: read
@@ -31,7 +31,7 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           flutter pub get --enforce-lockfile
           flutter analyze --no-pub
-          flutter test --no-pub test/domain/ad_policy_test.dart
+          flutter test --no-pub test/domain/ad_policy_test.dart test/domain/entitlement_test.dart test/data/trial_start_store_test.dart test/data/purchase_stream_test.dart
 
       - name: Sign and verify IPA
         env:
