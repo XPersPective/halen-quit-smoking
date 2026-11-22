@@ -2,7 +2,7 @@ name: Halen signed iOS candidate
 
 on:
   push:
-    branches: [codex/halen-ios-release, codex/halen-trial-reinstall]
+    branches: [codex/halen-ios-release, codex/halen-trial-reinstall, codex/halen-one-day-trial]
 
 permissions:
   contents: read
