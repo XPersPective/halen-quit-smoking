@@ -16,7 +16,7 @@ the latest Project Brain checkpoint.
   `flutter_secure_storage`.
 - Localizations are TR/EN/DE in `lib/l10n/`.
 - Android and iOS identifiers are `com.crazypenguin.halenquitsmoking`.
-- Package version is `1.4.0+5` (uploaded to Play internal + production tracks 2026-10-02; replaces 1.3.1 which had misleading first-day numbers).
+- Package version is `1.4.1+6`; version `1.4.0+5` was uploaded to Play internal + production tracks on 2026-10-02 (replacing 1.3.1, which had misleading first-day numbers). Distribution of `1.4.1+6` is not evidenced here.
 
 ## Domains
 
@@ -73,6 +73,11 @@ not imported from JSON. Ads are policy-gated: no ads during trial/premium,
 onboarding, SOS, payments or health detail; eligible free surfaces use
 labelled banners and app-open frequency is capped at 24 hours.
 
+PB-065 adds a separate iOS Keychain record that keeps the earliest trial
+start date when retained through reinstall. It is device-only and independent
+of health records, purchase verification, and the encrypted database key.
+Android continues to use app-local storage with backup disabled.
+
 ### Product UI and content
 
 **Status:** VERIFIED by automated coverage
@@ -112,6 +117,12 @@ trial; unknown entitlement counts as "no ad" (fixed 2026-10-02).
 - Test output includes expected Drift multiple-instance warnings and deliberate
   SQLCipher wrong-key diagnostics; neither is a test failure.
 
+## 2026-11-22 Premium trial update
+
+- PB-066 changes trial access to 24 hours from the earliest recorded start. A timer refreshes entitlement when the trial expires while the app stays open. The banner slot starts its consent/ad flow only when entitlement permits it.
+- Turkish, English and German paywall, trial badge and optional reminder copy match the 24-hour window. The optional reminder is scheduled 12 hours after the start.
+- Existing lifetime access and iOS device-only Keychain reconciliation are preserved. Android stores the start in app data and has no existing trusted trial service, so uninstall can still reset it. The source update has not been delivered to either store.
+
 ## Known Unknowns
 
 - Real App Store/Play sandbox refund, expiry, restore and reinstall matrix is
@@ -120,5 +131,5 @@ trial; unknown entitlement counts as "no ad" (fixed 2026-10-02).
   not fully evidenced by repository tests.
 - Release 1.4.0 was smoke-tested on an Android emulator (onboarding, Today,
   Discover offline fallback, no ad during trial); Play review outcome pending.
-- 73-language UI/store listing (PB-041/052) is not started: UI is EN/TR/DE.
-- Store-console legal declarations and listing sign-off remain external.
+- UI remains TR/EN/DE. Store listing generators, bundled listing data/artwork, capture exports, and publishing lanes were retired by user decision; ADR-0003 preserves the verified output history. No Store listing automation or generated listing data remains in the repository.
+- Store-console declarations and distribution sign-off remain owner-controlled external work, outside this repository's automation scope.

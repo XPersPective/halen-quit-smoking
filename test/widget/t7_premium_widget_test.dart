@@ -35,7 +35,10 @@ void main() {
     String? route;
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [databaseProvider.overrideWithValue(db)],
+        overrides: [
+          databaseProvider.overrideWithValue(db),
+          androidTrialTestOverride,
+        ],
         child: MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -62,21 +65,17 @@ void main() {
     await disposeApp(tester);
   });
 
-  testWidgets('trial badge shows the remaining days', (tester) async {
-    final trialStart = DateTime.now().subtract(const Duration(days: 1));
+  testWidgets('trial badge describes active access', (tester) async {
+    final trialStart = DateTime.now().subtract(const Duration(hours: 12));
     await db.settingsDao.updateSettings(
       SettingsCompanion(trialStartedAt: Value(trialStart)),
     );
-    await pumpModuleWidget(
-      tester,
-      db: db,
-      child: const PremiumBadge(),
-    );
+    await pumpModuleWidget(tester, db: db, child: const PremiumBadge());
     await tester.pumpAndSettle();
     expect(
-      find.textContaining('6'),
+      find.text('Trial active'),
       findsOneWidget,
-      reason: 'trial day count visible in the badge',
+      reason: 'the badge describes an active trial',
     );
     await disposeApp(tester);
   });
@@ -116,9 +115,7 @@ void main() {
     );
   });
 
-  testWidgets('widget settings write through to the database', (
-    tester,
-  ) async {
+  testWidgets('widget settings write through to the database', (tester) async {
     await pumpModuleWidget(
       tester,
       db: db,

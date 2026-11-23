@@ -30,7 +30,6 @@ import os
 from PIL import Image, ImageDraw
 
 PETROL = (30, 91, 71, 255)
-PETROL_DEEP = (15, 46, 35, 255)
 MINT = (169, 214, 190, 255)
 AMBER = (233, 162, 59, 255)
 
@@ -185,11 +184,6 @@ def main():
                   mono))
 
     write_ios(written)
-
-    # A 1024 store icon, flat (no rounding: the stores apply their own).
-    store = Image.new('RGBA', (1024, 1024), PETROL_DEEP)
-    store.alpha_composite(draw_mark(1024, 0.60))
-    written.append(write('store/icon-1024.png', store))
 
     for path in written:
         print(path)

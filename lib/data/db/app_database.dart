@@ -68,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.e);
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -152,6 +152,11 @@ class AppDatabase extends _$AppDatabase {
           if (from < 11) {
             // v11 — the user's country (support lines, currency). Nullable.
             await m.addColumn(settings, settings.countryCode);
+          }
+          if (from < 12) {
+            // v12 — informed opt-in to Android's server-backed trial claim.
+            // Null means the disclosure has not yet been answered.
+            await m.addColumn(settings, settings.androidTrialConsent);
           }
         },
       );

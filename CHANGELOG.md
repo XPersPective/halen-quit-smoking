@@ -4,6 +4,36 @@ Tüm önemli değişiklikler bu dosyada belgelenir. Biçim:
 [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) ·
 sürümleme: [SemVer](https://semver.org/lang/tr/).
 
+## [1.4.2] — 2026-11-23 — Android deneme süresi sürekliliği
+
+### Eklendi (Added)
+- Android’de 24 saatlik Premium denemesi, açık rıza sonrası cihazdaki uygulama
+  kapsamlı Android kimliğinin tek yönlü özeti ve ilk başlangıç zamanıyla
+  Cloudflare üzerinden eşitlenir. Normal kaldırıp yeniden kurma deneme süresini
+  sıfırlamaz; sunucu erişilemiyorsa yeni kurulumda yeni deneme verilmez.
+- Gizlilik ve deneme açıklaması Türkçe, İngilizce ve Almanca olarak ilk açılışa
+  eklendi. Ham Android kimliği ve sağlık kayıtları sunucuya gönderilmez.
+
+### Değiştirildi (Changed)
+- Gizlilik politikası, Android deneme eşitlemesi ve veri saklama süreciyle
+  güncellendi.
+
+## [Yayımlanmadı] — 2026-10-16 — "Yeni paket aldım", yerel mağaza sayfaları
+
+### Eklendi (Added)
+- Bugün ekranında **"Yeni paket aldım"** butonu (tr/en/de); mevcut paket ekleme
+  sayfasını açar, alınan paket güncel paket olur ve maliyet gerçek fiyatlara göre hesaplanır.
+- Mağaza sayfaları 73 Play + 46 App Store dilinde yerel başlık, kısa/tam
+  açıklama ve yerelleştirilmiş öne çıkan görselle.
+
+### Düzeltildi (Fixed)
+- Türkçe mağaza başlığı İngilizce "Quit Smoking Tracker" idi → "Halen: Sigara
+  Bırakma Takibi"; kısa açıklama ve tam açıklama "sigara bırakma/azaltma"
+  anahtar kelimeleriyle yeniden yazıldı.
+- Ücretsiz Premium denemesi ilk açılıştan itibaren 24 saat sürer. Deneme
+  bildirimi isteğe bağlıdır. Deneme sona erince uygun ücretsiz ekranlarda
+  reklam gösterilebilir. Mevcut ömür boyu satın almalar geçerliliğini korur.
+
 ## [1.4.0] — 2026-10-02 — dürüst sayılar, ülke, Keşfet
 
 İlk gerçek cihaz testinden sonra (sahip geri bildirimi, ADR-0002).

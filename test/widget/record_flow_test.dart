@@ -62,6 +62,26 @@ void main() {
     await disposeApp(tester);
   });
 
+  testWidgets('new pack bought: home button saves a purchase', (tester) async {
+    useLargeTestSurface(tester);
+    await pumpHalenApp(tester, database: db);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('I bought a new pack'));
+    await tester.pumpAndSettle();
+    expect(find.text('Add a purchase'), findsOneWidget);
+
+    // Prefilled from the current pack: one tap saves.
+    await tester.tap(find.widgetWithText(FilledButton, 'Save'));
+    await tester.pumpAndSettle();
+
+    final purchases = await db.packPurchaseDao.all();
+    expect(purchases, hasLength(1));
+    expect(purchases.single.packs, 1);
+
+    await disposeApp(tester);
+  });
+
   testWidgets('resisted craving is recorded without navigating',
       (tester) async {
     useLargeTestSurface(tester);

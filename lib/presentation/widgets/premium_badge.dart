@@ -27,7 +27,7 @@ class PremiumBadge extends ConsumerWidget {
         ),
       PremiumSource.trial => (
           Icons.schedule_outlined,
-          l10n.trialDaysLeft(access!.trialDaysLeft),
+          l10n.trialActiveBadge,
         ),
       _ => (
           Icons.workspace_premium_outlined,

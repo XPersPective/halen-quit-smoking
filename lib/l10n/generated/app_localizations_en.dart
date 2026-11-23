@@ -87,7 +87,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonPremiumLocked =>
-      'This is part of Halen Premium. Your 7-day trial covers everything for free.';
+      'This feature is included in Halen Premium and the 24-hour trial.';
 
   @override
   String get commonUnlockPremium => 'See lifetime offer';
@@ -100,7 +100,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get splashPrivacyLine =>
-      'No account. No Halen server. Your data stays on this device.';
+      'No account. Your health and smoking records stay encrypted on this device.';
+
+  @override
+  String get trialPrivacyTitle => '24-hour trial and device privacy';
+
+  @override
+  String get trialPrivacyBody =>
+      'To keep the 24-hour ad-free start from resetting after reinstall, Android sends Halen a one-way, app-specific hash of the device ID and the trial start time. The raw device ID, health or smoking records, and account details are not sent. An internet connection is needed to start the trial. If you decline or are offline, you can use the free features without the trial.';
+
+  @override
+  String get trialPrivacyAccept => 'Enable the 24-hour trial';
+
+  @override
+  String get trialPrivacyDecline => 'Continue without the trial';
+
+  @override
+  String get privacyRequestTitle =>
+      'Request deletion of the Android trial record';
+
+  @override
+  String get privacyRequestBody =>
+      'This opens an email draft with a one-way support code for your Android trial record. Review it and send it only if you want Halen to process a privacy request.';
 
   @override
   String get splashBackupLine =>
@@ -346,6 +367,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ctaSmoked => 'I smoked one';
+
+  @override
+  String get ctaNewPack => 'I bought a new pack';
 
   @override
   String get ctaResisted => 'I resisted it';
@@ -779,7 +803,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifTrialBody =>
-      'Your Halen Premium trial ends in two days. Choosing a plan is entirely up to you; nothing is charged automatically.';
+      'Your 24-hour Halen Premium trial ends soon. You can keep using Halen for free. No automatic charge applies.';
 
   @override
   String get notifChannelReminders => 'Reminders';
@@ -814,7 +838,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifTrialNudgeHint =>
-      'One gentle note on day 5, before the trial ends. Off unless you ask for it.';
+      'Optional reminder about halfway through your 24-hour trial.';
 
   @override
   String get notifQuitSupport => 'Quit-day support (first 72 hours)';
@@ -917,9 +941,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your purchase is pending — access unlocks when it completes.';
 
   @override
-  String trialDaysLeft(int n) {
-    return 'Trial: $n days left';
-  }
+  String get trialActiveBadge => 'Trial active';
+
+  @override
+  String get trialActiveTitle => 'Premium trial active';
 
   @override
   String get trialExpiredFree =>
@@ -950,7 +975,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutPrivacyBody =>
-      'There is no account, server or analytics. Your records stay in an encrypted local database on this device; export and deletion are available in Settings.';
+      'There is no account or analytics. Health and smoking records stay in an encrypted database on this device. On Android, an app-specific device-ID hash and trial start time are sent to Halen\'s server to prevent trial resets after reinstall; no raw device ID or health data is sent.';
 
   @override
   String get aboutSourceCode => 'Inspect the source code';
@@ -985,7 +1010,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsPrivacy =>
-      'Privacy: no account, no servers, no analytics. Your records stay on this device.';
+      'Privacy: no account or analytics. Health records stay on-device; Android sends a one-way device-ID hash for the trial.';
 
   @override
   String get settingsPrivacyPolicy => 'Privacy policy';
@@ -1030,11 +1055,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallFeaturePrivacy =>
-      '100% on-device privacy: no account, no Halen server, fully encrypted vault';
+      'Encrypted health records stay on-device; Android checks the 24-hour trial with a one-way device-ID hash';
 
   @override
   String get paywallTrialNote =>
-      'Your 7-day free trial starts on first launch — no card needed.';
+      'Your free 24-hour trial starts on first launch. No card is required.';
 
   @override
   String get planTierLifetime => 'Lifetime Access';
@@ -1050,25 +1075,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paywallTimelineToday => 'Today';
 
   @override
-  String get paywallTimelineTitle => 'Your 7-day Halen Premium trial';
+  String get paywallTimelineTitle => 'Your 24-hour Halen Premium trial';
 
   @override
   String get paywallTimelineTodayDesc =>
       'Full access begins with no card and no automatic charge.';
 
   @override
-  String get paywallTimelineReminder => 'Day 5';
+  String get paywallTimelineReminder => 'After 12 hours';
 
   @override
   String get paywallTimelineReminderDesc =>
-      'Optional: one gentle reminder on day 5 if you turn on \"Trial reminder\" in Settings.';
+      'Turn on Trial reminder in Settings to receive one reminder.';
 
   @override
-  String get paywallTimelineBilling => 'Day 7';
+  String get paywallTimelineBilling => 'After 24 hours';
 
   @override
   String get paywallTimelineBillingDesc =>
-      'The trial ends; unlock lifetime access with a single purchase or keep using the free version. Nothing is charged automatically.';
+      'Keep using the free version with ads on eligible screens, or buy lifetime access to remove ads. No automatic charge applies.';
 
   @override
   String get paywallCtaLifetime => 'Get Lifetime Access';
@@ -1085,7 +1110,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallPrivacyBody =>
-      'Halen does not send personal data, smoking records or craving-support data to external servers. The database is encrypted with SQLCipher on this device; export and deletion are available in Settings.';
+      'Halen has no account or analytics. Health, smoking and craving-support records stay in the encrypted local database. On Android only, a one-way app-specific device-ID hash and trial start time are sent to Halen\'s Cloudflare service so reinstalling cannot restart the 24-hour trial. The raw device ID and health records are not sent. Export and deletion of local records are available in Settings.';
 
   @override
   String get paywallLegalDisclaimer =>

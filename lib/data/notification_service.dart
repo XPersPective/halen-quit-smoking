@@ -41,7 +41,7 @@ class NotificationTexts {
   final String riskyWindowTitle;
   final String riskyWindowBody;
 
-  /// Day-5 trial nudge; nullable because only the trial path schedules it.
+  /// Optional trial reminder.
   final String? trialTitle;
   final String? trialBody;
 }
@@ -370,17 +370,13 @@ class NotificationService {
   /// Own id so buying a plan can cancel the nudge without touching others.
   static const _trialReminderId = 9101;
 
-  /// Day-5 nudge time: 10:00 on the 5th calendar day of the trial, or null
-  /// when that moment is already past. Pure so the arithmetic is testable.
+  /// Remind opted-in users halfway through their 24-hour trial.
   static DateTime? trialReminderDate(DateTime trialStartedAt, DateTime now) {
-    final day5 = trialStartedAt.add(const Duration(days: 5));
-    final when = DateTime(day5.year, day5.month, day5.day, 10);
+    final when = trialStartedAt.add(const Duration(hours: 12));
     return when.isAfter(now) ? when : null;
   }
 
-  /// Day-5 trial nudge (the paywall timeline promises it): one shot on the
-  /// 5th calendar day of the trial at 10:00 local. Guarded so provider code
-  /// can call it unconditionally — desktop/test environments have no plugin.
+  /// Schedule or clear the optional one-time trial reminder.
   Future<void> scheduleTrialReminder({
     required DateTime trialStartedAt,
     required NotificationTexts texts,
@@ -392,11 +388,11 @@ class NotificationService {
       trialStartedAt,
       DateTime.now(),
     );
+    await init();
+    await _plugin.cancel(id: _trialReminderId);
     if (when == null) {
       return;
     }
-    await init();
-    await _plugin.cancel(id: _trialReminderId);
     await _plugin.zonedSchedule(
       id: _trialReminderId,
       title: texts.trialTitle,

@@ -1,19 +1,14 @@
-/// Pure entitlement logic (report §12/§28): the 7-day feature-gated trial
+/// Pure entitlement logic (report §12/§28): the 24-hour feature-gated trial
 /// starts at first launch without any payment method; store access comes from
 /// a store-verified one-time lifetime purchase.
 library;
 
 class PremiumAccess {
-  const PremiumAccess({
-    required this.storeOwned,
-    required this.trialActive,
-    required this.trialDaysLeft,
-  });
+  const PremiumAccess({required this.storeOwned, required this.trialActive});
 
   /// True when a verified store product currently grants access.
   final bool storeOwned;
   final bool trialActive;
-  final int trialDaysLeft;
 
   /// The feature gate: a store entitlement, or an active trial.
   bool get premium => storeOwned || trialActive;
@@ -26,32 +21,20 @@ class PremiumAccess {
 
 enum PremiumSource { store, trial, free }
 
+const trialDuration = Duration(hours: 24);
+
 /// Trial window arithmetic.
 PremiumAccess evaluateAccess({
   required bool storeVerifiedOwned,
   required DateTime? trialStartedAt,
   required DateTime now,
-  int trialDays = 7,
 }) {
   if (storeVerifiedOwned) {
-    return const PremiumAccess(
-      storeOwned: true,
-      trialActive: false,
-      trialDaysLeft: 0,
-    );
+    return const PremiumAccess(storeOwned: true, trialActive: false);
   }
-  if (trialStartedAt == null) {
-    return const PremiumAccess(
-      storeOwned: false,
-      trialActive: false,
-      trialDaysLeft: 0,
-    );
+  if (trialStartedAt == null || now.isBefore(trialStartedAt)) {
+    return const PremiumAccess(storeOwned: false, trialActive: false);
   }
-  final elapsed = now.difference(trialStartedAt).inDays;
-  final daysLeft = (trialDays - elapsed).clamp(0, trialDays);
-  return PremiumAccess(
-    storeOwned: false,
-    trialActive: daysLeft > 0,
-    trialDaysLeft: daysLeft,
-  );
+  final active = now.isBefore(trialStartedAt.add(trialDuration));
+  return PremiumAccess(storeOwned: false, trialActive: active);
 }

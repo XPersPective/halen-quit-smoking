@@ -253,7 +253,7 @@ abstract class AppLocalizations {
   /// No description provided for @commonPremiumLocked.
   ///
   /// In en, this message translates to:
-  /// **'This is part of Halen Premium. Your 7-day trial covers everything for free.'**
+  /// **'This feature is included in Halen Premium and the 24-hour trial.'**
   String get commonPremiumLocked;
 
   /// No description provided for @commonUnlockPremium.
@@ -277,8 +277,44 @@ abstract class AppLocalizations {
   /// No description provided for @splashPrivacyLine.
   ///
   /// In en, this message translates to:
-  /// **'No account. No Halen server. Your data stays on this device.'**
+  /// **'No account. Your health and smoking records stay encrypted on this device.'**
   String get splashPrivacyLine;
+
+  /// No description provided for @trialPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'24-hour trial and device privacy'**
+  String get trialPrivacyTitle;
+
+  /// No description provided for @trialPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'To keep the 24-hour ad-free start from resetting after reinstall, Android sends Halen a one-way, app-specific hash of the device ID and the trial start time. The raw device ID, health or smoking records, and account details are not sent. An internet connection is needed to start the trial. If you decline or are offline, you can use the free features without the trial.'**
+  String get trialPrivacyBody;
+
+  /// No description provided for @trialPrivacyAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable the 24-hour trial'**
+  String get trialPrivacyAccept;
+
+  /// No description provided for @trialPrivacyDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue without the trial'**
+  String get trialPrivacyDecline;
+
+  /// No description provided for @privacyRequestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request deletion of the Android trial record'**
+  String get privacyRequestTitle;
+
+  /// No description provided for @privacyRequestBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This opens an email draft with a one-way support code for your Android trial record. Review it and send it only if you want Halen to process a privacy request.'**
+  String get privacyRequestBody;
 
   /// No description provided for @splashBackupLine.
   ///
@@ -711,6 +747,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'I smoked one'**
   String get ctaSmoked;
+
+  /// No description provided for @ctaNewPack.
+  ///
+  /// In en, this message translates to:
+  /// **'I bought a new pack'**
+  String get ctaNewPack;
 
   /// No description provided for @ctaResisted.
   ///
@@ -1453,7 +1495,7 @@ abstract class AppLocalizations {
   /// No description provided for @notifTrialBody.
   ///
   /// In en, this message translates to:
-  /// **'Your Halen Premium trial ends in two days. Choosing a plan is entirely up to you; nothing is charged automatically.'**
+  /// **'Your 24-hour Halen Premium trial ends soon. You can keep using Halen for free. No automatic charge applies.'**
   String get notifTrialBody;
 
   /// No description provided for @notifChannelReminders.
@@ -1519,7 +1561,7 @@ abstract class AppLocalizations {
   /// No description provided for @notifTrialNudgeHint.
   ///
   /// In en, this message translates to:
-  /// **'One gentle note on day 5, before the trial ends. Off unless you ask for it.'**
+  /// **'Optional reminder about halfway through your 24-hour trial.'**
   String get notifTrialNudgeHint;
 
   /// No description provided for @notifQuitSupport.
@@ -1708,11 +1750,17 @@ abstract class AppLocalizations {
   /// **'Your purchase is pending — access unlocks when it completes.'**
   String get purchasePending;
 
-  /// No description provided for @trialDaysLeft.
+  /// No description provided for @trialActiveBadge.
   ///
   /// In en, this message translates to:
-  /// **'Trial: {n} days left'**
-  String trialDaysLeft(int n);
+  /// **'Trial active'**
+  String get trialActiveBadge;
+
+  /// No description provided for @trialActiveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium trial active'**
+  String get trialActiveTitle;
 
   /// No description provided for @trialExpiredFree.
   ///
@@ -1765,7 +1813,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutPrivacyBody.
   ///
   /// In en, this message translates to:
-  /// **'There is no account, server or analytics. Your records stay in an encrypted local database on this device; export and deletion are available in Settings.'**
+  /// **'There is no account or analytics. Health and smoking records stay in an encrypted database on this device. On Android, an app-specific device-ID hash and trial start time are sent to Halen\'s server to prevent trial resets after reinstall; no raw device ID or health data is sent.'**
   String get aboutPrivacyBody;
 
   /// No description provided for @aboutSourceCode.
@@ -1831,7 +1879,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPrivacy.
   ///
   /// In en, this message translates to:
-  /// **'Privacy: no account, no servers, no analytics. Your records stay on this device.'**
+  /// **'Privacy: no account or analytics. Health records stay on-device; Android sends a one-way device-ID hash for the trial.'**
   String get settingsPrivacy;
 
   /// No description provided for @settingsPrivacyPolicy.
@@ -1903,13 +1951,13 @@ abstract class AppLocalizations {
   /// No description provided for @paywallFeaturePrivacy.
   ///
   /// In en, this message translates to:
-  /// **'100% on-device privacy: no account, no Halen server, fully encrypted vault'**
+  /// **'Encrypted health records stay on-device; Android checks the 24-hour trial with a one-way device-ID hash'**
   String get paywallFeaturePrivacy;
 
   /// No description provided for @paywallTrialNote.
   ///
   /// In en, this message translates to:
-  /// **'Your 7-day free trial starts on first launch — no card needed.'**
+  /// **'Your free 24-hour trial starts on first launch. No card is required.'**
   String get paywallTrialNote;
 
   /// No description provided for @planTierLifetime.
@@ -1939,7 +1987,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallTimelineTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your 7-day Halen Premium trial'**
+  /// **'Your 24-hour Halen Premium trial'**
   String get paywallTimelineTitle;
 
   /// No description provided for @paywallTimelineTodayDesc.
@@ -1951,25 +1999,25 @@ abstract class AppLocalizations {
   /// No description provided for @paywallTimelineReminder.
   ///
   /// In en, this message translates to:
-  /// **'Day 5'**
+  /// **'After 12 hours'**
   String get paywallTimelineReminder;
 
   /// No description provided for @paywallTimelineReminderDesc.
   ///
   /// In en, this message translates to:
-  /// **'Optional: one gentle reminder on day 5 if you turn on \"Trial reminder\" in Settings.'**
+  /// **'Turn on Trial reminder in Settings to receive one reminder.'**
   String get paywallTimelineReminderDesc;
 
   /// No description provided for @paywallTimelineBilling.
   ///
   /// In en, this message translates to:
-  /// **'Day 7'**
+  /// **'After 24 hours'**
   String get paywallTimelineBilling;
 
   /// No description provided for @paywallTimelineBillingDesc.
   ///
   /// In en, this message translates to:
-  /// **'The trial ends; unlock lifetime access with a single purchase or keep using the free version. Nothing is charged automatically.'**
+  /// **'Keep using the free version with ads on eligible screens, or buy lifetime access to remove ads. No automatic charge applies.'**
   String get paywallTimelineBillingDesc;
 
   /// No description provided for @paywallCtaLifetime.
@@ -1999,7 +2047,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallPrivacyBody.
   ///
   /// In en, this message translates to:
-  /// **'Halen does not send personal data, smoking records or craving-support data to external servers. The database is encrypted with SQLCipher on this device; export and deletion are available in Settings.'**
+  /// **'Halen has no account or analytics. Health, smoking and craving-support records stay in the encrypted local database. On Android only, a one-way app-specific device-ID hash and trial start time are sent to Halen\'s Cloudflare service so reinstalling cannot restart the 24-hour trial. The raw device ID and health records are not sent. Export and deletion of local records are available in Settings.'**
   String get paywallPrivacyBody;
 
   /// No description provided for @paywallLegalDisclaimer.

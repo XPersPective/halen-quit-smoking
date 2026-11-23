@@ -217,7 +217,7 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                     const SizedBox(width: HalenSpace.x2),
                     Flexible(
                       child: Text(
-                        l10n.trialDaysLeft(access.trialDaysLeft),
+                        l10n.trialActiveTitle,
                         style: theme.textTheme.labelMedium?.copyWith(
                           color: theme.colorScheme.onSecondaryContainer,
                           fontWeight: FontWeight.w600,

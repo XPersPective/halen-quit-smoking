@@ -88,7 +88,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get commonPremiumLocked =>
-      'Das gehört zu Halen Premium. Deine 7-tägige Testphase deckt alles kostenlos ab.';
+      'Diese Funktion ist in Halen Premium und in der 24-Stunden-Testphase enthalten.';
 
   @override
   String get commonUnlockPremium => 'Einmalangebot ansehen';
@@ -101,7 +101,28 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get splashPrivacyLine =>
-      'Kein Konto. Kein Halen-Server. Deine Daten bleiben auf diesem Gerät.';
+      'Kein Konto. Gesundheits- und Rauchdaten bleiben verschlüsselt auf diesem Gerät.';
+
+  @override
+  String get trialPrivacyTitle => '24-Stunden-Testphase und Datenschutz';
+
+  @override
+  String get trialPrivacyBody =>
+      'Damit die 24-stündige werbefreie Startphase nach einer Neuinstallation nicht erneut beginnt, sendet Android einen einmalig gehashten, app-spezifischen Gerätebezeichner und den Startzeitpunkt der Testphase an Halen. Die rohe Gerätekennung, Gesundheits- oder Rauchdaten und Kontodaten werden nicht gesendet. Zum Starten der Testphase ist eine Internetverbindung erforderlich. Wenn du ablehnst oder offline bist, kannst du die kostenlosen Funktionen ohne Testphase nutzen.';
+
+  @override
+  String get trialPrivacyAccept => '24-Stunden-Testphase aktivieren';
+
+  @override
+  String get trialPrivacyDecline => 'Ohne Testphase fortfahren';
+
+  @override
+  String get privacyRequestTitle =>
+      'Löschung des Android-Testdatensatzes anfragen';
+
+  @override
+  String get privacyRequestBody =>
+      'Ein E-Mail-Entwurf mit einem einmaligen Support-Code für deinen Android-Testdatensatz wird geöffnet. Prüfe ihn und sende ihn nur, wenn du eine Datenschutzanfrage stellen möchtest.';
 
   @override
   String get splashBackupLine =>
@@ -348,6 +369,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get ctaSmoked => 'Ich habe eine geraucht';
+
+  @override
+  String get ctaNewPack => 'Neue Packung gekauft';
 
   @override
   String get ctaResisted => 'Ich habe widerstanden';
@@ -783,7 +807,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notifTrialBody =>
-      'Deine Halen-Premium-Testphase endet in zwei Tagen. Die Planwahl liegt ganz bei dir; es wird nichts automatisch abgebucht.';
+      'Deine 24-Stunden-Testphase für Halen Premium endet bald. Du kannst Halen kostenlos weiter nutzen. Es wird nichts automatisch abgebucht.';
 
   @override
   String get notifChannelReminders => 'Erinnerungen';
@@ -818,7 +842,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notifTrialNudgeHint =>
-      'Ein sanfter Hinweis an Tag 5, bevor die Testphase endet. Aus, solange du es nicht willst.';
+      'Optionale Erinnerung etwa zur Hälfte deiner 24-stündigen Testphase.';
 
   @override
   String get notifQuitSupport => 'Stopp-Tag-Unterstützung (erste 72 Stunden)';
@@ -922,9 +946,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Dein Kauf wartet — der Zugang wird nach Abschluss freigeschaltet.';
 
   @override
-  String trialDaysLeft(int n) {
-    return 'Testphase: noch $n Tage';
-  }
+  String get trialActiveBadge => 'Testphase aktiv';
+
+  @override
+  String get trialActiveTitle => 'Premium-Testphase aktiv';
 
   @override
   String get trialExpiredFree =>
@@ -955,7 +980,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get aboutPrivacyBody =>
-      'Es gibt kein Konto, keinen Server und keine Analyse. Deine Einträge bleiben in einer verschlüsselten lokalen Datenbank auf diesem Gerät; Export und Löschung findest du in den Einstellungen.';
+      'Es gibt kein Konto und keine Analyse. Gesundheits- und Rauchdaten bleiben in der verschlüsselten Datenbank auf diesem Gerät. Unter Android werden ein app-spezifischer Geräte-ID-Hash und der Startzeitpunkt an Halens Server gesendet, damit die Testphase nach einer Neuinstallation nicht neu beginnt; die rohe Geräte-ID und Gesundheitsdaten werden nicht gesendet.';
 
   @override
   String get aboutSourceCode => 'Quelltext ansehen';
@@ -990,7 +1015,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get settingsPrivacy =>
-      'Datenschutz: kein Konto, keine Server, keine Analyse. Deine Einträge bleiben auf diesem Gerät.';
+      'Datenschutz: kein Konto und keine Analyse. Gesundheitsdaten bleiben lokal; Android sendet einen Geräte-ID-Hash für die Testphase.';
 
   @override
   String get settingsPrivacyPolicy => 'Datenschutzerklärung';
@@ -1035,11 +1060,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallFeaturePrivacy =>
-      '100 % Privatsphäre: kein Konto, kein Halen-Server, verschlüsselter lokaler Tresor';
+      'Gesundheitsdaten bleiben verschlüsselt lokal; Android prüft die 24-Stunden-Testphase mit einem Geräte-ID-Hash';
 
   @override
   String get paywallTrialNote =>
-      'Deine 7-tägige kostenlose Testphase startet beim ersten Start — ohne Karte.';
+      'Deine kostenlose 24-Stunden-Testphase beginnt beim ersten Start. Eine Karte ist nicht erforderlich.';
 
   @override
   String get planTierLifetime => 'Lebenslanger Zugriff';
@@ -1055,25 +1080,26 @@ class AppLocalizationsDe extends AppLocalizations {
   String get paywallTimelineToday => 'Heute';
 
   @override
-  String get paywallTimelineTitle => 'Deine 7-tägige Halen-Premium-Testphase';
+  String get paywallTimelineTitle =>
+      'Deine 24-Stunden-Testphase für Halen Premium';
 
   @override
   String get paywallTimelineTodayDesc =>
       'Vollzugriff startet ohne Karte und ohne automatische Abbuchung.';
 
   @override
-  String get paywallTimelineReminder => 'Tag 5';
+  String get paywallTimelineReminder => 'Nach 12 Stunden';
 
   @override
   String get paywallTimelineReminderDesc =>
-      'Optional: eine sanfte Erinnerung an Tag 5, wenn du in den Einstellungen «Testphasen-Erinnerung» aktivierst.';
+      'Aktiviere die Testphasen-Erinnerung in den Einstellungen, um einmal erinnert zu werden.';
 
   @override
-  String get paywallTimelineBilling => 'Tag 7';
+  String get paywallTimelineBilling => 'Nach 24 Stunden';
 
   @override
   String get paywallTimelineBillingDesc =>
-      'Die Testphase endet; schalte den lebenslangen Zugang mit einem einzigen Kauf frei oder nutze die kostenlose Version weiter. Es wird nichts automatisch berechnet.';
+      'Nutze die kostenlose Version mit Werbung auf dafür vorgesehenen Seiten weiter oder kaufe lebenslangen Zugang ohne Werbung. Es wird nichts automatisch abgebucht.';
 
   @override
   String get paywallCtaLifetime => 'Lebenslang sichern';
@@ -1090,7 +1116,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallPrivacyBody =>
-      'Halen sendet keine personenbezogenen Daten, Rauchprotokolle oder Daten zur Verlangensunterstützung an externe Server. Die Datenbank wird auf diesem Gerät mit SQLCipher verschlüsselt; Export und Löschung findest du in den Einstellungen.';
+      'Halen hat kein Konto und keine Analyse. Gesundheits-, Rauch- und Craving-Daten bleiben in der verschlüsselten lokalen Datenbank. Nur unter Android werden ein app-spezifischer Geräte-ID-Hash und der Startzeitpunkt an Halens Cloudflare-Dienst gesendet, damit eine Neuinstallation die 24-Stunden-Testphase nicht zurücksetzt. Die rohe Geräte-ID und Gesundheitsdaten werden nicht gesendet. Lokale Daten kannst du in den Einstellungen exportieren oder löschen.';
 
   @override
   String get paywallLegalDisclaimer =>

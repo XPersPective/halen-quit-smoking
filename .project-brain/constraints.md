@@ -5,7 +5,7 @@ bilimsel kaynak ve hesap sınırlarını açık sunan Halen: Quit Smoking Tracke
 Kullanıcının bütün eleştirilerini uygula; mevcut ve yeni hataları kök nedeninde düzelt,
 test/gerçek cihaz/görsel denetimle kanıtla. Açık kaynak faydasını iyi anlat; GPL seçiminin
 ticari dağıtıma izin verdiğini saklama. Ödeme native App Store/Google Play, ömür boyu
-reklamsız seçenek; ilk7 gün tüm uygulanmış premium özellikler ve reklamsız kullanım.
+reklamsız seçenek; 22 Kasım 2026 kararıyla ilk 24 saat tüm uygulanmış premium özellikler ve reklamsız kullanım.
 Bütün işlerin protokol/mimari/yol haritası tek bu dosyada, düşük modelin devralabileceği
 açıklıkta kalır. Gereksiz bağımlılık/boilerplate yok; mevcut kullanıcı değişiklikleri korunur.
 

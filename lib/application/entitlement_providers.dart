@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:drift/drift.dart' hide Column;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/db/app_database.dart';
+import '../data/android_trial_start_store.dart';
 import '../data/purchase_service.dart';
+import '../data/trial_start_store.dart';
 import '../domain/entities.dart';
 import '../domain/entitlement.dart';
 import 'notification_texts.dart';
@@ -10,8 +15,15 @@ import 'providers.dart';
 import 'settings_screen_controller.dart';
 
 /// Single purchase service wired to the app database.
-final purchaseServiceProvider =
-    Provider<PurchaseService>((ref) => PurchaseService(ref.watch(databaseProvider)));
+final purchaseServiceProvider = Provider<PurchaseService>(
+  (ref) => PurchaseService(ref.watch(databaseProvider)),
+);
+
+/// Injectable so entitlement flows can be tested without Android platform or
+/// network dependencies.
+final androidTrialStartStoreProvider = Provider<AndroidTrialStartStore>(
+  (ref) => AndroidTrialStartStore(),
+);
 
 /// Owned-state changes written by the purchase stream (a finished purchase,
 /// a restore, a refund). The entitlement re-evaluates when it flips, so the
@@ -21,35 +33,50 @@ final ownedEntitlementProvider = StreamProvider<bool>((ref) {
   return ref.watch(databaseProvider).purchaseDao.watchHasOwnedEntitlement();
 });
 
-/// Cold-start entitlement refresh: store verification runs on every launch
-/// (report §29). Also ensures the 7-day trial clock started on first launch.
-final entitlementProvider = FutureProvider<PremiumAccess>((ref) async {
+/// Initialize the local trial once per database, independently of purchase events.
+final _trialStartProvider = FutureProvider<DateTime?>((ref) async {
   final db = ref.watch(databaseProvider);
-  ref.watch(ownedEntitlementProvider);
-
-  // First launch: start the no-card 7-day premium trial (report §28).
   final settings = await db.settingsDao.getSettings();
-  if (settings.trialStartedAt == null) {
-    final startedAt = DateTime.now();
+  final recorded = settings.trialStartedAt;
+  final now = DateTime.now();
+  final startedAt = !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS
+      ? await TrialStartStore().keepEarliest(recorded: recorded, now: now)
+      : !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+      ? await ref
+            .watch(androidTrialStartStoreProvider)
+            .resolve(
+              recorded: recorded,
+              consented: settings.androidTrialConsent == true,
+            )
+      : recorded ?? now;
+  if (startedAt != null &&
+      (recorded == null || !recorded.isAtSameMomentAs(startedAt))) {
     await db.settingsDao.updateSettings(
       SettingsCompanion(trialStartedAt: Value(startedAt)),
     );
-    // The day-5 nudge is a marketing reminder: it only fires when the user
-    // turned on its own setting (brain T2). The trial clock itself must not
-    // imply consent to anything.
-    if (settings.trialNudge &&
-        settings.notifLevel != NotificationDensity.off) {
-      try {
-        await ref
-            .read(notificationServiceProvider)
-            .scheduleTrialReminder(
-              trialStartedAt: startedAt,
-              texts: notificationTextsFor(ref.read(resolvedLocaleProvider)),
-            );
-      } catch (_) {}
-    }
   }
-  final fresh = await db.settingsDao.getSettings();
+  // Refresh opted-in reminders to replace those scheduled by older versions.
+  try {
+    final notifications = ref.read(notificationServiceProvider);
+    if (startedAt != null &&
+        settings.trialNudge &&
+        settings.notifLevel != NotificationDensity.off) {
+      await notifications.scheduleTrialReminder(
+        trialStartedAt: startedAt,
+        texts: notificationTextsFor(ref.read(resolvedLocaleProvider)),
+      );
+    } else {
+      await notifications.cancelTrialReminder();
+    }
+  } catch (_) {}
+  return startedAt;
+});
+
+/// Cold-start entitlement refresh: store verification runs on every launch.
+final entitlementProvider = FutureProvider<PremiumAccess>((ref) async {
+  final db = ref.watch(databaseProvider);
+  ref.watch(ownedEntitlementProvider);
+  final startedAt = await ref.watch(_trialStartProvider.future);
 
   // Store verification — never trust the local row alone.
   try {
@@ -65,11 +92,18 @@ final entitlementProvider = FutureProvider<PremiumAccess>((ref) async {
     } catch (_) {}
   }
 
-  return evaluateAccess(
+  final now = DateTime.now();
+  final access = evaluateAccess(
     storeVerifiedOwned: owned,
-    trialStartedAt: fresh.trialStartedAt,
-    now: DateTime.now(),
+    trialStartedAt: startedAt,
+    now: now,
   );
+  if (access.trialActive && startedAt != null) {
+    final remaining = startedAt.add(trialDuration).difference(now);
+    final expiryTimer = Timer(remaining, ref.invalidateSelf);
+    ref.onDispose(expiryTimer.cancel);
+  }
+  return access;
 });
 
 /// Convenience boolean gate for UI.

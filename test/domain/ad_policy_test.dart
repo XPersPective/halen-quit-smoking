@@ -5,7 +5,7 @@ void main() {
   final now = DateTime(2026, 9, 18, 12);
 
   group('banner policy', () {
-    test('day 0–6 of the trial: never', () {
+    test('during the trial: never', () {
       expect(
         AdPolicy.bannerAllowed(
           surface: AdSurface.todayBottom,

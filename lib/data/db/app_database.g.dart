@@ -5820,6 +5820,19 @@ class $SettingsTable extends Settings
     requiredDuringInsert: false,
     defaultValue: const Constant('system'),
   );
+  static const VerificationMeta _androidTrialConsentMeta =
+      const VerificationMeta('androidTrialConsent');
+  @override
+  late final GeneratedColumn<bool> androidTrialConsent = GeneratedColumn<bool>(
+    'android_trial_consent',
+    aliasedName,
+    true,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("android_trial_consent" IN (0, 1))',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -5835,6 +5848,7 @@ class $SettingsTable extends Settings
     countryCode,
     widgetShowLastCigarette,
     widgetTheme,
+    androidTrialConsent,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5932,6 +5946,15 @@ class $SettingsTable extends Settings
         ),
       );
     }
+    if (data.containsKey('android_trial_consent')) {
+      context.handle(
+        _androidTrialConsentMeta,
+        androidTrialConsent.isAcceptableOrUnknown(
+          data['android_trial_consent']!,
+          _androidTrialConsentMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -5997,6 +6020,10 @@ class $SettingsTable extends Settings
         DriftSqlType.string,
         data['${effectivePrefix}widget_theme'],
       )!,
+      androidTrialConsent: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}android_trial_consent'],
+      ),
     );
   }
 
@@ -6048,6 +6075,10 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
   /// pick a widget theme independent of the app's theme.
   final bool widgetShowLastCigarette;
   final String widgetTheme;
+
+  /// Informed opt-in for sending an app-scoped Android ID hash and trial
+  /// start timestamp to the server. Null means not yet answered.
+  final bool? androidTrialConsent;
   const SettingsRow({
     required this.id,
     required this.notifLevel,
@@ -6062,6 +6093,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     this.countryCode,
     required this.widgetShowLastCigarette,
     required this.widgetTheme,
+    this.androidTrialConsent,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -6093,6 +6125,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     }
     map['widget_show_last_cigarette'] = Variable<bool>(widgetShowLastCigarette);
     map['widget_theme'] = Variable<String>(widgetTheme);
+    if (!nullToAbsent || androidTrialConsent != null) {
+      map['android_trial_consent'] = Variable<bool>(androidTrialConsent);
+    }
     return map;
   }
 
@@ -6117,6 +6152,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           : Value(countryCode),
       widgetShowLastCigarette: Value(widgetShowLastCigarette),
       widgetTheme: Value(widgetTheme),
+      androidTrialConsent: androidTrialConsent == null && nullToAbsent
+          ? const Value.absent()
+          : Value(androidTrialConsent),
     );
   }
 
@@ -6147,6 +6185,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
         json['widgetShowLastCigarette'],
       ),
       widgetTheme: serializer.fromJson<String>(json['widgetTheme']),
+      androidTrialConsent: serializer.fromJson<bool?>(
+        json['androidTrialConsent'],
+      ),
     );
   }
   @override
@@ -6172,6 +6213,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
         widgetShowLastCigarette,
       ),
       'widgetTheme': serializer.toJson<String>(widgetTheme),
+      'androidTrialConsent': serializer.toJson<bool?>(androidTrialConsent),
     };
   }
 
@@ -6189,6 +6231,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     Value<String?> countryCode = const Value.absent(),
     bool? widgetShowLastCigarette,
     String? widgetTheme,
+    Value<bool?> androidTrialConsent = const Value.absent(),
   }) => SettingsRow(
     id: id ?? this.id,
     notifLevel: notifLevel ?? this.notifLevel,
@@ -6206,6 +6249,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     widgetShowLastCigarette:
         widgetShowLastCigarette ?? this.widgetShowLastCigarette,
     widgetTheme: widgetTheme ?? this.widgetTheme,
+    androidTrialConsent: androidTrialConsent.present
+        ? androidTrialConsent.value
+        : this.androidTrialConsent,
   );
   SettingsRow copyWithCompanion(SettingsCompanion data) {
     return SettingsRow(
@@ -6240,6 +6286,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       widgetTheme: data.widgetTheme.present
           ? data.widgetTheme.value
           : this.widgetTheme,
+      androidTrialConsent: data.androidTrialConsent.present
+          ? data.androidTrialConsent.value
+          : this.androidTrialConsent,
     );
   }
 
@@ -6258,7 +6307,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ..write('trialNudge: $trialNudge, ')
           ..write('countryCode: $countryCode, ')
           ..write('widgetShowLastCigarette: $widgetShowLastCigarette, ')
-          ..write('widgetTheme: $widgetTheme')
+          ..write('widgetTheme: $widgetTheme, ')
+          ..write('androidTrialConsent: $androidTrialConsent')
           ..write(')'))
         .toString();
   }
@@ -6278,6 +6328,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     countryCode,
     widgetShowLastCigarette,
     widgetTheme,
+    androidTrialConsent,
   );
   @override
   bool operator ==(Object other) =>
@@ -6295,7 +6346,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           other.trialNudge == this.trialNudge &&
           other.countryCode == this.countryCode &&
           other.widgetShowLastCigarette == this.widgetShowLastCigarette &&
-          other.widgetTheme == this.widgetTheme);
+          other.widgetTheme == this.widgetTheme &&
+          other.androidTrialConsent == this.androidTrialConsent);
 }
 
 class SettingsCompanion extends UpdateCompanion<SettingsRow> {
@@ -6312,6 +6364,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
   final Value<String?> countryCode;
   final Value<bool> widgetShowLastCigarette;
   final Value<String> widgetTheme;
+  final Value<bool?> androidTrialConsent;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.notifLevel = const Value.absent(),
@@ -6326,6 +6379,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.countryCode = const Value.absent(),
     this.widgetShowLastCigarette = const Value.absent(),
     this.widgetTheme = const Value.absent(),
+    this.androidTrialConsent = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -6341,6 +6395,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.countryCode = const Value.absent(),
     this.widgetShowLastCigarette = const Value.absent(),
     this.widgetTheme = const Value.absent(),
+    this.androidTrialConsent = const Value.absent(),
   });
   static Insertable<SettingsRow> custom({
     Expression<int>? id,
@@ -6356,6 +6411,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Expression<String>? countryCode,
     Expression<bool>? widgetShowLastCigarette,
     Expression<String>? widgetTheme,
+    Expression<bool>? androidTrialConsent,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -6374,6 +6430,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       if (widgetShowLastCigarette != null)
         'widget_show_last_cigarette': widgetShowLastCigarette,
       if (widgetTheme != null) 'widget_theme': widgetTheme,
+      if (androidTrialConsent != null)
+        'android_trial_consent': androidTrialConsent,
     });
   }
 
@@ -6391,6 +6449,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Value<String?>? countryCode,
     Value<bool>? widgetShowLastCigarette,
     Value<String>? widgetTheme,
+    Value<bool?>? androidTrialConsent,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -6407,6 +6466,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       widgetShowLastCigarette:
           widgetShowLastCigarette ?? this.widgetShowLastCigarette,
       widgetTheme: widgetTheme ?? this.widgetTheme,
+      androidTrialConsent: androidTrialConsent ?? this.androidTrialConsent,
     );
   }
 
@@ -6458,6 +6518,9 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     if (widgetTheme.present) {
       map['widget_theme'] = Variable<String>(widgetTheme.value);
     }
+    if (androidTrialConsent.present) {
+      map['android_trial_consent'] = Variable<bool>(androidTrialConsent.value);
+    }
     return map;
   }
 
@@ -6476,7 +6539,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
           ..write('trialNudge: $trialNudge, ')
           ..write('countryCode: $countryCode, ')
           ..write('widgetShowLastCigarette: $widgetShowLastCigarette, ')
-          ..write('widgetTheme: $widgetTheme')
+          ..write('widgetTheme: $widgetTheme, ')
+          ..write('androidTrialConsent: $androidTrialConsent')
           ..write(')'))
         .toString();
   }
@@ -12928,6 +12992,7 @@ typedef $$SettingsTableCreateCompanionBuilder = SettingsCompanion Function({
   Value<String?> countryCode,
   Value<bool> widgetShowLastCigarette,
   Value<String> widgetTheme,
+  Value<bool?> androidTrialConsent,
 });
 typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<int> id,
@@ -12943,6 +13008,7 @@ typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<String?> countryCode,
   Value<bool> widgetShowLastCigarette,
   Value<String> widgetTheme,
+  Value<bool?> androidTrialConsent,
 });
 
 class $$SettingsTableFilterComposer
@@ -13024,6 +13090,11 @@ class $$SettingsTableFilterComposer
     column: $table.widgetTheme,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<bool> get androidTrialConsent => $composableBuilder(
+    column: $table.androidTrialConsent,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SettingsTableOrderingComposer
@@ -13099,6 +13170,11 @@ class $$SettingsTableOrderingComposer
     column: $table.widgetTheme,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get androidTrialConsent => $composableBuilder(
+    column: $table.androidTrialConsent,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -13167,6 +13243,11 @@ class $$SettingsTableAnnotationComposer
     column: $table.widgetTheme,
     builder: (column) => column,
   );
+
+  GeneratedColumn<bool> get androidTrialConsent => $composableBuilder(
+    column: $table.androidTrialConsent,
+    builder: (column) => column,
+  );
 }
 
 class $$SettingsTableTableManager
@@ -13213,6 +13294,7 @@ class $$SettingsTableTableManager
                 Value<String?> countryCode = const Value.absent(),
                 Value<bool> widgetShowLastCigarette = const Value.absent(),
                 Value<String> widgetTheme = const Value.absent(),
+                Value<bool?> androidTrialConsent = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 notifLevel: notifLevel,
@@ -13227,6 +13309,7 @@ class $$SettingsTableTableManager
                 countryCode: countryCode,
                 widgetShowLastCigarette: widgetShowLastCigarette,
                 widgetTheme: widgetTheme,
+                androidTrialConsent: androidTrialConsent,
               ),
           createCompanionCallback:
               ({
@@ -13243,6 +13326,7 @@ class $$SettingsTableTableManager
                 Value<String?> countryCode = const Value.absent(),
                 Value<bool> widgetShowLastCigarette = const Value.absent(),
                 Value<String> widgetTheme = const Value.absent(),
+                Value<bool?> androidTrialConsent = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 notifLevel: notifLevel,
@@ -13257,6 +13341,7 @@ class $$SettingsTableTableManager
                 countryCode: countryCode,
                 widgetShowLastCigarette: widgetShowLastCigarette,
                 widgetTheme: widgetTheme,
+                androidTrialConsent: androidTrialConsent,
               ),
           withReferenceMapper: (p0) => p0
               .map(

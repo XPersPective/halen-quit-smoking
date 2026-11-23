@@ -10,7 +10,7 @@ Hedef doğrudan kullanıcı akışından türetilir:
 - Modeller klinik ölçüm değildir; davranış puanı 0–100 puan olarak gösterilir. Katran etiketi
   akciğerde ölçüm sayılamaz. Kişisel saatlik geçmiş türetilmez; kayıtsız gün bilinmeyendir.
 - İzin OS'den okunur; ret temel işlevi engellemez. Sağlık/paket satın alma teşvik alarmı yok.
-- Premium:7 gün yerel deneme, JSON erişim oluşturamaz; yeniden kurulum engeli tam yerel depoda
+- Premium: İlk açılıştan itibaren 24 saat yerel deneme, JSON erişim oluşturamaz; yeniden kurulum engeli tam yerel depoda
   garanti edilemez. Native mağaza doğrulaması/refund/expiry/retry bağımsız test edilir.
 - Reklam: ilk kurulum/onboarding/trial/premium/SOS/ödeme/sağlık ayrıntısı/widget'ta yok.
   Sonra ücretsiz uygun ekranlarda etiketli orta boy banner; app-open ancak uygun yükleme

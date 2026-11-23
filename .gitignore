@@ -135,5 +135,4 @@ app.*.symbols
 android/key/
 /android/key.properties
 .project-brain/.cache/
-fastlane/report.xml
-fastlane/README.md
+.wrangler/

@@ -87,7 +87,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get commonPremiumLocked =>
-      'Bu özellik Halen Premium\'da. 7 günlük denemen her şeyi ücretsiz kapsıyor.';
+      'Bu özellik Halen Premium’a ve 24 saatlik denemeye dahildir.';
 
   @override
   String get commonUnlockPremium => 'Tek seferlik teklifi gör';
@@ -100,7 +100,27 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get splashPrivacyLine =>
-      'Hesap yok. Halen sunucusu yok. Verilerin sadece bu cihazda.';
+      'Hesap yok. Sağlık ve sigara kayıtların bu cihazda şifreli tutulur.';
+
+  @override
+  String get trialPrivacyTitle => '24 saatlik deneme ve cihaz gizliliği';
+
+  @override
+  String get trialPrivacyBody =>
+      'Uygulamayı silip yeniden yüklediğinde 24 saatlik reklamsız başlangıç süresi yenilenmesin diye Android, cihaz kimliğinin Halen\'e özel tek yönlü özetini ve deneme başlangıç zamanını Halen sunucusuna gönderir. Ham cihaz kimliği, sağlık veya sigara kayıtları ve hesap bilgisi gönderilmez. Denemeyi başlatmak için internet bağlantısı gerekir. Kabul etmezsen veya çevrimdışıysan deneme süresi olmadan ücretsiz özellikleri kullanabilirsin.';
+
+  @override
+  String get trialPrivacyAccept => '24 saatlik denemeyi etkinleştir';
+
+  @override
+  String get trialPrivacyDecline => 'Deneme olmadan devam et';
+
+  @override
+  String get privacyRequestTitle => 'Android deneme kaydının silinmesini iste';
+
+  @override
+  String get privacyRequestBody =>
+      'Android deneme kaydın için tek yönlü bir destek kodu içeren e-posta taslağı açılır. Gizlilik talebini iletmek istiyorsan gözden geçirip kendin gönder.';
 
   @override
   String get splashBackupLine =>
@@ -344,6 +364,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get ctaSmoked => 'Bir sigara içtim';
+
+  @override
+  String get ctaNewPack => 'Yeni paket aldım';
 
   @override
   String get ctaResisted => 'İçmedim, atlattım';
@@ -775,7 +798,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get notifTrialBody =>
-      'Halen Premium denemen iki gün içinde bitiyor. Bir plan seçmek tamamen sende; otomatik ücret alınmaz.';
+      '24 saatlik Halen Premium denemen yakında bitiyor. Halen’i ücretsiz kullanmaya devam edebilirsin. Otomatik ücret alınmaz.';
 
   @override
   String get notifChannelReminders => 'Hatırlatmalar';
@@ -810,7 +833,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get notifTrialNudgeHint =>
-      'Deneme bitmeden, 5. günde tek bir nazik hatırlatma. Sen istemedikçe kapalı.';
+      '24 saatlik denemenin yaklaşık ortasında isteğe bağlı bildirim.';
 
   @override
   String get notifQuitSupport => 'Bırakma günü desteği (ilk 72 saat)';
@@ -913,9 +936,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Satın almanın beklemede — tamamlandığında erişim açılır.';
 
   @override
-  String trialDaysLeft(int n) {
-    return 'Deneme: $n gün kaldı';
-  }
+  String get trialActiveBadge => 'Deneme etkin';
+
+  @override
+  String get trialActiveTitle => 'Premium denemesi etkin';
 
   @override
   String get trialExpiredFree =>
@@ -946,7 +970,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get aboutPrivacyBody =>
-      'Hesap, sunucu ve analitik yoktur. Kayıtların cihazında şifreli yerel veritabanında tutulur; dışa aktarma ve silme seçenekleri Ayarlar\'dadır.';
+      'Hesap ve analitik yoktur. Sağlık ve sigara kayıtların bu cihazda şifreli veritabanında kalır. Android\'de denemenin yeniden kurulumla sıfırlanmaması için Halen\'e özel cihaz kimliği özeti ve deneme başlangıcı Halen sunucusuna gönderilir; ham cihaz kimliği veya sağlık verisi gönderilmez.';
 
   @override
   String get aboutSourceCode => 'Kaynak kodunu incele';
@@ -981,7 +1005,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsPrivacy =>
-      'Gizlilik: hesap yok, Halen sunucusu yok, analitik yok. Kayıtların bu cihazda kalır.';
+      'Gizlilik: hesap ve analitik yok. Sağlık kayıtların cihazda; Android deneme için tek yönlü cihaz kimliği özeti gönderir.';
 
   @override
   String get settingsPrivacyPolicy => 'Gizlilik politikası';
@@ -1026,11 +1050,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallFeaturePrivacy =>
-      '%100 yerel gizlilik: hesap yok, Halen sunucusu yok, şifreli yerel kasa';
+      'Sağlık kayıtların cihazda şifreli kalır; Android 24 saatlik denemeyi tek yönlü cihaz kimliği özetiyle doğrular';
 
   @override
   String get paywallTrialNote =>
-      '7 günlük ücretsiz deneme ilk açılışta başlar — kart gerekmez.';
+      '24 saatlik ücretsiz deneme ilk açılışta başlar. Kart gerekmez.';
 
   @override
   String get planTierLifetime => 'Ömür Boyu Erişim';
@@ -1046,25 +1070,25 @@ class AppLocalizationsTr extends AppLocalizations {
   String get paywallTimelineToday => 'Bugün';
 
   @override
-  String get paywallTimelineTitle => '7 günlük Halen Premium denemen';
+  String get paywallTimelineTitle => '24 saatlik Halen Premium denemen';
 
   @override
   String get paywallTimelineTodayDesc =>
       'Tam erişim kart olmadan başlar; otomatik ücret alınmaz.';
 
   @override
-  String get paywallTimelineReminder => '5. Gün';
+  String get paywallTimelineReminder => '12 saat sonra';
 
   @override
   String get paywallTimelineReminderDesc =>
-      'İsteğe bağlı: Ayarlar\'dan \"Deneme hatırlatması\"nı açarsan 5. günde tek bir nazik hatırlatma.';
+      'Bir kez bildirim almak için Ayarlar’da Deneme hatırlatması’nı aç.';
 
   @override
-  String get paywallTimelineBilling => '7. Gün';
+  String get paywallTimelineBilling => '24 saat sonra';
 
   @override
   String get paywallTimelineBillingDesc =>
-      'Deneme biter; tek bir satın almayla ömür boyu erişimi aç ya da ücretsiz sürümle devam et. Otomatik ücret alınmaz.';
+      'Ücretsiz sürümde uygun ekranlarda reklam görürsün. Reklamları kaldırmak için ömür boyu erişim satın alabilirsin. Otomatik ücret alınmaz.';
 
   @override
   String get paywallCtaLifetime => 'Ömür Boyu Sahip Ol';
@@ -1081,7 +1105,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallPrivacyBody =>
-      'Halen, kişisel verileri, sigara kayıtlarını veya kriz verilerini harici sunuculara göndermez. Veritabanı cihazında SQLCipher ile şifreli olarak saklanır; dışa aktarma ve silme seçenekleri Ayarlar\'dadır.';
+      'Hesap ve analitik yoktur. Sağlık, sigara ve kriz destek kayıtları şifreli yerel veritabanında kalır. Yalnızca Android\'de 24 saatlik denemenin yeniden kurulumla sıfırlanmaması için Halen\'e özel tek yönlü cihaz kimliği özeti ve deneme başlangıç zamanı Halen\'in Cloudflare hizmetine gönderilir. Ham cihaz kimliği ve sağlık kayıtları gönderilmez. Yerel kayıtları Ayarlar\'dan dışa aktarabilir veya silebilirsin.';
 
   @override
   String get paywallLegalDisclaimer =>

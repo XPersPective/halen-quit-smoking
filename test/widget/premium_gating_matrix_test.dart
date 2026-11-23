@@ -15,21 +15,9 @@ import '../helpers/pump_app.dart';
 /// lock must open for a trial user and an owner. Owner audit 2026-10-02: only
 /// the Plan screen was gated while the paywall promised five more things.
 void main() {
-  const free = PremiumAccess(
-    storeOwned: false,
-    trialActive: false,
-    trialDaysLeft: 0,
-  );
-  const owner = PremiumAccess(
-    storeOwned: true,
-    trialActive: false,
-    trialDaysLeft: 0,
-  );
-  const trial = PremiumAccess(
-    storeOwned: false,
-    trialActive: true,
-    trialDaysLeft: 5,
-  );
+  const free = PremiumAccess(storeOwned: false, trialActive: false);
+  const owner = PremiumAccess(storeOwned: true, trialActive: false);
+  const trial = PremiumAccess(storeOwned: false, trialActive: true);
 
   Future<AppDatabase> pumpWith(
     WidgetTester tester,
@@ -45,9 +33,7 @@ void main() {
       db: db,
       child: screen,
       scrollable: false,
-      extraOverrides: [
-        entitlementProvider.overrideWith((ref) async => access),
-      ],
+      extraOverrides: [entitlementProvider.overrideWith((ref) async => access)],
     );
     await tester.pumpAndSettle();
     return db;

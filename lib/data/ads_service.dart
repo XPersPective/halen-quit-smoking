@@ -28,32 +28,22 @@ class HalenAds {
 
   /// Google's published TEST app id / unit ids — never real inventory.
   /// Release uses the publisher's real ids from the AdMob account.
-  static const testAppIdAndroid =
-      'ca-app-pub-3940256099942544~3347511713';
+  static const testAppIdAndroid = 'ca-app-pub-3940256099942544~3347511713';
   static const testAppIdIos = 'ca-app-pub-3940256099942544~1458002511';
-  static const testBannerUnitAndroid =
-      'ca-app-pub-3940256099942544/6300978111';
+  static const testBannerUnitAndroid = 'ca-app-pub-3940256099942544/6300978111';
   static const testBannerUnitIos = 'ca-app-pub-3940256099942544/2934735716';
   static const testAppOpenUnitAndroid =
       'ca-app-pub-3940256099942544/3419835294';
   static const testAppOpenUnitIos = 'ca-app-pub-3940256099942544/5662855259';
 
-  /// Real units come only from `--dart-define` at release time
-  /// (`fastlane build_release` reads the publishing root's app-ids.env); this
-  /// open-source repo never holds them. Without them — a fresh clone, debug,
-  /// tests — Google's test units are used, so no build can generate live
-  /// traffic on someone's account by accident.
+  /// Publisher units are injected at build time. Debug builds use test units.
   static const _bannerUnitAndroid = String.fromEnvironment(
     'ADMOB_BANNER_ANDROID',
     defaultValue: testBannerUnitAndroid,
   );
-  static const _bannerUnitIos = String.fromEnvironment(
-    'ADMOB_BANNER_IOS',
-    defaultValue: testBannerUnitIos,
-  );
+  static const _bannerUnitIos = String.fromEnvironment('ADMOB_BANNER_IOS');
 
-  static bool get platformSupported =>
-      Platform.isAndroid || Platform.isIOS;
+  static bool get platformSupported => Platform.isAndroid || Platform.isIOS;
 
   /// Initializes the SDK once, on mobile only. Never throws: ads must not
   /// break the app (brain §2).
@@ -61,7 +51,7 @@ class HalenAds {
     if (!platformSupported || _initialized) {
       return;
     }
-    _initWork ??= _initGuarded();
+    _initWork ??= _initGuarded().whenComplete(() => _initWork = null);
     await _initWork;
   }
 
@@ -70,9 +60,9 @@ class HalenAds {
       await MobileAds.instance.initialize();
     } catch (_) {
       // SDK init failure must never surface to the user.
-    } finally {
-      _initialized = true;
+      return;
     }
+    _initialized = true;
   }
 
   /// UMP consent: asks Google when the user may be in a regulated region.
@@ -82,22 +72,19 @@ class HalenAds {
       return false;
     }
     try {
-      await ensureInitialized();
       final info = ConsentInformation.instance;
       final done = Completer<bool>();
-      info.requestConsentInfoUpdate(
-        ConsentRequestParameters(),
-        () async {
-          try {
-            await ConsentForm.loadAndShowConsentFormIfRequired((_) {});
-            done.complete(await info.canRequestAds());
-          } catch (_) {
-            done.complete(false);
-          }
-        },
-        (formError) => done.complete(false),
-      );
-      return await done.future;
+      info.requestConsentInfoUpdate(ConsentRequestParameters(), () async {
+        try {
+          await ConsentForm.loadAndShowConsentFormIfRequired((_) {});
+          done.complete(await info.canRequestAds());
+        } catch (_) {
+          done.complete(false);
+        }
+      }, (formError) => done.complete(false));
+      if (!await done.future.timeout(const Duration(seconds: 45))) return false;
+      await ensureInitialized();
+      return _initialized;
     } catch (_) {
       return false;
     }
@@ -124,10 +111,13 @@ class HalenAds {
     final unit = kReleaseMode
         ? (Platform.isIOS ? _bannerUnitIos : _bannerUnitAndroid)
         : (Platform.isIOS ? testBannerUnitIos : testBannerUnitAndroid);
+    if (unit.isEmpty) return null;
     final ad = BannerAd(
       adUnitId: unit,
       size: AdSize.banner,
-      request: const AdRequest(),
+      request: Platform.isIOS
+          ? const AdRequest(nonPersonalizedAds: true)
+          : const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) => onLoaded(),
         onAdFailedToLoad: (ad, _) => ad.dispose(),
@@ -140,8 +130,10 @@ class HalenAds {
   /// ([AdPolicy.appOpenAllowed], 1/24h) is implemented and tested, the
   /// format needs a native or third-party solution — tracked in brain.
 
-  bool appOpenAllowedNow({required bool trialActive,
-      required bool premiumOwned}) {
+  bool appOpenAllowedNow({
+    required bool trialActive,
+    required bool premiumOwned,
+  }) {
     return AdPolicy.appOpenAllowed(
       trialActive: trialActive,
       premiumOwned: premiumOwned,

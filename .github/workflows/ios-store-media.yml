@@ -1,0 +1,111 @@
+name: Halen iOS store screenshots
+
+on:
+  push:
+    branches: [codex/halen-ios-screenshots]
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: macos-15
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        device: [iphone, ipad]
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+      STORE_MEDIA_DIR: ${{ github.workspace }}/store-media
+      STORE_DEVICE_FAMILY: ${{ matrix.device }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.2'
+
+      - name: Boot an Apple screenshot-size simulator
+        run: |
+          xcrun simctl list devices available -j > "$RUNNER_TEMP/ios-devices.json"
+          device_id="$(python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          inventory = Path(os.environ["RUNNER_TEMP"]) / "ios-devices.json"
+          devices = json.loads(inventory.read_text())["devices"]
+          family = os.environ["STORE_DEVICE_FAMILY"]
+          names = {
+              "iphone": ("iPhone 17 Pro", "iPhone 17", "iPhone 16 Pro", "iPhone 16"),
+              "ipad": ("iPad Pro 13-inch (M5)", "iPad Pro 13-inch (M4)"),
+          }[family]
+          for name in names:
+              for runtime in sorted(devices, reverse=True):
+                  if "iOS" not in runtime:
+                      continue
+                  for device in devices[runtime]:
+                      if device["isAvailable"] and device["name"] == name:
+                          print(device["udid"])
+                          raise SystemExit(0)
+          raise SystemExit("No supported Apple screenshot-size simulator")
+          PY
+          )"
+          echo "STORE_DEVICE_ID=$device_id" >> "$GITHUB_ENV"
+          xcrun simctl boot "$device_id" || true
+          xcrun simctl bootstatus "$device_id" -b
+          xcrun simctl ui "$device_id" appearance light
+          xcrun simctl status_bar "$device_id" override --time '9:41' \
+            --dataNetwork wifi --wifiMode active --wifiBars 3 --cellularMode active \
+            --cellularBars 4 --batteryState discharging --batteryLevel 100
+
+      - name: Capture real Halen screens
+        run: |
+          flutter pub get --enforce-lockfile
+          flutter drive --no-pub -d "$STORE_DEVICE_ID" \
+            --driver=test_driver/store_media_driver.dart \
+            --target=integration_test/store_media_test.dart
+
+      - name: Verify Apple-ready images
+        run: |
+          python3 - <<'PY'
+          import os
+          import struct
+          import subprocess
+          from pathlib import Path
+
+          root = Path(os.environ["STORE_MEDIA_DIR"])
+          accepted = {
+              "iphone": {(1179, 2556), (1206, 2622)},
+              "ipad": {(2048, 2732), (2064, 2752)},
+          }[os.environ["STORE_DEVICE_FAMILY"]]
+          images = sorted(root.glob("*.png"))
+          if {file.stem for file in images} != {"01-today", "02-analytics", "03-plan"}:
+              raise SystemExit("Expected all three Halen screens")
+          for image in images:
+              with image.open("rb") as stream:
+                  header = stream.read(29)
+              if header[:8] != b"\x89PNG\r\n\x1a\n" or header[12:16] != b"IHDR":
+                  raise SystemExit(f"Invalid PNG: {image.name}")
+              width, height = struct.unpack(">II", header[16:24])
+              if (width, height) not in accepted:
+                  raise SystemExit(f"Unexpected viewport {width}x{height}: {image.name}")
+              jpeg = image.with_suffix(".jpg")
+              subprocess.run(
+                  ["sips", "-s", "format", "jpeg", "-s", "formatOptions", "best", str(image), "--out", str(jpeg)],
+                  check=True,
+                  stdout=subprocess.DEVNULL,
+              )
+              print(f"{jpeg.name}: {width}x{height}")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: halen-store-media-${{ matrix.device }}
+          path: store-media/*.jpg
+          if-no-files-found: error
+          retention-days: 7

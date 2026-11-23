@@ -30,7 +30,7 @@ enum PremiumFeature {
   noAds,
 }
 
-/// Shows [child] when Premium (or the 7-day trial) is active, otherwise a
+/// Shows [child] when Premium (or the 24-hour trial) is active, otherwise a
 /// calm locked card that links to the paywall. Never used for crisis support.
 class PremiumGate extends ConsumerWidget {
   const PremiumGate({
