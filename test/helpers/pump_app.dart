@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:drift/drift.dart' hide Column;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:halen/app.dart';
 import 'package:halen/data/db/app_database.dart';
 import 'package:halen/data/db/connection.dart';
+import 'package:halen/data/android_trial_start_store.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/application/providers.dart';
+import 'package:halen/application/entitlement_providers.dart';
 import 'package:halen/core/theme.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/design/body_clock.dart';
 import 'package:riverpod/misc.dart' show Override;
+
+class _DeterministicAndroidTrialStartStore extends AndroidTrialStartStore {
+  @override
+  Future<DateTime?> resolve({
+    required DateTime? recorded,
+    required bool consented,
+  }) async => consented ? recorded ?? DateTime.now() : null;
+}
+
+final androidTrialTestOverride = androidTrialStartStoreProvider
+    .overrideWithValue(_DeterministicAndroidTrialStartStore());
 
 /// Boots the real app with an in-memory database override and returns the
 /// database handle so tests can assert on persisted rows. [extraOverrides]
@@ -19,13 +33,20 @@ import 'package:riverpod/misc.dart' show Override;
 Future<AppDatabase> pumpHalenApp(
   WidgetTester tester, {
   AppDatabase? database,
+  bool? androidTrialConsent = true,
   List<Override> extraOverrides = const [],
 }) async {
   final db = database ?? AppDatabase(inMemoryExecutor());
+  if (androidTrialConsent != null) {
+    await db.settingsDao.updateSettings(
+      SettingsCompanion(androidTrialConsent: Value(androidTrialConsent)),
+    );
+  }
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
         databaseProvider.overrideWithValue(db),
+        androidTrialTestOverride,
         ...extraOverrides,
       ],
       child: const HalenApp(),
@@ -47,14 +68,19 @@ void useLargeTestSurface(WidgetTester tester) {
 Future<AppDatabase> seedOnboardedProfile() async {
   final db = AppDatabase(inMemoryExecutor());
   await db.profileDao.saveUserProfile(locale: 'en', ageBand: AgeBand.y25to34);
-  await db.profileDao.saveSmokingProfile(SmokingProfileCompanion.insert(
-    baselineCpd: 15,
-    ttfcBand: TtfcBand.five30,
-    pricePerPack: 100,
-    targetMode: TargetMode.reduce,
-    pace: Pace.standard,
-    startedAt: DateTime.now(),
-  ));
+  await db.profileDao.saveSmokingProfile(
+    SmokingProfileCompanion.insert(
+      baselineCpd: 15,
+      ttfcBand: TtfcBand.five30,
+      pricePerPack: 100,
+      targetMode: TargetMode.reduce,
+      pace: Pace.standard,
+      startedAt: DateTime.now(),
+    ),
+  );
+  await db.settingsDao.updateSettings(
+    const SettingsCompanion(androidTrialConsent: Value(true)),
+  );
   return db;
 }
 
@@ -85,6 +111,7 @@ Future<void> pumpModuleWidget(
     ProviderScope(
       overrides: [
         databaseProvider.overrideWithValue(db),
+        androidTrialTestOverride,
         ...extraOverrides,
       ],
       child: MaterialApp(

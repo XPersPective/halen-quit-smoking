@@ -35,7 +35,10 @@ void main() {
     String? route;
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [databaseProvider.overrideWithValue(db)],
+        overrides: [
+          databaseProvider.overrideWithValue(db),
+          androidTrialTestOverride,
+        ],
         child: MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -67,11 +70,7 @@ void main() {
     await db.settingsDao.updateSettings(
       SettingsCompanion(trialStartedAt: Value(trialStart)),
     );
-    await pumpModuleWidget(
-      tester,
-      db: db,
-      child: const PremiumBadge(),
-    );
+    await pumpModuleWidget(tester, db: db, child: const PremiumBadge());
     await tester.pumpAndSettle();
     expect(
       find.text('Trial active'),
@@ -116,9 +115,7 @@ void main() {
     );
   });
 
-  testWidgets('widget settings write through to the database', (
-    tester,
-  ) async {
+  testWidgets('widget settings write through to the database', (tester) async {
     await pumpModuleWidget(
       tester,
       db: db,

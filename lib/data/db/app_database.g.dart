@@ -5731,6 +5731,19 @@ class $SettingsTable extends Settings
         type: DriftSqlType.dateTime,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _androidTrialConsentMeta =
+      const VerificationMeta('androidTrialConsent');
+  @override
+  late final GeneratedColumn<bool> androidTrialConsent = GeneratedColumn<bool>(
+    'android_trial_consent',
+    aliasedName,
+    true,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("android_trial_consent" IN (0, 1))',
+    ),
+  );
   static const VerificationMeta _preLogPauseSecondsMeta =
       const VerificationMeta('preLogPauseSeconds');
   @override
@@ -5828,6 +5841,7 @@ class $SettingsTable extends Settings
     reduceMotion,
     haptics,
     trialStartedAt,
+    androidTrialConsent,
     preLogPauseSeconds,
     riskyWindowReminder,
     appLocale,
@@ -5872,6 +5886,15 @@ class $SettingsTable extends Settings
         trialStartedAt.isAcceptableOrUnknown(
           data['trial_started_at']!,
           _trialStartedAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('android_trial_consent')) {
+      context.handle(
+        _androidTrialConsentMeta,
+        androidTrialConsent.isAcceptableOrUnknown(
+          data['android_trial_consent']!,
+          _androidTrialConsentMeta,
         ),
       );
     }
@@ -5969,6 +5992,10 @@ class $SettingsTable extends Settings
         DriftSqlType.dateTime,
         data['${effectivePrefix}trial_started_at'],
       ),
+      androidTrialConsent: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}android_trial_consent'],
+      ),
       preLogPauseSeconds: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}pre_log_pause_seconds'],
@@ -6021,6 +6048,10 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
   final bool haptics;
   final DateTime? trialStartedAt;
 
+  /// Null until the Android trial-continuity disclosure is answered.
+  /// Declining means no server-backed introductory trial is granted.
+  final bool? androidTrialConsent;
+
   /// Opt-in pre-log pause in seconds (module report §12.③). The record is
   /// still written immediately; the pause only offers a window to undo it.
   /// 0 = off, the default.
@@ -6055,6 +6086,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     required this.reduceMotion,
     required this.haptics,
     this.trialStartedAt,
+    this.androidTrialConsent,
     required this.preLogPauseSeconds,
     required this.riskyWindowReminder,
     this.appLocale,
@@ -6082,6 +6114,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     if (!nullToAbsent || trialStartedAt != null) {
       map['trial_started_at'] = Variable<DateTime>(trialStartedAt);
     }
+    if (!nullToAbsent || androidTrialConsent != null) {
+      map['android_trial_consent'] = Variable<bool>(androidTrialConsent);
+    }
     map['pre_log_pause_seconds'] = Variable<int>(preLogPauseSeconds);
     map['risky_window_reminder'] = Variable<bool>(riskyWindowReminder);
     if (!nullToAbsent || appLocale != null) {
@@ -6106,6 +6141,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       trialStartedAt: trialStartedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(trialStartedAt),
+      androidTrialConsent: androidTrialConsent == null && nullToAbsent
+          ? const Value.absent()
+          : Value(androidTrialConsent),
       preLogPauseSeconds: Value(preLogPauseSeconds),
       riskyWindowReminder: Value(riskyWindowReminder),
       appLocale: appLocale == null && nullToAbsent
@@ -6136,6 +6174,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       reduceMotion: serializer.fromJson<bool>(json['reduceMotion']),
       haptics: serializer.fromJson<bool>(json['haptics']),
       trialStartedAt: serializer.fromJson<DateTime?>(json['trialStartedAt']),
+      androidTrialConsent: serializer.fromJson<bool?>(
+        json['androidTrialConsent'],
+      ),
       preLogPauseSeconds: serializer.fromJson<int>(json['preLogPauseSeconds']),
       riskyWindowReminder: serializer.fromJson<bool>(
         json['riskyWindowReminder'],
@@ -6163,6 +6204,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       'reduceMotion': serializer.toJson<bool>(reduceMotion),
       'haptics': serializer.toJson<bool>(haptics),
       'trialStartedAt': serializer.toJson<DateTime?>(trialStartedAt),
+      'androidTrialConsent': serializer.toJson<bool?>(androidTrialConsent),
       'preLogPauseSeconds': serializer.toJson<int>(preLogPauseSeconds),
       'riskyWindowReminder': serializer.toJson<bool>(riskyWindowReminder),
       'appLocale': serializer.toJson<String?>(appLocale),
@@ -6182,6 +6224,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     bool? reduceMotion,
     bool? haptics,
     Value<DateTime?> trialStartedAt = const Value.absent(),
+    Value<bool?> androidTrialConsent = const Value.absent(),
     int? preLogPauseSeconds,
     bool? riskyWindowReminder,
     Value<String?> appLocale = const Value.absent(),
@@ -6198,6 +6241,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     trialStartedAt: trialStartedAt.present
         ? trialStartedAt.value
         : this.trialStartedAt,
+    androidTrialConsent: androidTrialConsent.present
+        ? androidTrialConsent.value
+        : this.androidTrialConsent,
     preLogPauseSeconds: preLogPauseSeconds ?? this.preLogPauseSeconds,
     riskyWindowReminder: riskyWindowReminder ?? this.riskyWindowReminder,
     appLocale: appLocale.present ? appLocale.value : this.appLocale,
@@ -6221,6 +6267,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       trialStartedAt: data.trialStartedAt.present
           ? data.trialStartedAt.value
           : this.trialStartedAt,
+      androidTrialConsent: data.androidTrialConsent.present
+          ? data.androidTrialConsent.value
+          : this.androidTrialConsent,
       preLogPauseSeconds: data.preLogPauseSeconds.present
           ? data.preLogPauseSeconds.value
           : this.preLogPauseSeconds,
@@ -6252,6 +6301,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ..write('reduceMotion: $reduceMotion, ')
           ..write('haptics: $haptics, ')
           ..write('trialStartedAt: $trialStartedAt, ')
+          ..write('androidTrialConsent: $androidTrialConsent, ')
           ..write('preLogPauseSeconds: $preLogPauseSeconds, ')
           ..write('riskyWindowReminder: $riskyWindowReminder, ')
           ..write('appLocale: $appLocale, ')
@@ -6271,6 +6321,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     reduceMotion,
     haptics,
     trialStartedAt,
+    androidTrialConsent,
     preLogPauseSeconds,
     riskyWindowReminder,
     appLocale,
@@ -6289,6 +6340,7 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           other.reduceMotion == this.reduceMotion &&
           other.haptics == this.haptics &&
           other.trialStartedAt == this.trialStartedAt &&
+          other.androidTrialConsent == this.androidTrialConsent &&
           other.preLogPauseSeconds == this.preLogPauseSeconds &&
           other.riskyWindowReminder == this.riskyWindowReminder &&
           other.appLocale == this.appLocale &&
@@ -6305,6 +6357,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
   final Value<bool> reduceMotion;
   final Value<bool> haptics;
   final Value<DateTime?> trialStartedAt;
+  final Value<bool?> androidTrialConsent;
   final Value<int> preLogPauseSeconds;
   final Value<bool> riskyWindowReminder;
   final Value<String?> appLocale;
@@ -6319,6 +6372,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.reduceMotion = const Value.absent(),
     this.haptics = const Value.absent(),
     this.trialStartedAt = const Value.absent(),
+    this.androidTrialConsent = const Value.absent(),
     this.preLogPauseSeconds = const Value.absent(),
     this.riskyWindowReminder = const Value.absent(),
     this.appLocale = const Value.absent(),
@@ -6334,6 +6388,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.reduceMotion = const Value.absent(),
     this.haptics = const Value.absent(),
     this.trialStartedAt = const Value.absent(),
+    this.androidTrialConsent = const Value.absent(),
     this.preLogPauseSeconds = const Value.absent(),
     this.riskyWindowReminder = const Value.absent(),
     this.appLocale = const Value.absent(),
@@ -6349,6 +6404,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Expression<bool>? reduceMotion,
     Expression<bool>? haptics,
     Expression<DateTime>? trialStartedAt,
+    Expression<bool>? androidTrialConsent,
     Expression<int>? preLogPauseSeconds,
     Expression<bool>? riskyWindowReminder,
     Expression<String>? appLocale,
@@ -6364,6 +6420,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       if (reduceMotion != null) 'reduce_motion': reduceMotion,
       if (haptics != null) 'haptics': haptics,
       if (trialStartedAt != null) 'trial_started_at': trialStartedAt,
+      if (androidTrialConsent != null)
+        'android_trial_consent': androidTrialConsent,
       if (preLogPauseSeconds != null)
         'pre_log_pause_seconds': preLogPauseSeconds,
       if (riskyWindowReminder != null)
@@ -6384,6 +6442,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Value<bool>? reduceMotion,
     Value<bool>? haptics,
     Value<DateTime?>? trialStartedAt,
+    Value<bool?>? androidTrialConsent,
     Value<int>? preLogPauseSeconds,
     Value<bool>? riskyWindowReminder,
     Value<String?>? appLocale,
@@ -6399,6 +6458,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       reduceMotion: reduceMotion ?? this.reduceMotion,
       haptics: haptics ?? this.haptics,
       trialStartedAt: trialStartedAt ?? this.trialStartedAt,
+      androidTrialConsent: androidTrialConsent ?? this.androidTrialConsent,
       preLogPauseSeconds: preLogPauseSeconds ?? this.preLogPauseSeconds,
       riskyWindowReminder: riskyWindowReminder ?? this.riskyWindowReminder,
       appLocale: appLocale ?? this.appLocale,
@@ -6435,6 +6495,9 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     if (trialStartedAt.present) {
       map['trial_started_at'] = Variable<DateTime>(trialStartedAt.value);
     }
+    if (androidTrialConsent.present) {
+      map['android_trial_consent'] = Variable<bool>(androidTrialConsent.value);
+    }
     if (preLogPauseSeconds.present) {
       map['pre_log_pause_seconds'] = Variable<int>(preLogPauseSeconds.value);
     }
@@ -6470,6 +6533,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
           ..write('reduceMotion: $reduceMotion, ')
           ..write('haptics: $haptics, ')
           ..write('trialStartedAt: $trialStartedAt, ')
+          ..write('androidTrialConsent: $androidTrialConsent, ')
           ..write('preLogPauseSeconds: $preLogPauseSeconds, ')
           ..write('riskyWindowReminder: $riskyWindowReminder, ')
           ..write('appLocale: $appLocale, ')
@@ -12921,6 +12985,7 @@ typedef $$SettingsTableCreateCompanionBuilder = SettingsCompanion Function({
   Value<bool> reduceMotion,
   Value<bool> haptics,
   Value<DateTime?> trialStartedAt,
+  Value<bool?> androidTrialConsent,
   Value<int> preLogPauseSeconds,
   Value<bool> riskyWindowReminder,
   Value<String?> appLocale,
@@ -12936,6 +13001,7 @@ typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<bool> reduceMotion,
   Value<bool> haptics,
   Value<DateTime?> trialStartedAt,
+  Value<bool?> androidTrialConsent,
   Value<int> preLogPauseSeconds,
   Value<bool> riskyWindowReminder,
   Value<String?> appLocale,
@@ -12987,6 +13053,11 @@ class $$SettingsTableFilterComposer
 
   ColumnFilters<DateTime> get trialStartedAt => $composableBuilder(
     column: $table.trialStartedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get androidTrialConsent => $composableBuilder(
+    column: $table.androidTrialConsent,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -13065,6 +13136,11 @@ class $$SettingsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get androidTrialConsent => $composableBuilder(
+    column: $table.androidTrialConsent,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get preLogPauseSeconds => $composableBuilder(
     column: $table.preLogPauseSeconds,
     builder: (column) => ColumnOrderings(column),
@@ -13132,6 +13208,11 @@ class $$SettingsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get trialStartedAt => $composableBuilder(
     column: $table.trialStartedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get androidTrialConsent => $composableBuilder(
+    column: $table.androidTrialConsent,
     builder: (column) => column,
   );
 
@@ -13206,6 +13287,7 @@ class $$SettingsTableTableManager
                 Value<bool> reduceMotion = const Value.absent(),
                 Value<bool> haptics = const Value.absent(),
                 Value<DateTime?> trialStartedAt = const Value.absent(),
+                Value<bool?> androidTrialConsent = const Value.absent(),
                 Value<int> preLogPauseSeconds = const Value.absent(),
                 Value<bool> riskyWindowReminder = const Value.absent(),
                 Value<String?> appLocale = const Value.absent(),
@@ -13220,6 +13302,7 @@ class $$SettingsTableTableManager
                 reduceMotion: reduceMotion,
                 haptics: haptics,
                 trialStartedAt: trialStartedAt,
+                androidTrialConsent: androidTrialConsent,
                 preLogPauseSeconds: preLogPauseSeconds,
                 riskyWindowReminder: riskyWindowReminder,
                 appLocale: appLocale,
@@ -13236,6 +13319,7 @@ class $$SettingsTableTableManager
                 Value<bool> reduceMotion = const Value.absent(),
                 Value<bool> haptics = const Value.absent(),
                 Value<DateTime?> trialStartedAt = const Value.absent(),
+                Value<bool?> androidTrialConsent = const Value.absent(),
                 Value<int> preLogPauseSeconds = const Value.absent(),
                 Value<bool> riskyWindowReminder = const Value.absent(),
                 Value<String?> appLocale = const Value.absent(),
@@ -13250,6 +13334,7 @@ class $$SettingsTableTableManager
                 reduceMotion: reduceMotion,
                 haptics: haptics,
                 trialStartedAt: trialStartedAt,
+                androidTrialConsent: androidTrialConsent,
                 preLogPauseSeconds: preLogPauseSeconds,
                 riskyWindowReminder: riskyWindowReminder,
                 appLocale: appLocale,

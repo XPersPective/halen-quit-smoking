@@ -1,7 +1,7 @@
 name: halen
 description: "Halen: Quit Smoking Tracker — Reduce at your pace. Quit for good."
 publish_to: "none"
-version: 1.4.1+7
+version: 1.4.2+8
 
 environment:
   sdk: ^3.13.2
@@ -22,6 +22,7 @@ dependencies:
 
   # Secure key storage (Android Keystore / iOS Keychain)
   flutter_secure_storage: ^10.0.0
+  crypto: ^3.0.7
 
   # Platform integrations
   in_app_purchase: ^3.2.0

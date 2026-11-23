@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/db/app_database.dart';
+import '../data/android_trial_start_store.dart';
 import '../data/purchase_service.dart';
 import '../data/trial_start_store.dart';
 import '../domain/entities.dart';
@@ -16,6 +17,12 @@ import 'settings_screen_controller.dart';
 /// Single purchase service wired to the app database.
 final purchaseServiceProvider = Provider<PurchaseService>(
   (ref) => PurchaseService(ref.watch(databaseProvider)),
+);
+
+/// Injectable so entitlement flows can be tested without Android platform or
+/// network dependencies.
+final androidTrialStartStoreProvider = Provider<AndroidTrialStartStore>(
+  (ref) => AndroidTrialStartStore(),
 );
 
 /// Owned-state changes written by the purchase stream (a finished purchase,
@@ -34,6 +41,13 @@ final _trialStartProvider = FutureProvider<DateTime?>((ref) async {
   final now = DateTime.now();
   final startedAt = !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS
       ? await TrialStartStore().keepEarliest(recorded: recorded, now: now)
+      : !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+      ? await ref
+            .watch(androidTrialStartStoreProvider)
+            .resolve(
+              recorded: recorded,
+              consented: settings.androidTrialConsent == true,
+            )
       : recorded ?? now;
   if (startedAt != null &&
       (recorded == null || !recorded.isAtSameMomentAs(startedAt))) {

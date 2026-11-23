@@ -101,7 +101,28 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get splashPrivacyLine =>
-      'Kein Konto. Kein Halen-Server. Deine Daten bleiben auf diesem Gerät.';
+      'Kein Konto. Gesundheits- und Rauchdaten bleiben verschlüsselt auf diesem Gerät.';
+
+  @override
+  String get trialPrivacyTitle => '24-Stunden-Testphase und Datenschutz';
+
+  @override
+  String get trialPrivacyBody =>
+      'Damit die 24-stündige werbefreie Startphase nach einer Neuinstallation nicht erneut beginnt, sendet Android einen einmalig gehashten, app-spezifischen Gerätebezeichner und den Startzeitpunkt der Testphase an Halen. Die rohe Gerätekennung, Gesundheits- oder Rauchdaten und Kontodaten werden nicht gesendet. Zum Starten der Testphase ist eine Internetverbindung erforderlich. Wenn du ablehnst oder offline bist, kannst du die kostenlosen Funktionen ohne Testphase nutzen.';
+
+  @override
+  String get trialPrivacyAccept => '24-Stunden-Testphase aktivieren';
+
+  @override
+  String get trialPrivacyDecline => 'Ohne Testphase fortfahren';
+
+  @override
+  String get privacyRequestTitle =>
+      'Löschung des Android-Testdatensatzes anfragen';
+
+  @override
+  String get privacyRequestBody =>
+      'Ein E-Mail-Entwurf mit einem einmaligen Support-Code für deinen Android-Testdatensatz wird geöffnet. Prüfe ihn und sende ihn nur, wenn du eine Datenschutzanfrage stellen möchtest.';
 
   @override
   String get splashBackupLine =>
@@ -959,7 +980,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get aboutPrivacyBody =>
-      'Es gibt kein Konto, keinen Server und keine Analyse. Deine Einträge bleiben in einer verschlüsselten lokalen Datenbank auf diesem Gerät; Export und Löschung findest du in den Einstellungen.';
+      'Es gibt kein Konto und keine Analyse. Gesundheits- und Rauchdaten bleiben in der verschlüsselten Datenbank auf diesem Gerät. Unter Android werden ein app-spezifischer Geräte-ID-Hash und der Startzeitpunkt an Halens Server gesendet, damit die Testphase nach einer Neuinstallation nicht neu beginnt; die rohe Geräte-ID und Gesundheitsdaten werden nicht gesendet.';
 
   @override
   String get aboutSourceCode => 'Quelltext ansehen';
@@ -994,7 +1015,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get settingsPrivacy =>
-      'Datenschutz: kein Konto, keine Server, keine Analyse. Deine Einträge bleiben auf diesem Gerät.';
+      'Datenschutz: kein Konto und keine Analyse. Gesundheitsdaten bleiben lokal; Android sendet einen Geräte-ID-Hash für die Testphase.';
 
   @override
   String get settingsPrivacyPolicy => 'Datenschutzerklärung';
@@ -1039,7 +1060,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallFeaturePrivacy =>
-      '100 % Privatsphäre: kein Konto, kein Halen-Server, verschlüsselter lokaler Tresor';
+      'Gesundheitsdaten bleiben verschlüsselt lokal; Android prüft die 24-Stunden-Testphase mit einem Geräte-ID-Hash';
 
   @override
   String get paywallTrialNote =>
@@ -1095,7 +1116,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paywallPrivacyBody =>
-      'Halen sendet keine personenbezogenen Daten, Rauchprotokolle oder Daten zur Verlangensunterstützung an externe Server. Die Datenbank wird auf diesem Gerät mit SQLCipher verschlüsselt; Export und Löschung findest du in den Einstellungen.';
+      'Halen hat kein Konto und keine Analyse. Gesundheits-, Rauch- und Craving-Daten bleiben in der verschlüsselten lokalen Datenbank. Nur unter Android werden ein app-spezifischer Geräte-ID-Hash und der Startzeitpunkt an Halens Cloudflare-Dienst gesendet, damit eine Neuinstallation die 24-Stunden-Testphase nicht zurücksetzt. Die rohe Geräte-ID und Gesundheitsdaten werden nicht gesendet. Lokale Daten kannst du in den Einstellungen exportieren oder löschen.';
 
   @override
   String get paywallLegalDisclaimer =>

@@ -100,7 +100,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get splashPrivacyLine =>
-      'No account. No Halen server. Your data stays on this device.';
+      'No account. Your health and smoking records stay encrypted on this device.';
+
+  @override
+  String get trialPrivacyTitle => '24-hour trial and device privacy';
+
+  @override
+  String get trialPrivacyBody =>
+      'To keep the 24-hour ad-free start from resetting after reinstall, Android sends Halen a one-way, app-specific hash of the device ID and the trial start time. The raw device ID, health or smoking records, and account details are not sent. An internet connection is needed to start the trial. If you decline or are offline, you can use the free features without the trial.';
+
+  @override
+  String get trialPrivacyAccept => 'Enable the 24-hour trial';
+
+  @override
+  String get trialPrivacyDecline => 'Continue without the trial';
+
+  @override
+  String get privacyRequestTitle =>
+      'Request deletion of the Android trial record';
+
+  @override
+  String get privacyRequestBody =>
+      'This opens an email draft with a one-way support code for your Android trial record. Review it and send it only if you want Halen to process a privacy request.';
 
   @override
   String get splashBackupLine =>
@@ -954,7 +975,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutPrivacyBody =>
-      'There is no account, server or analytics. Your records stay in an encrypted local database on this device; export and deletion are available in Settings.';
+      'There is no account or analytics. Health and smoking records stay in an encrypted database on this device. On Android, an app-specific device-ID hash and trial start time are sent to Halen\'s server to prevent trial resets after reinstall; no raw device ID or health data is sent.';
 
   @override
   String get aboutSourceCode => 'Inspect the source code';
@@ -989,7 +1010,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsPrivacy =>
-      'Privacy: no account, no servers, no analytics. Your records stay on this device.';
+      'Privacy: no account or analytics. Health records stay on-device; Android sends a one-way device-ID hash for the trial.';
 
   @override
   String get settingsPrivacyPolicy => 'Privacy policy';
@@ -1034,7 +1055,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallFeaturePrivacy =>
-      '100% on-device privacy: no account, no Halen server, fully encrypted vault';
+      'Encrypted health records stay on-device; Android checks the 24-hour trial with a one-way device-ID hash';
 
   @override
   String get paywallTrialNote =>
@@ -1089,7 +1110,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywallPrivacyBody =>
-      'Halen does not send personal data, smoking records or craving-support data to external servers. The database is encrypted with SQLCipher on this device; export and deletion are available in Settings.';
+      'Halen has no account or analytics. Health, smoking and craving-support records stay in the encrypted local database. On Android only, a one-way app-specific device-ID hash and trial start time are sent to Halen\'s Cloudflare service so reinstalling cannot restart the 24-hour trial. The raw device ID and health records are not sent. Export and deletion of local records are available in Settings.';
 
   @override
   String get paywallLegalDisclaimer =>

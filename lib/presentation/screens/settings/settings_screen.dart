@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart' hide Column;
 import 'package:file_selector/file_selector.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:halen/application/notification_texts.dart';
 import 'package:halen/application/plan_controller.dart';
@@ -12,6 +14,7 @@ import 'package:halen/application/settings_controller.dart';
 import 'package:halen/application/settings_screen_controller.dart';
 import 'package:halen/core/routes.dart';
 import 'package:halen/data/db/app_database.dart';
+import 'package:halen/data/android_trial_start_store.dart';
 import 'package:halen/domain/entities.dart';
 import 'package:halen/l10n/generated/app_localizations.dart';
 import 'package:halen/presentation/widgets/model_settings_section.dart';
@@ -364,6 +367,43 @@ class SettingsScreen extends ConsumerWidget {
                       const QuitlineCard(),
                       const SizedBox(height: HalenSpace.x1),
                       Text(l10n.settingsPrivacy),
+                      if (defaultTargetPlatform == TargetPlatform.android) ...[
+                        const SizedBox(height: HalenSpace.x2),
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: const Icon(Icons.privacy_tip_outlined),
+                          title: Text(l10n.privacyRequestTitle),
+                          subtitle: Text(l10n.privacyRequestBody),
+                          onTap: () async {
+                            final code = await AndroidTrialStartStore()
+                                .privacyRequestCode();
+                            if (!context.mounted) return;
+                            final body = code == null
+                                ? l10n.privacyRequestBody
+                                : '${l10n.privacyRequestBody}\n\n'
+                                      'Android trial support code: $code';
+                            final uri = Uri(
+                              scheme: 'mailto',
+                              path: 'devcrazypenguin@gmail.com',
+                              queryParameters: {
+                                'subject': 'Halen privacy request',
+                                'body': body,
+                              },
+                            );
+                            if (!await launchUrl(
+                              uri,
+                              mode: LaunchMode.externalApplication,
+                            ) &&
+                                context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(l10n.aboutOpenLinkError),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ],
                   ),
                 ),

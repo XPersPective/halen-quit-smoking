@@ -277,8 +277,44 @@ abstract class AppLocalizations {
   /// No description provided for @splashPrivacyLine.
   ///
   /// In en, this message translates to:
-  /// **'No account. No Halen server. Your data stays on this device.'**
+  /// **'No account. Your health and smoking records stay encrypted on this device.'**
   String get splashPrivacyLine;
+
+  /// No description provided for @trialPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'24-hour trial and device privacy'**
+  String get trialPrivacyTitle;
+
+  /// No description provided for @trialPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'To keep the 24-hour ad-free start from resetting after reinstall, Android sends Halen a one-way, app-specific hash of the device ID and the trial start time. The raw device ID, health or smoking records, and account details are not sent. An internet connection is needed to start the trial. If you decline or are offline, you can use the free features without the trial.'**
+  String get trialPrivacyBody;
+
+  /// No description provided for @trialPrivacyAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable the 24-hour trial'**
+  String get trialPrivacyAccept;
+
+  /// No description provided for @trialPrivacyDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue without the trial'**
+  String get trialPrivacyDecline;
+
+  /// No description provided for @privacyRequestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request deletion of the Android trial record'**
+  String get privacyRequestTitle;
+
+  /// No description provided for @privacyRequestBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This opens an email draft with a one-way support code for your Android trial record. Review it and send it only if you want Halen to process a privacy request.'**
+  String get privacyRequestBody;
 
   /// No description provided for @splashBackupLine.
   ///
@@ -1777,7 +1813,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutPrivacyBody.
   ///
   /// In en, this message translates to:
-  /// **'There is no account, server or analytics. Your records stay in an encrypted local database on this device; export and deletion are available in Settings.'**
+  /// **'There is no account or analytics. Health and smoking records stay in an encrypted database on this device. On Android, an app-specific device-ID hash and trial start time are sent to Halen\'s server to prevent trial resets after reinstall; no raw device ID or health data is sent.'**
   String get aboutPrivacyBody;
 
   /// No description provided for @aboutSourceCode.
@@ -1843,7 +1879,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPrivacy.
   ///
   /// In en, this message translates to:
-  /// **'Privacy: no account, no servers, no analytics. Your records stay on this device.'**
+  /// **'Privacy: no account or analytics. Health records stay on-device; Android sends a one-way device-ID hash for the trial.'**
   String get settingsPrivacy;
 
   /// No description provided for @settingsPrivacyPolicy.
@@ -1915,7 +1951,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallFeaturePrivacy.
   ///
   /// In en, this message translates to:
-  /// **'100% on-device privacy: no account, no Halen server, fully encrypted vault'**
+  /// **'Encrypted health records stay on-device; Android checks the 24-hour trial with a one-way device-ID hash'**
   String get paywallFeaturePrivacy;
 
   /// No description provided for @paywallTrialNote.
@@ -2011,7 +2047,7 @@ abstract class AppLocalizations {
   /// No description provided for @paywallPrivacyBody.
   ///
   /// In en, this message translates to:
-  /// **'Halen does not send personal data, smoking records or craving-support data to external servers. The database is encrypted with SQLCipher on this device; export and deletion are available in Settings.'**
+  /// **'Halen has no account or analytics. Health, smoking and craving-support records stay in the encrypted local database. On Android only, a one-way app-specific device-ID hash and trial start time are sent to Halen\'s Cloudflare service so reinstalling cannot restart the 24-hour trial. The raw device ID and health records are not sent. Export and deletion of local records are available in Settings.'**
   String get paywallPrivacyBody;
 
   /// No description provided for @paywallLegalDisclaimer.

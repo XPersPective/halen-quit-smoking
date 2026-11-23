@@ -216,6 +216,10 @@ class Settings extends Table {
   TextColumn get widgetTheme => text()
       .withDefault(const Constant('system'))();
 
+  /// Informed opt-in for sending an app-scoped Android ID hash and trial
+  /// start timestamp to the server. Null means not yet answered.
+  BoolColumn get androidTrialConsent => boolean().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

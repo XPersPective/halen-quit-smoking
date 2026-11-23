@@ -34,6 +34,7 @@ void main() {
       ProviderScope(
         overrides: [
           databaseProvider.overrideWithValue(db),
+          androidTrialTestOverride,
           if (access != null)
             entitlementProvider.overrideWith((ref) async => access()),
         ],

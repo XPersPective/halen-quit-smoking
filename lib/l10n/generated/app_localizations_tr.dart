@@ -100,7 +100,27 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get splashPrivacyLine =>
-      'Hesap yok. Halen sunucusu yok. Verilerin sadece bu cihazda.';
+      'Hesap yok. Sağlık ve sigara kayıtların bu cihazda şifreli tutulur.';
+
+  @override
+  String get trialPrivacyTitle => '24 saatlik deneme ve cihaz gizliliği';
+
+  @override
+  String get trialPrivacyBody =>
+      'Uygulamayı silip yeniden yüklediğinde 24 saatlik reklamsız başlangıç süresi yenilenmesin diye Android, cihaz kimliğinin Halen\'e özel tek yönlü özetini ve deneme başlangıç zamanını Halen sunucusuna gönderir. Ham cihaz kimliği, sağlık veya sigara kayıtları ve hesap bilgisi gönderilmez. Denemeyi başlatmak için internet bağlantısı gerekir. Kabul etmezsen veya çevrimdışıysan deneme süresi olmadan ücretsiz özellikleri kullanabilirsin.';
+
+  @override
+  String get trialPrivacyAccept => '24 saatlik denemeyi etkinleştir';
+
+  @override
+  String get trialPrivacyDecline => 'Deneme olmadan devam et';
+
+  @override
+  String get privacyRequestTitle => 'Android deneme kaydının silinmesini iste';
+
+  @override
+  String get privacyRequestBody =>
+      'Android deneme kaydın için tek yönlü bir destek kodu içeren e-posta taslağı açılır. Gizlilik talebini iletmek istiyorsan gözden geçirip kendin gönder.';
 
   @override
   String get splashBackupLine =>
@@ -950,7 +970,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get aboutPrivacyBody =>
-      'Hesap, sunucu ve analitik yoktur. Kayıtların cihazında şifreli yerel veritabanında tutulur; dışa aktarma ve silme seçenekleri Ayarlar\'dadır.';
+      'Hesap ve analitik yoktur. Sağlık ve sigara kayıtların bu cihazda şifreli veritabanında kalır. Android\'de denemenin yeniden kurulumla sıfırlanmaması için Halen\'e özel cihaz kimliği özeti ve deneme başlangıcı Halen sunucusuna gönderilir; ham cihaz kimliği veya sağlık verisi gönderilmez.';
 
   @override
   String get aboutSourceCode => 'Kaynak kodunu incele';
@@ -985,7 +1005,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsPrivacy =>
-      'Gizlilik: hesap yok, Halen sunucusu yok, analitik yok. Kayıtların bu cihazda kalır.';
+      'Gizlilik: hesap ve analitik yok. Sağlık kayıtların cihazda; Android deneme için tek yönlü cihaz kimliği özeti gönderir.';
 
   @override
   String get settingsPrivacyPolicy => 'Gizlilik politikası';
@@ -1030,7 +1050,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallFeaturePrivacy =>
-      '%100 yerel gizlilik: hesap yok, Halen sunucusu yok, şifreli yerel kasa';
+      'Sağlık kayıtların cihazda şifreli kalır; Android 24 saatlik denemeyi tek yönlü cihaz kimliği özetiyle doğrular';
 
   @override
   String get paywallTrialNote =>
@@ -1085,7 +1105,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paywallPrivacyBody =>
-      'Halen, kişisel verileri, sigara kayıtlarını veya kriz verilerini harici sunuculara göndermez. Veritabanı cihazında SQLCipher ile şifreli olarak saklanır; dışa aktarma ve silme seçenekleri Ayarlar\'dadır.';
+      'Hesap ve analitik yoktur. Sağlık, sigara ve kriz destek kayıtları şifreli yerel veritabanında kalır. Yalnızca Android\'de 24 saatlik denemenin yeniden kurulumla sıfırlanmaması için Halen\'e özel tek yönlü cihaz kimliği özeti ve deneme başlangıç zamanı Halen\'in Cloudflare hizmetine gönderilir. Ham cihaz kimliği ve sağlık kayıtları gönderilmez. Yerel kayıtları Ayarlar\'dan dışa aktarabilir veya silebilirsin.';
 
   @override
   String get paywallLegalDisclaimer =>

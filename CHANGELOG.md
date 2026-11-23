@@ -4,6 +4,20 @@ Tüm önemli değişiklikler bu dosyada belgelenir. Biçim:
 [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) ·
 sürümleme: [SemVer](https://semver.org/lang/tr/).
 
+## [1.4.2] — 2026-11-23 — Android deneme süresi sürekliliği
+
+### Eklendi (Added)
+- Android’de 24 saatlik Premium denemesi, açık rıza sonrası cihazdaki uygulama
+  kapsamlı Android kimliğinin tek yönlü özeti ve ilk başlangıç zamanıyla
+  Cloudflare üzerinden eşitlenir. Normal kaldırıp yeniden kurma deneme süresini
+  sıfırlamaz; sunucu erişilemiyorsa yeni kurulumda yeni deneme verilmez.
+- Gizlilik ve deneme açıklaması Türkçe, İngilizce ve Almanca olarak ilk açılışa
+  eklendi. Ham Android kimliği ve sağlık kayıtları sunucuya gönderilmez.
+
+### Değiştirildi (Changed)
+- Gizlilik politikası, Android deneme eşitlemesi ve veri saklama süreciyle
+  güncellendi.
+
 ## [Yayımlanmadı] — 2026-10-16 — "Yeni paket aldım", yerel mağaza sayfaları
 
 ### Eklendi (Added)
