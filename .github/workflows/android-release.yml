@@ -122,6 +122,6 @@ jobs:
           packageName: com.crazypenguin.halenquitsmoking
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
           track: ${{ inputs.track }}
-          status: inProgress
+          status: completed
           releaseName: Halen 1.4.2 (8)
           inAppUpdatePriority: 1
